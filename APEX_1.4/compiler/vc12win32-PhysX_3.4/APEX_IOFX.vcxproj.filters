@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="IOFX">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="IOFX\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="IOFX\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ColorVsDensityCompositeModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ColorVsDensityModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ColorVsLifeCompositeModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ColorVsLifeModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ColorVsTemperatureCompositeModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ColorVsTemperatureModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ColorVsVelocityCompositeModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ColorVsVelocityModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\InitialColorModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\IofxAssetParameters.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\IofxDebugRenderParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\IofxModuleParameters.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\MeshIofxParameters.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\OrientAlongVelocityModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\OrientScaleAlongScreenVelocityModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\RandomRotationModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\RandomScaleModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\RandomSubtextureModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\RotationModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\RotationRateModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\RotationRateVsLifeModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleAlongVelocityModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleByMassModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsCameraDistance2DModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsCameraDistance3DModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsCameraDistanceModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsDensity2DModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsDensity3DModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsDensityModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsLife2DModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsLife3DModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsLifeModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsTemperature2DModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsTemperature3DModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ScaleVsTemperatureModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\SimpleScaleModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\SpriteIofxParameters.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\SubtextureVsLifeModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\autogen\ViewDirectionSortingModifierParams.cpp">
+			<Filter>IOFX\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\iofx\src\IofxActorCPU.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\IofxActorImpl.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\IofxAssetImpl.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\IofxManager.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\IofxManagerGPU.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\IofxRenderDataMesh.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\IofxRenderDataSprite.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\IofxScene.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\ModifierCPU.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\ModifierGPU.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\ModifierImpl.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\ModuleIofxImpl.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\src\RenderVolumeImpl.cpp">
+			<Filter>IOFX\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="IOFX\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="IOFX\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ColorVsDensityCompositeModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ColorVsDensityModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ColorVsLifeCompositeModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ColorVsLifeModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ColorVsTemperatureCompositeModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ColorVsTemperatureModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ColorVsVelocityCompositeModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ColorVsVelocityModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\InitialColorModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\IofxAssetParameters.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\IofxDebugRenderParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\IofxModuleParameters.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\MeshIofxParameters.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ModuleIofxRegistration.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\OrientAlongVelocityModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\OrientScaleAlongScreenVelocityModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\RandomRotationModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\RandomScaleModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\RandomSubtextureModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\RotationModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\RotationRateModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\RotationRateVsLifeModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleAlongVelocityModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleByMassModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsCameraDistance2DModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsCameraDistance3DModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsCameraDistanceModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsDensity2DModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsDensity3DModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsDensityModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsLife2DModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsLife3DModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsLifeModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsTemperature2DModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsTemperature3DModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ScaleVsTemperatureModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\SimpleScaleModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\SpriteIofxParameters.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\SubtextureVsLifeModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\autogen\ViewDirectionSortingModifierParams.h">
+			<Filter>IOFX\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\iofx\include\ARLSort.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IofxActorCPU.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IofxActorGPU.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IofxActorImpl.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IofxAssetImpl.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IofxManager.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IofxManagerGPU.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IofxRenderData.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IofxScene.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IofxSceneCPU.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IofxSceneGPU.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\IosObjectData.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\ModifierData.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\ModifierImpl.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\ModifierList.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\ModifierSrc.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\ModuleEventDefs.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\ModuleIofxImpl.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\ModulePerfScope.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\include\RenderVolumeImpl.h">
+			<Filter>IOFX\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\iofx\IofxActor.h">
+			<Filter>IOFX</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\iofx\IofxAsset.h">
+			<Filter>IOFX</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\iofx\IofxRenderable.h">
+			<Filter>IOFX</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\iofx\IofxRenderCallback.h">
+			<Filter>IOFX</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\iofx\Modifier.h">
+			<Filter>IOFX</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\iofx\ModifierDefs.h">
+			<Filter>IOFX</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\iofx\ModuleIofx.h">
+			<Filter>IOFX</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\iofx\RenderVolume.h">
+			<Filter>IOFX</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\cuda">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\module\common\cuda\blocksync.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+		<None Include="..\..\module\common\cuda\common.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+		<None Include="..\..\module\common\cuda\reduce.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+		<None Include="..\..\module\common\cuda\scan.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\common\src\CudaModuleScene.cpp">
+			<Filter>Module Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\common\src\ModuleProfileCommon.cpp">
+			<Filter>Module Common\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common\include\CudaModuleScene.h">
+			<Filter>Module Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\common\include\ModuleProfileCommon.h">
+			<Filter>Module Common\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="CUDA Modules">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<CustomBuild Include="..\..\module\iofx\cuda\actorRanges.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+		<CustomBuild Include="..\..\module\iofx\cuda\bbox.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+		<CustomBuild Include="..\..\module\iofx\cuda\migration.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+		<CustomBuild Include="..\..\module\iofx\cuda\modifier.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+		<CustomBuild Include="..\..\module\iofx\cuda\remap.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+		<CustomBuild Include="..\..\module\iofx\cuda\sort.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+		<CustomBuild Include="..\..\module\iofx\cuda\sortNew.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="CUDA Source">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="CUDA Source\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\iofx\cuda\include\actorRanges.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\cuda\include\bbox.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\cuda\include\common.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\cuda\include\migration.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\cuda\include\modifier.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\cuda\include\moduleList.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\cuda\include\remap.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\cuda\include\sort.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\cuda\include\sortNew.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Test">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Test\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\iofx\test\include\IofxTestImpl.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\test\include\IofxTestManager.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\test\include\IofxTestManagerGPU.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\iofx\test\include\IofxTestScene.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Test\public">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\iofx\test\public\IofxTest.h">
+			<Filter>Test\public</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Test\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\iofx\test\src\IofxTestImpl.cpp">
+			<Filter>Test\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\test\src\IofxTestManager.cpp">
+			<Filter>Test\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\test\src\IofxTestManagerGPU.cpp">
+			<Filter>Test\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\iofx\test\src\IofxTestScene.cpp">
+			<Filter>Test\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>

@@ -1,0 +1,148 @@
+#include "FXAAHelper.h"
+#include "foundation/PxMat44.h"
+const char *computeLumaVS = STRINGIFY(
+    void main(void)
+	{
+		gl_TexCoord[0] = gl_MultiTexCoord0;
+		gl_Position = gl_Vertex * 2.0 - 1.0;
+	}
+);
+
+const char *computeLumaFS = STRINGIFY(
+	uniform sampler2D imgTex;
+
+	void main (void)
+	{
+		vec4 col = texture2D(imgTex,gl_TexCoord[0].xy);
+		gl_FragColor = vec4(col.xyz, sqrt(dot(col.rgb, vec3(0.299, 0.587, 0.114))));
+	}
+);
+
+FXAAHelper::FXAAHelper( const char* resourcePath) {
+
+	char fxaaVSF[5000];
+	char fxaaFSF[5000];
+	sprintf(fxaaVSF, "%s\\fxaa.vs", resourcePath);
+	sprintf(fxaaFSF, "%s\\fxaa.fs", resourcePath);
+	computeLuma.loadShaderCode(computeLumaVS,computeLumaFS);
+	fxaa.loadShaders(fxaaVSF,fxaaFSF);
+
+
+	glUseProgram(computeLuma);
+	glUniform1i(glGetUniformLocation(computeLuma,"imgTex"),0);
+	glUseProgram(0);
+
+	glUseProgram(fxaa);
+	glUniform1i(glGetUniformLocation(fxaa,"imgWithLumaTex"),0);
+	glUseProgram(0);
+
+	glGenTextures(1,&imgTex);
+	glGenTextures(1,&imgWithLumaTex);
+	glGenTextures(1,&depthTex); 
+	glGenFramebuffers(1,&FBO);
+}
+
+void FXAAHelper::Resize(int w,int h) {
+
+	Width = w;
+	Height = h;
+	
+	glViewport(0,0,Width,Height);
+
+	glBindTexture(GL_TEXTURE_2D,imgTex);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,Width,Height,0,GL_RGBA,GL_UNSIGNED_BYTE,NULL);
+
+	glBindTexture(GL_TEXTURE_2D,imgWithLumaTex);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,Width,Height,0,GL_RGBA,GL_UNSIGNED_BYTE,NULL);
+
+	glBindTexture(GL_TEXTURE_2D,depthTex);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+	glTexImage2D(GL_TEXTURE_2D,0,GL_DEPTH_COMPONENT32,Width,Height,0,GL_DEPTH_COMPONENT,GL_FLOAT,NULL);
+
+	
+	glUseProgram(fxaa);
+	glUniform2f(glGetUniformLocation(fxaa,"rcpFrame"), 1.0f / ((float)Width), 1.0f / ((float)Height));
+	
+	glUseProgram(0);
+
+}
+void FXAAHelper::Destroy() {
+
+	computeLuma.deleteShaders();
+	fxaa.deleteShaders();
+	
+	glDeleteTextures(1,&imgTex);
+	glDeleteTextures(1,&imgWithLumaTex);
+	glDeleteTextures(1,&depthTex);
+	glDeleteFramebuffers(1,&FBO);
+}
+
+void FXAAHelper::StartFXAA() {
+	glBindFramebuffer(GL_FRAMEBUFFER,FBO);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,imgTex,0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D,depthTex,0);
+
+	glViewport(0,0,Width,Height);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void FXAAHelper::EndFXAA(GLuint oldFBO) {
+
+
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST);
+	glDepthMask(GL_FALSE);
+//	if(Blur)
+//	{
+	glBindFramebuffer(GL_FRAMEBUFFER,FBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,imgWithLumaTex,0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D,0,0);
+
+	glClearColor(0.0f,0.0f,0.0f,0.0f);  
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glActiveTexture(GL_TEXTURE0); glBindTexture(GL_TEXTURE_2D,imgTex);
+
+	glUseProgram(computeLuma);
+		glBegin(GL_QUADS);
+
+			glTexCoord2f(0.0f,0.0f); glVertex2f(0.0f,0.0f);
+			glTexCoord2f(1.0f,0.0f); glVertex2f(1.0f,0.0f);
+			glTexCoord2f(1.0f,1.0f); glVertex2f(1.0f,1.0f);
+			glTexCoord2f(0.0f,1.0f); glVertex2f(0.0f,1.0f);
+		glEnd();
+
+	glUseProgram(0);
+
+
+	glBindFramebuffer(GL_FRAMEBUFFER,oldFBO);
+	glActiveTexture(GL_TEXTURE0); glBindTexture(GL_TEXTURE_2D,imgWithLumaTex);
+	glUseProgram(fxaa);
+
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f,0.0f); glVertex2f(0.0f,0.0f);
+		glTexCoord2f(1.0f,0.0f); glVertex2f(1.0f,0.0f);
+		glTexCoord2f(1.0f,1.0f); glVertex2f(1.0f,1.0f);
+		glTexCoord2f(0.0f,1.0f); glVertex2f(0.0f,1.0f);
+	glEnd();
+
+	glUseProgram(0);
+
+	glBindTexture(GL_TEXTURE_2D,0);
+	glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+
+}

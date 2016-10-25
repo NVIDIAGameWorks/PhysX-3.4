@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="resource">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource\apex.rc">
+			<Filter>resource</Filter>
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Particles">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Particles\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Particles\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\particles\src\autogen\AttractorFieldSamplerData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\AttractorFieldSamplerEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EffectPackageActorParams.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EffectPackageAssetParams.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EffectPackageData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EffectPackageDatabaseParams.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EffectPackageEmitterDatabaseParams.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EffectPackageFieldSamplerDatabaseParams.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EffectPackageGraphicsMaterialsParams.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EffectPackageIOFXDatabaseParams.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EffectPackageIOSDatabaseParams.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EmitterData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\EmitterEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\FlameEmitterData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\FlameEmitterEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\ForceFieldData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\ForceFieldEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\GraphicsEffectData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\GraphicsMaterialData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\HeatSourceData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\HeatSourceEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\JetFieldSamplerData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\JetFieldSamplerEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\NoiseFieldSamplerData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\NoiseFieldSamplerEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\ParticlesDebugRenderParams.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\ParticleSimulationData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\ParticlesModuleParameters.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\RigidBodyEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\SubstanceSourceData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\SubstanceSourceEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\TurbulenceFieldSamplerData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\TurbulenceFieldSamplerEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\VelocitySourceData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\VelocitySourceEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\VolumeRenderMaterialData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\VortexFieldSamplerData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\VortexFieldSamplerEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\WindFieldSamplerData.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\autogen\WindFieldSamplerEffect.cpp">
+			<Filter>Particles\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\particles\src\EffectPackageActorImpl.cpp">
+			<Filter>Particles\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\EffectPackageAssetImpl.cpp">
+			<Filter>Particles\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\ModuleParticlesImpl.cpp">
+			<Filter>Particles\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\particles\src\ParticlesScene.cpp">
+			<Filter>Particles\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Particles\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Particles\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\particles\include\autogen\AttractorFieldSamplerData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\AttractorFieldSamplerEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EffectPackageActorParams.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EffectPackageAssetParams.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EffectPackageData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EffectPackageDatabaseParams.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EffectPackageEmitterDatabaseParams.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EffectPackageFieldSamplerDatabaseParams.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EffectPackageGraphicsMaterialsParams.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EffectPackageIOFXDatabaseParams.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EffectPackageIOSDatabaseParams.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EmitterData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\EmitterEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\FlameEmitterData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\FlameEmitterEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\ForceFieldData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\ForceFieldEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\GraphicsEffectData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\GraphicsMaterialData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\HeatSourceData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\HeatSourceEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\JetFieldSamplerData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\JetFieldSamplerEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\ModuleParticlesRegistration.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\NoiseFieldSamplerData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\NoiseFieldSamplerEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\ParticlesDebugRenderParams.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\ParticleSimulationData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\ParticlesModuleParameters.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\RigidBodyEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\SubstanceSourceData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\SubstanceSourceEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\TurbulenceFieldSamplerData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\TurbulenceFieldSamplerEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\VelocitySourceData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\VelocitySourceEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\VolumeRenderMaterialData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\VortexFieldSamplerData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\VortexFieldSamplerEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\WindFieldSamplerData.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\autogen\WindFieldSamplerEffect.h">
+			<Filter>Particles\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\particles\include\EffectPackageActorImpl.h">
+			<Filter>Particles\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\EffectPackageAssetImpl.h">
+			<Filter>Particles\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\ModuleParticlesImpl.h">
+			<Filter>Particles\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\ModulePerfScope.h">
+			<Filter>Particles\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\ParticlesBase.h">
+			<Filter>Particles\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\particles\include\ParticlesScene.h">
+			<Filter>Particles\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Particles\parameters">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\module\particles\parameters\EffectPackageActor.pl">
+			<Filter>Particles\parameters</Filter>
+		</None>
+		<None Include="..\..\module\particles\parameters\EffectPackageAsset.pl">
+			<Filter>Particles\parameters</Filter>
+		</None>
+		<None Include="..\..\module\particles\parameters\EffectPackageDatabase.pl">
+			<Filter>Particles\parameters</Filter>
+		</None>
+		<None Include="..\..\module\particles\parameters\EffectPackageDebugRenderParamSchema.pl">
+			<Filter>Particles\parameters</Filter>
+		</None>
+		<None Include="..\..\module\particles\parameters\EffectPackageEmitterDatabase.pl">
+			<Filter>Particles\parameters</Filter>
+		</None>
+		<None Include="..\..\module\particles\parameters\EffectPackageFieldSamplerDatabase.pl">
+			<Filter>Particles\parameters</Filter>
+		</None>
+		<None Include="..\..\module\particles\parameters\EffectPackageGraphicsMaterials.pl">
+			<Filter>Particles\parameters</Filter>
+		</None>
+		<None Include="..\..\module\particles\parameters\EffectPackageIOFXDatabase.pl">
+			<Filter>Particles\parameters</Filter>
+		</None>
+		<None Include="..\..\module\particles\parameters\EffectPackageIOSDatabase.pl">
+			<Filter>Particles\parameters</Filter>
+		</None>
+		<None Include="..\..\module\particles\parameters\ModuleDescParamSchema.pl">
+			<Filter>Particles\parameters</Filter>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\particles\EffectPackageActor.h">
+			<Filter>Particles</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\particles\EffectPackageAsset.h">
+			<Filter>Particles</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\particles\ModuleParticles.h">
+			<Filter>Particles</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\particles\ParticlesPreview.h">
+			<Filter>Particles</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\common\src\ModuleProfileCommon.cpp">
+			<Filter>Module Common\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common\include\ModuleProfileCommon.h">
+			<Filter>Module Common\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>

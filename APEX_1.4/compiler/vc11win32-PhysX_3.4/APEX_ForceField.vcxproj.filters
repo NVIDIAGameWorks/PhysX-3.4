@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Module Common">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\cuda">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\module\common\cuda\blocksync.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+		<None Include="..\..\module\common\cuda\common.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+		<None Include="..\..\module\common\cuda\reduce.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+		<None Include="..\..\module\common\cuda\scan.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\common\src\CudaModuleScene.cpp">
+			<Filter>Module Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\common\src\ModuleProfileCommon.cpp">
+			<Filter>Module Common\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common\include\CudaModuleScene.h">
+			<Filter>Module Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\common\include\ModuleProfileCommon.h">
+			<Filter>Module Common\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="CUDA Modules">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<CustomBuild Include="..\..\module\forcefield\cuda\forcefield.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="CUDA Source">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="CUDA Source\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\forcefield\cuda\include\common.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\cuda\include\forcefield.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ForceField">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ForceField\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ForceField\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\forcefield\src\autogen\ForceFieldActorParams.cpp">
+			<Filter>ForceField\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\autogen\ForceFieldAssetParams.cpp">
+			<Filter>ForceField\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\autogen\ForceFieldAssetPreviewParams.cpp">
+			<Filter>ForceField\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\autogen\ForceFieldDebugRenderParams.cpp">
+			<Filter>ForceField\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\autogen\ForceFieldFalloffParams.cpp">
+			<Filter>ForceField\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\autogen\ForceFieldModuleParams.cpp">
+			<Filter>ForceField\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\autogen\ForceFieldNoiseParams.cpp">
+			<Filter>ForceField\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\autogen\GenericForceFieldKernelParams.cpp">
+			<Filter>ForceField\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\autogen\RadialForceFieldKernelParams.cpp">
+			<Filter>ForceField\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\forcefield\src\ForceFieldActorImpl.cpp">
+			<Filter>ForceField\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\ForceFieldAssetImpl.cpp">
+			<Filter>ForceField\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\ForceFieldAssetPreviewImpl.cpp">
+			<Filter>ForceField\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\ForceFieldFSActor.cpp">
+			<Filter>ForceField\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\ForceFieldScene.cpp">
+			<Filter>ForceField\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\forcefield\src\ModuleForceFieldImpl.cpp">
+			<Filter>ForceField\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ForceField\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ForceField\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\forcefield\include\autogen\ForceFieldActorParams.h">
+			<Filter>ForceField\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\autogen\ForceFieldAssetParams.h">
+			<Filter>ForceField\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\autogen\ForceFieldAssetPreviewParams.h">
+			<Filter>ForceField\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\autogen\ForceFieldDebugRenderParams.h">
+			<Filter>ForceField\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\autogen\ForceFieldFalloffParams.h">
+			<Filter>ForceField\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\autogen\ForceFieldModuleParams.h">
+			<Filter>ForceField\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\autogen\ForceFieldNoiseParams.h">
+			<Filter>ForceField\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\autogen\GenericForceFieldKernelParams.h">
+			<Filter>ForceField\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\autogen\ModuleForceFieldRegistration.h">
+			<Filter>ForceField\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\autogen\RadialForceFieldKernelParams.h">
+			<Filter>ForceField\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\forcefield\include\ForceFieldActorImpl.h">
+			<Filter>ForceField\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\ForceFieldAssetImpl.h">
+			<Filter>ForceField\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\ForceFieldAssetPreviewImpl.h">
+			<Filter>ForceField\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\ForceFieldFSCommon.h">
+			<Filter>ForceField\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\ForceFieldScene.h">
+			<Filter>ForceField\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\ModuleEventDefs.h">
+			<Filter>ForceField\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\ModuleForceFieldImpl.h">
+			<Filter>ForceField\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\forcefield\include\ModulePerfScope.h">
+			<Filter>ForceField\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\forcefield\ForceFieldActor.h">
+			<Filter>ForceField</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\forcefield\ForceFieldAsset.h">
+			<Filter>ForceField</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\forcefield\ForceFieldPreview.h">
+			<Filter>ForceField</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\forcefield\ModuleForceField.h">
+			<Filter>ForceField</Filter>
+		</ClInclude>
+	</ItemGroup>
+</Project>

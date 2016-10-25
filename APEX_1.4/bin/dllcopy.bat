@@ -1,0 +1,98 @@
+REM the TODIR (destination folder) should NOT contain a trailing '\', this script will append it
+
+SETLOCAL
+
+SET NXDIR=%1
+SET TODIR=%2\
+SET FNDDIR=%3
+SET NVTXDIR=%4
+SET GLDIR=%5
+SET WINSDKDIR=%6
+
+echo Copy32
+echo NXDIR  = %NXDIR%
+echo TARGET = %TODIR%
+echo NVTXDIR = %NVTXDIR%
+echo FNDDIR = %FNDDIR%
+echo GLDIR = %GLDIR%
+echo WINSDKDIR = %WINSDKDIR%
+
+IF "%2"=="" GOTO ARGUMENT_ERROR
+
+CALL :UPDATE_TARGET %NXDIR% PhysXCore.dll
+CALL :UPDATE_TARGET %NXDIR% PhysXCoreDEBUG.dll
+CALL :UPDATE_TARGET %NXDIR% PhysXCooking.dll
+CALL :UPDATE_TARGET %NXDIR% PhysXCookingDEBUG.dll
+CALL :UPDATE_TARGET %NXDIR% PhysXLoader.dll
+CALL :UPDATE_TARGET %NXDIR% PhysXLoaderDEBUG.dll
+
+CALL :UPDATE_TARGET %NXDIR% PhysXDevice.dll
+CALL :UPDATE_TARGET %NXDIR% cudart*.dll
+
+CALL :UPDATE_TARGET %NXDIR% PhysX3_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CHECKED_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3DEBUG_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3PROFILE_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3Common_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CommonCHECKED_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CommonDEBUG_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CommonPROFILE_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CharacterKinematic_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CharacterKinematicCHECKED_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CharacterKinematicDEBUG_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CharacterKinematicPROFILE_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3Cooking_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CookingCHECKED_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CookingDEBUG_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3CookingPROFILE_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3Gpu_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3GpuCHECKED_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3GpuDEBUG_x86.dll
+CALL :UPDATE_TARGET %NXDIR% PhysX3GpuPROFILE_x86.dll
+CALL :UPDATE_TARGET %NVTXDIR% nvToolsExt*.dll
+CALL :UPDATE_TARGET %FNDDIR% PxFoundation_x86.dll
+CALL :UPDATE_TARGET %FNDDIR% PxFoundationCHECKED_x86.dll
+CALL :UPDATE_TARGET %FNDDIR% PxFoundationPROFILE_x86.dll
+CALL :UPDATE_TARGET %FNDDIR% PxFoundationDEBUG_x86.dll
+CALL :UPDATE_TARGET %FNDDIR% PxPvdSDK_x86.dll
+CALL :UPDATE_TARGET %FNDDIR% PxPvdSDKCHECKED_x86.dll
+CALL :UPDATE_TARGET %FNDDIR% PxPvdSDKDEBUG_x86.dll
+CALL :UPDATE_TARGET %FNDDIR% PxPvdSDKPROFILE_x86.dll
+CALL :UPDATE_TARGET %NXDIR% MemoryTracker.dll
+CALL :UPDATE_TARGET %GLDIR%\samples\bin\win32 AntTweakBar.dll
+CALL :UPDATE_TARGET %WINSDKDIR%\bin\x86 d3dcompiler_47.dll
+
+set EDITOR_BIN="..\..\..\tools\editorwidgets\bin\win32"
+CALL :UPDATE_TARGET  %EDITOR_BIN% libapexparameditor_x86_debug.dll
+CALL :UPDATE_TARGET  %EDITOR_BIN% libapexparameditor_x86.dll
+CALL :UPDATE_TARGET  %EDITOR_BIN% libapexeditorwidgets_x86_debug.dll
+CALL :UPDATE_TARGET  %EDITOR_BIN% libapexeditorwidgets_x86.dll
+
+set USER_PROFILER="..\..\..\shared\general\PxUserProfilerCallback\bin\win32"
+REM CALL :UPDATE_TARGET  %USER_PROFILER% DejaDLL.Win32.dll
+IF /I NOT "%5"=="NOPROFILER" CALL :UPDATE_TARGET  %USER_PROFILER% PxUserProfilerCallback_x86.dll
+IF /I NOT "%5"=="NOPROFILER" CALL :UPDATE_TARGET  %USER_PROFILER% telemetry32.dll
+IF /I NOT "%5"=="NOPROFILER" CALL :UPDATE_TARGET  %USER_PROFILER% nvToolsExt32_1.dll
+
+ENDLOCAL
+GOTO END
+
+
+REM ********************************************
+REM NO CALLS TO :UPDATE_TARGET below this line!!
+REM ********************************************
+
+:UPDATE_TARGET
+IF NOT EXIST %1\%2 (
+	REM ECHO File doesn't exist %1\%2
+) ELSE (
+	REM echo updating %2
+  REM echo XCOPY "%1\%2" "%TODIR%"
+	XCOPY "%1\%2" "%TODIR%" /D /Y
+)
+GOTO END
+
+:ARGUMENT_ERROR
+ECHO ERROR: too few arguments to dllcopy.bat (need PhysXBinDir ApexBinDir)
+
+:END

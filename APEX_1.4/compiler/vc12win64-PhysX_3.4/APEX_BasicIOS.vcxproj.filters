@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Module Common">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\cuda">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\module\common\cuda\blocksync.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+		<None Include="..\..\module\common\cuda\common.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+		<None Include="..\..\module\common\cuda\reduce.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+		<None Include="..\..\module\common\cuda\scan.cuh">
+			<Filter>Module Common\cuda</Filter>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\common\src\CudaModuleScene.cpp">
+			<Filter>Module Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\common\src\ModuleProfileCommon.cpp">
+			<Filter>Module Common\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common\include\CudaModuleScene.h">
+			<Filter>Module Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\common\include\ModuleProfileCommon.h">
+			<Filter>Module Common\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="CUDA Modules">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<CustomBuild Include="..\..\module\basicios\cuda\compact.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+		<CustomBuild Include="..\..\module\basicios\cuda\histogram.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+		<CustomBuild Include="..\..\module\basicios\cuda\reduce.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+		<CustomBuild Include="..\..\module\basicios\cuda\scan.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+		<CustomBuild Include="..\..\module\basicios\cuda\simulate.cu">
+			<Filter>CUDA Modules</Filter>
+		</CustomBuild>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="CUDA Source">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="CUDA Source\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\basicios\cuda\include\common.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\cuda\include\compact.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\cuda\include\histogram.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\cuda\include\moduleList.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\cuda\include\reduce.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\cuda\include\scan.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\cuda\include\simulate.h">
+			<Filter>CUDA Source\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="BasicIOS">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="BasicIOS\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="BasicIOS\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\basicios\src\autogen\BasicIOSAssetParam.cpp">
+			<Filter>BasicIOS\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\basicios\src\autogen\BasicIosDebugRenderParams.cpp">
+			<Filter>BasicIOS\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\basicios\src\autogen\BasicIosModuleParameters.cpp">
+			<Filter>BasicIOS\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\basicios\src\BasicIosActorCPU.cpp">
+			<Filter>BasicIOS\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\basicios\src\BasicIosActorGPU.cpp">
+			<Filter>BasicIOS\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\basicios\src\BasicIosActorImpl.cpp">
+			<Filter>BasicIOS\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\basicios\src\BasicIosAssetImpl.cpp">
+			<Filter>BasicIOS\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\basicios\src\BasicIosScene.cpp">
+			<Filter>BasicIOS\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\basicios\src\ModuleBasicIosImpl.cpp">
+			<Filter>BasicIOS\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="BasicIOS\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="BasicIOS\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\basicios\include\autogen\BasicIOSAssetParam.h">
+			<Filter>BasicIOS\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\autogen\BasicIosDebugRenderParams.h">
+			<Filter>BasicIOS\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\autogen\BasicIosModuleParameters.h">
+			<Filter>BasicIOS\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\autogen\ModuleBasicIosRegistration.h">
+			<Filter>BasicIOS\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\basicios\include\BasicIosActorCPU.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\BasicIosActorGPU.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\BasicIosActorImpl.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\BasicIosAssetImpl.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\BasicIosCommon.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\BasicIosCommonSrc.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\BasicIosScene.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\BasicIosSceneCPU.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\BasicIosSceneGPU.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\ModuleBasicIosImpl.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\ModuleEventDefs.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\ModuleName.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\include\ModulePerfScope.h">
+			<Filter>BasicIOS\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\basicios\BasicIosActor.h">
+			<Filter>BasicIOS</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\basicios\BasicIosAsset.h">
+			<Filter>BasicIOS</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\basicios\ModuleBasicIos.h">
+			<Filter>BasicIOS</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Test">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Test\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\basicios\test\src\BasicIosTestActor.cpp">
+			<Filter>Test\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\basicios\test\src\BasicIosTestImpl.cpp">
+			<Filter>Test\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\basicios\test\src\BasicIosTestScene.cpp">
+			<Filter>Test\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Test\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\basicios\test\include\BasicIosTestActor.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\test\include\BasicIosTestActorCPU.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\test\include\BasicIosTestActorGPU.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\test\include\BasicIosTestImpl.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\test\include\BasicIosTestScene.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\test\include\BasicIosTestSceneCPU.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\basicios\test\include\BasicIosTestSceneGPU.h">
+			<Filter>Test\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Test\public">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\basicios\test\public\BasicIosTest.h">
+			<Filter>Test\public</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>
