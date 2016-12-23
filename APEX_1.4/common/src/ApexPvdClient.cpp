@@ -61,6 +61,33 @@ struct SimpleAllocator : public PxAllocatorCallback
 };
 static SimpleAllocator sAllocator;
 
+class SceneRendererClient : public RendererEventClient, public physx::shdfnd::UserAllocated
+{
+	PX_NOCOPY(SceneRendererClient)
+public:
+	SceneRendererClient(PvdUserRenderer* renderer, PxPvd* pvd) :mRenderer(renderer)
+	{
+		mStream = PvdDataStream::create(pvd);
+		mStream->createInstance(renderer);
+	}
+
+	~SceneRendererClient()
+	{
+		mStream->destroyInstance(mRenderer);
+		mStream->release();
+	}
+
+	virtual void handleBufferFlush(const uint8_t* inData, uint32_t inLength)
+	{
+		mStream->setPropertyValue(mRenderer, "events", inData, inLength);
+	}
+
+private:
+
+	PvdUserRenderer* mRenderer;
+	PvdDataStream* mStream;
+};
+
 class ApexPvdClientImpl : public UserAllocated, public ApexPvdClient, public PxAllocatorCallback
 {
 	PX_NOCOPY(ApexPvdClientImpl)
@@ -70,6 +97,7 @@ class ApexPvdClientImpl : public UserAllocated, public ApexPvdClient, public PxA
 	Array<void*>				mInstances;
 	PvdDataStream*				mDataStream;
 	PvdUserRenderer*			mRenderer;
+	RendererEventClient*		mRenderClient;
 	PvdParameterizedHandler*	mParameterizedHandler;
 	
 public:
@@ -83,6 +111,7 @@ public:
 	ApexPvdClientImpl( PxPvd* inPvd )
 		: mDataStream( NULL )
 		, mRenderer( NULL )
+		, mRenderClient(NULL)
 		, mParameterizedHandler( NULL )
 		, mIsConnected(false)
 	{
@@ -119,6 +148,8 @@ public:
 		mIsConnected = true;	
 		mDataStream = PvdDataStream::create(mPvd); 	
 		mRenderer = PvdUserRenderer::create();
+		mRenderClient = PX_NEW(SceneRendererClient)(mRenderer, mPvd);
+		mRenderer->setClient(mRenderClient);
 
 		mParameterizedHandler = PX_NEW(PvdParameterizedHandler)(*mDataStream);
 
@@ -154,6 +185,12 @@ public:
 		{
 			mDataStream->release();
 			mDataStream = NULL;
+		}
+
+		if (mRenderClient != NULL)
+		{
+			PX_DELETE(mRenderClient);
+			mRenderClient = NULL;
 		}
 
 		if ( mRenderer != NULL )
@@ -205,12 +242,13 @@ public:
 		
 
 		//mDataStream->setPropertyValue( ensureInstance( inInstance ), 1, createSection( SectionType::End ) );
-		PxPvdTransport* transport = mPvd->getTransport();
-		if ( transport ) 
-		{
+		//PxPvdTransport* transport = mPvd->getTransport();
+		//if ( transport ) 
+		//{
 			//Flushes memory and profiling events out of any buffered areas.
-			transport->flush();
-		}
+		//	transport->flush();
+		//}
+		mPvd->flush();
 
 		mDataStream->endSection( ensureInstance( inInstance ), "ApexFrame");
 

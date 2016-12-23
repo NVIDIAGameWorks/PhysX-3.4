@@ -33,7 +33,6 @@
 #include "SwCloth.h"
 #include "SwSolver.h"
 #include "ClothImpl.h"
-#include <string.h> // for memcpy
 
 using namespace physx;
 
@@ -164,21 +163,21 @@ void cloth::SwFactory::extractCollisionData(const Cloth& cloth, Range<PxVec4> sp
 	PX_ASSERT(triangles.empty() || triangles.size() == swCloth.mStartCollisionTriangles.size());
 
 	if(!swCloth.mStartCollisionSpheres.empty() && !spheres.empty())
-		memcpy(spheres.begin(), &swCloth.mStartCollisionSpheres.front(),
+		PxMemCopy(spheres.begin(), &swCloth.mStartCollisionSpheres.front(),
 		       swCloth.mStartCollisionSpheres.size() * sizeof(PxVec4));
 
 	if(!swCloth.mCapsuleIndices.empty() && !capsules.empty())
-		memcpy(capsules.begin(), &swCloth.mCapsuleIndices.front(), swCloth.mCapsuleIndices.size() * sizeof(IndexPair));
+		PxMemCopy(capsules.begin(), &swCloth.mCapsuleIndices.front(), swCloth.mCapsuleIndices.size() * sizeof(IndexPair));
 
 	if(!swCloth.mStartCollisionPlanes.empty() && !planes.empty())
-		memcpy(planes.begin(), &swCloth.mStartCollisionPlanes.front(),
+		PxMemCopy(planes.begin(), &swCloth.mStartCollisionPlanes.front(),
 		       swCloth.mStartCollisionPlanes.size() * sizeof(PxVec4));
 
 	if(!swCloth.mConvexMasks.empty() && !convexes.empty())
-		memcpy(convexes.begin(), &swCloth.mConvexMasks.front(), swCloth.mConvexMasks.size() * sizeof(uint32_t));
+		PxMemCopy(convexes.begin(), &swCloth.mConvexMasks.front(), swCloth.mConvexMasks.size() * sizeof(uint32_t));
 
 	if(!swCloth.mStartCollisionTriangles.empty() && !triangles.empty())
-		memcpy(triangles.begin(), &swCloth.mStartCollisionTriangles.front(),
+		PxMemCopy(triangles.begin(), &swCloth.mStartCollisionTriangles.front(),
 		       swCloth.mStartCollisionTriangles.size() * sizeof(PxVec3));
 }
 
@@ -197,7 +196,7 @@ void cloth::SwFactory::extractMotionConstraints(const Cloth& cloth, Range<PxVec4
 		// make sure dest array is big enough
 		PX_ASSERT(destConstraints.size() == srcConstraints.size());
 
-		memcpy(destConstraints.begin(), &srcConstraints.front(), srcConstraints.size() * sizeof(PxVec4));
+		PxMemCopy(destConstraints.begin(), &srcConstraints.front(), srcConstraints.size() * sizeof(PxVec4));
 	}
 }
 
@@ -216,7 +215,7 @@ void cloth::SwFactory::extractSeparationConstraints(const Cloth& cloth, Range<Px
 		// make sure dest array is big enough
 		PX_ASSERT(destConstraints.size() == srcConstraints.size());
 
-		memcpy(destConstraints.begin(), &srcConstraints.front(), srcConstraints.size() * sizeof(PxVec4));
+		PxMemCopy(destConstraints.begin(), &srcConstraints.front(), srcConstraints.size() * sizeof(PxVec4));
 	}
 }
 
@@ -231,7 +230,7 @@ void cloth::SwFactory::extractParticleAccelerations(const Cloth& cloth, Range<Px
 		// make sure dest array is big enough
 		PX_ASSERT(destAccelerations.size() == swCloth.mParticleAccelerations.size());
 
-		memcpy(destAccelerations.begin(), &swCloth.mParticleAccelerations.front(),
+		PxMemCopy(destAccelerations.begin(), &swCloth.mParticleAccelerations.front(),
 		       swCloth.mParticleAccelerations.size() * sizeof(PxVec4));
 	}
 }

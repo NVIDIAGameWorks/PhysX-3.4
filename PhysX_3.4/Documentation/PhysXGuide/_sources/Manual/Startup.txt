@@ -163,6 +163,28 @@ Now the hook must be set for PhysX, PhysXCooking, PhysXGpu, PhysXCommon, PxPvdSD
     PxPvdSetFoundationDelayLoadHook(&gDelayLoadHook);
     
 +++++++++++++++++++++++++++++++
+PxGpuLoadHook
++++++++++++++++++++++++++++++++  
+
+The PxGpuLoadHook class supports loading of different versions of PhysXGpu DLL. This can be achieved by providing different DLL names to the PhysX SDK through a custom subclass of PxGpuLoadHook, see the following example::
+
+    class SampleGpuLoadHook: public PxGpuLoadHook
+    {    
+        virtual const char* getPhysXGpuDEBUGDllName() const 
+            { return "PhysX3GpuDEBUG_x64_Test.dll"; }
+        virtual const char* getPhysXGpuCHECKEDDllName() const 
+            { return "PhysX3GpuCHECKED_x64_Test.dll"; }
+        virtual const char* getPhysXGpuPROFILEDllName() const 
+            { return "PhysX3GpuPROFILE_x64_Test.dll"; }
+        virtual const char* getPhysXGpuDllName() const 
+            { return "PhysX3Gpu_x64_Test.dll"; }
+    } gGpuLoadHook;
+
+Now the hook must be set for PhysX::
+
+    PxSetPhysXGpuLoadHook(&gGpuLoadHook);
+    
++++++++++++++++++++++++++++++++
 PhysXCommon Secure Load
 +++++++++++++++++++++++++++++++
 

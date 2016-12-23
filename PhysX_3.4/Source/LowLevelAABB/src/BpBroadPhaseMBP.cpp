@@ -36,7 +36,6 @@
 #include "PsFoundation.h"
 #include "PsVecMath.h"
 
-
 using namespace physx::shdfnd::aos;
 
 //#define CHECK_NB_OVERLAPS
@@ -49,24 +48,6 @@ using namespace physx::shdfnd::aos;
 using namespace physx;
 using namespace Bp;
 using namespace Cm;
-
-	template<class T>
-	static PX_INLINE T* reserveContainerMemory(Ps::Array<T>& container, PxU32 nb)
-	{
-		const PxU32 maxNbEntries = container.capacity();
-		const PxU32 requiredSize = container.size() + nb;
-
-		if(requiredSize>maxNbEntries)
-		{
-			const PxU32 naturalGrowthSize = maxNbEntries ? maxNbEntries*2 : 2;
-			const PxU32 newSize = PxMax(requiredSize, naturalGrowthSize);
-			container.reserve(newSize);
-		}
-
-		T* buf = container.end();
-		container.forceSize_Unsafe(requiredSize);
-		return buf;
-	}
 
 	static PX_FORCE_INLINE void storeDwords(PxU32* dest, PxU32 nb, PxU32 value)
 	{

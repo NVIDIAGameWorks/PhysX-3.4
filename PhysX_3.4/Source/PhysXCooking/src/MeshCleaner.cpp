@@ -28,6 +28,7 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxVec3.h"
+#include "foundation/PxMemory.h"
 #include "MeshCleaner.h"
 #include "PsAllocator.h"
 #include "PsBitUtils.h"
@@ -98,7 +99,7 @@ MeshCleaner::MeshCleaner(PxU32 nbVerts, const PxVec3* srcVerts, PxU32 nbTris, co
 	}
 	else
 	{
-		memcpy(cleanVerts, srcVerts, nbVerts*sizeof(PxVec3));
+		PxMemCopy(cleanVerts, srcVerts, nbVerts*sizeof(PxVec3));
 	}
 
 	const PxU32 maxNbElems = PxMax(nbTris, nbVerts);

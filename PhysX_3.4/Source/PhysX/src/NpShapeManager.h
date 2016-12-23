@@ -33,6 +33,7 @@
 
 #include "NpShape.h"
 #include "CmPtrTable.h"
+#include "SqSceneQueryManager.h"
 
 #if PX_ENABLE_DEBUG_VISUALIZATION
 #include "CmRenderOutput.h"
@@ -43,7 +44,6 @@ namespace physx
 
 namespace Sq
 {
-	typedef size_t PrunerData;
 	class SceneQueryManager;
 	class PruningStructure;
 }

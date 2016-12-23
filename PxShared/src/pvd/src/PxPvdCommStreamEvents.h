@@ -137,6 +137,7 @@ struct PvdCommStreamEventTypes
 		DECLARE_COMM_STREAM_EVENTS
 #undef DECLARE_PVD_COMM_STREAM_EVENT_NO_COMMA
 #undef DECLARE_PVD_COMM_STREAM_EVENT
+        , Last
 	};
 };
 

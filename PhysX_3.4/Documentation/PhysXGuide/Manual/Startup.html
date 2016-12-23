@@ -191,6 +191,27 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="pxgpuloadhook">
+<h3>PxGpuLoadHook<a class="headerlink" href="#pxgpuloadhook" title="Permalink to this headline">¶</a></h3>
+<p>The PxGpuLoadHook class supports loading of different versions of PhysXGpu DLL. This can be achieved by providing different DLL names to the PhysX SDK through a custom subclass of PxGpuLoadHook, see the following example:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">class</span> <span class="nc">SampleGpuLoadHook</span><span class="o">:</span> <span class="k">public</span> <span class="n">PxGpuLoadHook</span>
+<span class="p">{</span>
+    <span class="k">virtual</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">getPhysXGpuDEBUGDllName</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;PhysX3GpuDEBUG_x64_Test.dll&quot;</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">virtual</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">getPhysXGpuCHECKEDDllName</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;PhysX3GpuCHECKED_x64_Test.dll&quot;</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">virtual</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">getPhysXGpuPROFILEDllName</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;PhysX3GpuPROFILE_x64_Test.dll&quot;</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">virtual</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">getPhysXGpuDllName</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;PhysX3Gpu_x64_Test.dll&quot;</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span> <span class="n">gGpuLoadHook</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Now the hook must be set for PhysX:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxSetPhysXGpuLoadHook</span><span class="p">(</span><span class="o">&amp;</span><span class="n">gGpuLoadHook</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="physxcommon-secure-load">
 <h3>PhysXCommon Secure Load<a class="headerlink" href="#physxcommon-secure-load" title="Permalink to this headline">¶</a></h3>
 <p>All PhysX DLLs distributed by NVIDIA are signed. The PhysXCommon DLL signature is checked, when it is loaded by PhysX or PhysXCooking. If signature test fails the application is terminated.</p>
@@ -226,6 +247,7 @@
 <li><a class="reference internal" href="#delay-loading-dlls">Delay-Loading DLLs</a><ul>
 <li><a class="reference internal" href="#physxcommon-dll-and-psfoundation-dll-load">PhysXCommon DLL and PsFoundation DLL load</a></li>
 <li><a class="reference internal" href="#pxdelayloadhook">PxDelayLoadHook</a></li>
+<li><a class="reference internal" href="#pxgpuloadhook">PxGpuLoadHook</a></li>
 <li><a class="reference internal" href="#physxcommon-secure-load">PhysXCommon Secure Load</a></li>
 </ul>
 </li>

@@ -36,37 +36,14 @@
 
 namespace physx
 {
-
 class PxShape;
-class PxRigidBody;
 class PxsContactManagerOutputIterator;
-
-namespace Sq
-{
-	typedef size_t PrunerData;
-}
 
 namespace Sc
 {
 	class ShapeSim;
 	class Interaction;
-
 	
-	struct SqBoundsSync
-	{
-		virtual void sync(const PxU32* sqRefs, const PxU32* indices, const PxBounds3* bounds, PxU32 count) = 0;
-
-		virtual ~SqBoundsSync() {}
-	};
-
-	struct SqRefFinder
-	{
-		virtual PxU32 find(const PxRigidBody * body, const PxShape* shape) = 0;
-
-		virtual ~SqRefFinder() {}
-	};
-
-
 	struct Contact
 	{
 		Contact() 

@@ -45,6 +45,10 @@ HRESULT CommonUIController::DeviceCreated(ID3D11Device* pDevice)
 	TwAddVarCB(mSettingsBar, "WireFrame", TW_TYPE_BOOLCPP, CommonUIController::setWireframeEnabled,
 		CommonUIController::getWireframeEnabled, this, "group=Main key=o");
 	TwAddButton(mSettingsBar, "Reload Shaders", CommonUIController::onReloadShadersButton, this, "group=Main key=f5");
+	TwAddVarCB(mSettingsBar, "Fixed Sim Frequency Enabled", TW_TYPE_BOOLCPP, CommonUIController::setFixedTimestepEnabled,
+		CommonUIController::getFixedTimestepEnabled, this, "group=Main key=t");
+	TwAddVarCB(mSettingsBar, "Fixed Sim Frequency", TW_TYPE_UINT32, CommonUIController::setFixedSimFrequency,
+		CommonUIController::getFixedSimFrequency, this, "group=Main min=30 max=1000");
 	TwAddVarRW(mSettingsBar, "Ambient Color", TW_TYPE_COLOR3F, &(mApexRenderer->getAmbientColor()), "group='Scene'");
 	TwAddVarRW(mSettingsBar, "Point Light Color", TW_TYPE_COLOR3F, &(mApexRenderer->getPointLightColor()), "group='Scene'");
 	TwAddVarRW(mSettingsBar, "Point Light Pos", TW_TYPE_DIR3F, &(mApexRenderer->getPointLightPos()), "group='Scene'");
@@ -60,6 +64,7 @@ HRESULT CommonUIController::DeviceCreated(ID3D11Device* pDevice)
 	addHintLine("Rotate camera - RMB");
 	addHintLine("Move camera - WASDQE(SHIFT)");
 	addHintLine("Play/Pause - P");
+	addHintLine("Fixed/Variable sim freq - T");
 	addHintLine("Reload shaders - F5");
 	addHintLine("Wireframe - O");
 	
@@ -202,6 +207,36 @@ void TW_CALL CommonUIController::getWireframeEnabled(void* value, void* clientDa
 {
 	CommonUIController* controller = static_cast<CommonUIController*>(clientData);
 	*static_cast<bool*>(value) = controller->mApexRenderer->getWireframeMode();
+}
+
+
+void TW_CALL CommonUIController::setFixedTimestepEnabled(const void* value, void* clientData)
+{
+	CommonUIController* controller = static_cast<CommonUIController*>(clientData);
+	const bool enable = *static_cast<const bool*>(value);
+	if (controller->mApexController->usingFixedTimestep() != enable)
+	{
+		controller->mApexController->toggleFixedTimestep();
+	}
+}
+
+void TW_CALL CommonUIController::getFixedTimestepEnabled(void* value, void* clientData)
+{
+	CommonUIController* controller = static_cast<CommonUIController*>(clientData);
+	*static_cast<bool*>(value) = controller->mApexController->usingFixedTimestep();
+}
+
+
+void TW_CALL CommonUIController::setFixedSimFrequency(const void* value, void* clientData)
+{
+	CommonUIController* controller = static_cast<CommonUIController*>(clientData);
+	controller->mApexController->setFixedTimestep(1.0 / *static_cast<const uint32_t*>(value));
+}
+
+void TW_CALL CommonUIController::getFixedSimFrequency(void* value, void* clientData)
+{
+	CommonUIController* controller = static_cast<CommonUIController*>(clientData);
+	*static_cast<uint32_t*>(value) = static_cast<uint32_t>(1.0 / controller->mApexController->getFixedTimestep() + 0.5);
 }
 
 

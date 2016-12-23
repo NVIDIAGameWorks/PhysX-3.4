@@ -112,7 +112,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /EHsc /d2Zi+</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../PhysX_3.4/../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;../../../PxShared/src/pvd/src;../../../PxShared/src/NvSimd/include;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;../../../PxShared/src/pvd/src;../../../PxShared/src/NvSimd/include;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;_DEBUG;PX_DEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;PX_PHYSX_DLL_NAME_POSTFIX=DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
       <WarningLevel>Level4</WarningLevel>
@@ -123,7 +123,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonDEBUG_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonDEBUG_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)DEBUG_x86.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc12win32;../../../PhysX_3.4/Lib/vc12win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG_x86.dll.pdb</ProgramDatabaseFile>
@@ -154,7 +154,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /EHsc /d2Zi+</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../PhysX_3.4/../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;../../../PxShared/src/pvd/src;../../../PxShared/src/NvSimd/include;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;../../../PxShared/src/pvd/src;../../../PxShared/src/NvSimd/include;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;APEX_SHIPPING;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
       <WarningLevel>Level4</WarningLevel>
@@ -165,7 +165,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3Common_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3Common_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)_x86.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc12win32;../../../PhysX_3.4/Lib/vc12win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)_x86.dll.pdb</ProgramDatabaseFile>
@@ -196,7 +196,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /EHsc /d2Zi+</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../PhysX_3.4/../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;../../../PxShared/src/pvd/src;../../../PxShared/src/NvSimd/include;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;../../../PxShared/src/pvd/src;../../../PxShared/src/NvSimd/include;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;PX_PHYSX_DLL_NAME_POSTFIX=PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
       <WarningLevel>Level4</WarningLevel>
@@ -207,7 +207,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonPROFILE_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonPROFILE_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)PROFILE_x86.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc12win32;../../../PhysX_3.4/Lib/vc12win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE_x86.dll.pdb</ProgramDatabaseFile>
@@ -238,7 +238,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /EHsc /d2Zi+</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../PhysX_3.4/../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;../../../PxShared/src/pvd/src;../../../PxShared/src/NvSimd/include;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;../../../PxShared/src/pvd/src;../../../PxShared/src/NvSimd/include;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_ENABLE_CHECKED_ASSERTS;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;PX_PHYSX_DLL_NAME_POSTFIX=CHECKED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
       <WarningLevel>Level4</WarningLevel>
@@ -249,7 +249,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonCHECKED_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonCHECKED_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)CHECKED_x86.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc12win32;../../../PhysX_3.4/Lib/vc12win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED_x86.dll.pdb</ProgramDatabaseFile>
@@ -436,6 +436,11 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc12win32/PxFoundation.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="./ApexCommon.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
@@ -446,22 +451,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc12win32/PsFastXml.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="./../../NvParameterized/compiler/vc12win32-PhysX_3.4/NvParameterized.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc12win32/PsFastXml.vcxproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc12win32/PxFoundation.vcxproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc12win32/PxPvdSDK.vcxproj">
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc12win32/PxPvdSDK.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

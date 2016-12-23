@@ -280,12 +280,12 @@
 		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./SnippetRender.vcxproj">
+		<ProjectReference Include="./SnippetUtils.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./SnippetUtils.vcxproj">
+		<ProjectReference Include="./SnippetRender.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>

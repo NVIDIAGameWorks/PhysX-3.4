@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_RIGID_STATIC
 #define PX_PHYSICS_SCB_RIGID_STATIC
 
@@ -38,10 +37,8 @@
 
 namespace physx
 {
-
 namespace Scb
 {
-
 #if PX_VC 
     #pragma warning(push)
 	#pragma warning( disable : 4324 ) // Padding was added at the end of a structure because of a __declspec(align) value.
@@ -61,7 +58,6 @@ struct RigidStaticBuffer : public RigidObjectBuffer
 #if PX_VC 
      #pragma warning(pop) 
 #endif
-
 
 class RigidStatic : public Scb::RigidObject
 {
@@ -93,10 +89,7 @@ public:
 	//---------------------------------------------------------------------------------
 	PX_INLINE void						syncState();
 
-	static size_t getScOffset()													
-	{ 
-		return reinterpret_cast<size_t>(&reinterpret_cast<RigidStatic*>(0)->mStatic);
-	}
+	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<RigidStatic*>(0)->mStatic);	}
 
 	PX_FORCE_INLINE Sc::StaticCore&			getScStatic()				{	return mStatic; }
 
@@ -116,33 +109,30 @@ private:
 
 	template<PxU32 f> PX_FORCE_INLINE typename Buf::Fns<f,0>::Arg read() const		{	return Access::read<Buf::Fns<f,0> >(*this, mStatic);	}
 	template<PxU32 f> PX_FORCE_INLINE void write(typename Buf::Fns<f,0>::Arg v)		{	Access::write<Buf::Fns<f,0> >(*this, mStatic, v);		}
-	template<PxU32 f> PX_FORCE_INLINE void flush(const Buf& buf)					{	Access::flush<Buf::Fns<f,0> >(*this, mStatic, buf);	}
-
+	template<PxU32 f> PX_FORCE_INLINE void flush(const Buf& buf)					{	Access::flush<Buf::Fns<f,0> >(*this, mStatic, buf);		}
 };
 
 RigidStatic::RigidStatic(const PxTransform& actor2World) : 
 	mStatic(actor2World)
 {
-	setScbType(ScbType::RIGID_STATIC);
+	setScbType(ScbType::eRIGID_STATIC);
 }
-
 
 //--------------------------------------------------------------
 //
 // Data synchronization
 //
 //--------------------------------------------------------------
-
 PX_INLINE void RigidStatic::syncState()
 {
-	PxU32 bufferFlags = getBufferFlags();
+	const PxU32 bufferFlags = getBufferFlags();
 
-	if (bufferFlags & Buf::BF_ActorFlags)
+	if(bufferFlags & Buf::BF_ActorFlags)
 		syncNoSimSwitch(*getRigidActorBuffer(), mStatic, false);
 
 	RigidObject::syncState();
 
-	if (bufferFlags & Buf::BF_Actor2World)
+	if(bufferFlags & Buf::BF_Actor2World)
 		flush<Buf::BF_Actor2World>(*getRigidActorBuffer());
 
 	postSyncState();

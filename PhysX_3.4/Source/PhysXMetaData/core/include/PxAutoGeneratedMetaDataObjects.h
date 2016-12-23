@@ -531,7 +531,6 @@ template<> struct PxEnumTraits< physx::PxRigidDynamicLockFlag::Enum > { PxEnumTr
 		: PxRigidBodyGeneratedInfo
 	{
 		static const char* getClassName() { return "PxRigidDynamic"; }
-		PxWriteOnlyPropertyInfo<PX_PROPERTY_INFO_NAME::PxRigidDynamic_KinematicTarget, PxRigidDynamic, const PxTransform & > KinematicTarget;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxRigidDynamic_LinearDamping, PxRigidDynamic, PxReal, PxReal > LinearDamping;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxRigidDynamic_AngularDamping, PxRigidDynamic, PxReal, PxReal > AngularDamping;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxRigidDynamic_MaxAngularVelocity, PxRigidDynamic, PxReal, PxReal > MaxAngularVelocity;
@@ -565,7 +564,7 @@ template<> struct PxEnumTraits< physx::PxRigidDynamicLockFlag::Enum > { PxEnumTr
 			inStartIndex = PxRigidBodyGeneratedInfo::visitInstanceProperties( inOperator, inStartIndex );
 			return inStartIndex;
 		}
-		static PxU32 instancePropertyCount() { return 12; }
+		static PxU32 instancePropertyCount() { return 11; }
 		static PxU32 totalPropertyCount() { return instancePropertyCount()
 				+ PxRigidBodyGeneratedInfo::totalPropertyCount(); }
 		template<typename TOperator>
@@ -573,19 +572,18 @@ template<> struct PxEnumTraits< physx::PxRigidDynamicLockFlag::Enum > { PxEnumTr
 		{
 			PX_UNUSED(inOperator);
 			PX_UNUSED(inStartIndex);
-			inOperator( KinematicTarget, inStartIndex + 0 );; 
-			inOperator( LinearDamping, inStartIndex + 1 );; 
-			inOperator( AngularDamping, inStartIndex + 2 );; 
-			inOperator( MaxAngularVelocity, inStartIndex + 3 );; 
-			inOperator( IsSleeping, inStartIndex + 4 );; 
-			inOperator( SleepThreshold, inStartIndex + 5 );; 
-			inOperator( StabilizationThreshold, inStartIndex + 6 );; 
-			inOperator( RigidDynamicLockFlags, inStartIndex + 7 );; 
-			inOperator( WakeCounter, inStartIndex + 8 );; 
-			inOperator( SolverIterationCounts, inStartIndex + 9 );; 
-			inOperator( ContactReportThreshold, inStartIndex + 10 );; 
-			inOperator( ConcreteTypeName, inStartIndex + 11 );; 
-			return 12 + inStartIndex;
+			inOperator( LinearDamping, inStartIndex + 0 );; 
+			inOperator( AngularDamping, inStartIndex + 1 );; 
+			inOperator( MaxAngularVelocity, inStartIndex + 2 );; 
+			inOperator( IsSleeping, inStartIndex + 3 );; 
+			inOperator( SleepThreshold, inStartIndex + 4 );; 
+			inOperator( StabilizationThreshold, inStartIndex + 5 );; 
+			inOperator( RigidDynamicLockFlags, inStartIndex + 6 );; 
+			inOperator( WakeCounter, inStartIndex + 7 );; 
+			inOperator( SolverIterationCounts, inStartIndex + 8 );; 
+			inOperator( ContactReportThreshold, inStartIndex + 9 );; 
+			inOperator( ConcreteTypeName, inStartIndex + 10 );; 
+			return 11 + inStartIndex;
 		}
 	};
 	template<> struct PxClassInfoTraits<PxRigidDynamic>
@@ -2612,7 +2610,7 @@ template<> struct PxEnumTraits< physx::PxBroadPhaseType::Enum > { PxEnumTraits()
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxScene_CCDMaxPasses, PxScene, PxU32, PxU32 > CCDMaxPasses;
 		PxReadOnlyPropertyInfo<PX_PROPERTY_INFO_NAME::PxScene_FrictionOffsetThreshold, PxScene, PxReal > FrictionOffsetThreshold;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxScene_FrictionType, PxScene, PxFrictionType::Enum, PxFrictionType::Enum > FrictionType;
-		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxScene_VisualizationCullingBox, PxScene, const PxBounds3 &, const PxBounds3 & > VisualizationCullingBox;
+		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxScene_VisualizationCullingBox, PxScene, const PxBounds3 &, PxBounds3 > VisualizationCullingBox;
 		PxReadOnlyPropertyInfo<PX_PROPERTY_INFO_NAME::PxScene_StaticStructure, PxScene, PxPruningStructureType::Enum > StaticStructure;
 		PxReadOnlyPropertyInfo<PX_PROPERTY_INFO_NAME::PxScene_DynamicStructure, PxScene, PxPruningStructureType::Enum > DynamicStructure;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxScene_DynamicTreeRebuildRateHint, PxScene, PxU32, PxU32 > DynamicTreeRebuildRateHint;

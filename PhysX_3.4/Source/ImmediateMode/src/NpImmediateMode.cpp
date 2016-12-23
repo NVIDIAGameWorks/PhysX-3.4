@@ -334,6 +334,10 @@ namespace physx
 	bool immediate::PxCreateContactConstraints(PxConstraintBatchHeader* batchHeaders, const PxU32 nbHeaders, PxSolverContactDesc* contactDescs,
 		PxConstraintAllocator& allocator, PxReal invDt, PxReal bounceThreshold, PxReal frictionOffsetThreshold, PxReal correlationDistance)
 	{
+		PX_ASSERT(invDt > 0.f && PxIsFinite(invDt));
+		PX_ASSERT(bounceThreshold < 0.f);
+		PX_ASSERT(frictionOffsetThreshold > 0.f);
+		PX_ASSERT(correlationDistance > 0.f);
 
 		Dy::SolverConstraintPrepState::Enum state = Dy::SolverConstraintPrepState::eUNBATCHABLE;
 
@@ -368,9 +372,29 @@ namespace physx
 					Dy::createFinalizeSolverContacts(contactDescs[currentContactDescIdx + a], cb, invDt, bounceThreshold, frictionOffsetThreshold, correlationDistance, allocator);
 				}
 			}
-			batchHeader.mConstraintType = *contactDescs[currentContactDescIdx].desc->constraint;
+			PxU8 type = *contactDescs[currentContactDescIdx].desc->constraint;
+
+			if (type == DY_SC_TYPE_STATIC_CONTACT)
+			{
+				//Check if any block of constraints is classified as type static (single) contact constraint.
+				//If they are, iterate over all constraints grouped with it and switch to "dynamic" contact constraint
+				//type if there's a dynamic contact constraint in the group.
+				for (PxU32 c = 1; c < batchHeader.mStride; ++c)
+				{
+					if (*contactDescs[currentContactDescIdx + c].desc->constraint == DY_SC_TYPE_RB_CONTACT)
+					{
+						type = DY_SC_TYPE_RB_CONTACT;
+						break;
+					}
+				}
+			}
+
+			batchHeader.mConstraintType = type;
+
 			currentContactDescIdx += batchHeader.mStride;
 		}
+
+		
 
 		
 
@@ -380,6 +404,9 @@ namespace physx
 
 	bool immediate::PxCreateJointConstraints(PxConstraintBatchHeader* batchHeaders, const PxU32 nbHeaders, PxSolverConstraintPrepDesc* jointDescs, PxConstraintAllocator& allocator, PxReal dt, PxReal invDt)
 	{
+		PX_ASSERT(dt > 0.f);
+		PX_ASSERT(invDt > 0.f && PxIsFinite(invDt));
+
 		Dy::SolverConstraintPrepState::Enum state = Dy::SolverConstraintPrepState::eUNBATCHABLE; 
 		
 		PxU32 currentDescIdx = 0;
@@ -485,10 +512,25 @@ namespace physx
 		return true; //KS - TODO - do some error reporting/management...
 	}
 
+	PX_FORCE_INLINE bool PxIsZero(PxSolverBody* bodies, PxU32 nbBodies)
+	{
+		for (PxU32 i = 0; i < nbBodies; ++i)
+		{
+			if (!bodies[i].linearVelocity.isZero() ||
+				!bodies[i].angularState.isZero())
+				return false;
+		}
+		return true;
+	}
+
 
 	void immediate::PxSolveConstraints(PxConstraintBatchHeader* batchHeaders, const PxU32 nbBatchHeaders, PxSolverConstraintDesc* solverConstraintDescs, PxSolverBody* solverBodies,
-		PxVec3* linearMotionVelocity, PxVec3* angularMotionVelocity, const PxU32 nbSolverBodies, const PxU32 nbPositionIterations, const PxU32 nbVelocityIteration)
+		PxVec3* linearMotionVelocity, PxVec3* angularMotionVelocity, const PxU32 nbSolverBodies, const PxU32 nbPositionIterations, const PxU32 nbVelocityIterations)
 	{
+		PX_ASSERT(nbPositionIterations > 0);
+		PX_ASSERT(nbVelocityIterations > 0);
+		PX_ASSERT(PxIsZero(solverBodies, nbSolverBodies)); //Ensure that solver body velocities have been zeroed before solving
+
 		//Stage 1: solve the position iterations...
 		Dy::SolveBlockMethod*  solveTable = Dy::getSolveBlockTable();
 
@@ -501,7 +543,7 @@ namespace physx
 		cache.mThresholdStreamLength = 0xFFFFFFF;
 		
 		PX_ASSERT(nbPositionIterations > 0);
-		PX_ASSERT(nbVelocityIteration > 0);
+		PX_ASSERT(nbVelocityIterations > 0);
 
 		for (PxU32 i = nbPositionIterations; i > 1; --i)
 		{
@@ -528,7 +570,7 @@ namespace physx
 			angularMotionVelocity[a] = solverBodies[a].angularState;
 		}
 
-		for (PxU32 i = nbVelocityIteration; i > 1; --i)
+		for (PxU32 i = nbVelocityIterations; i > 1; --i)
 		{
 			for (PxU32 a = 0; a < nbBatchHeaders; ++a)
 			{
@@ -583,9 +625,13 @@ namespace physx
 	}
 
 
+
 	bool immediate::PxGenerateContacts(const PxGeometry* const * geom0, const PxGeometry* const * geom1, const PxTransform* pose0, const PxTransform* pose1, PxCache* contactCache, const PxU32 nbPairs, PxContactRecorder& contactRecorder,
 		const PxReal contactDistance, const PxReal meshContactMargin, const PxReal toleranceLength, PxCacheAllocator& allocator)
 	{
+		PX_ASSERT(meshContactMargin > 0.f);
+		PX_ASSERT(toleranceLength > 0.f);
+		PX_ASSERT(contactDistance > 0.f);
 		Gu::ContactBuffer contactBuffer;
 
 		for (PxU32 i = 0; i < nbPairs; ++i)

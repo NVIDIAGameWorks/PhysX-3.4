@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_AGGREGATE
 #define PX_PHYSICS_SCB_AGGREGATE
 
@@ -58,7 +57,6 @@ struct AggregateBuffer
 	PxU32			removeCount;
 };
 
-
 class Aggregate : public Base
 {
 //= ATTENTION! =====================================================================================
@@ -86,7 +84,6 @@ public:
 				void					addActor(Scb::Actor&);
 				void					removeActor(Scb::Actor& actor, bool reinsert);
 
-
 	//---------------------------------------------------------------------------------
 	// Data synchronization
 	//---------------------------------------------------------------------------------
@@ -112,16 +109,14 @@ private:
 	PX_FORCE_INLINE	Scb::AggregateBuffer*		getBufferedData()			{ return reinterpret_cast<Scb::AggregateBuffer*>(getStream()); }
 };
 
-
 PX_INLINE Aggregate::Aggregate(PxAggregate* px, PxU32 maxActors, bool selfCollision) :
 	mPxAggregate	(px),
 	mAggregateID	(PX_INVALID_U32),
 	mMaxNbActors	(maxActors),
 	mSelfCollide	(selfCollision)
 {
-	setScbType(ScbType::AGGREGATE);
+	setScbType(ScbType::eAGGREGATE);
 }
-
 
 PX_INLINE Aggregate::~Aggregate()
 {
@@ -151,33 +146,27 @@ namespace
 	PX_FORCE_INLINE void PvdAttachActorToAggregate(Scb::Aggregate* pAggregate, Scb::Actor* pScbActor)
 	{
 		Scb::Scene* scbScene = pAggregate->getScbSceneForAPI();
-		if( scbScene/* && scbScene->getScenePvdClient().isInstanceValid(pAggregate)*/)
-		{
+		if(scbScene/* && scbScene->getScenePvdClient().isInstanceValid(pAggregate)*/)
 			scbScene->getScenePvdClient().attachAggregateActor( pAggregate, pScbActor );
-		}
 	}
 
 	PX_FORCE_INLINE void PvdDetachActorFromAggregate(Scb::Aggregate* pAggregate, Scb::Actor* pScbActor)
 	{
 		Scb::Scene* scbScene = pAggregate->getScbSceneForAPI();
-		if( scbScene/*&& scbScene->getScenePvdClient().isInstanceValid(pAggregate)*/)
-		{
+		if(scbScene/*&& scbScene->getScenePvdClient().isInstanceValid(pAggregate)*/)
 			scbScene->getScenePvdClient().detachAggregateActor( pAggregate, pScbActor );
-		}
 	}
 
 	PX_FORCE_INLINE void PvdUpdateProperties(Scb::Aggregate* pAggregate)
 	{
 		Scb::Scene* scbScene = pAggregate->getScbSceneForAPI();
-		if( scbScene /*&& scbScene->getScenePvdClient().isInstanceValid(pAggregate)*/)
-		{
+		if(scbScene /*&& scbScene->getScenePvdClient().isInstanceValid(pAggregate)*/)
 			scbScene->getScenePvdClient().updatePvdProperties( pAggregate );
-		}
 	}
 #else
-#define PvdAttachActorToAggregate(aggregate, scbActor) {}
-#define PvdDetachActorFromAggregate(aggregate, scbActor) {}
-#define PvdUpdateProperties(aggregate)	{}
+#define PvdAttachActorToAggregate(aggregate, scbActor)		{}
+#define PvdDetachActorFromAggregate(aggregate, scbActor)	{}
+#define PvdUpdateProperties(aggregate)						{}
 #endif
 }
 
@@ -189,7 +178,7 @@ namespace
 
 PX_INLINE void Aggregate::syncState(Scb::Scene& scene)
 {
-	PxU32 flags = getBufferFlags();
+	const PxU32 flags = getBufferFlags();
 	
 	enum AggregateSyncDirtyType
 	{
@@ -200,30 +189,30 @@ PX_INLINE void Aggregate::syncState(Scb::Scene& scene)
 	
 	PxU32 dirtyType = DIRTY_NONE;
 
-	if (flags)
+	if(flags)
 	{
 		const Scb::AggregateBuffer* PX_RESTRICT bufferedData = getBufferedData();
 		
-		if (flags & BF_ADD_ACTOR)
+		if(flags & BF_ADD_ACTOR)
 		{
 			dirtyType |= DIRTY_ADD_ACTOR;
 
 			Scb::Actor* const* actorBuffer = scene.getActorBuffer(bufferedData->addBufferIdx);
 
 			PX_ASSERT(mAggregateID != PX_INVALID_U32);
-			for(PxU32 i=0; i < bufferedData->addCount; i++)
+			for(PxU32 i=0; i<bufferedData->addCount; i++)
 			{
 				actorBuffer[i]->getActorCore().setAggregateID(mAggregateID);
 				PvdAttachActorToAggregate( this, actorBuffer[i] );				
 			}
 		}
 
-		if (flags & BF_REMOVE_ACTOR)
+		if(flags & BF_REMOVE_ACTOR)
 		{
 			dirtyType |= DIRTY_REMOVE_ACTOR;
 			Scb::Actor* const* actorBuffer = scene.getActorBuffer(bufferedData->removeBufferIdx);
 
-			for(PxU32 i=0; i < bufferedData->removeCount; i++)
+			for(PxU32 i=0; i<bufferedData->removeCount; i++)
 			{
 				const ControlState::Enum state = actorBuffer[i]->getControlState();
 
@@ -231,7 +220,7 @@ PX_INLINE void Aggregate::syncState(Scb::Scene& scene)
 				ac.setAggregateID(PX_INVALID_U32);
 				if(state != ControlState::eREMOVE_PENDING)
 					PvdDetachActorFromAggregate( this, actorBuffer[i] );
-				if (state == ControlState::eINSERT_PENDING || state == ControlState::eIN_SCENE)
+				if(state == ControlState::eINSERT_PENDING || state == ControlState::eIN_SCENE)
 					ac.reinsertShapes();
 			}
 		}

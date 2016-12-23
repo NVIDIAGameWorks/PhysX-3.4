@@ -59,7 +59,6 @@ namespace Scb
 namespace Sc
 {
 	class ActorCore;
-	struct SqBoundsSync;
 }
 
 namespace Sq
@@ -78,7 +77,7 @@ namespace Sq
 		PX_FORCE_INLINE const Sc::ActorCore&	convertScbActor2Sc(const Scb::Actor& actor) const	{ return *Ps::pointerOffset<const Sc::ActorCore*>(&actor, scbToSc[actor.getScbType()]); }
 
 		ptrdiff_t pxActorToScbActor[PxConcreteType::ePHYSX_CORE_COUNT];
-		ptrdiff_t scbToSc[ScbType::TYPE_COUNT];
+		ptrdiff_t scbToSc[ScbType::eTYPE_COUNT];
 	};
 	extern OffsetTable gOffsetTable;
 
@@ -118,9 +117,9 @@ namespace Sq
 
 	struct DynamicBoundsSync : public Sc::SqBoundsSync
 	{
-		virtual void sync(const PxU32* sqRefs, const PxU32* indices, const PxBounds3* bounds, PxU32 count);
-		Pruner* mPruner;
-		PxU32 *mTimestamp;
+		virtual void sync(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* bounds, PxU32 count);
+		Pruner*	mPruner;
+		PxU32*	mTimestamp;
 	};
 
 	class SceneQueryManager : public Ps::UserAllocated
@@ -179,9 +178,9 @@ namespace Sq
 	// PT: TODO: replace PrunerData with just PxU32 to save memory on Win64. Breaks binary compatibility though.
 	// PT: was previously called 'ActorShape' but does not contain an actor or shape pointer, contrary to the Np-level struct with the same name.
 	// PT: it only contains a pruner index (0 or 1) and a pruner handle. Hence the new name.
-	PX_FORCE_INLINE PrunerData createPrunerData(PxU32 index, PrunerHandle h)	{ return size_t((h << 1) | index); }
-	PX_FORCE_INLINE PxU32 getPrunerIndex(PrunerData data)					{ return PxU32(data & 1); }
-	PX_FORCE_INLINE PrunerHandle getPrunerHandle(PrunerData data)			{ return PxU32(data >> 1); }
+	PX_FORCE_INLINE PrunerData createPrunerData(PxU32 index, PrunerHandle h)	{ return PrunerData((h << 1) | index);	}
+	PX_FORCE_INLINE PxU32 getPrunerIndex(PrunerData data)						{ return PxU32(data & 1);				}
+	PX_FORCE_INLINE PrunerHandle getPrunerHandle(PrunerData data)				{ return PrunerHandle(data >> 1);		}
 
 	///////////////////////////////////////////////////////////////////////////////
 

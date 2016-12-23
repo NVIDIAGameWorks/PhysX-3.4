@@ -648,6 +648,21 @@
 	<ItemGroup>
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win32/PxPvdSDK.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win32/PxFoundation.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./PhysXCommon.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="./LowLevel.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
@@ -658,37 +673,17 @@
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./LowLevelCloth.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
 		<ProjectReference Include="./LowLevelDynamics.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="./LowLevelCloth.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="./LowLevelParticles.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="./PhysXCommon.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win32/PxFoundation.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win32/PxPvdSDK.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win32/PxTask.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
@@ -699,6 +694,11 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="./SimulationController.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win32/PxTask.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>

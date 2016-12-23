@@ -51,13 +51,16 @@ namespace Sq
 
 	extern const ComputeBoundsFunc gComputeBoundsTable[2];
 
+	// PT: TODO: - check that this is compatible with Gu::computeBounds(..., SQ_PRUNER_INFLATION, ...)
+	// PT: TODO: - refactor with "inflateBounds" in GuBounds.cpp if possible
+	// PT: TODO: - use SQ_PRUNER_INFLATION instead of hardcoding "0.01f"
 	PX_FORCE_INLINE void inflateBounds(PxBounds3& dst, const PxBounds3& src)
 	{
 		using namespace physx::shdfnd::aos;
 
 		const Vec4V minV = V4LoadU(&src.minimum.x);
 		const Vec4V maxV = V4LoadU(&src.maximum.x);
-		const Vec4V eV = V4Scale(V4Sub(maxV, minV), FLoad(0.5f* 0.01f));
+		const Vec4V eV = V4Scale(V4Sub(maxV, minV), FLoad(0.5f * 0.01f));
 
 		V4StoreU(V4Sub(minV, eV), &dst.minimum.x);
 		PX_ALIGN(16, PxVec4) max4;

@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #include "ScbShape.h"
 
 using namespace physx;
@@ -36,7 +35,7 @@ bool Scb::Shape::setMaterialsHelper(PxMaterial* const* materials, PxU16 material
 {
 	PX_ASSERT(!isBuffering());
 
-	if (materialCount == 1)
+	if(materialCount == 1)
 	{
 		PxU16 materialIndex = Ps::to16((static_cast<NpMaterial*>(materials[0]))->getHandle());
 
@@ -48,7 +47,7 @@ bool Scb::Shape::setMaterialsHelper(PxMaterial* const* materials, PxU16 material
 
 		PX_ALLOCA(materialIndices, PxU16, materialCount);
 
-		if (materialIndices)
+		if(materialIndices)
 		{
 			NpMaterial::getMaterialIndices(materials, materialIndices, materialCount);
 			mShape.setMaterialIndices(materialIndices, materialCount);
@@ -62,57 +61,51 @@ bool Scb::Shape::setMaterialsHelper(PxMaterial* const* materials, PxU16 material
 	}
 
 	Scb::Scene* sc = getScbScene();
-
-	if (sc)
-	{
+	if(sc)
 		sc->getScScene().notifyNphaseOnUpdateShapeMaterial(mShape);
-	}
 
 	return true;
 }
 
-
 void Scb::Shape::syncState()
 {
-	PxU32 flags = getBufferFlags();
-	if (flags)
+	const PxU32 flags = getBufferFlags();
+	if(flags)
 	{
-
-		PxShapeFlags oldShapeFlags = mShape.getFlags();
+		const PxShapeFlags oldShapeFlags = mShape.getFlags();
 
 		const Scb::ShapeBuffer&	buffer = *getBufferedData();
 
-		if (flags & Buf::BF_Geometry)
-		{
-			Scb::Scene* sc = getScbScene();
+		Scb::Scene* scbScene = getScbScene();	// PT: can be NULL. See e.g. RbShapeTest.ReleaseShapeWithPendingUpdate UT.
 
-			if (sc)
-			{
-				sc->getScScene().unregisterShapeFromNphase(mShape);
-			}
+		if(flags & Buf::BF_Geometry)
+		{
+			if(scbScene)
+				scbScene->getScScene().unregisterShapeFromNphase(mShape);
 
 			mShape.setGeometry(buffer.geometry.getGeometry());
 
-			if (sc)
-			{
-				sc->getScScene().registerShapeInNphase(mShape);
-			}
+			if(scbScene)
+				scbScene->getScScene().registerShapeInNphase(mShape);
 
 #if PX_SUPPORT_PVD
 			if(getControlState() == ControlState::eIN_SCENE)
 			{
-				Scb::Scene* scbScene = getScbScene();
 				PX_ASSERT(scbScene);
 				scbScene->getScenePvdClient().releaseAndRecreateGeometry(this);
 			}
 #endif
 		}
 
-		if (flags & Buf::BF_Material)
+		if(flags & Buf::BF_Material)
 		{
-			const PxU16* materialIndices = getMaterialBuffer(*getScbScene(), buffer);
-			mShape.setMaterialIndices(materialIndices, buffer.materialCount);
-			getScbScene()->getScScene().notifyNphaseOnUpdateShapeMaterial(mShape);
+			// PT: not sure if this is correct. Added the check for PX-800 but "getMaterialBuffer" doesn't always need the scene pointer...
+			if(scbScene)
+			{
+				const PxU16* materialIndices = getMaterialBuffer(*scbScene, buffer);
+				mShape.setMaterialIndices(materialIndices, buffer.materialCount);
+				scbScene->getScScene().notifyNphaseOnUpdateShapeMaterial(mShape);
+			}
 			UPDATE_PVD_MATERIALS()
 			// TODO: So far we did not bother to fail gracefully in the case of running out of memory. If that should change then this
 			// method is somewhat problematic. The material ref counters have been adjusted at the time when the public API was called.
@@ -127,19 +120,15 @@ void Scb::Shape::syncState()
 		flush<Buf::BF_SimulationFilterData>(buffer);
 
 		if(isBuffered(Buf::BF_ContactOffset))
-		{
 			mShape.setContactOffset(buffer.mContactOffset);
-		}
 		
 		flush<Buf::BF_RestOffset>(buffer);
 		flush<Buf::BF_Flags>(buffer);
 
 		Sc::RigidCore* scRigidCore = NpShapeGetScRigidObjectFromScbSLOW(*this);
 
-		if (scRigidCore) // may be NULL for exclusive shapes because of pending shape updates after buffered release of actor.
-		{
+		if(scRigidCore) // may be NULL for exclusive shapes because of pending shape updates after buffered release of actor.
 			scRigidCore->onShapeChange(mShape, Sc::ShapeChangeNotifyFlags(flags), oldShapeFlags, true);
-		}
 	}
 
 	postSyncState();

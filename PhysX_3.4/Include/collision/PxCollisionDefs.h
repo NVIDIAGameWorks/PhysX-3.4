@@ -70,7 +70,7 @@ namespace physx
 		for a given pair to improve contact generation performance. It is the application's responsibility to release this memory appropriately. If the memory is released, the application must ensure that
 		this memory is no longer referenced by any PxCache objects passed to PxGenerateContacts.
 		\param byteSize The size of the allocation in bytes
-		\return the newly-allocated memory
+		\return the newly-allocated memory. The returned address must be 16-byte aligned.
 		*/
 		virtual PxU8* allocateCacheData(const PxU32 byteSize) = 0;
 

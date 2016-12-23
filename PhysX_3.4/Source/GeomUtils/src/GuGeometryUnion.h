@@ -167,7 +167,7 @@ namespace Gu
 class InvalidGeometry : public PxGeometry
 {
 public:
-	PX_CUDA_CALLABLE PX_INLINE InvalidGeometry() :	PxGeometry(PxGeometryType::eINVALID) {}
+	PX_CUDA_CALLABLE PX_FORCE_INLINE InvalidGeometry() : PxGeometry(PxGeometryType::eINVALID) {}
 };
 
 class PX_PHYSX_COMMON_API GeometryUnion
@@ -184,11 +184,11 @@ public:
 	static	void	getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
 
-	PX_CUDA_CALLABLE PX_INLINE GeometryUnion()						{ reinterpret_cast<InvalidGeometry&>(mGeometry) = InvalidGeometry(); }
-	PX_CUDA_CALLABLE PX_INLINE GeometryUnion(const PxGeometry& g)	{ set(g);	}
+	PX_CUDA_CALLABLE PX_FORCE_INLINE						GeometryUnion()						{ reinterpret_cast<InvalidGeometry&>(mGeometry) = InvalidGeometry(); }
+	PX_CUDA_CALLABLE PX_FORCE_INLINE						GeometryUnion(const PxGeometry& g)	{ set(g);	}
 
-	PX_CUDA_CALLABLE PX_FORCE_INLINE const PxGeometry&		getGeometry()	const	{ return reinterpret_cast<const PxGeometry&>(mGeometry);			}
-	PX_CUDA_CALLABLE PX_FORCE_INLINE PxGeometryType::Enum	getType()		const	{ return reinterpret_cast<const PxGeometry&>(mGeometry).getType();	}
+	PX_CUDA_CALLABLE PX_FORCE_INLINE const PxGeometry&		getGeometry()				const	{ return reinterpret_cast<const PxGeometry&>(mGeometry);			}
+	PX_CUDA_CALLABLE PX_FORCE_INLINE PxGeometryType::Enum	getType()					const	{ return reinterpret_cast<const PxGeometry&>(mGeometry).getType();	}
 
 	PX_CUDA_CALLABLE void	set(const PxGeometry& g);
 

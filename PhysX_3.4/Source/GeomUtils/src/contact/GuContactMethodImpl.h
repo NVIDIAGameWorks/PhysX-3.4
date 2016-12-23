@@ -64,12 +64,14 @@ namespace Gu
 
 		PX_FORCE_INLINE void setManifold(void* manifold)
 		{
+			PX_ASSERT((size_t(manifold) & 0xF) == 0);
 			mCachedData = reinterpret_cast<PxU8*>(manifold);
 			mManifoldFlags |= IS_MANIFOLD;
 		}
 
 		PX_FORCE_INLINE void setMultiManifold(void* manifold)
 		{
+			PX_ASSERT((size_t(manifold) & 0xF) == 0);
 			mCachedData = reinterpret_cast<PxU8*>(manifold);
 			mManifoldFlags |= IS_MANIFOLD|IS_MULTI_MANIFOLD;
 		}

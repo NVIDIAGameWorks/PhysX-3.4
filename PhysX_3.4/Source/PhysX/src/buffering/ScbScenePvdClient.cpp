@@ -55,7 +55,6 @@ using namespace physx::Vd;
 using namespace physx::pvdsdk;
 using namespace Scb;
 
-
 namespace
 {
 	PX_FORCE_INLINE	PxU64	getContextId(Scb::Scene& scene) { return scene.getContextId(); }
@@ -71,14 +70,12 @@ namespace
 	}
 
 #if PX_USE_PARTICLE_SYSTEM_API
-
 	// Sc-to-Scb
 	PX_FORCE_INLINE static Scb::ParticleSystem* getScbParticleSystem(Sc::ParticleSystemCore* scParticleSystem)
 	{
 		const size_t offset = reinterpret_cast<size_t>(&(reinterpret_cast<Scb::ParticleSystem*>(0)->getScParticleSystem()));
 		return reinterpret_cast<Scb::ParticleSystem*>(reinterpret_cast<char*>(scParticleSystem) - offset);
 	}
-
 #endif
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -87,34 +84,21 @@ namespace
 	{
 		const PxActorType::Enum type = scbActor->getActorCore().getActorCoreType();
 		if(type == PxActorType::eRIGID_DYNAMIC)
-		{
 			return getNpRigidDynamic(static_cast<const Scb::Body*>(scbActor));
-		}
 		else if(type == PxActorType::eRIGID_STATIC)
-		{
 			return getNpRigidStatic(static_cast<const Scb::RigidStatic*>(scbActor));
-		}
 #if PX_USE_PARTICLE_SYSTEM_API
 		else if(type == PxActorType::ePARTICLE_SYSTEM)
-		{
 			return getNpParticleSystem(static_cast<const Scb::ParticleSystem*>(scbActor));
-		}
 		else if(type == PxActorType::ePARTICLE_FLUID)
-		{
 			return getNpParticleFluid(static_cast<const Scb::ParticleSystem*>(scbActor));
-		}
 #endif
 		else if(type == PxActorType::eARTICULATION_LINK)
-		{
 			return getNpArticulationLink(static_cast<const Scb::Body*>(scbActor));
-		}
 #if PX_USE_CLOTH_API
 		else if(type == PxActorType::eCLOTH)
-		{
 			return getNpCloth(const_cast<Scb::Cloth*>(static_cast<const Scb::Cloth*>(scbActor)));
-		}
 #endif
-
 		return NULL;
 	}
 
@@ -132,7 +116,7 @@ namespace
 		template <typename TDataType>
 		void operator()(const TDataType& dtype)
 		{
-			mBinding.createInstance(mStream, dtype, mScene, mPvd);
+			mBinding.createInstance(mStream, dtype, mScene, PxGetPhysics(), mPvd);
 		}
 		void operator()(const PxArticulationLink&)
 		{
@@ -312,8 +296,13 @@ namespace
 
 } // namespace
 
-ScbScenePvdClient::ScbScenePvdClient(Scb::Scene& scene)
-	: mPvd(NULL), mScbScene(scene), mPvdDataStream(NULL), mUserRender(NULL), mRenderClient(NULL), mIsConnected(false)
+ScbScenePvdClient::ScbScenePvdClient(Scb::Scene& scene) :
+	mPvd			(NULL),
+	mScbScene		(scene),
+	mPvdDataStream	(NULL),
+	mUserRender		(NULL),
+	mRenderClient	(NULL),
+	mIsConnected	(false)
 {
 }
 
@@ -353,48 +342,12 @@ void ScbScenePvdClient::drawText(const PvdDebugText& text)
 		mUserRender->drawText(text);
 }
 
-PvdUserRenderer* ScbScenePvdClient::getUserRender()
-{
-	return mUserRender;
-}
-
-
-PsPvd* ScbScenePvdClient::getPsPvd()
-{
-	return mPvd;
-}
-
-void ScbScenePvdClient::setPsPvd(PsPvd* pvd)
-{
-	mPvd = pvd;	
-}
-
-physx::pvdsdk::PvdClient* ScbScenePvdClient::getClientInternal()
-{
-	return this;
-}
-
 void ScbScenePvdClient::setScenePvdFlag(PxPvdSceneFlag::Enum flag, bool value)
 {
 	if(value)
 		mFlags |= flag;
 	else
 		mFlags &= ~flag;
-}
-
-void ScbScenePvdClient::setScenePvdFlags(PxPvdSceneFlags flags)
-{
-	mFlags = flags;
-}
-
-PxPvdSceneFlags ScbScenePvdClient::getScenePvdFlags() const
-{
-	return mFlags;
-}
-
-bool ScbScenePvdClient::isConnected() const 
-{
-	return mIsConnected;
 }
 
 void ScbScenePvdClient::onPvdConnected()
@@ -404,12 +357,12 @@ void ScbScenePvdClient::onPvdConnected()
 
 	mIsConnected = true;
 
-
 	mPvdDataStream = PvdDataStream::create(mPvd);
 
 	mUserRender = PvdUserRenderer::create();
 	mRenderClient = PX_NEW(SceneRendererClient)(mUserRender, mPvd);	
 	mUserRender->setClient(mRenderClient);
+
 	sendEntireScene();
 }
 
@@ -425,20 +378,6 @@ void ScbScenePvdClient::onPvdDisconnected()
 	mUserRender = NULL;
 	mPvdDataStream->release();
 	mPvdDataStream = NULL;
-}
-
-void ScbScenePvdClient::flush()
-{
-}
-
-PvdDataStream* ScbScenePvdClient::getDataStream()
-{
-	return mPvdDataStream;
-}
-
-PvdMetaDataBinding* ScbScenePvdClient::getMetaDataBinding()
-{
-	return &mMetaDataBinding;
 }
 
 void ScbScenePvdClient::updatePvdProperties()
@@ -465,15 +404,15 @@ void ScbScenePvdClient::sendEntireScene()
 	if(npScene->getFlagsFast() & PxSceneFlag::eREQUIRE_RW_LOCK) // getFlagsFast() will trigger a warning of lock check
 		npScene->lockRead(__FILE__, __LINE__);
 
+	PxPhysics& physics = PxGetPhysics();
 	{
 		PxScene* theScene = mScbScene.getPxScene();
 		mPvdDataStream->createInstance(theScene);
 		updatePvdProperties();
 
-		PxPhysics* physics = &PxGetPhysics();
 		// Create parent/child relationship.
-		mPvdDataStream->setPropertyValue(theScene, "Physics", reinterpret_cast<const void*>(physics));
-		mPvdDataStream->pushBackObjectRef(physics, "Scenes", theScene);
+		mPvdDataStream->setPropertyValue(theScene, "Physics", reinterpret_cast<const void*>(&physics));
+		mPvdDataStream->pushBackObjectRef(&physics, "Scenes", theScene);
 	}
 
 	// materials:
@@ -485,7 +424,7 @@ void ScbScenePvdClient::sendEntireScene()
 		{
 			const PxMaterial* theMaterial = mat->getNxMaterial();
 			if(mPvd->registerObject(theMaterial))
-				mMetaDataBinding.createInstance(*mPvdDataStream, *theMaterial, PxGetPhysics());
+				mMetaDataBinding.createInstance(*mPvdDataStream, *theMaterial, physics);
 		};
 	}
 
@@ -504,9 +443,9 @@ void ScbScenePvdClient::sendEntireScene()
 			{
 				PxActor* pxActor = actorArray[i];
 				if(pxActor->is<PxRigidStatic>())
-					mMetaDataBinding.createInstance(*mPvdDataStream, *static_cast<PxRigidStatic*>(pxActor), *npScene, mPvd);
+					mMetaDataBinding.createInstance(*mPvdDataStream, *static_cast<PxRigidStatic*>(pxActor), *npScene, physics, mPvd);
 				else
-					mMetaDataBinding.createInstance(*mPvdDataStream, *static_cast<PxRigidDynamic*>(pxActor), *npScene, mPvd);
+					mMetaDataBinding.createInstance(*mPvdDataStream, *static_cast<PxRigidDynamic*>(pxActor), *npScene, physics, mPvd);
 			}
 		}
 		// articulations & links
@@ -516,7 +455,7 @@ void ScbScenePvdClient::sendEntireScene()
 			articulations.resize(numArticulations);
 			npScene->getArticulations(articulations.begin(), articulations.size());
 			for(PxU32 i = 0; i < numArticulations; i++)
-				mMetaDataBinding.createInstance(*mPvdDataStream, *articulations[i], *npScene, mPvd);
+				mMetaDataBinding.createInstance(*mPvdDataStream, *articulations[i], *npScene, physics, mPvd);
 		}
 
 #if PX_USE_PARTICLE_SYSTEM_API
@@ -633,7 +572,7 @@ void ScbScenePvdClient::updateKinematicTarget(const Scb::Body* body, const PxTra
 void ScbScenePvdClient::createPvdInstance(const Scb::RigidStatic* rigidStatic)
 {	
 	if(checkPvdDebugFlag())	
-		mMetaDataBinding.createInstance(*mPvdDataStream, *getNpRigidStatic(rigidStatic), *mScbScene.getPxScene(), mPvd);
+		mMetaDataBinding.createInstance(*mPvdDataStream, *getNpRigidStatic(rigidStatic), *mScbScene.getPxScene(), PxGetPhysics(), mPvd);
 }
 
 void ScbScenePvdClient::updatePvdProperties(const Scb::RigidStatic* rigidStatic)
@@ -674,7 +613,7 @@ void ScbScenePvdClient::releasePvdInstance(const Scb::Constraint* constraint)
 void ScbScenePvdClient::createPvdInstance(const Scb::Articulation* articulation)
 {
 	if(checkPvdDebugFlag())	
-		mMetaDataBinding.createInstance(*mPvdDataStream, *getNpArticulation(articulation), *mScbScene.getPxScene(), mPvd);
+		mMetaDataBinding.createInstance(*mPvdDataStream, *getNpArticulation(articulation), *mScbScene.getPxScene(), PxGetPhysics(), mPvd);
 }
 
 void ScbScenePvdClient::updatePvdProperties(const Scb::Articulation* articulation)
@@ -739,17 +678,18 @@ void ScbScenePvdClient::createPvdInstance(const Scb::Shape* shape, PxActor& owne
 	{
 		PX_PROFILE_ZONE("PVD.createPVDInstance", getContextId(mScbScene));
 		const PxShape* npShape = getNpShape(shape);
-		mMetaDataBinding.createInstance(*mPvdDataStream, *npShape, static_cast<PxRigidActor&>(owner), mPvd);
+		mMetaDataBinding.createInstance(*mPvdDataStream, *npShape, static_cast<PxRigidActor&>(owner), PxGetPhysics(), mPvd);
 	}
 }
 
 static void addShapesToPvd(PxU32 nbShapes, void* const* shapes, const size_t offset, PxActor& pxActor, PsPvd* pvd, PvdDataStream& stream, PvdMetaDataBinding& binding)
 {
+	PxPhysics& physics = PxGetPhysics();
 	for(PxU32 i=0;i<nbShapes;i++)
 	{
 		const Scb::Shape* shape = reinterpret_cast<Scb::Shape*>(reinterpret_cast<char*>(shapes[i]) + offset);
 		const PxShape* npShape = getNpShape(shape);
-		binding.createInstance(stream, *npShape, static_cast<PxRigidActor&>(pxActor), pvd);
+		binding.createInstance(stream, *npShape, static_cast<PxRigidActor&>(pxActor), physics, pvd);
 	}
 }
 
@@ -988,12 +928,13 @@ void ScbScenePvdClient::frameEnd()
 
 	if(mPvd->getInstrumentationFlags() & PxPvdInstrumentationFlag::eDEBUG)
 	{
+		PX_PROFILE_ZONE("PVD.sceneUpdate", getContextId(mScbScene));
+
 		PvdVisualizer* vizualizer = NULL;
-		const bool visualizeJoints = getScenePvdFlags() & PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS;
+		const bool visualizeJoints = getScenePvdFlagsFast() & PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS;
 		if(visualizeJoints)
 			vizualizer = this;
 
-		PX_PROFILE_ZONE("PVD.sceneUpdate", getContextId(mScbScene));
 		mMetaDataBinding.updateDynamicActorsAndArticulations(*mPvdDataStream, theScene, vizualizer);
 	}
 
@@ -1052,7 +993,7 @@ static inline const PxCloth* toPx(const Scb::Cloth* cloth)
 void ScbScenePvdClient::createPvdInstance(const Scb::Cloth* cloth)
 {
 	if(checkPvdDebugFlag())
-		mMetaDataBinding.createInstance(*mPvdDataStream, *getNpCloth(cloth), *mScbScene.getPxScene(), mPvd);
+		mMetaDataBinding.createInstance(*mPvdDataStream, *getNpCloth(cloth), *mScbScene.getPxScene(), PxGetPhysics(), mPvd);
 }
 
 void ScbScenePvdClient::sendSimpleProperties(const Scb::Cloth* cloth)
@@ -1128,46 +1069,44 @@ void ScbScenePvdClient::updateJoints()
 {
 	if(checkPvdDebugFlag())
 	{
-		const bool visualizeJoints = getScenePvdFlags() & PxPvdSceneFlag::eTRANSMIT_CONTACTS;
+		PX_PROFILE_ZONE("PVD.updateJoints", getContextId(mScbScene));
 
-		// joints
+		const bool visualizeJoints = getScenePvdFlagsFast() & PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS;
+
+		Sc::ConstraintCore*const * constraints = mScbScene.getScScene().getConstraints();
+		const PxU32 nbConstraints = mScbScene.getScScene().getNbConstraints();
+		PxI64 constraintCount = 0;
+
+		for(PxU32 i=0; i<nbConstraints; i++)
 		{
-			PX_PROFILE_ZONE("PVD.updateJoints", getContextId(mScbScene));
-			Sc::ConstraintCore*const * constraints = mScbScene.getScScene().getConstraints();
-			PxU32 nbConstraints = mScbScene.getScScene().getNbConstraints();
-			PxI64 constraintCount = 0;
-
-			for(PxU32 i = 0; i < nbConstraints; i++)
+			Sc::ConstraintCore* constraint = constraints[i];
+			PxPvdUpdateType::Enum updateType = getNpConstraint(constraint)->isDirty()
+				? PxPvdUpdateType::UPDATE_ALL_PROPERTIES
+				: PxPvdUpdateType::UPDATE_SIM_PROPERTIES;
+			updateConstraint(*constraint, updateType);
+			PxConstraintConnector* conn = constraint->getPxConnector();
+			// visualization is updated here
 			{
-				Sc::ConstraintCore* constraint = constraints[i];
-				PxPvdUpdateType::Enum updateType = getNpConstraint(constraint)->isDirty()
-					? PxPvdUpdateType::UPDATE_ALL_PROPERTIES
-					: PxPvdUpdateType::UPDATE_SIM_PROPERTIES;
-				updateConstraint(*constraint, updateType);
-				PxConstraintConnector* conn = constraint->getPxConnector();
-				// visualization is updated here
+				PxU32 typeId = 0;
+				void* joint = NULL;
+				if(conn)
+					joint = conn->getExternalReference(typeId);
+				// visualize:
+				Sc::ConstraintSim* sim = constraint->getSim();
+				if(visualizeJoints && sim && sim->getConstantsLL() && joint && constraint->getVisualize())
 				{
-					PxU32 typeId = 0;
-					void* joint = NULL;
-					if(conn)
-						joint = conn->getExternalReference(typeId);
-					// visualize:
-					Sc::ConstraintSim* sim = constraint->getSim();
-					if(visualizeJoints && sim && sim->getConstantsLL() && joint && constraint->getVisualize())
-					{
-						Sc::BodySim* b0 = sim->getBody(0);
-						Sc::BodySim* b1 = sim->getBody(1);
-						PxTransform t0 = b0 ? b0->getBody2World() : PxTransform(PxIdentity);
-						PxTransform t1 = b1 ? b1->getBody2World() : PxTransform(PxIdentity);
-						PvdConstraintVisualizer viz(joint, *mUserRender);
-						(*constraint->getVisualize())(viz, sim->getConstantsLL(), t0, t1, 0xffffFFFF);
-					}
+					Sc::BodySim* b0 = sim->getBody(0);
+					Sc::BodySim* b1 = sim->getBody(1);
+					PxTransform t0 = b0 ? b0->getBody2World() : PxTransform(PxIdentity);
+					PxTransform t1 = b1 ? b1->getBody2World() : PxTransform(PxIdentity);
+					PvdConstraintVisualizer viz(joint, *mUserRender);
+					(*constraint->getVisualize())(viz, sim->getConstantsLL(), t0, t1, 0xffffFFFF);
 				}
-				++constraintCount;
 			}
-
-			mUserRender->flushRenderEvents();
+			++constraintCount;
 		}
+
+		mUserRender->flushRenderEvents();
 	}
 }
 
@@ -1176,15 +1115,15 @@ void ScbScenePvdClient::updateContacts()
 	if(!checkPvdDebugFlag())
 		return;
 
+	PX_PROFILE_ZONE("PVD.updateContacts", getContextId(mScbScene));
+
 	// if contacts are disabled, send empty array and return
 	const PxScene* theScene(mScbScene.getPxScene());
-	if(!(getScenePvdFlags() & PxPvdSceneFlag::eTRANSMIT_CONTACTS))
+	if(!(getScenePvdFlagsFast() & PxPvdSceneFlag::eTRANSMIT_CONTACTS))
 	{
 		mMetaDataBinding.sendContacts(*mPvdDataStream, *theScene);
 		return;
 	}
-
-	PX_PROFILE_ZONE("PVD.updateContacts", getContextId(mScbScene));
 
 	PxsContactManagerOutputIterator outputIter;
 
@@ -1202,11 +1141,9 @@ void ScbScenePvdClient::updateContacts()
 	mMetaDataBinding.sendContacts(*mPvdDataStream, *theScene, contacts);
 }
 
-
 void ScbScenePvdClient::updateSceneQueries()
 {
-	// if contacts are disabled, send empty array and return
-	if(checkPvdDebugFlag() && (getScenePvdFlags() & PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES))
+	if(checkPvdDebugFlag() && (getScenePvdFlagsFast() & PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES))
 		mMetaDataBinding.sendSceneQueries(*mPvdDataStream, *mScbScene.getPxScene(), mPvd);
 }
 
@@ -1230,9 +1167,16 @@ void ScbScenePvdClient::visualize(const PxRenderBuffer& debugRenderable)
 {
 	if(mUserRender)
 	{
-		mUserRender->drawRenderbuffer(reinterpret_cast<const PvdDebugPoint*>(debugRenderable.getPoints()), debugRenderable.getNbPoints(),
-			reinterpret_cast<const PvdDebugLine*>(debugRenderable.getLines()), debugRenderable.getNbLines(),
-			reinterpret_cast<const PvdDebugTriangle*>(debugRenderable.getTriangles()), debugRenderable.getNbTriangles());
+		// PT: I think the mUserRender object can contain extra data (including things coming from the user), because the various
+		// draw functions are exposed e.g. in PxPvdSceneClient.h. So I suppose we have to keep the render buffer around regardless
+		// of the connection flags. Thus I only skip the "drawRenderbuffer" call, for minimal intrusion into this file.
+		if(checkPvdDebugFlag())
+		{
+			mUserRender->drawRenderbuffer(
+				reinterpret_cast<const PvdDebugPoint*>(debugRenderable.getPoints()), debugRenderable.getNbPoints(),
+				reinterpret_cast<const PvdDebugLine*>(debugRenderable.getLines()), debugRenderable.getNbLines(),
+				reinterpret_cast<const PvdDebugTriangle*>(debugRenderable.getTriangles()), debugRenderable.getNbTriangles());
+		}
 		mUserRender->flushRenderEvents();
 	}
 }

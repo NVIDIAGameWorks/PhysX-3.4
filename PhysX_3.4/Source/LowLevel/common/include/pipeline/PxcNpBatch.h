@@ -58,8 +58,8 @@ namespace Gu
 	class PxgGpuNarrowphaseCoreInterface;
 }
 
-void PxcDiscreteNarrowPhase(PxcNpThreadContext& context, PxcNpWorkUnit& cmInput, Gu::Cache& cache, PxsContactManagerOutput& output);
-void PxcDiscreteNarrowPhasePCM(PxcNpThreadContext& context, PxcNpWorkUnit& cmInput, Gu::Cache& cache, PxsContactManagerOutput& output);
+void PxcDiscreteNarrowPhase(PxcNpThreadContext& context, const PxcNpWorkUnit& cmInput, Gu::Cache& cache, PxsContactManagerOutput& output);
+void PxcDiscreteNarrowPhasePCM(PxcNpThreadContext& context, const PxcNpWorkUnit& cmInput, Gu::Cache& cache, PxsContactManagerOutput& output);
 }
 
 #endif

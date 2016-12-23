@@ -82,6 +82,7 @@
 
 #include "pvd/PxPvdTransport.h"
 #include "foundation/PxMat44.h"
+#include "PsTime.h"
 
 #define SCREEN_DUMP_PATH "C:\\Capture\\%05i.bmp"
 
@@ -128,6 +129,9 @@ PxCudaContextManager* gCudaContextManager;
 
 bool gUseGrb = true;
 bool gCurrentUsingGrb = gUseGrb;
+
+bool gUseVSync = false;
+PxU32 gMinSimulatedFrames = 0;
 
 bool gForceSceneRecreate = false;
 int gCountdownToRecereate = 2;
@@ -688,10 +692,12 @@ void RecreateSDKScenes()
 		sceneDesc.broadPhaseType = PxBroadPhaseType::eGPU;
 	}
 	sceneDesc.flags |= PxSceneFlag::eSUPPRESS_EAGER_SCENE_QUERY_REFIT;
-	sceneDesc.gpuDynamicsConfig.contactStreamSize *= 2;
-	sceneDesc.gpuDynamicsConfig.forceStreamCapacity *= 2;
-	sceneDesc.gpuDynamicsConfig.patchStreamSize *= 2;
-	sceneDesc.gpuDynamicsConfig.tempBufferCapacity *= 2;
+	sceneDesc.gpuDynamicsConfig.constraintBufferCapacity *= 2;
+	sceneDesc.gpuDynamicsConfig.contactBufferCapacity *= 2;	//!< Capacity of contact buffer allocated in GPU global memory
+	sceneDesc.gpuDynamicsConfig.tempBufferCapacity *= 2;		//!< Capacity of temp buffer allocated in pinned host memory.
+	sceneDesc.gpuDynamicsConfig.contactStreamSize *= 2;		//!< Size of contact stream buffer allocated in pinned host memory. This is double-buffered so total allocation size = 2* contactStreamCapacity * sizeof(PxContact).
+	sceneDesc.gpuDynamicsConfig.patchStreamSize *= 2;			//!< Size of the contact patch stream buffer allocated in pinned host memory. This is double-buffered so total allocation size = 2 * patchStreamCapacity * sizeof(PxContactPatch).
+	sceneDesc.gpuDynamicsConfig.forceStreamCapacity *= 2;		//!< Capacity of force buffer allocated in pinned host memory.
 
 	gSampleScene->customizeSceneDesc(sceneDesc);
 
@@ -798,8 +804,6 @@ PxReal UpdateTime()
     return deltaTime;
 }
 
-#define OVERLAP_SIM_AND_RENDER 1
-
 // ------------------------------------------------------------------------------------
 static bool   g_simulationRunning = false;
 static PxReal g_simulationDT      = 0.0f;
@@ -809,33 +813,26 @@ void BeginSimulation(void)
 	assert(g_simulationDT == 0.0f);
 	if(g_simulationRunning == false)
 	{
-		static float prevTime = getCurrentTime();
-		float currTime = getCurrentTime();
+		//static float prevTime = getCurrentTime();
+		static uint64_t prevTime = physx::shdfnd::Time::getCurrentTimeInTensOfNanoSeconds();
 
-		float elapsedTime = currTime - prevTime;
+		uint64_t currTime = physx::shdfnd::Time::getCurrentTimeInTensOfNanoSeconds();
 
-		PxReal fSubsteps = elapsedTime / gTimeStepSize;
-		PxU32 iSubsteps = PxU32(fSubsteps);
-		PxU32 nbSubsteps = PxMax(1u, PxMin(iSubsteps, gMaxSubSteps));
+		uint64_t elapsedTime = currTime - prevTime;
 
-		prevTime += PxReal(iSubsteps)*gTimeStepSize;
+		uint64_t timestepSize = uint64_t(gTimeStepSize * 1e8f);
+
+		PxReal fSubsteps = elapsedTime / timestepSize;
+		PxU32 iSubsteps = PxMax(gMinSimulatedFrames, PxU32(fSubsteps));
+		PxU32 nbSubsteps = PxMin(iSubsteps, gMaxSubSteps);
+
+		if (elapsedTime > timestepSize)
+		{
+			prevTime += timestepSize*iSubsteps;
+		}
 
 		for (PxU32 a = 0; a < nbSubsteps; ++a)
 		{
-
-
-#if OVERLAP_SIM_AND_RENDER
-			if (gSceneRunning)
-			{
-				//fetchResult
-
-				WaitForSim();
-				if (gSampleScene != NULL)
-				{
-					gSampleScene->postSim(gTimeStepSize);
-				}
-			}
-#endif
 
 			if (gForceSceneRecreate)
 			{
@@ -898,8 +895,7 @@ void BeginSimulation(void)
 				g_simulationRunning = true;
 			}
 
-#if !OVERLAP_SIM_AND_RENDER
-			//if((a + 1) < nbSubsteps)
+			if((a + 1) < nbSubsteps)
 			{
 				WaitForSim();
 				if (gSampleScene != NULL)
@@ -907,7 +903,6 @@ void BeginSimulation(void)
 					gSampleScene->postSim(gTimeStepSize);
 				}
 			}
-#endif
 		}
 
 		
@@ -923,7 +918,6 @@ void EndSimulation(void)
 	{
 		PxReal dt = g_simulationDT;
 
-#if !OVERLAP_SIM_AND_RENDER
 		if (gSceneRunning)
 		{
 			//fetchResult
@@ -933,7 +927,6 @@ void EndSimulation(void)
 				gSampleScene->postSim(gTimeStepSize);
 			}
 		}
-#endif
 
 		++gPhysicsFrameNumber;
 	
@@ -1009,6 +1002,7 @@ void SetHelpString()
     strcat(gHelpString, "    f: Toggle full screen mode\n");
 
 	strcat(gHelpString, "    F1: Toggle help\n");
+	strcat(gHelpString, "    F3: Uncap simulation rate\n");
 
 	strcat(gHelpString, "    F4: Change weapon: "); 
 	if (gSampleScene != NULL)
@@ -1524,11 +1518,14 @@ void RenderCallback()
 			sampleViewerGamepad.processGamepads(*gSampleScene);
 		}
 
+
+		if (!gPause)
+			EndSimulation();
+
 		glutSwapBuffers();
 		glutReportErrors();
 
-		if (!gPause) 
-			EndSimulation();
+		
 
 		if (gRecordBMP)
 			SaveFrameBuffer();
@@ -1872,6 +1869,12 @@ void SpecialCallback(int key, int x, int y)
 		case GLUT_KEY_F5:
 		{
 			gUseGrb = !gUseGrb;
+			break;
+		}
+		case GLUT_KEY_F3:
+		{
+			gMinSimulatedFrames = 1 - gMinSimulatedFrames;
+			break;
 		}
 	}
 	if (gSampleScene != NULL)
@@ -2005,6 +2008,19 @@ void InitGlutCallbacks(bool fullscreen, int width, int height)
 	MotionCallback(0, 0);
 }
 
+void SetVSync(bool sync)
+{
+	typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALPROC)(int);
+	PFNWGLSWAPINTERVALPROC wglSwapIntervalEXT = 0;
+
+	const char *extensions = (char*)glGetString(GL_EXTENSIONS);
+
+	wglSwapIntervalEXT = (PFNWGLSWAPINTERVALPROC)wglGetProcAddress("wglSwapIntervalEXT");
+
+	if (wglSwapIntervalEXT)
+		wglSwapIntervalEXT(sync);
+}
+
 void InitGlut(int argc, char **argv)
 {
 	//printf("glutInit\n");
@@ -2014,6 +2030,9 @@ void InitGlut(int argc, char **argv)
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
 	InitGlutCallbacks(fullScreen, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	
+	SetVSync(gUseVSync);
 
 	sampleViewerGamepad.init();
 
@@ -2441,7 +2460,8 @@ int main(int argc, char** argv)
 		"  -nhdr            Disable HDR\n"
 		"  -grb             Use GRB (default is on)\n"
 		"  -nogrb           Use software PhysX\n"
-		"  -maxSubSteps n   Enable up to n sub-steps per-frame."
+		"  -maxSubSteps n   Enable up to n sub-steps per-frame.\n"
+		"  -vsync           Enables vsync (off by default)\n"	
 		"\n"
 		;
 	printf(usage);
@@ -2485,6 +2505,10 @@ int main(int argc, char** argv)
 		else if (arg == "-nohdr")
 		{
 			gDoHDR = false;
+		}
+		else if (arg == "-vsync")
+		{
+			gUseVSync = true;
 		}
 
 	}

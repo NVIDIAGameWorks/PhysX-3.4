@@ -166,19 +166,6 @@ protected:
 																					//!< Set to 0xFFFFffff if no adjacent face
 	
 								GuMeshFactory*			mMeshFactory;					// PT: changed to pointer for serialization
-
-#if PX_ENABLE_DEBUG_VISUALIZATION
-public:
-	/**
-	\brief Perform triangle mesh geometry debug visualization
-
-	\param out Debug renderer.
-	\param pose World position.
-	*/
-								void					debugVisualize(	Cm::RenderOutput& out, const PxTransform& pose, const PxMeshScale& scaling, const PxBounds3& cullbox,
-																const PxU64 mask, const PxReal fscale, const PxU32 numMaterials) const;
-#endif
-
 public:
 								
 								// GRB data -------------------------

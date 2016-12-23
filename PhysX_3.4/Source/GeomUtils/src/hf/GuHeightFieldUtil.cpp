@@ -818,16 +818,11 @@ void Gu::HeightFieldUtil::getEdge(PxU32 edgeIndex, PxU32 cell, PxU32 row, PxU32 
 	}
 }
 
-bool Gu::HeightFieldUtil::overlapAABBTriangles(
-	const PxTransform& pose, const PxBounds3& bounds, PxU32 flags, EntityReport<PxU32>* callback) const
+bool Gu::HeightFieldUtil::overlapAABBTriangles(const PxTransform& pose, const PxBounds3& bounds, PxU32 flags, EntityReport<PxU32>* callback) const
 {
-	PxBounds3 localBounds = bounds;
+	PX_ASSERT(!bounds.isEmpty());
 
-	if(flags & GuHfQueryFlags::eWORLD_SPACE)
-	{
-		PX_ASSERT(!localBounds.isEmpty());
-		localBounds = PxBounds3::transformFast(pose.getInverse(), localBounds);
-	}
+	PxBounds3 localBounds = (flags & GuHfQueryFlags::eWORLD_SPACE) ? PxBounds3::transformFast(pose.getInverse(), bounds) : bounds;
 
 	localBounds.minimum.x *= mOneOverRowScale;
 	localBounds.minimum.y *= mOneOverHeightScale;
@@ -837,65 +832,60 @@ bool Gu::HeightFieldUtil::overlapAABBTriangles(
 	localBounds.maximum.y *= mOneOverHeightScale;
 	localBounds.maximum.z *= mOneOverColumnScale;
 
-	if (mHfGeom->rowScale < 0) 
-	{
-		PxReal swap = localBounds.minimum.x;
-		localBounds.minimum.x = localBounds.maximum.x;
-		localBounds.maximum.x = swap;
-	}
+	if(mHfGeom->rowScale < 0.0f)
+		Ps::swap(localBounds.minimum.x, localBounds.maximum.x);
 
-	if (mHfGeom->columnScale < 0) 
-	{
-		PxReal swap = localBounds.minimum.z;
-		localBounds.minimum.z = localBounds.maximum.z;
-		localBounds.maximum.z = swap;
-	}
+	if(mHfGeom->columnScale < 0.0f)
+		Ps::swap(localBounds.minimum.z, localBounds.maximum.z);
 
 	// early exit for aabb does not overlap in XZ plane
 	// DO NOT MOVE: since rowScale / columnScale may be negative this has to be done after scaling localBounds
-	if (localBounds.minimum.x > mHeightField->getNbRowsFast() - 1) 
+	const PxU32	nbRows = mHeightField->getNbRowsFast();
+	const PxU32	nbColumns = mHeightField->getNbColumnsFast();
+	if(localBounds.minimum.x > float(nbRows - 1))
 		return false;
-	if (localBounds.minimum.z > mHeightField->getNbColumnsFast() - 1) 
+	if(localBounds.minimum.z > float(nbColumns - 1))
 		return false;
-	if (localBounds.maximum.x < 0) 
+	if(localBounds.maximum.x < 0.0f)
 		return false;
-	if (localBounds.maximum.z < 0) 
+	if(localBounds.maximum.z < 0.0f)
 		return false;
 
-	PxU32 minRow = mHeightField->getMinRow(localBounds.minimum.x);
-	PxU32 maxRow = mHeightField->getMaxRow(localBounds.maximum.x);
-	PxU32 minColumn = mHeightField->getMinColumn(localBounds.minimum.z);
-	PxU32 maxColumn = mHeightField->getMaxColumn(localBounds.maximum.z);
+	const PxU32 minRow = mHeightField->getMinRow(localBounds.minimum.x);
+	const PxU32 maxRow = mHeightField->getMaxRow(localBounds.maximum.x);
+	const PxU32 minColumn = mHeightField->getMinColumn(localBounds.minimum.z);
+	const PxU32 maxColumn = mHeightField->getMaxColumn(localBounds.maximum.z);
 
 	PxU32 maxNbTriangles = 2 * (maxColumn - minColumn) * (maxRow - minRow);
 
-	if (maxNbTriangles == 0) 
+	if(!maxNbTriangles)
 		return false;
 
-	if (flags & GuHfQueryFlags::eFIRST_CONTACT) maxNbTriangles = 1;
+	if(flags & GuHfQueryFlags::eFIRST_CONTACT)
+		maxNbTriangles = 1;
 
-	static const PxU32 bufferSize = HF_SWEEP_REPORT_BUFFER_SIZE;
+	const PxU32 bufferSize = HF_SWEEP_REPORT_BUFFER_SIZE;
 	PxU32 indexBuffer[bufferSize];
 	PxU32 indexBufferUsed = 0;
 	PxU32 nb = 0;
 
 	PxU32 offset = minRow * mHeightField->getNbColumnsFast() + minColumn;
 
-	const PxReal& miny = localBounds.minimum.y;
-	const PxReal& maxy = localBounds.maximum.y;
+	const PxReal miny = localBounds.minimum.y;
+	const PxReal maxy = localBounds.maximum.y;
 
-	for (PxU32 row = minRow; row < maxRow; row++)
+	for(PxU32 row=minRow; row<maxRow; row++)
 	{
-		for (PxU32 column = minColumn; column < maxColumn; column++)
+		for(PxU32 column=minColumn; column<maxColumn; column++)
 		{
-			PxReal h0 = mHeightField->getHeight(offset);
-			PxReal h1 = mHeightField->getHeight(offset + 1);
-			PxReal h2 = mHeightField->getHeight(offset + mHeightField->getNbColumnsFast());
-			PxReal h3 = mHeightField->getHeight(offset + mHeightField->getNbColumnsFast() + 1);
-			if (!((maxy < h0 && maxy < h1 && maxy < h2 && maxy < h3) || (miny > h0 && miny > h1 && miny > h2 && miny > h3)))
+			const PxReal h0 = mHeightField->getHeight(offset);
+			const PxReal h1 = mHeightField->getHeight(offset + 1);
+			const PxReal h2 = mHeightField->getHeight(offset + mHeightField->getNbColumnsFast());
+			const PxReal h3 = mHeightField->getHeight(offset + mHeightField->getNbColumnsFast() + 1);
+			if(!((maxy < h0 && maxy < h1 && maxy < h2 && maxy < h3) || (miny > h0 && miny > h1 && miny > h2 && miny > h3)))
 			{
-				PxU32 material0 = mHeightField->getMaterialIndex0(offset);
-				if (material0 != PxHeightFieldMaterial::eHOLE) 
+				const PxU32 material0 = mHeightField->getMaterialIndex0(offset);
+				if(material0 != PxHeightFieldMaterial::eHOLE) 
 				{
 					if(indexBufferUsed >= bufferSize)
 					{
@@ -906,11 +896,12 @@ bool Gu::HeightFieldUtil::overlapAABBTriangles(
 					indexBuffer[indexBufferUsed++] = offset << 1;
 					nb++;
 
-					if (flags & GuHfQueryFlags::eFIRST_CONTACT) goto search_done;
+					if(flags & GuHfQueryFlags::eFIRST_CONTACT)
+						goto search_done;
 				}
 
-				PxU32 material1 = mHeightField->getMaterialIndex1(offset);
-				if (material1 != PxHeightFieldMaterial::eHOLE)
+				const PxU32 material1 = mHeightField->getMaterialIndex1(offset);
+				if(material1 != PxHeightFieldMaterial::eHOLE)
 				{
 					if(indexBufferUsed >= bufferSize)
 					{
@@ -921,7 +912,8 @@ bool Gu::HeightFieldUtil::overlapAABBTriangles(
 					indexBuffer[indexBufferUsed++] = (offset << 1) + 1;
 					nb++;
 
-					if (flags & GuHfQueryFlags::eFIRST_CONTACT) goto search_done;
+					if(flags & GuHfQueryFlags::eFIRST_CONTACT)
+						goto search_done;
 				}
 			}
 			offset++;

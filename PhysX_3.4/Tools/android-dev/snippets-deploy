@@ -1,7 +1,8 @@
 #! /bin/sh -x
 set -e
 
-ANDROID_SDK=../../externals/android-sdk/
+SDK_ROOT=../../..
+ANDROID_SDK=$SDK_ROOT/Externals/android-sdk/
 pushd $ANDROID_SDK/platform-tools > /dev/null
 ADB=`pwd`/adb
 popd > /dev/null

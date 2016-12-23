@@ -104,23 +104,23 @@ class PvdMetaDataBinding
 	void createInstance(PvdDataStream& inStream, const PxTriangleMesh& inData, const PxPhysics& ownerPhysics);
 	void destroyInstance(PvdDataStream& inStream, const PxTriangleMesh& inData, const PxPhysics& ownerPhysics);
 
-	void createInstance(PvdDataStream& inStream, const PxRigidStatic& inObj, const PxScene& ownerScene, PsPvd* pvd);
+	void createInstance(PvdDataStream& inStream, const PxRigidStatic& inObj, const PxScene& ownerScene, const PxPhysics& ownerPhysics, PsPvd* pvd);
 	void sendAllProperties(PvdDataStream& inStream, const PxRigidStatic& inObj);
 	void destroyInstance(PvdDataStream& inStream, const PxRigidStatic& inObj, const PxScene& ownerScene);
 
-	void createInstance(PvdDataStream& inStream, const PxRigidDynamic& inObj, const PxScene& ownerScene, PsPvd* pvd);
+	void createInstance(PvdDataStream& inStream, const PxRigidDynamic& inObj, const PxScene& ownerScene, const PxPhysics& ownerPhysics, PsPvd* pvd);
 	void sendAllProperties(PvdDataStream& inStream, const PxRigidDynamic& inObj);
 	void destroyInstance(PvdDataStream& inStream, const PxRigidDynamic& inObj, const PxScene& ownerScene);
 
-	void createInstance(PvdDataStream& inStream, const PxArticulation& inObj, const PxScene& ownerScene, PsPvd* pvd);
+	void createInstance(PvdDataStream& inStream, const PxArticulation& inObj, const PxScene& ownerScene, const PxPhysics& ownerPhysics, PsPvd* pvd);
 	void sendAllProperties(PvdDataStream& inStream, const PxArticulation& inObj);
 	void destroyInstance(PvdDataStream& inStream, const PxArticulation& inObj, const PxScene& ownerScene);
 
-	void createInstance(PvdDataStream& inStream, const PxArticulationLink& inObj, PsPvd* pvd);
+	void createInstance(PvdDataStream& inStream, const PxArticulationLink& inObj, const PxPhysics& ownerPhysics, PsPvd* pvd);
 	void sendAllProperties(PvdDataStream& inStream, const PxArticulationLink& inObj);
 	void destroyInstance(PvdDataStream& inStream, const PxArticulationLink& inObj);
 
-	void createInstance(PvdDataStream& inStream, const PxShape& inObj, const PxRigidActor& owner, PsPvd* pvd);
+	void createInstance(PvdDataStream& inStream, const PxShape& inObj, const PxRigidActor& owner, const PxPhysics& ownerPhysics, PsPvd* pvd);
 	void sendAllProperties(PvdDataStream& inStream, const PxShape& inObj);
 	void releaseAndRecreateGeometry(PvdDataStream& inStream, const PxShape& inObj, PxPhysics& ownerPhysics, PsPvd* pvd);
 	void updateMaterials(PvdDataStream& inStream, const PxShape& inObj, PsPvd* pvd);
@@ -156,7 +156,7 @@ class PvdMetaDataBinding
 	void sendAllProperties(PvdDataStream& inStream, const PxClothFabric& fabric);
 	void destroyInstance(PvdDataStream& inStream, const PxClothFabric& fabric, const PxPhysics& ownerPhysics);
 
-	void createInstance(PvdDataStream& inStream, const PxCloth& cloth, const PxScene& ownerScene, PsPvd* pvd);
+	void createInstance(PvdDataStream& inStream, const PxCloth& cloth, const PxScene& ownerScene, const PxPhysics& ownerPhysics, PsPvd* pvd);
 	void sendAllProperties(PvdDataStream& inStream, const PxCloth& cloth);
 	void sendSimpleProperties(PvdDataStream& inStream, const PxCloth& cloth);
 	void sendMotionConstraints(PvdDataStream& inStream, const PxCloth& cloth);

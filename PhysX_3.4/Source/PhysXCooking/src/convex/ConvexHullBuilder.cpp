@@ -422,15 +422,20 @@ bool ConvexHullBuilder::save(PxOutputStream& stream, bool platformMismatch) cons
 }
 
 //////////////////////////////////////////////////////////////////////////
-bool ConvexHullBuilder::copy(ConvexHullData& hullData)
+bool ConvexHullBuilder::copy(ConvexHullData& hullData, PxU32& mNb)
 {
 	// set the numbers
 	hullData.mNbHullVertices = mHull->mNbHullVertices;
-	hullData.mNbEdges = mHull->mNbEdges;
+	PxU16 hasGRBData = PxU16(mBuildGRBData);
+	hasGRBData = PxU16(hasGRBData << 15);
+	PX_ASSERT(mHull->mNbEdges <((1 << 15) - 1));	
+	hullData.mNbEdges = PxU16(mHull->mNbEdges | hasGRBData);;
 	hullData.mNbPolygons = Ps::to8(computeNbPolygons());
 	PxU32 nb = 0;
 	for (PxU32 i = 0; i < mHull->mNbPolygons; i++)
 		nb += mHullDataPolygons[i].mNbVerts;
+
+	mNb = nb;
 
 	PxU32 bytesNeeded = Gu::computeBufferSize(hullData, nb);
 
@@ -462,7 +467,7 @@ bool ConvexHullBuilder::copy(ConvexHullData& hullData)
 	PxMemCopy(hullData.mPolygons, mHullDataPolygons , hullData.mNbPolygons*sizeof(Gu::HullPolygonData));
 	PxMemCopy(dataVertexData8, mHullDataVertexData8, nb);
 	PxMemCopy(dataFacesByEdges8,mHullDataFacesByEdges8, PxU32(mHull->mNbEdges * 2));
-	if (hullData.mNbEdges.isBitSet())
+	if (mBuildGRBData)
 		PxMemCopy(dataEdges, mEdges, PxU32(mHull->mNbEdges * 2) * sizeof(PxU16));
 	PxMemCopy(dataFacesByVertices8, mHullDataFacesByVertices8, PxU32(mHull->mNbHullVertices * 3));	
 	return true;

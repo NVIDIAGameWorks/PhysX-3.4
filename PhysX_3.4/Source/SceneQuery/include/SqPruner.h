@@ -86,10 +86,10 @@ public:
 	/**
 	 *	\brief		Adds objects to the pruner.
 	 *	\param		results				[out]	an array for resulting handles
-	 *  \param		bounds				[in]	an array of bounds
-	 *  \param		userData			[in]	an array of object data
-	 *  \param		count				[in]	the number of objects in the arrays
-	 *  \param		hasPruningStructure [in]	if added objects have pruning structure. The structure will be merged later, adding the objects will not invalidate the pruner. 
+	 *	\param		bounds				[in]	an array of bounds. These bounds are used as-is so they should be pre-inflated if inflation is needed.
+	 *	\param		userData			[in]	an array of object data
+	 *	\param		count				[in]	the number of objects in the arrays
+	 *	\param		hasPruningStructure [in]	if added objects have pruning structure. The structure will be merged later, adding the objects will not invalidate the pruner. 
 	 *
 	 *	\return		true if success, false if internal allocation failed. The first failing add results in a INVALID_PRUNERHANDLE.
 	 *
@@ -99,38 +99,39 @@ public:
 	 *	Objects and bounds in the arrays have the same number of elements and ordering. 
 	 */
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	virtual bool						addObjects(PrunerHandle* results, const PxBounds3* bounds, const PrunerPayload* userData, PxU32 count = 1, bool hasPruningStructure = false) = 0;
+	virtual bool						addObjects(PrunerHandle* results, const PxBounds3* bounds, const PrunerPayload* userData, PxU32 count, bool hasPruningStructure) = 0;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 *	Removes objects from the pruner.
 	 *	\param		handles		[in]	the objects to remove
-	 *  \param		count		[in]	the number of objects to remove
+	 *	\param		count		[in]	the number of objects to remove
 	 */
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	virtual void						removeObjects(const PrunerHandle* handles, PxU32 count = 1) = 0;
+	virtual void						removeObjects(const PrunerHandle* handles, PxU32 count) = 0;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
-	 *	Updates objects with new bounds.
+	 *	Updates objects after manually updating their bounds via "getPayload" calls.
 	 *	\param		handles		[in]	the objects to update
-	 *  \param		newBounds	[in]	updated bounds. Can be NULL if bounds have been written already through getPayload calls.
-	 *  \param		count		[in]	the number of objects to update
+	 *	\param		count		[in]	the number of objects to update
 	 */
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	virtual void						updateObjects(const PrunerHandle* handles, const PxBounds3* newBounds, PxU32 count = 1) = 0;
+	virtual void						updateObjectsAfterManualBoundsUpdates(const PrunerHandle* handles, PxU32 count) = 0;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
-	*	Updates objects with new indexed bounds.
-	*	\param		handles		[in]	the objects to update
-	*	\param		indices		[in]	the indices of the bounds in the bounds array
-	*  \param		newBounds	[in]	updated bounds array
-	*  \param		count		[in]	the number of objects to update
-	*/
+	 *	Updates objects with new indexed bounds.
+	 *	\param		handles		[in]	the objects to update
+	 *	\param		indices		[in]	the indices of the bounds in the bounds array
+	 *	\param		newBounds	[in]	updated bounds array
+	 *	\param		count		[in]	the number of objects to update
+	 *
+	 *	\warning	THESE BOUNDS WILL BE INFLATED ON-THE-FLY. So this is inconsistent with the "addObjects" behavior.
+	 *	\warning	The inflation value is hardcoded in Sq::inflateBounds().
+	 */
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	virtual void						updateObjects(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count = 1) = 0;
-
+	virtual void						updateObjectsAndInflateBounds(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count) = 0;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**

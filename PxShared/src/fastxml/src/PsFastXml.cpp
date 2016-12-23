@@ -28,12 +28,15 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
 #include "foundation/PxAssert.h"
+#include "foundation/PxMemory.h"
 #include "Ps.h"
 #include "PsFastXml.h"
 #include <stdio.h>
 #include <string.h>
 #include <new>
 #include <ctype.h>
+
+using namespace physx;
 
 namespace
 {
@@ -359,7 +362,7 @@ class MyFastXml : public physx::shdfnd::FastXml
 				{
 					uint32_t tlen = uint32_t(strlen(text));
 					mStack[i] = static_cast<const char*>(mCallback->allocate(tlen + 1));
-					memcpy(const_cast<void*>(static_cast<const void*>(mStack[i])), text, tlen + 1);
+					PxMemCopy(const_cast<void*>(static_cast<const void*>(mStack[i])), text, tlen + 1);
 					mStackAllocated[i] = true;
 				}
 			}
@@ -423,7 +426,7 @@ class MyFastXml : public physx::shdfnd::FastXml
 				mReadBufferSize = mReadBufferSize * 2;
 				char* oldReadBuffer = mReadBuffer;
 				mReadBuffer = static_cast<char*>(mCallback->allocate(mReadBufferSize + 1));
-				memcpy(mReadBuffer, oldReadBuffer, oldSize);
+				PxMemCopy(mReadBuffer, oldReadBuffer, oldSize);
 				mCallback->deallocate(oldReadBuffer);
 				offset = oldSize;
 				uint32_t readSize = mReadBufferSize - oldSize;

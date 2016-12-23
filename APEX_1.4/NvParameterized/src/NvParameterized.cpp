@@ -30,6 +30,7 @@
 #include <string.h>
 #include <PxSimpleTypes.h>
 #include <PsIntrinsics.h>
+#include "ApexDefs.h"
 
 #if PX_VC && !PX_PS4
 #pragma warning(disable:4996 4310)
@@ -5650,11 +5651,12 @@ ErrorType NvParameters::rawSetParamMat34Legacy(const Handle &handle, const float
 
 	physx::intrinsics::memCopy(ptr, val, 12 * sizeof(float));
 
+#if APEX_UE4
 	// swap raw-column major
 	swap(static_cast<float*>(ptr)[1], static_cast<float*>(ptr)[3]);
 	swap(static_cast<float*>(ptr)[2], static_cast<float*>(ptr)[6]);
 	swap(static_cast<float*>(ptr)[5], static_cast<float*>(ptr)[7]);
-
+#endif
 	return(ERROR_NONE);
 }
 
@@ -5720,10 +5722,11 @@ ErrorType NvParameters::rawSetParamMat34LegacyArray(const Handle &handle, const 
 			const float* src = array + 12 * sizeof(float) * i;
 
 			physx::intrinsics::memCopy(dst, src, 12 * sizeof(float));
-
+#if APEX_UE4
 			swap(dst[1], dst[3]);
 			swap(dst[2], dst[6]);
 			swap(dst[5], dst[7]);
+#endif
 		}
 	}
 

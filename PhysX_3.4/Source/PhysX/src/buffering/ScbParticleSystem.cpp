@@ -67,11 +67,11 @@ void Scb::ParticleSystem::ForceUpdates::destroy()
 
 //----------------------------------------------------------------------------//
 
-Scb::ParticleSystem::ParticleSystem(const PxActorType::Enum& actorType, PxU32 maxParticles, bool perParticleRestOffset)
-: mParticleSystem(actorType, maxParticles, perParticleRestOffset)
-, mReadParticleFluidData(NULL)
+Scb::ParticleSystem::ParticleSystem(const PxActorType::Enum& actorType, PxU32 maxParticles, bool perParticleRestOffset) :
+	mParticleSystem			(actorType, maxParticles, perParticleRestOffset),
+	mReadParticleFluidData	(NULL)
 {
-	setScbType(ScbType::PARTICLE_SYSTEM);
+	setScbType(ScbType::ePARTICLE_SYSTEM);
 }
 
 //----------------------------------------------------------------------------//
@@ -279,8 +279,8 @@ void Scb::ParticleSystem::syncState()
 {
 	LOCK_PARTICLE_USER_BUFFERS("PxScene::fetchResults()")
 
-	PxU32 flags = getBufferFlags();
-	if (flags)  // Optimization to avoid all the if-statements below if possible
+	const PxU32 flags = getBufferFlags();
+	if(flags)  // Optimization to avoid all the if-statements below if possible
 	{
 		const Buf& buffer = *getParticleSystemBuffer();
 
@@ -294,7 +294,7 @@ void Scb::ParticleSystem::syncState()
 		flush<Buf::BF_DynamicFriction>(buffer);
 		flush<Buf::BF_StaticFriction>(buffer);
 
-		if (flags & Buf::BF_ResetFiltering)
+		if(flags & Buf::BF_ResetFiltering)
 			mParticleSystem.resetFiltering();
 
 		flush<Buf::BF_SimulationFilterData>(buffer);

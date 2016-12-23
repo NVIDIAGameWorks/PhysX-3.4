@@ -252,15 +252,15 @@ namespace Sq
 		// Pruner
 		virtual	bool					addObjects(PrunerHandle* results, const PxBounds3* bounds, const PrunerPayload* payload, PxU32 count, bool);
 		virtual	void					removeObjects(const PrunerHandle* handles, PxU32 count);
-		virtual	void					updateObjects(const PrunerHandle* handles, const PxBounds3* newBounds, PxU32 count);
-		virtual void				    updateObjects(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count = 1);
+		virtual	void					updateObjectsAfterManualBoundsUpdates(const PrunerHandle* handles, PxU32 count);
+		virtual void				    updateObjectsAndInflateBounds(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count);
 		virtual	void					commit();
 		virtual	PxAgain					raycast(const PxVec3& origin, const PxVec3& unitDir, PxReal& inOutDistance, PrunerCallback&) const;
 		virtual	PxAgain					overlap(const Gu::ShapeData& queryVolume, PrunerCallback&) const;
 		virtual	PxAgain					sweep(const Gu::ShapeData& queryVolume, const PxVec3& unitDir, PxReal& inOutDistance, PrunerCallback&) const;
-		virtual	const PrunerPayload&	getPayload(PrunerHandle handle) const { return mPool.getPayload(handle); }
-		virtual	const PrunerPayload&	getPayload(PrunerHandle handle, PxBounds3*& bounds)	const { return mPool.getPayload(handle, bounds); }
-		virtual	void					preallocate(PxU32 entries) { mPool.preallocate(entries); }
+		virtual	const PrunerPayload&	getPayload(PrunerHandle handle)						const	{ return mPool.getPayload(handle);			}
+		virtual	const PrunerPayload&	getPayload(PrunerHandle handle, PxBounds3*& bounds)	const	{ return mPool.getPayload(handle, bounds);	}
+		virtual	void					preallocate(PxU32 entries)									{ mPool.preallocate(entries);				}
 		virtual	void					shiftOrigin(const PxVec3& shift);
 		virtual	void					visualize(Cm::RenderOutput& out, PxU32 color) const;
 		// merge not implemented for bucket pruner

@@ -33,6 +33,7 @@
 
 #include "PxProfileBase.h"
 #include "PsAllocator.h"
+#include "foundation/PxMemory.h"
 
 namespace physx { namespace profile {
 
@@ -84,7 +85,7 @@ namespace physx { namespace profile {
 			{
 				uint32_t writeSize = inLength * sizeof( TDataType );
 				growBuf( writeSize );
-				memcpy( mBegin + size(), inValue, writeSize );
+				PxMemCopy( mBegin + size(), inValue, writeSize );
 				mEnd += writeSize;
 				return writeSize;
 			}
@@ -100,7 +101,7 @@ namespace physx { namespace profile {
 			{
 				uint32_t writeSize = inLength * sizeof(TDataType);
 				PX_ASSERT(mBegin + index + writeSize < mCapacityEnd);
-				memcpy(mBegin + index, inValue, writeSize);				
+				PxMemCopy(mBegin + index, inValue, writeSize);				
 				return writeSize;
 			}
 			return 0;
@@ -127,7 +128,7 @@ namespace physx { namespace profile {
 				memset(newData, 0xf,allocSize);
 				if ( mBegin )
 				{
-					memcpy( newData, mBegin, currentSize );
+					PxMemCopy( newData, mBegin, currentSize );
 					TAllocator::deallocate( mBegin );
 				}
 				mBegin = newData;
@@ -179,7 +180,7 @@ namespace physx { namespace profile {
 			if (inValue && inLength)
 			{
 				uint32_t writeSize = inLength * sizeof(TDataType);
-				memcpy(mBegin + size(), inValue, writeSize);
+				PxMemCopy(mBegin + size(), inValue, writeSize);
 				mEnd += writeSize;
 				return writeSize;
 			}

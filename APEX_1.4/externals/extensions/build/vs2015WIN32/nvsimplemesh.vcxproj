@@ -22,6 +22,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
 		<ConfigurationType>StaticLibrary</ConfigurationType>
 		<PlatformToolset>v140</PlatformToolset>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
 	</PropertyGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
 	<ImportGroup Label="ExtensionSettings">
@@ -43,14 +44,19 @@
 	</PropertyGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
 		<ClCompile>
-			<FloatingPointModel>Precise</FloatingPointModel>
-			<AdditionalOptions>/fp:fast /MTd /Zi /Oi /Oy- /EHsc /GS /Gd /nologo /wd4748</AdditionalOptions>
+			<CallingConvention>Cdecl</CallingConvention>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/Oy- /EHsc /wd4748</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>./../../src/nvsimplemesh;./../../include/nvsimplemesh;./../../externals/include;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0600;_UNICODE;UNICODE;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_LIB;_DEBUG;PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>
 			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Lib>
 			<AdditionalOptions>/MACHINE:x86 /SUBSYSTEM:WINDOWS /NOLOGO</AdditionalOptions>
@@ -77,14 +83,19 @@
 	</PropertyGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
 		<ClCompile>
-			<FloatingPointModel>Precise</FloatingPointModel>
-			<AdditionalOptions>/fp:fast /MT /Zi /Oi /Oy- /GL /EHsc /GS /Gy /nologo /wd4748</AdditionalOptions>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<FunctionLevelLinking>true</FunctionLevelLinking>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/Oy- /EHsc /wd4748</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>./../../src/nvsimplemesh;./../../include/nvsimplemesh;./../../externals/include;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0600;_UNICODE;UNICODE;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
 			<PrecompiledHeader>NotUsing</PrecompiledHeader>
 			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Lib>
 			<AdditionalOptions>/MACHINE:x86 /SUBSYSTEM:WINDOWS /NOLOGO</AdditionalOptions>

@@ -30,6 +30,7 @@
 #include "foundation/PxPreprocessor.h"
 #include "foundation/PxAssert.h"
 #include "foundation/PxAllocatorCallback.h"
+#include "foundation/PxMemory.h"
 
 #include <errno.h>
 #include "PsFoundation.h"
@@ -65,13 +66,13 @@ PxU32 PxDefaultMemoryOutputStream::write(const void* src, PxU32 size)
 		PxU8* newData = reinterpret_cast<PxU8*>(mAllocator.allocate(mCapacity,"PxDefaultMemoryOutputStream",__FILE__,__LINE__));
 		PX_ASSERT(newData!=NULL);
 
-		memcpy(newData, mData, mSize);
+		PxMemCopy(newData, mData, mSize);
 		if(mData)
 			mAllocator.deallocate(mData);
 
 		mData = newData;
 	}
-	memcpy(mData+mSize, src, size);
+	PxMemCopy(mData+mSize, src, size);
 	mSize += size;
 	return size;
 }
@@ -88,7 +89,7 @@ PxDefaultMemoryInputData::PxDefaultMemoryInputData(PxU8* data, PxU32 length) :
 PxU32 PxDefaultMemoryInputData::read(void* dest, PxU32 count)
 {
 	PxU32 length = PxMin<PxU32>(count, mSize-mPos);
-	memcpy(dest, mData+mPos, length);
+	PxMemCopy(dest, mData+mPos, length);
 	mPos += length;
 	return length;
 }

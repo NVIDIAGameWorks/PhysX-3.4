@@ -66,10 +66,13 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /wd4456 /wd4457 /wd4458 /wd4459 /wd4774 /wd4777 /wd5027 /wd5029 /wd4464 /Zi /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /wd4456 /wd4457 /wd4458 /wd4459 /wd4774 /wd4777 /wd5027 /wd5029 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>./../../SampleBase;./../../PxToolkit/include;./../../SampleFramework/framework/include;./../../SampleFramework/renderer/include;./../../SampleFramework/platform/include;./../../../Include;./../../../Source/Common/include;./../../../Source/Common/src;./../../../Source/GeomUtils/headers;./../../../Source/GeomUtils/include;./../../../Source/GeomUtils/src/contact;./../../../Source/GeomUtils/src/common;./../../../Source/GeomUtils/src/convex;./../../../Source/GeomUtils/src/distance;./../../../Source/GeomUtils/src/gjk;./../../../Source/GeomUtils/src/intersection;./../../../Source/GeomUtils/src/mesh;./../../../Source/GeomUtils/src/Ice;./../../../Source/GeomUtils/src/hf;./../../../Source/GeomUtils/src/pcm;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../Include/common;./../../SampleCCTSharedCode;./../../../Source/PhysXVehicle/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -82,7 +85,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win32 /LIBPATH:..\..\..\..\PxShared\lib\vc14win32 /LIBPATH:../../../Lib/vc14win32 PhysX3CommonDEBUG_x86.lib PhysX3DEBUG_x86.lib PhysX3CookingDEBUG_x86.lib PhysX3CharacterKinematicDEBUG_x86.lib PhysX3ExtensionsDEBUG.lib PhysX3VehicleDEBUG.lib PxPvdSDKDEBUG_x86.lib PxTaskDEBUG_x86.lib PxCudaContextManagerDEBUG_x86.lib PxFoundationDEBUG_x86.lib PsFastXmlDEBUG_x86.lib /DEBUG</AdditionalOptions>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win32 /LIBPATH:../../../../PxShared/lib/vc14win32 /LIBPATH:../../../Lib/vc14win32 PhysX3CommonDEBUG_x86.lib PhysX3DEBUG_x86.lib PhysX3CookingDEBUG_x86.lib PhysX3CharacterKinematicDEBUG_x86.lib PhysX3ExtensionsDEBUG.lib PhysX3VehicleDEBUG.lib PxPvdSDKDEBUG_x86.lib PxTaskDEBUG_x86.lib PxCudaContextManagerDEBUG_x86.lib PxFoundationDEBUG_x86.lib PsFastXmlDEBUG_x86.lib /DEBUG</AdditionalOptions>
 			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)DEBUG.exe</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -112,9 +115,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /wd4456 /wd4457 /wd4458 /wd4459 /wd4774 /wd4777 /wd5027 /wd5029 /wd4464 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /wd4456 /wd4457 /wd4458 /wd4459 /wd4774 /wd4777 /wd5027 /wd5029 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../SampleBase;./../../PxToolkit/include;./../../SampleFramework/framework/include;./../../SampleFramework/renderer/include;./../../SampleFramework/platform/include;./../../../Include;./../../../Source/Common/include;./../../../Source/Common/src;./../../../Source/GeomUtils/headers;./../../../Source/GeomUtils/include;./../../../Source/GeomUtils/src/contact;./../../../Source/GeomUtils/src/common;./../../../Source/GeomUtils/src/convex;./../../../Source/GeomUtils/src/distance;./../../../Source/GeomUtils/src/gjk;./../../../Source/GeomUtils/src/intersection;./../../../Source/GeomUtils/src/mesh;./../../../Source/GeomUtils/src/Ice;./../../../Source/GeomUtils/src/hf;./../../../Source/GeomUtils/src/pcm;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../Include/common;./../../SampleCCTSharedCode;./../../../Source/PhysXVehicle/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -127,7 +133,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win32 /LIBPATH:..\..\..\..\PxShared\lib\vc14win32 /LIBPATH:../../../Lib/vc14win32 PhysX3CommonCHECKED_x86.lib PhysX3CHECKED_x86.lib PhysX3CookingCHECKED_x86.lib PhysX3CharacterKinematicCHECKED_x86.lib PhysX3ExtensionsCHECKED.lib PhysX3VehicleCHECKED.lib PxPvdSDKCHECKED_x86.lib PxTaskCHECKED_x86.lib PxCudaContextManagerCHECKED_x86.lib PxFoundationCHECKED_x86.lib PsFastXmlCHECKED_x86.lib</AdditionalOptions>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win32 /LIBPATH:../../../../PxShared/lib/vc14win32 /LIBPATH:../../../Lib/vc14win32 PhysX3CommonCHECKED_x86.lib PhysX3CHECKED_x86.lib PhysX3CookingCHECKED_x86.lib PhysX3CharacterKinematicCHECKED_x86.lib PhysX3ExtensionsCHECKED.lib PhysX3VehicleCHECKED.lib PxPvdSDKCHECKED_x86.lib PxTaskCHECKED_x86.lib PxCudaContextManagerCHECKED_x86.lib PxFoundationCHECKED_x86.lib PsFastXmlCHECKED_x86.lib</AdditionalOptions>
 			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)CHECKED.exe</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -157,9 +163,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /wd4456 /wd4457 /wd4458 /wd4459 /wd4774 /wd4777 /wd5027 /wd5029 /wd4464 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /wd4456 /wd4457 /wd4458 /wd4459 /wd4774 /wd4777 /wd5027 /wd5029 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../SampleBase;./../../PxToolkit/include;./../../SampleFramework/framework/include;./../../SampleFramework/renderer/include;./../../SampleFramework/platform/include;./../../../Include;./../../../Source/Common/include;./../../../Source/Common/src;./../../../Source/GeomUtils/headers;./../../../Source/GeomUtils/include;./../../../Source/GeomUtils/src/contact;./../../../Source/GeomUtils/src/common;./../../../Source/GeomUtils/src/convex;./../../../Source/GeomUtils/src/distance;./../../../Source/GeomUtils/src/gjk;./../../../Source/GeomUtils/src/intersection;./../../../Source/GeomUtils/src/mesh;./../../../Source/GeomUtils/src/Ice;./../../../Source/GeomUtils/src/hf;./../../../Source/GeomUtils/src/pcm;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../Include/common;./../../SampleCCTSharedCode;./../../../Source/PhysXVehicle/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -172,7 +181,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win32 /LIBPATH:..\..\..\..\PxShared\lib\vc14win32 /INCREMENTAL:NO /LIBPATH:../../../Lib/vc14win32 PhysX3CommonPROFILE_x86.lib PhysX3PROFILE_x86.lib PhysX3CookingPROFILE_x86.lib PhysX3CharacterKinematicPROFILE_x86.lib PhysX3ExtensionsPROFILE.lib PhysX3VehiclePROFILE.lib PxPvdSDKPROFILE_x86.lib PxTaskPROFILE_x86.lib PxCudaContextManagerPROFILE_x86.lib PxFoundationPROFILE_x86.lib PsFastXmlPROFILE_x86.lib /DEBUG</AdditionalOptions>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win32 /LIBPATH:../../../../PxShared/lib/vc14win32 /INCREMENTAL:NO /LIBPATH:../../../Lib/vc14win32 PhysX3CommonPROFILE_x86.lib PhysX3PROFILE_x86.lib PhysX3CookingPROFILE_x86.lib PhysX3CharacterKinematicPROFILE_x86.lib PhysX3ExtensionsPROFILE.lib PhysX3VehiclePROFILE.lib PxPvdSDKPROFILE_x86.lib PxTaskPROFILE_x86.lib PxCudaContextManagerPROFILE_x86.lib PxFoundationPROFILE_x86.lib PsFastXmlPROFILE_x86.lib /DEBUG</AdditionalOptions>
 			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)PROFILE.exe</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -202,9 +211,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /wd4456 /wd4457 /wd4458 /wd4459 /wd4774 /wd4777 /wd5027 /wd5029 /wd4464 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /wd4456 /wd4457 /wd4458 /wd4459 /wd4774 /wd4777 /wd5027 /wd5029 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../SampleBase;./../../PxToolkit/include;./../../SampleFramework/framework/include;./../../SampleFramework/renderer/include;./../../SampleFramework/platform/include;./../../../Include;./../../../Source/Common/include;./../../../Source/Common/src;./../../../Source/GeomUtils/headers;./../../../Source/GeomUtils/include;./../../../Source/GeomUtils/src/contact;./../../../Source/GeomUtils/src/common;./../../../Source/GeomUtils/src/convex;./../../../Source/GeomUtils/src/distance;./../../../Source/GeomUtils/src/gjk;./../../../Source/GeomUtils/src/intersection;./../../../Source/GeomUtils/src/mesh;./../../../Source/GeomUtils/src/Ice;./../../../Source/GeomUtils/src/hf;./../../../Source/GeomUtils/src/pcm;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../Include/common;./../../SampleCCTSharedCode;./../../../Source/PhysXVehicle/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -217,7 +229,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win32 /LIBPATH:..\..\..\..\PxShared\lib\vc14win32 /INCREMENTAL:NO /LIBPATH:../../../Lib/vc14win32 PhysX3Common_x86.lib PhysX3_x86.lib PhysX3Cooking_x86.lib PhysX3CharacterKinematic_x86.lib PhysX3Extensions.lib PhysX3Vehicle.lib PxPvdSDK_x86.lib PxTask_x86.lib PxCudaContextManager_x86.lib PxFoundation_x86.lib PsFastXml_x86.lib</AdditionalOptions>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win32 /LIBPATH:../../../../PxShared/lib/vc14win32 /INCREMENTAL:NO /LIBPATH:../../../Lib/vc14win32 PhysX3Common_x86.lib PhysX3_x86.lib PhysX3Cooking_x86.lib PhysX3CharacterKinematic_x86.lib PhysX3Extensions.lib PhysX3Vehicle.lib PxPvdSDK_x86.lib PxTask_x86.lib PxCudaContextManager_x86.lib PxFoundation_x86.lib PsFastXml_x86.lib</AdditionalOptions>
 			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -434,12 +446,12 @@
 		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./../../PxToolkit/compiler/vc14win32/PxToolkit.vcxproj">
+		<ProjectReference Include="./SampleBase.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./SampleBase.vcxproj">
+		<ProjectReference Include="./../../PxToolkit/compiler/vc14win32/PxToolkit.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>

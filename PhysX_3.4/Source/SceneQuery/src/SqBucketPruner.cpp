@@ -2219,24 +2219,24 @@ void BucketPruner::removeObjects(const PrunerHandle* handles, PxU32 count)
 	mCore.mDirty = true;
 }
 
-void BucketPruner::updateObjects(const PrunerHandle* handles, const PxBounds3* newBounds, PxU32 count)
+void BucketPruner::updateObjectsAfterManualBoundsUpdates(const PrunerHandle* handles, PxU32 count)
 {
 	if(!count)
 		return;
 
-	if(newBounds)
-	{
-		for(PxU32 i=0;i<count;i++)
-			mPool.setWorldAABB(handles[i], newBounds[i]);
-	}
+	PX_UNUSED(handles);
 
 	mCore.setExternalMemory(mPool.getNbActiveObjects(), mPool.getCurrentWorldBoxes(), mPool.getObjects());
 	mCore.mDirty = true;
 }
 
-void BucketPruner::updateObjects(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count)
+void BucketPruner::updateObjectsAndInflateBounds(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count)
 {
-	mPool.updateObjects(handles, indices, newBounds, count);
+	if(!count)
+		return;
+
+	mPool.updateObjectsAndInflateBounds(handles, indices, newBounds, count);
+
 	mCore.setExternalMemory(mPool.getNbActiveObjects(), mPool.getCurrentWorldBoxes(), mPool.getObjects());
 	mCore.mDirty = true;
 }

@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_DEFS
 #define PX_PHYSICS_SCB_DEFS
 
@@ -48,37 +47,34 @@
 // BufferAccess template (e.g. to compile without buffering), and also to size-reduce that template 
 // by passing function pointers if necessary
 
-#define SCB_REGULAR_ATTRIBUTE(_val, _type, _name)													\
-enum { BF_##_name = 1<<(_val) };																	\
-_type m##_name;																						\
-template<PxU32 Dummy> struct Fns<1<<(_val),Dummy>													\
-{																									\
-	typedef typename ArgType<_type>::Type Arg;														\
-	enum { flag = 1<<(_val) };																		\
-	static PX_FORCE_INLINE Arg getBuffered(const Buf& buf) { return Arg(buf.m##_name);}				\
-	static PX_FORCE_INLINE void setBuffered(Buf& buf, Arg v) { buf.m##_name = v;}					\
-	static PX_FORCE_INLINE Arg getCore(const Core& core) { return Arg(core.get##_name());}			\
-	static PX_FORCE_INLINE void setCore(Core& core, Arg v) { core.set##_name(v);}					\
+#define SCB_REGULAR_ATTRIBUTE(_val, _type, _name)											\
+enum { BF_##_name = 1<<(_val) };															\
+_type m##_name;																				\
+template<PxU32 Dummy> struct Fns<1<<(_val),Dummy>											\
+{																							\
+	typedef typename ArgType<_type>::Type Arg;												\
+	enum { flag = 1<<(_val) };																\
+	static PX_FORCE_INLINE Arg getBuffered(const Buf& buf) { return Arg(buf.m##_name);}		\
+	static PX_FORCE_INLINE void setBuffered(Buf& buf, Arg v) { buf.m##_name = v;}			\
+	static PX_FORCE_INLINE Arg getCore(const Core& core) { return Arg(core.get##_name());}	\
+	static PX_FORCE_INLINE void setCore(Core& core, Arg v) { core.set##_name(v);}			\
 };	
 
-#define SCB_REGULAR_ATTRIBUTE_ALIGNED(_val, _type, _name, _alignment)								\
-enum { BF_##_name = 1<<(_val) };																	\
-PX_ALIGN(_alignment, _type) m##_name;																\
-template<PxU32 Dummy> struct Fns<1<<(_val),Dummy>													\
-{																									\
-	typedef typename ArgType<_type>::Type Arg;														\
-	enum { flag = 1<<(_val) };																		\
-	static PX_FORCE_INLINE Arg getBuffered(const Buf& buf) { return buf.m##_name;}					\
-	static PX_FORCE_INLINE void setBuffered(Buf& buf, Arg v) { buf.m##_name = v;}					\
-	static PX_FORCE_INLINE Arg getCore(const Core& core) { return core.get##_name();}				\
-	static PX_FORCE_INLINE void setCore(Core& core, Arg v) { core.set##_name(v);}					\
+#define SCB_REGULAR_ATTRIBUTE_ALIGNED(_val, _type, _name, _alignment)						\
+enum { BF_##_name = 1<<(_val) };															\
+PX_ALIGN(_alignment, _type) m##_name;														\
+template<PxU32 Dummy> struct Fns<1<<(_val),Dummy>											\
+{																							\
+	typedef typename ArgType<_type>::Type Arg;												\
+	enum { flag = 1<<(_val) };																\
+	static PX_FORCE_INLINE Arg getBuffered(const Buf& buf) { return buf.m##_name;}			\
+	static PX_FORCE_INLINE void setBuffered(Buf& buf, Arg v) { buf.m##_name = v;}			\
+	static PX_FORCE_INLINE Arg getCore(const Core& core) { return core.get##_name();}		\
+	static PX_FORCE_INLINE void setCore(Core& core, Arg v) { core.set##_name(v);}			\
 };																											
-
-
 
 namespace physx
 {
-
 namespace Scb
 {
 class Scene;
@@ -107,7 +103,7 @@ struct BufferedAccess
 	template<typename Fns>
 	static PX_FORCE_INLINE void write(BaseClass& base, Core& core, typename Fns::Arg v)
 	{
-		if (!base.isBuffering())
+		if(!base.isBuffering())
 		{
 			Fns::setCore(core, v);
 #if PX_SUPPORT_PVD

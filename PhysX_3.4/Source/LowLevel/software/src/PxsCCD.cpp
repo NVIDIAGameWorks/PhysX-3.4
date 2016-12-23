@@ -623,7 +623,7 @@ bool PxsCCDPair::sweepAdvanceToToi(PxReal dt, bool clipTrajectoryToToi)
 			physx::Cm::transformInertiaTensor(atom0->mCore->inverseInertia, PxMat33(trA.q),invInertia0);
 			invInertia0 *= dom0;
 #else
-			v0 = atom0->mCore->linearVelocity + atom0->mCore->angularVelocity.cross(ccds0->mShapeCore->transform.p);
+			v0 = atom0->mCore->linearVelocity + atom0->mCore->angularVelocity.cross(ccds0->mCurrentTransform.p - atom0->mCore->body2World.p);
 #endif
 			invMass0 = atom0->getInvMass() * dom0;
 			
@@ -632,14 +632,16 @@ bool PxsCCDPair::sweepAdvanceToToi(PxReal dt, bool clipTrajectoryToToi)
 		//Work out velocity and invMass for body 1
 		if(atom1)
 		{
+			
 			//Put contact point in local space, then find how much point is moving using point velocity...
 #if CCD_ANGULAR_IMPULSE
+			
 			localPoint1 = mMinToiPoint - trB.p;
 			v1 = atom1->mCore->linearVelocity + atom1->mCore->angularVelocity.cross(localPoint1);
 			physx::Cm::transformInertiaTensor(atom1->mCore->inverseInertia, PxMat33(trB.q),invInertia1);
 			invInertia1 *= dom1;
 #else
-			v1 = atom1->mCore->linearVelocity + atom1->mCore->angularVelocity.cross(ccds1->mShapeCore->transform.p);
+			v1 = atom1->mCore->linearVelocity + atom1->mCore->angularVelocity.cross(ccds1->mCurrentTransform.p - atom1->mCore->body2World.p);
 #endif
 			invMass1 = atom1->getInvMass() * dom1;
 		}
@@ -943,6 +945,7 @@ public:
 			// --------------------------------------------------------------------------------------
 			// sort all pairs within current island by toi
 			PxU32 islandEnd = islandStart+1;
+			PX_ASSERT(mCCDPairs[islandStart]->mIslandId == iIsland);
 			while (islandEnd < mNumPairs && mCCDPairs[islandEnd]->mIslandId == iIsland) // find first index past the current island id
 				islandEnd++;
 
@@ -1002,6 +1005,9 @@ public:
 							continue;
 						}
 					}
+
+					if (pair.mMinToi > 1.f)
+						break;
 
 					//We now have the earliest contact pair for this island and one/both of the bodies have not been updated. We now perform
 					//contact modification to find out if the user still wants to respond to the collision
@@ -1584,8 +1590,8 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 	
 	for (PxU32 j = 0; j < ccdBodyCount; j++)
 	{
-		//If the body has already been labelled, continue
-		if (islandLabels[j] != noLabelYet)
+		//If the body has already been labelled or if it is kinematic, continue
+		if (islandLabels[j] != noLabelYet || mCCDBodies[j].mBody->isKinematic())
 			continue;
 
 		top = &mCCDBodies[j];
@@ -1657,9 +1663,12 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 	for(PxU32 a = 0; a < mCCDBodies.size(); ++a)
 	{
 		const PxU32 island = islandLabels[mCCDBodies[a].mIndex];
-		PxU16 writeIndex = mIslandSizes[island];
-		mIslandSizes[island] = PxU16(writeIndex + 1);
-		mIslandBodies[writeIndex] = &mCCDBodies[a];
+		if (island != 0xFFFF)
+		{
+			PxU16 writeIndex = mIslandSizes[island];
+			mIslandSizes[island] = PxU16(writeIndex + 1);
+			mIslandBodies[writeIndex] = &mCCDBodies[a];
+		}
 	}
 
 	// --------------------------------------------------------------------------------------

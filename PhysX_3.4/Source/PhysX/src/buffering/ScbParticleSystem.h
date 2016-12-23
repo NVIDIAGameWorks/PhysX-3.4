@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_PARTICLE_SYSTEM
 #define PX_PHYSICS_SCB_PARTICLE_SYSTEM
 
@@ -44,12 +43,10 @@
 
 namespace physx
 {
-
 struct PxCudaReadWriteParticleBuffers;
 
 namespace Scb
 {
-
 struct ParticleSystemBuffer : public Scb::ActorBuffer
 {
 	template <PxU32 I, PxU32 Dummy> struct Fns {};	// TODO : make the base class traits visible
@@ -72,9 +69,7 @@ struct ParticleSystemBuffer : public Scb::ActorBuffer
 	SCB_REGULAR_ATTRIBUTE(BF_Base+12,	PxParticleBaseFlags,	Flags)
 
 	enum { BF_ResetFiltering	= 1<<(BF_Base+13)	};
-
 };
-
 
 class DebugIndexPool;
 
@@ -92,8 +87,8 @@ class ParticleSystem : public Scb::Actor
 
 	struct UserBufferLock
 	{
-		UserBufferLock(NpParticleFluidReadData* db, const char* callerName) : dataBuffer(db) { if (dataBuffer) { dataBuffer->lock(callerName); } }
-		~UserBufferLock() { if (dataBuffer) { dataBuffer->unlock(); } }
+		UserBufferLock(NpParticleFluidReadData* db, const char* callerName) : dataBuffer(db)	{ if(dataBuffer) { dataBuffer->lock(callerName); } }
+		~UserBufferLock()																		{ if(dataBuffer) { dataBuffer->unlock(); } }
 
 		NpParticleFluidReadData* dataBuffer;
 	private:
@@ -111,7 +106,7 @@ class ParticleSystem : public Scb::Actor
 		PX_INLINE void add(PxU32 index, const PxVec3& value)
 		{
 			hasUpdates = true;
-			if (!map->test(index))
+			if(!map->test(index))
 			{
 				map->set(index);
 				values[index] = value;
@@ -128,7 +123,7 @@ class ParticleSystem : public Scb::Actor
 
 		PX_INLINE void clear()
 		{
-			if (!hasUpdates)
+			if(!hasUpdates)
 				return;
 
 			PX_ASSERT(map);
@@ -136,9 +131,9 @@ class ParticleSystem : public Scb::Actor
 			hasUpdates = false;
 		}
 
-		Cm::BitMap*						map; // can we make this an instance?
-		PxVec3*							values;
-		bool							hasUpdates;
+		Cm::BitMap*		map; // can we make this an instance?
+		PxVec3*			values;
+		bool			hasUpdates;
 	};
 
 public:
@@ -212,7 +207,6 @@ public:
 	PX_INLINE 	PxParticleReadDataFlags		getParticleReadDataFlags() const;
 	PX_INLINE 	void						setParticleReadDataFlags(PxParticleReadDataFlags);
 
-
 	PX_INLINE 	PxU32						getParticleCount() const;
 	PX_INLINE	const Cm::BitMap&			getParticleMap() const;
 
@@ -255,13 +249,9 @@ public:
 		PX_UNUSED(ps);
 
 		return static_cast<ParticleSystem&>(Actor::fromSc(a)); 
-	
 	}
 
-	static size_t getScOffset()													
-	{ 
-		return reinterpret_cast<size_t>(&reinterpret_cast<ParticleSystem*>(0)->mParticleSystem);
-	}
+	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<ParticleSystem*>(0)->mParticleSystem);	}
 
 #if PX_SUPPORT_GPU_PHYSX
 	PX_INLINE	void enableDeviceExclusiveModeGpu();
@@ -292,9 +282,8 @@ private:
 
 PX_INLINE PxParticleBase* ParticleSystem::getPxParticleSystem()
 {
-	return getScParticleSystem().getPxParticleBase();
+	return mParticleSystem.getPxParticleBase();
 }
-
 
 PX_INLINE void ParticleSystem::removeFromScene()
 {
@@ -304,172 +293,158 @@ PX_INLINE void ParticleSystem::removeFromScene()
 	mForceUpdatesVel.destroy();
 }
 
-
 PX_INLINE PxParticleReadData* ParticleSystem::lockParticleReadData(PxDataAccessFlags flags)
 {
 	// Don't use the macro here since releasing the lock should not be done automatically but by the user
-	if (isBuffering())
+	if(isBuffering())
 	{
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Particle data read not allowed while simulation is running.");
 		return NULL;
 	}
 
-	if (!mReadParticleFluidData)
-	{
+	if(!mReadParticleFluidData)
 		mReadParticleFluidData = PX_NEW(NpParticleFluidReadData)();
-	}
 
 	mReadParticleFluidData->lock("PxParticleBase::lockParticleReadData()");
 	mReadParticleFluidData->setDataAccessFlags(flags);
-	getScParticleSystem().getParticleReadData(*mReadParticleFluidData);		
+	mParticleSystem.getParticleReadData(*mReadParticleFluidData);		
 	return mReadParticleFluidData;
 }
 
-
-
-
 PX_INLINE void ParticleSystem::resetFiltering()
 {
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		getScParticleSystem().resetFiltering();
+		mParticleSystem.resetFiltering();
 		UPDATE_PVD_PROPERTIES_OBJECT()
 	}
 	else
-	{
 		markUpdated(Buf::BF_ResetFiltering);
-	}
 }
-
-
 
 PX_INLINE PxParticleReadDataFlags ParticleSystem::getParticleReadDataFlags() const
 {
-	return getScParticleSystem().getParticleReadDataFlags();
+	return mParticleSystem.getParticleReadDataFlags();
 }
 
 PX_INLINE void ParticleSystem::setParticleReadDataFlags(PxParticleReadDataFlags flags)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		getScParticleSystem().setParticleReadDataFlags(flags);
+		mParticleSystem.setParticleReadDataFlags(flags);
 		UPDATE_PVD_PROPERTIES_OBJECT()
 	}	
 }
 
 PX_INLINE PxU32 ParticleSystem::getParticleCount() const
 {
-	return getScParticleSystem().getParticleCount();
+	return mParticleSystem.getParticleCount();
 }
 
 PX_INLINE const Cm::BitMap& ParticleSystem::getParticleMap() const
 {
-	return getScParticleSystem().getParticleMap();
+	return mParticleSystem.getParticleMap();
 }
 
 PX_INLINE PxU32 ParticleSystem::getMaxParticles() const
 {
-	return getScParticleSystem().getMaxParticles();
+	return mParticleSystem.getMaxParticles();
 }
-
 
 PX_INLINE PxReal ParticleSystem::getMaxMotionDistance() const
 {
-	return getScParticleSystem().getMaxMotionDistance();
+	return mParticleSystem.getMaxMotionDistance();
 }
 
 PX_INLINE void ParticleSystem::setMaxMotionDistance(PxReal distance) 
 {	
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		getScParticleSystem().setMaxMotionDistance(distance);
+		mParticleSystem.setMaxMotionDistance(distance);
 		UPDATE_PVD_PROPERTIES_OBJECT()
 	}	
 }
 
 PX_INLINE PxReal ParticleSystem::getRestOffset() const
 {
-	return getScParticleSystem().getRestOffset();
+	return mParticleSystem.getRestOffset();
 }
-
 
 PX_INLINE void ParticleSystem::setRestOffset(PxReal restOffset) 
 {	
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		getScParticleSystem().setRestOffset(restOffset);
+		mParticleSystem.setRestOffset(restOffset);
 		UPDATE_PVD_PROPERTIES_OBJECT()
 	}
 }
 
 PX_INLINE PxReal ParticleSystem::getContactOffset() const
 {
-	return getScParticleSystem().getContactOffset();
+	return mParticleSystem.getContactOffset();
 }
 
 PX_INLINE void ParticleSystem::setContactOffset(PxReal contactOffset) 
 {	
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		getScParticleSystem().setContactOffset(contactOffset);
+		mParticleSystem.setContactOffset(contactOffset);
 		UPDATE_PVD_PROPERTIES_OBJECT()
 	}	
 }
 
 PX_INLINE PxReal ParticleSystem::getRestParticleDistance() const
 {
-	return getScParticleSystem().getRestParticleDistance();
+	return mParticleSystem.getRestParticleDistance();
 }
 
 PX_INLINE void ParticleSystem::setRestParticleDistance(PxReal restParticleDistance) 
 {	
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		getScParticleSystem().setRestParticleDistance(restParticleDistance);
+		mParticleSystem.setRestParticleDistance(restParticleDistance);
 		UPDATE_PVD_PROPERTIES_OBJECT()
 	}	
 }
 
-
 PX_INLINE PxReal ParticleSystem::getGridSize() const
 {
-	return getScParticleSystem().getGridSize();
+	return mParticleSystem.getGridSize();
 }
 
 PX_INLINE void ParticleSystem::setGridSize(PxReal gridSize)
 {	 
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		getScParticleSystem().setGridSize(gridSize);
+		mParticleSystem.setGridSize(gridSize);
 		UPDATE_PVD_PROPERTIES_OBJECT()
 	}	
 }
 
 PX_INLINE PxBounds3 ParticleSystem::getWorldBounds() const
 {
-	if (isBuffering())
+	if(isBuffering())
 	{
 		Ps::getFoundation().error(PxErrorCode::eDEBUG_WARNING, __FILE__, __LINE__, 
 				"PxActor::getWorldBounds(): Can't access particle world bounds during simulation without enabling bulk buffering.");
 		return PxBounds3();
 	}
 	
-	return getScParticleSystem().getWorldBounds();
+	return mParticleSystem.getWorldBounds();
 }
 
 #if PX_SUPPORT_GPU_PHYSX
 
 PX_INLINE void ParticleSystem::enableDeviceExclusiveModeGpu()
 {
-	getScParticleSystem().enableDeviceExclusiveModeGpu();
+	mParticleSystem.enableDeviceExclusiveModeGpu();
 }
 
 PX_INLINE PxParticleDeviceExclusiveAccess* ParticleSystem::getDeviceExclusiveAccessGpu() const
 {
-	if (getFlags() & PxParticleBaseFlag::eGPU)
-	{
-		return getScParticleSystem().getDeviceExclusiveAccessGpu();
-	}
+	if(getFlags() & PxParticleBaseFlag::eGPU)
+		return mParticleSystem.getDeviceExclusiveAccessGpu();
+
 	return NULL;
 }
 

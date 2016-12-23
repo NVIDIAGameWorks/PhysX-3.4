@@ -27,6 +27,7 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved. 
 
+#include "foundation/PxMemory.h"
 #include "CmPhysXCommon.h"
 #include "SnXmlImpl.h" 
 #include "SnXmlReader.h"
@@ -102,7 +103,7 @@ namespace physx { namespace Sn {
 				{
 					 const char *period = nextPeriod( str );
 					 size_t len = size_t(PxMin( period - str, ptrdiff_t(1023) )); //can't be too careful these days.
-					 memcpy( nameBuffer, str, len );
+					 PxMemCopy( nameBuffer, str, PxU32(len) );
 					 nameBuffer[len] = 0;
 					 if ( theReader.gotoChild( nameBuffer ) == false )
 					 {
@@ -138,7 +139,7 @@ namespace physx { namespace Sn {
 			if ( periodPtr == NULL || *periodPtr != '.' ) continue;
 			nameLen = size_t(periodPtr - item.name);
 			char* newMem = reinterpret_cast<char*>(alloc.allocate( PxU32(nameLen + 1) ));
-			memcpy( newMem, item.name, nameLen );
+			PxMemCopy( newMem, item.name, PxU32(nameLen) );
 			newMem[nameLen] = 0;
 		
 			if ( nameOffsets.find( newMem ) )

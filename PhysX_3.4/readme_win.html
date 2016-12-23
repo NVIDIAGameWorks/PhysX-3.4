@@ -22,14 +22,6 @@ content="text/html; charset=iso-8859-1">
 	<h4>Building SDK Source with Visual Studio:</h4>
 	<ul>
 		<li>Visual Studio Solutions are in Source/compiler/</li>
-		<li>The following compiler warnings should be disabled if compiled with /Wall:
-			<ul>
-				<li>4514:	unreferenced inline function has been removed</li>
-				<li>4710:	function not inlined</li>
-				<li>4711:	function selected for inline expansion</li>
-				<li>4820:	'bytes' bytes padding added after construct 'member_name'</li>
-			</ul>
-		</li>
 	</ul>
 
 	<h4>Building Samples with Visual Studio:</h4>
@@ -41,10 +33,6 @@ content="text/html; charset=iso-8859-1">
 	<ul>
 		<li>PhysX SDK: build as described above.</li>
 		<li>Microsoft DirectX SDK June 2010 or later</li>
-		<ul>
-			<li>The DirectX include path should be set in Visual Studio in VC++ Directories to build the Windows samples</li>
-			<li>The DirectX End-User Runtime Web Installer (dxwebsetup.exe) can be downloaded from Microsoft if the prebuilt PhysX samples do not run because they cannot find the June 2010 DX runtimes.</li>
-		</ul>
 	</ul>
 
 	<h4>Building Snippets with Visual Studio:</h4>

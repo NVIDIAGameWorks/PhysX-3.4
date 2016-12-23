@@ -32,6 +32,7 @@
 #include "foundation/Px.h"
 #include "PsFoundation.h"
 #include "PxPhysics.h"
+#include "PxGpu.h"
 
 #include "cudamanager/PxCudaContextManager.h"
 
@@ -65,6 +66,29 @@ static const char*	gPhysXGpuLibraryName = "./libPhysX3Gpu" CONFIG_SUB_STR "_" PL
 
 #undef GETSTRING
 #undef STRINGIFY
+
+void PxSetPhysXGpuLoadHook(const PxGpuLoadHook* hook)
+{
+	if(strstr(gPhysXGpuLibraryName, "DEBUG"))
+	{
+		gPhysXGpuLibraryName = hook->getPhysXGpuDEBUGDllName();
+		return;
+	}
+
+	if(strstr(gPhysXGpuLibraryName, "CHECKED"))
+	{
+		gPhysXGpuLibraryName = hook->getPhysXGpuCHECKEDDllName();
+		return;
+	}
+
+	if(strstr(gPhysXGpuLibraryName, "PROFILE"))
+	{
+		gPhysXGpuLibraryName = hook->getPhysXGpuPROFILEDllName();
+		return;
+	}
+
+	gPhysXGpuLibraryName = hook->getPhysXGpuDllName();
+}
 
 namespace physx
 {

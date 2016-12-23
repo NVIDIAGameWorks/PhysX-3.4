@@ -33,6 +33,7 @@
 
 #include "foundation/PxMat44.h"
 #include "CmRenderBuffer.h"
+#include "CmUtils.h"
 
 namespace physx
 {
@@ -44,6 +45,7 @@ namespace Cm
     #pragma warning(push)
 	#pragma warning( disable : 4251 ) // class needs to have dll-interface to be used by clients of class
 #endif
+
 	/**
 	Output stream to fill RenderBuffer
 	*/
@@ -62,7 +64,7 @@ namespace Cm
 
 		RenderOutput(RenderBuffer& buffer) 
 			: mPrim(POINTS), mColor(0), mVertex0(0.0f), mVertex1(0.0f)
-			, mVertexCount(0), mTransform(PxMat44(PxIdentity)), mBuffer(buffer) 
+			, mVertexCount(0), mTransform(PxIdentity), mBuffer(buffer) 
 		{}
 
 		RenderOutput& operator<<(Primitive prim);
@@ -75,27 +77,16 @@ namespace Cm
 
 		PX_FORCE_INLINE PxDebugLine* reserveSegments(PxU32 nbSegments)
 		{
-			const PxU32 currentSize = mBuffer.mLines.size();
-			mBuffer.mLines.resizeUninitialized(currentSize + nbSegments);
-			return mBuffer.mLines.begin() + currentSize;
+			return reserveContainerMemory(mBuffer.mLines, nbSegments);
 		}
 
 		// PT: using the operators is just too slow.
 		PX_FORCE_INLINE	void outputSegment(const PxVec3& v0, const PxVec3& v1)
 		{
-			// PT: TODO: replace pushBack with something faster like the versions below
-			mBuffer.mLines.pushBack(PxDebugLine(v0, v1, mColor));
-
-			// PT: TODO: use the "pushBackUnsafe" version or replace with ICE containers
-/*			PxDebugLine& l = mBuffer.mLines.insert();
-			l.pos0	= v0;
-			l.pos1	= v1;
-			l.color0 = l.color1 = mColor;
-
-			PxDebugLine& l = mBuffer.mLines.pushBackUnsafe();
-			l.pos0	= v0;
-			l.pos1	= v1;
-			l.color0 = l.color1 = mColor;*/
+			PxDebugLine* segment = reserveSegments(1);
+			segment->pos0 = v0;
+			segment->pos1 = v1;
+			segment->color0 = segment->color1 = mColor;
 		}
 
 		RenderOutput&	outputCapsule(PxF32 radius, PxF32 halfHeight, const PxMat44& absPose);

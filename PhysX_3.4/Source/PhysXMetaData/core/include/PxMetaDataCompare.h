@@ -96,7 +96,6 @@ struct EqualityOp
 	void operator()( const PxReadOnlyCollectionPropertyInfo<PxPropertyInfoName::PxArticulationLink_Children, PxArticulationLink, PxArticulationLink* >& inProp, PxU32 ) {}
 	void operator()( const PxReadOnlyCollectionPropertyInfo<PxPropertyInfoName::PxRigidActor_Constraints, PxRigidActor, PxConstraint* >& inProp, PxU32 ){}
 	void operator()( const PxReadOnlyCollectionPropertyInfo<PxPropertyInfoName::PxAggregate_Actors, PxAggregate, PxActor* >& inProp, PxU32 ) {}
-    void operator()( const PxWriteOnlyPropertyInfo<PxPropertyInfoName::PxRigidDynamic_KinematicTarget, PxRigidDynamic, const PxTransform &  >& inProp, PxU32 ) {}
     void operator()( const PxWriteOnlyPropertyInfo<PxPropertyInfoName::PxCloth_TargetPose, PxCloth, const PxTransform &  >& inProp, PxU32 ) {}
 	void operator()( const PxWriteOnlyPropertyInfo<PxPropertyInfoName::PxCloth_InertiaScale, PxCloth, PxReal >& inProp, PxU32 ) {}
 	void operator()( const PxWriteOnlyPropertyInfo<PxPropertyInfoName::PxCloth_DragCoefficient, PxCloth, PxReal >& inProp, PxU32 ) {}

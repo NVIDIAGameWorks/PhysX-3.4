@@ -66,10 +66,13 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /Zi /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>./../../Graphics/include/win32/GL;./../../../Include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -106,9 +109,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../Graphics/include/win32/GL;./../../../Include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=CHECKED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -145,9 +151,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../Graphics/include/win32/GL;./../../../Include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -185,9 +194,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../Graphics/include/win32/GL;./../../../Include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>

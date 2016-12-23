@@ -122,7 +122,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)DEBUG_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc11win64;../../../PhysX_3.4/Lib/vc11win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG_x64.dll.pdb</ProgramDatabaseFile>
@@ -163,7 +163,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3Common_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3Common_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc11win64;../../../PhysX_3.4/Lib/vc11win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)_x64.dll.pdb</ProgramDatabaseFile>
@@ -204,7 +204,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonPROFILE_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonPROFILE_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)PROFILE_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc11win64;../../../PhysX_3.4/Lib/vc11win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE_x64.dll.pdb</ProgramDatabaseFile>
@@ -245,7 +245,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonCHECKED_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonCHECKED_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)CHECKED_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc11win64;../../../PhysX_3.4/Lib/vc11win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED_x64.dll.pdb</ProgramDatabaseFile>
@@ -272,17 +272,7 @@
     <ClInclude Include="..\..\include\loader\ModuleLoader.h"></ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="./APEX_Clothing.vcxproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="./APEX_Destructible.vcxproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="./APEX_Legacy.vcxproj">
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc11win64/PxFoundation.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
@@ -292,12 +282,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="./ApexFramework.vcxproj">
+    <ProjectReference Include="./ApexShared.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="./ApexShared.vcxproj">
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc11win64/PsFastXml.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
@@ -307,17 +297,27 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc11win64/PsFastXml.vcxproj">
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc11win64/PxPvdSDK.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc11win64/PxFoundation.vcxproj">
+    <ProjectReference Include="./ApexFramework.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc11win64/PxPvdSDK.vcxproj">
+    <ProjectReference Include="./APEX_Clothing.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="./APEX_Legacy.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="./APEX_Destructible.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

@@ -868,6 +868,9 @@ void Sc::ShapeInteraction::updateState(const PxU8 externalDirtyFlags)
 		// B) The contact notification or processing state has changed.
 		//    All existing managers need to be deleted and recreated with the correct flag set
 		//    These flags can only be set at creation in LL
+		//KS - added this code here because it is no longer done in destroyManager() - a side-effect of the parallelization of the interaction management code
+		if (mEdgeIndex != IG_INVALID_EDGE)
+			scene.getSimpleIslandManager()->clearEdgeRigidCM(mEdgeIndex);
 		destroyManager();
 		createManager(NULL);
 	}

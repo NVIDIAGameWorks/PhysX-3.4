@@ -58,7 +58,7 @@
 		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
 	</ImportGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
-		<OutDir>./../../../bin/vc11win64-PhysX_3.4\</OutDir>
+		<OutDir>./../../../bin/VC11WIN64-PhysX_3.4\</OutDir>
 		<IntDir>./x64/Px3-SampleViewer/debug\</IntDir>
 		<TargetExt>.exe</TargetExt>
 		<TargetName>$(ProjectName)DEBUG</TargetName>
@@ -74,7 +74,7 @@
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<AdditionalOptions>/EHsc /MP /D GLEW_STATIC /d2Zi+</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
-			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/win64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/WIN64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;C:/Program Files/NVIDIA Corporation/NvToolsExt/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;_DEBUG;PX_CHECKED;PX_SUPPORT_VISUAL_DEBUGGER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>false</ExceptionHandling>
 			<WarningLevel>Level3</WarningLevel>
@@ -84,12 +84,12 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3DEBUG_x64.lib;PhysX3CookingDEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3CharacterKinematicDEBUG_x64.lib;PhysX3VehicleDEBUG.lib;PhysX3ExtensionsDEBUG.lib;PxTaskDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3DEBUG_x64.lib;PhysX3CookingDEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3CharacterKinematicDEBUG_x64.lib;PhysX3VehicleDEBUG.lib;PhysX3ExtensionsDEBUG.lib;PxTaskDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)DEBUG.exe</OutputFile>
-			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/vc11win64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/vc11win64;./../../../lib/vc11win64;./../../../../PxShared/lib/vc11win64;./../../../externalIP/glew-1.13.0/lib/win64;./../../../externalIP/glut-3.7.6/lib/win64;./../../../externalIP/hbao+3.0/lib/win64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/vc11win64-PhysX_3.4;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/VC11WIN64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/VC11WIN64;./../../../lib/VC11WIN64;./../../../../PxShared/lib/VC11WIN64;./../../../externalIP/glew-1.13.0/lib/WIN64;./../../../externalIP/glut-3.7.6/lib/WIN64;./../../../externalIP/hbao+3.0/lib/WIN64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/VC11WIN64-PhysX_3.4;./../../../lib;C:/Program Files/NVIDIA Corporation/NvToolsExt/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG.exe.pdb</ProgramDatabaseFile>
 			<SubSystem>Console</SubSystem>
-			<ImportLibrary>./../../../lib/vc11win64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<ImportLibrary>./../../../lib/VC11WIN64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<TargetMachine>MachineX64</TargetMachine>
 		</Link>
@@ -98,11 +98,11 @@
 		<ProjectReference>
 		</ProjectReference>
 		<PostBuildEvent>
-			<Command>..\physx64copy.bat ../../../../PhysX_3.4/bin/vc11win64 ..\..\..\bin\vc11win64-PhysX_3.4 ../../../../Externals ../../../externalIP/glut-3.7.6/bin/win64 ../../../../Externals/cg/2.2/bin.x64 ../../../../PxShared/bin/vc11win64 ../../../externalIP/hbao+3.0/lib/win64</Command>
+			<Command>..\physx64copy.bat ./../../../../PhysX_3.4/bin/VC11WIN64 ..\..\..\bin\VC11WIN64-PhysX_3.4 ./../../../../Externals ../../../externalIP/glut-3.7.6/bin/WIN64 ./../../../../Externals/cg/2.2/bin.x64 ./../../../../PxShared/bin/VC11WIN64 ../../../externalIP/hbao+3.0/lib/WIN64</Command>
 		</PostBuildEvent>
 	</ItemDefinitionGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
-		<OutDir>./../../../bin/vc11win64-PhysX_3.4\</OutDir>
+		<OutDir>./../../../bin/VC11WIN64-PhysX_3.4\</OutDir>
 		<IntDir>./x64/Px3-SampleViewer/release\</IntDir>
 		<TargetExt>.exe</TargetExt>
 		<TargetName>$(ProjectName)</TargetName>
@@ -119,7 +119,7 @@
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<AdditionalOptions>/EHsc /MP /D GLEW_STATIC /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
-			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/win64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/WIN64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;C:/Program Files/NVIDIA Corporation/NvToolsExt/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>false</ExceptionHandling>
 			<WarningLevel>Level3</WarningLevel>
@@ -129,12 +129,12 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3_x64.lib;PhysX3Cooking_x64.lib;PhysX3Common_x64.lib;PhysX3CharacterKinematic_x64.lib;PhysX3Vehicle.lib;PhysX3Extensions.lib;PxTask_x64.lib;PxPvdSDK_x64.lib;PxFoundation_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3_x64.lib;PhysX3Cooking_x64.lib;PhysX3Common_x64.lib;PhysX3CharacterKinematic_x64.lib;PhysX3Vehicle.lib;PhysX3Extensions.lib;PxTask_x64.lib;PxPvdSDK_x64.lib;PxFoundation_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/vc11win64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/vc11win64;./../../../lib/vc11win64;./../../../../PxShared/lib/vc11win64;./../../../externalIP/glew-1.13.0/lib/win64;./../../../externalIP/glut-3.7.6/lib/win64;./../../../externalIP/hbao+3.0/lib/win64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/vc11win64-PhysX_3.4;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/VC11WIN64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/VC11WIN64;./../../../lib/VC11WIN64;./../../../../PxShared/lib/VC11WIN64;./../../../externalIP/glew-1.13.0/lib/WIN64;./../../../externalIP/glut-3.7.6/lib/WIN64;./../../../externalIP/hbao+3.0/lib/WIN64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/VC11WIN64-PhysX_3.4;./../../../lib;C:/Program Files/NVIDIA Corporation/NvToolsExt/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName).exe.pdb</ProgramDatabaseFile>
 			<SubSystem>Console</SubSystem>
-			<ImportLibrary>./../../../lib/vc11win64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<ImportLibrary>./../../../lib/VC11WIN64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<TargetMachine>MachineX64</TargetMachine>
 		</Link>
@@ -143,11 +143,11 @@
 		<ProjectReference>
 		</ProjectReference>
 		<PostBuildEvent>
-			<Command>..\physx64copy.bat ../../../../PhysX_3.4/bin/vc11win64 ..\..\..\bin\vc11win64-PhysX_3.4 ../../../../Externals ../../../externalIP/glut-3.7.6/bin/win64 ../../../../Externals/cg/2.2/bin.x64 ../../../../PxShared/bin/vc11win64 ../../../externalIP/hbao+3.0/lib/win64</Command>
+			<Command>..\physx64copy.bat ./../../../../PhysX_3.4/bin/VC11WIN64 ..\..\..\bin\VC11WIN64-PhysX_3.4 ./../../../../Externals ../../../externalIP/glut-3.7.6/bin/WIN64 ./../../../../Externals/cg/2.2/bin.x64 ./../../../../PxShared/bin/VC11WIN64 ../../../externalIP/hbao+3.0/lib/WIN64</Command>
 		</PostBuildEvent>
 	</ItemDefinitionGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
-		<OutDir>./../../../bin/vc11win64-PhysX_3.4\</OutDir>
+		<OutDir>./../../../bin/VC11WIN64-PhysX_3.4\</OutDir>
 		<IntDir>./x64/Px3-SampleViewer/checked\</IntDir>
 		<TargetExt>.exe</TargetExt>
 		<TargetName>$(ProjectName)CHECKED</TargetName>
@@ -164,7 +164,7 @@
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<AdditionalOptions>/EHsc /MP /D GLEW_STATIC /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
-			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/win64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/WIN64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;C:/Program Files/NVIDIA Corporation/NvToolsExt/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;NDEBUG;PX_CHECKED;PX_SUPPORT_VISUAL_DEBUGGER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>false</ExceptionHandling>
 			<WarningLevel>Level3</WarningLevel>
@@ -174,12 +174,12 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3CHECKED_x64.lib;PhysX3CookingCHECKED_x64.lib;PhysX3CommonCHECKED_x64.lib;PhysX3CharacterKinematicCHECKED_x64.lib;PhysX3VehicleCHECKED.lib;PhysX3ExtensionsCHECKED.lib;PxTaskCHECKED_x64.lib;PxPvdSDKCHECKED_x64.lib;PxFoundationCHECKED_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3CHECKED_x64.lib;PhysX3CookingCHECKED_x64.lib;PhysX3CommonCHECKED_x64.lib;PhysX3CharacterKinematicCHECKED_x64.lib;PhysX3VehicleCHECKED.lib;PhysX3ExtensionsCHECKED.lib;PxTaskCHECKED_x64.lib;PxPvdSDKCHECKED_x64.lib;PxFoundationCHECKED_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)CHECKED.exe</OutputFile>
-			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/vc11win64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/vc11win64;./../../../lib/vc11win64;./../../../../PxShared/lib/vc11win64;./../../../externalIP/glew-1.13.0/lib/win64;./../../../externalIP/glut-3.7.6/lib/win64;./../../../externalIP/hbao+3.0/lib/win64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/vc11win64-PhysX_3.4;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/VC11WIN64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/VC11WIN64;./../../../lib/VC11WIN64;./../../../../PxShared/lib/VC11WIN64;./../../../externalIP/glew-1.13.0/lib/WIN64;./../../../externalIP/glut-3.7.6/lib/WIN64;./../../../externalIP/hbao+3.0/lib/WIN64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/VC11WIN64-PhysX_3.4;./../../../lib;C:/Program Files/NVIDIA Corporation/NvToolsExt/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED.exe.pdb</ProgramDatabaseFile>
 			<SubSystem>Console</SubSystem>
-			<ImportLibrary>./../../../lib/vc11win64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<ImportLibrary>./../../../lib/VC11WIN64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<TargetMachine>MachineX64</TargetMachine>
 		</Link>
@@ -188,11 +188,11 @@
 		<ProjectReference>
 		</ProjectReference>
 		<PostBuildEvent>
-			<Command>..\physx64copy.bat ../../../../PhysX_3.4/bin/vc11win64 ..\..\..\bin\vc11win64-PhysX_3.4 ../../../../Externals ../../../externalIP/glut-3.7.6/bin/win64 ../../../../Externals/cg/2.2/bin.x64 ../../../../PxShared/bin/vc11win64 ../../../externalIP/hbao+3.0/lib/win64</Command>
+			<Command>..\physx64copy.bat ./../../../../PhysX_3.4/bin/VC11WIN64 ..\..\..\bin\VC11WIN64-PhysX_3.4 ./../../../../Externals ../../../externalIP/glut-3.7.6/bin/WIN64 ./../../../../Externals/cg/2.2/bin.x64 ./../../../../PxShared/bin/VC11WIN64 ../../../externalIP/hbao+3.0/lib/WIN64</Command>
 		</PostBuildEvent>
 	</ItemDefinitionGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
-		<OutDir>./../../../bin/vc11win64-PhysX_3.4\</OutDir>
+		<OutDir>./../../../bin/VC11WIN64-PhysX_3.4\</OutDir>
 		<IntDir>./x64/Px3-SampleViewer/profile\</IntDir>
 		<TargetExt>.exe</TargetExt>
 		<TargetName>$(ProjectName)PROFILE</TargetName>
@@ -209,7 +209,7 @@
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<AdditionalOptions>/EHsc /MP /D GLEW_STATIC /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
-			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/win64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/WIN64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;C:/Program Files/NVIDIA Corporation/NvToolsExt/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;NDEBUG;PX_PROFILE;PX_SUPPORT_VISUAL_DEBUGGER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>false</ExceptionHandling>
 			<WarningLevel>Level3</WarningLevel>
@@ -219,12 +219,12 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3PROFILE_x64.lib;PhysX3CookingPROFILE_x64.lib;PhysX3CommonPROFILE_x64.lib;PhysX3CharacterKinematicPROFILE_x64.lib;PhysX3VehiclePROFILE.lib;PhysX3ExtensionsPROFILE.lib;PxTaskPROFILE_x64.lib;PxPvdSDKPROFILE_x64.lib;PxFoundationPROFILE_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3PROFILE_x64.lib;PhysX3CookingPROFILE_x64.lib;PhysX3CommonPROFILE_x64.lib;PhysX3CharacterKinematicPROFILE_x64.lib;PhysX3VehiclePROFILE.lib;PhysX3ExtensionsPROFILE.lib;PxTaskPROFILE_x64.lib;PxPvdSDKPROFILE_x64.lib;PxFoundationPROFILE_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)PROFILE.exe</OutputFile>
-			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/vc11win64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/vc11win64;./../../../lib/vc11win64;./../../../../PxShared/lib/vc11win64;./../../../externalIP/glew-1.13.0/lib/win64;./../../../externalIP/glut-3.7.6/lib/win64;./../../../externalIP/hbao+3.0/lib/win64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/vc11win64-PhysX_3.4;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/VC11WIN64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/VC11WIN64;./../../../lib/VC11WIN64;./../../../../PxShared/lib/VC11WIN64;./../../../externalIP/glew-1.13.0/lib/WIN64;./../../../externalIP/glut-3.7.6/lib/WIN64;./../../../externalIP/hbao+3.0/lib/WIN64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/VC11WIN64-PhysX_3.4;./../../../lib;C:/Program Files/NVIDIA Corporation/NvToolsExt/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE.exe.pdb</ProgramDatabaseFile>
 			<SubSystem>Console</SubSystem>
-			<ImportLibrary>./../../../lib/vc11win64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<ImportLibrary>./../../../lib/VC11WIN64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<TargetMachine>MachineX64</TargetMachine>
 		</Link>
@@ -233,7 +233,7 @@
 		<ProjectReference>
 		</ProjectReference>
 		<PostBuildEvent>
-			<Command>..\physx64copy.bat ../../../../PhysX_3.4/bin/vc11win64 ..\..\..\bin\vc11win64-PhysX_3.4 ../../../../Externals ../../../externalIP/glut-3.7.6/bin/win64 ../../../../Externals/cg/2.2/bin.x64 ../../../../PxShared/bin/vc11win64 ../../../externalIP/hbao+3.0/lib/win64</Command>
+			<Command>..\physx64copy.bat ./../../../../PhysX_3.4/bin/VC11WIN64 ..\..\..\bin\VC11WIN64-PhysX_3.4 ./../../../../Externals ../../../externalIP/glut-3.7.6/bin/WIN64 ./../../../../Externals/cg/2.2/bin.x64 ./../../../../PxShared/bin/VC11WIN64 ../../../externalIP/hbao+3.0/lib/WIN64</Command>
 		</PostBuildEvent>
 	</ItemDefinitionGroup>
 	<ItemGroup>
@@ -717,7 +717,7 @@
 		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./../../../externalIP/glew-1.13.0/compiler/vc11win64/glew-MT.vcxproj">
+		<ProjectReference Include="./../../../externalIP/glew-1.13.0/compiler/VC11WIN64/glew-MT.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>

@@ -66,10 +66,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
-			<AdditionalOptions>/GR- /GF /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /Zi /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>./../../../Include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../Graphics/include/win32/GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;RENDER_SNIPPET;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -112,9 +114,11 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../../Include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../Graphics/include/win32/GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;RENDER_SNIPPET;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -157,9 +161,11 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../../Include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../Graphics/include/win32/GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;RENDER_SNIPPET;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -202,9 +208,11 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /wd4350 /wd4668 /wd4365 /wd4548 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../../Include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../Graphics/include/win32/GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;RENDER_SNIPPET;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -274,12 +282,12 @@
 		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./SnippetRender.vcxproj">
+		<ProjectReference Include="./SnippetUtils.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./SnippetUtils.vcxproj">
+		<ProjectReference Include="./SnippetRender.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>

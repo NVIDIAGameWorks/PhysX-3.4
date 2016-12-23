@@ -311,7 +311,11 @@ static void setupFinalizeSolverConstraints(Sc::ShapeInteraction* shapeInteractio
 				Vec3V rb = QuatRotate(bodyFrame1q, body1Anchor);
 				Vec3V error =V3Sub(V3Add(ra, bodyFrame0p), V3Add(rb, bodyFrame1p));
 
-				const PxU32 index = c.contactPatches[c.correlationListHeads[i]].start;
+
+				PxU32 index = c.contactID[i][j];
+
+				index = index == 0xFFFF ? c.contactPatches[c.correlationListHeads[i]].start : index;
+
 				const Vec3V tvel = V3LoadA(buffer[index].targetVel);
 				
 				{
@@ -478,6 +482,7 @@ static bool reserveBlockStreams(const bool useExtContacts, Dy::CorrelationBuffer
 				constraintBlock=NULL;
 			}
 		}
+		PX_ASSERT((size_t(constraintBlock) & 0xF) == 0);
 	}
 
 	FrictionPatch* frictionPatches = NULL;

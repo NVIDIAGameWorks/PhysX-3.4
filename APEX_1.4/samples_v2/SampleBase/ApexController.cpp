@@ -32,6 +32,9 @@ ApexController::ApexController(PxSimulationFilterShader filterShader, CFirstPers
 , mFilterShader(filterShader)
 , mLastSimulationTime(0)
 , mPaused(false)
+, mUseFixedTimestep(true)
+, mFixedTimestep(1.0/60.0)
+, mTimeRemainder(0.0)
 {
 	QueryPerformanceFrequency(&mPerformanceFreq);
 }
@@ -271,8 +274,26 @@ void ApexController::Animate(double dt)
 	if (mPaused)
 		return;
 
-	// slower physics if fps is too low
-	dt = PxClamp(dt, 0.001, 0.33);
+	if (mFixedTimestep)
+	{
+		mTimeRemainder += dt;
+		if (mTimeRemainder <= 0.0)
+		{
+			return;
+		}
+		mTimeRemainder -= mFixedTimestep;
+		if (mTimeRemainder > 0.0)
+		{
+			// slower physics if fps is below 1/mFixedTimestep
+			mTimeRemainder = 0.0;
+		}
+		dt = mFixedTimestep;
+	}
+	else
+	{
+		// slower physics if fps is too low
+		dt = PxClamp(dt, 0.001, 0.33);
+	}
 
 	LARGE_INTEGER time0;
 	QueryPerformanceCounter(&time0);

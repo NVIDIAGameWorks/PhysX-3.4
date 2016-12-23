@@ -832,12 +832,7 @@
     <ClInclude Include="..\..\include\legacy\ModuleLegacy.h"></ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="./ApexCommon.vcxproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="./ApexShared.vcxproj">
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc12win32/PxFoundation.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
@@ -847,12 +842,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc12win32/PxFoundation.vcxproj">
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc12win32/PxTask.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc12win32/PxTask.vcxproj">
+    <ProjectReference Include="./ApexShared.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="./ApexCommon.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

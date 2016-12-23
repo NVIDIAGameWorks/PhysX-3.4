@@ -50,13 +50,7 @@
 #include "PxvManager.h"
 #include "ScBodyCore.h"
 
-#define EXTRA_PROFILING 0
 #define PX_MAX_DOMINANCE_GROUP 32
-
-
-#if EXTRA_PROFILING
-#include <cstdio>
-#endif
 
 class OverlapFilterTask;
 
@@ -102,6 +96,10 @@ namespace Bp
 	class BoundsArray;
 }
 
+namespace Sq
+{
+	typedef PxU32 PrunerHandle;	// PT: we should get this from SqPruner.h but it cannot be included from here
+}
 
 namespace Dy
 {
@@ -184,7 +182,6 @@ namespace Sc
 		Ps::InlineArray<const Sc::ShapeCore*, 64>		removedShapes;
 	};
 
-
 	struct InteractionType
 	{
 		enum Enum
@@ -203,7 +200,6 @@ namespace Sc
 		};
 	};
 
-
 	struct SceneInternalFlag
 	{
 		enum Enum
@@ -213,7 +209,6 @@ namespace Sc
 			eSCENE_DEFAULT							= 0
 		};
 	};
-
 
 	struct SimulationStage
 	{
@@ -227,7 +222,21 @@ namespace Sc
 		};
 	};
 
+	// PT: TODO: revisit the need for a virtual interface
+	struct SqBoundsSync
+	{
+		virtual void sync(const Sq::PrunerHandle* handles, const PxU32* indices, const PxBounds3* bounds, PxU32 count) = 0;
 
+		virtual ~SqBoundsSync() {}
+	};
+
+	// PT: TODO: revisit the need for a virtual interface
+	struct SqRefFinder
+	{
+		virtual Sq::PrunerHandle find(const PxRigidBody* body, const PxShape* shape) = 0;
+
+		virtual ~SqRefFinder() {}
+	};
 
 	class Scene : public Ps::UserAllocated
 	{
@@ -379,14 +388,13 @@ namespace Sc
 					void						postReportsCleanup();
 					void						fireCallbacksPostSync();
 					void						syncSceneQueryBounds(SqBoundsSync& sync, SqRefFinder& finder);
-					PxU32						getErrorState();
 
 					PxU32						getDefaultContactReportStreamBufferSize() const;
 
 					PxReal						getFrictionOffsetThreshold() const;
 
-					void						setLimits(const PxSceneLimits& limits);
-					const PxSceneLimits&		getLimits() const;
+	PX_FORCE_INLINE	void						setLimits(const PxSceneLimits& limits)	{ mLimits = limits;	}
+	PX_FORCE_INLINE	const PxSceneLimits&		getLimits()						const	{ return mLimits;	}
 
 					void						visualizeStartStep();
 					void						visualizeEndStep();
@@ -536,7 +544,8 @@ namespace Sc
 					void                        onBodyWakeUp(BodySim* body);
 					void                        onBodySleep(BodySim* body);
 
-					bool						isValid() const;
+	PX_FORCE_INLINE	bool						isValid() const	{ return (mLLContext != NULL);	}
+
 
 					void						addToLostTouchList(BodySim* body1, BodySim* body2);
 
@@ -886,8 +895,6 @@ namespace Sc
 
 					Cm::BitMap					mDirtyShapeSimMap;
 
-					PxU32						mErrorState;
-
 					PxU32						mDominanceBitMatrix[PX_MAX_DOMINANCE_GROUP];
 
 					PxReal						mVisualizationScale;  // Redundant but makes checks whether debug visualization is enabled faster
@@ -900,13 +907,6 @@ namespace Sc
 					PxU32						mNbGeometries[PxGeometryType::eGEOMETRY_COUNT];
 
 					PxU32						mNumDeactivatingNodes[2];
-
-#if EXTRA_PROFILING
-	private:
-					FILE*	        			mExtraProfileFile;
-					PxU32 	        			mLineNum;
-#endif
-
 
 					// task decomposition
 					void						preBroadPhase(PxBaseTask* continuation);

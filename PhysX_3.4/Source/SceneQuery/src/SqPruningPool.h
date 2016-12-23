@@ -76,20 +76,20 @@ namespace Sq
 		PX_FORCE_INLINE	const PxBounds3*		getCurrentWorldBoxes()	const	{ return mWorldBoxes;		}
 		PX_FORCE_INLINE	PxBounds3*				getCurrentWorldBoxes()			{ return mWorldBoxes;		}
 
-		PX_FORCE_INLINE void					setWorldAABB(PrunerHandle h, const PxBounds3& worldAABB)
-												{
-													mWorldBoxes[getIndex(h)] = worldAABB;
-												}
-
 		PX_FORCE_INLINE	const PxBounds3&		getWorldAABB(PrunerHandle h) const
 												{
 													return mWorldBoxes[getIndex(h)];
 												}
 
-		PX_FORCE_INLINE	void					updateObjects(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count)
+		PX_FORCE_INLINE	void					updateObjectsAndInflateBounds(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count)
 												{
 													for(PxU32 i=0; i<count; i++)
-														Sq::inflateBounds(mWorldBoxes[getIndex(handles[i])], newBounds[indices[i]]);
+													{
+														const PoolIndex poolIndex = getIndex(handles[i]);
+														PX_ASSERT(poolIndex!=INVALID_PRUNERHANDLE);
+//														if(poolIndex!=INVALID_PRUNERHANDLE)
+															Sq::inflateBounds(mWorldBoxes[poolIndex], newBounds[indices[i]]);
+													}
 												}
 
 						void					preallocate(PxU32 entries);

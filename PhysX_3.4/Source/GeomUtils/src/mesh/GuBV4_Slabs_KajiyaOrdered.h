@@ -30,6 +30,8 @@
 #ifndef GU_BV4_SLABS_KAJIYA_ORDERED_H
 #define GU_BV4_SLABS_KAJIYA_ORDERED_H
 
+#include "GuBVConstants.h"
+
 	// Kajiya + PNS
 	template<const int inflateT, class LeafTestT, class ParamsT>
 	static void BV4_ProcessStreamKajiyaOrdered(const BVDataPacked* PX_RESTRICT node, PxU32 initData, ParamsT* PX_RESTRICT params)

@@ -49,7 +49,7 @@ PxTask_debug_common_cflags    += $(addprefix -D, $(PxTask_debug_defines))
 PxTask_debug_common_cflags    += $(addprefix -I, $(PxTask_debug_hpaths))
 PxTask_debug_common_cflags  += -Werror
 PxTask_debug_common_cflags  += -fpic -fno-exceptions
-PxTask_debug_common_cflags  += -isysroot C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxTask_debug_common_cflags  += -isysroot ./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxTask_debug_common_cflags  += -march=armv7-a -mfpu=neon -marm -mfloat-abi=softfp -mthumb-interwork
 PxTask_debug_common_cflags  += -g3 -gdwarf-2
 PxTask_debug_cflags	:= $(PxTask_debug_common_cflags)
@@ -58,7 +58,7 @@ PxTask_debug_cppflags  += -fno-rtti
 PxTask_debug_lflags    := $(PxTask_custom_lflags)
 PxTask_debug_lflags    += $(addprefix -L, $(PxTask_debug_lpaths))
 PxTask_debug_lflags    += -Wl,--start-group $(addprefix -l, $(PxTask_debug_libraries)) -Wl,--end-group
-PxTask_debug_lflags  += --sysroot=C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxTask_debug_lflags  += --sysroot=./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxTask_debug_objsdir  = $(OBJS_DIR)/PxTask_debug
 PxTask_debug_cpp_o    = $(addprefix $(PxTask_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxTask_cppfiles)))))
 PxTask_debug_cc_o    = $(addprefix $(PxTask_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxTask_ccfiles)))))
@@ -139,7 +139,7 @@ PxTask_release_common_cflags    += $(addprefix -D, $(PxTask_release_defines))
 PxTask_release_common_cflags    += $(addprefix -I, $(PxTask_release_hpaths))
 PxTask_release_common_cflags  += -Werror
 PxTask_release_common_cflags  += -fpic -fno-exceptions
-PxTask_release_common_cflags  += -isysroot C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxTask_release_common_cflags  += -isysroot ./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxTask_release_common_cflags  += -march=armv7-a -mfpu=neon -marm -mfloat-abi=softfp -mthumb-interwork
 PxTask_release_common_cflags  += -O3 -fno-strict-aliasing
 PxTask_release_common_cflags  += -ffunction-sections -funwind-tables -fstack-protector
@@ -150,7 +150,7 @@ PxTask_release_cppflags  += -fno-rtti
 PxTask_release_lflags    := $(PxTask_custom_lflags)
 PxTask_release_lflags    += $(addprefix -L, $(PxTask_release_lpaths))
 PxTask_release_lflags    += -Wl,--start-group $(addprefix -l, $(PxTask_release_libraries)) -Wl,--end-group
-PxTask_release_lflags  += --sysroot=C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxTask_release_lflags  += --sysroot=./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxTask_release_objsdir  = $(OBJS_DIR)/PxTask_release
 PxTask_release_cpp_o    = $(addprefix $(PxTask_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxTask_cppfiles)))))
 PxTask_release_cc_o    = $(addprefix $(PxTask_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxTask_ccfiles)))))
@@ -233,7 +233,7 @@ PxTask_checked_common_cflags    += $(addprefix -D, $(PxTask_checked_defines))
 PxTask_checked_common_cflags    += $(addprefix -I, $(PxTask_checked_hpaths))
 PxTask_checked_common_cflags  += -Werror
 PxTask_checked_common_cflags  += -fpic -fno-exceptions
-PxTask_checked_common_cflags  += -isysroot C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxTask_checked_common_cflags  += -isysroot ./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxTask_checked_common_cflags  += -march=armv7-a -mfpu=neon -marm -mfloat-abi=softfp -mthumb-interwork
 PxTask_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PxTask_checked_common_cflags  += -ffunction-sections -funwind-tables -fstack-protector
@@ -244,7 +244,7 @@ PxTask_checked_cppflags  += -fno-rtti
 PxTask_checked_lflags    := $(PxTask_custom_lflags)
 PxTask_checked_lflags    += $(addprefix -L, $(PxTask_checked_lpaths))
 PxTask_checked_lflags    += -Wl,--start-group $(addprefix -l, $(PxTask_checked_libraries)) -Wl,--end-group
-PxTask_checked_lflags  += --sysroot=C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxTask_checked_lflags  += --sysroot=./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxTask_checked_objsdir  = $(OBJS_DIR)/PxTask_checked
 PxTask_checked_cpp_o    = $(addprefix $(PxTask_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxTask_cppfiles)))))
 PxTask_checked_cc_o    = $(addprefix $(PxTask_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxTask_ccfiles)))))
@@ -327,7 +327,7 @@ PxTask_profile_common_cflags    += $(addprefix -D, $(PxTask_profile_defines))
 PxTask_profile_common_cflags    += $(addprefix -I, $(PxTask_profile_hpaths))
 PxTask_profile_common_cflags  += -Werror
 PxTask_profile_common_cflags  += -fpic -fno-exceptions
-PxTask_profile_common_cflags  += -isysroot C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxTask_profile_common_cflags  += -isysroot ./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxTask_profile_common_cflags  += -march=armv7-a -mfpu=neon -marm -mfloat-abi=softfp -mthumb-interwork
 PxTask_profile_common_cflags  += -O3 -fno-strict-aliasing
 PxTask_profile_common_cflags  += -ffunction-sections -funwind-tables -fstack-protector
@@ -338,7 +338,7 @@ PxTask_profile_cppflags  += -fno-rtti
 PxTask_profile_lflags    := $(PxTask_custom_lflags)
 PxTask_profile_lflags    += $(addprefix -L, $(PxTask_profile_lpaths))
 PxTask_profile_lflags    += -Wl,--start-group $(addprefix -l, $(PxTask_profile_libraries)) -Wl,--end-group
-PxTask_profile_lflags  += --sysroot=C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxTask_profile_lflags  += --sysroot=./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxTask_profile_objsdir  = $(OBJS_DIR)/PxTask_profile
 PxTask_profile_cpp_o    = $(addprefix $(PxTask_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxTask_cppfiles)))))
 PxTask_profile_cc_o    = $(addprefix $(PxTask_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxTask_ccfiles)))))

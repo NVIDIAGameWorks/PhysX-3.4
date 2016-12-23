@@ -43,6 +43,8 @@ extern void stepPhysics(bool interactive);
 extern void cleanupPhysics(bool interactive);
 extern void keyPress(const char key, const PxTransform& camera);
 
+extern float cameraSpeed;
+
 
 namespace
 {
@@ -58,7 +60,7 @@ void keyboardCallback(unsigned char key, int x, int y)
 	if(key==27)
 		exit(0);
 
-	if(!sCamera->handleKey(key, x, y))
+	if (!sCamera->handleKey(key, x, y, cameraSpeed))
 		keyPress(key, sCamera->getTransform());
 }
 
@@ -76,7 +78,7 @@ void renderCallback()
 {
 	stepPhysics(true);
 
-	Snippets::startRender(sCamera->getEye(), sCamera->getDir());
+	Snippets::startRender(sCamera->getEye(), sCamera->getDir(), 10.f, 100000.f);
 
 	PxScene* scene;
 	PxGetPhysics().getScenes(&scene,1);

@@ -42,6 +42,7 @@
 /* Forward decl to avoid inclusion of cuda.h */
 typedef struct CUctx_st *CUcontext;
 typedef struct CUgraphicsResource_st *CUgraphicsResource;
+typedef int CUdevice;
 
 namespace physx
 { 
@@ -242,6 +243,11 @@ public:
      */
     virtual void releaseContext() = 0;
 
+	/**
+	* \brief Return the CUcontext
+	*/
+	virtual CUcontext getContext() = 0;
+
     /**
      * \brief Return the PxCudaMemoryManager instance associated with this
      * CUDA context
@@ -289,6 +295,7 @@ public:
 	virtual int  getSharedMemPerMultiprocessor() const = 0; //!< returns total amount of shared memory available per multiprocessor in bytes
 	virtual unsigned int getMaxThreadsPerBlock() const = 0; //!< returns the maximum number of threads per block
     virtual const char *getDeviceName() const = 0; //!< returns device name retrieved from driver
+	virtual CUdevice getDevice() const = 0; //!< returns device handle retrieved from driver
 	virtual PxCudaInteropMode::Enum getInteropMode() const = 0; //!< interop mode the context was created with
 
 	virtual void setUsingConcurrentStreams(bool) = 0; //!< turn on/off using concurrent streams for GPU work

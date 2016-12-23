@@ -27,6 +27,7 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
+#include "foundation/PxProfiler.h"
 #include "CctCharacterController.h"
 #include "CctCharacterControllerManager.h"
 #include "CctSweptBox.h"
@@ -56,6 +57,7 @@
 using namespace physx;
 using namespace Cct;
 using namespace Gu;
+using namespace Cm;
 
 static const PxU32 gObstacleDebugColor = PxU32(PxDebugColor::eARGB_CYAN);
 //static const PxU32 gCCTBoxDebugColor = PxU32(PxDebugColor::eARGB_YELLOW);
@@ -1140,7 +1142,7 @@ void SweepTest::findTouchedObstacles(const UserObstacles& userObstacles, const P
 			if(!Gu::intersectOBBAABB(obb, singlePrecisionWorldBox))
 				continue;
 
-			TouchedUserBox* UserBox = reinterpret_cast<TouchedUserBox*>(reserve(mGeomStream, sizeof(TouchedUserBox)/sizeof(PxU32)));
+			TouchedUserBox* UserBox = reinterpret_cast<TouchedUserBox*>(reserveContainerMemory(mGeomStream, sizeof(TouchedUserBox)/sizeof(PxU32)));
 			UserBox->mType			= TouchedGeomType::eUSER_BOX;
 			UserBox->mTGUserData	= boxUserData[i];
 			UserBox->mActor			= NULL;
@@ -1181,7 +1183,7 @@ void SweepTest::findTouchedObstacles(const UserObstacles& userObstacles, const P
 			if(d2>r*r)
 				continue;
 
-			TouchedUserCapsule* UserCapsule = reinterpret_cast<TouchedUserCapsule*>(reserve(mGeomStream, sizeof(TouchedUserCapsule)/sizeof(PxU32)));
+			TouchedUserCapsule* UserCapsule = reinterpret_cast<TouchedUserCapsule*>(reserveContainerMemory(mGeomStream, sizeof(TouchedUserCapsule)/sizeof(PxU32)));
 			UserCapsule->mType			= TouchedGeomType::eUSER_CAPSULE;
 			UserCapsule->mTGUserData	= capsuleUserData[i];
 			UserCapsule->mActor			= NULL;
@@ -1319,12 +1321,12 @@ void SweepTest::updateTouchedGeoms(	const InternalCBData_FindTouchedGeom* userDa
 	if(mRenderBuffer)
 	{
 		// PT: worldTemporalBox = temporal BV for this frame
-		Cm::RenderOutput out(*mRenderBuffer);
+		RenderOutput out(*mRenderBuffer);
 
 		if(mRenderFlags & PxControllerDebugRenderFlag::eTEMPORAL_BV)
 		{
 			out << gTBVDebugColor;
-			out << Cm::DebugBox(getBounds3(worldTemporalBox));
+			out << DebugBox(getBounds3(worldTemporalBox));
 		}
 
 		if(mRenderFlags & PxControllerDebugRenderFlag::eCACHED_BV)
@@ -1333,7 +1335,7 @@ void SweepTest::updateTouchedGeoms(	const InternalCBData_FindTouchedGeom* userDa
 				out << PxU32(PxDebugColor::eARGB_RED);
 			else
 				out << PxU32(PxDebugColor::eARGB_GREEN);
-			out << Cm::DebugBox(getBounds3(mCacheBounds));
+			out << DebugBox(getBounds3(mCacheBounds));
 		}
 	}
 }
@@ -1345,12 +1347,15 @@ bool SweepTest::doSweepTest(const InternalCBData_FindTouchedGeom* userData,
 							SweptVolume& swept_volume,
 							const PxVec3& direction, const PxVec3& sideVector, PxU32 max_iter, PxU32* nb_collisions,
 							float min_dist, const PxControllerFilters& filters, SweepPass sweepPass,
-							const PxRigidActor*& touchedActorOut, const PxShape*& touchedShapeOut)
+							const PxRigidActor*& touchedActorOut, const PxShape*& touchedShapeOut, PxU64 contextID)
 {
 	// Early exit when motion is zero. Since the motion is decomposed into several vectors
 	// and this function is called for each of them, it actually happens quite often.
 	if(direction.isZero())
 		return false;
+
+	PX_PROFILE_ZONE("CharacterController.doSweepTest", contextID);
+	PX_UNUSED(contextID);
 
 	bool hasMoved = false;
 	mFlags &= ~(STF_VALIDATE_TRIANGLE_DOWN|STF_TOUCH_OTHER_CCT|STF_TOUCH_OBSTACLE);
@@ -1640,9 +1645,12 @@ PxControllerCollisionFlags SweepTest::moveCharacter(
 					bool constrainedClimbingMode,
 					bool standingOnMoving,
 					const PxRigidActor*& touchedActor,
-					const PxShape*& touchedShape
-					 )
+					const PxShape*& touchedShape,
+					PxU64 contextID)
 {
+	PX_PROFILE_ZONE("CharacterController.moveCharacter", contextID);
+	PX_UNUSED(contextID);
+
 	bool standingOnMovingUp = standingOnMoving;
 
 	mFlags &= ~STF_HIT_NON_WALKABLE;
@@ -1766,7 +1774,7 @@ PxControllerCollisionFlags SweepTest::moveCharacter(
 		if(!(mFlags & STF_WALK_EXPERIMENT))
 		{
 			// ### maxIter here seems to "solve" the V bug
-			if(doSweepTest(userData, userHitData, userObstacles, volume, UpVector, SideVector, maxIterUp, &NbCollisions, min_dist, filters, SWEEP_PASS_UP, touchedActor, touchedShape))
+			if(doSweepTest(userData, userHitData, userObstacles, volume, UpVector, SideVector, maxIterUp, &NbCollisions, min_dist, filters, SWEEP_PASS_UP, touchedActor, touchedShape, contextID))
 			{
 				if(NbCollisions)
 				{
@@ -1795,7 +1803,7 @@ PxControllerCollisionFlags SweepTest::moveCharacter(
 	{
 		NbCollisions=0;
 		//printf("BS:%.2f %.2f %.2f NS=%d\n", volume.mCenter.x, volume.mCenter.y, volume.mCenter.z, mNbCachedStatic);
-		if(doSweepTest(userData, userHitData, userObstacles, volume, SideVector, SideVector, maxIterSides, &NbCollisions, min_dist, filters, SWEEP_PASS_SIDE, touchedActor, touchedShape))
+		if(doSweepTest(userData, userHitData, userObstacles, volume, SideVector, SideVector, maxIterSides, &NbCollisions, min_dist, filters, SWEEP_PASS_SIDE, touchedActor, touchedShape, contextID))
 		{
 			if(NbCollisions)
 				CollisionFlags |= PxControllerCollisionFlag::eCOLLISION_SIDES;
@@ -1815,7 +1823,7 @@ PxControllerCollisionFlags SweepTest::moveCharacter(
 				NbCollisions=0;
 				//printf("BS:%.2f %.2f %.2f NS=%d\n", volume.mCenter.x, volume.mCenter.y, volume.mCenter.z, mNbCachedStatic);
 				const PxExtendedVec3 saved = volume.mCenter;
-				doSweepTest(userData, userHitData, userObstacles, volume, sensor, SideVector, 1, &NbCollisions, min_dist, filters, SWEEP_PASS_SENSOR, touchedActor, touchedShape);
+				doSweepTest(userData, userHitData, userObstacles, volume, sensor, SideVector, 1, &NbCollisions, min_dist, filters, SWEEP_PASS_SENSOR, touchedActor, touchedShape, contextID);
 				volume.mCenter = saved;
 			}
 		}
@@ -1842,7 +1850,7 @@ PxControllerCollisionFlags SweepTest::moveCharacter(
 
 		// min_dist actually makes a big difference :(
 		// AAARRRGGH: if we get culled because of min_dist here, mValidateTriangle never becomes valid!
-		if(doSweepTest(userData, userHitData, userObstacles, volume, DownVector, SideVector, maxIterDown, &NbCollisions, min_dist, filters, SWEEP_PASS_DOWN, touchedActor, touchedShape))
+		if(doSweepTest(userData, userHitData, userObstacles, volume, DownVector, SideVector, maxIterDown, &NbCollisions, min_dist, filters, SWEEP_PASS_DOWN, touchedActor, touchedShape, contextID))
 		{
 			if(NbCollisions)
 			{
@@ -1931,7 +1939,7 @@ PxControllerCollisionFlags SweepTest::moveCharacter(
 				RecoverPoint = -upDirection*Recover;
 
 				// PT: we pass "SWEEP_PASS_UP" for compatibility with previous code, but it's technically wrong (this is a 'down' pass)
-				if(doSweepTest(userData, userHitData, userObstacles, volume, RecoverPoint, SideVector, maxIter, &NbCollisions, MD, filters, SWEEP_PASS_UP, touchedActor, touchedShape))
+				if(doSweepTest(userData, userHitData, userObstacles, volume, RecoverPoint, SideVector, maxIter, &NbCollisions, MD, filters, SWEEP_PASS_UP, touchedActor, touchedShape, contextID))
 				{
 		//			if(NbCollisions)	CollisionFlags |= COLLISION_Y_DOWN;
 					// PT: why did we do this ? Removed for now. It creates a bug (non registered event) when we land on a steep poly.
@@ -2212,7 +2220,7 @@ PxControllerCollisionFlags Controller::move(SweptVolume& volume, const PxVec3& o
 	mGlobalTime += PxF64(elapsedTime);
 
 	// Init CCT with per-controller settings
-	Cm::RenderBuffer* renderBuffer									= mManager->mRenderBuffer;
+	RenderBuffer* renderBuffer										= mManager->mRenderBuffer;
 	const PxU32 debugRenderFlags									= mManager->mDebugRenderingFlags;
 	mCctModule.mRenderBuffer										= renderBuffer;
 	mCctModule.mRenderFlags											= debugRenderFlags;
@@ -2311,6 +2319,8 @@ PxControllerCollisionFlags Controller::move(SweptVolume& volume, const PxVec3& o
 	PX_ASSERT(!capsules.size());
 
 	{
+		PX_PROFILE_ZONE("CharacterController.filterCandidateControllers", getContextId());
+
 		// Experiment - to do better
 		const PxU32 nbControllers = mManager->getNbControllers();
 		Controller** controllers = mManager->getControllers();
@@ -2339,12 +2349,12 @@ PxControllerCollisionFlags Controller::move(SweptVolume& volume, const PxVec3& o
 #ifdef REMOVED
 					if(renderBuffer /*&& (debugRenderFlags & PxControllerDebugRenderFlag::eOBSTACLES)*/)
 					{
-						Cm::RenderOutput out(*renderBuffer);
+						RenderOutput out(*renderBuffer);
 						out << gCCTBoxDebugColor;
 
 						out << PxTransform(toVec3(obb.center), obb.rot);
 
-						out << Cm::DebugBox(obb.extents, true);
+						out << DebugBox(obb.extents, true);
 					}
 #endif
 					const size_t code = encodeUserObject(i, USER_OBJECT_CCT);
@@ -2389,12 +2399,12 @@ PxControllerCollisionFlags Controller::move(SweptVolume& volume, const PxVec3& o
 
 			if(renderBuffer && (debugRenderFlags & PxControllerDebugRenderFlag::eOBSTACLES))
 			{
-				Cm::RenderOutput out(*renderBuffer);
+				RenderOutput out(*renderBuffer);
 				out << gObstacleDebugColor;
 
 				out << PxTransform(toVec3(userBoxObstacle.mPos), userBoxObstacle.mRot);
 
-				out << Cm::DebugBox(userBoxObstacle.mHalfExtents, true);
+				out << DebugBox(userBoxObstacle.mHalfExtents, true);
 			}
 		}
 
@@ -2419,7 +2429,7 @@ PxControllerCollisionFlags Controller::move(SweptVolume& volume, const PxVec3& o
 
 			if(renderBuffer && (debugRenderFlags & PxControllerDebugRenderFlag::eOBSTACLES))
 			{
-				Cm::RenderOutput out(*renderBuffer);
+				RenderOutput out(*renderBuffer);
 				out << gObstacleDebugColor;
 				out.outputCapsule(userCapsuleObstacle.mRadius, userCapsuleObstacle.mHalfHeight, PxTransform(toVec3(userCapsuleObstacle.mPos), userCapsuleObstacle.mRot));
 			}
@@ -2458,7 +2468,7 @@ PxControllerCollisionFlags Controller::move(SweptVolume& volume, const PxVec3& o
 	const PxRigidActor* touchedActor = NULL;
 	const PxShape* touchedShape = NULL;
 	PxExtendedVec3 Backup = volume.mCenter;
-	collisionFlags = mCctModule.moveCharacter(&findGeomData, &userHitData, volume, disp, userObstacles, minDist, filters, constrainedClimbingMode, standingOnMoving, touchedActor, touchedShape);
+	collisionFlags = mCctModule.moveCharacter(&findGeomData, &userHitData, volume, disp, userObstacles, minDist, filters, constrainedClimbingMode, standingOnMoving, touchedActor, touchedShape, getContextId());
 
 	if(mCctModule.mFlags & STF_HIT_NON_WALKABLE)
 	{
@@ -2474,7 +2484,7 @@ PxControllerCollisionFlags Controller::move(SweptVolume& volume, const PxVec3& o
 		}
 		else xpDisp = disp;
 
-		collisionFlags = mCctModule.moveCharacter(&findGeomData, &userHitData, volume, xpDisp, userObstacles, minDist, filters, constrainedClimbingMode, standingOnMoving, touchedActor, touchedShape);
+		collisionFlags = mCctModule.moveCharacter(&findGeomData, &userHitData, volume, xpDisp, userObstacles, minDist, filters, constrainedClimbingMode, standingOnMoving, touchedActor, touchedShape, getContextId());
 
 		mCctModule.mFlags &= ~STF_WALK_EXPERIMENT;
 	}
@@ -2511,6 +2521,8 @@ PxControllerCollisionFlags Controller::move(SweptVolume& volume, const PxVec3& o
 
 PxControllerCollisionFlags BoxController::move(const PxVec3& disp, PxF32 minDist, PxF32 elapsedTime, const PxControllerFilters& filters, const PxObstacleContext* obstacles)
 {
+	PX_PROFILE_ZONE("CharacterController.move", getContextId());
+
 	PX_SIMD_GUARD;
 
 	// Create internal swept box
@@ -2523,6 +2535,8 @@ PxControllerCollisionFlags BoxController::move(const PxVec3& disp, PxF32 minDist
 
 PxControllerCollisionFlags CapsuleController::move(const PxVec3& disp, PxF32 minDist, PxF32 elapsedTime, const PxControllerFilters& filters, const PxObstacleContext* obstacles)
 {
+	PX_PROFILE_ZONE("CharacterController.move", getContextId());
+
 	PX_SIMD_GUARD;
 
 	// Create internal swept capsule

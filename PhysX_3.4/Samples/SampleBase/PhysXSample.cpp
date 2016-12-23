@@ -560,7 +560,7 @@ void PhysXSample::createPvdConnection()
 
 	//Use these flags for a clean profile trace with minimal overhead
 	mPvdFlags = physx::PxPvdInstrumentationFlag::eALL;
-	//if (!mPvdParams.useFullPvdConnection )
+	if (!mPvdParams.useFullPvdConnection )
 	{
 		mPvdFlags = physx::PxPvdInstrumentationFlag::ePROFILE;
 	}

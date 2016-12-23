@@ -111,7 +111,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>./../../../PhysX_3.4/../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;_DEBUG;PX_DEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
       <WarningLevel>Level4</WarningLevel>
@@ -122,7 +122,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonDEBUG_x64.lib;PhysX3DEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonDEBUG_x64.lib;PhysX3DEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)DEBUG_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc12win64;../../../PhysX_3.4/Lib/vc12win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG_x64.dll.pdb</ProgramDatabaseFile>
@@ -152,7 +152,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>./../../../PhysX_3.4/../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;APEX_SHIPPING;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
       <WarningLevel>Level4</WarningLevel>
@@ -163,7 +163,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3Common_x64.lib;PhysX3_x64.lib;PhysX3Extensions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3Common_x64.lib;PhysX3_x64.lib;PhysX3Extensions.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc12win64;../../../PhysX_3.4/Lib/vc12win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)_x64.dll.pdb</ProgramDatabaseFile>
@@ -193,7 +193,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>./../../../PhysX_3.4/../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
       <WarningLevel>Level4</WarningLevel>
@@ -204,7 +204,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonPROFILE_x64.lib;PhysX3PROFILE_x64.lib;PhysX3ExtensionsPROFILE.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonPROFILE_x64.lib;PhysX3PROFILE_x64.lib;PhysX3ExtensionsPROFILE.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)PROFILE_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc12win64;../../../PhysX_3.4/Lib/vc12win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE_x64.dll.pdb</ProgramDatabaseFile>
@@ -234,7 +234,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>./../../../PhysX_3.4/../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_ENABLE_CHECKED_ASSERTS;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
       <WarningLevel>Level4</WarningLevel>
@@ -245,7 +245,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../PhysX_3.4/../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonCHECKED_x64.lib;PhysX3CHECKED_x64.lib;PhysX3ExtensionsCHECKED.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonCHECKED_x64.lib;PhysX3CHECKED_x64.lib;PhysX3ExtensionsCHECKED.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)CHECKED_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc12win64;../../../PhysX_3.4/Lib/vc12win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED_x64.dll.pdb</ProgramDatabaseFile>
@@ -408,6 +408,11 @@
   </ItemGroup>
   <ItemGroup></ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc12win64/PxFoundation.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="./ApexCommon.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
@@ -418,22 +423,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc12win64/PsFastXml.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="./../../NvParameterized/compiler/vc12win64-PhysX_3.4/NvParameterized.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc12win64/PsFastXml.vcxproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc12win64/PxFoundation.vcxproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="../../../PxShared/src/compiler/vc12win64/PxPvdSDK.vcxproj">
+    <ProjectReference Include="./../../../PxShared/src/compiler/vc12win64/PxPvdSDK.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

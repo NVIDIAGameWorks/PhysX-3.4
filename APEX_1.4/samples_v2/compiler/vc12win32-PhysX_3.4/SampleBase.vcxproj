@@ -273,6 +273,31 @@
 		<ClInclude Include="..\..\SampleBase\Utils.h">
 		</ClInclude>
 	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/externals/build/vs2013WIN32/DirectXTex.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/externals/build/vs2013WIN32/DXUT.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/externals/build/vs2013WIN32/Effects11.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/build/vs2013WIN32/nvsimplemesh.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/build/vs2013WIN32/nvidiautils.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 	<ImportGroup Label="ExtensionTargets"></ImportGroup>
 </Project>

@@ -60,7 +60,7 @@ namespace physx
 													const PxHullPolygon* hullPolygons, PxU32 gaussMapVertexLimit, bool doValidation = true, bool userPolygons = false);
 
 					bool						save(PxOutputStream& stream, bool platformMismatch)	const;
-					bool						copy(Gu::ConvexHullData& hullData);
+					bool						copy(Gu::ConvexHullData& hullData, PxU32& nb);
 					
 					bool						createEdgeList(bool doValidation, PxU32 nbEdges, bool prepareBigHullData);					
 					bool						checkHullPolygons()	const;										

@@ -426,7 +426,7 @@ Ps::IntBool Sc::ShapeSim::updateSweptBounds()
 	Cm::getDynamicGlobalPoseAligned(rigidBody.mLastTransform, shapeCore.getShape2Actor(), bodyCore.getBody2Actor(), shape2World);
 	PxBounds3 startBounds = computeBounds(shapeCore.getGeometry(), shape2World, !physx::gUnifiedHeightfieldCollision);
 
-	Ps::IntBool isFastMoving = (startBounds.getCenter() - endOrigin).magnitudeSquared() >= ccdThreshold * ccdThreshold ? 1 : 0;;
+	const Ps::IntBool isFastMoving = (startBounds.getCenter() - endOrigin).magnitudeSquared() >= ccdThreshold * ccdThreshold ? 1 : 0;
 
 	if (isFastMoving)
 		bounds.include(startBounds);

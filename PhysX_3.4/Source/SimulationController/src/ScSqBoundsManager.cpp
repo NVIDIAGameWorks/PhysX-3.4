@@ -27,26 +27,18 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "CmPhysXCommon.h"
 #include "ScSqBoundsManager.h"
 #include "ScBodySim.h"
 #include "ScShapeSim.h"
-#include "ScShapeIterator.h"
-#include "CmTransformUtils.h"
-#include "PxsTransformCache.h"
-#include <stdio.h>
 
-namespace physx
-{
-namespace Sc
-{
+using namespace physx;
+using namespace Sc;
 
-	SqBoundsManager::SqBoundsManager() : 
-		mShapes(PX_DEBUG_EXP("SqBoundsManager::mRefs")),
-		mRefs(PX_DEBUG_EXP("SqBoundsManager::mRefs")),				
-		mBoundsIndices(PX_DEBUG_EXP("SqBoundsManager::mRefs")),
-		mRefless(PX_DEBUG_EXP("SqBoundsManager::mRefs"))
-
+SqBoundsManager::SqBoundsManager() :
+	mShapes			(PX_DEBUG_EXP("SqBoundsManager::mShapes")),
+	mRefs			(PX_DEBUG_EXP("SqBoundsManager::mRefs")),				
+	mBoundsIndices	(PX_DEBUG_EXP("SqBoundsManager::mBoundsIndices")),
+	mRefless		(PX_DEBUG_EXP("SqBoundsManager::mRefless"))
 {
 }
 
@@ -56,19 +48,24 @@ void SqBoundsManager::addShape(ShapeSim& shape)
 	PX_ASSERT(!shape.getBodySim()->usingSqKinematicTarget());
 	PX_ASSERT(!shape.getBodySim()->isFrozen());
 
-	PxU32 id = mShapes.size();
-	mShapes.pushBack(&shape);
-	mRefs.pushBack(PX_INVALID_U32);
-	mBoundsIndices.pushBack(shape.getElementID());
-	mRefless.insert(&shape);
+	const PxU32 id = mShapes.size();
+	PX_ASSERT(id == mRefs.size());
+	PX_ASSERT(id == mBoundsIndices.size());
 
 	shape.setSqBoundsId(id);
+
+	mShapes.pushBack(&shape);
+	mRefs.pushBack(PX_INVALID_U32);	// PT: TODO: should be INVALID_PRUNERHANDLE but cannot include SqPruner.h
+	mBoundsIndices.pushBack(shape.getElementID());
+	mRefless.insert(&shape);
 }
 		
 void SqBoundsManager::removeShape(ShapeSim& shape)
 {
-	PxU32 id = shape.getSqBoundsId();
-	if(mRefs[id] == PX_INVALID_U32)
+	const PxU32 id = shape.getSqBoundsId();
+	PX_ASSERT(id!=PX_INVALID_U32);
+
+	if(mRefs[id] == PX_INVALID_U32)	// PT: TODO: should be INVALID_PRUNERHANDLE but cannot include SqPruner.h
 	{
 		PX_ASSERT(mRefless.contains(&shape));
 		mRefless.erase(&shape);
@@ -86,7 +83,6 @@ void SqBoundsManager::removeShape(ShapeSim& shape)
 	mRefs.popBack();
 	mBoundsIndices.popBack();
 }
-
 
 void SqBoundsManager::syncBounds(SqBoundsSync& sync, SqRefFinder& finder, const PxBounds3* bounds, PxU64 contextID)
 {
@@ -107,16 +103,11 @@ void SqBoundsManager::syncBounds(SqBoundsSync& sync, SqRefFinder& finder, const 
 	ShapeSim*const * shapes = mRefless.getEntries();
 	for(PxU32 i=0, size = mRefless.size();i<size;i++)
 	{
-		PxU32 id = shapes[i]->getSqBoundsId();
-		PX_ASSERT(mRefs[id] == PX_INVALID_U32);
+		const PxU32 id = shapes[i]->getSqBoundsId();
+		PX_ASSERT(mRefs[id] == PX_INVALID_U32);	// PT: TODO: should be INVALID_PRUNERHANDLE but cannot include SqPruner.h
 		mRefs[id] = finder.find(static_cast<PxRigidBody*>(shapes[i]->getBodySim()->getPxActor()), shapes[i]->getPxShape());
 	}
 	mRefless.clear();
 
 	sync.sync(mRefs.begin(), mBoundsIndices.begin(), bounds, mShapes.size());
-}
-
-
-}
-
 }

@@ -20,18 +20,21 @@
 
 #include "PxTaskManager.h"
 #include "PxGpuDispatcher.h"
-#include "PxGpuCopyDesc.h"
-#include "PxGpuCopyDescQueue.h"
-#include "PxCudaContextManager.h"
-#include "PxCudaMemoryManager.h"
-//#include <cuda.h>
 
 #if defined(__CUDACC__)
 #error "Mirrored arrays should not be visible to CUDA code.  Send device pointers to CUDA kernels."
 #endif
 
 
-#if !PX_SUPPORT_GPU_PHYSX
+#if APEX_CUDA_SUPPORT
+
+#include "PxGpuCopyDesc.h"
+#include "PxGpuCopyDescQueue.h"
+#include "PxCudaContextManager.h"
+#include "PxCudaMemoryManager.h"
+ //#include <cuda.h>
+#else
+
 #define PX_ALLOC_INFO(name, ID) __FILE__, __LINE__, name, physx::PxAllocId::ID
 #define PX_ALLOC_INFO_PARAMS_DECL(p0, p1, p2, p3)  const char* file = p0, int line = p1, const char* allocName = p2, physx::PxAllocId::Enum allocId = physx::PxAllocId::p3
 #define PX_ALLOC_INFO_PARAMS_DEF()  const char* file, int line, const char* allocName, physx::PxAllocId::Enum allocId

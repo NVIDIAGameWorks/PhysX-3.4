@@ -66,10 +66,13 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /Zi /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../SceneQuery/include;./../../SimulationController/include;./../../LowLevel/API/include;./../../PhysX/src;./../../PhysX/src/buffering;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -106,9 +109,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../SceneQuery/include;./../../SimulationController/include;./../../LowLevel/API/include;./../../PhysX/src;./../../PhysX/src/buffering;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -145,9 +151,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../SceneQuery/include;./../../SimulationController/include;./../../LowLevel/API/include;./../../PhysX/src;./../../PhysX/src/buffering;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -185,9 +194,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../SceneQuery/include;./../../SimulationController/include;./../../LowLevel/API/include;./../../PhysX/src;./../../PhysX/src/buffering;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>

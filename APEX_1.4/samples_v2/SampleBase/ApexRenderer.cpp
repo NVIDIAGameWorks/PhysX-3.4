@@ -253,16 +253,10 @@ void ApexRenderer::DeviceDestroyed()
 
 void ApexRenderer::onInitialize()
 {
-	std::stringstream ss;
-	ss << GetCommandLineA();
 	char buf[256];
-	ss >> &buf[0];
-
-	PathRemoveFileSpecA(&buf[0]);
-
-	ss.clear();
-	ss << buf << "/../../samples_v2/";
-	ss >> buf;
+	sprintf(buf, "%s", GetCommandLineA());
+	PathRemoveFileSpecA(buf);
+	sprintf(buf + strlen(buf), "/../../samples_v2/");
 
 	mApex.getResourceCallback()->addSearchDir(&buf[1]);
 

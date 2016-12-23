@@ -133,7 +133,7 @@ namespace Sc
 						PxsShapeSim						mLLShape;
 						const ShapeCore&				mCore;
 						PxU32							mId;
-						PxU32							mSqBoundsId;						
+						PxU32							mSqBoundsId;
 
 		PX_FORCE_INLINE	void							internalAddToBroadPhase();
 		PX_FORCE_INLINE	void							internalRemoveFromBroadPhase();

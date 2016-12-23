@@ -457,7 +457,6 @@ struct PxgDynamicsMemoryConfig
 	PxU32 heapCapacity;				//!< Initial capacity of the GPU and pinned host memory heaps. Additional memory will be allocated if more memory is required.
 	PxU32 foundLostPairsCapacity;	//!< Capacity of found and lost buffers allocated in GPU global memory. This is used for the found/lost pair reports in the BP. 
 
-
 	PxgDynamicsMemoryConfig() :
 		constraintBufferCapacity(32 * 1024 * 1024),
 		contactBufferCapacity(24 * 1024 * 1024),
@@ -594,7 +593,6 @@ public:
 	@see PxSceneLimits
 	*/
 	PxSceneLimits				limits;
-
 
 	/**
 	\brief Selects the friction algorithm to use for simulation.
@@ -784,7 +782,6 @@ public:
 	*/
 	PxU32					ccdMaxPasses;
 
-
 	/**
 	\brief The wake counter reset value
 
@@ -797,7 +794,6 @@ public:
 	*/
 	PxReal					wakeCounterResetValue;
 
-
 	/**
 	\brief The bounds used to sanity check user-set positions of actors and articulation links
 
@@ -809,26 +805,21 @@ public:
 	*/
 	PxBounds3				sanityBounds;
 
-
 	/**
 	\brief The pre-allocations performed in the GPU dynamics pipeline.
 	*/
-
 	PxgDynamicsMemoryConfig gpuDynamicsConfig;
 
 	/**
 	\brief Limitation for the partitions in the GPU dynamics pipeline.
 	This variable must be power of 2.
 	*/
-
 	PxU32					gpuMaxNumPartitions;
 
 	/**
 	\brief Defines which compute version the GPU dynamics should target. DO NOT MODIFY
 	*/
 	PxU32					gpuComputeVersion;
-
-
 
 private:
 	/**
@@ -914,8 +905,7 @@ PX_INLINE PxSceneDesc::PxSceneDesc(const PxTolerancesScale& scale):
 	contactReportStreamBufferSize		(8192),
 	ccdMaxPasses						(1),
 	wakeCounterResetValue				(20.0f*0.02f),
-	sanityBounds						(PxBounds3(PxVec3(-PX_MAX_BOUNDS_EXTENTS, -PX_MAX_BOUNDS_EXTENTS, -PX_MAX_BOUNDS_EXTENTS),
-												   PxVec3(PX_MAX_BOUNDS_EXTENTS, PX_MAX_BOUNDS_EXTENTS, PX_MAX_BOUNDS_EXTENTS))),
+	sanityBounds						(PxBounds3(PxVec3(-PX_MAX_BOUNDS_EXTENTS), PxVec3(PX_MAX_BOUNDS_EXTENTS))),
 #if PX_SUPPORT_GPU_PHYSX
 	gpuMaxNumPartitions					(8),
 	gpuComputeVersion					(0),
@@ -931,7 +921,7 @@ PX_INLINE void PxSceneDesc::setToDefault(const PxTolerancesScale& scale)
 
 PX_INLINE bool PxSceneDesc::isValid() const
 {
-	if(filterShader == NULL)
+	if(!filterShader)
 		return false;
 
 	if( ((filterShaderDataSize == 0) && (filterShaderData != NULL)) ||
@@ -949,21 +939,21 @@ PX_INLINE bool PxSceneDesc::isValid() const
 
 	if(bounceThresholdVelocity < 0.0f)
 		return false;
-	if(frictionOffsetThreshold < 0.f)
+	if(frictionOffsetThreshold < 0.0f)
 		return false;
-	if (ccdMaxSeparation < 0.f)
-		return false;
-
-	if(cpuDispatcher == NULL)
+	if(ccdMaxSeparation < 0.0f)
 		return false;
 
-	if(contactReportStreamBufferSize == 0)
+	if(!cpuDispatcher)
+		return false;
+
+	if(!contactReportStreamBufferSize)
 		return false;
 
 	if(maxNbContactDataBlocks < nbContactDataBlocks)
 		return false;
 
-	if (wakeCounterResetValue <= 0.0f)
+	if(wakeCounterResetValue <= 0.0f)
 		return false;
 
 	//Adaptive force and stabilization are incompatible. You can only have one or the other
@@ -975,7 +965,7 @@ PX_INLINE bool PxSceneDesc::isValid() const
 
 #if PX_SUPPORT_GPU_PHYSX
 	//gpuMaxNumPartitions must be power of 2
-	if ((gpuMaxNumPartitions&(gpuMaxNumPartitions - 1)) != 0)
+	if((gpuMaxNumPartitions&(gpuMaxNumPartitions - 1)) != 0)
 		return false;
 #endif
 

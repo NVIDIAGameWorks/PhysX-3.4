@@ -28,6 +28,7 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxBounds3.h"
+#include "foundation/PxMemory.h"
 #include "CmPhysXCommon.h"
 #include "RTreeCooking.h"
 #include "PsSort.h"
@@ -748,9 +749,9 @@ static void buildFromBounds(
 	if(hint == PxMeshCookingHint::eSIM_PERFORMANCE) // use high quality SAH build
 	{
 		Array<PxU32> xRanks(numBounds), yRanks(numBounds), zRanks(numBounds), xOrder(numBounds), yOrder(numBounds), zOrder(numBounds);
-		memcpy(xOrder.begin(), permute.begin(), sizeof(xOrder[0])*numBounds);
-		memcpy(yOrder.begin(), permute.begin(), sizeof(yOrder[0])*numBounds);
-		memcpy(zOrder.begin(), permute.begin(), sizeof(zOrder[0])*numBounds);
+		PxMemCopy(xOrder.begin(), permute.begin(), sizeof(xOrder[0])*numBounds);
+		PxMemCopy(yOrder.begin(), permute.begin(), sizeof(yOrder[0])*numBounds);
+		PxMemCopy(zOrder.begin(), permute.begin(), sizeof(zOrder[0])*numBounds);
 		// sort by shuffling the permutation, precompute sorted ranks for x,y,z-orders
 		Ps::sort(xOrder.begin(), xOrder.size(), SortBoundsPredicate(0, allBounds));
 		for(PxU32 i = 0; i < numBounds; i++) xRanks[xOrder[i]] = i;

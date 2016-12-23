@@ -51,7 +51,13 @@ class CommonUIController : public ISampleController
 
 	static void TW_CALL onReloadShadersButton(void* clientData);
 
-  private:
+	static void TW_CALL setFixedTimestepEnabled(const void* value, void* clientData);
+	static void TW_CALL getFixedTimestepEnabled(void* value, void* clientData);
+
+	static void TW_CALL setFixedSimFrequency(const void* value, void* clientData);
+	static void TW_CALL getFixedSimFrequency(void* value, void* clientData);
+
+private:
 	void toggleCameraSpeed(bool overspeed);
 
 	CFirstPersonCamera* mCamera;

@@ -67,10 +67,12 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
-			<AdditionalOptions>/GR- /GF /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /Zi /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>./../../../Include/gpu;./../../PhysXGpu/include;./../../PhysX/src/device;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/pipeline;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelDynamics/src;./../../LowLevelParticles/include;./../../PhysX/src;./../../PhysX/src/buffering;./../../PhysX/src/particles;./../../PhysX/src/cloth;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../PhysXCooking/src;./../../PhysXCooking/src/mesh;./../../PhysXCooking/src/convex;./../../SceneQuery/include;./../../PhysXMetaData/core/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>PX_PHYSX_CORE_EXPORTS;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -111,9 +113,11 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../../Include/gpu;./../../PhysXGpu/include;./../../PhysX/src/device;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/pipeline;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelDynamics/src;./../../LowLevelParticles/include;./../../PhysX/src;./../../PhysX/src/buffering;./../../PhysX/src/particles;./../../PhysX/src/cloth;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../PhysXCooking/src;./../../PhysXCooking/src/mesh;./../../PhysXCooking/src/convex;./../../SceneQuery/include;./../../PhysXMetaData/core/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>PX_PHYSX_CORE_EXPORTS;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=CHECKED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -154,9 +158,11 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../../Include/gpu;./../../PhysXGpu/include;./../../PhysX/src/device;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/pipeline;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelDynamics/src;./../../LowLevelParticles/include;./../../PhysX/src;./../../PhysX/src/buffering;./../../PhysX/src/particles;./../../PhysX/src/cloth;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../PhysXCooking/src;./../../PhysXCooking/src/mesh;./../../PhysXCooking/src/convex;./../../SceneQuery/include;./../../PhysXMetaData/core/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>PX_PHYSX_CORE_EXPORTS;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -197,9 +203,11 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
 		<ClCompile>
 			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../../Include/gpu;./../../PhysXGpu/include;./../../PhysX/src/device;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/pipeline;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelDynamics/src;./../../LowLevelParticles/include;./../../PhysX/src;./../../PhysX/src/buffering;./../../PhysX/src/particles;./../../PhysX/src/cloth;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../PhysXCooking/src;./../../PhysXCooking/src/mesh;./../../PhysXCooking/src/convex;./../../SceneQuery/include;./../../PhysXMetaData/core/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>PX_PHYSX_CORE_EXPORTS;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -636,6 +644,21 @@
 	<ItemGroup>
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc14win64/PxPvdSDK.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc14win64/PxFoundation.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./PhysXCommon.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="./LowLevel.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
@@ -646,37 +669,17 @@
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./LowLevelCloth.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
 		<ProjectReference Include="./LowLevelDynamics.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="./LowLevelCloth.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="./LowLevelParticles.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="./PhysXCommon.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="./../../../../PxShared/src/compiler/vc14win64/PxFoundation.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="./../../../../PxShared/src/compiler/vc14win64/PxPvdSDK.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="./../../../../PxShared/src/compiler/vc14win64/PxTask.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
@@ -687,6 +690,11 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="./SimulationController.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc14win64/PxTask.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>

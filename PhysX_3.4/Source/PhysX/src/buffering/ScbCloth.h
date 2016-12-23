@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_CLOTH
 #define PX_PHYSICS_SCB_CLOTH
 
@@ -42,12 +41,10 @@
 
 namespace physx
 {
-
 struct PxClothCollisionSphere;
 
 namespace Scb
 {
-
 class Cloth : public Scb::Actor
 {
 //= ATTENTION! =====================================================================================
@@ -72,8 +69,8 @@ public:
 	// Wrapper for Sc::ClothCore interface
 	//---------------------------------------------------------------------------------
 
-	PX_INLINE Sc::ClothFabricCore*		getFabric() const;
-	PX_INLINE void						resetFabric(); 
+	PX_INLINE Sc::ClothFabricCore*		getFabric() const	{ return mCloth.getFabric();	}
+	PX_INLINE void						resetFabric()		{ return mCloth.resetFabric();	}
 
 	PX_INLINE void						setParticles(const PxClothParticle* currentParticles, const PxClothParticle* previousParticles);
 	PX_INLINE PxU32						getNbParticles() const;
@@ -215,7 +212,6 @@ public:
 	PX_INLINE void						setRestOffset(PxReal);
 	PX_INLINE PxReal					getRestOffset() const;
 
-
 	//---------------------------------------------------------------------------------
 	// Data synchronization
 	//---------------------------------------------------------------------------------
@@ -229,29 +225,15 @@ public:
 	PX_FORCE_INLINE	const Sc::ClothCore&		getScCloth()		const	{ return mCloth; }  // Only use if you know what you're doing!
 	PX_FORCE_INLINE	Sc::ClothCore&				getScCloth()				{ return mCloth; }  // Only use if you know what you're doing!
 
-	static size_t getScOffset()
-	{ 
-		return reinterpret_cast<size_t>(&reinterpret_cast<Cloth*>(0)->mCloth);
-	}
+	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Cloth*>(0)->mCloth);	}
 
 private:
 	Sc::ClothCore		mCloth;
 };
 
-
-PX_INLINE Sc::ClothFabricCore* Cloth::getFabric() const
-{
-	return mCloth.getFabric();
-}
-
-PX_INLINE void Cloth::resetFabric()
-{
-	return mCloth.resetFabric();
-}
-
 PX_INLINE void Cloth::setParticles(const PxClothParticle* currentParticles, const PxClothParticle* previousParticles)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setParticles(currentParticles, previousParticles);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setParticles() not allowed while simulation is running.");
@@ -264,16 +246,15 @@ PX_INLINE PxU32 Cloth::getNbParticles() const
 
 PX_INLINE void Cloth::setMotionConstraints(const PxClothParticleMotionConstraint* motionConstraints)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setMotionConstraints(motionConstraints);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setMotionConstraints() not allowed while simulation is running.");
 }
 
-
 PX_INLINE bool Cloth::getMotionConstraints(PxClothParticleMotionConstraint* motionConstraintsBuffer) const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getMotionConstraints(motionConstraintsBuffer);
 	else
 	{
@@ -289,7 +270,7 @@ PX_INLINE PxU32 Cloth::getNbMotionConstraints() const
 
 PX_INLINE PxClothMotionConstraintConfig Cloth::getMotionConstraintConfig() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getMotionConstraintConfig();
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::getMotionConstraintScaleBias() not allowed while simulation is running.");
@@ -297,10 +278,9 @@ PX_INLINE PxClothMotionConstraintConfig Cloth::getMotionConstraintConfig() const
 	return PxClothMotionConstraintConfig();
 }
 
-
 PX_INLINE void Cloth::setMotionConstraintConfig(const PxClothMotionConstraintConfig& config)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setMotionConstraintConfig(config);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setMotionConstraintConfig() not allowed while simulation is running.");
@@ -308,16 +288,15 @@ PX_INLINE void Cloth::setMotionConstraintConfig(const PxClothMotionConstraintCon
 
 PX_INLINE void Cloth::setSeparationConstraints(const PxClothParticleSeparationConstraint* separationConstraints)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setSeparationConstraints(separationConstraints);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setSeparationConstraints() not allowed while simulation is running.");
 }
 
-
 PX_INLINE bool Cloth::getSeparationConstraints(PxClothParticleSeparationConstraint* separationConstraintsBuffer) const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getSeparationConstraints(separationConstraintsBuffer);
 	else
 	{
@@ -338,16 +317,15 @@ PX_INLINE void Cloth::clearInterpolation()
 
 PX_INLINE void Cloth::setParticleAccelerations(const PxVec4* particleAccelerations)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setParticleAccelerations(particleAccelerations);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setParticleAccelerations() not allowed while simulation is running.");
 }
 
-
 PX_INLINE bool Cloth::getParticleAccelerations(PxVec4* particleAccelerationsBuffer) const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getParticleAccelerations(particleAccelerationsBuffer);
 	else
 	{
@@ -363,28 +341,31 @@ PX_INLINE PxU32 Cloth::getNbParticleAccelerations() const
 
 PX_INLINE void Cloth::addCollisionSphere(const PxClothCollisionSphere& sphere)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.addCollisionSphere(sphere);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::addCollisionSphere() not allowed while simulation is running.");
 }
+
 PX_INLINE void Cloth::removeCollisionSphere(PxU32 index)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.removeCollisionSphere(index);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::removeCollisionSphere() not allowed while simulation is running.");
 }
+
 PX_INLINE void Cloth::setCollisionSpheres(const PxClothCollisionSphere* spheresBuffer, PxU32 count)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setCollisionSpheres(spheresBuffer, count);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setCollisionSpheres() not allowed while simulation is running.");
 }
+
 PX_INLINE PxU32 Cloth::getNbCollisionSpheres() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getNbCollisionSpheres();
 	else
 	{
@@ -396,30 +377,31 @@ PX_INLINE PxU32 Cloth::getNbCollisionSpheres() const
 PX_INLINE void Cloth::getCollisionData( PxClothCollisionSphere* spheresBuffer, PxU32* capsulesBuffer, 
 									   PxClothCollisionPlane* planesBuffer, PxU32* convexesBuffer, PxClothCollisionTriangle* trianglesBuffer ) const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.getCollisionData(spheresBuffer, capsulesBuffer, planesBuffer, convexesBuffer, trianglesBuffer);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::getCollisionData() not allowed while simulation is running.");
 }
 
-
 PX_INLINE void Cloth::addCollisionCapsule(PxU32 first, PxU32 second)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.addCollisionCapsule(first, second);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::addCollisionCapsule() not allowed while simulation is running.");
 }
+
 PX_INLINE void Cloth::removeCollisionCapsule(PxU32 index)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.removeCollisionCapsule(index);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::removeCollisionCapsule() not allowed while simulation is running.");
 }
+
 PX_INLINE PxU32 Cloth::getNbCollisionCapsules() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getNbCollisionCapsules();
 	else
 	{
@@ -430,28 +412,31 @@ PX_INLINE PxU32 Cloth::getNbCollisionCapsules() const
 
 PX_INLINE void Cloth::addCollisionTriangle(const PxClothCollisionTriangle& triangle)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.addCollisionTriangle(triangle);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::addCollisionTriangle() not allowed while simulation is running.");
 }
+
 PX_INLINE void Cloth::removeCollisionTriangle(PxU32 index)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.removeCollisionTriangle(index);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::removeCollisionTriangle() not allowed while simulation is running.");
 }
+
 PX_INLINE void Cloth::setCollisionTriangles(const PxClothCollisionTriangle* trianglesBuffer, PxU32 count)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setCollisionTriangles(trianglesBuffer, count);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setCollisionTriangles() not allowed while simulation is running.");
 }
+
 PX_INLINE PxU32 Cloth::getNbCollisionTriangles() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getNbCollisionTriangles();
 	else
 	{
@@ -462,28 +447,31 @@ PX_INLINE PxU32 Cloth::getNbCollisionTriangles() const
 
 PX_INLINE void Cloth::addCollisionPlane(const PxClothCollisionPlane& plane)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.addCollisionPlane(plane);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::addCollisionPlane() not allowed while simulation is running.");
 }
+
 PX_INLINE void Cloth::removeCollisionPlane(PxU32 index)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.removeCollisionPlane(index);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::removeCollisionPlane() not allowed while simulation is running.");
 }
+
 PX_INLINE void Cloth::setCollisionPlanes(const PxClothCollisionPlane* planesBuffer, PxU32 count)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setCollisionPlanes(planesBuffer, count);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setCollisionPlanes() not allowed while simulation is running.");
 }
+
 PX_INLINE PxU32 Cloth::getNbCollisionPlanes() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getNbCollisionPlanes();
 	else
 	{
@@ -494,21 +482,23 @@ PX_INLINE PxU32 Cloth::getNbCollisionPlanes() const
 
 PX_INLINE void Cloth::addCollisionConvex(PxU32 mask)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.addCollisionConvex(mask);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::addCollisionConvex() not allowed while simulation is running.");
 }
+
 PX_INLINE void Cloth::removeCollisionConvex(PxU32 index)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.removeCollisionConvex(index);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::removeCollisionConvex() not allowed while simulation is running.");
 }
+
 PX_INLINE PxU32 Cloth::getNbCollisionConvexes() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getNbCollisionConvexes();
 	else
 	{
@@ -517,19 +507,17 @@ PX_INLINE PxU32 Cloth::getNbCollisionConvexes() const
 	}
 }
 
-
 PX_INLINE void Cloth::setVirtualParticles(PxU32 numParticles, const PxU32* indices, PxU32 numWeights, const PxVec3* weights)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setVirtualParticles(numParticles, indices, numWeights, weights);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setVirtualParticles() not allowed while simulation is running.");
 }
 
-
 PX_INLINE PxU32 Cloth::getNbVirtualParticles() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getNbVirtualParticles();
 	else
 	{
@@ -538,19 +526,17 @@ PX_INLINE PxU32 Cloth::getNbVirtualParticles() const
 	}
 }
 
-
 PX_INLINE void Cloth::getVirtualParticles(PxU32* indicesBuffer) const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.getVirtualParticles(indicesBuffer);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::getVirtualParticles() not allowed while simulation is running.");
 }
 
-
 PX_INLINE PxU32 Cloth::getNbVirtualParticleWeights() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getNbVirtualParticleWeights();
 	else
 	{
@@ -559,19 +545,17 @@ PX_INLINE PxU32 Cloth::getNbVirtualParticleWeights() const
 	}
 }
 
-
 PX_INLINE void Cloth::getVirtualParticleWeights(PxVec3* weightsBuffer) const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.getVirtualParticleWeights(weightsBuffer);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::getVirtualParticleWeights() not allowed while simulation is running.");
 }
 
-
 PX_INLINE PxTransform Cloth::getGlobalPose() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getGlobalPose();
 	else
 	{
@@ -580,28 +564,25 @@ PX_INLINE PxTransform Cloth::getGlobalPose() const
 	}
 }
 
-
 PX_INLINE void Cloth::setGlobalPose(const PxTransform& pose)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setGlobalPose(pose);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setGlobalPose() not allowed while simulation is running.");
 }
 
-
 PX_INLINE void Cloth::setTargetPose(const PxTransform& pose)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setTargetPose(pose);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setTargetPose() not allowed while simulation is running.");
 }
 
-
 PX_INLINE PxVec3 Cloth::getExternalAcceleration() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getExternalAcceleration();
 	else
 	{
@@ -610,10 +591,9 @@ PX_INLINE PxVec3 Cloth::getExternalAcceleration() const
 	}
 }
 
-
 PX_INLINE void Cloth::setExternalAcceleration(PxVec3 acceleration)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setExternalAcceleration(acceleration);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setExternalAcceleration() not allowed while simulation is running.");
@@ -621,7 +601,7 @@ PX_INLINE void Cloth::setExternalAcceleration(PxVec3 acceleration)
 
 PX_INLINE PxVec3 Cloth::getLinearInertiaScale() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getLinearInertiaScale();
 	else
 	{
@@ -630,10 +610,9 @@ PX_INLINE PxVec3 Cloth::getLinearInertiaScale() const
 	}
 }
 
-
 PX_INLINE void Cloth::setLinearInertiaScale(PxVec3 scale)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setLinearInertiaScale(scale);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setLinearInertiaScale() not allowed while simulation is running.");
@@ -641,7 +620,7 @@ PX_INLINE void Cloth::setLinearInertiaScale(PxVec3 scale)
 
 PX_INLINE PxVec3 Cloth::getAngularInertiaScale() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getAngularInertiaScale();
 	else
 	{
@@ -650,10 +629,9 @@ PX_INLINE PxVec3 Cloth::getAngularInertiaScale() const
 	}
 }
 
-
 PX_INLINE void Cloth::setAngularInertiaScale(PxVec3 scale)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setAngularInertiaScale(scale);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setAngularInertiaScale() not allowed while simulation is running.");
@@ -661,7 +639,7 @@ PX_INLINE void Cloth::setAngularInertiaScale(PxVec3 scale)
 
 PX_INLINE PxVec3 Cloth::getCentrifugalInertiaScale() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getCentrifugalInertiaScale();
 	else
 	{
@@ -670,10 +648,9 @@ PX_INLINE PxVec3 Cloth::getCentrifugalInertiaScale() const
 	}
 }
 
-
 PX_INLINE void Cloth::setCentrifugalInertiaScale(PxVec3 scale)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setCentrifugalInertiaScale(scale);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setCentrifugalInertiaScale() not allowed while simulation is running.");
@@ -681,7 +658,7 @@ PX_INLINE void Cloth::setCentrifugalInertiaScale(PxVec3 scale)
 
 PX_INLINE PxVec3 Cloth::getDampingCoefficient() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getDampingCoefficient();
 	else
 	{
@@ -690,10 +667,9 @@ PX_INLINE PxVec3 Cloth::getDampingCoefficient() const
 	}
 }
 
-
 PX_INLINE void Cloth::setDampingCoefficient(PxVec3 dampingCoefficient)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setDampingCoefficient(dampingCoefficient);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setDampingCoefficient() not allowed while simulation is running.");
@@ -701,7 +677,7 @@ PX_INLINE void Cloth::setDampingCoefficient(PxVec3 dampingCoefficient)
 
 PX_INLINE PxReal Cloth::getFrictionCoefficient() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getFrictionCoefficient();
 	else
 	{
@@ -710,10 +686,9 @@ PX_INLINE PxReal Cloth::getFrictionCoefficient() const
 	}
 }
 
-
 PX_INLINE void Cloth::setFrictionCoefficient(PxReal frictionCoefficient)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setFrictionCoefficient(frictionCoefficient);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setFrictionCoefficient() not allowed while simulation is running.");
@@ -721,7 +696,7 @@ PX_INLINE void Cloth::setFrictionCoefficient(PxReal frictionCoefficient)
 
 PX_INLINE PxVec3 Cloth::getLinearDragCoefficient() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getLinearDragCoefficient();
 	else
 	{
@@ -730,10 +705,9 @@ PX_INLINE PxVec3 Cloth::getLinearDragCoefficient() const
 	}
 }
 
-
 PX_INLINE void Cloth::setLinearDragCoefficient(PxVec3 dampingCoefficient)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setLinearDragCoefficient(dampingCoefficient);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setLinearDragCoefficient() not allowed while simulation is running.");
@@ -741,7 +715,7 @@ PX_INLINE void Cloth::setLinearDragCoefficient(PxVec3 dampingCoefficient)
 
 PX_INLINE PxVec3 Cloth::getAngularDragCoefficient() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getAngularDragCoefficient();
 	else
 	{
@@ -750,10 +724,9 @@ PX_INLINE PxVec3 Cloth::getAngularDragCoefficient() const
 	}
 }
 
-
 PX_INLINE void Cloth::setAngularDragCoefficient(PxVec3 dampingCoefficient)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setAngularDragCoefficient(dampingCoefficient);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setAngularDragCoefficient() not allowed while simulation is running.");
@@ -761,7 +734,7 @@ PX_INLINE void Cloth::setAngularDragCoefficient(PxVec3 dampingCoefficient)
 
 PX_INLINE PxReal Cloth::getCollisionMassScale() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getCollisionMassScale();
 	else
 	{
@@ -769,9 +742,10 @@ PX_INLINE PxReal Cloth::getCollisionMassScale() const
 		return 0.0f;
 	}
 }
+
 PX_INLINE void Cloth::setCollisionMassScale(PxReal scalingCoefficient)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setCollisionMassScale(scalingCoefficient);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setCollisionMassScale() not allowed while simulation is running.");
@@ -779,7 +753,7 @@ PX_INLINE void Cloth::setCollisionMassScale(PxReal scalingCoefficient)
 
 PX_INLINE PxReal Cloth::getSelfCollisionDistance() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getSelfCollisionDistance();
 	else
 	{
@@ -787,16 +761,18 @@ PX_INLINE PxReal Cloth::getSelfCollisionDistance() const
 		return 0.0f;
 	}
 }
+
 PX_INLINE void Cloth::setSelfCollisionDistance(PxReal distance)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setSelfCollisionDistance(distance);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setSelfCollisionDistance() not allowed while simulation is running.");
 }
+
 PX_INLINE PxReal Cloth::getSelfCollisionStiffness() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getSelfCollisionStiffness();
 	else
 	{
@@ -804,9 +780,10 @@ PX_INLINE PxReal Cloth::getSelfCollisionStiffness() const
 		return 0.0f;
 	}
 }
+
 PX_INLINE void Cloth::setSelfCollisionStiffness(PxReal stiffness)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setSelfCollisionStiffness(stiffness);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setSelfCollisionStiffness() not allowed while simulation is running.");
@@ -814,7 +791,7 @@ PX_INLINE void Cloth::setSelfCollisionStiffness(PxReal stiffness)
 
 PX_INLINE void Cloth::setSelfCollisionIndices(const PxU32* indices, PxU32 nbIndices)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setSelfCollisionIndices(indices, nbIndices);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setSelfCollisionIndices() not allowed while simulation is running.");
@@ -822,7 +799,7 @@ PX_INLINE void Cloth::setSelfCollisionIndices(const PxU32* indices, PxU32 nbIndi
 
 PX_INLINE bool Cloth::getSelfCollisionIndices(PxU32* indices) const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getSelfCollisionIndices(indices);
 	else
 	{
@@ -836,10 +813,9 @@ PX_INLINE PxU32 Cloth::getNbSelfCollisionIndices() const
 	return mCloth.getNbSelfCollisionIndices();
 }
 
-
 PX_INLINE void Cloth::setRestPositions(const PxVec4* restPositions)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setRestPositions(restPositions);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setRestPositions() not allowed while simulation is running.");
@@ -847,7 +823,7 @@ PX_INLINE void Cloth::setRestPositions(const PxVec4* restPositions)
 
 PX_INLINE bool Cloth::getRestPositions(PxVec4* restPositions) const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getRestPositions(restPositions);
 	else
 	{
@@ -863,7 +839,7 @@ PX_INLINE PxU32 Cloth::getNbRestPositions() const
 
 PX_INLINE PxReal Cloth::getSolverFrequency() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getSolverFrequency();
 	else
 	{
@@ -872,10 +848,9 @@ PX_INLINE PxReal Cloth::getSolverFrequency() const
 	}
 }
 
-
 PX_INLINE void Cloth::setSolverFrequency(PxReal solverFreq)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setSolverFrequency(solverFreq);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setSolverFrequency() not allowed while simulation is running.");
@@ -883,7 +858,7 @@ PX_INLINE void Cloth::setSolverFrequency(PxReal solverFreq)
 
 PX_INLINE PxReal Cloth::getStiffnessFrequency() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getStiffnessFrequency();
 	else
 	{
@@ -892,19 +867,17 @@ PX_INLINE PxReal Cloth::getStiffnessFrequency() const
 	}
 }
 
-
 PX_INLINE void Cloth::setStiffnessFrequency(PxReal solverFreq)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setStiffnessFrequency(solverFreq);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setStiffnessFrequency() not allowed while simulation is running.");
 }
 
-
 PX_INLINE void Cloth::setStretchConfig(PxClothFabricPhaseType::Enum type, const PxClothStretchConfig& config)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setStretchConfig(type, config);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setStretchConfig() not allowed while simulation is running.");
@@ -912,7 +885,7 @@ PX_INLINE void Cloth::setStretchConfig(PxClothFabricPhaseType::Enum type, const 
 
 PX_INLINE void Cloth::setTetherConfig(const PxClothTetherConfig& config)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setTetherConfig(config);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setTetherConfig() not allowed while simulation is running.");
@@ -920,7 +893,7 @@ PX_INLINE void Cloth::setTetherConfig(const PxClothTetherConfig& config)
 
 PX_INLINE PxClothStretchConfig Cloth::getStretchConfig(PxClothFabricPhaseType::Enum type) const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getStretchConfig(type);
 	else
 	{
@@ -931,7 +904,7 @@ PX_INLINE PxClothStretchConfig Cloth::getStretchConfig(PxClothFabricPhaseType::E
 
 PX_INLINE PxClothTetherConfig Cloth::getTetherConfig() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getTetherConfig();
 	else
 	{
@@ -942,7 +915,7 @@ PX_INLINE PxClothTetherConfig Cloth::getTetherConfig() const
 
 PX_INLINE PxClothFlags Cloth::getClothFlags() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getClothFlags();
 	else
 	{
@@ -951,10 +924,9 @@ PX_INLINE PxClothFlags Cloth::getClothFlags() const
 	}
 }
 
-
 PX_INLINE void Cloth::setClothFlags(PxClothFlags flags)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setClothFlags(flags);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setClothFlag() not allowed while simulation is running.");
@@ -962,7 +934,7 @@ PX_INLINE void Cloth::setClothFlags(PxClothFlags flags)
 
 PX_INLINE PxVec3 Cloth::getWindVelocity() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getWindVelocity();
 	else
 	{
@@ -973,7 +945,7 @@ PX_INLINE PxVec3 Cloth::getWindVelocity() const
 
 PX_INLINE void Cloth::setWindVelocity(PxVec3 wind)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setWindVelocity(wind);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setWindVelocity() not allowed while simulation is running.");
@@ -981,7 +953,7 @@ PX_INLINE void Cloth::setWindVelocity(PxVec3 wind)
 
 PX_INLINE PxReal Cloth::getDragCoefficient() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getDragCoefficient();
 	else
 	{
@@ -992,7 +964,7 @@ PX_INLINE PxReal Cloth::getDragCoefficient() const
 
 PX_INLINE void Cloth::setDragCoefficient(PxReal value)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setDragCoefficient(value);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setDragCoefficient() not allowed while simulation is running.");
@@ -1000,7 +972,7 @@ PX_INLINE void Cloth::setDragCoefficient(PxReal value)
 
 PX_INLINE PxReal Cloth::getLiftCoefficient() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getLiftCoefficient();
 	else
 	{
@@ -1011,16 +983,15 @@ PX_INLINE PxReal Cloth::getLiftCoefficient() const
 
 PX_INLINE void Cloth::setLiftCoefficient(PxReal value)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setLiftCoefficient(value);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setLiftCoefficient() not allowed while simulation is running.");
 }
 
-
 PX_INLINE bool Cloth::isSleeping() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.isSleeping();
 	else
 	{
@@ -1029,10 +1000,9 @@ PX_INLINE bool Cloth::isSleeping() const
 	}
 }
 
-
 PX_INLINE PxReal Cloth::getSleepLinearVelocity() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getSleepLinearVelocity();
 	else
 	{
@@ -1041,28 +1011,25 @@ PX_INLINE PxReal Cloth::getSleepLinearVelocity() const
 	}
 }
 
-
 PX_INLINE void Cloth::setSleepLinearVelocity(PxReal threshold)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setSleepLinearVelocity(threshold);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setSleepLinearVelocity() not allowed while simulation is running.");
 }
 
-
 PX_INLINE void Cloth::setWakeCounter(PxReal wakeCounterValue)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setWakeCounter(wakeCounterValue);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setWakeCounter() not allowed while simulation is running.");
 }
 
-
 PX_INLINE PxReal Cloth::getWakeCounter() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getWakeCounter();
 	else
 	{
@@ -1071,31 +1038,28 @@ PX_INLINE PxReal Cloth::getWakeCounter() const
 	}
 }
 
-
 PX_INLINE void Cloth::wakeUp()
 {
 	Scene* scene = getScbScene();
 	PX_ASSERT(scene);  // only allowed for an object in a scene
 
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.wakeUp(scene->getWakeCounterResetValue());
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::wakeUp() not allowed while simulation is running.");
 }
 
-
 PX_INLINE void Cloth::putToSleep()
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.putToSleep();
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::putToSleep() not allowed while simulation is running.");
 }
 
-
 PX_INLINE void Cloth::getParticleData(NpClothParticleData& particleData)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return getScCloth().getParticleData(particleData);
 
 	Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, 
@@ -1105,10 +1069,9 @@ PX_INLINE void Cloth::getParticleData(NpClothParticleData& particleData)
 	particleData.previousParticles = 0;
 }
 
-
 PxReal Cloth::getPreviousTimeStep() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getPreviousTimeStep();
 	else
 	{
@@ -1117,10 +1080,9 @@ PxReal Cloth::getPreviousTimeStep() const
 	}
 }
 
-
 PX_INLINE PxBounds3 Cloth::getWorldBounds() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getWorldBounds();
 	else
 	{
@@ -1131,7 +1093,7 @@ PX_INLINE PxBounds3 Cloth::getWorldBounds() const
 
 PX_INLINE void Cloth::setSimulationFilterData(const PxFilterData& data)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setSimulationFilterData(data);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setSimulationFilterData() not allowed while simulation is running.");
@@ -1139,7 +1101,7 @@ PX_INLINE void Cloth::setSimulationFilterData(const PxFilterData& data)
 
 PX_INLINE PxFilterData Cloth::getSimulationFilterData() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getSimulationFilterData();
 	else
 	{
@@ -1150,7 +1112,7 @@ PX_INLINE PxFilterData Cloth::getSimulationFilterData() const
 
 PX_INLINE void Cloth::setContactOffset(PxReal offset)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setContactOffset(offset);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setContactOffset() not allowed while simulation is running.");
@@ -1158,7 +1120,7 @@ PX_INLINE void Cloth::setContactOffset(PxReal offset)
 
 PX_INLINE PxReal Cloth::getContactOffset() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getContactOffset();
 	else
 	{
@@ -1169,7 +1131,7 @@ PX_INLINE PxReal Cloth::getContactOffset() const
 
 PX_INLINE void Cloth::setRestOffset(PxReal offset)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mCloth.setRestOffset(offset);
 	else
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "Call to PxCloth::setRestOffset() not allowed while simulation is running.");
@@ -1177,7 +1139,7 @@ PX_INLINE void Cloth::setRestOffset(PxReal offset)
 
 PX_INLINE PxReal Cloth::getRestOffset() const
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		return mCloth.getRestOffset();
 	else
 	{

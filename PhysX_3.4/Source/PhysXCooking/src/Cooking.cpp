@@ -335,8 +335,10 @@ PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc, PxPhysicsI
 	}
 	
 	// copy the constructed data into the new mesh
+
+	PxU32 nb = 0;
 	Gu::ConvexHullData meshData;
-	meshBuilder.copy(meshData);
+	meshBuilder.copy(meshData, nb);
 
 	// insert into physics
 	Gu::ConvexMesh* convexMesh = static_cast<Gu::ConvexMesh*>(insertionCallback.buildObjectFromData(PxConcreteType::eCONVEX_MESH, &meshData));
@@ -347,6 +349,7 @@ PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc, PxPhysicsI
 		return NULL;
 	}
 
+	convexMesh->setNb(nb);
 	convexMesh->setMass(meshBuilder.getMass());
 	convexMesh->setInertia(meshBuilder.getInertia());
 	if(meshBuilder.getBigConvexData())

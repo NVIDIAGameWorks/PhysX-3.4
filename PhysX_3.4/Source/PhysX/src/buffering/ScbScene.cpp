@@ -880,63 +880,61 @@ void Scb::Scene::preSimulateUpdateAppThread(PxReal timeStep)
 void Scb::Scene::syncState()
 {
 	//process client creation -- must be done before BF_CLIENT_BEHAVIOR_FLAGS processing in the below block:
-	while (mBufferedData.numClientsCreated)
+	while(mBufferedData.mNumClientsCreated)
 	{
 		mScene.createClient();
-		mBufferedData.numClientsCreated--;
+		mBufferedData.mNumClientsCreated--;
 	}
 
-	if (mBufferFlags)
+	if(mBufferFlags)
 	{
-		if (isBuffered(BF_GRAVITY))
-			mScene.setGravity(mBufferedData.gravity);
+		if(isBuffered(BF_GRAVITY))
+			mScene.setGravity(mBufferedData.mGravity);
 
 		if(isBuffered(BF_BOUNCETHRESHOLDVELOCITY))
-			mScene.setBounceThresholdVelocity(mBufferedData.bounceThresholdVelocity);
+			mScene.setBounceThresholdVelocity(mBufferedData.mBounceThresholdVelocity);
 
-		if (isBuffered(BF_FLAGS))
-			mScene.setPublicFlags(mBufferedData.flags);
+		if(isBuffered(BF_FLAGS))
+			mScene.setPublicFlags(mBufferedData.mFlags);
 
-		if (isBuffered(BF_DOMINANCE_PAIRS))
+		if(isBuffered(BF_DOMINANCE_PAIRS))
 			mBufferedData.syncDominancePairs(mScene);
 
-		if (isBuffered(BF_SOLVER_BATCH_SIZE))
-			mScene.setSolverBatchSize(mBufferedData.solverBatchSize);
+		if(isBuffered(BF_SOLVER_BATCH_SIZE))
+			mScene.setSolverBatchSize(mBufferedData.mSolverBatchSize);
 
-		if (isBuffered(BF_CLIENT_BEHAVIOR_FLAGS))
+		if(isBuffered(BF_CLIENT_BEHAVIOR_FLAGS))
 		{
-			for (PxU32 i = 0; i < mBufferedData.clientBehaviorFlags.size(); i++)
+			for(PxU32 i=0; i<mBufferedData.mClientBehaviorFlags.size(); i++)
 			{
-				if (mBufferedData.clientBehaviorFlags[i] != PxClientBehaviorFlag_eNOT_BUFFERED)	//not PxClientBehaviorFlag_eNOT_BUFFERED means it was written.
+				if(mBufferedData.mClientBehaviorFlags[i] != PxClientBehaviorFlag_eNOT_BUFFERED)	//not PxClientBehaviorFlag_eNOT_BUFFERED means it was written.
 				{
-					mScene.setClientBehaviorFlags(PxClientID(i), mBufferedData.clientBehaviorFlags[i]);
-					mBufferedData.clientBehaviorFlags[i] = PxClientBehaviorFlag_eNOT_BUFFERED;
-				}
-
-			}
-		}
-
-		if (isBuffered(BF_VISUALIZATION))
-		{
-			for(PxU32 i=0; i < PxVisualizationParameter::eNUM_VALUES; i++)
-			{
-				if (mBufferedData.visualizationParamChanged[i])
-				{
-					mScene.setVisualizationParameter(static_cast<PxVisualizationParameter::Enum>(i), mBufferedData.visualizationParam[i]);
+					mScene.setClientBehaviorFlags(PxClientID(i), mBufferedData.mClientBehaviorFlags[i]);
+					mBufferedData.mClientBehaviorFlags[i] = PxClientBehaviorFlag_eNOT_BUFFERED;
 				}
 			}
 		}
+
+		if(isBuffered(BF_VISUALIZATION))
+		{
+			for(PxU32 i=0; i<PxVisualizationParameter::eNUM_VALUES; i++)
+			{
+				if(mBufferedData.mVisualizationParamChanged[i])
+					mScene.setVisualizationParameter(PxVisualizationParameter::Enum(i), mBufferedData.mVisualizationParam[i]);
+			}
+
+			mBufferedData.clearVisualizationParams();
+		}
+
+		if(isBuffered(BF_CULLING_BOX))
+			mScene.setVisualizationCullingBox(mBufferedData.mVisualizationCullingBox);
 
 #if PX_SUPPORT_PVD
 		if(mScenePvdClient.checkPvdDebugFlag())
 			mScenePvdClient.updatePvdProperties();
 #endif
+		mBufferFlags = 0;
 	}
-
-
-	mBufferFlags = 0;
-	mBufferedData.clearDominanceBuffer();
-	mBufferedData.clearVisualizationParams();
 }
 
 template<typename T>
@@ -1015,11 +1013,11 @@ void Scb::Scene::syncWriteThroughProperties()
 	mStream.unlock();
 }
 
-void Scb::Scene::syncEntireScene(PxU32* error)
+void Scb::Scene::syncEntireScene()
 {
 	PX_PROFILE_ZONE("Sim.syncState", getContextId());
-	if (error)
-		*error = mScene.getErrorState();
+
+	setPhysicsBuffering(false);  // Clear the buffering flag to allow buffered writes to execute immediately. Once collision detection is running, buffering is automatically forced on
 
 	mStream.lock();
 	syncState();
@@ -1201,9 +1199,9 @@ void Scb::Scene::processRemoves(ObjectTracker& tracker)
 			bool wakeOnLostTouch = false;
 			if (wakeOnLostTouchCheck)
 			{
-				PX_ASSERT(	(v->getScbType() == ScbType::BODY) ||
-							(v->getScbType() == ScbType::BODY_FROM_ARTICULATION_LINK) ||
-							(v->getScbType() == ScbType::RIGID_STATIC) );
+				PX_ASSERT(	(v->getScbType() == ScbType::eBODY) ||
+							(v->getScbType() == ScbType::eBODY_FROM_ARTICULATION_LINK) ||
+							(v->getScbType() == ScbType::eRIGID_STATIC) );
 				wakeOnLostTouch = (v->Base::isBuffered(RigidObjectBuffer::BF_WakeTouching) != 0);  // important to use Scb::Base::isBuffered() because Scb::Body, for example, has a shadowed implementation of this method
 			}
 
@@ -1275,31 +1273,29 @@ void Scb::Scene::processPendingRemove()
 #endif
 		}
 	}
-
-
 }
 
 void Scb::Scene::scheduleForUpdate(Scb::Base& object)
 {
 	switch(object.getScbType())
 	{
-		case ScbType::SHAPE_EXCLUSIVE:
-		case ScbType::SHAPE_SHARED:					{ mShapeManager.scheduleForUpdate(object);				}break;
-		case ScbType::BODY:							{ mBodyManager.scheduleForUpdate(object);				}break;
-		case ScbType::BODY_FROM_ARTICULATION_LINK:	{ mBodyManager.scheduleForUpdate(object);				}break;
-		case ScbType::RIGID_STATIC:					{ mRigidStaticManager.scheduleForUpdate(object);		}break;
-		case ScbType::CONSTRAINT:					{ mConstraintManager.scheduleForUpdate(object);			}break;
+		case ScbType::eSHAPE_EXCLUSIVE:
+		case ScbType::eSHAPE_SHARED:				{ mShapeManager.scheduleForUpdate(object);				}break;
+		case ScbType::eBODY:						{ mBodyManager.scheduleForUpdate(object);				}break;
+		case ScbType::eBODY_FROM_ARTICULATION_LINK:	{ mBodyManager.scheduleForUpdate(object);				}break;
+		case ScbType::eRIGID_STATIC:				{ mRigidStaticManager.scheduleForUpdate(object);		}break;
+		case ScbType::eCONSTRAINT:					{ mConstraintManager.scheduleForUpdate(object);			}break;
 #if PX_USE_PARTICLE_SYSTEM_API
-		case ScbType::PARTICLE_SYSTEM:				{ mParticleSystemManager.scheduleForUpdate(object);		}break;
+		case ScbType::ePARTICLE_SYSTEM:				{ mParticleSystemManager.scheduleForUpdate(object);		}break;
 #endif
-		case ScbType::ARTICULATION:					{ mArticulationManager.scheduleForUpdate(object);		}break;
-		case ScbType::ARTICULATION_JOINT:			{ mArticulationJointManager.scheduleForUpdate(object);	}break;
-		case ScbType::AGGREGATE:					{ mAggregateManager.scheduleForUpdate(object);			}break;
+		case ScbType::eARTICULATION:				{ mArticulationManager.scheduleForUpdate(object);		}break;
+		case ScbType::eARTICULATION_JOINT:			{ mArticulationJointManager.scheduleForUpdate(object);	}break;
+		case ScbType::eAGGREGATE:					{ mAggregateManager.scheduleForUpdate(object);			}break;
 #if PX_USE_CLOTH_API
-		case ScbType::CLOTH:						{ mClothManager.scheduleForUpdate(object);				}break;
+		case ScbType::eCLOTH:						{ mClothManager.scheduleForUpdate(object);				}break;
 #endif
-		case ScbType::UNDEFINED:
-		case ScbType::TYPE_COUNT:
+		case ScbType::eUNDEFINED:
+		case ScbType::eTYPE_COUNT:
 			PX_ALWAYS_ASSERT_MESSAGE( "scheduleForUpdate: missing type!");
 			break;
 	}
@@ -1310,24 +1306,24 @@ PxU8* Scb::Scene::getStream(ScbType::Enum type)
 	PxU8* memory = NULL;
 	switch(type)
 	{
-		case ScbType::SHAPE_EXCLUSIVE:
-		case ScbType::SHAPE_SHARED:					{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::ShapeBuffer)));				new (memory) Scb::ShapeBuffer;				}break;
-		case ScbType::BODY:							{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::BodyBuffer)));					new (memory) Scb::BodyBuffer;				}break;
-		case ScbType::BODY_FROM_ARTICULATION_LINK:	{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::BodyBuffer)));					new (memory) Scb::BodyBuffer;				}break;
-		case ScbType::RIGID_STATIC:					{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::RigidStaticBuffer)));			new (memory) Scb::RigidStaticBuffer;		}break;
-		case ScbType::CONSTRAINT:					{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::ConstraintBuffer)));			new (memory) Scb::ConstraintBuffer;			}break;
+		case ScbType::eSHAPE_EXCLUSIVE:
+		case ScbType::eSHAPE_SHARED:				{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::ShapeBuffer)));				new (memory) Scb::ShapeBuffer;				}break;
+		case ScbType::eBODY:						{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::BodyBuffer)));					new (memory) Scb::BodyBuffer;				}break;
+		case ScbType::eBODY_FROM_ARTICULATION_LINK:	{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::BodyBuffer)));					new (memory) Scb::BodyBuffer;				}break;
+		case ScbType::eRIGID_STATIC:				{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::RigidStaticBuffer)));			new (memory) Scb::RigidStaticBuffer;		}break;
+		case ScbType::eCONSTRAINT:					{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::ConstraintBuffer)));			new (memory) Scb::ConstraintBuffer;			}break;
 #if PX_USE_PARTICLE_SYSTEM_API
-		case ScbType::PARTICLE_SYSTEM:				{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::ParticleSystemBuffer)));		new (memory) Scb::ParticleSystemBuffer;		}break;
+		case ScbType::ePARTICLE_SYSTEM:				{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::ParticleSystemBuffer)));		new (memory) Scb::ParticleSystemBuffer;		}break;
 #endif
-		case ScbType::ARTICULATION:					{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::ArticulationBuffer)));			new (memory) Scb::ArticulationBuffer;		}break;
-		case ScbType::ARTICULATION_JOINT:			{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::ArticulationJointBuffer)));	new (memory) Scb::ArticulationJointBuffer;	}break;
-		case ScbType::AGGREGATE:					{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::AggregateBuffer)));			new (memory) Scb::AggregateBuffer;			}break;
+		case ScbType::eARTICULATION:				{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::ArticulationBuffer)));			new (memory) Scb::ArticulationBuffer;		}break;
+		case ScbType::eARTICULATION_JOINT:			{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::ArticulationJointBuffer)));	new (memory) Scb::ArticulationJointBuffer;	}break;
+		case ScbType::eAGGREGATE:					{ memory = reinterpret_cast<PxU8*>(mStream.allocateNotThreadSafe(sizeof(Scb::AggregateBuffer)));			new (memory) Scb::AggregateBuffer;			}break;
 		
 #if PX_USE_CLOTH_API
-		case ScbType::CLOTH:
+		case ScbType::eCLOTH:
 #endif
-		case ScbType::UNDEFINED:
-		case ScbType::TYPE_COUNT:
+		case ScbType::eUNDEFINED:
+		case ScbType::eTYPE_COUNT:
 			PX_ALWAYS_ASSERT_MESSAGE("getStream: missing type!");
 			return NULL;
 	}
@@ -1389,7 +1385,7 @@ bool Scb::Scene::removeBroadPhaseRegion(PxU32 handle)
 template <bool TSimRunning, bool TAdd, bool TIsDynamic, bool TIsNonSimObject, class T>
 PX_FORCE_INLINE static void addOrRemoveRigidObject(Sc::Scene& s, T& rigidObject, bool wakeOnLostTouch, PxBounds3* uninflatedBounds)
 {
-	PX_ASSERT(TIsDynamic || (rigidObject.getScbType() == ScbType::RIGID_STATIC));
+	PX_ASSERT(TIsDynamic || (rigidObject.getScbType() == ScbType::eRIGID_STATIC));
 	if (TSimRunning && TIsNonSimObject && TAdd)
 		PX_ASSERT(rigidObject.getActorFlags() & PxActorFlag::eDISABLE_SIMULATION);
 	if (TSimRunning && TIsNonSimObject&& !TAdd)

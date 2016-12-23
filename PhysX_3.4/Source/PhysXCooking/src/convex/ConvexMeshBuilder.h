@@ -53,7 +53,7 @@ namespace physx
 				bool				save(PxOutputStream& stream, bool platformMismatch)		const;
 
 				// copy the convex mesh into internal convex mesh, which can be directly used then
-				bool				copy(Gu::ConvexHullData& convexData);
+				bool				copy(Gu::ConvexHullData& convexData, PxU32& nb);
 
 				// loads the convex mesh from given polygons
 				bool				loadConvexHull(const PxConvexMeshDesc&, PxU32 gaussMapVertexLimit, bool userPolygons);

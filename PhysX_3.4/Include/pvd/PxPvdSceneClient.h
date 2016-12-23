@@ -54,15 +54,15 @@ namespace physx
 #endif
 
 /**
-\brief PVD scene Flags.
+\brief PVD scene Flags. They are disabled by default, and only works if PxPvdInstrumentationFlag::eDEBUG is set.
 */
 struct PxPvdSceneFlag
 {
 	enum Enum
 	{
-		eTRANSMIT_CONTACTS     = (1 << 0), //! Transmits contact stream to PVD. Disabled by default.
-		eTRANSMIT_SCENEQUERIES = (1 << 1), //! Transmits scene query stream to PVD. Disabled by default.
-		eTRANSMIT_CONSTRAINTS  = (1 << 2)  //! Transmits constraints visualize stream to PVD. Disabled by default.
+		eTRANSMIT_CONTACTS     = (1 << 0), //! Transmits contact stream to PVD.
+		eTRANSMIT_SCENEQUERIES = (1 << 1), //! Transmits scene query stream to PVD.
+		eTRANSMIT_CONSTRAINTS  = (1 << 2)  //! Transmits constraints visualize stream to PVD.
 	};
 };
 

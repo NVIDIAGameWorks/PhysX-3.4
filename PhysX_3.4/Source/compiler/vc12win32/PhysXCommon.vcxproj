@@ -748,6 +748,8 @@
 		</ClInclude>
 		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_Slabs_SwizzledOrdered.h">
 		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBVConstants.h">
+		</ClInclude>
 		<ClInclude Include="..\..\GeomUtils\src\mesh\GuMeshData.h">
 		</ClInclude>
 		<ClInclude Include="..\..\GeomUtils\src\mesh\GuMidphaseInterface.h">
@@ -916,8 +918,6 @@
 		</ClInclude>
 		<ClInclude Include="..\..\GeomUtils\src\GuCenterExtents.h">
 		</ClInclude>
-		<ClInclude Include="..\..\GeomUtils\src\GuDebug.h">
-		</ClInclude>
 		<ClInclude Include="..\..\GeomUtils\src\GuGeometryUnion.h">
 		</ClInclude>
 		<ClInclude Include="..\..\GeomUtils\src\GuInternal.h">
@@ -945,8 +945,6 @@
 		<ClCompile Include="..\..\GeomUtils\src\GuCapsule.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\GeomUtils\src\GuCCTSweepTests.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\GeomUtils\src\GuDebug.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\GeomUtils\src\GuGeometryQuery.cpp">
 		</ClCompile>

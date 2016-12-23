@@ -38,21 +38,17 @@ using namespace physx;
 Scb::Cloth::Cloth(const PxTransform& globalPose, Sc::ClothFabricCore& fabric, const PxClothParticle* particles, PxClothFlags flags) : 
 	mCloth(globalPose, fabric, particles, flags)
 {
-	setScbType(ScbType::CLOTH);
+	setScbType(ScbType::eCLOTH);
 }
-
 
 Scb::Cloth::~Cloth()
 {
 }
 
-
 void Scb::Cloth::syncState()
 {
-	if (getBufferFlags())  // Optimization to avoid all the if-statements below if possible
-	{
+	if(getBufferFlags())  // Optimization to avoid all the if-statements below if possible
 		Actor::syncState();
-	}
 
 	postSyncState();
 }

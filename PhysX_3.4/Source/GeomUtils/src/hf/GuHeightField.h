@@ -191,10 +191,34 @@ public:
 //	PX_INLINE		PxU32						computeCellCoordinates(PxReal x, PxReal z, PxU32 nbColumns, PxReal& fracX, PxReal& fracZ) const;
 	PX_PHYSX_COMMON_API 				PxU32						computeCellCoordinates(PxReal x, PxReal z, PxReal& fracX, PxReal& fracZ) const;
 
-	PX_CUDA_CALLABLE PX_FORCE_INLINE	PxU32	getMinRow(PxReal x)		const	{ return PxU32(PxClamp(PxI32(Ps::floor(x)), PxI32(0), PxI32(mData.rows-2)));	}
-	PX_CUDA_CALLABLE PX_FORCE_INLINE	PxU32	getMaxRow(PxReal x)		const	{ return PxU32(PxClamp(PxI32(Ps::ceil(x)), PxI32(0), PxI32(mData.rows-1)));		}
-	PX_CUDA_CALLABLE PX_FORCE_INLINE	PxU32	getMinColumn(PxReal z)	const	{ return PxU32(PxClamp(PxI32(Ps::floor(z)), PxI32(0), PxI32(mData.columns-2)));	}
-	PX_CUDA_CALLABLE PX_FORCE_INLINE	PxU32	getMaxColumn(PxReal z)	const	{ return PxU32(PxClamp(PxI32(Ps::ceil(z)), PxI32(0), PxI32(mData.columns-1)));	}
+	PX_CUDA_CALLABLE PX_FORCE_INLINE	PxU32	getMin(PxReal x, PxU32 nb)	const
+												{
+													if(x<0.0f)
+														return 0;
+													if(x>PxReal(nb))
+														return nb;
+
+													const PxReal cx = Ps::floor(x);
+													const PxU32 icx = PxU32(cx);
+													return icx;
+												}
+
+	PX_CUDA_CALLABLE PX_FORCE_INLINE	PxU32	getMax(PxReal x, PxU32 nb)	const
+												{
+													if(x<0.0f)
+														return 0;
+													if(x>PxReal(nb))
+														return nb;
+
+													const PxReal cx = Ps::ceil(x);
+													const PxU32 icx = PxU32(cx);
+													return icx;
+												}
+
+	PX_CUDA_CALLABLE PX_FORCE_INLINE	PxU32	getMinRow(PxReal x)		const	{ return getMin(x, mData.rows-2);		}
+	PX_CUDA_CALLABLE PX_FORCE_INLINE	PxU32	getMaxRow(PxReal x)		const	{ return getMax(x, mData.rows-1);		}
+	PX_CUDA_CALLABLE PX_FORCE_INLINE	PxU32	getMinColumn(PxReal z)	const	{ return getMin(z, mData.columns-2);	}
+	PX_CUDA_CALLABLE PX_FORCE_INLINE	PxU32	getMaxColumn(PxReal z)	const	{ return getMax(z, mData.columns-1);	}
 
 	PX_CUDA_CALLABLE PX_INLINE			bool	isValidTriangle(PxU32 triangleIndex) const;
 	PX_CUDA_CALLABLE PX_FORCE_INLINE	bool	isFirstTriangle(PxU32 triangleIndex) const	{ return ((triangleIndex & 0x1) == 0);	}

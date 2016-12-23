@@ -1308,7 +1308,7 @@ void Aggregate::sortBounds()
 		{
 			Ps::Array<PxU32> copy = mAggregated;
 			InflatedAABB* boundsCopy = reinterpret_cast<InflatedAABB*>(PX_ALLOC(sizeof(InflatedAABB)*(nbObjects+1), "mInflatedBounds"));
-			memcpy(boundsCopy, mInflatedBounds, (nbObjects+1)*sizeof(InflatedAABB));
+			PxMemCopy(boundsCopy, mInflatedBounds, (nbObjects+1)*sizeof(InflatedAABB));
 
 			const PxU32* Sorted = mRS.GetRanks();
 			for(PxU32 i=0;i<nbObjects;i++)
@@ -1832,11 +1832,14 @@ void SimpleAABBManager::handleOriginShift()
 			{
 				const AggregateHandle aggregateHandle = mVolumeData[i].getAggregate();
 				Aggregate* aggregate = getAggregateFromHandle(aggregateHandle);
-				aggregate->markAsDirty(mDirtyAggregates);
-				aggregate->allocateBounds();
-				aggregate->computeBounds(mBoundsArray, mContactDistance.begin());
-				mBoundsArray.begin()[aggregate->mIndex] = aggregate->mBounds;
-				mUpdatedHandles.pushBack(i);	// PT: TODO: BoundsIndex-to-ShapeHandle confusion here
+				if(aggregate->getNbAggregated())
+				{
+					aggregate->markAsDirty(mDirtyAggregates);
+					aggregate->allocateBounds();
+					aggregate->computeBounds(mBoundsArray, mContactDistance.begin());
+					mBoundsArray.begin()[aggregate->mIndex] = aggregate->mBounds;
+					mUpdatedHandles.pushBack(i);	// PT: TODO: BoundsIndex-to-ShapeHandle confusion here
+				}
 			}
 		}
 	}

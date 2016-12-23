@@ -56,41 +56,39 @@ public:
 
 	PX_INLINE void clearVisualizationParams();
 
-	PxReal								visualizationParam[PxVisualizationParameter::eNUM_VALUES];
-	PxU8								visualizationParamChanged[PxVisualizationParameter::eNUM_VALUES];
-	PxBounds3							visualizationCullingBox;
-	PxU8								visualizationCullingBoxChanged;
-	PxU32								dominancePairFlag[sMaxNbDominanceGroups - 1];
-	PxU32								dominancePairValues[sMaxNbDominanceGroups];
-	PxVec3								gravity;
-	PxReal								bounceThresholdVelocity;
-	PxSceneFlags						flags;
-	PxU32								solverBatchSize;
-	PxU32								numClientsCreated;
-	Ps::Array<PxClientBehaviorFlags>	clientBehaviorFlags;	//a value is buffered if it is not -1.
+	PxReal								mVisualizationParam[PxVisualizationParameter::eNUM_VALUES];
+	PxU8								mVisualizationParamChanged[PxVisualizationParameter::eNUM_VALUES];
+	PxBounds3							mVisualizationCullingBox;
+private:
+	PxU32								mDominancePairFlag[sMaxNbDominanceGroups - 1];
+	PxU32								mDominancePairValues[sMaxNbDominanceGroups];
+public:
+	PxVec3								mGravity;
+	PxReal								mBounceThresholdVelocity;
+	PxSceneFlags						mFlags;
+	PxU32								mSolverBatchSize;
+	PxU32								mNumClientsCreated;
+	Ps::Array<PxClientBehaviorFlags>	mClientBehaviorFlags;	//a value is buffered if it is not -1.
 };
 
-
-PX_INLINE SceneBuffer::SceneBuffer() : clientBehaviorFlags(PX_DEBUG_EXP("clientBehaviorFlags"))
+PX_INLINE SceneBuffer::SceneBuffer() :
+	mNumClientsCreated	(0),
+	mClientBehaviorFlags(PX_DEBUG_EXP("clientBehaviorFlags"))
 {
 	clearDominanceBuffer();
 	clearVisualizationParams();
-	numClientsCreated = 0;
-	clientBehaviorFlags.pushBack(PxClientBehaviorFlag_eNOT_BUFFERED);	//need member for default client, PxClientBehaviorFlag_eNOT_BUFFERED means its not storing anything.
+	mClientBehaviorFlags.pushBack(PxClientBehaviorFlag_eNOT_BUFFERED);	//need member for default client, PxClientBehaviorFlag_eNOT_BUFFERED means its not storing anything.
 }
 
-
-PX_INLINE void SceneBuffer::clearDominanceBuffer()
+PX_FORCE_INLINE void SceneBuffer::clearDominanceBuffer()
 {
-	PxMemSet(&dominancePairFlag, 0, (sMaxNbDominanceGroups - 1) * sizeof(PxU32));
+	PxMemZero(&mDominancePairFlag, (sMaxNbDominanceGroups - 1) * sizeof(PxU32));
 }
 
-
-PX_INLINE void SceneBuffer::clearVisualizationParams()
+PX_FORCE_INLINE void SceneBuffer::clearVisualizationParams()
 {
-	PxMemZero(visualizationParamChanged, PxVisualizationParameter::eNUM_VALUES * sizeof(PxU8));
+	PxMemZero(mVisualizationParamChanged, PxVisualizationParameter::eNUM_VALUES * sizeof(PxU8));
 }
-
 
 PX_INLINE void SceneBuffer::setDominancePair(PxU32 group1, PxU32 group2, const PxDominanceGroupPair& dominance)
 {
@@ -98,22 +96,21 @@ PX_INLINE void SceneBuffer::setDominancePair(PxU32 group1, PxU32 group2, const P
 	PX_ASSERT(group1 < sMaxNbDominanceGroups);
 	PX_ASSERT(group2 < sMaxNbDominanceGroups);
 
-	if (group1 < group2)
-		dominancePairFlag[group1] = dominancePairFlag[group1] | (1 << group2);
+	if(group1 < group2)
+		mDominancePairFlag[group1] |= (1 << group2);
 	else
-		dominancePairFlag[group2] = dominancePairFlag[group2] | (1 << group1);
+		mDominancePairFlag[group2] |= (1 << group1);
 
-	if (dominance.dominance0 != 0.0f)
-		dominancePairValues[group1] = dominancePairValues[group1] | (1 << group2);
+	if(dominance.dominance0 != 0.0f)
+		mDominancePairValues[group1] |= (1 << group2);
 	else
-		dominancePairValues[group1] = dominancePairValues[group1] & (~(1 << group2));
+		mDominancePairValues[group1] &= ~(1 << group2);
 
-	if (dominance.dominance1 != 0.0f)
-		dominancePairValues[group2] = dominancePairValues[group2] | (1 << group1);
+	if(dominance.dominance1 != 0.0f)
+		mDominancePairValues[group2] |= (1 << group1);
 	else
-		dominancePairValues[group2] = dominancePairValues[group2] & (~(1 << group1));
+		mDominancePairValues[group2] &= ~(1 << group1);
 }
-
 
 PX_INLINE bool SceneBuffer::getDominancePair(PxU32 group1, PxU32 group2, PxDominanceGroupPair& dominance) const
 {
@@ -121,39 +118,36 @@ PX_INLINE bool SceneBuffer::getDominancePair(PxU32 group1, PxU32 group2, PxDomin
 	PX_ASSERT(group1 < sMaxNbDominanceGroups);
 	PX_ASSERT(group2 < sMaxNbDominanceGroups);
 
-	PxU32 isBuffered = 0;
-	if (group1 < group2)
-		isBuffered = dominancePairFlag[group1] & (1 << group2);
+	PxU32 isBuffered;
+	if(group1 < group2)
+		isBuffered = mDominancePairFlag[group1] & (1 << group2);
 	else
-		isBuffered = dominancePairFlag[group2] & (1 << group1);
+		isBuffered = mDominancePairFlag[group2] & (1 << group1);
 
-	if (isBuffered)
-	{
-		dominance.dominance0 = PxU8((dominancePairValues[group1] & (1 << group2)) >> group2 );
-		dominance.dominance1 = PxU8((dominancePairValues[group2] & (1 << group1)) >> group1 );
-		return true;
-	}
-	
-	return false;
+	if(!isBuffered)
+		return false;
+
+	dominance.dominance0 = PxU8((mDominancePairValues[group1] & (1 << group2)) >> group2);
+	dominance.dominance1 = PxU8((mDominancePairValues[group2] & (1 << group1)) >> group1);
+	return true;
 }
-
 
 PX_INLINE void SceneBuffer::syncDominancePairs(Sc::Scene& scene)
 {
-	for(PxU32 i=0; i < (sMaxNbDominanceGroups - 1); i++)
+	for(PxU32 i=0; i<(sMaxNbDominanceGroups - 1); i++)
 	{
-		if (dominancePairFlag[i])
+		if(mDominancePairFlag[i])
 		{
-			for(PxU32 j=(i+1); j < sMaxNbDominanceGroups; j++)
+			for(PxU32 j=(i+1); j<sMaxNbDominanceGroups; j++)
 			{
 				PxDominanceGroupPair dominance(0, 0);
-				if (getDominancePair(i, j, dominance))
-				{
+				if(getDominancePair(i, j, dominance))
 					scene.setDominanceGroupPair(PxDominanceGroup(i), PxDominanceGroup(j), dominance);
-				}
 			}
 		}
 	}
+
+	clearDominanceBuffer();
 }
 
 

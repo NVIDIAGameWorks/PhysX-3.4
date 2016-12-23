@@ -610,7 +610,7 @@ struct CapturePvdOnReturn : public PxHitCallback<HitType>
 	~CapturePvdOnReturn()
 	{
 		const physx::Vd::ScbScenePvdClient& pvdClient = mSQ->getScene().getScenePvdClient();
-		if(!(pvdClient.isConnected() && (pvdClient.getScenePvdFlags() & PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES)))
+		if(!(pvdClient.checkPvdDebugFlag() && (pvdClient.getScenePvdFlagsFast() & PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES)))
 			return;
 
 		physx::Vd::PvdSceneQueryCollector& collector = mBFD ? mSQ->getBatchedSqCollector() : mSQ->getSingleSqCollector();

@@ -56,6 +56,7 @@ General notes:
 #include "PsVecMath.h"
 #include "PxQueryReport.h" // for PxAgain
 #include "PsBitUtils.h"
+#include "GuBVConstants.h"
 
 //#define VERIFY_RTREE
 #ifdef VERIFY_RTREE
@@ -167,15 +168,6 @@ void RTree::traverseAABB(const PxVec3& boxMin, const PxVec3& boxMax, const PxU32
 			}
 		}
 	} while (stackPtr > stack);
-}
-
-namespace
-{
-	const VecU32V signMask = U4LoadXYZW((PxU32(1)<<31), (PxU32(1)<<31), (PxU32(1)<<31), (PxU32(1)<<31));
-	const Vec4V epsFloat4 = V4Load(1e-9f);
-	const Vec4V zeroes = V4Zero();
-	const Vec4V twos = V4Load(2.0f);
-	const Vec4V epsInflateFloat4 = V4Load(1e-7f);
 }
 
 /////////////////////////////////////////////////////////////////////////

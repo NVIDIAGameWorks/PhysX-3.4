@@ -230,14 +230,14 @@ public:
 	/**
 	\brief Allocates constraint data. It is the application's responsibility to release this memory after PxSolveConstraints has completed.
 	\param[in] byteSize Allocation size in bytes
-	\return the allocated memory
+	\return the allocated memory. This address must be 16-byte aligned.
 	*/
 	virtual PxU8* reserveConstraintData(const PxU32 byteSize) = 0;
 	/**
 	\brief Allocates friction data. Friction data can be retained by the application for a given pair and provided as an input to PxSolverContactDesc to improve simulation stability.
 	It is the application's responsibility to release this memory. If this memory is released, the application should ensure it does not pass pointers to this memory to PxSolverContactDesc.
 	\param[in] byteSize Allocation size in bytes
-	\return the allocated memory
+	\return the allocated memory. This address must be 4-byte aligned.
 	*/
 	virtual PxU8* reserveFrictionData(const PxU32 byteSize) = 0;
 

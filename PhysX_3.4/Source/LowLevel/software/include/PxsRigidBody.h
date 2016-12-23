@@ -95,16 +95,16 @@ class PxsRigidBody : public PxcRigidBody
 															return axis * angle * 1.0f/dt;
 													}
 
-	PX_FORCE_INLINE		PxTransform					getLastCCDTransform()					const	{ return mLastTransform; }
+	PX_FORCE_INLINE		const PxTransform&			getLastCCDTransform()					const	{ return mLastTransform;}
 	PX_FORCE_INLINE		void						saveLastCCDTransform()							{ mLastTransform = mCore->body2World; }
 
 	PX_FORCE_INLINE		bool						isKinematic()							const	{ return (mCore->inverseMass == 0.0f); }
 						
 	PX_FORCE_INLINE		void						setPose(const PxTransform& pose)				{ mCore->body2World = pose; }
 	PX_FORCE_INLINE		void						setPosition(const PxVec3& position)				{ mCore->body2World.p = position; }
-	PX_FORCE_INLINE		PxReal						getInvMass()							const	{ return mCore->inverseMass; }	
+	PX_FORCE_INLINE		PxReal						getInvMass()							const	{ return mCore->inverseMass; }
 	PX_FORCE_INLINE		PxVec3						getInvInertia()							const	{ return mCore->inverseInertia; }
-	PX_FORCE_INLINE		PxReal						getMass()								const	{ return 1.0f/mCore->inverseMass; }	
+	PX_FORCE_INLINE		PxReal						getMass()								const	{ return 1.0f/mCore->inverseMass; }
 	PX_FORCE_INLINE		PxVec3						getInertia()							const	{ return PxVec3(1.0f/mCore->inverseInertia.x,
 																													1.0f/mCore->inverseInertia.y,
 																													1.0f/mCore->inverseInertia.z); }

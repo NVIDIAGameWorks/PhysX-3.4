@@ -202,18 +202,18 @@ void NpPhysics::initOffsetTables(PxvOffsetTable& pxvOffsetTable)
 		offsetTable.pxActorToScbActor[PxConcreteType::eCLOTH]				= reinterpret_cast<ptrdiff_t>(&static_cast<NpCloth*>(n)->getScbCloth()) - addr;
 #endif
 		// init scb2sc
-		for(PxU32 i=0;i<ScbType::TYPE_COUNT;i++)
+		for(PxU32 i=0;i<ScbType::eTYPE_COUNT;i++)
 			offsetTable.scbToSc[i] = 0;
 		ptrdiff_t staticOffset = static_cast<ptrdiff_t>(Scb::RigidStatic::getScOffset());
 		ptrdiff_t bodyOffset = static_cast<ptrdiff_t>(Scb::Body::getScOffset());
-		offsetTable.scbToSc[ScbType::RIGID_STATIC] = staticOffset;
-		offsetTable.scbToSc[ScbType::BODY] = bodyOffset;
-		offsetTable.scbToSc[ScbType::BODY_FROM_ARTICULATION_LINK] = bodyOffset;
+		offsetTable.scbToSc[ScbType::eRIGID_STATIC] = staticOffset;
+		offsetTable.scbToSc[ScbType::eBODY] = bodyOffset;
+		offsetTable.scbToSc[ScbType::eBODY_FROM_ARTICULATION_LINK] = bodyOffset;
 #if PX_USE_PARTICLE_SYSTEM_API
-		offsetTable.scbToSc[ScbType::PARTICLE_SYSTEM] = static_cast<ptrdiff_t>(Scb::ParticleSystem::getScOffset());
+		offsetTable.scbToSc[ScbType::ePARTICLE_SYSTEM] = static_cast<ptrdiff_t>(Scb::ParticleSystem::getScOffset());
 #endif
 #if PX_USE_CLOTH_API
-		offsetTable.scbToSc[ScbType::CLOTH] = static_cast<ptrdiff_t>(Scb::Cloth::getScOffset());
+		offsetTable.scbToSc[ScbType::eCLOTH] = static_cast<ptrdiff_t>(Scb::Cloth::getScOffset());
 #endif
 	}
 	{

@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_CONSTRAINTSHADER
 #define PX_PHYSICS_SCB_CONSTRAINTSHADER
 
@@ -110,28 +109,22 @@ public:
 
 	PX_INLINE bool						updateConstants(void* addr);
 
-
 	//---------------------------------------------------------------------------------
 	// Data synchronization
 	//---------------------------------------------------------------------------------
 	PX_INLINE void						prepareForActorRemoval();
 	PX_INLINE void						syncState();
 
-
 	//---------------------------------------------------------------------------------
 	// Miscellaneous
 	//---------------------------------------------------------------------------------
-	PX_FORCE_INLINE const Core&		getScConstraint()					const	{ return mConstraint;	}  // Only use if you know what you're doing!
-	PX_FORCE_INLINE Core&			getScConstraint()							{ return mConstraint;	}  // Only use if you know what you're doing!
+	PX_FORCE_INLINE const Core&			getScConstraint()				const	{ return mConstraint;	}  // Only use if you know what you're doing!
+	PX_FORCE_INLINE Core&				getScConstraint()						{ return mConstraint;	}  // Only use if you know what you're doing!
 
 	PX_FORCE_INLINE static Constraint&			fromSc(Core &a)					{ return *reinterpret_cast<Constraint*>(reinterpret_cast<PxU8*>(&a)-getScOffset()); }
 	PX_FORCE_INLINE static const Constraint&	fromSc(const Core &a)			{ return *reinterpret_cast<const Constraint*>(reinterpret_cast<const PxU8*>(&a)-getScOffset()); }
 
-
-	static size_t getScOffset()													
-	{ 
-		return reinterpret_cast<size_t>(&reinterpret_cast<Constraint*>(0)->mConstraint);
-	}
+	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Constraint*>(0)->mConstraint);	}
 
 private:
 	Core		mConstraint;
@@ -144,18 +137,18 @@ private:
 	PxConstraintFlags		mBrokenFlag;
 
 	PX_FORCE_INLINE	const Buf*		getBufferedData()	const	{ return reinterpret_cast<const Buf*>(getStream()); }
-	PX_FORCE_INLINE	Buf*			getBufferedData()			{ return reinterpret_cast<Buf*>(getStream()); }
+	PX_FORCE_INLINE	Buf*			getBufferedData()			{ return reinterpret_cast<Buf*>(getStream());		}
 };
 
 }  // namespace Scb
 
 PX_INLINE Scb::Constraint::Constraint(PxConstraintConnector& connector, const PxConstraintShaderTable& shaders, PxU32 dataSize) :
-	mConstraint(connector, shaders, dataSize),
-	mBufferedForce(0.0f),
-	mBufferedTorque(0.0f),
-	mBrokenFlag(0)
+	mConstraint		(connector, shaders, dataSize),
+	mBufferedForce	(0.0f),
+	mBufferedTorque	(0.0f),
+	mBrokenFlag		(0)
 {
-	setScbType(ScbType::CONSTRAINT);
+	setScbType(ScbType::eCONSTRAINT);
 }
 
 PX_INLINE PxConstraintConnector* Scb::Constraint::getPxConnector() const
@@ -165,7 +158,7 @@ PX_INLINE PxConstraintConnector* Scb::Constraint::getPxConnector() const
 
 PX_INLINE void Scb::Constraint::setFlags(PxConstraintFlags f)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mConstraint.setFlags(f);
 		UPDATE_PVD_PROPERTIES_OBJECT()
@@ -183,13 +176,12 @@ PX_INLINE PxConstraintFlags Scb::Constraint::getFlags() const
 								: mConstraint.getFlags() & (~(PxConstraintFlag::eBROKEN | PxConstraintFlag::eGPU_COMPATIBLE) | mBrokenFlag);
 }
 
-
 PX_INLINE void Scb::Constraint::setBodies(Scb::RigidObject* r0, Scb::RigidObject* r1)
 {
 	Sc::RigidCore* scR0 = r0 ? &r0->getScRigidCore() : NULL;
 	Sc::RigidCore* scR1 = r1 ? &r1->getScRigidCore() : NULL;
 
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mConstraint.prepareForSetBodies();
 		mConstraint.setBodies(scR0, scR1);
@@ -203,11 +195,9 @@ PX_INLINE void Scb::Constraint::setBodies(Scb::RigidObject* r0, Scb::RigidObject
 		markUpdated(BF_BODIES);
 	}
 
-	mBufferedForce = PxVec3(0);
-	mBufferedTorque = PxVec3(0);
+	mBufferedForce = PxVec3(0.0f);
+	mBufferedTorque = PxVec3(0.0f);
 }
-
-
 
 PX_INLINE void Scb::Constraint::getForce(PxVec3& force, PxVec3& torque) const
 {
@@ -215,10 +205,9 @@ PX_INLINE void Scb::Constraint::getForce(PxVec3& force, PxVec3& torque) const
 	torque = mBufferedTorque;
 }
 
-
 PX_INLINE void Scb::Constraint::setBreakForce(PxReal linear, PxReal angular)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mConstraint.setBreakForce(linear, angular);
 		UPDATE_PVD_PROPERTIES_OBJECT()
@@ -232,10 +221,9 @@ PX_INLINE void Scb::Constraint::setBreakForce(PxReal linear, PxReal angular)
 	}
 }
 
-
 PX_INLINE void Scb::Constraint::getBreakForce(PxReal& linear, PxReal& angular) const
 {
-	if (isBuffered(BF_BREAK_IMPULSE))
+	if(isBuffered(BF_BREAK_IMPULSE))
 	{
 		const Buf* PX_RESTRICT bufferedData = getBufferedData();
 		linear = bufferedData->linBreakForce;
@@ -245,10 +233,9 @@ PX_INLINE void Scb::Constraint::getBreakForce(PxReal& linear, PxReal& angular) c
 		mConstraint.getBreakForce(linear, angular);
 }
 
-
 PX_INLINE void Scb::Constraint::setMinResponseThreshold(PxReal threshold)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mConstraint.setMinResponseThreshold(threshold);
 		UPDATE_PVD_PROPERTIES_OBJECT()
@@ -261,10 +248,9 @@ PX_INLINE void Scb::Constraint::setMinResponseThreshold(PxReal threshold)
 	}
 }
 
-
 PX_INLINE PxReal Scb::Constraint::getMinResponseThreshold() const
 {
-	if (isBuffered(BF_MIN_RESPONSE_THRESHOLD))
+	if(isBuffered(BF_MIN_RESPONSE_THRESHOLD))
 	{
 		const Buf* PX_RESTRICT bufferedData = getBufferedData();
 		return bufferedData->minResponseThreshold;
@@ -273,15 +259,12 @@ PX_INLINE PxReal Scb::Constraint::getMinResponseThreshold() const
 		return mConstraint.getMinResponseThreshold();
 }
 
-
-
 PX_INLINE bool Scb::Constraint::updateConstants(void* addr)
 {
 	PX_ASSERT(!getScbScene()->isPhysicsBuffering());
 
 	return mConstraint.updateConstants(addr);
 }
-
 
 //--------------------------------------------------------------
 //
@@ -306,7 +289,7 @@ PX_INLINE void Scb::Constraint::syncState()
 	
 	mBrokenFlag = mConstraint.getFlags() & PxConstraintFlag::eBROKEN;
 
-	PxU32 flags = getBufferFlags();
+	const PxU32 flags = getBufferFlags();
 	if(flags)
 	{
 		const Buf* PX_RESTRICT bufferedData = getBufferedData();

@@ -133,11 +133,11 @@ void NpRigidDynamic::setKinematicTarget(const PxTransform& destination)
 }
 
 
-bool NpRigidDynamic::getKinematicTarget(PxTransform& target)
+bool NpRigidDynamic::getKinematicTarget(PxTransform& target) const
 {
 	NP_READ_CHECK(NpActor::getOwnerScene(*this));
 
-	Scb::Body& b = getScbBodyFast();
+	const Scb::Body& b = getScbBodyFast();
 	if(b.getFlags() & PxRigidBodyFlag::eKINEMATIC)
 	{
 		PxTransform bodyTarget;

@@ -245,7 +245,7 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 	virtual			PxReal							getVisualizationParameter(PxVisualizationParameter::Enum param) const;
 
 	virtual			void							setVisualizationCullingBox(const PxBounds3& box);
-	virtual			const PxBounds3&				getVisualizationCullingBox() const;
+	virtual			PxBounds3						getVisualizationCullingBox() const;
 
 	virtual			PxTaskManager*					getTaskManager()	{ return mTaskManager; }
 					void							checkBeginWrite() const {}

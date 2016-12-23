@@ -816,12 +816,21 @@ static void setupFinalizeSolverConstraints4(PxSolverContactDesc* PX_RESTRICT des
 					const Vec4V errorZ = V4Sub(raWorldZ, rbWorldZ);
 
 					//KS - todo - get this working with per-point friction
-						//PxU32 index0 = /*perPointFriction ? c.contactID[i][j] : */c.contactPatches[c.correlationListHeads[i]].start;
+					PxU32 contactIndex0 = c.contactID[frictionIndex0][index0];
+					PxU32 contactIndex1 = c.contactID[frictionIndex1][index1];
+					PxU32 contactIndex2 = c.contactID[frictionIndex2][index2];
+					PxU32 contactIndex3 = c.contactID[frictionIndex3][index3];
 
-					Vec4V targetVel0 = V4LoadA(&contactBase0->targetVel.x);
-					Vec4V targetVel1 = V4LoadA(&contactBase1->targetVel.x);
-					Vec4V targetVel2 = V4LoadA(&contactBase2->targetVel.x);
-					Vec4V targetVel3 = V4LoadA(&contactBase3->targetVel.x);
+					//Ensure that the ocntact indices are valid
+					PX_ASSERT(contactIndex0 == 0xffff || contactIndex0 < descs[0].numContacts);
+					PX_ASSERT(contactIndex1 == 0xffff || contactIndex1 < descs[1].numContacts);
+					PX_ASSERT(contactIndex2 == 0xffff || contactIndex2 < descs[2].numContacts);
+					PX_ASSERT(contactIndex3 == 0xffff || contactIndex3 < descs[3].numContacts);
+
+					Vec4V targetVel0 = V4LoadA(contactIndex0 == 0xFFFF ? &contactBase0->targetVel.x : &descs[0].contacts[contactIndex0].targetVel.x);
+					Vec4V targetVel1 = V4LoadA(contactIndex1 == 0xFFFF ? &contactBase0->targetVel.x : &descs[1].contacts[contactIndex1].targetVel.x);
+					Vec4V targetVel2 = V4LoadA(contactIndex2 == 0xFFFF ? &contactBase0->targetVel.x : &descs[2].contacts[contactIndex2].targetVel.x);
+					Vec4V targetVel3 = V4LoadA(contactIndex3 == 0xFFFF ? &contactBase0->targetVel.x : &descs[3].contacts[contactIndex3].targetVel.x);
 
 					Vec4V targetVelX, targetVelY, targetVelZ;
 					PX_TRANSPOSE_44_34(targetVel0, targetVel1, targetVel2, targetVel3, targetVelX, targetVelY, targetVelZ);
@@ -892,7 +901,8 @@ static void setupFinalizeSolverConstraints4(PxSolverContactDesc* PX_RESTRICT des
 							const Vec4V rbXnY = V4NegMulSub(rbX, t0Z, V4Mul(rbZ, t0X));
 							const Vec4V rbXnZ = V4NegMulSub(rbY, t0X, V4Mul(rbX, t0Y));
 
-							const Vec4V dotRbXnAngVel1 = V4MulAdd(rbXnZ, angVelT21, V4MulAdd(rbXnY, angVelT11, V4Mul(rbXnX, angVelT01)));
+							const Vec4V tVel1 = V4MulAdd(t0Z, linVelT21, V4MulAdd(t0Y, linVelT11, V4Mul(t0X, linVelT01)));
+							const Vec4V dotRbXnAngVel1 = V4MulAdd(rbXnZ, angVelT21, V4MulAdd(rbXnY, angVelT11, V4MulAdd(rbXnX, angVelT01, tVel1)));
 
 							vrel = V4Sub(vrel, dotRbXnAngVel1);
 						}
@@ -1229,7 +1239,6 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4(
 	PxReal correlationDistance,
 	PxConstraintAllocator& constraintAllocator)
 {
-
 	PX_ALIGN(16, PxReal invMassScale0[4]);
 	PX_ALIGN(16, PxReal invMassScale1[4]);
 	PX_ALIGN(16, PxReal invInertiaScale0[4]);

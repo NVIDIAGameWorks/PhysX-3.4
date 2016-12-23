@@ -661,7 +661,7 @@ public:
 	/**
 	\brief Gets PxPhysics object insertion interface. 
 
-	The insertion interface is needed ie. for PxCooking::createTriangleMesh, this allows runtime mesh creation. This is not adviced to do, please 
+	The insertion interface is needed ie. for PxCooking::createTriangleMesh, this allows runtime mesh creation. This is not advised to do, please 
 	use offline cooking if possible.
 
 	@see PxCooking::createTriangleMesh PxCooking::createHeightfield

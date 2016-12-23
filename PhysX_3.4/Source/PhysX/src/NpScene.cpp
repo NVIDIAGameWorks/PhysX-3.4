@@ -907,7 +907,7 @@ void NpScene::addArticulation(PxArticulation& articulation)
 	}
 
 	Scb::Articulation& art = static_cast<NpArticulation&>(articulation).getArticulation(); 
-	Scb::ControlState::Enum cs = art.getControlState();
+	const Scb::ControlState::Enum cs = art.getControlState();
 	if ((cs == Scb::ControlState::eNOT_IN_SCENE) || ((cs == Scb::ControlState::eREMOVE_PENDING) && (art.getScbScene()->getPxScene() == this)))
 		addArticulationInternal(articulation);
 	else
@@ -1130,7 +1130,7 @@ void NpScene::addAggregate(PxAggregate& aggregate)
 #endif
 
 	Scb::Aggregate& agg = np.getScbAggregate(); 
-	Scb::ControlState::Enum cs = agg.getControlState();
+	const Scb::ControlState::Enum cs = agg.getControlState();
 	if ((cs == Scb::ControlState::eNOT_IN_SCENE) || ((cs == Scb::ControlState::eREMOVE_PENDING) && (agg.getScbScene()->getPxScene() == this)))
 	{
 		mScene.addAggregate(agg);
@@ -1489,6 +1489,8 @@ const PxRenderBuffer& NpScene::getRenderBuffer()
 void NpScene::visualize()
 {
 	NP_READ_CHECK(this);
+
+	PX_PROFILE_ZONE("NpScene::visualize", getContextId());
 
 	mRenderBuffer.clear(); // clear last frame visualizations 
 
@@ -2187,9 +2189,9 @@ bool NpScene::fetchCollision(bool block)
 class SqRefFinder: public Sc::SqRefFinder
 {
 public:
-	PxU32 find(const PxRigidBody * body, const PxShape* shape)
+	virtual	Sq::PrunerHandle find(const PxRigidBody* body, const PxShape* shape)
 	{
-		Sq::PrunerData prunerdata = NpActor::getShapeManager(*body)->findSceneQueryData(*static_cast<const NpShape*>(shape));
+		const Sq::PrunerData prunerdata = NpActor::getShapeManager(*body)->findSceneQueryData(*static_cast<const NpShape*>(shape));
 		return Sq::getPrunerHandle(prunerdata);
 	}
 private:
@@ -2224,8 +2226,7 @@ void NpScene::fetchResultsPreContactCallbacks()
 void NpScene::fetchResultsPostContactCallbacks()
 {
 	mScene.postCallbacksPreSync();
-	mScene.setPhysicsBuffering(false);  // Clear the buffering flag to allow buffered writes to execute immediately. Once collision detection is running, buffering is automatically forced on
-	mScene.syncEntireScene(NULL);	// double buffering
+	mScene.syncEntireScene();	// double buffering
 
 	SqRefFinder sqRefFinder;
 	mScene.getScScene().syncSceneQueryBounds(mSQManager.getDynamicBoundsSync(), sqRefFinder);
@@ -2314,7 +2315,7 @@ bool NpScene::fetchResults(bool block, PxU32* errorState)
 		PX_PROFILE_STOP_CROSSTHREAD("Basic.simulate", getContextId());
 
 		if(errorState)
-			*errorState = mScene.getScScene().getErrorState();
+			*errorState = 0;
 	}
 
 #if PX_SUPPORT_PVD
@@ -2430,7 +2431,7 @@ void NpScene::fetchResultsFinish(PxU32* errorState)
 		fetchResultsPostContactCallbacks();
 
 		if (errorState)
-			*errorState = mScene.getScScene().getErrorState();
+			*errorState = 0;
 
 		PX_PROFILE_STOP_CROSSTHREAD("Basic.fetchResults", getContextId());
 		PX_PROFILE_STOP_CROSSTHREAD("Basic.simulate", getContextId());
@@ -2741,7 +2742,7 @@ void NpScene::setVisualizationCullingBox(const PxBounds3& box)
 	mScene.setVisualizationCullingBox(box);
 }
 
-const PxBounds3& NpScene::getVisualizationCullingBox() const
+PxBounds3 NpScene::getVisualizationCullingBox() const
 {
 	NP_READ_CHECK(this);
 	const PxBounds3& bounds = mScene.getVisualizationCullingBox();

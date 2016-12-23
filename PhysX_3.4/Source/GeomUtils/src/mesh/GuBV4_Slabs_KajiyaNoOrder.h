@@ -30,6 +30,8 @@
 #ifndef GU_BV4_SLABS_KAJIYA_NO_ORDER_H
 #define GU_BV4_SLABS_KAJIYA_NO_ORDER_H
 
+#include "GuBVConstants.h"
+
 	// Kajiya, no sort
 	template<int inflateT, class LeafTestT, class ParamsT>
 	static Ps::IntBool BV4_ProcessStreamKajiyaNoOrder(const BVDataPacked* PX_RESTRICT node, PxU32 initData, ParamsT* PX_RESTRICT params)

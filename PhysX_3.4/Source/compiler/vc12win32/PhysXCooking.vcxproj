@@ -348,17 +348,17 @@
 		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win32/PxFoundation.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="./PhysXCommon.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="./PhysXExtensions.vcxproj">
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win32/PxFoundation.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>

@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_TYPE
 #define PX_PHYSICS_SCB_TYPE
 
@@ -37,23 +36,23 @@ namespace physx
 	{
 		enum Enum
 		{
-			UNDEFINED,
-			SHAPE_EXCLUSIVE,
-			SHAPE_SHARED,
-			BODY,
-			BODY_FROM_ARTICULATION_LINK,
-			RIGID_STATIC,
-			CONSTRAINT,
+			eUNDEFINED,
+			eSHAPE_EXCLUSIVE,
+			eSHAPE_SHARED,
+			eBODY,
+			eBODY_FROM_ARTICULATION_LINK,
+			eRIGID_STATIC,
+			eCONSTRAINT,
 #if PX_USE_PARTICLE_SYSTEM_API
-			PARTICLE_SYSTEM,
+			ePARTICLE_SYSTEM,
 #endif
-			ARTICULATION,
-			ARTICULATION_JOINT,
-			AGGREGATE,
+			eARTICULATION,
+			eARTICULATION_JOINT,
+			eAGGREGATE,
 #if PX_USE_CLOTH_API
-			CLOTH,
+			eCLOTH,
 #endif	
-			TYPE_COUNT
+			eTYPE_COUNT
 		};
 	};
 }

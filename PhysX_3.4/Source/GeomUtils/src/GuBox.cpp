@@ -42,17 +42,21 @@ void Gu::Box::create(const Gu::Capsule& capsule)
 	// Box center = center of the two LSS's endpoints
 	center = capsule.computeCenter();
 
-	PxVec3 dir = capsule.p1 - capsule.p0;
+	// Box orientation
+	const PxVec3 dir = capsule.p1 - capsule.p0;
 	const float d = dir.magnitude();
-	rot.column0 = dir / d;
+	if(d!=0.0f)
+	{
+		rot.column0 = dir / d;
+		Ps::computeBasis(rot.column0, rot.column1, rot.column2);
+	}
+	else
+		rot = PxMat33(PxIdentity);
 
 	// Box extents
 	extents.x = capsule.radius + (d * 0.5f);
 	extents.y = capsule.radius;
 	extents.z = capsule.radius;
-
-	// Box orientation
-	Ps::computeBasis(rot.column0, rot.column1, rot.column2);
 }
 
 

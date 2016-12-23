@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #include "PxVisualizationParameter.h"
 #include "PsIntrinsics.h"
 #include "CmPhysXCommon.h"
@@ -375,8 +374,6 @@ bool Gu::ConvexMesh::load(PxInputStream& stream)
 	return true;
 }
 
-
-
 void Gu::ConvexMesh::release()
 {
 	decRefCount();
@@ -419,38 +416,3 @@ PxBounds3 Gu::ConvexMesh::getLocalBounds() const
 	PX_ASSERT(mHullData.mAABB.isValid());
 	return PxBounds3::centerExtents(mHullData.mAABB.mCenter, mHullData.mAABB.mExtents);
 }
-
-
-#if PX_ENABLE_DEBUG_VISUALIZATION
-#include "CmMatrix34.h"
-#include "GuDebug.h"
-void Gu::ConvexMesh::debugVisualize(Cm::RenderOutput& out, const PxTransform& pose, const PxMeshScale& scale)	const
-{
-	const PxU32 scolor = PxU32(PxDebugColor::eARGB_MAGENTA);
-
-	const PxVec3* vertices = mHullData.getHullVertices();
-	const PxU8* indexBuffer = mHullData.getVertexData8();
-	const PxU32 nbPolygons = getNbPolygonsFast();
-
-	const PxMat44 m44(PxMat33(pose.q) * scale.toMat33(), pose.p);
-
-	out << m44 << scolor;	// PT: no need to output this for each segment!
-
-	for (PxU32 i = 0; i < nbPolygons; i++)
-	{
-		const PxU32 pnbVertices = mHullData.mPolygons[i].mNbVerts;
-
-		PxVec3 begin = m44.transform(vertices[indexBuffer[0]]);	// PT: transform it only once before the loop starts
-		for (PxU32 j = 1; j < pnbVertices; j++)
-		{
-			PxVec3 end = m44.transform(vertices[indexBuffer[j]]);
-			out.outputSegment(begin, end);
-			begin = end;
-		}
-		out.outputSegment(begin, m44.transform(vertices[indexBuffer[0]]));
-
-		indexBuffer += pnbVertices;
-	}
-}
-
-#endif

@@ -49,27 +49,29 @@ NpSpatialIndex::~NpSpatialIndex()
 	PX_DELETE(mPruner);
 }
 
-PxSpatialIndexItemId NpSpatialIndex::insert(PxSpatialIndexItem& item,
-										    const PxBounds3& bounds)
+PxSpatialIndexItemId NpSpatialIndex::insert(PxSpatialIndexItem& item, const PxBounds3& bounds)
 {
 	PX_SIMD_GUARD;
-	PX_CHECK_AND_RETURN_VAL(bounds.isValid(),		"PxSpatialIndex::insert: bounds are not valid.", PX_SPATIAL_INDEX_INVALID_ITEM_ID);
+	PX_CHECK_AND_RETURN_VAL(bounds.isValid(), "PxSpatialIndex::insert: bounds are not valid.", PX_SPATIAL_INDEX_INVALID_ITEM_ID);
 
 	PrunerHandle output;
 	PrunerPayload payload;
 	payload.data[0] = reinterpret_cast<size_t>(&item);
-	mPruner->addObjects(&output, &bounds, &payload);
+	mPruner->addObjects(&output, &bounds, &payload, 1, false);
 	mPendingUpdates = true;
 	return output;
 }
 	
-void NpSpatialIndex::update(PxSpatialIndexItemId id,
-							const PxBounds3& bounds)
+void NpSpatialIndex::update(PxSpatialIndexItemId id, const PxBounds3& bounds)
 {
 	PX_SIMD_GUARD;
-	PX_CHECK_AND_RETURN(bounds.isValid(),		"PxSpatialIndex::update: bounds are not valid.");
+	PX_CHECK_AND_RETURN(bounds.isValid(), "PxSpatialIndex::update: bounds are not valid.");
 
-	mPruner->updateObjects(&id, &bounds);
+	PxBounds3* b;
+	mPruner->getPayload(id, b);
+	*b = bounds;
+	mPruner->updateObjectsAfterManualBoundsUpdates(&id, 1);
+
 	mPendingUpdates = true;
 }
 
@@ -77,13 +79,8 @@ void NpSpatialIndex::remove(PxSpatialIndexItemId id)
 {
 	PX_SIMD_GUARD;
 
-	mPruner->removeObjects(&id);
+	mPruner->removeObjects(&id, 1);
 	mPendingUpdates = true;
-}
-
-PxBounds3 NpSpatialIndex::getBounds(PxSpatialIndexItemId /*id*/) const
-{
-	return PxBounds3();
 }
 
 namespace
@@ -137,11 +134,10 @@ void NpSpatialIndex::flushUpdates() const
 	mPendingUpdates = false;
 }
 
-void NpSpatialIndex::overlap(const PxBounds3& aabb, 
-							 PxSpatialOverlapCallback& callback) const
+void NpSpatialIndex::overlap(const PxBounds3& aabb, PxSpatialOverlapCallback& callback) const
 {
 	PX_SIMD_GUARD;
-	PX_CHECK_AND_RETURN(aabb.isValid(),			"PxSpatialIndex::overlap: aabb is not valid.");
+	PX_CHECK_AND_RETURN(aabb.isValid(), "PxSpatialIndex::overlap: aabb is not valid.");
 
 	flushUpdates();
 	OverlapCallback cb(callback);
@@ -151,10 +147,7 @@ void NpSpatialIndex::overlap(const PxBounds3& aabb,
 	mPruner->overlap(shapeData, cb);
 }
 
-void NpSpatialIndex::raycast(const PxVec3& origin, 
-							 const PxVec3& unitDir, 
-							 PxReal maxDist, 
-							 PxSpatialLocationCallback& callback) const
+void NpSpatialIndex::raycast(const PxVec3& origin, const PxVec3& unitDir, PxReal maxDist, PxSpatialLocationCallback& callback) const
 {
 	PX_SIMD_GUARD;
 
@@ -167,10 +160,7 @@ void NpSpatialIndex::raycast(const PxVec3& origin,
 	mPruner->raycast(origin, unitDir, maxDist, cb);
 }
 
-void NpSpatialIndex::sweep(const PxBounds3& aabb, 
-						   const PxVec3& unitDir, 
-						   PxReal maxDist, 
-						   PxSpatialLocationCallback& callback) const
+void NpSpatialIndex::sweep(const PxBounds3& aabb, const PxVec3& unitDir, PxReal maxDist, PxSpatialLocationCallback& callback) const
 {
 	PX_SIMD_GUARD;
 
@@ -212,7 +202,6 @@ void NpSpatialIndex::release()
 {
 	delete this;
 }
-
 
 PxSpatialIndex* physx::PxCreateSpatialIndex()
 {

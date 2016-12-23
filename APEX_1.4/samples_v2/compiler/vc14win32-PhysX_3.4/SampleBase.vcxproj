@@ -69,8 +69,15 @@
 	</PropertyGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
 		<ClCompile>
-			<FloatingPointModel>Precise</FloatingPointModel>
-			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Od /RTCsu /fp:fast /WX- /Zi /Oi /Oy- /Gm- /EHsc /GS /Gd /nologo /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
+			<StringPooling>true</StringPooling>
+			<CallingConvention>Cdecl</CallingConvention>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /WX- /Oy- /Gm- /EHsc /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/include/filebuf;../../../../PxShared/include/foundation;../../../../PxShared/include/task;../../../../PxShared/include/cudamanager;../../../../PxShared/include/pvd;../../../../PxShared/src/foundation/include;../../../../PxShared/src/filebuf/include;../../../../PxShared/src/fastxml/include;../../../../PxShared/src/pvd/include;./../../../include;./../../../include/PhysX3;./../../../include/basicios;./../../../include/clothing;./../../../include/destructible;./../../../include/emitter;./../../../include/particles;./../../../include/iofx;./../../../include/pxparticleios;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;$(WindowsSDK_IncludePath);./../../../externals/extensions/externals/include/directxtex;./../../../externals/extensions/externals/include/dxut/Core;./../../../externals/extensions/externals/include/dxut/Optional;./../../../externals/extensions/externals/include/effects11;./../../../externals/extensions/externals/include/simpleopt;./../../../externals/extensions/include/nvidiautils;./../../../externals/extensions/include/nvsimplemesh;./../../../externals/extensions/externals/include;./../../../externals/extensions/externals/include/anttweakbar;./../../../externals/extensions/externals/include/assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_DEBUG;PX_DEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -106,9 +113,15 @@
 	</PropertyGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
 		<ClCompile>
-			<FloatingPointModel>Precise</FloatingPointModel>
-			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Ox /fp:fast /WX- /Zi /Oi /Oy- /Gm- /EHsc /GS /Gd /nologo /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
-			<Optimization>Disabled</Optimization>
+			<StringPooling>true</StringPooling>
+			<CallingConvention>Cdecl</CallingConvention>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /WX- /Oy- /Gm- /EHsc /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/include/filebuf;../../../../PxShared/include/foundation;../../../../PxShared/include/task;../../../../PxShared/include/cudamanager;../../../../PxShared/include/pvd;../../../../PxShared/src/foundation/include;../../../../PxShared/src/filebuf/include;../../../../PxShared/src/fastxml/include;../../../../PxShared/src/pvd/include;./../../../include;./../../../include/PhysX3;./../../../include/basicios;./../../../include/clothing;./../../../include/destructible;./../../../include/emitter;./../../../include/particles;./../../../include/iofx;./../../../include/pxparticleios;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;$(WindowsSDK_IncludePath);./../../../externals/extensions/externals/include/directxtex;./../../../externals/extensions/externals/include/dxut/Core;./../../../externals/extensions/externals/include/dxut/Optional;./../../../externals/extensions/externals/include/effects11;./../../../externals/extensions/externals/include/simpleopt;./../../../externals/extensions/include/nvidiautils;./../../../externals/extensions/include/nvsimplemesh;./../../../externals/extensions/externals/include;./../../../externals/extensions/externals/include/anttweakbar;./../../../externals/extensions/externals/include/assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_RUNTIME_LIBRARY_MISMATCH;NDEBUG;APEX_SHIPPING;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>Sync</ExceptionHandling>
@@ -143,9 +156,15 @@
 	</PropertyGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
 		<ClCompile>
-			<FloatingPointModel>Precise</FloatingPointModel>
-			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Ox /fp:fast /WX- /Zi /Oi /Oy- /Gm- /EHsc /GS /Gd /nologo /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
-			<Optimization>Disabled</Optimization>
+			<StringPooling>true</StringPooling>
+			<CallingConvention>Cdecl</CallingConvention>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /WX- /Oy- /Gm- /EHsc /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/include/filebuf;../../../../PxShared/include/foundation;../../../../PxShared/include/task;../../../../PxShared/include/cudamanager;../../../../PxShared/include/pvd;../../../../PxShared/src/foundation/include;../../../../PxShared/src/filebuf/include;../../../../PxShared/src/fastxml/include;../../../../PxShared/src/pvd/include;./../../../include;./../../../include/PhysX3;./../../../include/basicios;./../../../include/clothing;./../../../include/destructible;./../../../include/emitter;./../../../include/particles;./../../../include/iofx;./../../../include/pxparticleios;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;$(WindowsSDK_IncludePath);./../../../externals/extensions/externals/include/directxtex;./../../../externals/extensions/externals/include/dxut/Core;./../../../externals/extensions/externals/include/dxut/Optional;./../../../externals/extensions/externals/include/effects11;./../../../externals/extensions/externals/include/simpleopt;./../../../externals/extensions/include/nvidiautils;./../../../externals/extensions/include/nvsimplemesh;./../../../externals/extensions/externals/include;./../../../externals/extensions/externals/include/anttweakbar;./../../../externals/extensions/externals/include/assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_RUNTIME_LIBRARY_MISMATCH;NDEBUG;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>Sync</ExceptionHandling>
@@ -180,9 +199,15 @@
 	</PropertyGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
 		<ClCompile>
-			<FloatingPointModel>Precise</FloatingPointModel>
-			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Ox /fp:fast /WX- /Zi /Oi /Oy- /Gm- /EHsc /GS /Gd /nologo /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
-			<Optimization>Disabled</Optimization>
+			<StringPooling>true</StringPooling>
+			<CallingConvention>Cdecl</CallingConvention>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /WX- /Oy- /Gm- /EHsc /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/include/filebuf;../../../../PxShared/include/foundation;../../../../PxShared/include/task;../../../../PxShared/include/cudamanager;../../../../PxShared/include/pvd;../../../../PxShared/src/foundation/include;../../../../PxShared/src/filebuf/include;../../../../PxShared/src/fastxml/include;../../../../PxShared/src/pvd/include;./../../../include;./../../../include/PhysX3;./../../../include/basicios;./../../../include/clothing;./../../../include/destructible;./../../../include/emitter;./../../../include/particles;./../../../include/iofx;./../../../include/pxparticleios;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;$(WindowsSDK_IncludePath);./../../../externals/extensions/externals/include/directxtex;./../../../externals/extensions/externals/include/dxut/Core;./../../../externals/extensions/externals/include/dxut/Optional;./../../../externals/extensions/externals/include/effects11;./../../../externals/extensions/externals/include/simpleopt;./../../../externals/extensions/include/nvidiautils;./../../../externals/extensions/include/nvsimplemesh;./../../../externals/extensions/externals/include;./../../../externals/extensions/externals/include/anttweakbar;./../../../externals/extensions/externals/include/assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_RUNTIME_LIBRARY_MISMATCH;NDEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_ENABLE_CHECKED_ASSERTS;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>Sync</ExceptionHandling>
@@ -247,6 +272,31 @@
 		</ClInclude>
 		<ClInclude Include="..\..\SampleBase\Utils.h">
 		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/externals/build/vs2015WIN32/DirectXTex.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/externals/build/vs2015WIN32/DXUT.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/externals/build/vs2015WIN32/Effects11.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/build/vs2015WIN32/nvsimplemesh.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/build/vs2015WIN32/nvidiautils.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
 	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 	<ImportGroup Label="ExtensionTargets"></ImportGroup>

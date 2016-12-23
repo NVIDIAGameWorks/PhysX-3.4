@@ -147,88 +147,21 @@ struct PvdSqHit
 	}
 };
 
-template <typename T, bool isBatched>
-inline const char* PvdGetArrayName()
+template <class T>
+class NamedArray : public Ps::Array<T>
 {
-	return T::template getArrayName<isBatched>();
-}
-template <>
-inline const char* PvdGetArrayName<PxGeometryHolder, false>()
-{
-	return "SceneQueries.GeometryList";
-}
-template <>
-inline const char* PvdGetArrayName<PxTransform, false>()
-{
-	return "SceneQueries.PoseList";
-}
-template <>
-inline const char* PvdGetArrayName<PxFilterData, false>()
-{
-	return "SceneQueries.FilterDataList";
-}
-template <>
-inline const char* PvdGetArrayName<PvdRaycast, false>()
-{
-	return "SceneQueries.Raycasts";
-}
-template <>
-inline const char* PvdGetArrayName<PvdOverlap, false>()
-{
-	return "SceneQueries.Overlaps";
-}
-template <>
-inline const char* PvdGetArrayName<PvdSweep, false>()
-{
-	return "SceneQueries.Sweeps";
-}
-template <>
-inline const char* PvdGetArrayName<PvdSqHit, false>()
-{
-	return "SceneQueries.Hits";
-}
-template <>
-inline const char* PvdGetArrayName<PxGeometryHolder, true>()
-{
-	return "BatchedQueries.GeometryList";
-}
-template <>
-inline const char* PvdGetArrayName<PxTransform, true>()
-{
-	return "BatchedQueries.PoseList";
-}
-template <>
-inline const char* PvdGetArrayName<PxFilterData, true>()
-{
-	return "BatchedQueries.FilterDataList";
-}
-template <>
-inline const char* PvdGetArrayName<PvdRaycast, true>()
-{
-	return "BatchedQueries.Raycasts";
-}
-template <>
-inline const char* PvdGetArrayName<PvdOverlap, true>()
-{
-	return "BatchedQueries.Overlaps";
-}
-template <>
-inline const char* PvdGetArrayName<PvdSweep, true>()
-{
-	return "BatchedQueries.Sweeps";
-}
-template <>
-inline const char* PvdGetArrayName<PvdSqHit, true>()
-{
-	return "BatchedQueries.Hits";
-}
+	public:
+		NamedArray(const char* names[2]) { mNames[0] = names[0]; mNames[1] = names[1]; }
+
+	const char*	mNames[2];
+};
 
 class PvdSceneQueryCollector
 {
 	PX_NOCOPY(PvdSceneQueryCollector)
 public:
-	PvdSceneQueryCollector(Scb::Scene& scene, bool isBatched) :	mScene(scene), mInUse(0), mIsBatched(isBatched)	{}
-	~PvdSceneQueryCollector()																					{}
+	PvdSceneQueryCollector(Scb::Scene& scene, bool isBatched);
+	~PvdSceneQueryCollector()	{}
 
 	void clear()
 	{
@@ -244,8 +177,8 @@ public:
 
 	void clearGeometryArrays()
 	{
-		mGeometries[0].clear();
-		mGeometries[1].clear();
+		mGeometries0.clear();
+		mGeometries1.clear();
 	}
 
 	void release();
@@ -258,42 +191,35 @@ public:
 								const PxOverlapQueryResult* overlapResults, PxU32 nbOverlapResults, PxU32 batchedOverlapQstartIdx,
 								const PxSweepQueryResult* sweepResults, PxU32 nbSweepResults, PxU32 batchedSweepQstartIdx);
 
-	PX_FORCE_INLINE	Ps::Mutex& getLock()
-	{
-		return mMutex;
-	}
+	PX_FORCE_INLINE	Ps::Mutex&							getLock()												{ return mMutex;								}
 
-	PX_FORCE_INLINE	const Ps::Array<PxGeometryHolder>& getCurrentFrameGeometries() const
-	{
-		return mGeometries[mInUse];
-	}
-	PX_FORCE_INLINE	const Ps::Array<PxGeometryHolder>& getPrevFrameGeometries() const
-	{
-		return mGeometries[mInUse ^ 1];
-	}
+	template <class T>
+	PX_FORCE_INLINE	const char*							getArrayName(const NamedArray<T>& namedArray)	const	{ return namedArray.mNames[mIsBatched];			}
+
+	PX_FORCE_INLINE	const NamedArray<PxGeometryHolder>&	getGeometries(PxU32 index)						const	{ return index ? mGeometries1 : mGeometries0;	}
+	PX_FORCE_INLINE	NamedArray<PxGeometryHolder>&		getGeometries(PxU32 index)								{ return index ? mGeometries1 : mGeometries0;	}
+
+	PX_FORCE_INLINE	const NamedArray<PxGeometryHolder>& getCurrentFrameGeometries()						const	{ return getGeometries(mInUse);					}
+	PX_FORCE_INLINE	const NamedArray<PxGeometryHolder>& getPrevFrameGeometries()						const	{ return getGeometries(mInUse ^ 1);				}
+
 	void prepareNextFrameGeometries()
 	{
 		mInUse ^= 1;
-		mGeometries[mInUse].clear();
-	}
-	template <typename T>
-	const char* getArrayName(const Ps::Array<T>&)
-	{
-		return mIsBatched ? PvdGetArrayName<T, 1>() : PvdGetArrayName<T, 0>();
+		getGeometries(mInUse).clear();
 	}
 
-	// Scene query and hits for pvd, collected in current frame
-	Ps::Array<PvdRaycast>		mAccumulatedRaycastQueries;
-	Ps::Array<PvdSweep>			mAccumulatedSweepQueries;
-	Ps::Array<PvdOverlap>		mAccumulatedOverlapQueries;
-	Ps::Array<PvdSqHit>			mPvdSqHits;
-	Ps::Array<PxTransform>		mPoses;
-	Ps::Array<PxFilterData>		mFilterData;
+	NamedArray<PvdRaycast>		mAccumulatedRaycastQueries;
+	NamedArray<PvdSweep>		mAccumulatedSweepQueries;
+	NamedArray<PvdOverlap>		mAccumulatedOverlapQueries;
+	NamedArray<PvdSqHit>		mPvdSqHits;
+	NamedArray<PxTransform>		mPoses;
+	NamedArray<PxFilterData>	mFilterData;
 
 private:
 	Scb::Scene&					mScene;
 	Ps::Mutex					mMutex;
-	Ps::Array<PxGeometryHolder>	mGeometries[2];
+	NamedArray<PxGeometryHolder>mGeometries0;
+	NamedArray<PxGeometryHolder>mGeometries1;
 	PxU32						mInUse;
 	const bool					mIsBatched;
 };

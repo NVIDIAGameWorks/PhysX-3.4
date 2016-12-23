@@ -620,7 +620,7 @@ public:
 // The trick is that we never free, so we don't have to keep as much state around
 // Use PRIVATENEW in CEffectLoader
 
-static void* __cdecl operator new(_In_ size_t s, _In_ CDataBlockStore &pAllocator)
+inline void* __cdecl operator new(_In_ size_t s, _In_ CDataBlockStore &pAllocator)
 {
 #ifdef _M_X64
     assert( s <= 0xffffffff );
@@ -628,7 +628,7 @@ static void* __cdecl operator new(_In_ size_t s, _In_ CDataBlockStore &pAllocato
     return pAllocator.Allocate( (uint32_t)s );
 }
 
-static void __cdecl operator delete(_In_opt_ void* p, _In_ CDataBlockStore &pAllocator)
+inline void __cdecl operator delete(_In_opt_ void* p, _In_ CDataBlockStore &pAllocator)
 {
     UNREFERENCED_PARAMETER(p);
     UNREFERENCED_PARAMETER(pAllocator);

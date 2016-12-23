@@ -103,8 +103,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
     <ClCompile>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Od /RTCsu /d2Zi+</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <StringPooling>true</StringPooling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /d2Zi+</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include;./../../include/PhysX3;./../../include/destructible;./../../shared/general/floatmath/include;./../../shared/general/PairFilter/public;./../../shared/general/PairFilter/include;./../../shared/general/HACD/public;./../../shared/general/HACD/include;./../../shared/general/HACD/src;./../../shared/general/stan_hull/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;ENABLE_TEST=0;PLUGINS_EMBEDDED;_DEBUG;PX_DEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;PX_PHYSX_DLL_NAME_POSTFIX=DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -139,9 +144,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
     <ClCompile>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Ox /d2Zi+</AdditionalOptions>
-      <Optimization>Disabled</Optimization>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <StringPooling>true</StringPooling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /d2Zi+</AdditionalOptions>
+      <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include;./../../include/PhysX3;./../../include/destructible;./../../shared/general/floatmath/include;./../../shared/general/PairFilter/public;./../../shared/general/PairFilter/include;./../../shared/general/HACD/public;./../../shared/general/HACD/include;./../../shared/general/HACD/src;./../../shared/general/stan_hull/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;ENABLE_TEST=0;PLUGINS_EMBEDDED;NDEBUG;APEX_SHIPPING;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
@@ -175,9 +184,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
     <ClCompile>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Ox /d2Zi+</AdditionalOptions>
-      <Optimization>Disabled</Optimization>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <StringPooling>true</StringPooling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /d2Zi+</AdditionalOptions>
+      <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include;./../../include/PhysX3;./../../include/destructible;./../../shared/general/floatmath/include;./../../shared/general/PairFilter/public;./../../shared/general/PairFilter/include;./../../shared/general/HACD/public;./../../shared/general/HACD/include;./../../shared/general/HACD/src;./../../shared/general/stan_hull/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;ENABLE_TEST=0;PLUGINS_EMBEDDED;NDEBUG;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;PX_PHYSX_DLL_NAME_POSTFIX=PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
@@ -211,9 +224,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
     <ClCompile>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Ox /d2Zi+</AdditionalOptions>
-      <Optimization>Disabled</Optimization>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <StringPooling>true</StringPooling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /d2Zi+</AdditionalOptions>
+      <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include;./../../include/PhysX3;./../../include/destructible;./../../shared/general/floatmath/include;./../../shared/general/PairFilter/public;./../../shared/general/PairFilter/include;./../../shared/general/HACD/public;./../../shared/general/HACD/include;./../../shared/general/HACD/src;./../../shared/general/stan_hull/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;ENABLE_TEST=0;PLUGINS_EMBEDDED;NDEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_ENABLE_CHECKED_ASSERTS;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;PX_PHYSX_DLL_NAME_POSTFIX=CHECKED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>

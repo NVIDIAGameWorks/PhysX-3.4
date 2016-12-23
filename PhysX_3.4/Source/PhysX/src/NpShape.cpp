@@ -214,6 +214,27 @@ Sc::RigidCore& NpShape::getScRigidObjectExclusive() const
 		return static_cast<NpRigidStatic&>(*mActor).getScbRigidStaticFast().getScStatic();
 }
 
+void NpShape::updateSQ(const char* errorMessage)
+{
+	if(mActor && (mShape.getFlags() & PxShapeFlag::eSCENE_QUERY_SHAPE))
+	{
+		NpScene* scene = NpActor::getAPIScene(*mActor);
+		NpShapeManager* shapeManager = NpActor::getShapeManager(*mActor);
+		if(scene)
+		{
+			const PrunerData sqData = shapeManager->findSceneQueryData(*this);
+			scene->getSceneQueryManagerFast().markForUpdate(sqData);
+		}
+
+		// invalidate the pruning structure if the actor bounds changed
+		if(shapeManager->getPruningStructure())
+		{
+			Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, errorMessage);
+			shapeManager->getPruningStructure()->invalidate(mActor);
+		}
+	}
+}
+
 PxGeometryType::Enum NpShape::getGeometryType() const
 {
 	NP_READ_CHECK(getOwnerScene());
@@ -284,25 +305,7 @@ void NpShape::setGeometry(const PxGeometry& g)
 
 	incMeshRefCount();
 
-	if((mShape.getFlags() & PxShapeFlag::eSCENE_QUERY_SHAPE) && mActor)
-	{
-		PX_ASSERT(mActor);
-
-		NpScene* scene = NpActor::getOwnerScene(*mActor);
-		NpShapeManager* shapeManager = NpActor::getShapeManager(*mActor);
-		if(scene)
-		{
-			const PrunerData sqData = shapeManager->findSceneQueryData(*this);
-			scene->getSceneQueryManagerFast().markForUpdate(sqData);
-		}
-
-		// invalidate the pruning structure if the actor bounds changed
-		if (shapeManager->getPruningStructure())
-		{
-			Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxShape::setGeometry: Shape is a part of pruning structure, pruning structure is now invalid!");			
-			shapeManager->getPruningStructure()->invalidate(mActor);
-		}
-	}
+	updateSQ("PxShape::setGeometry: Shape is a part of pruning structure, pruning structure is now invalid!");
 }
 
 PxGeometryHolder NpShape::getGeometry() const
@@ -345,23 +348,7 @@ void NpShape::setLocalPose(const PxTransform& newShape2Actor)
 
 	mShape.setShape2Actor(newShape2Actor.getNormalized());
 
-	if(mShape.getFlags() & PxShapeFlag::eSCENE_QUERY_SHAPE && mActor)
-	{
-		NpScene* scene = NpActor::getAPIScene(*mActor);
-		NpShapeManager* shapeManager = NpActor::getShapeManager(*mActor); 
-		if(scene)
-		{
-			const PrunerData sqData = shapeManager->findSceneQueryData(*this);
-			scene->getSceneQueryManagerFast().markForUpdate(sqData);
-		}
-
-		// invalidate the pruning structure if the actor bounds changed
-		if (shapeManager->getPruningStructure())
-		{
-			Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxShape::setLocalPose: Shape is a part of pruning structure, pruning structure is now invalid!");
-			shapeManager->getPruningStructure()->invalidate(mActor);
-		}
-	}
+	updateSQ("PxShape::setLocalPose: Shape is a part of pruning structure, pruning structure is now invalid!");
 }
 
 PxTransform NpShape::getLocalPose() const
@@ -596,9 +583,10 @@ void NpShape::setFlag(PxShapeFlag::Enum flag, bool value)
 	setFlagsInternal(shapeFlags);
 }
 
-void NpShape::setFlags( PxShapeFlags inFlags )
+void NpShape::setFlags(PxShapeFlags inFlags)
 {
 	NP_WRITE_CHECK(getOwnerScene());
+	PX_CHECK_AND_RETURN(isWritable(), "PxShape::setFlags: shared shapes attached to actors are not writable.");
 	PX_SIMD_GUARD;
 
 	setFlagsInternal(inFlags);
@@ -666,7 +654,7 @@ NpScene* NpShape::getAPIScene()	const
 
 namespace physx
 {
-Sc::RigidCore* NpShapeGetScRigidObjectFromScbSLOW(const Scb::Shape &scb)
+Sc::RigidCore* NpShapeGetScRigidObjectFromScbSLOW(const Scb::Shape& scb)
 {
 	const NpShape* np = getNpShape(&scb);
 	return np->NpShape::getActor() ? &np->getScRigidObjectExclusive() : NULL;
@@ -691,8 +679,7 @@ void NpShapeDecRefCount(Scb::Shape& scb)
 }
 }
 
-// see NpConvexMesh.h, NpHeightField.h, NpTriangleMesh.h for details on how ref counting works
-// for meshes
+// see NpConvexMesh.h, NpHeightField.h, NpTriangleMesh.h for details on how ref counting works for meshes
 Cm::RefCountable* NpShape::getMeshRefCountable()
 {
 	switch(mShape.getGeometryType())
@@ -803,49 +790,3 @@ bool NpShape::checkMaterialSetup(const PxGeometry& geom, const char* errorMsgPre
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
-#if PX_ENABLE_DEBUG_VISUALIZATION
-#include "GuDebug.h"
-
-void NpShape::visualize(Cm::RenderOutput& out, const PxRigidActor& actor)
-{
-	NpScene* npScene = NpActor::getOwnerScene(actor);
-	PX_ASSERT(npScene);
-
-	const PxReal scale = npScene->getVisualizationParameter(PxVisualizationParameter::eSCALE);
-	if(!scale) return;
-
-	const PxTransform absPose = actor.getGlobalPose() * mShape.getShape2Actor();
-
-	if(npScene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_AABBS))
-		out << PxU32(PxDebugColor::eARGB_YELLOW) << PxMat44(PxIdentity) << Cm::DebugBox(Gu::computeBounds(mShape.getGeometry(), absPose, !gUnifiedHeightfieldCollision));
-
-	const PxReal collisionAxes = scale * npScene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_AXES);
-	if(collisionAxes != 0.0f)
-		out << PxMat44(absPose) << Cm::DebugBasis(PxVec3(collisionAxes), 0xcf0000, 0x00cf00, 0x0000cf);
-
-	if(	npScene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_SHAPES)		||
-		npScene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_FNORMALS)	||
-		npScene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_EDGES))
-	{
-		const PxBounds3& cullbox = npScene->getVisualizationCullingBox();
-
-		const PxReal fscale = scale * npScene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_FNORMALS);
-
-		// Pack bool params into bit mask.
-		PxU64 mask = 0;
-
-	#define SET_MASK(mask, param) (mask |= (PxU64(!!npScene->getVisualizationParameter(param))) << param)
-
-		SET_MASK(mask, PxVisualizationParameter::eCULL_BOX);
-		SET_MASK(mask, PxVisualizationParameter::eCOLLISION_FNORMALS);
-		SET_MASK(mask, PxVisualizationParameter::eCOLLISION_EDGES);
-		SET_MASK(mask, PxVisualizationParameter::eCOLLISION_SHAPES);
-
-		Sc::ShapeCore& shape =  mShape.getScShape();
-		const PxU32 numMaterials = shape.getNbMaterialIndices();
-		Gu::Debug::visualize(getGeometryFast().getGeometry(), out, absPose, cullbox, mask, fscale, numMaterials);
-	}
-}
-
-#endif  // PX_ENABLE_DEBUG_VISUALIZATION

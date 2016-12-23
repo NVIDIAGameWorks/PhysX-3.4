@@ -101,7 +101,7 @@ struct PropertyDefinitionHelper : public PvdPropertyDefinitionHelper
 
 		mNameBuffer.resize(static_cast<uint32_t>(resizeLen + strLen));
 		char* endPtr = mNameBuffer.begin() + endBufOffset;
-		memcpy(endPtr, str, strLen);
+		PxMemCopy(endPtr, str, static_cast<uint32_t>(strLen));
 	}
 
 	virtual void pushName(const char* nm, const char* appender = ".")

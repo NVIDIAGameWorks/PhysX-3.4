@@ -433,16 +433,15 @@ class Array : protected Alloc
 		}
 		else
 		{
-			T* it = mData + i++;
+			T* it = mData + i;
 			it->~T();
-			do
+			while (++i < mSize)
 			{								
 				new (it) T(mData[i]);
 				++it;
 				it->~T();
-			} while(++i < mSize);
+			} 
 		}
-
 		--mSize;
 	}
 
@@ -627,13 +626,18 @@ definition for serialized classes is complete in checked builds.
 
 	static PX_INLINE bool isZeroInit(const T& object)
 	{
+		if (!isArrayOfPOD())
+			return false;
 		char ZeroBuffOnStack[sizeof(object)] = {};
-		return memcmp(&object, ZeroBuffOnStack, sizeof(object)) == 0;
+		// bgaldrikian - casting to void* to avoid compiler error:
+		// error : first operand of this 'memcmp' call is a pointer to dynamic class [...]; vtable pointer will be compared [-Werror,-Wdynamic-class-memaccess]
+		// even though POD check prevents memcmp from being used on a dynamic class
+		return memcmp(reinterpret_cast<const void*>(&object), ZeroBuffOnStack, sizeof(object)) == 0;
 	}
 
 	static PX_INLINE void create(T* first, T* last, const T& a)
 	{
-		if(isArrayOfPOD() && isZeroInit(a))
+		if(isZeroInit(a))
 		{
 			if(last > first)
 				physx::intrinsics::memZero(first, uint32_t((last - first) * sizeof(T)));

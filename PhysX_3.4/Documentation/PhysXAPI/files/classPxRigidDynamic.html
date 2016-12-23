@@ -50,9 +50,9 @@ Collaboration diagram for PxRigidDynamic:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxRigidDynamic.html#4464d188e7a1e94582c9cf35da9bbc93">setKinematicTarget</a> (const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;destination)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Moves kinematically controlled dynamic actors through the game world.  <a href="#4464d188e7a1e94582c9cf35da9bbc93"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxRigidDynamic.html#0093496190cba1cf63ce9c5c78766201">getKinematicTarget</a> (<a class="el" href="classPxTransform.html">PxTransform</a> &amp;target)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxRigidDynamic.html#3b6ed86370cfd04958ca7e1c637e310b">getKinematicTarget</a> (<a class="el" href="classPxTransform.html">PxTransform</a> &amp;target) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get target pose of a kinematically controlled dynamic actor.  <a href="#0093496190cba1cf63ce9c5c78766201"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get target pose of a kinematically controlled dynamic actor.  <a href="#3b6ed86370cfd04958ca7e1c637e310b"></a><br></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Damping</div></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxRigidDynamic.html#003953e985ace5966375acb0674f7b0b">setLinearDamping</a> (PxReal linDamp)=0</td></tr>
 
@@ -294,7 +294,7 @@ The threshold used for a collision between a dynamic actor and the static enviro
 
 </div>
 </div><p>
-<a class="anchor" name="0093496190cba1cf63ce9c5c78766201"></a><!-- doxytag: member="PxRigidDynamic::getKinematicTarget" ref="0093496190cba1cf63ce9c5c78766201" args="(PxTransform &amp;target)=0" -->
+<a class="anchor" name="3b6ed86370cfd04958ca7e1c637e310b"></a><!-- doxytag: member="PxRigidDynamic::getKinematicTarget" ref="3b6ed86370cfd04958ca7e1c637e310b" args="(PxTransform &amp;target) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -304,7 +304,7 @@ The threshold used for a collision between a dynamic actor and the static enviro
           <td class="paramtype"><a class="el" href="classPxTransform.html">PxTransform</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>target</em>          </td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [pure virtual]</code></td>
+          <td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -677,7 +677,7 @@ The motion is always fully carried out.<p>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>destination</em>&nbsp;</td><td>The desired pose for the kinematic actor, in the global frame. <b>Range:</b> rigid body transform.</td></tr>
   </table>
 </dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxRigidDynamic.html#0093496190cba1cf63ce9c5c78766201" title="Get target pose of a kinematically controlled dynamic actor.">getKinematicTarget()</a> <a class="el" href="structPxRigidBodyFlag.html" title="Collection of flags describing the behavior of a rigid body.">PxRigidBodyFlag</a> <a class="el" href="classPxRigidBody.html#9b23b890404b1010bf0b67a225bd22e7" title="Raises or clears a particular rigid body flag.">setRigidBodyFlag()</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxRigidDynamic.html#3b6ed86370cfd04958ca7e1c637e310b" title="Get target pose of a kinematically controlled dynamic actor.">getKinematicTarget()</a> <a class="el" href="structPxRigidBodyFlag.html" title="Collection of flags describing the behavior of a rigid body.">PxRigidBodyFlag</a> <a class="el" href="classPxRigidBody.html#9b23b890404b1010bf0b67a225bd22e7" title="Raises or clears a particular rigid body flag.">setRigidBodyFlag()</a> </dd></dl>
 
 </div>
 </div><p>

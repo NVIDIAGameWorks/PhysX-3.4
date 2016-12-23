@@ -403,12 +403,12 @@
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./../../SampleFramework/platform/compiler/vc11win64/SamplePlatform-MT.vcxproj">
+		<ProjectReference Include="./../../SampleFramework/renderer/compiler/vc11win64/SampleRenderer-MT.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./../../SampleFramework/renderer/compiler/vc11win64/SampleRenderer-MT.vcxproj">
+		<ProjectReference Include="./../../SampleFramework/platform/compiler/vc11win64/SamplePlatform-MT.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>

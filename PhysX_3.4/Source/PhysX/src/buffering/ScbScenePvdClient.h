@@ -80,7 +80,6 @@ class ParticleSystemCore;
 
 namespace Vd
 {
-
 class ScbScenePvdClient : public PxPvdSceneClient, public PvdClient, public PvdVisualizer
 {
 	PX_NOCOPY(ScbScenePvdClient)
@@ -90,33 +89,33 @@ class ScbScenePvdClient : public PxPvdSceneClient, public PvdClient, public PvdV
 
 	// PxPvdSceneClient
 	virtual	void			setScenePvdFlag(PxPvdSceneFlag::Enum flag, bool value);
-	virtual	void			setScenePvdFlags(PxPvdSceneFlags flags);
-	virtual	PxPvdSceneFlags	getScenePvdFlags() const;
+	virtual	void			setScenePvdFlags(PxPvdSceneFlags flags)				{ mFlags = flags;	}
+	virtual	PxPvdSceneFlags	getScenePvdFlags()							const	{ return mFlags;	}
 	virtual	void			updateCamera(const char* name, const PxVec3& origin, const PxVec3& up, const PxVec3& target);
 	virtual	void			drawPoints(const PvdDebugPoint* points, PxU32 count);
 	virtual	void			drawLines(const PvdDebugLine* lines, PxU32 count);
 	virtual	void			drawTriangles(const PvdDebugTriangle* triangles, PxU32 count);
 	virtual	void			drawText(const PvdDebugText& text);
-	virtual	PvdClient*		getClientInternal();	
+	virtual	PvdClient*		getClientInternal()									{ return this;		}
 	//~PxPvdSceneClient
 	
 	// pvdClient	
-	virtual	PvdDataStream*		getDataStream();
-	virtual	PvdMetaDataBinding*	getMetaDataBinding();
-	virtual	PvdUserRenderer*	getUserRender();
-	virtual bool                isConnected() const ;
+	virtual	PvdDataStream*		getDataStream()			{ return mPvdDataStream;	}
+	virtual	PvdMetaDataBinding*	getMetaDataBinding()	{ return &mMetaDataBinding;	}
+	virtual	PvdUserRenderer*	getUserRender()			{ return mUserRender;		}
+	virtual bool                isConnected()	const	{ return mIsConnected;		}
 	virtual void                onPvdConnected();
 	virtual void                onPvdDisconnected();
-	virtual void                flush();	
+	virtual void                flush()					{}
 	//~pvdClient
 
-	PsPvd*              getPsPvd();
-	void                setPsPvd(PsPvd* pvd);
-
-	PX_INLINE bool checkPvdDebugFlag()
+	PX_FORCE_INLINE bool checkPvdDebugFlag()	const
 	{
 		return mIsConnected && (mPvd->getInstrumentationFlags() & PxPvdInstrumentationFlag::eDEBUG);
 	}
+
+	PX_FORCE_INLINE	PxPvdSceneFlags	getScenePvdFlagsFast() const	{ return mFlags;	}
+	PX_FORCE_INLINE	void             setPsPvd(PsPvd* pvd)			{ mPvd = pvd;		}
 
 	void frameStart(PxReal simulateElapsedTime);
 	void frameEnd();

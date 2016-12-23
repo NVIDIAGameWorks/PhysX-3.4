@@ -34,6 +34,29 @@ using namespace physx;
 using namespace Sq;
 using namespace Vd;
 
+static const char* gName_PvdRaycast[2]			= { "SceneQueries.Raycasts",		"BatchedQueries.Raycasts" };
+static const char* gName_PvdSweep[2]			= { "SceneQueries.Sweeps",			"BatchedQueries.Sweeps" };
+static const char* gName_PvdOverlap[2]			= { "SceneQueries.Overlaps",		"BatchedQueries.Overlaps" };
+static const char* gName_PvdSqHit[2]			= { "SceneQueries.Hits",			"BatchedQueries.Hits" };
+static const char* gName_PxTransform[2]			= { "SceneQueries.PoseList",		"BatchedQueries.PoseList" };
+static const char* gName_PxFilterData[2]		= { "SceneQueries.FilterDataList",	"BatchedQueries.FilterDataList" };
+static const char* gName_PxGeometryHolder[2]	= { "SceneQueries.GeometryList",	"BatchedQueries.GeometryList" };
+
+PvdSceneQueryCollector::PvdSceneQueryCollector(Scb::Scene& scene, bool isBatched) :
+	mAccumulatedRaycastQueries	(gName_PvdRaycast),
+	mAccumulatedSweepQueries	(gName_PvdSweep),
+	mAccumulatedOverlapQueries	(gName_PvdOverlap),
+	mPvdSqHits					(gName_PvdSqHit),
+	mPoses						(gName_PxTransform),
+	mFilterData					(gName_PxFilterData),
+	mScene						(scene),
+	mGeometries0				(gName_PxGeometryHolder),
+	mGeometries1				(gName_PxGeometryHolder),
+	mInUse						(0),
+	mIsBatched					(isBatched)
+{
+}
+
 void PvdSceneQueryCollector::release()
 {
 	physx::pvdsdk::PvdDataStream* stream = mScene.getScenePvdClient().getDataStream();
@@ -122,7 +145,7 @@ void PvdSceneQueryCollector::sweep(const PxGeometry& geometry, const PxTransform
 	Ps::Mutex::ScopedLock lock(mMutex);
 
 	PvdSweep sweepQuery;
-	pushBackT(mGeometries[mInUse], PxGeometryHolder(geometry), sweepQuery.mGeometries, getArrayName(mGeometries[mInUse]));	// PT: TODO: optimize this. We memcopy once to the stack, then again to the array....
+	pushBackT(getGeometries(mInUse), PxGeometryHolder(geometry), sweepQuery.mGeometries, getArrayName(getGeometries(mInUse)));	// PT: TODO: optimize this. We memcopy once to the stack, then again to the array....
 	pushBackT(mPoses, pose, sweepQuery.mPoses, getArrayName(mPoses));
 	pushBackT(mFilterData, fd.data, sweepQuery.mFilterData, getArrayName(mFilterData));
 
@@ -143,7 +166,7 @@ void PvdSceneQueryCollector::overlapMultiple(const PxGeometry& geometry, const P
 	Ps::Mutex::ScopedLock lock(mMutex);
 
 	PvdOverlap overlapQuery;
-	pushBackT(mGeometries[mInUse], PxGeometryHolder(geometry), overlapQuery.mGeometries, getArrayName(mGeometries[mInUse]));	// PT: TODO: optimize this. We memcopy once to the stack, then again to the array....
+	pushBackT(getGeometries(mInUse), PxGeometryHolder(geometry), overlapQuery.mGeometries, getArrayName(getGeometries(mInUse)));	// PT: TODO: optimize this. We memcopy once to the stack, then again to the array....
 
 	const PxGeometryType::Enum type = geometry.getType();
 	if(type==PxGeometryType::eBOX)				overlapQuery.mType = pose.q.isIdentity() ? QueryID::QUERY_OVERLAP_AABB_ALL_OBJECTS : QueryID::QUERY_OVERLAP_OBB_ALL_OBJECTS;

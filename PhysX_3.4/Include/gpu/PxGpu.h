@@ -42,6 +42,41 @@
 #include "foundation/PxFoundation.h"
 
 /**
+\brief PxGpuLoadHook
+
+This is a helper class for loading the PhysXGpu dll. 
+If a PhysXGpu dll with a non-default file name needs to be loaded, 
+PxGpuLoadHook can be sub-classed to provide the custom filenames.
+
+Once the names are set, the instance must be set for use by PhysX.dll using PxSetPhysXGpuLoadHook(), 
+
+@see PxSetPhysXGpuLoadHook()
+*/
+class PxGpuLoadHook
+{
+public:
+	PxGpuLoadHook() {}
+	virtual ~PxGpuLoadHook() {}
+
+	virtual const char* getPhysXGpuDEBUGDllName() const = 0;
+	virtual const char* getPhysXGpuCHECKEDDllName() const = 0;
+	virtual const char* getPhysXGpuPROFILEDllName() const = 0;
+	virtual const char* getPhysXGpuDllName() const = 0;
+
+protected:
+private:
+};
+
+/**
+\brief Sets GPU load hook instance for PhysX dll.
+
+\param[in] hook GPU load hook.
+
+@see PxGpuLoadHook
+*/
+PX_C_EXPORT PX_PHYSX_CORE_API void PX_CALL_CONV PxSetPhysXGpuLoadHook(const PxGpuLoadHook* hook);
+
+/**
  * \brief Ask the NVIDIA control panel which GPU has been selected for use by
  * PhysX.  Returns -1 if no PhysX capable GPU is found or GPU PhysX has
  * been disabled.

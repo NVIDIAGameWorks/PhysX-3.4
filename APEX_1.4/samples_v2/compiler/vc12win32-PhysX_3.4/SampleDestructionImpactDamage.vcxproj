@@ -267,12 +267,12 @@
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./../../../externals/extensions/build/vs2013WIN32/nvidiautils.vcxproj">
+		<ProjectReference Include="./../../../externals/extensions/build/vs2013WIN32/nvsimplemesh.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="./../../../externals/extensions/build/vs2013WIN32/nvsimplemesh.vcxproj">
+		<ProjectReference Include="./../../../externals/extensions/build/vs2013WIN32/nvidiautils.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>

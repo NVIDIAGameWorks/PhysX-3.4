@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_SCENE
 #define PX_PHYSICS_SCB_SCENE
 
@@ -162,8 +161,7 @@ namespace Scb
 			BF_SOLVER_BATCH_SIZE		= (1 << 4),
 			BF_CLIENT_BEHAVIOR_FLAGS	= (1 << 5),
 			BF_VISUALIZATION			= (1 << 6),
-			BF_SCENE_PARAMS				= (1 << 7)
-			
+			BF_CULLING_BOX				= (1 << 7)
 		};
 
 	public:
@@ -186,8 +184,8 @@ namespace Scb
 		PX_INLINE void						setFlags(PxSceneFlags flags);
 		PX_INLINE PxSceneFlags				getFlags() const;
 
-		PX_INLINE void						setFrictionType(PxFrictionType::Enum);
-		PX_INLINE PxFrictionType::Enum		getFrictionType() const;
+		PX_INLINE void						setFrictionType(PxFrictionType::Enum type)	{ mScene.setFrictionType(type);		}
+		PX_INLINE PxFrictionType::Enum		getFrictionType()					const	{ return mScene.getFrictionType();	}
 
 		void 								addActor(Scb::RigidStatic&, bool noSim, PxBounds3* uninflatedBounds);
 		void 								removeActor(Scb::RigidStatic&, bool wakeOnLostTouch, bool noSim);
@@ -222,8 +220,9 @@ namespace Scb
 		void								removeMaterial(const Sc::MaterialCore& mat);
 		void								updateLowLevelMaterial(NpMaterial** masterMaterials);
 		// These methods are only to be called at fetchResults!
-		PX_INLINE PxU32						getNumActiveBodies() const;
-		PX_INLINE Sc::BodyCore* const*		getActiveBodiesArray() const;
+		PX_INLINE PxU32						getNumActiveBodies()	const	{ return mScene.getNumActiveBodies();	}
+		PX_INLINE Sc::BodyCore* const*		getActiveBodiesArray()	const	{ return mScene.getActiveBodiesArray();	}
+
 		PX_INLINE PxSimulationEventCallback*	getSimulationEventCallback(PxClientID client) const;
 		PX_INLINE void						setSimulationEventCallback(PxSimulationEventCallback* callback, PxClientID client);
 		PX_INLINE PxContactModifyCallback*	getContactModifyCallback() const;
@@ -255,10 +254,11 @@ namespace Scb
 		PX_INLINE void						setSolverBatchSize(PxU32 solverBatchSize);
 		PX_INLINE PxU32						getSolverBatchSize() const;
 
-		PX_INLINE void						simulate(PxReal timeStep, PxBaseTask* continuation);
-		PX_INLINE void						collide(PxReal timeStep, PxBaseTask* continuation);
-		PX_INLINE void						advance(PxReal timeStep, PxBaseTask* continuation);
-		PX_INLINE void						endSimulation();
+		PX_INLINE void						simulate(PxReal timeStep, PxBaseTask* continuation)	{ mScene.simulate(timeStep, continuation);	}
+		PX_INLINE void						collide(PxReal timeStep, PxBaseTask* continuation)	{ mScene.collide(timeStep, continuation);	}
+		PX_INLINE void						advance(PxReal timeStep, PxBaseTask* continuation)	{ mScene.advance(timeStep, continuation);	}
+		PX_INLINE void						endSimulation()										{ mScene.endSimulation();					}
+
 		PX_INLINE void						flush(bool sendPendingReports);
 		PX_INLINE void						fireBrokenConstraintCallbacks()		{ mScene.fireBrokenConstraintCallbacks(); }
 		PX_INLINE void						fireTriggerCallbacks()				{ mScene.fireTriggerCallbacks();  }
@@ -267,12 +267,11 @@ namespace Scb
 											getQueuedContactPairHeaders()		{ return mScene.getQueuedContactPairHeaders(); }
 		PX_FORCE_INLINE void				postCallbacksPreSync()				{ mScene.postCallbacksPreSync(); }  //cleanup tasks after the pre-sync callbacks have fired
 
-
 		PX_INLINE void						fireCallBacksPostSync()				{ mScene.fireCallbacksPostSync(); }	//callbacks that are fired on the core side, after the buffers get synced
 		PX_INLINE void						postReportsCleanup();
 
-		PX_INLINE const PxSceneLimits&		getLimits() const;
-		PX_INLINE void						setLimits(const PxSceneLimits& limits);
+		PX_INLINE const PxSceneLimits&		getLimits()	const						{ return mScene.getLimits();	}
+		PX_INLINE void						setLimits(const PxSceneLimits& limits)	{ mScene.setLimits(limits);		}
 
 		PX_INLINE void						getStats(PxSimulationStatistics& stats) const;
 
@@ -308,7 +307,7 @@ namespace Scb
 		//---------------------------------------------------------------------------------
 	public:
 		void								syncWriteThroughProperties();
-		void								syncEntireScene(PxU32* error);
+		void								syncEntireScene();
 		void								processPendingRemove();
 
 		PX_FORCE_INLINE	PxU16*				allocShapeMaterialBuffer(PxU32 count, PxU32& startIdx)	{ return allocArrayBuffer(mShapeMaterialBuffer, count, startIdx);	}
@@ -330,7 +329,7 @@ namespace Scb
 	private:
 						void				syncState();
 		PX_FORCE_INLINE	Ps::IntBool			isBuffered(BufferFlag f)	const	{ return Ps::IntBool(mBufferFlags& f);	}
-		PX_FORCE_INLINE	void				markUpdated(BufferFlag f)			{ mBufferFlags |= f;		}
+		PX_FORCE_INLINE	void				markUpdated(BufferFlag f)			{ mBufferFlags |= f;					}
 
 		//---------------------------------------------------------------------------------
 		// Miscellaneous
@@ -360,7 +359,6 @@ namespace Scb
 		PX_FORCE_INLINE	Vd::ScbScenePvdClient&			getScenePvdClient()			{ return mScenePvdClient; }
 		PX_FORCE_INLINE	const Vd::ScbScenePvdClient&	getScenePvdClient() const	{ return mScenePvdClient; }
 #endif
-
 		PX_FORCE_INLINE	PxU64				getContextId() const { return mScene.getContextId(); }
 
 	private:
@@ -374,10 +372,10 @@ namespace Scb
 	template<bool TIsDynamic, class T>
 	PX_FORCE_INLINE void addActorT(T& actor, ObjectTracker& tracker, bool noSim, PxBounds3* uninflatedBounds);
 
-	template<typename T>												void add(T& v, ObjectTracker &tracker, PxBounds3* uninflatedBounds);
-	template<typename T>												void remove(T& v, ObjectTracker &tracker, bool wakeOnLostTouch = false);
-	template<bool TIsDynamic, typename T>								void addRigidNoSim(T& v, ObjectTracker &tracker);
-	template<bool TIsDynamic, typename T>								void removeRigidNoSim(T& v, ObjectTracker &tracker);
+	template<typename T>												void add(T& v, ObjectTracker& tracker, PxBounds3* uninflatedBounds);
+	template<typename T>												void remove(T& v, ObjectTracker& tracker, bool wakeOnLostTouch = false);
+	template<bool TIsDynamic, typename T>								void addRigidNoSim(T& v, ObjectTracker& tracker);
+	template<bool TIsDynamic, typename T>								void removeRigidNoSim(T& v, ObjectTracker& tracker);
 	template<typename T, typename S>									void processSimUpdates(S*const * scObjects, PxU32 nbObjects);
 	template<typename T>												void processUserUpdates(ObjectTracker& tracker);
 	template<typename T, bool syncOnRemove, bool wakeOnLostTouchCheck>	void processRemoves(ObjectTracker& tracker);
@@ -436,7 +434,6 @@ namespace Scb
 
 }  // namespace Scb
 
-
 template<typename T>
 T* Scb::Scene::allocArrayBuffer(Ps::Array<T>& buffer, PxU32 count, PxU32& startIdx)
 {
@@ -448,62 +445,51 @@ T* Scb::Scene::allocArrayBuffer(Ps::Array<T>& buffer, PxU32 count, PxU32& startI
 		
 PX_INLINE void Scb::Scene::setGravity(const PxVec3& gravity)
 {
-	if (!isPhysicsBuffering())
+	if(!isPhysicsBuffering())
 	{
 		mScene.setGravity(gravity);
 		updatePvdProperties();
 	}
 	else
 	{
-		mBufferedData.gravity = gravity;
+		mBufferedData.mGravity = gravity;
 		markUpdated(BF_GRAVITY);
 	}
 }
 
 PX_INLINE PxVec3 Scb::Scene::getGravity() const
 {
-	if (isBuffered(BF_GRAVITY))
-		return mBufferedData.gravity;
+	if(isBuffered(BF_GRAVITY))
+		return mBufferedData.mGravity;
 	else
 		return mScene.getGravity();
 }
 
 void Scb::Scene::setBounceThresholdVelocity(const PxReal t)
 {
-	if (!isPhysicsBuffering())
+	if(!isPhysicsBuffering())
 	{
 		mScene.setBounceThresholdVelocity(t);
 		updatePvdProperties();
 	}
 	else
 	{
-		mBufferedData.bounceThresholdVelocity = t;
+		mBufferedData.mBounceThresholdVelocity = t;
 		markUpdated(BF_BOUNCETHRESHOLDVELOCITY);
 	}
 }
 
 PxReal Scb::Scene::getBounceThresholdVelocity() const
 {
-	if (isBuffered(BF_BOUNCETHRESHOLDVELOCITY))
-		return mBufferedData.bounceThresholdVelocity;
+	if(isBuffered(BF_BOUNCETHRESHOLDVELOCITY))
+		return mBufferedData.mBounceThresholdVelocity;
 	else
 		return mScene.getBounceThresholdVelocity();
 }
 
-PX_INLINE void Scb::Scene::setFrictionType(PxFrictionType::Enum frictionType)
-{
-	mScene.setFrictionType(frictionType);
-}
-
-PX_INLINE PxFrictionType::Enum Scb::Scene::getFrictionType() const
-{
-	return mScene.getFrictionType();
-}
-
-
 PX_INLINE void Scb::Scene::setFlags(PxSceneFlags flags)
 {
-	if (!isPhysicsBuffering())
+	if(!isPhysicsBuffering())
 	{
 		mScene.setPublicFlags(flags);
 		const bool pcm = (flags & PxSceneFlag::eENABLE_PCM);
@@ -514,16 +500,15 @@ PX_INLINE void Scb::Scene::setFlags(PxSceneFlags flags)
 	}
 	else
 	{
-		mBufferedData.flags = flags;
+		mBufferedData.mFlags = flags;
 		markUpdated(BF_FLAGS);
 	}
 }
 
-
 PX_INLINE PxSceneFlags Scb::Scene::getFlags() const
 {
-	if (isBuffered(BF_FLAGS))
-		return mBufferedData.flags;
+	if(isBuffered(BF_FLAGS))
+		return mBufferedData.mFlags;
 	else
 		return mScene.getPublicFlags();
 }
@@ -605,51 +590,25 @@ PX_INLINE void Scb::Scene::setFilterShaderData(const void* data, PxU32 dataSize)
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxScene::setFilterShaderData() not allowed while simulation is running. Call will be ignored.");
 }
 
-
 PX_INLINE const void* Scb::Scene::getFilterShaderData() const
 {
 	return mScene.getFilterShaderDataFast();
 }
-
 
 PX_INLINE PxU32 Scb::Scene::getFilterShaderDataSize() const
 {
 	return mScene.getFilterShaderDataSizeFast();
 }
 
-
-PX_INLINE PxSimulationFilterShader	Scb::Scene::getFilterShader() const
+PX_INLINE PxSimulationFilterShader Scb::Scene::getFilterShader() const
 {
 	return mScene.getFilterShaderFast();
 }
-
 
 PX_INLINE PxSimulationFilterCallback* Scb::Scene::getFilterCallback() const
 {
 	return mScene.getFilterCallbackFast();
 }
-
-
-PX_INLINE void Scb::Scene::simulate(PxReal timeStep, PxBaseTask* continuation)
-{
-	mScene.simulate(timeStep, continuation);
-}
-
-PX_INLINE void Scb::Scene::advance(PxReal timeStep, PxBaseTask* continuation)
-{
-	mScene.advance(timeStep, continuation);
-}
-
-PX_INLINE void Scb::Scene::collide(PxReal timeStep, PxBaseTask* continuation)
-{
-	mScene.collide(timeStep, continuation);
-}
-
-PX_INLINE void Scb::Scene::endSimulation()
-{
-	mScene.endSimulation();
-}
-
 
 PX_INLINE void Scb::Scene::flush(bool sendPendingReports)
 {
@@ -664,27 +623,15 @@ PX_INLINE void Scb::Scene::flush(bool sendPendingReports)
 	mScene.flush(sendPendingReports);
 }
 
-
 PX_INLINE void Scb::Scene::postReportsCleanup()
 {
 	PX_ASSERT(!isPhysicsBuffering());
 	mScene.postReportsCleanup();
 }
 
-
-PX_INLINE const PxSceneLimits& Scb::Scene::getLimits() const
-{
-	return mScene.getLimits();
-}
-
-PX_INLINE void Scb::Scene::setLimits(const PxSceneLimits& limits)
-{
-	mScene.setLimits(limits);
-}
-
 PX_INLINE void Scb::Scene::setDominanceGroupPair(PxDominanceGroup group1, PxDominanceGroup group2, const PxDominanceGroupPair& dominance)
 {
-	if (!isPhysicsBuffering())
+	if(!isPhysicsBuffering())
 	{
 		mScene.setDominanceGroupPair(group1, group2, dominance);
 		updatePvdProperties();
@@ -696,42 +643,39 @@ PX_INLINE void Scb::Scene::setDominanceGroupPair(PxDominanceGroup group1, PxDomi
 	}
 }
 
-
 PX_INLINE PxDominanceGroupPair Scb::Scene::getDominanceGroupPair(PxDominanceGroup group1, PxDominanceGroup group2) const
 {
-	if (isBuffered(BF_DOMINANCE_PAIRS))
+	if(isBuffered(BF_DOMINANCE_PAIRS))
 	{
 		PxDominanceGroupPair dominance(0, 0);
-		if (mBufferedData.getDominancePair(group1, group2, dominance))
+		if(mBufferedData.getDominancePair(group1, group2, dominance))
 			return dominance;
 	}
 
 	return mScene.getDominanceGroupPair(group1, group2);
 }
 
-
 PX_INLINE void Scb::Scene::setSolverBatchSize(PxU32 solverBatchSize)
 {
-	if (!isPhysicsBuffering())
+	if(!isPhysicsBuffering())
 	{
 		mScene.setSolverBatchSize(solverBatchSize);
 		updatePvdProperties();
 	}
 	else
 	{
-		mBufferedData.solverBatchSize = solverBatchSize;
+		mBufferedData.mSolverBatchSize = solverBatchSize;
 		markUpdated(BF_SOLVER_BATCH_SIZE);
 	}
 }
 
 PX_INLINE PxU32 Scb::Scene::getSolverBatchSize() const
 {
-	if (isBuffered(BF_SOLVER_BATCH_SIZE))
-		return mBufferedData.solverBatchSize;
+	if(isBuffered(BF_SOLVER_BATCH_SIZE))
+		return mBufferedData.mSolverBatchSize;
 	else
 		return mScene.getSolverBatchSize();
 }
-
 
 PX_INLINE void Scb::Scene::getStats(PxSimulationStatistics& stats) const
 {
@@ -740,7 +684,6 @@ PX_INLINE void Scb::Scene::getStats(PxSimulationStatistics& stats) const
 	mScene.getStats(stats);
 }
 
-
 PX_DEPRECATED PX_INLINE void Scb::Scene::buildActiveTransforms()
 {
 	PX_ASSERT(!isPhysicsBuffering());
@@ -748,13 +691,10 @@ PX_DEPRECATED PX_INLINE void Scb::Scene::buildActiveTransforms()
 	mScene.buildActiveTransforms();
 }
 
-
 PX_DEPRECATED PX_INLINE PxActiveTransform* Scb::Scene::getActiveTransforms(PxU32& nbTransformsOut, PxClientID client)
 {
-	if (!isPhysicsBuffering())
-	{
+	if(!isPhysicsBuffering())
 		return mScene.getActiveTransforms(nbTransformsOut, client);
-	}
 	else
 	{
 		Ps::getFoundation().error(PxErrorCode::eDEBUG_WARNING, __FILE__, __LINE__, "PxScene::getActiveTransforms() not allowed while simulation is running. Call will be ignored.");
@@ -772,10 +712,8 @@ PX_INLINE void Scb::Scene::buildActiveActors()
 
 PX_INLINE PxActor** Scb::Scene::getActiveActors(PxU32& nbActorsOut, PxClientID client)
 {
-	if (!isPhysicsBuffering())
-	{
+	if(!isPhysicsBuffering())
 		return mScene.getActiveActors(nbActorsOut, client);
-	}
 	else
 	{
 		Ps::getFoundation().error(PxErrorCode::eDEBUG_WARNING, __FILE__, __LINE__, "PxScene::getActiveActors() not allowed while simulation is running. Call will be ignored.");
@@ -784,44 +722,43 @@ PX_INLINE PxActor** Scb::Scene::getActiveActors(PxU32& nbActorsOut, PxClientID c
 	}
 }
 
-
 PX_INLINE PxClientID Scb::Scene::createClient()
 {
-	mBufferedData.clientBehaviorFlags.pushBack(PxClientBehaviorFlag_eNOT_BUFFERED);		//PxClientBehaviorFlag_eNOT_BUFFERED means its not storing anything.  Do this either way to make sure this buffer is big enough for behavior bit set/gets later.
+	mBufferedData.mClientBehaviorFlags.pushBack(PxClientBehaviorFlag_eNOT_BUFFERED);		//PxClientBehaviorFlag_eNOT_BUFFERED means its not storing anything.  Do this either way to make sure this buffer is big enough for behavior bit set/gets later.
 
-	if (!isPhysicsBuffering())
+	if(!isPhysicsBuffering())
 	{
 		PxClientID i = mScene.createClient();
-		PX_ASSERT(mBufferedData.clientBehaviorFlags.size()-1 == i);
+		PX_ASSERT(mBufferedData.mClientBehaviorFlags.size()-1 == i);
 		return i;
 	}
 	else
 	{
-		mBufferedData.numClientsCreated++;
-		return PxClientID(mBufferedData.clientBehaviorFlags.size()-1);	//mScene.createClient();
+		mBufferedData.mNumClientsCreated++;
+		return PxClientID(mBufferedData.mClientBehaviorFlags.size()-1);	//mScene.createClient();
 	}
 }
 
 PX_INLINE void Scb::Scene::setClientBehaviorFlags(PxClientID client, PxClientBehaviorFlags clientBehaviorFlags)
 {
-	if (!isPhysicsBuffering())
+	if(!isPhysicsBuffering())
 	{
 		mScene.setClientBehaviorFlags(client, clientBehaviorFlags);
 		updatePvdProperties();
 	}
 	else
 	{
-		PX_ASSERT(mBufferedData.clientBehaviorFlags.size() > client);
-		mBufferedData.clientBehaviorFlags[client] = clientBehaviorFlags;
+		PX_ASSERT(mBufferedData.mClientBehaviorFlags.size() > client);
+		mBufferedData.mClientBehaviorFlags[client] = clientBehaviorFlags;
 		markUpdated(BF_CLIENT_BEHAVIOR_FLAGS);
 	}
 }
 
 PX_INLINE PxClientBehaviorFlags Scb::Scene::getClientBehaviorFlags(PxClientID client) const
 {
-	PX_ASSERT(mBufferedData.clientBehaviorFlags.size() > client);
-	if (isBuffered(BF_CLIENT_BEHAVIOR_FLAGS) && (mBufferedData.clientBehaviorFlags[client] != PxClientBehaviorFlag_eNOT_BUFFERED))
-		return mBufferedData.clientBehaviorFlags[client];
+	PX_ASSERT(mBufferedData.mClientBehaviorFlags.size() > client);
+	if(isBuffered(BF_CLIENT_BEHAVIOR_FLAGS) && (mBufferedData.mClientBehaviorFlags[client] != PxClientBehaviorFlag_eNOT_BUFFERED))
+		return mBufferedData.mClientBehaviorFlags[client];
 	else
 		return mScene.getClientBehaviorFlags(client);
 }
@@ -830,14 +767,10 @@ PX_INLINE PxClientBehaviorFlags Scb::Scene::getClientBehaviorFlags(PxClientID cl
 
 PX_INLINE void Scb::Scene::setClothInterCollisionDistance(PxF32 distance)
 {
-	if (!isPhysicsBuffering())
-	{
+	if(!isPhysicsBuffering())
 		mScene.setClothInterCollisionDistance(distance);
-	}
 	else
-	{
 		Ps::getFoundation().error(PxErrorCode::eDEBUG_WARNING, __FILE__, __LINE__, "PxScene::setClothInterCollisionDistance() not allowed while simulation is running. Call will be ignored.");
-	}	
 }
 
 PX_INLINE PxF32	Scb::Scene::getClothInterCollisionDistance() const
@@ -847,14 +780,10 @@ PX_INLINE PxF32	Scb::Scene::getClothInterCollisionDistance() const
 
 PX_INLINE void Scb::Scene::setClothInterCollisionStiffness(PxF32 stiffness)
 {
-	if (!isPhysicsBuffering())
-	{
+	if(!isPhysicsBuffering())
 		mScene.setClothInterCollisionStiffness(stiffness);
-	}
 	else
-	{
 		Ps::getFoundation().error(PxErrorCode::eDEBUG_WARNING, __FILE__, __LINE__, "PxScene::setClothInterCollisionStiffness() not allowed while simulation is running. Call will be ignored.");
-	}	
 }
 
 PX_INLINE PxF32 Scb::Scene::getClothInterCollisionStiffness() const
@@ -864,14 +793,10 @@ PX_INLINE PxF32 Scb::Scene::getClothInterCollisionStiffness() const
 
 PX_INLINE void Scb::Scene::setClothInterCollisionNbIterations(PxU32 nbIterations)
 {
-	if (!isPhysicsBuffering())
-	{
+	if(!isPhysicsBuffering())
 		mScene.setClothInterCollisionNbIterations(nbIterations);
-	}
 	else
-	{
 		Ps::getFoundation().error(PxErrorCode::eDEBUG_WARNING, __FILE__, __LINE__, "PxScene::setClothInterCollisionNbIterations() not allowed while simulation is running. Call will be ignored.");
-	}	
 }
 
 PX_INLINE PxU32 Scb::Scene::getClothInterCollisionNbIterations() const
@@ -881,16 +806,15 @@ PX_INLINE PxU32 Scb::Scene::getClothInterCollisionNbIterations() const
 
 #endif
 
-
 PX_INLINE void Scb::Scene::setVisualizationParameter(PxVisualizationParameter::Enum param, PxReal value)
 {
-	if (!isPhysicsBuffering())
+	if(!isPhysicsBuffering())
 		mScene.setVisualizationParameter(param, value);
 	else
 	{
 		PX_ASSERT(param < PxVisualizationParameter::eNUM_VALUES);
-		mBufferedData.visualizationParamChanged[param] = 1;
-		mBufferedData.visualizationParam[param] = value;
+		mBufferedData.mVisualizationParamChanged[param] = 1;
+		mBufferedData.mVisualizationParam[param] = value;
 		markUpdated(BF_VISUALIZATION);
 	}
 }
@@ -899,39 +823,29 @@ PX_INLINE PxReal Scb::Scene::getVisualizationParameter(PxVisualizationParameter:
 {
 	PX_ASSERT(param < PxVisualizationParameter::eNUM_VALUES);
 
-	if (isBuffered(BF_VISUALIZATION) && mBufferedData.visualizationParamChanged[param])
-		return mBufferedData.visualizationParam[param];
+	if(isBuffered(BF_VISUALIZATION) && mBufferedData.mVisualizationParamChanged[param])
+		return mBufferedData.mVisualizationParam[param];
 	else
 		return mScene.getVisualizationParameter(param);
 }
 
 PX_INLINE void Scb::Scene::setVisualizationCullingBox(const PxBounds3& box)
 {
-	if (!isPhysicsBuffering())
+	if(!isPhysicsBuffering())
 		mScene.setVisualizationCullingBox(box);
 	else
 	{
-		mBufferedData.visualizationCullingBoxChanged = 1;
-		mBufferedData.visualizationCullingBox = box;
-		markUpdated(BF_VISUALIZATION);
+		mBufferedData.mVisualizationCullingBox = box;
+		markUpdated(BF_CULLING_BOX);
 	}
 }
 
 PX_INLINE const PxBounds3& Scb::Scene::getVisualizationCullingBox() const
 {
-	if (isBuffered(BF_VISUALIZATION) && mBufferedData.visualizationCullingBoxChanged)
-		return mBufferedData.visualizationCullingBox;
+	if(isBuffered(BF_CULLING_BOX))
+		return mBufferedData.mVisualizationCullingBox;
 	else
 		return mScene.getVisualizationCullingBox();
-}
-
-PX_INLINE PxU32 Scb::Scene::getNumActiveBodies() const
-{
-	return mScene.getNumActiveBodies();
-}
-PX_INLINE Sc::BodyCore* const* Scb::Scene::getActiveBodiesArray() const
-{
-	return mScene.getActiveBodiesArray();
 }
 
 }

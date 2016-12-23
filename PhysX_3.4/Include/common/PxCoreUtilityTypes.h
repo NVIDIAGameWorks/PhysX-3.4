@@ -35,6 +35,7 @@
 */
 
 #include "foundation/PxAssert.h"
+#include "foundation/PxMemory.h"
 
 #if !PX_DOXYGEN
 namespace physx
@@ -115,13 +116,13 @@ public:
 
 	PxFixedSizeLookupTable(const PxReal* dataPairs, const PxU32 numDataPairs)
 	{
-		memcpy(mDataPairs,dataPairs,sizeof(PxReal)*2*numDataPairs);
+		PxMemCopy(mDataPairs,dataPairs,sizeof(PxReal)*2*numDataPairs);
 		mNbDataPairs=numDataPairs;
 	}
 
 	PxFixedSizeLookupTable(const PxFixedSizeLookupTable& src)
 	{
-		memcpy(mDataPairs,src.mDataPairs,sizeof(PxReal)*2*src.mNbDataPairs);
+		PxMemCopy(mDataPairs,src.mDataPairs,sizeof(PxReal)*2*src.mNbDataPairs);
 		mNbDataPairs=src.mNbDataPairs;
 	}
 
@@ -131,7 +132,7 @@ public:
 
 	PxFixedSizeLookupTable& operator=(const PxFixedSizeLookupTable& src)
 	{
-		memcpy(mDataPairs,src.mDataPairs,sizeof(PxReal)*2*src.mNbDataPairs);
+		PxMemCopy(mDataPairs,src.mDataPairs,sizeof(PxReal)*2*src.mNbDataPairs);
 		mNbDataPairs=src.mNbDataPairs;
 		return *this;
 	}

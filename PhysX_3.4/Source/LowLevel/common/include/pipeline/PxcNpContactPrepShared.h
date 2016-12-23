@@ -46,8 +46,6 @@ namespace Gu
 
 static const PxReal PXC_SAME_NORMAL = 0.999f; //Around 6 degrees
 
-bool finishContacts(PxcNpWorkUnit& input, PxsContactManagerOutput& npOutput, PxcNpThreadContext& threadContext, PxsMaterialInfo* pMaterialInfo, const bool isMeshType);
-
 PxU32 writeCompressedContact(const Gu::ContactPoint* const PX_RESTRICT contactPoints, const PxU32 numContactPoints, PxcNpThreadContext* threadContext,
 									PxU8& writtenContactCount, PxU8*& outContactPatches, PxU8*& outContactPoints, PxU16& compressedContactSize, PxReal*& contactForces, PxU32 contactForceByteSize,
 									const PxsMaterialManager* materialManager, bool hasModifiableContacts, bool forceNoResponse, PxsMaterialInfo* PX_RESTRICT pMaterial, PxU8& numPatches,

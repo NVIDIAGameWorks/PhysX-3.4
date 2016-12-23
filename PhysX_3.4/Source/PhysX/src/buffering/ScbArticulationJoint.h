@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_ARTICULATION_JOINT
 #define PX_PHYSICS_SCB_ARTICULATION_JOINT
 
@@ -175,14 +174,11 @@ private:
 	template<PxU32 f> PX_FORCE_INLINE void flush(const Buf& buf)					{	Access::flush<Buf::Fns<f,0> >(*this, mJoint, buf);	}
 };
 
-
-ArticulationJoint::ArticulationJoint(const PxTransform& parentFrame,
-									 const PxTransform& childFrame) :
+ArticulationJoint::ArticulationJoint(const PxTransform& parentFrame, const PxTransform& childFrame) :
 	mJoint(parentFrame, childFrame)
 {
-	setScbType(ScbType::ARTICULATION_JOINT);
+	setScbType(ScbType::eARTICULATION_JOINT);
 }
-
 
 ArticulationJoint::~ArticulationJoint()
 {
@@ -190,20 +186,19 @@ ArticulationJoint::~ArticulationJoint()
 
 PX_INLINE void ArticulationJoint::getSwingLimit(PxReal &yLimit, PxReal &zLimit) const
 {
-	if (isBuffered(Buf::BF_SwingLimit))
+	if(isBuffered(Buf::BF_SwingLimit))
 	{
 		yLimit = getBuffer()->mSwingLimitY;
 		zLimit = getBuffer()->mSwingLimitZ;
 	}
 	else
-		getScArticulationJoint().getSwingLimit(yLimit, zLimit);
+		mJoint.getSwingLimit(yLimit, zLimit);
 }
-
 
 PX_INLINE void ArticulationJoint::setSwingLimit(PxReal yLimit, PxReal zLimit)
 {
-	if (!isBuffering())
-		getScArticulationJoint().setSwingLimit(yLimit, zLimit);
+	if(!isBuffering())
+		mJoint.setSwingLimit(yLimit, zLimit);
 	else
 	{
 		getBuffer()->mSwingLimitY = yLimit;
@@ -212,10 +207,9 @@ PX_INLINE void ArticulationJoint::setSwingLimit(PxReal yLimit, PxReal zLimit)
 	}
 }
 
-
 PX_INLINE void ArticulationJoint::getTwistLimit(PxReal &lower, PxReal &upper) const
 {
-	if (isBuffered(Buf::BF_TwistLimit))
+	if(isBuffered(Buf::BF_TwistLimit))
 	{
 		lower = getBuffer()->mTwistLimitLower;
 		upper = getBuffer()->mTwistLimitUpper;
@@ -224,10 +218,9 @@ PX_INLINE void ArticulationJoint::getTwistLimit(PxReal &lower, PxReal &upper) co
 		mJoint.getTwistLimit(lower, upper);
 }
 
-
 PX_INLINE void ArticulationJoint::setTwistLimit(PxReal lower, PxReal upper)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mJoint.setTwistLimit(lower, upper);
 	else
 	{
@@ -237,7 +230,6 @@ PX_INLINE void ArticulationJoint::setTwistLimit(PxReal lower, PxReal upper)
 	}
 }
 
-
 //--------------------------------------------------------------
 //
 // Data synchronization
@@ -246,7 +238,7 @@ PX_INLINE void ArticulationJoint::setTwistLimit(PxReal lower, PxReal upper)
 
 PX_INLINE void ArticulationJoint::syncState()
 {
-	PxU32 flags = getBufferFlags();
+	const PxU32 flags = getBufferFlags();
 	if(flags)  // Optimization to avoid all the if-statements below if possible
 	{
 		const Buf& buffer = *getBuffer();
@@ -266,11 +258,11 @@ PX_INLINE void ArticulationJoint::syncState()
 		flush<Buf::BF_TangentialStiffness>(buffer);
 		flush<Buf::BF_TangentialDamping>(buffer);
 
-		if (isBuffered(Buf::BF_SwingLimit))
-			getScArticulationJoint().setSwingLimit(	buffer.mSwingLimitY, buffer.mSwingLimitZ);
+		if(isBuffered(Buf::BF_SwingLimit))
+			mJoint.setSwingLimit(buffer.mSwingLimitY, buffer.mSwingLimitZ);
 
-		if (isBuffered(Buf::BF_TwistLimit))
-			getScArticulationJoint().setTwistLimit(	buffer.mTwistLimitLower, buffer.mTwistLimitUpper);
+		if(isBuffered(Buf::BF_TwistLimit))
+			mJoint.setTwistLimit(buffer.mTwistLimitLower, buffer.mTwistLimitUpper);
 	}
 
 	postSyncState();

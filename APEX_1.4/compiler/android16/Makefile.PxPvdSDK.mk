@@ -63,7 +63,7 @@ PxPvdSDK_debug_common_cflags    += $(addprefix -D, $(PxPvdSDK_debug_defines))
 PxPvdSDK_debug_common_cflags    += $(addprefix -I, $(PxPvdSDK_debug_hpaths))
 PxPvdSDK_debug_common_cflags  += -Werror
 PxPvdSDK_debug_common_cflags  += -fpic -fno-exceptions
-PxPvdSDK_debug_common_cflags  += -isysroot C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxPvdSDK_debug_common_cflags  += -isysroot ./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxPvdSDK_debug_common_cflags  += -march=armv7-a -mfpu=neon -marm -mfloat-abi=softfp -mthumb-interwork
 PxPvdSDK_debug_common_cflags  += -Wall -Wextra -Wpedantic -Wstrict-aliasing=2
 PxPvdSDK_debug_common_cflags  += -Wno-maybe-uninitialized -Wno-unused-variable
@@ -77,7 +77,7 @@ PxPvdSDK_debug_cppflags  += -Wno-invalid-offsetof
 PxPvdSDK_debug_lflags    := $(PxPvdSDK_custom_lflags)
 PxPvdSDK_debug_lflags    += $(addprefix -L, $(PxPvdSDK_debug_lpaths))
 PxPvdSDK_debug_lflags    += -Wl,--start-group $(addprefix -l, $(PxPvdSDK_debug_libraries)) -Wl,--end-group
-PxPvdSDK_debug_lflags  += --sysroot=C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxPvdSDK_debug_lflags  += --sysroot=./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxPvdSDK_debug_objsdir  = $(OBJS_DIR)/PxPvdSDK_debug
 PxPvdSDK_debug_cpp_o    = $(addprefix $(PxPvdSDK_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxPvdSDK_cppfiles)))))
 PxPvdSDK_debug_cc_o    = $(addprefix $(PxPvdSDK_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxPvdSDK_ccfiles)))))
@@ -162,7 +162,7 @@ PxPvdSDK_release_common_cflags    += $(addprefix -D, $(PxPvdSDK_release_defines)
 PxPvdSDK_release_common_cflags    += $(addprefix -I, $(PxPvdSDK_release_hpaths))
 PxPvdSDK_release_common_cflags  += -Werror
 PxPvdSDK_release_common_cflags  += -fpic -fno-exceptions
-PxPvdSDK_release_common_cflags  += -isysroot C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxPvdSDK_release_common_cflags  += -isysroot ./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxPvdSDK_release_common_cflags  += -march=armv7-a -mfpu=neon -marm -mfloat-abi=softfp -mthumb-interwork
 PxPvdSDK_release_common_cflags  += -Wall -Wextra -Wpedantic -Wstrict-aliasing=2
 PxPvdSDK_release_common_cflags  += -Wno-maybe-uninitialized -Wno-unused-variable
@@ -178,7 +178,7 @@ PxPvdSDK_release_cppflags  += -Wno-invalid-offsetof
 PxPvdSDK_release_lflags    := $(PxPvdSDK_custom_lflags)
 PxPvdSDK_release_lflags    += $(addprefix -L, $(PxPvdSDK_release_lpaths))
 PxPvdSDK_release_lflags    += -Wl,--start-group $(addprefix -l, $(PxPvdSDK_release_libraries)) -Wl,--end-group
-PxPvdSDK_release_lflags  += --sysroot=C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxPvdSDK_release_lflags  += --sysroot=./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxPvdSDK_release_objsdir  = $(OBJS_DIR)/PxPvdSDK_release
 PxPvdSDK_release_cpp_o    = $(addprefix $(PxPvdSDK_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxPvdSDK_cppfiles)))))
 PxPvdSDK_release_cc_o    = $(addprefix $(PxPvdSDK_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxPvdSDK_ccfiles)))))
@@ -265,7 +265,7 @@ PxPvdSDK_checked_common_cflags    += $(addprefix -D, $(PxPvdSDK_checked_defines)
 PxPvdSDK_checked_common_cflags    += $(addprefix -I, $(PxPvdSDK_checked_hpaths))
 PxPvdSDK_checked_common_cflags  += -Werror
 PxPvdSDK_checked_common_cflags  += -fpic -fno-exceptions
-PxPvdSDK_checked_common_cflags  += -isysroot C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxPvdSDK_checked_common_cflags  += -isysroot ./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxPvdSDK_checked_common_cflags  += -march=armv7-a -mfpu=neon -marm -mfloat-abi=softfp -mthumb-interwork
 PxPvdSDK_checked_common_cflags  += -Wall -Wextra -Wpedantic -Wstrict-aliasing=2
 PxPvdSDK_checked_common_cflags  += -Wno-maybe-uninitialized -Wno-unused-variable
@@ -281,7 +281,7 @@ PxPvdSDK_checked_cppflags  += -Wno-invalid-offsetof
 PxPvdSDK_checked_lflags    := $(PxPvdSDK_custom_lflags)
 PxPvdSDK_checked_lflags    += $(addprefix -L, $(PxPvdSDK_checked_lpaths))
 PxPvdSDK_checked_lflags    += -Wl,--start-group $(addprefix -l, $(PxPvdSDK_checked_libraries)) -Wl,--end-group
-PxPvdSDK_checked_lflags  += --sysroot=C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxPvdSDK_checked_lflags  += --sysroot=./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxPvdSDK_checked_objsdir  = $(OBJS_DIR)/PxPvdSDK_checked
 PxPvdSDK_checked_cpp_o    = $(addprefix $(PxPvdSDK_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxPvdSDK_cppfiles)))))
 PxPvdSDK_checked_cc_o    = $(addprefix $(PxPvdSDK_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxPvdSDK_ccfiles)))))
@@ -368,7 +368,7 @@ PxPvdSDK_profile_common_cflags    += $(addprefix -D, $(PxPvdSDK_profile_defines)
 PxPvdSDK_profile_common_cflags    += $(addprefix -I, $(PxPvdSDK_profile_hpaths))
 PxPvdSDK_profile_common_cflags  += -Werror
 PxPvdSDK_profile_common_cflags  += -fpic -fno-exceptions
-PxPvdSDK_profile_common_cflags  += -isysroot C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxPvdSDK_profile_common_cflags  += -isysroot ./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxPvdSDK_profile_common_cflags  += -march=armv7-a -mfpu=neon -marm -mfloat-abi=softfp -mthumb-interwork
 PxPvdSDK_profile_common_cflags  += -Wall -Wextra -Wpedantic -Wstrict-aliasing=2
 PxPvdSDK_profile_common_cflags  += -Wno-maybe-uninitialized -Wno-unused-variable
@@ -384,7 +384,7 @@ PxPvdSDK_profile_cppflags  += -Wno-invalid-offsetof
 PxPvdSDK_profile_lflags    := $(PxPvdSDK_custom_lflags)
 PxPvdSDK_profile_lflags    += $(addprefix -L, $(PxPvdSDK_profile_lpaths))
 PxPvdSDK_profile_lflags    += -Wl,--start-group $(addprefix -l, $(PxPvdSDK_profile_libraries)) -Wl,--end-group
-PxPvdSDK_profile_lflags  += --sysroot=C:/b/a80d70e9dd655e16/sw/physx/externals/android-ndk/r9d-win32/platforms/android-16/arch-arm
+PxPvdSDK_profile_lflags  += --sysroot=./../../../Externals/android-ndk-r9d/platforms/android-16/arch-arm
 PxPvdSDK_profile_objsdir  = $(OBJS_DIR)/PxPvdSDK_profile
 PxPvdSDK_profile_cpp_o    = $(addprefix $(PxPvdSDK_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxPvdSDK_cppfiles)))))
 PxPvdSDK_profile_cc_o    = $(addprefix $(PxPvdSDK_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxPvdSDK_ccfiles)))))

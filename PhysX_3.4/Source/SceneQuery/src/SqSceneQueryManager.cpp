@@ -124,7 +124,7 @@ void PrunerExt::flushShapes(PxU32 index)
 		(func)(*bounds, *(reinterpret_cast<Scb::Shape*>(pp.data[0])), *(reinterpret_cast<Scb::Actor*>(pp.data[1])));
 	}
 	// PT: batch update happens after the loop instead of once per loop iteration
-	mPruner->updateObjects(prunerHandles, NULL, numDirtyList);
+	mPruner->updateObjectsAfterManualBoundsUpdates(prunerHandles, numDirtyList);
 	mTimestamp += numDirtyList;
 	mDirtyList.clear();
 }
@@ -257,7 +257,7 @@ void SceneQueryManager::removePrunerShape(PrunerData data)
 	mPrunerExt[index].removeFromDirtyList(handle);
 
 	mPrunerExt[index].invalidateTimestamp();
-	mPrunerExt[index].pruner()->removeObjects(&handle);
+	mPrunerExt[index].pruner()->removeObjects(&handle, 1);
 }
 
 void SceneQueryManager::setDynamicTreeRebuildRateHint(PxU32 rebuildRateHint)
@@ -397,7 +397,7 @@ void SceneQueryManager::processSimUpdates()
 						if(nbBatchedObjects==NB_BATCHED_OBJECTS)
 						{
 							mPrunerExt[PruningIndex::eDYNAMIC].invalidateTimestamp();
-							pruner->updateObjects(batchedHandles, NULL, nbBatchedObjects);
+							pruner->updateObjectsAfterManualBoundsUpdates(batchedHandles, nbBatchedObjects);
 							nbBatchedObjects = 0;
 						}
 					}
@@ -407,7 +407,7 @@ void SceneQueryManager::processSimUpdates()
 		if(nbBatchedObjects)
 		{
 			mPrunerExt[PruningIndex::eDYNAMIC].invalidateTimestamp();
-			pruner->updateObjects(batchedHandles, NULL, nbBatchedObjects);
+			pruner->updateObjectsAfterManualBoundsUpdates(batchedHandles, nbBatchedObjects);
 		}
 	}
 
@@ -490,11 +490,11 @@ void SceneQueryManager::shiftOrigin(const PxVec3& shift)
 		mPrunerExt[i].pruner()->shiftOrigin(shift);
 }
 
-void DynamicBoundsSync::sync(const PxU32* sqRefs, const PxU32* indices, const PxBounds3* bounds, PxU32 count)
+void DynamicBoundsSync::sync(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* bounds, PxU32 count)
 {
-	mPruner->updateObjects(sqRefs, indices, bounds, count);
+	mPruner->updateObjectsAndInflateBounds(handles, indices, bounds, count);
 
-	if (count)
+	if(count)
 		(*mTimestamp)++;
 }
 

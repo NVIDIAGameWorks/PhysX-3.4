@@ -125,7 +125,7 @@ public:
 
 	@see setKinematicTarget() PxRigidBodyFlag setRigidBodyFlag()
 	*/
-	virtual		bool				getKinematicTarget(PxTransform& target) = 0;
+	virtual		bool				getKinematicTarget(PxTransform& target)	const	= 0;
 
 /************************************************************************************************/
 /** @name Damping

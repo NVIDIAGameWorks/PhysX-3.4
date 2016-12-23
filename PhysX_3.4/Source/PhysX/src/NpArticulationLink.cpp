@@ -90,8 +90,8 @@ NpArticulationLink::NpArticulationLink(const PxTransform& bodyPose, NpArticulati
 , mInboundJoint(NULL)
 , mParent(parent)
 {
-	PX_ASSERT(mBody.getScbType() == ScbType::BODY);
-	mBody.setScbType(ScbType::BODY_FROM_ARTICULATION_LINK);
+	PX_ASSERT(mBody.getScbType() == ScbType::eBODY);
+	mBody.setScbType(ScbType::eBODY_FROM_ARTICULATION_LINK);
 
 	mRoot->addToLinkList(*this);
 

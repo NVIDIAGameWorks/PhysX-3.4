@@ -3266,10 +3266,10 @@ void processSuspTireWheels
 
 				//Clamp the spring compression so that it is never greater than the max bounce.
 				//Apply the susp limit constraint if the spring compression is greater than the max bounce.
-				suspLimitErrors[i] = dx - susp.mMaxCompression;
+				suspLimitErrors[i] = (w.dot(hitNorm))*(-dx + susp.mMaxCompression);
 				suspLimitActiveFlags[i] = (dx > susp.mMaxCompression);
 				suspLimitCMOffsets[i] = bodySpaceWheelCentreOffset;
-				suspLimitDirs[i] = 	bodySpaceSuspTravelDir;
+				suspLimitDirs[i] = carChassisTrnsfm.q.rotateInv(-hitNorm);
 				jounce=PxMin(dx,susp.mMaxCompression);
 
 				//Store the jounce (having a local copy avoids lhs).

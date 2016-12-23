@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_ARTICULATION
 #define PX_PHYSICS_SCB_ARTICULATION
 
@@ -58,7 +57,6 @@ struct ArticulationBuffer
 	enum { BF_WakeCounter	= 1<<7 };
 	enum { BF_PutToSleep	= 1<<8 };
 	enum { BF_WakeUp		= 1<<9 };
-
 };
 
 class Articulation : public Base
@@ -127,10 +125,8 @@ public:
 
 	PX_FORCE_INLINE static Articulation&		fromSc(Core &a)					{ return *reinterpret_cast<Articulation*>(reinterpret_cast<PxU8*>(&a)-getScOffset()); }
 	PX_FORCE_INLINE static const Articulation&	fromSc(const Core &a)			{ return *reinterpret_cast<const Articulation*>(reinterpret_cast<const PxU8*>(&a)-getScOffset()); }
-	static size_t getScOffset()													
-	{ 
-		return reinterpret_cast<size_t>(&reinterpret_cast<Articulation*>(0)->mArticulation);
-	}
+
+	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Articulation*>(0)->mArticulation);	}
 
 	PX_FORCE_INLINE	void		wakeUpInternal(PxReal wakeCounter);
 
@@ -146,7 +142,6 @@ private:
 	PX_FORCE_INLINE	const Buf*	getArticulationBuffer()	const	{ return reinterpret_cast<const Buf*>(getStream()); }
 	PX_FORCE_INLINE	Buf*		getArticulationBuffer()			{ return reinterpret_cast<Buf*>(getStream()); }
 
-
 	//---------------------------------------------------------------------------------
 	// Infrastructure for regular attributes
 	//---------------------------------------------------------------------------------
@@ -155,33 +150,30 @@ private:
 	template<PxU32 f> PX_FORCE_INLINE typename Buf::Fns<f,0>::Arg read() const		{	return Access::read<Buf::Fns<f,0> >(*this, mArticulation);	}
 	template<PxU32 f> PX_FORCE_INLINE void write(typename Buf::Fns<f,0>::Arg v)		{	Access::write<Buf::Fns<f,0> >(*this, mArticulation, v);		}
 	template<PxU32 f> PX_FORCE_INLINE void flush(const Buf& buf)					{	Access::flush<Buf::Fns<f,0> >(*this, mArticulation, buf);	}
-
 };
-
 
 Articulation::Articulation()
 {
-	setScbType(ScbType::ARTICULATION);
-	mBufferedWakeCounter = getScArticulation().getWakeCounter();
+	setScbType(ScbType::eARTICULATION);
+	mBufferedWakeCounter = mArticulation.getWakeCounter();
 	mBufferedIsSleeping = 1;  // this is the specified value for free standing objects
 }
-
 
 PX_INLINE void Articulation::setWakeCounter(PxReal counter)
 {
 	mBufferedWakeCounter = counter;
 
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		if (getScbScene() && (counter > 0.0f))
+		if(getScbScene() && (counter > 0.0f))
 			mBufferedIsSleeping = 0;
 
-		getScArticulation().setWakeCounter(counter);
+		mArticulation.setWakeCounter(counter);
 		UPDATE_PVD_PROPERTIES_OBJECT()
 	}
 	else
 	{
-		if (counter > 0.0f)
+		if(counter > 0.0f)
 		{
 			mBufferedIsSleeping = 0;
 			markUpdated(Buf::BF_WakeUp | Buf::BF_WakeCounter);
@@ -192,7 +184,6 @@ PX_INLINE void Articulation::setWakeCounter(PxReal counter)
 	}
 }
 
-
 PX_FORCE_INLINE void Articulation::wakeUp()
 {
 	Scene* scene = getScbScene();
@@ -201,7 +192,6 @@ PX_FORCE_INLINE void Articulation::wakeUp()
 	wakeUpInternal(scene->getWakeCounterResetValue());
 }
 
-
 PX_FORCE_INLINE void Articulation::wakeUpInternal(PxReal wakeCounter)
 {
 	PX_ASSERT(getScbScene());
@@ -209,9 +199,9 @@ PX_FORCE_INLINE void Articulation::wakeUpInternal(PxReal wakeCounter)
 	mBufferedWakeCounter = wakeCounter;
 
 	mBufferedIsSleeping = 0;
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		getScArticulation().wakeUp(wakeCounter);
+		mArticulation.wakeUp(wakeCounter);
 	}
 	else
 	{
@@ -220,15 +210,14 @@ PX_FORCE_INLINE void Articulation::wakeUpInternal(PxReal wakeCounter)
 	}
 }
 
-
 PX_FORCE_INLINE void Articulation::putToSleep()
 {
 	mBufferedWakeCounter = 0.0f;
 
 	mBufferedIsSleeping = 1;
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		getScArticulation().putToSleep();
+		mArticulation.putToSleep();
 	}
 	else
 	{
@@ -237,12 +226,11 @@ PX_FORCE_INLINE void Articulation::putToSleep()
 	}
 }
 
-
 PX_FORCE_INLINE	void Articulation::initBufferedState()
 {
 	PX_ASSERT(mBufferedIsSleeping);  // this method is only meant to get called when an object is added to the scene
 	
-	if (getWakeCounter() == 0.0f)
+	if(getWakeCounter() == 0.0f)
 		mBufferedIsSleeping = 1;
 	else
 		mBufferedIsSleeping = 0;
@@ -251,12 +239,10 @@ PX_FORCE_INLINE	void Articulation::initBufferedState()
 	//       are added, an additional check will wake the articulation up if necessary.
 }
 
-
 PX_FORCE_INLINE	void Articulation::clearBufferedState()
 {
 	mBufferedIsSleeping = 1;  // the expected state when an object gets removed from the scene
 }
-
 
 PX_FORCE_INLINE	void Articulation::clearBufferedSleepStateChange()
 {
@@ -275,26 +261,26 @@ PX_INLINE void Articulation::syncState()
 	PX_ASSERT(	(getControlState() != ControlState::eREMOVE_PENDING) || 
 				(mBufferedIsSleeping && (!isBuffered(Buf::BF_WakeUp | Buf::BF_PutToSleep))) );
 
-	PxU32 flags = getBufferFlags();
+	const PxU32 flags = getBufferFlags();
 
 	//----
 
-	if ((flags & Buf::BF_WakeCounter) == 0)
-		mBufferedWakeCounter = getScArticulation().getWakeCounter();
+	if((flags & Buf::BF_WakeCounter) == 0)
+		mBufferedWakeCounter = mArticulation.getWakeCounter();
 	else if (!(flags & (Buf::BF_WakeUp | Buf::BF_PutToSleep)))	// if there has been at least one buffered sleep state transition, then there is no use in adjusting the wake counter separately because it will
 																// get done in the sleep state update.
 	{
 		PX_ASSERT(mBufferedWakeCounter == 0.0f);  // a wake counter change is always connected to a sleep state change, except one case: if setWakeCounter(0.0f) was called
 
-		getScArticulation().setWakeCounter(mBufferedWakeCounter);
+		mArticulation.setWakeCounter(mBufferedWakeCounter);
 	}
 
 	//----
 
-	bool isSimObjectSleeping = getScArticulation().isSleeping();
-	if ((flags & (Buf::BF_WakeUp | Buf::BF_PutToSleep)) == 0)
+	if((flags & (Buf::BF_WakeUp | Buf::BF_PutToSleep)) == 0)
 	{
-		if (getControlState() != ControlState::eREMOVE_PENDING)  // we do not want the simulation sleep state to take effect if the object was removed (free standing objects have buffered state sleeping)
+		const bool isSimObjectSleeping = mArticulation.isSleeping();
+		if(getControlState() != ControlState::eREMOVE_PENDING)  // we do not want the simulation sleep state to take effect if the object was removed (free standing objects have buffered state sleeping)
 			mBufferedIsSleeping = PxU8(isSimObjectSleeping);
 		else
 			PX_ASSERT(mBufferedIsSleeping);  // this must get set immediately at remove
@@ -304,19 +290,19 @@ PX_INLINE void Articulation::syncState()
 		PX_ASSERT(flags & Buf::BF_WakeCounter);  // sleep state transitions always mark the wake counter dirty
 		PX_ASSERT(getControlState() != ControlState::eREMOVE_PENDING);  // removing an object should clear pending wakeUp/putToSleep operations since the state for a free standing object gets set according to specification.
 
-		if (flags & Buf::BF_PutToSleep)
+		if(flags & Buf::BF_PutToSleep)
 		{
 			PX_ASSERT(mBufferedIsSleeping);
 			PX_ASSERT(!(flags & Buf::BF_WakeUp));
 			PX_ASSERT(mBufferedWakeCounter == 0.0f);
-			getScArticulation().putToSleep();
+			mArticulation.putToSleep();
 		}
 		else
 		{
 			PX_ASSERT(!mBufferedIsSleeping);
 			PX_ASSERT(flags & Buf::BF_WakeUp);
 
-			getScArticulation().wakeUp(mBufferedWakeCounter);
+			mArticulation.wakeUp(mBufferedWakeCounter);
 		}
 	}
 

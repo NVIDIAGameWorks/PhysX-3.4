@@ -12,7 +12,8 @@ To build PhysX and APEX SDKs:
 (1) Build PhysX SDK by opening one of the solutions found under PhysX_3.4\Source\compiler. 
 Supported platforms: Windows, Linux, OSX, Android, iOS
 
-(2) Build APEX SDK by opening one of the solutions found under APEX_1.4\compiler. 
+(2) The APEX SDK distribution contains pre-built binaries supporting GPU acceleration.
+Re-building the APEX SDK removes support for GPU acceleration. The solutions can be found under APEX_1.4\compiler. 
 Supported platform: Windows, Linux, Android
 ______________________________________________________________
 To build PhysX Snippets: open one of the solutions found under \PhysX_3.4\Snippets\compiler.

@@ -27,12 +27,10 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #include "ScbAggregate.h"
 #include "ScbActor.h"
 
 using namespace physx;
-
 
 void Scb::Aggregate::addActor(Scb::Actor& actor)
 {
@@ -44,16 +42,16 @@ void Scb::Aggregate::addActor(Scb::Actor& actor)
 		PvdAttachActorToAggregate( this, &actor );
 		PvdUpdateProperties( this );
 	}
-	else if ((state != ControlState::eREMOVE_PENDING))  // If the aggregate is pending for deletion, adding/removing an actor should not be double buffered because the aggregateID must not be set for the actors
+	else if((state != ControlState::eREMOVE_PENDING))  // If the aggregate is pending for deletion, adding/removing an actor should not be double buffered because the aggregateID must not be set for the actors
 	{
 		// if available, search in list of removed actors to cover the remove-add case
 		Scb::AggregateBuffer* PX_RESTRICT bufferedData = getBufferedData();
-		if (bufferedData->removeBufferIdx != 0xffffffff)
+		if(bufferedData->removeBufferIdx != 0xffffffff)
 		{
 			Scb::Actor** removeBuffer = getScbScene()->getActorBuffer(bufferedData->removeBufferIdx);
-			for(PxU32 i=0; i < bufferedData->removeCount; i++)
+			for(PxU32 i=0; i<bufferedData->removeCount; i++)
 			{
-				if (removeBuffer[i] == &actor)
+				if(removeBuffer[i] == &actor)
 				{
 					removeBuffer[i] = removeBuffer[bufferedData->removeCount - 1];
 					PX_ASSERT(bufferedData->removeCount > 0);
@@ -64,20 +62,16 @@ void Scb::Aggregate::addActor(Scb::Actor& actor)
 		}
 
 		Scb::Actor** actorBuffer;
-		if (bufferedData->addBufferIdx == 0xffffffff)
-		{
+		if(bufferedData->addBufferIdx == 0xffffffff)
 			actorBuffer = getScbScene()->allocActorBuffer(mMaxNbActors, bufferedData->addBufferIdx);
-		}
 		else
-		{
 			actorBuffer = getScbScene()->getActorBuffer(bufferedData->addBufferIdx);
-		}
 
 		PX_ASSERT(bufferedData->addCount < mMaxNbActors);
 		actorBuffer[bufferedData->addCount] = &actor;
 		bufferedData->addCount++;
 
-		if (state != ControlState::eINSERT_PENDING)
+		if(state != ControlState::eINSERT_PENDING)
 			markUpdated(BF_ADD_ACTOR);
 		else
 		{
@@ -87,7 +81,6 @@ void Scb::Aggregate::addActor(Scb::Actor& actor)
 		}
 	}
 }
-
 
 void Scb::Aggregate::removeActor(Scb::Actor& actor, bool reinsert)
 {
@@ -100,20 +93,18 @@ void Scb::Aggregate::removeActor(Scb::Actor& actor, bool reinsert)
 		ac.setAggregateID(PX_INVALID_U32);
 		
 		if(getScbSceneForAPI() && reinsert)
-		{
 			ac.reinsertShapes();
-		}
 	}
-	else if ((state != ControlState::eREMOVE_PENDING))
+	else if((state != ControlState::eREMOVE_PENDING))
 	{
 		// if available, search in list of added actors to cover the add-remove case
 		Scb::AggregateBuffer* PX_RESTRICT bufferedData = getBufferedData();
-		if (bufferedData->addBufferIdx != 0xffffffff)
+		if(bufferedData->addBufferIdx != 0xffffffff)
 		{
 			Scb::Actor** addBuffer = getScbScene()->getActorBuffer(bufferedData->addBufferIdx);
-			for(PxU32 i=0; i < bufferedData->addCount; i++)
+			for(PxU32 i=0; i<bufferedData->addCount; i++)
 			{
-				if (addBuffer[i] == &actor)
+				if(addBuffer[i] == &actor)
 				{
 					addBuffer[i] = addBuffer[bufferedData->addCount - 1];
 					PX_ASSERT(bufferedData->addCount > 0);
@@ -124,14 +115,10 @@ void Scb::Aggregate::removeActor(Scb::Actor& actor, bool reinsert)
 		}
 
 		Scb::Actor** actorBuffer;
-		if (bufferedData->removeBufferIdx == 0xffffffff)
-		{
+		if(bufferedData->removeBufferIdx == 0xffffffff)
 			actorBuffer = getScbScene()->allocActorBuffer(mMaxNbActors, bufferedData->removeBufferIdx);
-		}
 		else
-		{
 			actorBuffer = getScbScene()->getActorBuffer(bufferedData->removeBufferIdx);
-		}
 
 		PX_ASSERT(bufferedData->removeCount < mMaxNbActors);
 		actorBuffer[bufferedData->removeCount] = &actor;

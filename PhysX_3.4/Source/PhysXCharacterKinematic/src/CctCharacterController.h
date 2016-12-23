@@ -75,14 +75,6 @@ namespace Cct
 		bool								mPreventVerticalSlidingAgainstCeiling;
 	};
 
-	template<class T, class A>
-	PX_INLINE T* reserve(Ps::Array<T, A>& array, PxU32 nb)
-	{
-		const PxU32 currentSize = array.size();
-		array.resizeUninitialized(array.size() + nb);
-		return array.begin() + currentSize;
-	}
-
 //	typedef Ps::Array<PxTriangle>	TriArray;
 	typedef Ps::Array<PxU32>		IntArray;
 
@@ -93,17 +85,28 @@ namespace Cct
 
 		PX_FORCE_INLINE PxTriangle* reserve(PxU32 nbTris)
 		{
-			const PxU32 currentSize = Ps::Array<PxTriangle>::size();
+			// PT: customized version of "reserveContainerMemory"
+
+			const PxU32 maxNbEntries = Ps::Array<PxTriangle>::capacity();
 			// PT: allocate one more tri to make sure we can safely V4Load the last one...
-			Ps::Array<PxTriangle>::resizeUninitialized(currentSize + nbTris + 1);
+			const PxU32 realRequiredSize = Ps::Array<PxTriangle>::size() + nbTris;
+			const PxU32 requiredSize = realRequiredSize + 1;
+
+			if(requiredSize>maxNbEntries)
+			{
+				const PxU32 naturalGrowthSize = maxNbEntries ? maxNbEntries*2 : 2;
+				const PxU32 newSize = PxMax(requiredSize, naturalGrowthSize);
+				Ps::Array<PxTriangle>::reserve(newSize);
+			}
+
+			PxTriangle* buf = Ps::Array<PxTriangle>::end();
 			// ...but we still want the size to reflect the correct number
-			Ps::Array<PxTriangle>::forceSize_Unsafe(currentSize + nbTris);
-			return Ps::Array<PxTriangle>::begin() + currentSize;
+			Ps::Array<PxTriangle>::forceSize_Unsafe(realRequiredSize);
+			return buf;
 		}
 
 		PX_FORCE_INLINE void pushBack(const PxTriangle& tri)
 		{
-//			Ps::Array<PxTriangle>::pushBack(tri);
 			PxTriangle* memory = reserve(1);
 			memory->verts[0] = tri.verts[0];
 			memory->verts[1] = tri.verts[1];
@@ -323,8 +326,8 @@ namespace Cct
 														bool constrainedClimbingMode,
 														bool standingOnMoving,
 														const PxRigidActor*& touchedActor,
-														const PxShape*& touchedShape
-														);
+														const PxShape*& touchedShape,
+														PxU64 contextID);
 
 					bool				doSweepTest(const InternalCBData_FindTouchedGeom* userDataTouchedGeom,
 													InternalCBData_OnHit* userDataOnHit,
@@ -332,7 +335,7 @@ namespace Cct
 													SweptVolume& swept_volume,
 													const PxVec3& direction, const PxVec3& sideVector, PxU32 max_iter,
 													PxU32* nb_collisions, PxF32 min_dist, const PxControllerFilters& filters, SweepPass sweepPass,
-													const PxRigidActor*& touchedActor, const PxShape*& touchedShape);
+													const PxRigidActor*& touchedActor, const PxShape*& touchedShape, PxU64 contextID);
 
 					void				findTouchedObstacles(const UserObstacles& userObstacles, const PxExtendedBounds3& world_box);
 

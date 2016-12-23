@@ -154,10 +154,10 @@ bool ConvexMeshBuilder::save(PxOutputStream& stream, bool platformMismatch) cons
 //////////////////////////////////////////////////////////////////////////
 // instead of saving the data into stream, we copy the mesh data
 // into internal Gu::ConvexMesh. 
-bool ConvexMeshBuilder::copy(Gu::ConvexHullData& hullData)
+bool ConvexMeshBuilder::copy(Gu::ConvexHullData& hullData, PxU32& nb)
 {
 	// hull builder data copy
-	hullBuilder.copy(hullData);
+	hullBuilder.copy(hullData, nb);
 
 	// mass props
 	hullData.mAABB = mHullData.mAABB;

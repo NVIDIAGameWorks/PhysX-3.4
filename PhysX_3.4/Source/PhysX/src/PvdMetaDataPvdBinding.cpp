@@ -110,7 +110,7 @@ PvdMetaDataBinding::~PvdMetaDataBinding()
 }
 
 template <typename TDataType, typename TValueType, typename TClassType>
-inline void definePropertyStruct(PvdDataStream& inStream, const char* pushName = NULL)
+static inline void definePropertyStruct(PvdDataStream& inStream, const char* pushName = NULL)
 {
 	PvdPropertyDefinitionHelper& helper(inStream.getPropertyDefinitionHelper());
 	PvdClassInfoValueStructDefine definitionObj(helper);
@@ -124,7 +124,7 @@ inline void definePropertyStruct(PvdDataStream& inStream, const char* pushName =
 }
 
 template <typename TDataType>
-inline void createClassAndDefineProperties(PvdDataStream& inStream)
+static inline void createClassAndDefineProperties(PvdDataStream& inStream)
 {
 	inStream.createClass<TDataType>();
 	PvdPropertyDefinitionHelper& helper(inStream.getPropertyDefinitionHelper());
@@ -133,7 +133,7 @@ inline void createClassAndDefineProperties(PvdDataStream& inStream)
 }
 
 template <typename TDataType, typename TParentType>
-inline void createClassDeriveAndDefineProperties(PvdDataStream& inStream)
+static inline void createClassDeriveAndDefineProperties(PvdDataStream& inStream)
 {
 	inStream.createClass<TDataType>();
 	inStream.deriveClass<TParentType, TDataType>();
@@ -143,7 +143,7 @@ inline void createClassDeriveAndDefineProperties(PvdDataStream& inStream)
 }
 
 template <typename TDataType, typename TConvertSrc, typename TConvertData>
-inline void defineProperty(PvdDataStream& inStream, const char* inPropertyName, const char* semantic)
+static inline void defineProperty(PvdDataStream& inStream, const char* inPropertyName, const char* semantic)
 {
 	PvdPropertyDefinitionHelper& helper(inStream.getPropertyDefinitionHelper());
 	// PxEnumTraits< TValueType > filterFlagsEnum;
@@ -158,12 +158,12 @@ inline void defineProperty(PvdDataStream& inStream, const char* inPropertyName, 
 }
 
 template <typename TDataType, typename TConvertSrc, typename TConvertData>
-inline void definePropertyFlags(PvdDataStream& inStream, const char* inPropertyName)
+static inline void definePropertyFlags(PvdDataStream& inStream, const char* inPropertyName)
 {
 	defineProperty<TDataType, TConvertSrc, TConvertData>(inStream, inPropertyName, "Bitflag");
 }
 template <typename TDataType, typename TConvertSrc, typename TConvertData>
-inline void definePropertyEnums(PvdDataStream& inStream, const char* inPropertyName)
+static inline void definePropertyEnums(PvdDataStream& inStream, const char* inPropertyName)
 {
 	defineProperty<TDataType, TConvertSrc, TConvertData>(inStream, inPropertyName, "Enumeration Value");
 }
@@ -787,7 +787,7 @@ void PvdMetaDataBinding::sendEndFrame(PvdDataStream& inStream, const PxScene* in
 }
 
 template <typename TDataType>
-void addPhysicsGroupProperty(PvdDataStream& inStream, const char* groupName, const TDataType& inData, const PxPhysics& ownerPhysics)
+static void addPhysicsGroupProperty(PvdDataStream& inStream, const char* groupName, const TDataType& inData, const PxPhysics& ownerPhysics)
 {
 	inStream.setPropertyValue(&inData, "Physics", reinterpret_cast<const void*>(&ownerPhysics));
 	inStream.pushBackObjectRef(&ownerPhysics, groupName, &inData);
@@ -795,7 +795,7 @@ void addPhysicsGroupProperty(PvdDataStream& inStream, const char* groupName, con
 }
 
 template <typename TDataType>
-void removePhysicsGroupProperty(PvdDataStream& inStream, const char* groupName, const TDataType& inData, const PxPhysics& ownerPhysics)
+static void removePhysicsGroupProperty(PvdDataStream& inStream, const char* groupName, const TDataType& inData, const PxPhysics& ownerPhysics)
 {
 	inStream.removeObjectRef(&ownerPhysics, groupName, &inData);
 	inStream.destroyInstance(&inData);
@@ -980,7 +980,7 @@ void PvdMetaDataBinding::registrarPhysicsObject<PxHeightFieldGeometry>(PvdDataSt
 }
 
 template <typename TGeneratedValuesType, typename TGeomType>
-void sendGeometry(PvdMetaDataBinding& metaBind, PvdDataStream& inStream, const PxShape& inShape, const TGeomType& geom, PsPvd* pvd)
+static void sendGeometry(PvdMetaDataBinding& metaBind, PvdDataStream& inStream, const PxShape& inShape, const TGeomType& geom, PsPvd* pvd)
 {
 	const void* geomInst = (reinterpret_cast<const PxU8*>(&inShape)) + 4;
 	inStream.createInstance(getPvdNamespacedNameForType<TGeomType>(), geomInst);
@@ -991,7 +991,7 @@ void sendGeometry(PvdMetaDataBinding& metaBind, PvdDataStream& inStream, const P
 	inStream.setPropertyValue(geomInst, "Shape", reinterpret_cast<const void*>(&inShape));
 }
 
-void setGeometry(PvdMetaDataBinding& metaBind, PvdDataStream& inStream, const PxShape& inObj, PsPvd* pvd)
+static void setGeometry(PvdMetaDataBinding& metaBind, PvdDataStream& inStream, const PxShape& inObj, PsPvd* pvd)
 {
 	switch(inObj.getGeometryType())
 	{
@@ -1029,7 +1029,7 @@ void setGeometry(PvdMetaDataBinding& metaBind, PvdDataStream& inStream, const Px
 	}
 }
 
-void setMaterials(PvdMetaDataBinding& metaBing, PvdDataStream& inStream, const PxShape& inObj, PsPvd* pvd, PvdMetaDataBindingData* mBindingData)
+static void setMaterials(PvdMetaDataBinding& metaBing, PvdDataStream& inStream, const PxShape& inObj, PsPvd* pvd, PvdMetaDataBindingData* mBindingData)
 {
 	PxU32 numMaterials = inObj.getNbMaterials();
 	PxMaterial** materialPtr = mBindingData->allocateTemp<PxMaterial*>(numMaterials);
@@ -1042,7 +1042,7 @@ void setMaterials(PvdMetaDataBinding& metaBing, PvdDataStream& inStream, const P
 	}
 }
 
-void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxShape& inObj, const PxRigidActor& owner, PsPvd* pvd)
+void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxShape& inObj, const PxRigidActor& owner, const PxPhysics& ownerPhysics, PsPvd* pvd)
 {
 	if(!inStream.isInstanceValid(&owner))
 		return;
@@ -1076,7 +1076,7 @@ void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxShape& 
 	setGeometry(*this, inStream, inObj, pvd);
 	setMaterials(*this, inStream, inObj, pvd, mBindingData);
 	if(!inObj.isExclusive())
-		inStream.pushBackObjectRef(&owner.getScene()->getPhysics(), "SharedShapes", &inObj);
+		inStream.pushBackObjectRef(&ownerPhysics, "SharedShapes", &inObj);
 }
 
 void PvdMetaDataBinding::sendAllProperties(PvdDataStream& inStream, const PxShape& inObj)
@@ -1163,7 +1163,7 @@ void PvdMetaDataBinding::destroyInstance(PvdDataStream& inStream, const PxShape&
 }
 
 template <typename TDataType>
-void addSceneGroupProperty(PvdDataStream& inStream, const char* groupName, const TDataType& inObj, const PxScene& inScene)
+static void addSceneGroupProperty(PvdDataStream& inStream, const char* groupName, const TDataType& inObj, const PxScene& inScene)
 {
 	inStream.createInstance(&inObj);
 	inStream.pushBackObjectRef(&inScene, groupName, &inObj);
@@ -1171,23 +1171,23 @@ void addSceneGroupProperty(PvdDataStream& inStream, const char* groupName, const
 }
 
 template <typename TDataType>
-void removeSceneGroupProperty(PvdDataStream& inStream, const char* groupName, const TDataType& inObj, const PxScene& inScene)
+static void removeSceneGroupProperty(PvdDataStream& inStream, const char* groupName, const TDataType& inObj, const PxScene& inScene)
 {
 	inStream.removeObjectRef(&inScene, groupName, &inObj);
 	inStream.destroyInstance(&inObj);
 }
 
-void sendShapes(PvdMetaDataBinding& binding, PvdDataStream& inStream, const PxRigidActor& inObj, PsPvd* pvd)
+static void sendShapes(PvdMetaDataBinding& binding, PvdDataStream& inStream, const PxRigidActor& inObj, const PxPhysics& ownerPhysics, PsPvd* pvd)
 {
 	InlineArray<PxShape*, 5> shapeData;
 	PxU32 nbShapes = inObj.getNbShapes();
 	shapeData.resize(nbShapes);
 	inObj.getShapes(shapeData.begin(), nbShapes);
 	for(PxU32 idx = 0; idx < nbShapes; ++idx)
-		binding.createInstance(inStream, *shapeData[idx], inObj, pvd);
+		binding.createInstance(inStream, *shapeData[idx], inObj, ownerPhysics, pvd);
 }
 
-void releaseShapes(PvdMetaDataBinding& binding, PvdDataStream& inStream, const PxRigidActor& inObj)
+static void releaseShapes(PvdMetaDataBinding& binding, PvdDataStream& inStream, const PxRigidActor& inObj)
 {
 	InlineArray<PxShape*, 5> shapeData;
 	PxU32 nbShapes = inObj.getNbShapes();
@@ -1197,11 +1197,11 @@ void releaseShapes(PvdMetaDataBinding& binding, PvdDataStream& inStream, const P
 		binding.destroyInstance(inStream, *shapeData[idx], inObj);
 }
 
-void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxRigidStatic& inObj, const PxScene& ownerScene, PsPvd* pvd)
+void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxRigidStatic& inObj, const PxScene& ownerScene, const PxPhysics& ownerPhysics, PsPvd* pvd)
 {
 	addSceneGroupProperty(inStream, "RigidStatics", inObj, ownerScene);
 	sendAllProperties(inStream, inObj);
-	sendShapes(*this, inStream, inObj, pvd);
+	sendShapes(*this, inStream, inObj, ownerPhysics, pvd);
 }
 void PvdMetaDataBinding::sendAllProperties(PvdDataStream& inStream, const PxRigidStatic& inObj)
 {
@@ -1213,11 +1213,11 @@ void PvdMetaDataBinding::destroyInstance(PvdDataStream& inStream, const PxRigidS
 	releaseShapes(*this, inStream, inObj);
 	removeSceneGroupProperty(inStream, "RigidStatics", inObj, ownerScene);
 }
-void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxRigidDynamic& inObj, const PxScene& ownerScene, PsPvd* pvd)
+void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxRigidDynamic& inObj, const PxScene& ownerScene, const PxPhysics& ownerPhysics, PsPvd* pvd)
 {
 	addSceneGroupProperty(inStream, "RigidDynamics", inObj, ownerScene);
 	sendAllProperties(inStream, inObj);
-	sendShapes(*this, inStream, inObj, pvd);
+	sendShapes(*this, inStream, inObj, ownerPhysics, pvd);
 }
 void PvdMetaDataBinding::sendAllProperties(PvdDataStream& inStream, const PxRigidDynamic& inObj)
 {
@@ -1230,13 +1230,13 @@ void PvdMetaDataBinding::destroyInstance(PvdDataStream& inStream, const PxRigidD
 	removeSceneGroupProperty(inStream, "RigidDynamics", inObj, ownerScene);
 }
 
-void addChild(PvdDataStream& inStream, const void* inParent, const PxArticulationLink& inChild)
+static void addChild(PvdDataStream& inStream, const void* inParent, const PxArticulationLink& inChild)
 {
 	inStream.pushBackObjectRef(inParent, "Links", &inChild);
 	inStream.setPropertyValue(&inChild, "Parent", inParent);
 }
 
-void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxArticulation& inObj, const PxScene& ownerScene, PsPvd* pvd)
+void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxArticulation& inObj, const PxScene& ownerScene, const PxPhysics& ownerPhysics, PsPvd* pvd)
 {
 	addSceneGroupProperty(inStream, "Articulations", inObj, ownerScene);
 	sendAllProperties(inStream, inObj);
@@ -1253,7 +1253,7 @@ void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxArticul
 	for(PxU32 idx = 0; idx < numLinks; ++idx)
 	{
 		if(!inStream.isInstanceValid(mBindingData->mArticulationLinks[idx]))
-			createInstance(inStream, *mBindingData->mArticulationLinks[idx], pvd);
+			createInstance(inStream, *mBindingData->mArticulationLinks[idx], ownerPhysics, pvd);
 	}
 
 	// Setup the link graph
@@ -1282,7 +1282,7 @@ void PvdMetaDataBinding::destroyInstance(PvdDataStream& inStream, const PxArticu
 	removeSceneGroupProperty(inStream, "Articulations", inObj, ownerScene);
 }
 
-void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxArticulationLink& inObj, PsPvd* pvd)
+void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxArticulationLink& inObj, const PxPhysics& ownerPhysics, PsPvd* pvd)
 {
 	inStream.createInstance(&inObj);
 	PxArticulationJoint* joint(inObj.getInboundJoint());
@@ -1294,7 +1294,7 @@ void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxArticul
 		sendAllProperties(inStream, *joint);
 	}
 	sendAllProperties(inStream, inObj);
-	sendShapes(*this, inStream, inObj, pvd);
+	sendShapes(*this, inStream, inObj, ownerPhysics, pvd);
 }
 
 void PvdMetaDataBinding::sendAllProperties(PvdDataStream& inStream, const PxArticulationLink& inObj)
@@ -1461,7 +1461,7 @@ void PvdMetaDataBinding::destroyInstance(PvdDataStream& inStream, const PxPartic
 #endif // PX_USE_PARTICLE_SYSTEM_API
 
 template <typename TBlockType, typename TActorType, typename TOperator>
-void updateActor(PvdDataStream& inStream, TActorType** actorGroup, PxU32 numActors, TOperator sleepingOp, PvdMetaDataBindingData& bindingData)
+static void updateActor(PvdDataStream& inStream, TActorType** actorGroup, PxU32 numActors, TOperator sleepingOp, PvdMetaDataBindingData& bindingData)
 {
 	TBlockType theBlock;
 	if(numActors == 0)
@@ -1674,8 +1674,11 @@ void PvdMetaDataBinding::destroyInstance(PvdDataStream& inStream, const PxClothF
 	removePhysicsGroupProperty(inStream, "ClothFabrics", fabric, ownerPhysics);
 }
 
-void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxCloth& cloth, const PxScene& ownerScene, PsPvd* pvd)
+void PvdMetaDataBinding::createInstance(PvdDataStream& inStream, const PxCloth& cloth, const PxScene& ownerScene, const PxPhysics& ownerPhysics, PsPvd* pvd)
 {
+	// PT: this is only needed to please some bonkers template code that expects all "createInstance" to have the same signature.
+	PX_UNUSED(ownerPhysics);
+
 	addSceneGroupProperty(inStream, "Cloths", cloth, ownerScene);
 	PxClothFabric* fabric = cloth.getFabric();
 	if(fabric != NULL)
@@ -1692,6 +1695,7 @@ void PvdMetaDataBinding::sendAllProperties(PvdDataStream& inStream, const PxClot
 	sendSimpleProperties(inStream, cloth);
 	sendParticleAccelerations(inStream, cloth);
 	sendMotionConstraints(inStream, cloth);
+	// PT: TODO: are we sending the collision spheres twice here? The "sendPairs" param is never "false" in the entire SDK.....
 	sendCollisionSpheres(inStream, cloth);
 	sendCollisionSpheres(inStream, cloth, true);
 	sendCollisionTriangles(inStream, cloth);
@@ -2198,7 +2202,6 @@ void PvdMetaDataBinding::destroyInstance(PvdDataStream& inStream, const PxAggreg
 	removeSceneGroupProperty(inStream, "Aggregates", inObj, ownerScene);
 }
 
-template <bool bPushBack>
 class ChangeOjectRefCmd : public PvdDataStream::PvdCommand
 {
 	ChangeOjectRefCmd& operator=(const ChangeOjectRefCmd&)
@@ -2207,46 +2210,46 @@ class ChangeOjectRefCmd : public PvdDataStream::PvdCommand
 		return *this;
 	} // PX_NOCOPY doesn't work for local classes
   public:
-	const void* instance;
-	String propName;
-	const void* propObj;
+	const void*	mInstance;
+	String		mPropName;
+	const void*	mPropObj;
+	const bool	mPushBack;
 
-	ChangeOjectRefCmd(const void* inInst, String inName, const void* inObj)
-	: instance(inInst), propName(inName), propObj(inObj)
+	ChangeOjectRefCmd(const void* inInst, String inName, const void* inObj, bool pushBack)
+	: mInstance(inInst), mPropName(inName), mPropObj(inObj), mPushBack(pushBack)
 	{
 	}
 
 	// Assigned is needed for copying
 	ChangeOjectRefCmd(const ChangeOjectRefCmd& other)
-	: instance(other.instance), propName(other.propName), propObj(other.propObj)
+	: PvdDataStream::PvdCommand(other), mInstance(other.mInstance), mPropName(other.mPropName), mPropObj(other.mPropObj), mPushBack(other.mPushBack)
 	{
 	}
 
 	virtual bool canRun(PvdInstanceDataStream& inStream)
 	{
-		PX_ASSERT(inStream.isInstanceValid(instance));
-		return inStream.isInstanceValid(propObj);
+		PX_ASSERT(inStream.isInstanceValid(mInstance));
+		return inStream.isInstanceValid(mPropObj);
 	}
 	virtual void run(PvdInstanceDataStream& inStream)
 	{
-		if(!inStream.isInstanceValid(instance))
+		if(!inStream.isInstanceValid(mInstance))
 			return;
 
-		if(bPushBack)
+		if(mPushBack)
 		{
-			if(inStream.isInstanceValid(propObj))
-				inStream.pushBackObjectRef(instance, propName, propObj);
+			if(inStream.isInstanceValid(mPropObj))
+				inStream.pushBackObjectRef(mInstance, mPropName, mPropObj);
 		}
 		else
 		{
 			// the called function will assert if propobj is already removed
-			inStream.removeObjectRef(instance, propName, propObj);
+			inStream.removeObjectRef(mInstance, mPropName, mPropObj);
 		}
 	}
 };
 
-template <class Command>
-void changeAggregateSubActors(PvdDataStream& inStream, const PxAggregate& inObj, const PxActor& inActor)
+static void changeAggregateSubActors(PvdDataStream& inStream, const PxAggregate& inObj, const PxActor& inActor, bool pushBack)
 {
 	const PxArticulationLink* link = inActor.is<PxArticulationLink>();
 	String propName = NULL;
@@ -2264,7 +2267,7 @@ void changeAggregateSubActors(PvdDataStream& inStream, const PxAggregate& inObj,
 	else
 		return;
 
-	Command* cmd = PX_PLACEMENT_NEW(inStream.allocateMemForCmd(sizeof(Command)), Command)(&inObj, propName, object);
+	ChangeOjectRefCmd* cmd = PX_PLACEMENT_NEW(inStream.allocateMemForCmd(sizeof(ChangeOjectRefCmd)), ChangeOjectRefCmd)(&inObj, propName, object, pushBack);
 
 	if(cmd->canRun(inStream))
 		cmd->run(inStream);
@@ -2273,14 +2276,12 @@ void changeAggregateSubActors(PvdDataStream& inStream, const PxAggregate& inObj,
 }
 void PvdMetaDataBinding::detachAggregateActor(PvdDataStream& inStream, const PxAggregate& inObj, const PxActor& inActor)
 {
-	typedef ChangeOjectRefCmd<false> RemoveOjectRefCmd;
-	changeAggregateSubActors<RemoveOjectRefCmd>(inStream, inObj, inActor);
+	changeAggregateSubActors(inStream, inObj, inActor, false);
 }
 
 void PvdMetaDataBinding::attachAggregateActor(PvdDataStream& inStream, const PxAggregate& inObj, const PxActor& inActor)
 {
-	typedef ChangeOjectRefCmd<true> PushbackOjectRefCmd;
-	changeAggregateSubActors<PushbackOjectRefCmd>(inStream, inObj, inActor);
+	changeAggregateSubActors(inStream, inObj, inActor, true);
 }
 #else
 void PvdMetaDataBinding::createInstance(PvdDataStream&, const PxAggregate&, const PxScene&, ObjectRegistrar&)
@@ -2305,7 +2306,7 @@ void PvdMetaDataBinding::attachAggregateActor(PvdDataStream&, const PxAggregate&
 #endif
 
 template <typename TDataType>
-void sendSceneArray(PvdDataStream& inStream, const PxScene& inScene, const Ps::Array<TDataType>& inArray, const char* propName)
+static void sendSceneArray(PvdDataStream& inStream, const PxScene& inScene, const Ps::Array<TDataType>& inArray, const char* propName)
 {
 	if(0 == inArray.size())
 		inStream.setPropertyValue(&inScene, propName, DataRef<const PxU8>(), getPvdNamespacedNameForType<TDataType>());
@@ -2317,7 +2318,7 @@ void sendSceneArray(PvdDataStream& inStream, const PxScene& inScene, const Ps::A
 	}
 }
 
-void sendSceneArray(PvdDataStream& inStream, const PxScene& inScene, const Ps::Array<PvdSqHit>& inArray, const char* propName)
+static void sendSceneArray(PvdDataStream& inStream, const PxScene& inScene, const Ps::Array<PvdSqHit>& inArray, const char* propName)
 {
 	if(0 == inArray.size())
 		inStream.setPropertyValue(&inScene, propName, DataRef<const PxU8>(), getPvdNamespacedNameForType<PvdSqHit>());
@@ -2338,6 +2339,7 @@ void sendSceneArray(PvdDataStream& inStream, const PxScene& inScene, const Ps::A
 		}
 	}
 }
+
 void PvdMetaDataBinding::sendSceneQueries(PvdDataStream& inStream, const PxScene& inScene, PsPvd* pvd)
 {
 	if(!inStream.isConnected())
@@ -2359,7 +2361,7 @@ void PvdMetaDataBinding::sendSceneQueries(PvdDataStream& inStream, const PxScene
 		propName = collector.getArrayName(collector.mFilterData);
 		sendSceneArray(inStream, inScene, collector.mFilterData, propName);
 
-		const Ps::Array<PxGeometryHolder>& geometriesToDestroy = collector.getPrevFrameGeometries();
+		const NamedArray<PxGeometryHolder>& geometriesToDestroy = collector.getPrevFrameGeometries();
 		propName = collector.getArrayName(geometriesToDestroy);
 		for(PxU32 k = 0; k < geometriesToDestroy.size(); ++k)
 		{

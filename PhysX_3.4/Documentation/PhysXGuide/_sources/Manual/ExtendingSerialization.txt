@@ -320,8 +320,8 @@ PxVehicle serialization is a useful example.  With Source/PhysXVehicle as the ro
 
    src/PhysXMetaData/include/PxVehicleMetaDataObjects.h
    src/PhysXMetaData/src/PxVehicleMetaDataObjects.cpp
-   ../../Tools/PhysXMetaDataGenerator/PxVehicleExtension/PxVehicleExtensionAPI.h
-   ../../Tools/PhysXMetaDataGenerator/PxVehicleExtension/runClang_[windows|osx|linux].[bat|sh]
+   ../../Tools/PhysXMetaDataGenerator/PxVehicleExtensionAPI.h
+   ../../Tools/PhysXMetaDataGenerator/generateMetaData.py
 
 Running the script will auto-generate the following files::
 

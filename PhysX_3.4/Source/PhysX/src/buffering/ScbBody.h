@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_BODY
 #define PX_PHYSICS_SCB_BODY
 
@@ -110,7 +109,6 @@ struct BodyBuffer : public RigidObjectBuffer		//once RigidObject has its own buf
 	BodyBuffer(): mLinAcceleration(0), mAngAcceleration(0), mLinDeltaVelocity(0), mAngDeltaVelocity(0) {}
 };
 
-
 #if PX_VC 
      #pragma warning(pop) 
 #endif
@@ -138,8 +136,6 @@ public:
 	//---------------------------------------------------------------------------------
 	// Wrapper for Sc::BodyCore interface
 	//---------------------------------------------------------------------------------
-
-
 	PX_FORCE_INLINE const PxTransform&	getBody2World()		const			{ return mBufferedBody2World;	}	// PT: important: keep returning an address here (else update prefetch in SceneQueryManager::addShapes)
 	PX_INLINE		void				setBody2World(const PxTransform& p, bool asPartOfBody2ActorChange);
 
@@ -215,10 +211,7 @@ public:
 	PX_INLINE		void				syncState();
 	PX_INLINE		void				syncCollisionWriteThroughState();
 
-	static size_t getScOffset()													
-	{ 
-		return reinterpret_cast<size_t>(&reinterpret_cast<Body*>(0)->mBodyCore);
-	}
+	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Body*>(0)->mBodyCore);	}
 
 	/**
 	\brief Shadowed method of #Scb::Base::markUpdated() to store the buffered property flags in a separate location (ran out of flag space)
@@ -340,13 +333,12 @@ private:
 	template<PxU32 f> PX_FORCE_INLINE typename Buf::Fns<f,0>::Arg read() const		{	return Access::read<Buf::Fns<f,0> >(*this, mBodyCore);	}
 	template<PxU32 f> PX_FORCE_INLINE void write(typename Buf::Fns<f,0>::Arg v)		{	Access::write<Buf::Fns<f,0> >(*this, mBodyCore, v);		}
 	template<PxU32 f> PX_FORCE_INLINE void flush(const Buf& buf)					{	Access::flush<Buf::Fns<f,0> >(*this, mBodyCore, buf);	}
-
 };
 
 
 PX_INLINE Body::Body(PxActorType::Enum type, const PxTransform& bodyPose) : mBodyCore(type, bodyPose)
 {
-	setScbType(ScbType::BODY);
+	setScbType(ScbType::eBODY);
 
 	mBufferedBody2World		= mBodyCore.getBody2World();
 	mBufferedLinVelocity	= mBodyCore.getLinearVelocity();
@@ -360,21 +352,21 @@ PX_INLINE void Body::setBody2World(const PxTransform& p, bool asPartOfBody2Actor
 {
 	mBufferedBody2World = p;
 
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mBodyCore.setBody2World(p);
 		UPDATE_PVD_PROPERTIES_OBJECT()
 	}
 	else
 	{
-		if (!asPartOfBody2ActorChange)
+		if(!asPartOfBody2ActorChange)
 		{
 			// call was triggered by a setGlobalPose(). This means the simulated body pose will get
 			// overwritten by the user value, so we do not need to adjust it.
 
 			mBodyBufferFlags &= ~Buf::BF_Body2World_CoM;
 		}
-		else if (!(mBodyBufferFlags & Buf::BF_Body2World))
+		else if(!(mBodyBufferFlags & Buf::BF_Body2World))
 		{
 			// there has been no setGlobalPose() on the body yet and the center of mass changes.
 			// This case needs special treatment because the simulation results for such a body will be based on
@@ -391,7 +383,7 @@ PX_INLINE void Body::setLinearVelocity(const PxVec3& v)
 {
 	mBufferedLinVelocity = v;
 
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mBodyCore.setLinearVelocity(v);
 		UPDATE_PVD_PROPERTIES_OBJECT()
@@ -404,7 +396,7 @@ PX_INLINE void Body::setAngularVelocity(const PxVec3& v)
 {
 	mBufferedAngVelocity = v;
 
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mBodyCore.setAngularVelocity(v);
 		UPDATE_PVD_PROPERTIES_OBJECT()
@@ -418,7 +410,7 @@ PX_INLINE void Body::wakeUpInternal(PxReal wakeCounter)
 {
 	PX_ASSERT(getScbScene());
 
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		setBufferedParamsForAwake(wakeCounter);
 		mBodyCore.wakeUp(wakeCounter);
@@ -441,10 +433,9 @@ PX_FORCE_INLINE void Body::wakeUp()
 	wakeUpInternal(scene->getWakeCounterResetValue());
 }
 
-
 PX_INLINE void Body::putToSleepInternal()
 {
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		setBufferedParamsForAsleep();
 		mBodyCore.putToSleep();
@@ -465,7 +456,6 @@ PX_INLINE void Body::putToSleepInternal()
 	}
 }
 
-
 PX_FORCE_INLINE void Body::putToSleep()
 {
 	PX_ASSERT(!(getFlags() & PxRigidBodyFlag::eKINEMATIC));
@@ -473,16 +463,15 @@ PX_FORCE_INLINE void Body::putToSleep()
 	putToSleepInternal();
 }
 
-
 PX_INLINE void Body::setWakeCounter(PxReal w)
 {
 	PX_ASSERT(!(getFlags() & PxRigidBodyFlag::eKINEMATIC));
 
 	mBufferedWakeCounter = w;
 
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		if (getScbScene() && (w > 0.0f))
+		if(getScbScene() && (w > 0.0f))
 			mBufferedIsSleeping = 0;
 
 		mBodyCore.setWakeCounter(w);
@@ -491,24 +480,23 @@ PX_INLINE void Body::setWakeCounter(PxReal w)
 	}
 	else
 	{
-		if (w > 0.0f)
+		if(w > 0.0f)
 			wakeUpInternal(w);
 		else
 			markUpdated(Buf::BF_WakeCounter);
 	}
 }
 
-
 PX_INLINE void Body::setFlags(PxRigidBodyFlags f)
 {
-	PxU32 wasKinematic = getFlags() & PxRigidBodyFlag::eKINEMATIC;
-	PxU32 isKinematic = f & PxRigidBodyFlag::eKINEMATIC;
-	bool switchToKinematic = ((!wasKinematic) && isKinematic);
-	bool switchToDynamic = (wasKinematic && (!isKinematic));
+	const PxU32 wasKinematic = getFlags() & PxRigidBodyFlag::eKINEMATIC;
+	const PxU32 isKinematic = f & PxRigidBodyFlag::eKINEMATIC;
+	const bool switchToKinematic = ((!wasKinematic) && isKinematic);
+	const bool switchToDynamic = (wasKinematic && (!isKinematic));
 
-	if (!isBuffering())
+	if(!isBuffering())
 	{
-		if (switchToKinematic)
+		if(switchToKinematic)
 			setBufferedParamsForAsleep();
 
 		mBodyCore.setFlags(getScbScene() ? getScbScene()->getScScene().getSimStateDataPool() : NULL, f);
@@ -516,9 +504,9 @@ PX_INLINE void Body::setFlags(PxRigidBodyFlags f)
 	}
 	else
 	{
-		if (switchToKinematic)
+		if(switchToKinematic)
 			putToSleepInternal();
-		else if (switchToDynamic)
+		else if(switchToDynamic)
 			mBodyBufferFlags &= ~Buf::BF_KinematicTarget;
 
 		getBodyBuffer()->mRigidBodyFlags = f;
@@ -526,10 +514,9 @@ PX_INLINE void Body::setFlags(PxRigidBodyFlags f)
 	}
 }
 
-
 PX_INLINE void Body::addSpatialAcceleration(const PxVec3* linAcc, const PxVec3* angAcc)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mBodyCore.addSpatialAcceleration(getScbScene()->getScScene().getSimStateDataPool(), linAcc, angAcc);
 		//Spatial acceleration isn't sent to PVD.
@@ -541,10 +528,9 @@ PX_INLINE void Body::addSpatialAcceleration(const PxVec3* linAcc, const PxVec3* 
 	}
 }
 
-
 PX_INLINE void Body::clearSpatialAcceleration(bool force, bool torque)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mBodyCore.clearSpatialAcceleration(force, torque);
 		//Spatial acceleration isn't sent to PVD.
@@ -556,10 +542,9 @@ PX_INLINE void Body::clearSpatialAcceleration(bool force, bool torque)
 	}
 }
 
-
 PX_INLINE void Body::addSpatialVelocity(const PxVec3* linVelDelta, const PxVec3* angVelDelta)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mBodyCore.addSpatialVelocity(getScbScene()->getScScene().getSimStateDataPool(), linVelDelta, angVelDelta);
 		UPDATE_PVD_PROPERTIES_OBJECT()
@@ -571,10 +556,9 @@ PX_INLINE void Body::addSpatialVelocity(const PxVec3* linVelDelta, const PxVec3*
 	}
 }
 
-
 PX_INLINE void Body::clearSpatialVelocity(bool force, bool torque)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mBodyCore.clearSpatialVelocity(force, torque);
 		UPDATE_PVD_PROPERTIES_OBJECT()
@@ -586,20 +570,18 @@ PX_INLINE void Body::clearSpatialVelocity(bool force, bool torque)
 	}
 }
 
-
 PX_INLINE bool Body::getKinematicTarget(PxTransform& p) const
 {
-	if (isBuffered(Buf::BF_KinematicTarget))
+	if(isBuffered(Buf::BF_KinematicTarget))
 	{
 		p = getBodyBuffer()->mKinematicTarget;
 		return true;
 	}
-	else if (getControlState() != ControlState::eREMOVE_PENDING)
+	else if(getControlState() != ControlState::eREMOVE_PENDING)
 		return mBodyCore.getKinematicTarget(p);
 	else
 		return false;
 }
-
 
 PX_INLINE void Body::setKinematicTarget(const PxTransform& p)
 {
@@ -607,7 +589,7 @@ PX_INLINE void Body::setKinematicTarget(const PxTransform& p)
 	PX_ASSERT(scene);  // only allowed for an object in a scene
 	PxReal wakeCounterResetValue = scene->getWakeCounterResetValue();
 
-	if (!isBuffering())
+	if(!isBuffering())
 	{
 		mBodyCore.setKinematicTarget(scene->getScScene().getSimStateDataPool(), p, wakeCounterResetValue);
 		setBufferedParamsForAwake(wakeCounterResetValue);
@@ -624,20 +606,15 @@ PX_INLINE void Body::setKinematicTarget(const PxTransform& p)
 	}
 #if PX_SUPPORT_PVD
 	if(getControlState() == ControlState::eIN_SCENE)
-	{
 		scene->getScenePvdClient().updateKinematicTarget(this, p);
-	}
 #endif
 }
-
 
 PX_FORCE_INLINE	void Body::onOriginShift(const PxVec3& shift)
 {
 	mBufferedBody2World.p -= shift;
 	mBodyCore.onOriginShift(shift);
 }
-
-
 
 //--------------------------------------------------------------
 //
@@ -647,23 +624,19 @@ PX_FORCE_INLINE	void Body::onOriginShift(const PxVec3& shift)
 
 PX_FORCE_INLINE bool Body::hasKinematicTarget() const
 {
-	return 
-	(
-		isBuffered(BodyBuffer::BF_KinematicTarget) || mBodyCore.getHasValidKinematicTarget()
-	);
+	return (isBuffered(BodyBuffer::BF_KinematicTarget) || mBodyCore.getHasValidKinematicTarget());
 }
-
 
 PX_FORCE_INLINE void Body::clearSimStateDataForPendingInsert()
 {
-	Sc::BodyCore& core = getScBody();
-	if (insertPending())
+	if(insertPending())
 	{
 		// not-so-nice-code to cover the following cases:
 		// - user adds a kinematic to the scene, sets a target and removes the kinematic from scene again (all while the sim is running)
 		// - same as above but instead of removing the kinematic it gets switched to dynamic
 		// - user adds a dynamic to the scene, sets a target and removes the dynamic from scene again (all while the sim is running)
 
+		Sc::BodyCore& core = mBodyCore;
 		if(core.getSimStateData(true))
 			core.tearDownSimStateData(getScbScene()->getScScene().getSimStateDataPool(), true);
 		else if(core.getSimStateData(false))
@@ -671,22 +644,18 @@ PX_FORCE_INLINE void Body::clearSimStateDataForPendingInsert()
 	}
 }
 
-
 PX_FORCE_INLINE void Body::transitionSimStateDataForPendingInsert()
 {
-	Sc::BodyCore& core = getScBody();
-	if (insertPending())
+	if(insertPending())
 	{
 		// not-so-nice-code to cover the following case:
 		// - user adds a dynamic, adds force, then switches to kinematic (all while the sim is running)
 
+		Sc::BodyCore& core = mBodyCore;
 		if(core.getSimStateData(false))
-		{
 			core.setupSimStateData(getScbScene()->getScScene().getSimStateDataPool(), true);  // note: this won't allocate the memory twice
-		}
 	}
 }
-
 
 PX_INLINE PxMat33 Body::getGlobalInertiaTensorInverse() const
 {
@@ -695,28 +664,25 @@ PX_INLINE PxMat33 Body::getGlobalInertiaTensorInverse() const
 	return inverseInertiaWorldSpace;
 }
 
-
 PX_FORCE_INLINE bool Body::checkSleepReadinessBesidesWakeCounter()
 {
 	return (getLinearVelocity().isZero() && getAngularVelocity().isZero());
 	// no need to test for pending force updates yet since currently this is not supported on scene insertion
 }
 
-
 PX_FORCE_INLINE void Body::initBufferedState()
 {
 	PX_ASSERT(mBufferedIsSleeping);  // this method is only meant to get called when an object is added to the scene
 	
-	if ((getWakeCounter() == 0.0f) && checkSleepReadinessBesidesWakeCounter())
+	if((getWakeCounter() == 0.0f) && checkSleepReadinessBesidesWakeCounter())
 		mBufferedIsSleeping = 1;
 	else
 		mBufferedIsSleeping = 0;
 }
 
-
 PX_FORCE_INLINE void Body::clearBufferedState()
 {
-	if (!(getFlags() & PxRigidBodyFlag::eKINEMATIC))
+	if(!(getFlags() & PxRigidBodyFlag::eKINEMATIC))
 	{
 		mBufferedIsSleeping = 1;  // the expected state when an object gets removed from the scene.
 		mBodyBufferFlags &= ~(Buf::BF_Acceleration | Buf::BF_DeltaVelocity);
@@ -734,12 +700,10 @@ PX_FORCE_INLINE void Body::clearBufferedState()
 	RigidObject::clearBufferedState();
 }
 
-
 PX_FORCE_INLINE	void Body::clearBufferedSleepStateChange()
 {
 	mBodyBufferFlags &= ~(Buf::BF_WakeUp | Buf::BF_PutToSleep);
 }
-
 
 PX_FORCE_INLINE void Body::switchBodyToNoSim()
 {
@@ -747,18 +711,17 @@ PX_FORCE_INLINE void Body::switchBodyToNoSim()
 
 	switchToNoSim(true);
 
-	if ((!scene) || (!getScbScene()->isPhysicsBuffering()))
+	if((!scene) || (!getScbScene()->isPhysicsBuffering()))
 	{
 		setBufferedParamsForAsleep();
-		getScBody().putToSleep();
+		mBodyCore.putToSleep();
 	}
 	else
 		putToSleepInternal();
 
-	if (scene)
+	if(scene)
 		clearSimStateDataForPendingInsert();
 }
-
 
 //--------------------------------------------------------------
 //
@@ -782,7 +745,7 @@ PX_INLINE void Body::syncCollisionWriteThroughState()
 	PxU32 bufferFlags = mBodyBufferFlags;
 
 	//----
-	if ((bufferFlags & Buf::BF_LinearVelocity) == 0)
+	if((bufferFlags & Buf::BF_LinearVelocity) == 0)
 		mBufferedLinVelocity = mBodyCore.getLinearVelocity();
 	else
 	{
@@ -800,7 +763,7 @@ PX_INLINE void Body::syncCollisionWriteThroughState()
 
 	//----
 
-	if ((bufferFlags & Buf::BF_AngularVelocity) == 0)
+	if((bufferFlags & Buf::BF_AngularVelocity) == 0)
 		mBufferedAngVelocity = mBodyCore.getAngularVelocity();
 	else
 	{
@@ -818,7 +781,7 @@ PX_INLINE void Body::syncCollisionWriteThroughState()
 
 	//----
 
-	if (bufferFlags & Buf::BF_KinematicTarget)
+	if(bufferFlags & Buf::BF_KinematicTarget)
 	{
 		//don't apply kinematic target unless the actor is kinematic already. setKinematicTarget is write-through properties for split sim but setRigidBodyFlag transition from rigid body to kinematic isn't write-through
 		if(mBodyCore.getFlags() & PxRigidBodyFlag::eKINEMATIC)
@@ -889,10 +852,10 @@ PX_INLINE void Body::syncCollisionWriteThroughState()
 
 	//----
 
-	if ((bufferFlags & Buf::BF_WakeCounter) == 0)
+	if((bufferFlags & Buf::BF_WakeCounter) == 0)
 		mBufferedWakeCounter = mBodyCore.getWakeCounter();
-	else if (!(bufferFlags & (Buf::BF_WakeUp | Buf::BF_PutToSleep)))	// if there has been at least one buffered sleep state transition, then there is no use in adjusting the wake counter separately because it will
-																		// get done in the sleep state update.
+	else if(!(bufferFlags & (Buf::BF_WakeUp | Buf::BF_PutToSleep)))	// if there has been at least one buffered sleep state transition, then there is no use in adjusting the wake counter separately because it will
+																	// get done in the sleep state update.
 	{
 		PX_ASSERT((getControlState() == ControlState::eREMOVE_PENDING) || (mBufferedWakeCounter == 0.0f));  // a wake counter change is always connected to a sleep state change, except if setWakeCounter(0.0f) was called or an object gets removed from the scene after it was woken up.
 
@@ -943,7 +906,6 @@ PX_INLINE void Body::syncState()
 	PX_ASSERT(	(getControlState() != ControlState::eREMOVE_PENDING) || 
 				(mBufferedIsSleeping && (!isBuffered(Buf::BF_WakeUp | Buf::BF_PutToSleep))) );
 
-
 	//
 	// IMPORTANT: Since we ran out of space for buffered property flags, the Scb::Body property related flags are stored in mBodyBufferFlags.
 	//            To get the buffer flags from the base classes, use getBufferFlags()
@@ -951,9 +913,9 @@ PX_INLINE void Body::syncState()
 	const PxU32 bufferFlags = mBodyBufferFlags;
 	const PxU32 baseBufferFlags = getBufferFlags();
 
-	if ((bufferFlags & Buf::BF_Body2World) == 0)
+	if((bufferFlags & Buf::BF_Body2World) == 0)
 		mBufferedBody2World = mBodyCore.getBody2World();
-	else if ((bufferFlags & Buf::BF_Body2World_CoM) == 0)
+	else if((bufferFlags & Buf::BF_Body2World_CoM) == 0)
 		mBodyCore.setBody2World(mBufferedBody2World);
 	else
 	{
@@ -971,7 +933,7 @@ PX_INLINE void Body::syncState()
 
 	//----
 
-	if (baseBufferFlags & Buf::BF_ActorFlags)
+	if(baseBufferFlags & Buf::BF_ActorFlags)
 		syncNoSimSwitch(*getBodyBuffer(), mBodyCore, true);
 
 	//----
@@ -979,7 +941,7 @@ PX_INLINE void Body::syncState()
 	if(bufferFlags & ~(	Buf::BF_WakeCounter|Buf::BF_Body2World|Buf::BF_LinearVelocity|Buf::BF_AngularVelocity
 		|Buf::BF_WakeUp|Buf::BF_PutToSleep))  // Optimization to avoid all the if-statements below if possible
 	{
-		Buf& buffer = *getBodyBuffer();
+		const Buf& buffer = *getBodyBuffer();
 
 		flush<Buf::BF_InverseMass>(buffer);
 		flush<Buf::BF_InverseInertia>(buffer);
@@ -993,22 +955,19 @@ PX_INLINE void Body::syncState()
 		flush<Buf::BF_FreezeThreshold>(buffer);
 		flush<Buf::BF_MaxPenetrationBias>(buffer);
 		flush<Buf::BF_MaxContactImpulse>(buffer);
-		if (bufferFlags & Buf::BF_RigidBodyFlags)
-		{
+		if(bufferFlags & Buf::BF_RigidBodyFlags)
 			mBodyCore.setFlags(getScbScene()->getScScene().getSimStateDataPool(), buffer.mRigidBodyFlags);
-		}
 	}
 
-	
 	//This method sync all the write through properties in collision and is called in fetchCollision()
 	syncCollisionWriteThroughState();
 
 	//----
 
-	bool isSimObjectSleeping = mBodyCore.isSleeping();
-	if ((bufferFlags & (Buf::BF_PutToSleep)) == 0)
+	if((bufferFlags & (Buf::BF_PutToSleep)) == 0)
 	{
-		if (getControlState() != ControlState::eREMOVE_PENDING)  // we do not want to sync the simulation sleep state if the object was removed (free standing objects have buffered state sleeping)
+		const bool isSimObjectSleeping = mBodyCore.isSleeping();
+		if(getControlState() != ControlState::eREMOVE_PENDING)  // we do not want to sync the simulation sleep state if the object was removed (free standing objects have buffered state sleeping)
 			mBufferedIsSleeping = PxU32(isSimObjectSleeping);
 		else
 			PX_ASSERT(mBufferedIsSleeping);  // this must get set immediately at remove
@@ -1046,7 +1005,7 @@ PX_INLINE void Body::syncState()
 	PX_ASSERT((getControlState() != ControlState::eREMOVE_PENDING) || mBufferedIsSleeping);  // nothing in this method should change this
 #ifdef _DEBUG
 	// make sure that for a removed kinematic, the buffered params hold the values as defined in our specification
-	if ((mBodyCore.getFlags() & PxRigidBodyFlag::eKINEMATIC) && (getControlState() == ControlState::eREMOVE_PENDING))
+	if((mBodyCore.getFlags() & PxRigidBodyFlag::eKINEMATIC) && (getControlState() == ControlState::eREMOVE_PENDING))
 	{
 		PX_ASSERT(mBufferedLinVelocity.isZero());
 		PX_ASSERT(mBufferedAngVelocity.isZero());

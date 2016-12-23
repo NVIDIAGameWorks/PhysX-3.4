@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_RIGID_OBJECT
 #define PX_PHYSICS_SCB_RIGID_OBJECT
 
@@ -44,7 +43,6 @@ namespace physx
 
 namespace Scb
 {
-
 struct RemovedShape
 {
 	RemovedShape() : mShape(NULL), mWakeTouching(0) {}
@@ -63,7 +61,6 @@ struct RemovedShape
 	Scb::Shape*		mShape;
 	PxU8			mWakeTouching;
 };
-
 
 struct RigidObjectBuffer : public ActorBuffer		//once RigidObject has its own buffered elements, derive from that instead
 {
@@ -106,8 +103,8 @@ class RigidObject : public Scb::Actor
 
 public:
 // PX_SERIALIZATION
-										RigidObject()									{}
-										RigidObject(const PxEMPTY) :	Scb::Actor(PxEmpty)	{}
+										RigidObject()										{}
+										RigidObject(const PxEMPTY) : Scb::Actor(PxEmpty)	{}
 	static			void				getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
 	
@@ -148,7 +145,7 @@ public:
 #if PX_SUPPORT_PVD
 					scene->getScenePvdClient().releasePvdInstance(&shape, pxActor);
 #endif
-					if (!isSimDisabledInternally())
+					if(!isSimDisabledInternally())
 					{
 						rc.removeShapeFromScene(shape.getScShape(), (rs.mWakeTouching != 0));
 
@@ -166,9 +163,9 @@ public:
 
 	PX_INLINE	void syncState()
 	{
-		PxU32 bufferFlags = getBufferFlags();
+		const PxU32 bufferFlags = getBufferFlags();
 
-		if (bufferFlags & Buf::BF_ResetFiltering)
+		if(bufferFlags & Buf::BF_ResetFiltering)
 		{
 			PX_ASSERT(getControlState() != ControlState::eREMOVE_PENDING);  // removing the actor should have cleared BF_ResetFiltering
 
@@ -176,12 +173,12 @@ public:
 			Sc::RigidCore& scCore = getScRigidCore();
 			RigidObjectBuffer* b = getBuffer();
 			Scb::Shape* const* shapes = (b->mResetFilterShapeCount == 1) ? &b->mResetFilterShape : scene->getShapeBuffer(b->mResetFilterShapesIdx);
-			for(PxU32 i=0; i < b->mResetFilterShapeCount; i++)
+			for(PxU32 i=0; i<b->mResetFilterShapeCount; i++)
 			{
 				Sc::ShapeCore& scShape = shapes[i]->getScShape();
 
 				// do not process the call if the shape will not be a broadphase shape any longer
-				if (shapes[i]->getFlags() & (PxShapeFlag::eSIMULATION_SHAPE | PxShapeFlag::eTRIGGER_SHAPE))
+				if(shapes[i]->getFlags() & (PxShapeFlag::eSIMULATION_SHAPE | PxShapeFlag::eTRIGGER_SHAPE))
 					scCore.onShapeChange(scShape, Sc::ShapeChangeNotifyFlag::eRESET_FILTERING, PxShapeFlags());
 			}
 		}
@@ -199,11 +196,11 @@ public:
 
 				// it can happen that a shape gets attached while the sim is running but then the actor is removed from the scene,
 				// so we need to distinguish those two cases
-				if (cs != ControlState::eREMOVE_PENDING)
+				if(cs != ControlState::eREMOVE_PENDING)
 				{
 					shape.setControlStateIfExclusive(getScbScene(), Scb::ControlState::eIN_SCENE);
 
-					if (!(getActorFlags() & PxActorFlag::eDISABLE_SIMULATION))  // important to use the buffered flags since we want the new state.
+					if(!(getActorFlags() & PxActorFlag::eDISABLE_SIMULATION))  // important to use the buffered flags since we want the new state.
 					{
 						getScRigidCore().addShapeToScene(shape.getScShape());
 						NpShapeIncRefCount(shape);
@@ -223,7 +220,11 @@ public:
 		Actor::syncState();
 	}
 
-	PX_FORCE_INLINE void scheduleForWakeTouching() { PX_ASSERT(getScbScene() && getScbScene()->isPhysicsBuffering()); setBufferFlag(RigidObjectBuffer::BF_WakeTouching); }
+	PX_FORCE_INLINE void scheduleForWakeTouching()
+	{
+		PX_ASSERT(getScbScene() && getScbScene()->isPhysicsBuffering());
+		setBufferFlag(RigidObjectBuffer::BF_WakeTouching);
+	}
 
 	//---------------------------------------------------------------------------------
 	// Miscellaneous
@@ -231,15 +232,6 @@ public:
 public:
 	PX_INLINE const Sc::RigidCore&		getScRigidCore()	const	{	return static_cast<const Sc::RigidCore&>(getActorCore()); }  // Only use if you know what you're doing! 
 	PX_INLINE Sc::RigidCore&			getScRigidCore()			{	return static_cast<Sc::RigidCore&>(getActorCore()); }  // Only use if you know what you're doing! 
-
-	PX_INLINE void setShapeStateIfExclusive(Scb::Shape& shape, ControlState::Enum cs, Scb::Scene& scene)
-	{
-		if(shape.isExclusive())
-		{
-			shape.setScbScene(&scene);
-			shape.setControlState(cs);
-		}
-	}
 
 	PX_INLINE void						onShapeAttach(Scb::Shape& shape)
 	{
@@ -254,19 +246,19 @@ public:
 		Scene* scbScene = getScbScene();
 		if(!scbScene->isPhysicsBuffering())
 		{
-			if (!(getActorFlags() & PxActorFlag::eDISABLE_SIMULATION))
+			if(!(getActorFlags() & PxActorFlag::eDISABLE_SIMULATION))
 			{
 				NpShapeIncRefCount(shape);
 				getScRigidCore().addShapeToScene(shape.getScShape());
 			}
 
 #if PX_SUPPORT_PVD
-			getScbScene()->getScenePvdClient().createPvdInstance(&shape, *getScRigidCore().getPxActor()); 
+			scbScene->getScenePvdClient().createPvdInstance(&shape, *getScRigidCore().getPxActor()); 
 #endif
 			shape.setControlStateIfExclusive(scbScene, ControlState::eIN_SCENE);
 			return;
 		}
-		else if (cs == ControlState::eINSERT_PENDING)
+		else if(cs == ControlState::eINSERT_PENDING)
 		{
 			shape.setControlStateIfExclusive(scbScene, ControlState::eINSERT_PENDING);
 			return;
@@ -279,7 +271,6 @@ public:
 
 		shape.setControlStateIfExclusive(scbScene, ControlState::eINSERT_PENDING);
 	}
-
 
 	PX_INLINE void onShapeDetach(Scb::Shape& shape, bool wakeOnLostTouch, bool toBeReleased)
 	{
@@ -294,7 +285,7 @@ public:
 #if PX_SUPPORT_PVD
 			scbScene->getScenePvdClient().releasePvdInstance(&shape, *getScRigidCore().getPxActor());
 #endif
-			if (!(getActorFlags() & PxActorFlag::eDISABLE_SIMULATION))
+			if(!(getActorFlags() & PxActorFlag::eDISABLE_SIMULATION))
 			{
 				getScRigidCore().removeShapeFromScene(shape.getScShape(), wakeOnLostTouch);
 				NpShapeDecRefCount(shape);
@@ -303,7 +294,7 @@ public:
 			shape.setControlStateIfExclusive(NULL, ControlState::eNOT_IN_SCENE);
 			return;
 		}
-		else if (cs == ControlState::eINSERT_PENDING)
+		else if(cs == ControlState::eINSERT_PENDING)
 		{
 			shape.setControlStateIfExclusive(NULL, ControlState::eNOT_IN_SCENE);
 			return;
@@ -312,12 +303,12 @@ public:
 		RigidObjectBuffer* b = getBuffer();
 
 		// remove from the resetFiltering list
-		PxU32 bufferFlags = getBufferFlags();
-		if (bufferFlags & Buf::BF_ResetFiltering)
+		const PxU32 bufferFlags = getBufferFlags();
+		if(bufferFlags & Buf::BF_ResetFiltering)
 		{
-			if (b->mResetFilterShapeCount == 1)
+			if(b->mResetFilterShapeCount == 1)
 			{
-				if (b->mResetFilterShape == &shape)
+				if(b->mResetFilterShape == &shape)
 				{
 					b->mResetFilterShapeCount = 0;
 					b->mResetFilterShape = 0;
@@ -331,7 +322,7 @@ public:
 				PxU32 lastIdx = b->mResetFilterShapeCount;
 				for(PxU32 k=0; k < b->mResetFilterShapeCount; k++)  // need to iterate over whole list, same shape can be in there multiple times
 				{
-					if (shapes[idx] != &shape)
+					if(shapes[idx] != &shape)
 						idx++;
 					else
 					{
@@ -340,12 +331,12 @@ public:
 					}
 				}
 				b->mResetFilterShapeCount = idx;
-				if (idx == 0)
+				if(idx == 0)
 				{
 					b->mResetFilterShape = 0;
 					resetBufferFlag(Buf::BF_ResetFiltering);
 				}
-				else if (idx == 1)
+				else if(idx == 1)
 					b->mResetFilterShape = shapes[0];
 			}
 		}
@@ -354,7 +345,7 @@ public:
 			shape.setControlStateIfExclusive(scbScene, ControlState::eIN_SCENE);
 		else
 		{
-			if (!isSimDisabledInternally())
+			if(!isSimDisabledInternally())
 			{
 				b->mRemovedShapes.pushBack(RemovedShape(&shape, PxU8(wakeOnLostTouch ? 1 : 0)));
 			}
@@ -362,7 +353,7 @@ public:
 			{
 				PX_ASSERT(scbScene);
 				PX_ASSERT(scbScene->isPhysicsBuffering());
-				if (toBeReleased)
+				if(toBeReleased)
 				{
 					shape.checkUpdateOnRemove<false>(scbScene);
 #if PX_SUPPORT_PVD
@@ -399,7 +390,6 @@ private:
 	PX_FORCE_INLINE void				copyResetFilterShapes(Scb::Shape** shapePtrs, Scb::Shape*const* oldShapes, PxU32 oldShapeCount, Scb::Shape*const* newShapes, PxU32 newShapeCount);
 };
 
-
 PX_INLINE void RigidObject::resetFiltering(Scb::Shape*const* shapes, PxU32 shapeCount)
 {
 	PX_ASSERT(!(getActorFlags() & PxActorFlag::eDISABLE_SIMULATION));
@@ -413,9 +403,9 @@ PX_INLINE void RigidObject::resetFiltering(Scb::Shape*const* shapes, PxU32 shape
 	{
 		RigidObjectBuffer* b = getBuffer();
 
-		if (b->mResetFilterShapeCount == 0)
+		if(b->mResetFilterShapeCount == 0)
 		{
-			if (shapeCount == 1)
+			if(shapeCount == 1)
 			{
 				b->mResetFilterShape = shapes[0];
 				b->mResetFilterShapeCount = 1;
@@ -425,7 +415,7 @@ PX_INLINE void RigidObject::resetFiltering(Scb::Shape*const* shapes, PxU32 shape
 			{
 				PxU32 bufferIdx;
 				Scb::Shape** shapePtrs = getScbScene()->allocShapeBuffer(shapeCount, bufferIdx);
-				if (shapePtrs)
+				if(shapePtrs)
 				{
 					for(PxU32 i=0; i < shapeCount; i++)
 						shapePtrs[i] = shapes[i];
@@ -440,9 +430,9 @@ PX_INLINE void RigidObject::resetFiltering(Scb::Shape*const* shapes, PxU32 shape
 			PxU32 newCount = b->mResetFilterShapeCount + shapeCount;
 			PxU32 bufferIdx;
 			Scb::Shape** shapePtrs = getScbScene()->allocShapeBuffer(newCount, bufferIdx);
-			if (shapePtrs)
+			if(shapePtrs)
 			{
-				if (b->mResetFilterShapeCount == 1)
+				if(b->mResetFilterShapeCount == 1)
 					copyResetFilterShapes(shapePtrs, &b->mResetFilterShape, 1, shapes, shapeCount);
 				else
 					copyResetFilterShapes(shapePtrs, getScbScene()->getShapeBuffer(b->mResetFilterShapesIdx), b->mResetFilterShapeCount, shapes, shapeCount);
@@ -454,12 +444,11 @@ PX_INLINE void RigidObject::resetFiltering(Scb::Shape*const* shapes, PxU32 shape
 	}
 }
 
-
 PX_INLINE bool RigidObject::isAddedShape(Scb::Shape& shape)
 {
 	PX_ASSERT(isBuffered(Buf::BF_Shapes));
 
-	if (shape.isExclusive())
+	if(shape.isExclusive())
 	{ 
 		return (shape.getControlState() == Scb::ControlState::eINSERT_PENDING);
 	}
@@ -472,47 +461,40 @@ PX_INLINE bool RigidObject::isAddedShape(Scb::Shape& shape)
 		const PxU32 addedShapeCount = buf->mAddedShapes.size();
 		for(PxU32 k=0; k < addedShapeCount; k++)
 		{
-			if (&shape == buf->mAddedShapes[k])
-			{
+			if(&shape == buf->mAddedShapes[k])
 				return true;
-			}
 		}
-
 		return false;
 	}
 }
-
 
 PX_FORCE_INLINE void RigidObject::switchToNoSim(bool isDynamic)
 {
 	Scb::Scene* scene = getScbScene();
 
-	if (scene && (!scene->isPhysicsBuffering()))
+	if(scene && (!scene->isPhysicsBuffering()))
 		scene->switchRigidToNoSim(*this, isDynamic);
 }
-
 
 PX_FORCE_INLINE void RigidObject::switchFromNoSim(bool isDynamic)
 {
 	Scb::Scene* scene = getScbScene();
 
-	if (scene && (!scene->isPhysicsBuffering()))
+	if(scene && (!scene->isPhysicsBuffering()))
 		scene->switchRigidFromNoSim(*this, isDynamic);
 }
 
-
 PX_FORCE_INLINE void RigidObject::syncNoSimSwitch(const Buf& buf, Sc::RigidCore& rc, bool isDynamic)
 {
-	PxActorFlags oldFlags = rc.getActorFlags();
-	bool oldNoSim = oldFlags.isSet(PxActorFlag::eDISABLE_SIMULATION);
-	bool newNoSim = buf.mActorFlags.isSet(PxActorFlag::eDISABLE_SIMULATION);
+	const PxActorFlags oldFlags = rc.getActorFlags();
+	const bool oldNoSim = oldFlags.isSet(PxActorFlag::eDISABLE_SIMULATION);
+	const bool newNoSim = buf.mActorFlags.isSet(PxActorFlag::eDISABLE_SIMULATION);
 
-	if (oldNoSim && (!newNoSim))
+	if(oldNoSim && (!newNoSim))
 		getScbScene()->switchRigidFromNoSim(*this, isDynamic);
-	else if ((!oldNoSim) && newNoSim)
+	else if((!oldNoSim) && newNoSim)
 		getScbScene()->switchRigidToNoSim(*this, isDynamic);
 }
-
 
 PX_FORCE_INLINE void RigidObject::copyResetFilterShapes(Scb::Shape** shapePtrs, Scb::Shape*const* oldShapes, PxU32 oldShapeCount, Scb::Shape*const* newShapes, PxU32 newShapeCount)
 {
@@ -521,7 +503,6 @@ PX_FORCE_INLINE void RigidObject::copyResetFilterShapes(Scb::Shape** shapePtrs, 
 	for(PxU32 i=0; i < newShapeCount; i++)
 		shapePtrs[i+oldShapeCount] = newShapes[i];
 }
-
 
 }  // namespace Scb
 

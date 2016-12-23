@@ -87,7 +87,7 @@ public:
 	}
 
 	virtual		void				setKinematicTarget(const PxTransform& destination);
-	virtual		bool				getKinematicTarget(PxTransform& target);
+	virtual		bool				getKinematicTarget(PxTransform& target)	const;
 
 	// Center of mass pose
 	virtual		void				setCMassLocalPose(const PxTransform&);

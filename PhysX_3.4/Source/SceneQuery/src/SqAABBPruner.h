@@ -128,10 +128,10 @@ namespace Sq
 		virtual									~AABBPruner();
 
 		// Pruner
-		virtual			bool					addObjects(PrunerHandle* results, const PxBounds3* bounds, const PrunerPayload* userData, PxU32 count = 1, bool hasPruningStructure = false);
-		virtual			void					removeObjects(const PrunerHandle* handles, PxU32 count = 1);
-		virtual			void					updateObjects(const PrunerHandle* handles, const PxBounds3* newBounds, PxU32 count = 1);
-		virtual			void					updateObjects(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count = 1);
+		virtual			bool					addObjects(PrunerHandle* results, const PxBounds3* bounds, const PrunerPayload* userData, PxU32 count, bool hasPruningStructure);
+		virtual			void					removeObjects(const PrunerHandle* handles, PxU32 count);
+		virtual			void					updateObjectsAfterManualBoundsUpdates(const PrunerHandle* handles, PxU32 count);
+		virtual			void					updateObjectsAndInflateBounds(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count);
 		virtual			void					commit();
 		virtual			PxAgain					raycast(const PxVec3& origin, const PxVec3& unitDir, PxReal& inOutDistance, PrunerCallback&)	const;
 		virtual			PxAgain					overlap(const Gu::ShapeData& queryVolume, PrunerCallback&)	const;

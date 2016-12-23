@@ -74,8 +74,9 @@ namespace Cct
 						mManager = cm;
 						mCctModule.setCctManager(cm);
 					}
-					CharacterControllerManager*			getCctManager() { return mManager; }
 
+	PX_FORCE_INLINE	CharacterControllerManager*			getCctManager()				{ return mManager;									}
+	PX_FORCE_INLINE	PxU64								getContextId()		const	{ return PxU64(reinterpret_cast<size_t>(mScene));	}
 
 					PxControllerShapeType::Enum			mType;
 		// User params

@@ -126,7 +126,34 @@ class ApexController : public ISampleController
 		mPaused = !mPaused;
 	}
 
-  private:
+	void toggleFixedTimestep()
+	{
+		mUseFixedTimestep = !mUseFixedTimestep;
+		if (mUseFixedTimestep)
+		{
+			mTimeRemainder = 0.0;
+		}
+	}
+
+	bool usingFixedTimestep() const
+	{
+		return mUseFixedTimestep;
+	}
+
+	void setFixedTimestep(double fixedTimestep)
+	{
+		if (fixedTimestep > 0.0)
+		{
+			mFixedTimestep = fixedTimestep;
+		}
+	}
+
+	double getFixedTimestep()
+	{
+		return mFixedTimestep;
+	}
+
+private:
 	void initPhysX();
 	void releasePhysX();
 
@@ -187,6 +214,10 @@ class ApexController : public ISampleController
 	LARGE_INTEGER mPerformanceFreq;
 
 	bool mPaused;
+
+	bool mUseFixedTimestep;
+	double mFixedTimestep;
+	double mTimeRemainder;
 };
 
 #endif

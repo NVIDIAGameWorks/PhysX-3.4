@@ -27,6 +27,7 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "foundation/PxProfiler.h"
 #include "CctInternalStructs.h"
 #include "PxScene.h"
 #include "PxSphereGeometry.h"
@@ -49,11 +50,12 @@ static const float gDebugVisOffset = 0.01f;
 using namespace physx;
 using namespace Cct;
 using namespace Gu;
+using namespace Cm;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // PT: HINT: disable gUsePartialUpdates for easier visualization
-static void visualizeTouchedTriangles(PxU32 nbTrisToRender, PxU32 startIndex, const PxTriangle* triangles, Cm::RenderBuffer* renderBuffer, const PxVec3& offset, const PxVec3& upDirection)
+static void visualizeTouchedTriangles(PxU32 nbTrisToRender, PxU32 startIndex, const PxTriangle* triangles, RenderBuffer* renderBuffer, const PxVec3& offset, const PxVec3& upDirection)
 {
 	if(!renderBuffer)
 		return;
@@ -65,11 +67,11 @@ static void visualizeTouchedTriangles(PxU32 nbTrisToRender, PxU32 startIndex, co
 	{
 		const PxTriangle& currentTriangle = triangles[i+startIndex];
 
-//		Cm::RenderOutput(*renderBuffer)
-//			<< PxDebugColor::eARGB_GREEN << Cm::RenderOutput::TRIANGLES
+//		RenderOutput(*renderBuffer)
+//			<< PxDebugColor::eARGB_GREEN << RenderOutput::TRIANGLES
 //			<< currentTriangle.verts[0]+yy << currentTriangle.verts[1]+yy << currentTriangle.verts[2]+yy;
-		Cm::RenderOutput(*renderBuffer)
-			<< PxU32(PxDebugColor::eARGB_GREEN) << Cm::RenderOutput::LINES
+		RenderOutput(*renderBuffer)
+			<< PxU32(PxDebugColor::eARGB_GREEN) << RenderOutput::LINES
 			<< currentTriangle.verts[0]+yy << currentTriangle.verts[1]+yy
 			<< currentTriangle.verts[1]+yy << currentTriangle.verts[2]+yy
 			<< currentTriangle.verts[2]+yy << currentTriangle.verts[0]+yy;
@@ -195,7 +197,7 @@ static void tessellateTriangle(PxU32& nbNewTris, const TrianglePadded& tr, PxU32
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static void outputPlaneToStream(PxShape* planeShape, const PxRigidActor* actor, const PxTransform& globalPose, IntArray& geomStream, TriArray& worldTriangles, IntArray& triIndicesArray,
-								const PxExtendedVec3& origin, const PxBounds3& tmpBounds, const CCTParams& params, Cm::RenderBuffer* renderBuffer)
+								const PxExtendedVec3& origin, const PxBounds3& tmpBounds, const CCTParams& params, RenderBuffer* renderBuffer)
 {
 	PX_ASSERT(planeShape->getGeometryType() == PxGeometryType::ePLANE);
 
@@ -219,7 +221,7 @@ static void outputPlaneToStream(PxShape* planeShape, const PxRigidActor* actor, 
 
 	const PxVec3 offset(float(-origin.x), float(-origin.y), float(-origin.z));
 
-	TouchedMesh* touchedMesh			= reinterpret_cast<TouchedMesh*>(reserve(geomStream, sizeof(TouchedMesh)/sizeof(PxU32)));
+	TouchedMesh* touchedMesh			= reinterpret_cast<TouchedMesh*>(reserveContainerMemory(geomStream, sizeof(TouchedMesh)/sizeof(PxU32)));
 	touchedMesh->mType					= TouchedGeomType::eMESH;
 	touchedMesh->mTGUserData			= planeShape;
 	touchedMesh->mActor					= actor;
@@ -259,7 +261,7 @@ static void outputSphereToStream(PxShape* sphereShape, const PxRigidActor* actor
 		WorldSphere.center.z = PxExtended(globalPose.p.z);
 	}
 
-	TouchedSphere* PX_RESTRICT touchedSphere = reinterpret_cast<TouchedSphere*>(reserve(geomStream, sizeof(TouchedSphere)/sizeof(PxU32)));
+	TouchedSphere* PX_RESTRICT touchedSphere = reinterpret_cast<TouchedSphere*>(reserveContainerMemory(geomStream, sizeof(TouchedSphere)/sizeof(PxU32)));
 	touchedSphere->mType		= TouchedGeomType::eSPHERE;
 	touchedSphere->mTGUserData	= sphereShape;
 	touchedSphere->mActor		= actor;
@@ -294,7 +296,7 @@ static void outputCapsuleToStream(PxShape* capsuleShape, const PxRigidActor* act
 		WorldCapsule.p1.z	= PxExtended(p1.z);
 	}
 
-	TouchedCapsule* PX_RESTRICT touchedCapsule = reinterpret_cast<TouchedCapsule*>(reserve(geomStream, sizeof(TouchedCapsule)/sizeof(PxU32)));
+	TouchedCapsule* PX_RESTRICT touchedCapsule = reinterpret_cast<TouchedCapsule*>(reserveContainerMemory(geomStream, sizeof(TouchedCapsule)/sizeof(PxU32)));
 	touchedCapsule->mType		= TouchedGeomType::eCAPSULE;
 	touchedCapsule->mTGUserData	= capsuleShape;
 	touchedCapsule->mActor		= actor;
@@ -361,7 +363,7 @@ static void outputBoxToStream(	PxShape* boxShape, const PxRigidActor* actor, con
 		{5,2,6}		//2,1,5,6
 	};
 
-	TouchedMesh* touchedMesh			= reinterpret_cast<TouchedMesh*>(reserve(geomStream, sizeof(TouchedMesh)/sizeof(PxU32)));
+	TouchedMesh* touchedMesh			= reinterpret_cast<TouchedMesh*>(reserveContainerMemory(geomStream, sizeof(TouchedMesh)/sizeof(PxU32)));
 	touchedMesh->mType					= TouchedGeomType::eMESH;
 	touchedMesh->mTGUserData			= boxShape;
 	touchedMesh->mActor					= actor;
@@ -483,7 +485,7 @@ static PxU32 createInvisibleWalls(const CCTParams& params, const PxTriangle& cur
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static void outputMeshToStream(	PxShape* meshShape, const PxRigidActor* actor, const PxTransform& meshPose, IntArray& geomStream, TriArray& worldTriangles, IntArray& triIndicesArray,
-								const PxExtendedVec3& origin, const PxBounds3& tmpBounds, const CCTParams& params, Cm::RenderBuffer* renderBuffer, PxU16& nbTessellation)
+								const PxExtendedVec3& origin, const PxBounds3& tmpBounds, const CCTParams& params, RenderBuffer* renderBuffer, PxU16& nbTessellation)
 {
 	PX_ASSERT(meshShape->getGeometryType() == PxGeometryType::eTRIANGLEMESH);
 	// Do AABB-mesh query
@@ -500,7 +502,7 @@ static void outputMeshToStream(	PxShape* meshShape, const PxRigidActor* actor, c
 
 	const PxVec3 offset(float(-origin.x), float(-origin.y), float(-origin.z));
 
-	TouchedMesh* touchedMesh			= reinterpret_cast<TouchedMesh*>(reserve(geomStream, sizeof(TouchedMesh)/sizeof(PxU32)));
+	TouchedMesh* touchedMesh			= reinterpret_cast<TouchedMesh*>(reserveContainerMemory(geomStream, sizeof(TouchedMesh)/sizeof(PxU32)));
 	touchedMesh->mType					= TouchedGeomType::eMESH;
 	touchedMesh->mTGUserData			= meshShape;
 	touchedMesh->mActor					= actor;
@@ -627,7 +629,7 @@ static void outputMeshToStream(	PxShape* meshShape, const PxRigidActor* actor, c
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static void outputHeightFieldToStream(	PxShape* hfShape, const PxRigidActor* actor, const PxTransform& heightfieldPose, IntArray& geomStream, TriArray& worldTriangles, IntArray& triIndicesArray,
-										const PxExtendedVec3& origin, const PxBounds3& tmpBounds, const CCTParams& params, Cm::RenderBuffer* renderBuffer, PxU16& nbTessellation)
+										const PxExtendedVec3& origin, const PxBounds3& tmpBounds, const CCTParams& params, RenderBuffer* renderBuffer, PxU16& nbTessellation)
 {
 	PX_ASSERT(hfShape->getGeometryType() == PxGeometryType::eHEIGHTFIELD);
 	// Do AABB-mesh query
@@ -644,7 +646,7 @@ static void outputHeightFieldToStream(	PxShape* hfShape, const PxRigidActor* act
 
 	const PxVec3 offset(float(-origin.x), float(-origin.y), float(-origin.z));
 
-	TouchedMesh* touchedMesh			= reinterpret_cast<TouchedMesh*>(reserve(geomStream, sizeof(TouchedMesh)/sizeof(PxU32)));
+	TouchedMesh* touchedMesh			= reinterpret_cast<TouchedMesh*>(reserveContainerMemory(geomStream, sizeof(TouchedMesh)/sizeof(PxU32)));
 	touchedMesh->mType					= TouchedGeomType::eMESH; // ptchernev: seems to work
 	touchedMesh->mTGUserData			= hfShape;
 	touchedMesh->mActor					= actor;
@@ -767,7 +769,7 @@ static void outputHeightFieldToStream(	PxShape* hfShape, const PxRigidActor* act
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static void outputConvexToStream(PxShape* convexShape, const PxRigidActor* actor, const PxTransform& absPose_, IntArray& geomStream, TriArray& worldTriangles, IntArray& triIndicesArray,
-								 const PxExtendedVec3& origin, const PxBounds3& tmpBounds, const CCTParams& params, Cm::RenderBuffer* renderBuffer, PxU16& nbTessellation)
+								 const PxExtendedVec3& origin, const PxBounds3& tmpBounds, const CCTParams& params, RenderBuffer* renderBuffer, PxU16& nbTessellation)
 {
 	PX_ASSERT(convexShape->getGeometryType() == PxGeometryType::eCONVEXMESH);
 	PxConvexMeshGeometry cg;
@@ -832,7 +834,7 @@ static void outputConvexToStream(PxShape* convexShape, const PxRigidActor* actor
 
 	const PxVec3 offset(float(-origin.x), float(-origin.y), float(-origin.z));
 
-	TouchedMesh* touchedMesh			= reinterpret_cast<TouchedMesh*>(reserve(geomStream, sizeof(TouchedMesh)/sizeof(PxU32)));
+	TouchedMesh* touchedMesh			= reinterpret_cast<TouchedMesh*>(reserveContainerMemory(geomStream, sizeof(TouchedMesh)/sizeof(PxU32)));
 	touchedMesh->mType					= TouchedGeomType::eMESH;
 	touchedMesh->mTGUserData			= convexShape;
 	touchedMesh->mActor					= actor;
@@ -920,7 +922,10 @@ void Cct::findTouchedGeometry(
 	
 	const PxInternalCBData_FindTouchedGeom* internalData = static_cast<const PxInternalCBData_FindTouchedGeom*>(userData);
 	PxScene* scene = internalData->scene;
-	Cm::RenderBuffer* renderBuffer = internalData->renderBuffer;
+
+	PX_PROFILE_ZONE("CharacterController.findTouchedGeometry", PxU64(reinterpret_cast<size_t>(scene)));
+
+	RenderBuffer* renderBuffer = internalData->renderBuffer;
 
 	PxExtendedVec3 Origin;	// Will be TouchedGeom::mOffset
 	getCenter(worldBounds, Origin);
@@ -943,7 +948,8 @@ void Cct::findTouchedGeometry(
 	const PxBounds3 tmpBounds(toVec3(worldBounds.minimum), toVec3(worldBounds.maximum));	// LOSS OF ACCURACY
 
 	// PT: unfortunate conversion forced by the PxGeometry API
-	PxVec3 center = tmpBounds.getCenter(), extents = tmpBounds.getExtents();
+	const PxVec3 center = tmpBounds.getCenter();
+	const PxVec3 extents = tmpBounds.getExtents();
 
 	const PxU32 size = 100;
 	PxOverlapHit hits[size];

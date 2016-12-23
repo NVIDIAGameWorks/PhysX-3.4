@@ -227,16 +227,16 @@
 	</ItemDefinitionGroup>
 	<ItemGroup>
 		<CustomBuild Include="..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp">
-			<Command Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd$(TargetDir)\$(TargetName).pdb /Fo./Win32/LowLevelCloth/debug/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Command Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo./Win32/LowLevelCloth/debug/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
 			<Message Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">Building %(Identity)</Message>
 			<Outputs Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">./Win32/LowLevelCloth/debug/avx/SwSolveConstraints.obj;</Outputs>
-			<Command Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd$(TargetDir)\$(TargetName).pdb /Fo./Win32/LowLevelCloth/checked/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Command Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo./Win32/LowLevelCloth/checked/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
 			<Message Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">Building %(Identity)</Message>
 			<Outputs Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">./Win32/LowLevelCloth/checked/avx/SwSolveConstraints.obj;</Outputs>
-			<Command Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd$(TargetDir)\$(TargetName).pdb /Fo./Win32/LowLevelCloth/profile/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Command Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo./Win32/LowLevelCloth/profile/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
 			<Message Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">Building %(Identity)</Message>
 			<Outputs Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">./Win32/LowLevelCloth/profile/avx/SwSolveConstraints.obj;</Outputs>
-			<Command Condition="'$(Configuration)|$(Platform)'=='release|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd$(TargetDir)\$(TargetName).pdb /Fo./Win32/LowLevelCloth/release/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Command Condition="'$(Configuration)|$(Platform)'=='release|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo./Win32/LowLevelCloth/release/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
 			<Message Condition="'$(Configuration)|$(Platform)'=='release|Win32'">Building %(Identity)</Message>
 			<Outputs Condition="'$(Configuration)|$(Platform)'=='release|Win32'">./Win32/LowLevelCloth/release/avx/SwSolveConstraints.obj;</Outputs>
 		</CustomBuild>

@@ -274,14 +274,14 @@ void setupDefaultRenderState()
 }
 
 
-void startRender(const PxVec3& cameraEye, const PxVec3& cameraDir)
+void startRender(const PxVec3& cameraEye, const PxVec3& cameraDir, PxReal clipNear, PxReal clipFar)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Setup camera
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0, GLdouble(glutGet(GLUT_WINDOW_WIDTH))/GLdouble(glutGet(GLUT_WINDOW_HEIGHT)), 1.0, 10000.0);
+	gluPerspective(60.0, GLdouble(glutGet(GLUT_WINDOW_WIDTH)) / GLdouble(glutGet(GLUT_WINDOW_HEIGHT)), GLdouble(clipNear), GLdouble(clipFar));
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

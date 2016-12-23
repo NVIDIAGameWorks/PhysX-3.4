@@ -167,9 +167,7 @@ static bool copyBuffers(PxsContactManagerOutput& cmOutput, Gu::Cache& cache, Pxc
 		}
 
 		if(forceSize)
-		{
 			PxMemZero(forceBuffer, forceSize);
-		}
 		
 		cmOutput.contactPatches= contactPatches;
 		cmOutput.contactPoints = contactPoints;
@@ -198,19 +196,81 @@ static bool copyBuffers(PxsContactManagerOutput& cmOutput, Gu::Cache& cache, Pxc
 	return ret;
 }
 
-void physx::PxcDiscreteNarrowPhase(PxcNpThreadContext& context, PxcNpWorkUnit& input, Gu::Cache& cache, PxsContactManagerOutput& output)
+//ML: isMeshType is used in the GPU codepath. If the collision pair is mesh/heightfield vs primitives, we need to allocate enough memory for the mForceAndIndiceStreamPool in the threadContext. 
+static bool finishContacts(const PxcNpWorkUnit& input, PxsContactManagerOutput& npOutput, PxcNpThreadContext& threadContext, PxsMaterialInfo* PX_RESTRICT pMaterials, const bool isMeshType)
 {
+	ContactBuffer& buffer = threadContext.mContactBuffer;
+
+	PX_ASSERT((npOutput.statusFlag & PxsContactManagerStatusFlag::eTOUCH_KNOWN) != PxsContactManagerStatusFlag::eTOUCH_KNOWN);
+	PxU8 statusFlags = PxU16(npOutput.statusFlag & (~PxsContactManagerStatusFlag::eTOUCH_KNOWN));
+	if (buffer.count != 0)
+		statusFlags |= PxsContactManagerStatusFlag::eHAS_TOUCH;
+	else
+		statusFlags |= PxsContactManagerStatusFlag::eHAS_NO_TOUCH;
+
+	npOutput.nbContacts = Ps::to8(buffer.count);
+
+	if(buffer.count==0)
+	{
+		npOutput.statusFlag = statusFlags;
+		npOutput.nbContacts = 0;
+		npOutput.nbPatches = 0;
+		return true;
+	}
+
+#if PX_ENABLE_SIM_STATS
+	if(buffer.count)
+		threadContext.mNbDiscreteContactPairsWithContacts++;
+#endif
+
+	npOutput.statusFlag = statusFlags;
+
+	PxU32 contactForceByteSize = buffer.count * sizeof(PxReal);
+
+	//Regardless of the flags, we need to now record the compressed contact stream
+
+	PxU16 compressedContactSize;
+
+	const bool createReports =
+		input.flags & PxcNpWorkUnitFlag::eOUTPUT_CONTACTS
+		|| threadContext.mCreateContactStream
+		|| (input.flags & PxcNpWorkUnitFlag::eFORCE_THRESHOLD);
+
+	if(!buffer.count || (!isMeshType && !createReports))
+		contactForceByteSize = 0;
+
+	bool res = (writeCompressedContact(buffer.contacts, buffer.count, &threadContext, npOutput.nbContacts, npOutput.contactPatches, npOutput.contactPoints, compressedContactSize,
+		reinterpret_cast<PxReal*&>(npOutput.contactForces), contactForceByteSize, threadContext.mMaterialManager, ((input.flags & PxcNpWorkUnitFlag::eMODIFIABLE_CONTACT) != 0), 
+		false, pMaterials, npOutput.nbPatches, 0, NULL, NULL, threadContext.mCreateAveragePoint, threadContext.mContactStreamPool, 
+		threadContext.mPatchStreamPool, threadContext.mForceAndIndiceStreamPool, isMeshType) != 0) || (buffer.count == 0);
+
+	//handle buffer overflow
+	if (buffer.count && !npOutput.nbContacts)
+	{
+		PxU8 thisStatusFlags = PxU16(npOutput.statusFlag & (~PxsContactManagerStatusFlag::eTOUCH_KNOWN));
+		thisStatusFlags |= PxsContactManagerStatusFlag::eHAS_NO_TOUCH;
+
+		npOutput.statusFlag = thisStatusFlags;
+		npOutput.nbContacts = 0;
+		npOutput.nbPatches = 0;
+#if PX_ENABLE_SIM_STATS
+		if(buffer.count)
+			threadContext.mNbDiscreteContactPairsWithContacts--;
+#endif
+	}
+	return res;
+}
+
+template<bool useContactCacheT>
+static PX_FORCE_INLINE bool checkContactsMustBeGenerated(PxcNpThreadContext& context, const PxcNpWorkUnit& input, Gu::Cache& cache, PxsContactManagerOutput& output,
+										 const PxsCachedTransform* cachedTransform0, const PxsCachedTransform* cachedTransform1,
+										 const bool flip, PxGeometryType::Enum type0, PxGeometryType::Enum type1)
+{
+	PX_ASSERT(cachedTransform0->transform.isSane() && cachedTransform1->transform.isSane());
+
 	//ML : if user doesn't raise the eDETECT_DISCRETE_CONTACT, we should not generate contacts
 	if(!(input.flags & PxcNpWorkUnitFlag::eDETECT_DISCRETE_CONTACT))
-		return;
-
-	PxGeometryType::Enum type0 = static_cast<PxGeometryType::Enum>(input.geomType0);
-	PxGeometryType::Enum type1 = static_cast<PxGeometryType::Enum>(input.geomType1);
-
-	const bool flip = (type1<type0);
-
-	const PxsCachedTransform* cachedTransform0 = &context.mTransformCache->getTransformCache(input.mTransformCache0);
-	const PxsCachedTransform* cachedTransform1 = &context.mTransformCache->getTransformCache(input.mTransformCache1);
+		return false;
 
 	if(!(output.statusFlag & PxcNpWorkUnitStatusFlag::eDIRTY_MANAGER) && !(input.flags & PxcNpWorkUnitFlag::eMODIFIABLE_CONTACT))
 	{
@@ -225,7 +285,7 @@ void physx::PxcDiscreteNarrowPhase(PxcNpThreadContext& context, PxcNpWorkUnit& i
 			if(flip)
 				Ps::swap(type0, type1);
 
-			const bool useContactCache = context.mContactCache && g_CanUseContactCache[type0][type1];
+			const bool useContactCache = useContactCacheT ? context.mContactCache && g_CanUseContactCache[type0][type1] : false;
 			
 #if PX_ENABLE_SIM_STATS
 			if(output.nbContacts)
@@ -233,11 +293,33 @@ void physx::PxcDiscreteNarrowPhase(PxcNpThreadContext& context, PxcNpWorkUnit& i
 #endif
 			const bool isMeshType = type1 > PxGeometryType::eCONVEXMESH;
 			copyBuffers(output, cache, context, useContactCache, isMeshType);
-			return;
+			return false;
 		}
 	}
 
 	output.statusFlag &= (~PxcNpWorkUnitStatusFlag::eDIRTY_MANAGER);
+
+	const PxReal contactDist0 = context.mContactDistance[input.mTransformCache0];
+	const PxReal contactDist1 = context.mContactDistance[input.mTransformCache1];
+	//context.mNarrowPhaseParams.mContactDistance = shape0->contactOffset + shape1->contactOffset;
+	context.mNarrowPhaseParams.mContactDistance = contactDist0 + contactDist1;
+
+	return true;
+}
+
+template<bool useLegacyCodepath>
+static PX_FORCE_INLINE void discreteNarrowPhase(PxcNpThreadContext& context, const PxcNpWorkUnit& input, Gu::Cache& cache, PxsContactManagerOutput& output)
+{
+	PxGeometryType::Enum type0 = static_cast<PxGeometryType::Enum>(input.geomType0);
+	PxGeometryType::Enum type1 = static_cast<PxGeometryType::Enum>(input.geomType1);
+
+	const bool flip = (type1<type0);
+
+	const PxsCachedTransform* cachedTransform0 = &context.mTransformCache->getTransformCache(input.mTransformCache0);
+	const PxsCachedTransform* cachedTransform1 = &context.mTransformCache->getTransformCache(input.mTransformCache1);
+
+	if(!checkContactsMustBeGenerated<useLegacyCodepath>(context, input, cache, output, cachedTransform0, cachedTransform1, flip, type0, type1))
+		return;
 
 	PxsShapeCore* shape0 = const_cast<PxsShapeCore*>(input.shapeCore0);
 	PxsShapeCore* shape1 = const_cast<PxsShapeCore*>(input.shapeCore1);
@@ -249,141 +331,69 @@ void physx::PxcDiscreteNarrowPhase(PxcNpThreadContext& context, PxcNpWorkUnit& i
 		Ps::swap(cachedTransform0, cachedTransform1);
 	}
 
-	// PT: many cache misses here...
-	// PT: TODO: refactor this change with runNpBatchPPU
-	
-	Ps::prefetchLine(shape1, 0);	// PT: at least get rid of L2s for shape1
+	PxsMaterialInfo materialInfo[ContactBuffer::MAX_CONTACTS];
+
+	Gu::MultiplePersistentContactManifold& manifold = context.mTempManifold;
+	bool isMultiManifold = false;
+
+	if(!useLegacyCodepath)
+	{
+		if(cache.isMultiManifold())
+		{
+			//We are using a multi-manifold. This is cached in a reduced npCache...
+			isMultiManifold = true;
+			uintptr_t address = uintptr_t(&cache.getMultipleManifold());
+			manifold.fromBuffer(reinterpret_cast<PxU8*>(address));
+			cache.setMultiManifold(&manifold);
+		}
+		else if(cache.isManifold())
+		{
+			void* address = reinterpret_cast<void*>(&cache.getManifold());
+			Ps::prefetch(address);
+			Ps::prefetch(address, 128);
+			Ps::prefetch(address, 256);
+		}
+	}
+
+	updateDiscreteContactStats(context, type0, type1);
+
+	startContacts(output, context);
 
 	const PxTransform* tm0 = &cachedTransform0->transform;
 	const PxTransform* tm1 = &cachedTransform1->transform;
 	PX_ASSERT(tm0->isSane() && tm1->isSane());
 
-	updateDiscreteContactStats(context, type0, type1);
-
-	const PxReal contactDist0 = context.mContactDistance[input.mTransformCache0];
-	const PxReal contactDist1 = context.mContactDistance[input.mTransformCache1];
-	//context.mNarrowPhaseParams.mContactDistance = shape0->contactOffset + shape1->contactOffset;
-	context.mNarrowPhaseParams.mContactDistance = contactDist0 + contactDist1;
-
-	startContacts(output, context);
-
-	const PxcContactMethod conMethod = g_ContactMethodTable[type0][type1];
-	PX_ASSERT(conMethod);
-
-	const bool useContactCache = context.mContactCache && g_CanUseContactCache[type0][type1];
-	if(useContactCache)
+	if(useLegacyCodepath)
 	{
+		// PT: many cache misses here...
+	
+		Ps::prefetchLine(shape1, 0);	// PT: at least get rid of L2s for shape1
+
+		const PxcContactMethod conMethod = g_ContactMethodTable[type0][type1];
+		PX_ASSERT(conMethod);
+
+		const bool useContactCache = context.mContactCache && g_CanUseContactCache[type0][type1];
+		if(useContactCache)
+		{
 #if PX_ENABLE_SIM_STATS
-		if(PxcCacheLocalContacts(context, cache, *tm0, *tm1, conMethod, shape0->geometry, shape1->geometry))
-			context.mNbDiscreteContactPairsWithCacheHits++;
+			if(PxcCacheLocalContacts(context, cache, *tm0, *tm1, conMethod, shape0->geometry, shape1->geometry))
+				context.mNbDiscreteContactPairsWithCacheHits++;
 #else
-		PxcCacheLocalContacts(context, n.pairCache, *tm0, *tm1, conMethod, shape0->geometry, shape1->geometry);
+			PxcCacheLocalContacts(context, n.pairCache, *tm0, *tm1, conMethod, shape0->geometry, shape1->geometry);
 #endif
+		}
+		else
+		{
+			conMethod(shape0->geometry, shape1->geometry, *tm0, *tm1, context.mNarrowPhaseParams, cache, context.mContactBuffer, &context.mRenderOutput);
+		}
 	}
 	else
 	{
+		const PxcContactMethod conMethod = g_PCMContactMethodTable[type0][type1];
+		PX_ASSERT(conMethod);
+
 		conMethod(shape0->geometry, shape1->geometry, *tm0, *tm1, context.mNarrowPhaseParams, cache, context.mContactBuffer, &context.mRenderOutput);
 	}
-
-	PxsMaterialInfo materialInfo[ContactBuffer::MAX_CONTACTS];
-
-	const PxcGetMaterialMethod materialMethod = g_GetMaterialMethodTable[type0][type1];
-	PX_ASSERT(materialMethod);
-
-	materialMethod(shape0, shape1, context, materialInfo);
-
-	if(flip)
-		flipContacts(context, materialInfo);
-
-	const bool isMeshType = type1 > PxGeometryType::eCONVEXMESH; 
-	finishContacts(input, output, context, materialInfo, isMeshType);
-}
-
-void physx::PxcDiscreteNarrowPhasePCM(PxcNpThreadContext& context, PxcNpWorkUnit& cmInput, Gu::Cache& cache, PxsContactManagerOutput& output)
-{
-	//ML : if user doesn't raise the eDETECT_DISCRETE_CONTACT, we should not generate contacts
-	if(!(cmInput.flags & PxcNpWorkUnitFlag::eDETECT_DISCRETE_CONTACT))
-		return;
-	
-	PxGeometryType::Enum type0 = static_cast<PxGeometryType::Enum>(cmInput.geomType0);
-	PxGeometryType::Enum type1 = static_cast<PxGeometryType::Enum>(cmInput.geomType1);
-
-	const bool flip = type1<type0;
-
-	const PxsCachedTransform* tm0 = &context.mTransformCache->getTransformCache(cmInput.mTransformCache0);
-	const PxsCachedTransform* tm1 = &context.mTransformCache->getTransformCache(cmInput.mTransformCache1);
-
-	if(!(output.statusFlag & PxcNpWorkUnitStatusFlag::eDIRTY_MANAGER) && !(cmInput.flags & PxcNpWorkUnitFlag::eMODIFIABLE_CONTACT))
-	{
-		const PxU32 body0Dynamic = PxU32(cmInput.flags & PxcNpWorkUnitFlag::eDYNAMIC_BODY0);
-		const PxU32 body1Dynamic = PxU32(cmInput.flags & PxcNpWorkUnitFlag::eDYNAMIC_BODY1);
-
-		const PxU32 active0 = PxU32(body0Dynamic && !(tm0->isFrozen()));
-		const PxU32 active1 = PxU32(body1Dynamic && !(tm1->isFrozen()));
-
-		if(!(active0 || active1))
-		{
-			if(flip)
-				Ps::swap(type0, type1);
-
-#if PX_ENABLE_SIM_STATS
-			if(output.nbContacts)
-				context.mNbDiscreteContactPairsWithContacts++;
-#endif
-			const bool isMeshType = type1 > PxGeometryType::eCONVEXMESH; 
-			copyBuffers(output, cache, context, false, isMeshType);
-			return;
-		}
-	}
-
-	output.statusFlag &= (~PxcNpWorkUnitStatusFlag::eDIRTY_MANAGER);
-
-	Gu::MultiplePersistentContactManifold& manifold = context.mTempManifold;
-	bool isMultiManifold = false;
-
-	if(cache.isMultiManifold())
-	{
-		//We are using a multi-manifold. This is cached in a reduced npCache...
-		isMultiManifold = true;
-		uintptr_t address = uintptr_t(&cache.getMultipleManifold());
-		manifold.fromBuffer(reinterpret_cast<PxU8*>(address));
-		cache.setMultiManifold(&manifold);
-	}
-	else if(cache.isManifold())
-	{
-		void* address = reinterpret_cast<void*>(&cache.getManifold());
-		Ps::prefetch(address);
-		Ps::prefetch(address, 128);
-		Ps::prefetch(address, 256);
-	}
-
-	PxsShapeCore* shape0 = const_cast<PxsShapeCore*>(cmInput.shapeCore0);
-	PxsShapeCore* shape1 = const_cast<PxsShapeCore*>(cmInput.shapeCore1);
-
-	if(flip)
-	{
-		Ps::swap(tm0, tm1);
-		Ps::swap(shape0, shape1);
-		Ps::swap(type0, type1);
-	}
-
-	const PxReal contactDist0 = context.mContactDistance[cmInput.mTransformCache0];
-	const PxReal contactDist1 = context.mContactDistance[cmInput.mTransformCache1];
-//	context.mNarrowPhaseParams.mContactDistance = shape0->contactOffset + shape1->contactOffset;
-	context.mNarrowPhaseParams.mContactDistance = contactDist0 + contactDist1;
-
-	PX_ASSERT(tm0->transform.isSane() && tm1->transform.isSane());
-
-	updateDiscreteContactStats(context, type0, type1);
-
-	const PxcContactMethod conMethod = g_PCMContactMethodTable[type0][type1];
-	PX_ASSERT(conMethod);
-
-	startContacts(output, context);
-
-	conMethod(shape0->geometry, shape1->geometry, tm0->transform, tm1->transform, context.mNarrowPhaseParams, cache, context.mContactBuffer, &context.mRenderOutput);
-	
-	PxsMaterialInfo materialInfo[ContactBuffer::MAX_CONTACTS];
 
 	const PxcGetMaterialMethod materialMethod = g_GetMaterialMethodTable[type0][type1];
 	PX_ASSERT(materialMethod);
@@ -393,21 +403,34 @@ void physx::PxcDiscreteNarrowPhasePCM(PxcNpThreadContext& context, PxcNpWorkUnit
 	if(flip)
 		flipContacts(context, materialInfo);
 
-	if(isMultiManifold)
+	if(!useLegacyCodepath)
 	{
-		//Store the manifold back...
-		const PxU32 size = (sizeof(MultiPersistentManifoldHeader) +
-			manifold.mNumManifolds * sizeof(SingleManifoldHeader) +
-			manifold.mNumTotalContacts * sizeof(Gu::CachedMeshPersistentContact));
+		if(isMultiManifold)
+		{
+			//Store the manifold back...
+			const PxU32 size = (sizeof(MultiPersistentManifoldHeader) +
+				manifold.mNumManifolds * sizeof(SingleManifoldHeader) +
+				manifold.mNumTotalContacts * sizeof(Gu::CachedMeshPersistentContact));
 
-		PxU8* buffer = context.mNpCacheStreamPair.reserve(size);
+			PxU8* buffer = context.mNpCacheStreamPair.reserve(size);
 
-		PX_ASSERT((reinterpret_cast<uintptr_t>(buffer)& 0xf) == 0);
-		manifold.toBuffer(buffer);
-		cache.setMultiManifold(buffer);
-		cache.mCachedSize = Ps::to16(size);
+			PX_ASSERT((reinterpret_cast<uintptr_t>(buffer)& 0xf) == 0);
+			manifold.toBuffer(buffer);
+			cache.setMultiManifold(buffer);
+			cache.mCachedSize = Ps::to16(size);
+		}
 	}
 
-	const bool isMeshType = type1 > PxGeometryType::eCONVEXMESH;
-	finishContacts(cmInput, output, context, materialInfo, isMeshType);
+	const bool isMeshType = type1 > PxGeometryType::eCONVEXMESH; 
+	finishContacts(input, output, context, materialInfo, isMeshType);
+}
+
+void physx::PxcDiscreteNarrowPhase(PxcNpThreadContext& context, const PxcNpWorkUnit& input, Gu::Cache& cache, PxsContactManagerOutput& output)
+{
+	discreteNarrowPhase<true>(context, input, cache, output);
+}
+
+void physx::PxcDiscreteNarrowPhasePCM(PxcNpThreadContext& context, const PxcNpWorkUnit& input, Gu::Cache& cache, PxsContactManagerOutput& output)
+{
+	discreteNarrowPhase<false>(context, input, cache, output);
 }

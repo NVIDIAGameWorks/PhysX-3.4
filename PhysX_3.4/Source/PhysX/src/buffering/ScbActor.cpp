@@ -27,11 +27,7 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #include "ScbBase.h"
-
-using namespace physx;
-using namespace Scb;
 
 using namespace physx;
 using namespace Scb;
@@ -42,43 +38,31 @@ using namespace Scb;
 #include "ScbParticleSystem.h"
 #include "ScbCloth.h"
 
-namespace physx
-{
-namespace Scb
-{
-	
 Actor::Offsets::Offsets()
 {
-	size_t staticOffset		= reinterpret_cast<size_t>(&(reinterpret_cast<Scb::RigidStatic*>(0)->getScStatic()));
-	size_t bodyOffset		= reinterpret_cast<size_t>(&(reinterpret_cast<Scb::Body*>(0)->getScBody()));
+	const size_t staticOffset	= reinterpret_cast<size_t>(&(reinterpret_cast<Scb::RigidStatic*>(0)->getScStatic()));
+	const size_t bodyOffset		= reinterpret_cast<size_t>(&(reinterpret_cast<Scb::Body*>(0)->getScBody()));
 
 	scToScb[PxActorType::eRIGID_STATIC] = staticOffset;
 	scToScb[PxActorType::eRIGID_DYNAMIC] = bodyOffset;
 	scToScb[PxActorType::eARTICULATION_LINK] = bodyOffset;
 
-	scbToSc[ScbType::RIGID_STATIC] = staticOffset;
-	scbToSc[ScbType::BODY] = bodyOffset;
-	scbToSc[ScbType::BODY_FROM_ARTICULATION_LINK] = bodyOffset;
+	scbToSc[ScbType::eRIGID_STATIC] = staticOffset;
+	scbToSc[ScbType::eBODY] = bodyOffset;
+	scbToSc[ScbType::eBODY_FROM_ARTICULATION_LINK] = bodyOffset;
 	
 #if PX_USE_PARTICLE_SYSTEM_API
-	size_t particleOffset	= reinterpret_cast<size_t>(&(reinterpret_cast<Scb::ParticleSystem*>(0)->getScParticleSystem()));
+	const size_t particleOffset = reinterpret_cast<size_t>(&(reinterpret_cast<Scb::ParticleSystem*>(0)->getScParticleSystem()));
 	scToScb[PxActorType::ePARTICLE_FLUID] = particleOffset;
 	scToScb[PxActorType::ePARTICLE_SYSTEM] = particleOffset;
-	scbToSc[ScbType::PARTICLE_SYSTEM] = particleOffset;
+	scbToSc[ScbType::ePARTICLE_SYSTEM] = particleOffset;
 #endif
 
 #if PX_USE_CLOTH_API
-	size_t clothOffset		= reinterpret_cast<size_t>(&(reinterpret_cast<Scb::Cloth*>(0)->getScCloth()));
+	const size_t clothOffset = reinterpret_cast<size_t>(&(reinterpret_cast<Scb::Cloth*>(0)->getScCloth()));
 	scToScb[PxActorType::eCLOTH] = clothOffset;
-	scbToSc[ScbType::CLOTH] = clothOffset;
+	scbToSc[ScbType::eCLOTH] = clothOffset;
 #endif
-
-
 }
-
-
-
 
 const Actor::Offsets Actor::sOffsets;
-}
-}

@@ -327,7 +327,7 @@ void NpBatchQuery::execute()
 	PxU32 pvdSweepQstartIdx = 0;
 
 	Vd::ScbScenePvdClient& pvdClient = mNpScene->mScene.getScenePvdClient();
-	const bool needUpdatePvd = pvdClient.checkPvdDebugFlag() && (pvdClient.getScenePvdFlags() & PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES);
+	const bool needUpdatePvd = pvdClient.checkPvdDebugFlag() && (pvdClient.getScenePvdFlagsFast() & PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES);
 
 	if(needUpdatePvd)
 	{

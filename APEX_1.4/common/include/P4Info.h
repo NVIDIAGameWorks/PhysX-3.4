@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2015 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2013 NVIDIA Corporation. All rights reserved.
 
 #ifndef P4_INFO_H
 #define P4_INFO_H
@@ -36,7 +36,7 @@
 
 #define P4_APEX_BRANCH "trunk"
 
-#define P4_BUILD_TIME "12:20:57, Fri Oct 21, 2016"
+#define P4_BUILD_TIME "14:04:28, Thu Aug 6, 2015"
 
 #define AUTHOR_DISTRO "empty"
 

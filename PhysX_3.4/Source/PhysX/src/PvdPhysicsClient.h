@@ -57,7 +57,6 @@ class PvdPhysicsClient : public PvdClient, public PxErrorCallback, public NpFact
 	void onPvdDisconnected();
 	void flush();
 
-	PsPvd* getPsPvd();
 	physx::pvdsdk::PvdDataStream* getDataStream();
 	PvdMetaDataBinding* getMetaDataBinding();
 	PvdUserRenderer* getUserRender();

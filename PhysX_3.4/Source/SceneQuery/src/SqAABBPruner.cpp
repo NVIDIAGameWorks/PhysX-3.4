@@ -124,7 +124,7 @@ bool AABBPruner::addObjects(PrunerHandle* results, const PxBounds3* bounds, cons
 	return valid==count;
 }
 
-void AABBPruner::updateObjects(const PrunerHandle* handles, const PxBounds3* newBounds, PxU32 count)
+void AABBPruner::updateObjectsAfterManualBoundsUpdates(const PrunerHandle* handles, PxU32 count)
 {
 	PX_PROFILE_ZONE("SceneQuery.prunerUpdateObjects", mContextID);
 
@@ -133,16 +133,10 @@ void AABBPruner::updateObjects(const PrunerHandle* handles, const PxBounds3* new
 
 	mUncommittedChanges = true;
 
-	if(newBounds)
-	{
-		for(PxU32 i=0; i<count; i++)
-			mPool.setWorldAABB(handles[i], newBounds[i]); // only updates the bounds
-	}
-
 	if(mIncrementalRebuild && mAABBTree) 
 	{
 		mNeedsNewTree = true; // each update forces a tree rebuild
-		newBounds = mPool.getCurrentWorldBoxes();
+		const PxBounds3* newBounds = mPool.getCurrentWorldBoxes();
 		PrunerPayload* payloads = mPool.getObjects();
 		for(PxU32 i=0; i<count; i++)
 		{
@@ -162,30 +156,38 @@ void AABBPruner::updateObjects(const PrunerHandle* handles, const PxBounds3* new
 	}
 }
 
-void AABBPruner::updateObjects(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count)
+void AABBPruner::updateObjectsAndInflateBounds(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* newBounds, PxU32 count)
 {
 	PX_PROFILE_ZONE("SceneQuery.prunerUpdateObjects", mContextID);
 
+	if(!count)
+		return;
+
 	mUncommittedChanges = true;
 
-	mPool.updateObjects(handles, indices, newBounds, count);
+	mPool.updateObjectsAndInflateBounds(handles, indices, newBounds, count);
 
-	if (mIncrementalRebuild && mAABBTree)
+	if(mIncrementalRebuild && mAABBTree)
 	{
 		mNeedsNewTree = true; // each update forces a tree rebuild
-		for (PxU32 i = 0; i<count; i++)
+		PrunerPayload* payloads = mPool.getObjects();
+		for(PxU32 i=0; i<count; i++)
 		{
 			const PoolIndex poolIndex = mPool.getIndex(handles[i]);
 			const TreeNodeIndex treeNodeIndex = mTreeMap[poolIndex];
-			if (treeNodeIndex != INVALID_NODE_ID) // this means it's in the current tree still and hasn't been removed
+			if(treeNodeIndex != INVALID_NODE_ID) // this means it's in the current tree still and hasn't been removed
 				mAABBTree->markNodeForRefit(treeNodeIndex);
 			else // otherwise it means it should be in the bucket pruner
 			{
-				bool found = mBucketPruner.updateObject(newBounds[indices[i]], mPool.getPayload(handles[i]));
+				// PT: TODO: is this line correct?
+//				bool found = mBucketPruner.updateObject(newBounds[indices[i]], mPool.getPayload(handles[i]));
+				PX_ASSERT(&payloads[poolIndex]==&mPool.getPayload(handles[i]));
+				// PT: TODO: don't we need to read the pool's array here, to pass the inflated bounds?
+				bool found = mBucketPruner.updateObject(newBounds[indices[i]], payloads[poolIndex]);
 				PX_UNUSED(found); PX_ASSERT(found);
 			}
 
-			if (mProgress == BUILD_NEW_MAPPING || mProgress == BUILD_FULL_REFIT)
+			if(mProgress == BUILD_NEW_MAPPING || mProgress == BUILD_FULL_REFIT)
 				mToRefit.pushBack(poolIndex);
 		}
 	}
@@ -607,7 +609,7 @@ bool AABBPruner::buildStep()
 
 			const PxU32 depth = Ps::ilog2(mBuilder.mNbPrimitives);	// Note: This is the depth without counting the leaf layer
 			const PxU32 estimatedNbWorkUnits = depth * mBuilder.mNbPrimitives;	// Estimated number of work units for new tree
-			const PxU32 estimatedNbWorkUnitsOld = mAABBTree->getTotalPrims();
+			const PxU32 estimatedNbWorkUnitsOld = mAABBTree ? mAABBTree->getTotalPrims() : 0;
 			if ((estimatedNbWorkUnits <= (estimatedNbWorkUnitsOld << 1)) && (estimatedNbWorkUnits >= (estimatedNbWorkUnitsOld >> 1)))
 				// The two estimates do not differ by more than a factor 2
 				mTotalWorkUnits = estimatedNbWorkUnitsOld;

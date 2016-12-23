@@ -81,44 +81,47 @@
 <a name="l00067"></a><a class="code" href="structPxPvdInstrumentationFlag.html#e5be1bcb179a96c601194126230aeede">00067</a>     <span class="keyword">enum</span> <a class="code" href="structPxPvdInstrumentationFlag.html#e5be1bcb179a96c601194126230aeede">Enum</a>
 <a name="l00068"></a>00068     {
 <a name="l00077"></a><a class="code" href="structPxPvdInstrumentationFlag.html#e5be1bcb179a96c601194126230aeededaffb4216dd0bc2a5683245ea725afdf">00077</a>         eDEBUG   = 1 &lt;&lt; 0,
+<a name="l00078"></a>00078 
 <a name="l00089"></a><a class="code" href="structPxPvdInstrumentationFlag.html#e5be1bcb179a96c601194126230aeedead2e5f3100343f6f8b7bfe7b5b8e1978">00089</a>         ePROFILE = 1 &lt;&lt; 1,
-<a name="l00110"></a><a class="code" href="structPxPvdInstrumentationFlag.html#e5be1bcb179a96c601194126230aeede1e1edeea03427ccaef15df3fb6c37eea">00110</a>         eMEMORY  = 1 &lt;&lt; 2,
-<a name="l00111"></a><a class="code" href="structPxPvdInstrumentationFlag.html#e5be1bcb179a96c601194126230aeede105907e11b7280f3bf29a2187688fa54">00111</a>         eALL     = (eDEBUG | ePROFILE | eMEMORY)
-<a name="l00112"></a>00112     };
-<a name="l00113"></a>00113 };
-<a name="l00114"></a>00114 
-<a name="l00120"></a><a class="code" href="group__pvd.html#g4e8b7695b7145523688243b39da116c9">00120</a> <span class="keyword">typedef</span> <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxFlags&lt;PxPvdInstrumentationFlag::Enum, uint8_t&gt;</a> <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxPvdInstrumentationFlags</a>;
-<a name="l00121"></a>00121 <a class="code" href="group__foundation.html#g092f922a63fdc7a95ae4f4e24b3768c1">PX_FLAGS_OPERATORS</a>(<a class="code" href="structPxPvdInstrumentationFlag.html#e5be1bcb179a96c601194126230aeede">PxPvdInstrumentationFlag::Enum</a>, uint8_t)
-<a name="l00122"></a>00122 
-<a name="l00123"></a>00123 
-<a name="l00127"></a><a class="code" href="classPxPvd.html">00127</a> class <a class="code" href="classPxPvd.html" title="PxPvd is the top-level class for the PVD framework, and the main customer interface...">PxPvd</a> : public physx::PxProfilerCallback
-<a name="l00128"></a>00128 {
-<a name="l00129"></a>00129   <span class="keyword">public</span>:
-<a name="l00136"></a>00136     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> connect(<a class="code" href="classPxPvdTransport.html" title="PxPvdTransport is an interface representing the data transport mechanism. This class...">PxPvdTransport</a>&amp; transport, <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxPvdInstrumentationFlags</a> flags) = 0;
-<a name="l00137"></a>00137 
-<a name="l00142"></a>00142     <span class="keyword">virtual</span> <span class="keywordtype">void</span> disconnect() = 0;
-<a name="l00143"></a>00143 
-<a name="l00156"></a>00156     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> isConnected(<span class="keywordtype">bool</span> useCachedStatus = <span class="keyword">true</span>) = 0;
-<a name="l00157"></a>00157 
-<a name="l00162"></a>00162     <span class="keyword">virtual</span> <a class="code" href="classPxPvdTransport.html" title="PxPvdTransport is an interface representing the data transport mechanism. This class...">PxPvdTransport</a>* getTransport() = 0;
-<a name="l00163"></a>00163 
-<a name="l00167"></a>00167     <span class="keyword">virtual</span> <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxPvdInstrumentationFlags</a> getInstrumentationFlags() = 0;
-<a name="l00168"></a>00168 
-<a name="l00172"></a>00172     <span class="keyword">virtual</span> <span class="keywordtype">void</span> release() = 0;
-<a name="l00173"></a>00173 
-<a name="l00174"></a>00174   <span class="keyword">protected</span>:
-<a name="l00175"></a><a class="code" href="classPxPvd.html#a96f4b9b5f46ee7447ac5eb7d9ca4f42">00175</a>     <span class="keyword">virtual</span> ~<a class="code" href="classPxPvd.html" title="PxPvd is the top-level class for the PVD framework, and the main customer interface...">PxPvd</a>()
-<a name="l00176"></a>00176     {
-<a name="l00177"></a>00177     }
-<a name="l00178"></a>00178 };
-<a name="l00179"></a>00179 
-<a name="l00184"></a>00184 PX_PVDSDK_API <a class="code" href="classPxPvd.html" title="PxPvd is the top-level class for the PVD framework, and the main customer interface...">PxPvd</a>* PX_CALL_CONV <a class="code" href="group__pvd.html#g19c817bf23bd0d127a29d2a0e392bd6b" title="Create a pvd instance.">PxCreatePvd</a>(<a class="code" href="classPxFoundation.html" title="Foundation SDK singleton class.">PxFoundation</a>&amp; foundation);
-<a name="l00185"></a>00185 
-<a name="l00186"></a>00186 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00187"></a>00187 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00188"></a>00188 <span class="preprocessor">#endif</span>
-<a name="l00189"></a>00189 <span class="preprocessor"></span>
-<a name="l00191"></a>00191 <span class="preprocessor">#endif // PXPVDSDK_PXPVD_H</span>
+<a name="l00090"></a>00090 
+<a name="l00111"></a><a class="code" href="structPxPvdInstrumentationFlag.html#e5be1bcb179a96c601194126230aeede1e1edeea03427ccaef15df3fb6c37eea">00111</a>         eMEMORY  = 1 &lt;&lt; 2,
+<a name="l00112"></a>00112 
+<a name="l00113"></a><a class="code" href="structPxPvdInstrumentationFlag.html#e5be1bcb179a96c601194126230aeede105907e11b7280f3bf29a2187688fa54">00113</a>         eALL     = (eDEBUG | ePROFILE | eMEMORY)
+<a name="l00114"></a>00114     };
+<a name="l00115"></a>00115 };
+<a name="l00116"></a>00116 
+<a name="l00122"></a><a class="code" href="group__pvd.html#g4e8b7695b7145523688243b39da116c9">00122</a> <span class="keyword">typedef</span> <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxFlags&lt;PxPvdInstrumentationFlag::Enum, uint8_t&gt;</a> <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxPvdInstrumentationFlags</a>;
+<a name="l00123"></a>00123 <a class="code" href="group__foundation.html#g092f922a63fdc7a95ae4f4e24b3768c1">PX_FLAGS_OPERATORS</a>(<a class="code" href="structPxPvdInstrumentationFlag.html#e5be1bcb179a96c601194126230aeede">PxPvdInstrumentationFlag::Enum</a>, uint8_t)
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 
+<a name="l00129"></a><a class="code" href="classPxPvd.html">00129</a> class <a class="code" href="classPxPvd.html" title="PxPvd is the top-level class for the PVD framework, and the main customer interface...">PxPvd</a> : public physx::PxProfilerCallback
+<a name="l00130"></a>00130 {
+<a name="l00131"></a>00131   <span class="keyword">public</span>:
+<a name="l00138"></a>00138     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> connect(<a class="code" href="classPxPvdTransport.html" title="PxPvdTransport is an interface representing the data transport mechanism. This class...">PxPvdTransport</a>&amp; transport, <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxPvdInstrumentationFlags</a> flags) = 0;
+<a name="l00139"></a>00139 
+<a name="l00144"></a>00144     <span class="keyword">virtual</span> <span class="keywordtype">void</span> disconnect() = 0;
+<a name="l00145"></a>00145 
+<a name="l00158"></a>00158     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> isConnected(<span class="keywordtype">bool</span> useCachedStatus = <span class="keyword">true</span>) = 0;
+<a name="l00159"></a>00159 
+<a name="l00164"></a>00164     <span class="keyword">virtual</span> <a class="code" href="classPxPvdTransport.html" title="PxPvdTransport is an interface representing the data transport mechanism. This class...">PxPvdTransport</a>* getTransport() = 0;
+<a name="l00165"></a>00165 
+<a name="l00169"></a>00169     <span class="keyword">virtual</span> <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxPvdInstrumentationFlags</a> getInstrumentationFlags() = 0;
+<a name="l00170"></a>00170 
+<a name="l00174"></a>00174     <span class="keyword">virtual</span> <span class="keywordtype">void</span> release() = 0;
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176   <span class="keyword">protected</span>:
+<a name="l00177"></a><a class="code" href="classPxPvd.html#a96f4b9b5f46ee7447ac5eb7d9ca4f42">00177</a>     <span class="keyword">virtual</span> ~<a class="code" href="classPxPvd.html" title="PxPvd is the top-level class for the PVD framework, and the main customer interface...">PxPvd</a>()
+<a name="l00178"></a>00178     {
+<a name="l00179"></a>00179     }
+<a name="l00180"></a>00180 };
+<a name="l00181"></a>00181 
+<a name="l00186"></a>00186 PX_PVDSDK_API <a class="code" href="classPxPvd.html" title="PxPvd is the top-level class for the PVD framework, and the main customer interface...">PxPvd</a>* PX_CALL_CONV <a class="code" href="group__pvd.html#g19c817bf23bd0d127a29d2a0e392bd6b" title="Create a pvd instance.">PxCreatePvd</a>(<a class="code" href="classPxFoundation.html" title="Foundation SDK singleton class.">PxFoundation</a>&amp; foundation);
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00189"></a>00189 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00190"></a>00190 <span class="preprocessor">#endif</span>
+<a name="l00191"></a>00191 <span class="preprocessor"></span>
+<a name="l00193"></a>00193 <span class="preprocessor">#endif // PXPVDSDK_PXPVD_H</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

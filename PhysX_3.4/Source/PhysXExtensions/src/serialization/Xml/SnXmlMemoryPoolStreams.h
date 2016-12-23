@@ -129,7 +129,7 @@ struct MemoryBufferBase : public PxOutputStream, public PxInputStream
 		PX_ASSERT( fits );
 		if ( fits )
 		{
-			memcpy( dest, mBuffer + mReadOffset, count );
+			PxMemCopy( dest, mBuffer + mReadOffset, count );
 			mReadOffset += count;
 			return count;
 		}
@@ -146,7 +146,7 @@ struct MemoryBufferBase : public PxOutputStream, public PxInputStream
 
 			PxU8* newData( mManager->allocate( newCapacity ) );
 			if ( mWriteOffset )
-				memcpy( newData, mBuffer, mWriteOffset );
+				PxMemCopy( newData, mBuffer, mWriteOffset );
 			mManager->deallocate( mBuffer );
 			mBuffer = newData;
 			mCapacity = newCapacity;
@@ -156,7 +156,7 @@ struct MemoryBufferBase : public PxOutputStream, public PxInputStream
 	virtual PxU32 write(const void* src, PxU32 count)
 	{
 		checkCapacity( mWriteOffset + count );
-		memcpy( mBuffer + mWriteOffset, src, count );
+		PxMemCopy( mBuffer + mWriteOffset, src, count );
 		mWriteOffset += count;
 		return count;
 	}

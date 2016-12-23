@@ -27,14 +27,12 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #include "PsIntrinsics.h"
 #include "GuMidphaseInterface.h"
 #include "GuSerialize.h"
 #include "GuMeshFactory.h"
 #include "CmRenderOutput.h"
 #include "PxVisualizationParameter.h"
-#include "GuConvexEdgeFlags.h"
 #include "GuBox.h"
 #include "PxMeshScale.h"
 #include "CmUtils.h"
@@ -196,6 +194,15 @@ void Gu::TriangleMesh::importExtraData(PxDeserializationContext& context)
 
 	if(mAdjacencies)
 		mAdjacencies = context.readExtraData<PxU32, PX_SERIAL_ALIGN>(3*mNbTriangles);
+
+	mGRB_triIndices = NULL;
+	mGRB_triAdjacencies = NULL;
+	mGRB_vertValency = NULL;
+	mGRB_adjVertStart = NULL;
+	mGRB_adjVertices = NULL;
+	mGRB_meshAdjVerticiesTotal = 0;
+	mGRB_faceRemap = NULL;
+	mGRB_BV32Tree = NULL;
 }
 
 void Gu::TriangleMesh::onRefCountZero()
@@ -235,223 +242,5 @@ PxBounds3 Gu::TriangleMesh::refitBVH()
 	return PxBounds3(mAABB.getMin(), mAABB.getMax());
 }
 #endif
-
-#if PX_ENABLE_DEBUG_VISUALIZATION
-
-static void getTriangle(const Gu::TriangleMesh&, PxU32 i, PxVec3* wp, const PxVec3* vertices, const void* indices, bool has16BitIndices)
-{
-	PxU32 ref0, ref1, ref2;
-
-	if(!has16BitIndices)
-	{
-		const PxU32* dtriangles = reinterpret_cast<const PxU32*>(indices);
-		ref0 = dtriangles[i*3+0];
-		ref1 = dtriangles[i*3+1];
-		ref2 = dtriangles[i*3+2];
-	}
-	else
-	{
-		const PxU16* wtriangles = reinterpret_cast<const PxU16*>(indices);
-		ref0 = wtriangles[i*3+0];
-		ref1 = wtriangles[i*3+1];
-		ref2 = wtriangles[i*3+2];
-	}
-
-	wp[0] = vertices[ref0];
-	wp[1] = vertices[ref1];
-	wp[2] = vertices[ref2];
-}
-
-static void getTriangle(const Gu::TriangleMesh& mesh, PxU32 i, PxVec3* wp, const PxVec3* vertices, const void* indices, const Cm::Matrix34& absPose, bool has16BitIndices)
-{
-	PxVec3 localVerts[3];
-	getTriangle(mesh, i, localVerts, vertices, indices, has16BitIndices);
-
-	wp[0] = absPose.transform(localVerts[0]);
-	wp[1] = absPose.transform(localVerts[1]);
-	wp[2] = absPose.transform(localVerts[2]);
-}
-
-static void visualizeActiveEdges(Cm::RenderOutput& out, const Gu::TriangleMesh& mesh, PxU32 nbTriangles, const PxU32* results, const Cm::Matrix34& absPose, const PxMat44& midt)
-{
-	const PxU8* extraTrigData = mesh.getExtraTrigData();
-	PX_ASSERT(extraTrigData);
-
-	const PxVec3* vertices = mesh.getVerticesFast();
-	const void* indices = mesh.getTrianglesFast();
-
-	const PxU32 ecolor = PxU32(PxDebugColor::eARGB_YELLOW);
-	const bool has16Bit = mesh.has16BitIndices();
-	for(PxU32 i=0; i<nbTriangles; i++)
-	{
-		const PxU32 index = results ? results[i] : i;
-
-		PxVec3 wp[3];
-		getTriangle(mesh, index, wp, vertices, indices, absPose, has16Bit);
-
-		const PxU32 flags = extraTrigData[index];
-
-		if(flags & Gu::ETD_CONVEX_EDGE_01)
-		{
-			out << midt << ecolor << Cm::RenderOutput::LINES << wp[0] << wp[1];
-		}
-		if(flags & Gu::ETD_CONVEX_EDGE_12)
-		{
-			out << midt << ecolor << Cm::RenderOutput::LINES << wp[1] << wp[2];
-		}
-		if(flags & Gu::ETD_CONVEX_EDGE_20)
-		{
-			out << midt << ecolor << Cm::RenderOutput::LINES << wp[0] << wp[2];
-		}
-	}
-}
-
-void Gu::TriangleMesh::debugVisualize(
-	Cm::RenderOutput& out, const PxTransform& pose, const PxMeshScale& scaling, const PxBounds3& cullbox,
-	const PxU64 mask, const PxReal fscale, const PxU32 numMaterials) const 
-{
-	PX_UNUSED(numMaterials);
-
-	//bool cscale = !!(mask & ((PxU64)1 << PxVisualizationParameter::eCULL_BOX));
-	const PxU64 cullBoxMask = PxU64(1) << PxVisualizationParameter::eCULL_BOX;
-	bool cscale = ((mask & cullBoxMask) == cullBoxMask);
-
-	const PxMat44 midt(PxIdentity);
-	const Cm::Matrix34 absPose(PxMat33(pose.q) * scaling.toMat33(), pose.p);
-
-	PxU32 nbTriangles = getNbTrianglesFast();
-	const PxU32 nbVertices = getNbVerticesFast();
-	const PxVec3* vertices = getVerticesFast();
-	const void* indices = getTrianglesFast();
-
-	const PxDebugColor::Enum colors[] = 
-	{
-		PxDebugColor::eARGB_BLACK,		
-		PxDebugColor::eARGB_RED,		
-		PxDebugColor::eARGB_GREEN,		
-		PxDebugColor::eARGB_BLUE,		
-		PxDebugColor::eARGB_YELLOW,	
-		PxDebugColor::eARGB_MAGENTA,	
-		PxDebugColor::eARGB_CYAN,		
-		PxDebugColor::eARGB_WHITE,		
-		PxDebugColor::eARGB_GREY,		
-		PxDebugColor::eARGB_DARKRED,	
-		PxDebugColor::eARGB_DARKGREEN,	
-		PxDebugColor::eARGB_DARKBLUE,	
-	};
-
-	const PxU32 colorCount = sizeof(colors)/sizeof(PxDebugColor::Enum);
-
-	if(cscale)
-	{
-		const Gu::Box worldBox(
-			(cullbox.maximum + cullbox.minimum)*0.5f,
-			(cullbox.maximum - cullbox.minimum)*0.5f,
-			PxMat33(PxIdentity));
-		
-		// PT: TODO: use the callback version here to avoid allocating this huge array
-		PxU32* results = reinterpret_cast<PxU32*>(PX_ALLOC_TEMP(sizeof(PxU32)*nbTriangles, "tmp triangle indices"));
-		LimitedResults limitedResults(results, nbTriangles, 0);
-		Midphase::intersectBoxVsMesh(worldBox, *this, pose, scaling, &limitedResults);
-		nbTriangles = limitedResults.mNbResults;
-
-		if (fscale)
-		{
-			const PxU32 fcolor = PxU32(PxDebugColor::eARGB_DARKRED);
-
-			for (PxU32 i=0; i<nbTriangles; i++)
-			{
-				const PxU32 index = results[i];
-				PxVec3 wp[3];
-				getTriangle(*this, index, wp, vertices, indices, absPose, has16BitIndices());
-
-				const PxVec3 center = (wp[0] + wp[1] + wp[2]) / 3.0f;
-				PxVec3 normal = (wp[0] - wp[1]).cross(wp[0] - wp[2]);
-				PX_ASSERT(!normal.isZero());
-				normal = normal.getNormalized();
-
-				out << midt << fcolor <<
-						Cm::DebugArrow(center, normal * fscale);
-			}
-		}
-
-		if (mask & (PxU64(1) << PxVisualizationParameter::eCOLLISION_SHAPES))
-		{
-			const PxU32 scolor = PxU32(PxDebugColor::eARGB_MAGENTA);
-
-			out << midt << scolor;	// PT: no need to output this for each segment!
-
-			PxDebugLine* segments = out.reserveSegments(nbTriangles*3);
-			for(PxU32 i=0; i<nbTriangles; i++)
-			{
-				const PxU32 index = results[i];
-				PxVec3 wp[3];
-				getTriangle(*this, index, wp, vertices, indices, absPose, has16BitIndices());
-				segments[0] = PxDebugLine(wp[0], wp[1], scolor);
-				segments[1] = PxDebugLine(wp[1], wp[2], scolor);
-				segments[2] = PxDebugLine(wp[2], wp[0], scolor);
-				segments+=3;
-			}
-		}
-
-		if ((mask & (PxU64(1) << PxVisualizationParameter::eCOLLISION_EDGES)) && mExtraTrigData)
-			visualizeActiveEdges(out, *this, nbTriangles, results, absPose, midt);
-
-		PX_FREE(results);
-	}
-	else
-	{
-		if (fscale)
-		{
-			const PxU32 fcolor = PxU32(PxDebugColor::eARGB_DARKRED);
-
-			for (PxU32 i=0; i<nbTriangles; i++)
-			{
-				PxVec3 wp[3];
-				getTriangle(*this, i, wp, vertices, indices, absPose, has16BitIndices());
-
-				const PxVec3 center = (wp[0] + wp[1] + wp[2]) / 3.0f;
-				PxVec3 normal = (wp[0] - wp[1]).cross(wp[0] - wp[2]);
-				PX_ASSERT(!normal.isZero());
-				normal = normal.getNormalized();
-
-				out << midt << fcolor <<
-						Cm::DebugArrow(center, normal * fscale);
-			}
-		}
-
-		if (mask & (PxU64(1) << PxVisualizationParameter::eCOLLISION_SHAPES))
-		{
-			PxU32 scolor = PxU32(PxDebugColor::eARGB_MAGENTA);
-
-			out << midt << scolor;	// PT: no need to output this for each segment!
-
-			PxVec3* transformed = reinterpret_cast<PxVec3*>(PX_ALLOC(sizeof(PxVec3)*nbVertices, "PxVec3"));
-			for(PxU32 i=0;i<nbVertices;i++)
-				transformed[i] = absPose.transform(vertices[i]);
-
-			PxDebugLine* segments = out.reserveSegments(nbTriangles*3);
-			for (PxU32 i=0; i<nbTriangles; i++)
-			{
-				PxVec3 wp[3];
-				getTriangle(*this, i, wp, transformed, indices, has16BitIndices());
-				const PxU32 localMaterialIndex = getTriangleMaterialIndex(i);
-				scolor = colors[localMaterialIndex % colorCount];
-				
-				segments[0] = PxDebugLine(wp[0], wp[1], scolor);
-				segments[1] = PxDebugLine(wp[1], wp[2], scolor);
-				segments[2] = PxDebugLine(wp[2], wp[0], scolor);
-				segments+=3;
-			}
-
-			PX_FREE(transformed);
-		}
-
-		if ((mask & (PxU64(1) << PxVisualizationParameter::eCOLLISION_EDGES)) && mExtraTrigData)
-			visualizeActiveEdges(out, *this, nbTriangles, NULL, absPose, midt);
-	}
-}
-
-#endif // #if PX_ENABLE_DEBUG_VISUALIZATION
 
 } // namespace physx

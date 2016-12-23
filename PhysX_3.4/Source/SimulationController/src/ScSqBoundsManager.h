@@ -34,43 +34,39 @@
 #include "foundation/PxBounds3.h"
 #include "PsArray.h"
 #include "PsUserAllocated.h"
-#include "CmTask.h"
 #include "PsHashSet.h"
+//#include "SqPruner.h"
 
 namespace physx
 {
 
-
-namespace Cm
+namespace Sq
 {
-	class FlushPool;
-	class EventProfiler;
+typedef PxU32 PrunerHandle;	// PT: we should get this from SqPruner.h but it cannot be included from here
 }
 
 namespace Sc
 {
-
 struct SqBoundsSync;
 struct SqRefFinder;
-class Scene;
 class ShapeSim;
 
 class SqBoundsManager : public Ps::UserAllocated
 {
 	PX_NOCOPY(SqBoundsManager)
 public:
-	SqBoundsManager();
+									SqBoundsManager();
 
-	void addShape(ShapeSim& shape);
-	void removeShape(ShapeSim& shape);
-	void syncBounds(SqBoundsSync& sync, SqRefFinder& finder, const PxBounds3* bounds, PxU64 contextID);	
+	void							addShape(ShapeSim& shape);
+	void							removeShape(ShapeSim& shape);
+	void							syncBounds(SqBoundsSync& sync, SqRefFinder& finder, const PxBounds3* bounds, PxU64 contextID);	
 
 private:
 
-	Ps::Array<ShapeSim*>	mShapes;			// 
-	Ps::Array<PxU32>		mRefs;				// SQ pruner references
-	Ps::Array<PxU32>		mBoundsIndices;		// indices into the Sc bounds array
-	Ps::CoalescedHashSet<ShapeSim*> mRefless;	// shapesims without references
+	Ps::Array<ShapeSim*>			mShapes;		// 
+	Ps::Array<Sq::PrunerHandle>		mRefs;			// SQ pruner references
+	Ps::Array<PxU32>				mBoundsIndices;	// indices into the Sc bounds array
+	Ps::CoalescedHashSet<ShapeSim*>	mRefless;		// shapesims without references
 };
 }
 }

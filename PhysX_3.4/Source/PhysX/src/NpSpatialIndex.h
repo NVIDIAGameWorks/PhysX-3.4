@@ -56,8 +56,6 @@ public:
 
 	virtual	void					remove(PxSpatialIndexItemId id);
 
-	virtual PxBounds3				getBounds(PxSpatialIndexItemId id)				const;
-
 	virtual void					overlap(const PxBounds3& aabb,
 											PxSpatialOverlapCallback& callback)		const;
 

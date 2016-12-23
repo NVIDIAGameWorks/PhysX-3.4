@@ -1295,7 +1295,7 @@ class PxScene
 	\return the box to which the geometry will be culled.
 	@see setVisualizationParameter setVisualizationCullingBox 
 	*/
-	virtual const PxBounds3&	getVisualizationCullingBox() const = 0;
+	virtual PxBounds3			getVisualizationCullingBox() const = 0;
 	
 	/**
 	\brief Retrieves the render buffer.

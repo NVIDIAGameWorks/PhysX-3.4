@@ -31,6 +31,7 @@
 
 #include "SnXmlMemoryPool.h"
 #include "PsString.h"
+#include "foundation/PxMemory.h"
 
 namespace physx { namespace Sn {
 
@@ -60,7 +61,7 @@ namespace snXmlImpl {
 			//The memory will never be released by repx.  If you want it released, you need to pass in a custom allocator
 			//that tracks all allocations and releases unreleased allocations yourself.
 			char* dest = reinterpret_cast<char* >( inAllocator.allocate( theLen + 1, "Repx::const char*", __FILE__, __LINE__ ) );
-			memcpy( dest, inStr, theLen );
+			PxMemCopy( dest, inStr, theLen );
 			dest[theLen] = 0;
 			return dest;
 		}
@@ -74,7 +75,7 @@ namespace snXmlImpl {
 		{
 			PxU32 theLen = snXmlImpl::strLen( inStr );
 			char* dest = reinterpret_cast<char* >( inMgr->allocate( theLen + 1 ) );
-			memcpy( dest, inStr, theLen );
+			PxMemCopy( dest, inStr, theLen );
 			dest[theLen] = 0;
 			return dest;
 		}

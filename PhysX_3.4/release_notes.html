@@ -74,6 +74,8 @@
 			<li>PxCloneShape has been added to enable cloning of shapes.</li>
 			<li>acquireReference() has been added to increment the reference count of shapes, materials, triangle meshes, convex meshes heightfields and cloth fabrics.</li>
 			<li>The global filter shader data block can now be set through PxScene::setFilterShaderData().</li>
+			<li>PxGpuLoadHook and PxSetPhysXGpuLoadHook has been added to support loading of GPU dll with a different name than the default.</li>
+			<li>A new profile zone has been added for debug visualization.</li>
 		</ul>
 		<li>Changed:</li>
 		<ul>
@@ -107,10 +109,15 @@
 		<ul>
 			<li>PxScene::setFlag() does now properly send error messages in CHECKED builds if a non-mutable scene flag gets passed in.</li>
             <li>Fixed a bug in force threshold based contact reports, which caused events to be lost.</li>
-			<li>Fixed a bug in aggregates that led to a crash when rigid bodies are added to an aggregate after removing all rigid bodies from an aggregate.   This only occurred with aggregates that were added to the scene and with rigid bodies that had shapes attached.</li>
+			<li>Fixed a bug in aggregates that led to a crash when rigid bodies are added to an aggregate after removing all rigid bodies from an aggregate. This only occurred with aggregates that were added to the scene and with rigid bodies that had shapes attached.</li>
             <li>Fixed a bug where non-breakable joints could break, leading to a crash. </li>
             <li>Fixed RepX load of kinematic rigid bodies with mesh shapes.</li>
-            <li>Fixed a divide by zero bug in SIMD distanceSegmentTriangle function</li>
+            <li>Fixed a divide by zero bug in SIMD distanceSegmentTriangle function.</li>
+            <li>Debug visualization for compound bounds (PxVisualizationParameter::eCOLLISION_COMPOUNDS) now works even when all the compounds' shapes have their debug viz flag (PxShapeFlag::eVISUALIZATION) disabled.</li>
+			<li>Double-buffering now works properly for the debug visualization culling box.</li>
+			<li>The default debug visualization culling box now works correctly with heightfields.</li>
+			<li>Rare crashes in PxShape::setGeometry() and PxShape::getMaterials() have been fixed.</li>
+			<li>A crash happening when doing an origin shift on a scene containing an empty aggregate has been fixed.</li>
 		</ul>
 		<li>Deprecated:</li>
 		<ul>
@@ -229,6 +236,7 @@
 			<li>Fixed a bug when PxShape::setMaterials was called with less materials than shape had before.</li>
             <li>Fixed a bug in CCD that could lead to a hang in the simulation.</li>
             <li>Fixed a bug in PCM mesh edge-edge check for the parallel case. </li>
+            <li>Fixed a bug in CCD where contact modify callbacks could be called when the CCD did not detect a contact.</li>
 		</ul>
 	</ul>
 
@@ -254,6 +262,10 @@
 
 	<h3>Character controller</h3>
 	<ul>
+		<li>Added:</li>
+		<ul>
+			<li>Profile zones have been added for the character controller.</li>
+		</ul>
 		<li>Fixed:</li>
 		<ul>
 			<li>Character controllers cannot stand on dynamic triggers anymore.</li>
@@ -377,8 +389,10 @@
 
 	<h3>Physx Visual Debugger</h3>
 	<ul>
-		<li>PhysXVisualDebuggerSDK, PvdRuntime projects relpaced with PxPvdSDK.</li>
-		<li>PxPvdSceneClient::drawPoints now takes physx::pvdsdk::PvdDebugPoint as input parameter instead of PxDebugPoint. drawLines, drawTriangles,  drawText and so on.</li>
+		<li>PhysXVisualDebuggerSDK, PvdRuntime projects replaced with PxPvdSDK.</li>
+		<li>PxPvdSceneClient::drawPoints now takes physx::pvdsdk::PvdDebugPoint as input parameter instead of PxDebugPoint. drawLines, drawTriangles, drawText and so on.</li>
+		<li>The SDK's Debug visualization data is not sent to PVD anymore in ePROFILE mode.</li>
+		<li>PxPvdSceneFlag::eTRANSMIT_CONTACTS (instead of PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS) was sometimes incorrectly used to control the transmission of constraint-related data. This has been fixed. In addition, the PxPvdSceneFlag flags are now consistently ignored when PxPvdInstrumentationFlag::eDEBUG is not set.</li>
 	</ul>
 
 	<h3>Aggregates</h3>

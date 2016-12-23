@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_SCB_BASE
 #define PX_PHYSICS_SCB_BASE
 
@@ -36,13 +35,12 @@
 
 namespace physx
 {
-
 #if PX_SUPPORT_PVD
 	// PT: updatePvdProperties() is overloaded and the compiler needs to know 'this' type to do the right thing.
 	// Thus we can't just move this as an inlined Base function.
-	#define UPDATE_PVD_PROPERTIES_OBJECT()	 {									\
-		 Scb::Scene* scene_ = getScbSceneForAPI();								\
-		 if(scene_ && !insertPending()  )	                                    \
+	#define UPDATE_PVD_PROPERTIES_OBJECT()	 {						\
+		 Scb::Scene* scene_ = getScbSceneForAPI();					\
+		 if(scene_ && !insertPending()  )	                        \
 			scene_->getScenePvdClient().updatePvdProperties(this); }
 #else
 	#define UPDATE_PVD_PROPERTIES_OBJECT() {}
@@ -125,7 +123,6 @@ namespace Scb
 		};
 	};
 
-
 	/**
 	\brief Base class for objects that should support buffering.
 
@@ -148,8 +145,8 @@ namespace Scb
 
 // PX_SERIALIZATION
 												Base(const PxEMPTY) :
-			  										mScene			(NULL),
-													mStreamPtr(NULL)
+			  										mScene		(NULL),
+													mStreamPtr	(NULL)
 												{
 													resetAllBufferFlags();
 													resetControl(ControlState::eNOT_IN_SCENE);
@@ -157,10 +154,10 @@ namespace Scb
 		static			void					getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
 												Base() :
-													mScene				(NULL),
-													mStreamPtr			(NULL)
+													mScene		(NULL),
+													mStreamPtr	(NULL)
 												{
-													setScbType(ScbType::UNDEFINED);
+													setScbType(ScbType::eUNDEFINED);
 													resetControl(ControlState::eNOT_IN_SCENE);
 													resetAllBufferFlags();
 												}
@@ -172,7 +169,6 @@ namespace Scb
 								(state == ControlState::eIN_SCENE && mScene->isPhysicsBuffering());
 						}
 
-
 		PX_FORCE_INLINE	Ps::IntBool				insertPending()					const	{ return getControlState() == ControlState::eINSERT_PENDING;		}
 		PX_FORCE_INLINE	ScbType::Enum			getScbType()					const	{ return ScbType::Enum((mControlState&eTYPE_MASK)>>eTYPE_SHIFT);	}
 		PX_FORCE_INLINE	void					setScbType(ScbType::Enum type)			{ mControlState = (mControlState&~eTYPE_MASK)|(type<<eTYPE_SHIFT);	}
@@ -180,15 +176,10 @@ namespace Scb
 		// the scene value field set if the object is either inserted, in simulation, or waiting for removal. If any of these things
 		// is true, it can't be added to a different scene
 
-		PX_FORCE_INLINE void					setScbScene(Scb::Scene* scene)
-						{
-							mScene = scene;
-						}
-
-		PX_FORCE_INLINE	Scb::Scene*				getScbScene()					const
-						{
-							return mScene;
-						}
+		PX_FORCE_INLINE void					setScbScene(Scb::Scene* scene)			{ mScene = scene;	}
+		PX_FORCE_INLINE	Scb::Scene*				getScbScene()					const	{ return mScene;	}
+		// PT: TODO: remove this redundant function
+		PX_FORCE_INLINE	void					resetScbScene()							{ mScene = NULL;	}
 				
 		/**
 		\brief Get scene pointer from a users perspective.
@@ -200,11 +191,9 @@ namespace Scb
 		*/
 		PX_FORCE_INLINE Scb::Scene*				getScbSceneForAPI()				const
 						{
-							ControlState::Enum state = getControlState();
-							return  state == ControlState::eINSERT_PENDING || state == ControlState::eIN_SCENE ? mScene : NULL;
+							const ControlState::Enum state = getControlState();
+							return state == ControlState::eINSERT_PENDING || state == ControlState::eIN_SCENE ? mScene : NULL;
 						}
-
-		PX_FORCE_INLINE	void					resetScbScene()								{ mScene = NULL; }
 
 		PX_FORCE_INLINE bool					hasUpdates()					const		{ return getControlFlags() & ControlFlag::eIS_UPDATED;							}
 		PX_FORCE_INLINE PxU32					getControlFlags()				const		{ return (mControlState&eCONTROLFLAG_MASK)>>eCONTROLFLAG_SHIFT;					}
@@ -254,7 +243,6 @@ namespace Scb
 							scheduleForUpdate();
 							mControlState |= flag;
 						}
-
 	protected:
 												~Base(){}
 
@@ -262,7 +250,6 @@ namespace Scb
 		PX_FORCE_INLINE void					setBufferFlag(PxU32 flag)				{ PX_ASSERT((flag & eBUFFERFLAG_MASK) == flag); mControlState |= flag; }
 		PX_FORCE_INLINE void					resetBufferFlag(PxU32 flag)				{ PX_ASSERT((flag & eBUFFERFLAG_MASK) == flag); mControlState &= ~flag; }
 		PX_FORCE_INLINE	void					resetAllBufferFlags()					{ mControlState &=~eBUFFERFLAG_MASK; }
-
 
 		/**
 		\brief Cleanup method after the object has been synced.
@@ -275,12 +262,12 @@ namespace Scb
 							// DS: this can get called even when mScene == NULL, by removeAggregate (see AggregateFreeStandingCreateDelete test) 
 							// TODO(dsequeira): investigate that when the dust settles on shape refactoring
 							PX_ASSERT(getControlState()!=ControlState::eNOT_IN_SCENE || mScene == NULL);
-							PX_ASSERT(getScbType()!=ScbType::UNDEFINED);
+							PX_ASSERT(getScbType()!=ScbType::eUNDEFINED);
 
 							mStreamPtr = NULL;
 							resetAllBufferFlags();
+//							resetControlFlag(ControlFlag::eIS_UPDATED);
 						}
-
 	private:
 						enum {	eBUFFERFLAG_MASK		= (1<<24) - 1,
 								eTYPE_MASK				= 15<<24,

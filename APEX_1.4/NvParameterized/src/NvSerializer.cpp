@@ -168,9 +168,9 @@ bool GetPlatform(const char *name, SerializePlatform &platform_)
 	}
 	else if( 0 == strcmp("GccOsX64", name) )
 	{
-		platform.archType = SerializePlatform::ARCH_X86_64;
-		platform.compilerType = SerializePlatform::COMP_GCC;
-		platform.osType = SerializePlatform::OS_MACOSX;
+		platform_.archType = SerializePlatform::ARCH_X86_64;
+		platform_.compilerType = SerializePlatform::COMP_GCC;
+		platform_.osType = SerializePlatform::OS_MACOSX;
 	}
 	else if( 0 == strcmp("AndroidARM", name) )
 	{
@@ -242,10 +242,10 @@ const char *GetPlatformName(const SerializePlatform &platform_)
 		}
 
 	case SerializePlatform::OS_MACOSX:
-			if( SerializePlatform::COMP_GCC != platform.compilerType )
+			if( SerializePlatform::COMP_GCC != platform_.compilerType )
 				return unknown;
 
-			switch( platform.archType )
+			switch( platform_.archType )
 		{
 			case SerializePlatform::ARCH_X86:
 				return "GccOsX32";

@@ -26,6 +26,7 @@
 // Copyright (c) 2008-2016 NVIDIA Corporation. All rights reserved.
 
 #include "foundation/PxIO.h"
+#include "foundation/PxMemory.h"
 #include "SnConvX.h"
 #include "common/PxSerialFramework.h"
 #include "serialization/SnSerialUtils.h"
@@ -694,7 +695,7 @@ bool MetaData::load(PxInputStream& inputStream, MetaDataType type)
 				if(entries[j].mFlags & PxMetaDataFlag::eEXTRA_DATA)
 					newEntries[nb++] = entries[j];
 			assert(nb==nbFields);
-			memcpy(entries, newEntries, nb*sizeof(PxMetaDataEntry));
+			PxMemCopy(entries, newEntries, nb*sizeof(PxMetaDataEntry));
 			PX_DELETE_ARRAY(newEntries);
 			qsort(entries, size_t(nbToSort), sizeof(PxMetaDataEntry), Local::compareEntries);
 		}

@@ -429,13 +429,13 @@ void NpActor::getGlobalPose(PxTransform& globalPose, const Scb::Shape& scbShape,
 
 	// PT: TODO: duplicated from SqBounds.cpp. Refactor.
 	const ScbType::Enum actorType = scbActor.getScbType();
-	if(actorType==ScbType::RIGID_STATIC)
+	if(actorType==ScbType::eRIGID_STATIC)
 	{
 		Cm::getStaticGlobalPoseAligned(static_cast<const Scb::RigidStatic&>(scbActor).getActor2World(), shape2Actor, globalPose);
 	}
 	else
 	{
-		PX_ASSERT(actorType==ScbType::BODY || actorType == ScbType::BODY_FROM_ARTICULATION_LINK);
+		PX_ASSERT(actorType==ScbType::eBODY || actorType == ScbType::eBODY_FROM_ARTICULATION_LINK);
 
 		const Scb::Body& body = static_cast<const Scb::Body&>(scbActor);
 		PX_ALIGN(16, PxTransform) kinematicTarget;
