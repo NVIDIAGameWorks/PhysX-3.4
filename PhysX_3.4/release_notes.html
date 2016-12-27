@@ -291,11 +291,13 @@
 		<ul>
 			<li>In checked build the functions PxVehicleDrive4W::allocate, PxVehicleDriveNW::allocate, PxVehicleDriveTank::allocate, PxVehicleNoDrive::allocate all return NULL and issue a warning if called before
 			PxInitVehicleSDK.</li>
+			<li>Tire width is no longer accounted for when computing the suspension compression from raycasts (PxVehicleSuspensionRaycasts).  Instead, tire width is incorporated into the suspension compression arising from swept wheels (PxVehicleSuspensionSweeps).  It is recommended to use PxVehicleSuspensionSweeps if there is a strict requirement that the inside and outside of the wheel don't visibly penetrate geometry.</li>
 		</ul>
 		<li>Fixed:</li>
 		<ul>
 			<li>Suspension force calculation now applies an extra force perpendicular to the spring travel direction.	This force is calculated to satisfy the constraint that the sprung mass only has motion along the spring travel direction.	This change mostly affects vehicles with suspension travel directions that are not vertical.</li>
 			<li>PxVehicleWheelsSimData::mThresholdLongitudinalSpeed and PxVehicleWheelsSimData::mMinLongSlipDenominator are now given default values that reflect the length scale set in PxTolerancesScale.</li>
+			<li>Unphysically large constraint forces were generated to resolve the suspension compression beyond its limit when the suspension direction and the hit normal under the wheel approach perpendicularity.  This has been fixed so that the constraint force approaches zero as the angle between the hit normal and suspension direction approaches a right angle.</li>
 		</ul>
 	</ul>
 

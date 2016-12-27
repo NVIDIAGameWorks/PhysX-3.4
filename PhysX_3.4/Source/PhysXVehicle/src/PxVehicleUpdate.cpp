@@ -2320,10 +2320,12 @@ bool intersectRayPlane
 	//We'll use this later to compute a position at the bottom of the wheel.
 	const PxVec3 pos = v;
 
+	//Remove this code because we handle tire width with sweeps now.
 	//Work out if the inner or outer disc is deeper in the plane.
-	const PxVec3 latDir = carChassisTrnsfm.rotate(gRight);
-	const PxF32 signDot = computeSign(hitNorm.dot(latDir));
-	v -= latDir*(signDot*0.5f*width);
+	//const PxVec3 latDir = carChassisTrnsfm.rotate(gRight);
+	//const PxF32 signDot = computeSign(hitNorm.dot(latDir));
+	//v -= latDir*(signDot*0.5f*width);
+	PX_UNUSED(width);
 
 	//Work out the point on the susp line that touches the intersection plane.
 	//n.(v+wt)+d=0 where n,d describe the plane; v,w describe the susp ray; t is the point on the susp line.
@@ -3269,7 +3271,7 @@ void processSuspTireWheels
 				suspLimitErrors[i] = (w.dot(hitNorm))*(-dx + susp.mMaxCompression);
 				suspLimitActiveFlags[i] = (dx > susp.mMaxCompression);
 				suspLimitCMOffsets[i] = bodySpaceWheelCentreOffset;
-				suspLimitDirs[i] = carChassisTrnsfm.q.rotateInv(-hitNorm);
+				suspLimitDirs[i] = bodySpaceSuspTravelDir;
 				jounce=PxMin(dx,susp.mMaxCompression);
 
 				//Store the jounce (having a local copy avoids lhs).

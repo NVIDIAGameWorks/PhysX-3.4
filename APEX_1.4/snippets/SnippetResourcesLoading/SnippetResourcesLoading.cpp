@@ -22,6 +22,7 @@
 #include "PsString.h"
 
 #include <sys/stat.h>
+#include "Shlwapi.h"
 
 using namespace nvidia::apex;
 
@@ -31,6 +32,7 @@ ApexSDK*					gApexSDK = NULL;
 DummyRenderResourceManager* gDummyRenderResourceManager = NULL;
 MyResourceCallback*			gMyResourceCallback = NULL;
 
+LPTSTR gMediaPath;
 
 class MyMaterial
 {
@@ -56,7 +58,11 @@ public:
 		{
 			Asset* asset = 0;
 
-			const char* path = name;
+			CHAR buf[256];
+			strcpy(buf, gMediaPath);
+			strcat(buf, name);
+			strcat(buf, ".apx");
+			const char* path = &buf[1];
 
 			// does file exists?
 			struct stat info;
@@ -172,9 +178,6 @@ void releaseAPEX()
 	delete gMyResourceCallback;
 }
 
-
-#include "Shlwapi.h"
-
 int main(int, char**)
 {
 	initPhysX();
@@ -182,21 +185,16 @@ int main(int, char**)
 
 	Asset* asset;
 
-	LPTSTR cmd = GetCommandLine();
-	PathRemoveFileSpec(cmd);
-	strcat(cmd, "/../../snippets/SnippetCommon/");
+	gMediaPath = GetCommandLine();
+	PathRemoveFileSpec(gMediaPath);
+	strcat(gMediaPath, "/../../snippets/SnippetCommon/");
 
-	CHAR buf[256];
-	strcpy(buf, cmd);
-	strcat(buf, "testMeshEmitter4BasicIos6.apx");
-	asset = loadApexAsset(EMITTER_AUTHORING_TYPE_NAME, &buf[1]);
+	asset = loadApexAsset(EMITTER_AUTHORING_TYPE_NAME, "testMeshEmitter4BasicIos6");
 	asset->forceLoadAssets();
 	gApexSDK->forceLoadAssets();
 	asset->release();
 
-	strcpy(buf, cmd);
-	strcat(buf, "testSpriteEmitter4BasicIos6.apx");
-	asset = loadApexAsset(EMITTER_AUTHORING_TYPE_NAME, &buf[1]);
+	asset = loadApexAsset(EMITTER_AUTHORING_TYPE_NAME, "testSpriteEmitter4BasicIos6");
 	asset->forceLoadAssets();
 	gApexSDK->forceLoadAssets();
 	asset->release();
