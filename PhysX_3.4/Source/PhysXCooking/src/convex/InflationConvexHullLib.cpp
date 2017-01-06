@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2016 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -572,20 +572,34 @@ PxConvexMeshCookingResult::Enum InflationConvexHullLib::createConvexHull()
 	PxConvexMeshCookingResult::Enum res = PxConvexMeshCookingResult::eFAILURE;
 
 	PxU32 vcount = mConvexMeshDesc.points.count;
-	if ( vcount < 8 ) 
+	if (vcount < 8) 
 		vcount = 8;
 
-	// allocate additional vec3 for V4 safe load in VolumeInteration
+	// allocate additional vec3 for V4 safe load in VolumeIntegration
 	PxVec3* vsource  = reinterpret_cast<PxVec3*> (PX_ALLOC_TEMP( sizeof(PxVec3)*vcount + 1, "PxVec3"));
 	PxVec3 scale;
 	PxVec3 center;
 	PxU32 ovcount;
 
 	// cleanup the vertices first
-	if(!cleanupVertices(mConvexMeshDesc.points.count, reinterpret_cast<const PxVec3*> (mConvexMeshDesc.points.data), mConvexMeshDesc.points.stride,
-		ovcount, vsource, scale, center ))
-		return res;
-
+	if(mConvexMeshDesc.flags & PxConvexFlag::eSHIFT_VERTICES)
+	{
+		if(!shiftAndcleanupVertices(mConvexMeshDesc.points.count, reinterpret_cast<const PxVec3*> (mConvexMeshDesc.points.data), mConvexMeshDesc.points.stride,
+			ovcount, vsource, scale, center ))
+		{
+			PX_FREE(vsource);
+			return res;
+		}	
+	}
+	else
+	{
+		if(!cleanupVertices(mConvexMeshDesc.points.count, reinterpret_cast<const PxVec3*> (mConvexMeshDesc.points.data), mConvexMeshDesc.points.stride,
+			ovcount, vsource, scale, center ))
+		{
+			PX_FREE(vsource);
+			return res;
+		}	
+	}
 	// scale vertices back to their original size.
 	for (PxU32 i=0; i<ovcount; i++)
 	{
@@ -1456,6 +1470,9 @@ void InflationConvexHullLib::fillConvexMeshDesc(PxConvexMeshDesc& outDesc)
 	outDesc.polygons.data = mHullResult.mPolygons;
 
 	swapLargestFace(outDesc);
+
+	if(mConvexMeshDesc.flags & PxConvexFlag::eSHIFT_VERTICES)
+		shiftConvexMeshDesc(outDesc);
 }
 
 //////////////////////////////////////////////////////////////////////////

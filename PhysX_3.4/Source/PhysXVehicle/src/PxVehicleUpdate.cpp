@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2016 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -2304,7 +2304,7 @@ bool intersectRayPlane
  const PxVec4& hitPlane,
  PxF32& jounce, PxVec3& wheelBottomPos)
 {
-	const PxVec3 hitNorm = PxVec3(hitPlane.x, hitPlane.y, hitPlane.z);
+	
 
 	//Compute the raycast start pos and direction.
 	PxVec3 v, w;
@@ -2331,7 +2331,8 @@ bool intersectRayPlane
 	//n.(v+wt)+d=0 where n,d describe the plane; v,w describe the susp ray; t is the point on the susp line.
 	//t=-(n.v + d)/n.w
 	const PxF32 hitD = hitPlane.w;
-	const PxVec3& n = hitNorm;
+
+	const PxVec3 n = PxVec3(hitPlane.x, hitPlane.y, hitPlane.z);
 	const PxF32 d = hitD;
 	const PxF32 T=-(n.dot(v) + d)/(n.dot(w));
 

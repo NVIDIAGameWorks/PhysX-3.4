@@ -43,7 +43,7 @@
 <a name="l00023"></a>00023 <span class="comment">// components in life support devices or systems without express written approval of</span>
 <a name="l00024"></a>00024 <span class="comment">// NVIDIA Corporation.</span>
 <a name="l00025"></a>00025 <span class="comment">//</span>
-<a name="l00026"></a>00026 <span class="comment">// Copyright (c) 2008-2016 NVIDIA Corporation. All rights reserved.</span>
+<a name="l00026"></a>00026 <span class="comment">// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.</span>
 <a name="l00027"></a>00027 <span class="comment">// Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.</span>
 <a name="l00028"></a>00028 <span class="comment">// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  </span>
 <a name="l00029"></a>00029 
@@ -81,108 +81,110 @@
 <a name="l00130"></a>00130 
 <a name="l00135"></a><a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b6c694e25cda4aa49e1afb054b08bfc207">00135</a>         eFAST_INERTIA_COMPUTATION = (1 &lt;&lt; 7),
 <a name="l00136"></a>00136 
-<a name="l00142"></a><a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b68126f89c7d2dac99246261ca6a7ae067">00142</a>         eGPU_COMPATIBLE = (1 &lt;&lt; 8)
-<a name="l00143"></a>00143     };
-<a name="l00144"></a>00144 };
-<a name="l00145"></a>00145 
-<a name="l00151"></a><a class="code" href="group__cooking.html#g36d3375ae49e62c3842c3fbe0c620651">00151</a> <span class="keyword">typedef</span> <a class="code" href="classPxFlags.html">PxFlags&lt;PxConvexFlag::Enum,PxU16&gt;</a> <a class="code" href="classPxFlags.html">PxConvexFlags</a>;
-<a name="l00152"></a>00152 <a class="code" href="group__foundation.html#g092f922a63fdc7a95ae4f4e24b3768c1">PX_FLAGS_OPERATORS</a>(<a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b6">PxConvexFlag::Enum</a>,<a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a>)
+<a name="l00142"></a><a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b68126f89c7d2dac99246261ca6a7ae067">00142</a>         eGPU_COMPATIBLE = (1 &lt;&lt; 8),
+<a name="l00143"></a>00143 
+<a name="l00150"></a><a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b699ab52dd1e60d72bc99834e1b8093d78">00150</a>         eSHIFT_VERTICES = (1 &lt;&lt; 9)
+<a name="l00151"></a>00151     };
+<a name="l00152"></a>00152 };
 <a name="l00153"></a>00153 
-<a name="l00154"></a>00154 
-<a name="l00161"></a><a class="code" href="classPxConvexMeshDesc.html">00161</a> class <a class="code" href="classPxConvexMeshDesc.html" title="Descriptor class for PxConvexMesh.">PxConvexMeshDesc</a>
-<a name="l00162"></a>00162 {
-<a name="l00163"></a>00163 <span class="keyword">public</span>:
-<a name="l00164"></a>00164 
-<a name="l00170"></a><a class="code" href="classPxConvexMeshDesc.html#939b97ee9f36cd1c1a7b7c34b0e764ef">00170</a>     <a class="code" href="structPxBoundedData.html">PxBoundedData</a> points;
-<a name="l00171"></a>00171 
-<a name="l00180"></a><a class="code" href="classPxConvexMeshDesc.html#1b710dc3c2ef759a6bef8bd888e1ecf8">00180</a>     <a class="code" href="structPxBoundedData.html">PxBoundedData</a> polygons;
-<a name="l00181"></a>00181 
-<a name="l00192"></a><a class="code" href="classPxConvexMeshDesc.html#4e760fc52d1f0f9e55c919320bed1cef">00192</a>     <a class="code" href="structPxBoundedData.html">PxBoundedData</a> indices;
-<a name="l00193"></a>00193 
-<a name="l00199"></a><a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab">00199</a>     <a class="code" href="classPxFlags.html">PxConvexFlags</a> flags;
-<a name="l00200"></a>00200 
-<a name="l00214"></a><a class="code" href="classPxConvexMeshDesc.html#467c6feb39620d546a6bc9054405a728">00214</a>     <a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a> vertexLimit;  
-<a name="l00215"></a>00215 
-<a name="l00225"></a><a class="code" href="classPxConvexMeshDesc.html#8dc525326a4835f94311f4e44ca219f2">00225</a>     <a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a> quantizedCount;
-<a name="l00226"></a>00226 
-<a name="l00230"></a>00230     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> PxConvexMeshDesc();
-<a name="l00234"></a>00234     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">void</span> setToDefault();
-<a name="l00240"></a>00240     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">bool</span> isValid() <span class="keyword">const</span>;
-<a name="l00241"></a>00241 };
-<a name="l00242"></a>00242 
-<a name="l00243"></a><a class="code" href="group__cooking.html#g2b98217f34d8856ebe839821740ac438">00243</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <a class="code" href="group__cooking.html#g2b98217f34d8856ebe839821740ac438" title="constructor sets to default.">PxConvexMeshDesc::PxConvexMeshDesc</a>()  <span class="comment">//constructor sets to default</span>
-<a name="l00244"></a>00244 : vertexLimit(255), quantizedCount(255)
-<a name="l00245"></a>00245 {
-<a name="l00246"></a>00246 }
-<a name="l00247"></a>00247 
-<a name="l00248"></a><a class="code" href="group__cooking.html#g6e86954b2426aae207489af9928d45e3">00248</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">void</span> <a class="code" href="group__cooking.html#g6e86954b2426aae207489af9928d45e3" title="(re)sets the structure to the default.">PxConvexMeshDesc::setToDefault</a>()
-<a name="l00249"></a>00249 {
-<a name="l00250"></a>00250     *<span class="keyword">this</span> = <a class="code" href="group__cooking.html#g2b98217f34d8856ebe839821740ac438" title="constructor sets to default.">PxConvexMeshDesc</a>();
-<a name="l00251"></a>00251 }
-<a name="l00252"></a>00252 
-<a name="l00253"></a><a class="code" href="group__cooking.html#g5e7791d7f0688a9f642a9345a7083708">00253</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">bool</span> <a class="code" href="group__cooking.html#g5e7791d7f0688a9f642a9345a7083708" title="Returns true if the descriptor is valid.">PxConvexMeshDesc::isValid</a>()<span class="keyword"> const</span>
-<a name="l00254"></a>00254 <span class="keyword"></span>{
-<a name="l00255"></a>00255     <span class="comment">// Check geometry</span>
-<a name="l00256"></a>00256     <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#939b97ee9f36cd1c1a7b7c34b0e764ef" title="Vertex positions data in PxBoundedData format.">points</a>.<a class="code" href="structPxBoundedData.html#99f022ab9aad0f98028254c1f433165f">count</a> &lt; 3 ||  <span class="comment">//at least 1 trig's worth of points</span>
-<a name="l00257"></a>00257         (<a class="code" href="classPxConvexMeshDesc.html#939b97ee9f36cd1c1a7b7c34b0e764ef" title="Vertex positions data in PxBoundedData format.">points</a>.<a class="code" href="structPxBoundedData.html#99f022ab9aad0f98028254c1f433165f">count</a> &gt; 0xffff &amp;&amp; <a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab" title="Flags bits, combined from values of the enum PxConvexFlag.">flags</a> &amp; <a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b618b6c42727636f294561c735de5dc37b">PxConvexFlag::e16_BIT_INDICES</a>))
-<a name="l00258"></a>00258         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00259"></a>00259     <span class="keywordflow">if</span>(!<a class="code" href="classPxConvexMeshDesc.html#939b97ee9f36cd1c1a7b7c34b0e764ef" title="Vertex positions data in PxBoundedData format.">points</a>.<a class="code" href="structPxStridedData.html#d98a9e00d44b1c2c48c6dec114693f18">data</a>)
-<a name="l00260"></a>00260         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00261"></a>00261     <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#939b97ee9f36cd1c1a7b7c34b0e764ef" title="Vertex positions data in PxBoundedData format.">points</a>.<a class="code" href="structPxStridedData.html#abf495b4b5caec8f5350645a49e68fb3" title="The offset in bytes between consecutive samples in the data.">stride</a> &lt; <span class="keyword">sizeof</span>(<a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>))  <span class="comment">//should be at least one point's worth of data</span>
-<a name="l00262"></a>00262         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00263"></a>00263     <span class="keywordflow">if</span> (<a class="code" href="classPxConvexMeshDesc.html#8dc525326a4835f94311f4e44ca219f2" title="Maximum number of vertices after quantization. The quantization is done during the...">quantizedCount</a> &lt; 4)
-<a name="l00264"></a>00264         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00265"></a>00265 
-<a name="l00266"></a>00266     <span class="comment">// Check topology</span>
-<a name="l00267"></a>00267     <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#1b710dc3c2ef759a6bef8bd888e1ecf8" title="Polygons data in PxBoundedData format.">polygons</a>.<a class="code" href="structPxStridedData.html#d98a9e00d44b1c2c48c6dec114693f18">data</a>)
-<a name="l00268"></a>00268     {
-<a name="l00269"></a>00269         <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#1b710dc3c2ef759a6bef8bd888e1ecf8" title="Polygons data in PxBoundedData format.">polygons</a>.<a class="code" href="structPxBoundedData.html#99f022ab9aad0f98028254c1f433165f">count</a> &lt; 4) <span class="comment">// we require 2 neighbors for each vertex - 4 polygons at least</span>
-<a name="l00270"></a>00270             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00271"></a>00271 
-<a name="l00272"></a>00272         <span class="keywordflow">if</span>(!<a class="code" href="classPxConvexMeshDesc.html#4e760fc52d1f0f9e55c919320bed1cef" title="Polygon indices data in PxBoundedData format.">indices</a>.<a class="code" href="structPxStridedData.html#d98a9e00d44b1c2c48c6dec114693f18">data</a>) <span class="comment">// indices must be provided together with polygons</span>
-<a name="l00273"></a>00273             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00274"></a>00274 
-<a name="l00275"></a>00275         <a class="code" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> limit = (<a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab" title="Flags bits, combined from values of the enum PxConvexFlag.">flags</a> &amp; PxConvexFlag::e16_BIT_INDICES) ? <span class="keyword">sizeof</span>(<a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a>) : <span class="keyword">sizeof</span>(<a class="code" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>);
-<a name="l00276"></a>00276         <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#4e760fc52d1f0f9e55c919320bed1cef" title="Polygon indices data in PxBoundedData format.">indices</a>.<a class="code" href="structPxStridedData.html#abf495b4b5caec8f5350645a49e68fb3" title="The offset in bytes between consecutive samples in the data.">stride</a> &lt; limit) 
-<a name="l00277"></a>00277             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00278"></a>00278 
-<a name="l00279"></a>00279         limit = <span class="keyword">sizeof</span>(<a class="code" href="structPxHullPolygon.html" title="Polygon data.">PxHullPolygon</a>);
-<a name="l00280"></a>00280         <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#1b710dc3c2ef759a6bef8bd888e1ecf8" title="Polygons data in PxBoundedData format.">polygons</a>.<a class="code" href="structPxStridedData.html#abf495b4b5caec8f5350645a49e68fb3" title="The offset in bytes between consecutive samples in the data.">stride</a> &lt; limit) 
+<a name="l00159"></a><a class="code" href="group__cooking.html#g36d3375ae49e62c3842c3fbe0c620651">00159</a> <span class="keyword">typedef</span> <a class="code" href="classPxFlags.html">PxFlags&lt;PxConvexFlag::Enum,PxU16&gt;</a> <a class="code" href="classPxFlags.html">PxConvexFlags</a>;
+<a name="l00160"></a>00160 <a class="code" href="group__foundation.html#g092f922a63fdc7a95ae4f4e24b3768c1">PX_FLAGS_OPERATORS</a>(<a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b6">PxConvexFlag::Enum</a>,<a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a>)
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162 
+<a name="l00169"></a><a class="code" href="classPxConvexMeshDesc.html">00169</a> class <a class="code" href="classPxConvexMeshDesc.html" title="Descriptor class for PxConvexMesh.">PxConvexMeshDesc</a>
+<a name="l00170"></a>00170 {
+<a name="l00171"></a>00171 <span class="keyword">public</span>:
+<a name="l00172"></a>00172 
+<a name="l00178"></a><a class="code" href="classPxConvexMeshDesc.html#939b97ee9f36cd1c1a7b7c34b0e764ef">00178</a>     <a class="code" href="structPxBoundedData.html">PxBoundedData</a> points;
+<a name="l00179"></a>00179 
+<a name="l00188"></a><a class="code" href="classPxConvexMeshDesc.html#1b710dc3c2ef759a6bef8bd888e1ecf8">00188</a>     <a class="code" href="structPxBoundedData.html">PxBoundedData</a> polygons;
+<a name="l00189"></a>00189 
+<a name="l00200"></a><a class="code" href="classPxConvexMeshDesc.html#4e760fc52d1f0f9e55c919320bed1cef">00200</a>     <a class="code" href="structPxBoundedData.html">PxBoundedData</a> indices;
+<a name="l00201"></a>00201 
+<a name="l00207"></a><a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab">00207</a>     <a class="code" href="classPxFlags.html">PxConvexFlags</a> flags;
+<a name="l00208"></a>00208 
+<a name="l00222"></a><a class="code" href="classPxConvexMeshDesc.html#467c6feb39620d546a6bc9054405a728">00222</a>     <a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a> vertexLimit;  
+<a name="l00223"></a>00223 
+<a name="l00233"></a><a class="code" href="classPxConvexMeshDesc.html#8dc525326a4835f94311f4e44ca219f2">00233</a>     <a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a> quantizedCount;
+<a name="l00234"></a>00234 
+<a name="l00238"></a>00238     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> PxConvexMeshDesc();
+<a name="l00242"></a>00242     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">void</span> setToDefault();
+<a name="l00248"></a>00248     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">bool</span> isValid() <span class="keyword">const</span>;
+<a name="l00249"></a>00249 };
+<a name="l00250"></a>00250 
+<a name="l00251"></a><a class="code" href="group__cooking.html#g2b98217f34d8856ebe839821740ac438">00251</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <a class="code" href="group__cooking.html#g2b98217f34d8856ebe839821740ac438" title="constructor sets to default.">PxConvexMeshDesc::PxConvexMeshDesc</a>()  <span class="comment">//constructor sets to default</span>
+<a name="l00252"></a>00252 : vertexLimit(255), quantizedCount(255)
+<a name="l00253"></a>00253 {
+<a name="l00254"></a>00254 }
+<a name="l00255"></a>00255 
+<a name="l00256"></a><a class="code" href="group__cooking.html#g6e86954b2426aae207489af9928d45e3">00256</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">void</span> <a class="code" href="group__cooking.html#g6e86954b2426aae207489af9928d45e3" title="(re)sets the structure to the default.">PxConvexMeshDesc::setToDefault</a>()
+<a name="l00257"></a>00257 {
+<a name="l00258"></a>00258     *<span class="keyword">this</span> = <a class="code" href="group__cooking.html#g2b98217f34d8856ebe839821740ac438" title="constructor sets to default.">PxConvexMeshDesc</a>();
+<a name="l00259"></a>00259 }
+<a name="l00260"></a>00260 
+<a name="l00261"></a><a class="code" href="group__cooking.html#g5e7791d7f0688a9f642a9345a7083708">00261</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">bool</span> <a class="code" href="group__cooking.html#g5e7791d7f0688a9f642a9345a7083708" title="Returns true if the descriptor is valid.">PxConvexMeshDesc::isValid</a>()<span class="keyword"> const</span>
+<a name="l00262"></a>00262 <span class="keyword"></span>{
+<a name="l00263"></a>00263     <span class="comment">// Check geometry</span>
+<a name="l00264"></a>00264     <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#939b97ee9f36cd1c1a7b7c34b0e764ef" title="Vertex positions data in PxBoundedData format.">points</a>.<a class="code" href="structPxBoundedData.html#99f022ab9aad0f98028254c1f433165f">count</a> &lt; 3 ||  <span class="comment">//at least 1 trig's worth of points</span>
+<a name="l00265"></a>00265         (<a class="code" href="classPxConvexMeshDesc.html#939b97ee9f36cd1c1a7b7c34b0e764ef" title="Vertex positions data in PxBoundedData format.">points</a>.<a class="code" href="structPxBoundedData.html#99f022ab9aad0f98028254c1f433165f">count</a> &gt; 0xffff &amp;&amp; <a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab" title="Flags bits, combined from values of the enum PxConvexFlag.">flags</a> &amp; <a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b618b6c42727636f294561c735de5dc37b">PxConvexFlag::e16_BIT_INDICES</a>))
+<a name="l00266"></a>00266         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00267"></a>00267     <span class="keywordflow">if</span>(!<a class="code" href="classPxConvexMeshDesc.html#939b97ee9f36cd1c1a7b7c34b0e764ef" title="Vertex positions data in PxBoundedData format.">points</a>.<a class="code" href="structPxStridedData.html#d98a9e00d44b1c2c48c6dec114693f18">data</a>)
+<a name="l00268"></a>00268         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00269"></a>00269     <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#939b97ee9f36cd1c1a7b7c34b0e764ef" title="Vertex positions data in PxBoundedData format.">points</a>.<a class="code" href="structPxStridedData.html#abf495b4b5caec8f5350645a49e68fb3" title="The offset in bytes between consecutive samples in the data.">stride</a> &lt; <span class="keyword">sizeof</span>(<a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>))  <span class="comment">//should be at least one point's worth of data</span>
+<a name="l00270"></a>00270         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00271"></a>00271     <span class="keywordflow">if</span> (<a class="code" href="classPxConvexMeshDesc.html#8dc525326a4835f94311f4e44ca219f2" title="Maximum number of vertices after quantization. The quantization is done during the...">quantizedCount</a> &lt; 4)
+<a name="l00272"></a>00272         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274     <span class="comment">// Check topology</span>
+<a name="l00275"></a>00275     <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#1b710dc3c2ef759a6bef8bd888e1ecf8" title="Polygons data in PxBoundedData format.">polygons</a>.<a class="code" href="structPxStridedData.html#d98a9e00d44b1c2c48c6dec114693f18">data</a>)
+<a name="l00276"></a>00276     {
+<a name="l00277"></a>00277         <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#1b710dc3c2ef759a6bef8bd888e1ecf8" title="Polygons data in PxBoundedData format.">polygons</a>.<a class="code" href="structPxBoundedData.html#99f022ab9aad0f98028254c1f433165f">count</a> &lt; 4) <span class="comment">// we require 2 neighbors for each vertex - 4 polygons at least</span>
+<a name="l00278"></a>00278             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00279"></a>00279 
+<a name="l00280"></a>00280         <span class="keywordflow">if</span>(!<a class="code" href="classPxConvexMeshDesc.html#4e760fc52d1f0f9e55c919320bed1cef" title="Polygon indices data in PxBoundedData format.">indices</a>.<a class="code" href="structPxStridedData.html#d98a9e00d44b1c2c48c6dec114693f18">data</a>) <span class="comment">// indices must be provided together with polygons</span>
 <a name="l00281"></a>00281             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00282"></a>00282     }
-<a name="l00283"></a>00283     <span class="keywordflow">else</span>
-<a name="l00284"></a>00284     {
-<a name="l00285"></a>00285         <span class="comment">// We can compute the hull from the vertices</span>
-<a name="l00286"></a>00286         <span class="keywordflow">if</span>(!(<a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab" title="Flags bits, combined from values of the enum PxConvexFlag.">flags</a> &amp; <a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b6d3153afeb45ae6488b40fc4698919c6b">PxConvexFlag::eCOMPUTE_CONVEX</a>))
-<a name="l00287"></a>00287             <span class="keywordflow">return</span> <span class="keyword">false</span>;   <span class="comment">// If the mesh is convex and we're not allowed to compute the hull,</span>
-<a name="l00288"></a>00288                             <span class="comment">// you have to provide it completely (geometry &amp; topology).</span>
-<a name="l00289"></a>00289     }
-<a name="l00290"></a>00290 
-<a name="l00291"></a>00291     <span class="keywordflow">if</span>((<a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab" title="Flags bits, combined from values of the enum PxConvexFlag.">flags</a> &amp; <a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b662cbe73f95f10cb93b5d471affef7c89" title="Enables plane shifting vertex limit algorithm.">PxConvexFlag::ePLANE_SHIFTING</a>) &amp;&amp;  <a class="code" href="classPxConvexMeshDesc.html#467c6feb39620d546a6bc9054405a728" title="Limits the number of vertices of the result convex mesh. Hard maximum limit is 256...">vertexLimit</a> &lt; 4)
+<a name="l00282"></a>00282 
+<a name="l00283"></a>00283         <a class="code" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> limit = (<a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab" title="Flags bits, combined from values of the enum PxConvexFlag.">flags</a> &amp; PxConvexFlag::e16_BIT_INDICES) ? <span class="keyword">sizeof</span>(<a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a>) : <span class="keyword">sizeof</span>(<a class="code" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>);
+<a name="l00284"></a>00284         <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#4e760fc52d1f0f9e55c919320bed1cef" title="Polygon indices data in PxBoundedData format.">indices</a>.<a class="code" href="structPxStridedData.html#abf495b4b5caec8f5350645a49e68fb3" title="The offset in bytes between consecutive samples in the data.">stride</a> &lt; limit) 
+<a name="l00285"></a>00285             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00286"></a>00286 
+<a name="l00287"></a>00287         limit = <span class="keyword">sizeof</span>(<a class="code" href="structPxHullPolygon.html" title="Polygon data.">PxHullPolygon</a>);
+<a name="l00288"></a>00288         <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#1b710dc3c2ef759a6bef8bd888e1ecf8" title="Polygons data in PxBoundedData format.">polygons</a>.<a class="code" href="structPxStridedData.html#abf495b4b5caec8f5350645a49e68fb3" title="The offset in bytes between consecutive samples in the data.">stride</a> &lt; limit) 
+<a name="l00289"></a>00289             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00290"></a>00290     }
+<a name="l00291"></a>00291     <span class="keywordflow">else</span>
 <a name="l00292"></a>00292     {
-<a name="l00293"></a>00293         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00294"></a>00294     }
-<a name="l00295"></a>00295 
-<a name="l00296"></a>00296     <span class="keywordflow">if</span> (!(<a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab" title="Flags bits, combined from values of the enum PxConvexFlag.">flags</a> &amp; PxConvexFlag::ePLANE_SHIFTING) &amp;&amp; <a class="code" href="classPxConvexMeshDesc.html#467c6feb39620d546a6bc9054405a728" title="Limits the number of vertices of the result convex mesh. Hard maximum limit is 256...">vertexLimit</a> &lt; 8)
-<a name="l00297"></a>00297     {
-<a name="l00298"></a>00298         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00299"></a>00299     }
-<a name="l00300"></a>00300 
-<a name="l00301"></a>00301     <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#467c6feb39620d546a6bc9054405a728" title="Limits the number of vertices of the result convex mesh. Hard maximum limit is 256...">vertexLimit</a> &gt; 256)
-<a name="l00302"></a>00302     {
-<a name="l00303"></a>00303         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00304"></a>00304     }
-<a name="l00305"></a>00305     <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00306"></a>00306 }
-<a name="l00307"></a>00307 
-<a name="l00308"></a>00308 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00309"></a>00309 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00310"></a>00310 <span class="preprocessor">#endif</span>
-<a name="l00311"></a>00311 <span class="preprocessor"></span>
-<a name="l00313"></a>00313 <span class="preprocessor">#endif</span>
+<a name="l00293"></a>00293         <span class="comment">// We can compute the hull from the vertices</span>
+<a name="l00294"></a>00294         <span class="keywordflow">if</span>(!(<a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab" title="Flags bits, combined from values of the enum PxConvexFlag.">flags</a> &amp; <a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b6d3153afeb45ae6488b40fc4698919c6b">PxConvexFlag::eCOMPUTE_CONVEX</a>))
+<a name="l00295"></a>00295             <span class="keywordflow">return</span> <span class="keyword">false</span>;   <span class="comment">// If the mesh is convex and we're not allowed to compute the hull,</span>
+<a name="l00296"></a>00296                             <span class="comment">// you have to provide it completely (geometry &amp; topology).</span>
+<a name="l00297"></a>00297     }
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299     <span class="keywordflow">if</span>((<a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab" title="Flags bits, combined from values of the enum PxConvexFlag.">flags</a> &amp; <a class="code" href="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b662cbe73f95f10cb93b5d471affef7c89" title="Enables plane shifting vertex limit algorithm.">PxConvexFlag::ePLANE_SHIFTING</a>) &amp;&amp;  <a class="code" href="classPxConvexMeshDesc.html#467c6feb39620d546a6bc9054405a728" title="Limits the number of vertices of the result convex mesh. Hard maximum limit is 256...">vertexLimit</a> &lt; 4)
+<a name="l00300"></a>00300     {
+<a name="l00301"></a>00301         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00302"></a>00302     }
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304     <span class="keywordflow">if</span> (!(<a class="code" href="classPxConvexMeshDesc.html#f6d2315944dad51ba136b3563b7c00ab" title="Flags bits, combined from values of the enum PxConvexFlag.">flags</a> &amp; PxConvexFlag::ePLANE_SHIFTING) &amp;&amp; <a class="code" href="classPxConvexMeshDesc.html#467c6feb39620d546a6bc9054405a728" title="Limits the number of vertices of the result convex mesh. Hard maximum limit is 256...">vertexLimit</a> &lt; 8)
+<a name="l00305"></a>00305     {
+<a name="l00306"></a>00306         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00307"></a>00307     }
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309     <span class="keywordflow">if</span>(<a class="code" href="classPxConvexMeshDesc.html#467c6feb39620d546a6bc9054405a728" title="Limits the number of vertices of the result convex mesh. Hard maximum limit is 256...">vertexLimit</a> &gt; 256)
+<a name="l00310"></a>00310     {
+<a name="l00311"></a>00311         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00312"></a>00312     }
+<a name="l00313"></a>00313     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00314"></a>00314 }
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00317"></a>00317 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00318"></a>00318 <span class="preprocessor">#endif</span>
+<a name="l00319"></a>00319 <span class="preprocessor"></span>
+<a name="l00321"></a>00321 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>
-Copyright &copy; 2008-2016 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a>
+Copyright &copy; 2008-2017 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a>
 </body>
 </html>

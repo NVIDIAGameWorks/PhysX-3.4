@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2016 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -127,12 +127,62 @@ namespace local
 
 }
 
+
+//////////////////////////////////////////////////////////////////////////
+// shift vertices around origin and normalize point cloud, remove duplicates!
+bool ConvexHullLib::shiftAndcleanupVertices(PxU32 svcount, const PxVec3* svertices, PxU32 stride,
+	PxU32& vcount, PxVec3* vertices, PxVec3& scale, PxVec3& center)
+{
+	mShiftedVerts = reinterpret_cast<PxVec3*> (PX_ALLOC_TEMP(sizeof(PxVec3)*svcount, "PxVec3"));	
+	const char* vtx = reinterpret_cast<const char *> (svertices);
+	PxBounds3 bounds;
+	bounds.setEmpty();
+
+	// get the bounding box		
+	for (PxU32 i = 0; i < svcount; i++)
+	{
+		const PxVec3& p = *reinterpret_cast<const PxVec3 *> (vtx);
+		vtx += stride;
+
+		bounds.include(p);
+	}
+	mOriginShift = bounds.getCenter();
+	vtx = reinterpret_cast<const char *> (svertices);
+	for (PxU32 i = 0; i < svcount; i++)
+	{
+		const PxVec3& p = *reinterpret_cast<const PxVec3 *> (vtx);
+		vtx += stride;
+
+		mShiftedVerts[i] = p - mOriginShift;
+	}
+	return cleanupVertices(svcount, mShiftedVerts, sizeof(PxVec3), vcount, vertices, scale, center);
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Shift verts/planes in the desc back
+void ConvexHullLib::shiftConvexMeshDesc(PxConvexMeshDesc& desc)
+{
+	PX_ASSERT(mConvexMeshDesc.flags & PxConvexFlag::eSHIFT_VERTICES);
+
+	PxVec3* points = reinterpret_cast<PxVec3*>(const_cast<void*>(desc.points.data));
+	for(PxU32 i = 0; i < desc.points.count; i++)
+	{
+		points[i] = points[i] + mOriginShift;
+	}
+
+	PxHullPolygon* polygons = reinterpret_cast<PxHullPolygon*>(const_cast<void*>(desc.polygons.data));
+	for(PxU32 i = 0; i < desc.polygons.count; i++)
+	{
+		polygons[i].mPlane[3] -= PxVec3(polygons[i].mPlane[0], polygons[i].mPlane[1], polygons[i].mPlane[2]).dot(mOriginShift);
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////
 // normalize point cloud, remove duplicates!
 bool ConvexHullLib::cleanupVertices(PxU32 svcount, const PxVec3* svertices, PxU32 stride,
 	PxU32& vcount, PxVec3* vertices, PxVec3& scale, PxVec3& center)
 {
-	if ( svcount == 0 ) 
+	if (svcount == 0) 
 		return false;
 
 	const PxVec3* verticesToClean = svertices;
@@ -296,4 +346,7 @@ ConvexHullLib::~ConvexHullLib()
 {
 	if (mSwappedIndices)
 		PX_FREE(mSwappedIndices);
+
+	if(mShiftedVerts)
+		PX_FREE(mShiftedVerts);
 }

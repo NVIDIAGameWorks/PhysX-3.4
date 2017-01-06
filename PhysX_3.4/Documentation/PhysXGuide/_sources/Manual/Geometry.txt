@@ -171,7 +171,7 @@ This routine can sometimes fail when the source data is geometrically challengin
 If PxConvexFlag::eCHECK_ZERO_AREA_TRIANGLES is used, the algorithm does not include triangles with an area less than PxCookingParams::areaTestEpsilon. If the algorithm cannot find 4 initial vertices without a small triangle, PxConvexMeshCookingResult::eZERO_AREA_TEST_FAILED is returned. This means that the provided vertices were in a very small area and the cooker could not produce a valid hull.
 The toolkit helper function PxToolkit::createConvexMeshSafe illustrates the most robust strategy for convex mesh cooking. First it tries to create the hull without inflation. If that fails it tries inflation, and if that also fails, uses an AABB or OBB. 
 
-It is recommended to provide vertices around origin and put transformation in PxShape.
+It is recommended to provide vertices around origin and put transformation in PxShape, otherwise addional PxConvexFlag::eSHIFT_VERTICES flag for the mesh computation. 
 
 If huge amount of input vertices are provided, it might be useful to quantize the input vertices, in this case use PxConvexFlag::eQUANTIZE_INPUT and set the required PxConvexMeshDesc::quantizedCount.
 

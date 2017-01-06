@@ -1091,6 +1091,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleGearsData.html#31359110050aad08510b99208a304cb7ce45c074203f10fd830f6ef83652ba1d"><param name="Name" value="eSEVENTH"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConcreteType.html#d762aca1d4c8fffae41267fae4f1b8e8b6585d569ee421acfeadc5d89adf3bc3"><param name="Name" value="eSHAPE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxClothFabricPhaseType.html#9f876cdc99a8e874ef799592a5f5562e9d645daff0203a29ac7a78b69a8a1f7d"><param name="Name" value="eSHEARING"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b699ab52dd1e60d72bc99834e1b8093d78"><param name="Name" value="eSHIFT_VERTICES"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMeshCookingHint.html#f88f4aeeaffd545c26bc9b5215303796769f30972561dba7eef24120f4f9f7b3"><param name="Name" value="eSIM_PERFORMANCE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactStreamIterator.html#df2db58b9de095857db9cfd74a1b594b70b81a23a22b8267cd467f6eb4424d54"><param name="Name" value="eSIMPLE_STREAM"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxShapeFlag.html#6edb481aaa3a998c5d6dd3fc4ad87f1a7fa4fea0eecda9cc80a7aaa11a22df52"><param name="Name" value="eSIMULATION_SHAPE"></OBJECT>
@@ -6506,6 +6507,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b6136d6a29364af41ef1af645f698d54d1"><param name="Name" value="eINFLATE_CONVEX"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b662cbe73f95f10cb93b5d471affef7c89"><param name="Name" value="ePLANE_SHIFTING"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b6e10437ca01f341cb3afff0bd2c40529d"><param name="Name" value="eQUANTIZE_INPUT"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b699ab52dd1e60d72bc99834e1b8093d78"><param name="Name" value="eSHIFT_VERTICES"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__cooking.html#g36d3375ae49e62c3842c3fbe0c620651"><param name="Name" value="PxConvexFlags"></OBJECT>
   <UL>

@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2016 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -325,7 +325,7 @@ public:
 	
 	\note Specified in seconds (s).
 
-	<b>Range:</b> [0, MAX_NB_GEAR_RATIOS)<br>
+	<b>Range:</b> [0, PX_MAX_F32)<br>
 	*/
 	PxReal mSwitchTime;
 	
@@ -690,7 +690,7 @@ public:
 	
 	\note Specified in kilograms metres-squared per second (kg m^2 s^-1)
 
-	<b>Range:</b> (0,MAX_NB_GEAR_RATIOS)<br>
+	<b>Range:</b> [0,PX_MAX_F32)<br>
 	*/
 	PxReal mStrength;
 

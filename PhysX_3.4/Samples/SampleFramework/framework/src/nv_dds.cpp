@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2016 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
 // PHYSX-CHANGES:
 //   - Removed dependency on OpenGL. -jdolan
 //   - MACOS does not always equate to BIG_ENDIAN... fixed it for all platforms. -jdolan

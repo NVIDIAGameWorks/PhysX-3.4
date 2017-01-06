@@ -31,7 +31,7 @@
 <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4</h1>
-<h2 style="TEXT-ALIGN: center">November 2016</h2>
+<h2 style="TEXT-ALIGN: center">January 2017</h2>
 
 	<h2>Supported Platforms</h2>
 	<blockquote>
@@ -49,7 +49,7 @@
 		<ul>
 				<li>Microsoft Windows XP or later</li>
 				<li>Microsoft Visual Studio 2012, 2013, 2015</li>
-				<li>Xcode 7.3</li>
+				<li>Xcode 8.2</li>
 		</ul>
 	</blockquote>
 	<h2>Known Issues</h2>
@@ -346,6 +346,7 @@
 			<li>Convex hull generator vertex limit has two different algorithms - plane shifting and OBB slicing.</li>
 			<li>PxConvexFlag::eFAST_INERTIA_COMPUTATION added. When enabled, the inertia tensor is computed faster but with less precision.</li>
 			<li>PxConvexFlag::eGPU_COMPATIBLE added. When enabled convex hulls are created with vertex limit set to 64 and vertex limit per face is 32.</li>
+			<li>PxConvexFlag::eSHIFT_VERTICES added. When enabled input points are shifted to be around origin to improve computation stability.</li>
 			<li>PxCookingParams::gaussMapLimit has been added. The limit can now be fully user-defined. Please refer to the migration guide and best practices sections of the manual.</li>
 		</ul>
 		<li>Changed:</li>
@@ -2851,7 +2852,7 @@
 
 
 <p><br>
-Copyright (C) 2008-2016 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+Copyright (C) 2008-2017 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
 </p>
 </body>
 </html>
