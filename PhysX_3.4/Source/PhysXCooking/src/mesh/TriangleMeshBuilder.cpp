@@ -1154,16 +1154,24 @@ void TriangleMeshBuilder::checkMeshIndicesSize()
 	{
 		const PxU32 numTriangles = m.mNbTriangles;
 		PxU32* PX_RESTRICT indices32 = reinterpret_cast<PxU32*> (m.mTriangles);
+		PxU32* PX_RESTRICT grbIndices32 = reinterpret_cast<PxU32*>(m.mGRB_triIndices);
 		
 		m.mTriangles = 0;					// force a realloc
-		m.allocateTriangles(numTriangles, false);
+		m.allocateTriangles(numTriangles, false, grbIndices32 != NULL ? 1u : 0u);
 		PX_ASSERT(m.has16BitIndices());		// realloc'ing without the force32bit flag changed it.
 
 		PxU16* PX_RESTRICT indices16 = reinterpret_cast<PxU16*> (m.mTriangles);
-		for (PxU32 i = 0; i < numTriangles*3; i++)
+		for (PxU32 i = 0; i < numTriangles * 3; i++)
 			indices16[i] = Ps::to16(indices32[i]);
 
 		PX_FREE(indices32);
+
+		if (grbIndices32)
+		{
+			PxU16* PX_RESTRICT grbIndices16 = reinterpret_cast<PxU16*> (m.mGRB_triIndices);
+			for (PxU32 i = 0; i < numTriangles * 3; i++)
+				grbIndices16[i] = Ps::to16(grbIndices32[i]);
+		}
 
 		onMeshIndexFormatChange();
 	}
