@@ -35,6 +35,7 @@
 #include "PxPvdImpl.h"
 #include "PsTime.h"
 #include "PsFoundation.h"
+#include "foundation/PxMemory.h"
 
 using namespace physx;
 using namespace physx::pvdsdk;

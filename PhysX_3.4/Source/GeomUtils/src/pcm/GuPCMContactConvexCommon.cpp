@@ -1037,18 +1037,18 @@ Ps::aos::FloatV pcmDistanceSegmentTriangleSquared(	const Ps::aos::Vec3VArg p, co
 static bool selectNormal(const Ps::aos::FloatVArg u, Ps::aos::FloatVArg v, PxU8 data)
 {
 	using namespace Ps::aos;
-	const FloatV zero = FZero();
-	const FloatV one = FOne();
+	const FloatV zero = FLoad(1e-6f);
+	const FloatV one = FLoad(0.999999f);
 	// Analysis
-	if(FAllEq(u, zero))
+	if(FAllGrtr(zero, u))
 	{
-		if(FAllEq(v,zero))
+		if(FAllGrtr(zero, v))
 		{
 			// Vertex 0
 			if(!(data & (Gu::ETD_CONVEX_EDGE_01|Gu::ETD_CONVEX_EDGE_20)))
 				return true;
 		}
-		else if(FAllEq(v,one))
+		else if(FAllGrtr(v, one))
 		{
 			// Vertex 2
 			if(!(data & (Gu::ETD_CONVEX_EDGE_12|Gu::ETD_CONVEX_EDGE_20)))
@@ -1061,9 +1061,9 @@ static bool selectNormal(const Ps::aos::FloatVArg u, Ps::aos::FloatVArg v, PxU8 
 				return true;
 		}
 	}
-	else if(FAllEq(u,one))
+	else if(FAllGrtr(u,one))
 	{
-		if(FAllEq(v,zero))
+		if(FAllGrtr(zero, v))
 		{
 			// Vertex 1
 			if(!(data & (Gu::ETD_CONVEX_EDGE_01|Gu::ETD_CONVEX_EDGE_12)))
@@ -1073,7 +1073,7 @@ static bool selectNormal(const Ps::aos::FloatVArg u, Ps::aos::FloatVArg v, PxU8 
 	}
 	else
 	{
-		if(FAllEq(v,zero))
+		if(FAllGrtr(zero, v))
 		{
 			// Edge 0-1
 			if(!(data & Gu::ETD_CONVEX_EDGE_01))
