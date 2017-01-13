@@ -1,4 +1,5 @@
-# PhysX-3.4
+# PhysX-3.4 PRE-RELEASE
+This is not the final release. ETA for final release is end of February 2017.
 Welcome to NVIDIA's PhysX and APEX SDK source code repository.
 ==============================================================
 
