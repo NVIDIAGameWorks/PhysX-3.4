@@ -6314,13 +6314,13 @@ void Sc::Scene::preallocateContactManagers(PxBaseTask* continuation)
 
 	{
 		//We allocate at least 1 element in this array to ensure that the onOverlapCreated functions don't go bang!
-		mPreallocatedContactManagers.reserve(totalCreatedPairs);
-		mPreallocatedShapeInteractions.reserve(totalCreatedPairs);
-		mPreallocatedInteractionMarkers.reserve(totalSuppressPairs);
+		mPreallocatedContactManagers.reserve(totalCreatedPairs + 1);
+		mPreallocatedShapeInteractions.reserve(totalCreatedPairs + 1);
+		mPreallocatedInteractionMarkers.reserve(totalSuppressPairs + 1);
 
-		mPreallocatedContactManagers.forceSize_Unsafe(totalCreatedPairs);
-		mPreallocatedShapeInteractions.forceSize_Unsafe(totalCreatedPairs);
-		mPreallocatedInteractionMarkers.forceSize_Unsafe(totalSuppressPairs);
+		mPreallocatedContactManagers.forceSize_Unsafe(totalCreatedPairs + 1);
+		mPreallocatedShapeInteractions.forceSize_Unsafe(totalCreatedPairs + 1);
+		mPreallocatedInteractionMarkers.forceSize_Unsafe(totalSuppressPairs + 1);
 				
 	}
 
