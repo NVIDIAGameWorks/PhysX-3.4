@@ -118,66 +118,66 @@
 <a name="l00297"></a>00297 
 <a name="l00298"></a>00298 
 <a name="l00299"></a>00299 
-<a name="l00312"></a>00312     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setSwingLimit(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> yLimit, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> zLimit) = 0;
-<a name="l00313"></a>00313 
+<a name="l00313"></a>00313     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setSwingLimit(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> zLimit, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> yLimit) = 0;
 <a name="l00314"></a>00314 
-<a name="l00323"></a>00323     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            getSwingLimit(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> &amp;yLimit, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> &amp;zLimit) <span class="keyword">const</span> = 0;
-<a name="l00324"></a>00324 
-<a name="l00325"></a>00325 
-<a name="l00326"></a>00326 
-<a name="l00333"></a>00333     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setTangentialStiffness(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> spring) = 0;
-<a name="l00334"></a>00334 
-<a name="l00335"></a>00335 
-<a name="l00343"></a>00343     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>          getTangentialStiffness() <span class="keyword">const</span> = 0;
-<a name="l00344"></a>00344 
-<a name="l00345"></a>00345 
-<a name="l00352"></a>00352     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setTangentialDamping(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> damping) = 0;
-<a name="l00353"></a>00353 
-<a name="l00354"></a>00354 
-<a name="l00362"></a>00362     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>          getTangentialDamping() <span class="keyword">const</span> = 0;
-<a name="l00363"></a>00363 
-<a name="l00364"></a>00364 
-<a name="l00376"></a>00376     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setSwingLimitContactDistance(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> contactDistance) = 0;
-<a name="l00377"></a>00377 
-<a name="l00378"></a>00378 
-<a name="l00386"></a>00386     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>          getSwingLimitContactDistance() <span class="keyword">const</span> = 0;
-<a name="l00387"></a>00387 
-<a name="l00388"></a>00388 
-<a name="l00389"></a>00389 
-<a name="l00398"></a>00398     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setSwingLimitEnabled(<span class="keywordtype">bool</span> enabled) = 0;
-<a name="l00399"></a>00399 
-<a name="l00408"></a>00408     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>            getSwingLimitEnabled() <span class="keyword">const</span> = 0;
-<a name="l00409"></a>00409 
-<a name="l00410"></a>00410 
-<a name="l00423"></a>00423     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setTwistLimit(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> lower, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> upper) = 0;
-<a name="l00424"></a>00424 
-<a name="l00434"></a>00434     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            getTwistLimit(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> &amp;lower, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> &amp;upper) <span class="keyword">const</span> = 0;
-<a name="l00435"></a>00435 
-<a name="l00436"></a>00436 
-<a name="l00445"></a>00445     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setTwistLimitEnabled(<span class="keywordtype">bool</span> enabled) = 0;
-<a name="l00446"></a>00446 
-<a name="l00455"></a>00455     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>            getTwistLimitEnabled() <span class="keyword">const</span> = 0;
-<a name="l00456"></a>00456 
-<a name="l00457"></a>00457 
-<a name="l00469"></a>00469     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setTwistLimitContactDistance(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> contactDistance) = 0;
-<a name="l00470"></a>00470 
-<a name="l00471"></a>00471 
-<a name="l00479"></a>00479     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>          getTwistLimitContactDistance() <span class="keyword">const</span> = 0;
-<a name="l00480"></a>00480 
-<a name="l00481"></a><a class="code" href="classPxArticulationJoint.html#0ec72415d78f1148731de1d9a65a7ab4">00481</a>     <span class="keyword">virtual</span>     <span class="keyword">const</span> <span class="keywordtype">char</span>*     <a class="code" href="classPxArticulationJoint.html#0ec72415d78f1148731de1d9a65a7ab4" title="Returns string name of dynamic type.">getConcreteTypeName</a>()<span class="keyword"> const                 </span>{   <span class="keywordflow">return</span> <span class="stringliteral">"PxArticulationJoint"</span>; }
-<a name="l00482"></a>00482 
-<a name="l00483"></a>00483 <span class="keyword">protected</span>:
-<a name="l00484"></a><a class="code" href="classPxArticulationJoint.html#8ecb6fb89ec7e18314cfc9c6b255bd41">00484</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                   <a class="code" href="classPxArticulationJoint.html#8ecb6fb89ec7e18314cfc9c6b255bd41">PxArticulationJoint</a>(<a class="code" href="group__common.html#gc1fb4b256a5d900d394e89db170a2b79">PxType</a> concreteType, <a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(concreteType, baseFlags) {}
-<a name="l00485"></a><a class="code" href="classPxArticulationJoint.html#830694ba6d6b8bbe5dfdc71f446bac54">00485</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                   <a class="code" href="classPxArticulationJoint.html#830694ba6d6b8bbe5dfdc71f446bac54">PxArticulationJoint</a>(<a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(baseFlags)  {}
-<a name="l00486"></a><a class="code" href="classPxArticulationJoint.html#2a73babb0e7aa037d07132980281f302">00486</a>     <span class="keyword">virtual</span>                     <a class="code" href="classPxArticulationJoint.html#2a73babb0e7aa037d07132980281f302">~PxArticulationJoint</a>() {}
-<a name="l00487"></a><a class="code" href="classPxArticulationJoint.html#713c786ca5a9d2a93d3b5e8d3cb6943d">00487</a>     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>            <a class="code" href="classPxArticulationJoint.html#713c786ca5a9d2a93d3b5e8d3cb6943d" title="Returns whether a given type name matches with the type of this instance.">isKindOf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword">  const       </span>{   <span class="keywordflow">return</span> !::strcmp(<span class="stringliteral">"PxArticulationJoint"</span>, name) || <a class="code" href="classPxBase.html#ae9d444c7cfd1715a101350a1b1226ef" title="Returns whether a given type name matches with the type of this instance.">PxBase::isKindOf</a>(name); }
-<a name="l00488"></a>00488 };
-<a name="l00489"></a>00489 
-<a name="l00490"></a>00490 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00491"></a>00491 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00492"></a>00492 <span class="preprocessor">#endif</span>
-<a name="l00493"></a>00493 <span class="preprocessor"></span>
+<a name="l00315"></a>00315 
+<a name="l00326"></a>00326     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            getSwingLimit(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>&amp; zLimit, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>&amp; yLimit) <span class="keyword">const</span> = 0;
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329 
+<a name="l00336"></a>00336     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setTangentialStiffness(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> spring) = 0;
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338 
+<a name="l00346"></a>00346     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>          getTangentialStiffness() <span class="keyword">const</span> = 0;
+<a name="l00347"></a>00347 
+<a name="l00348"></a>00348 
+<a name="l00355"></a>00355     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setTangentialDamping(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> damping) = 0;
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357 
+<a name="l00365"></a>00365     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>          getTangentialDamping() <span class="keyword">const</span> = 0;
+<a name="l00366"></a>00366 
+<a name="l00367"></a>00367 
+<a name="l00379"></a>00379     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setSwingLimitContactDistance(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> contactDistance) = 0;
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381 
+<a name="l00389"></a>00389     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>          getSwingLimitContactDistance() <span class="keyword">const</span> = 0;
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391 
+<a name="l00392"></a>00392 
+<a name="l00401"></a>00401     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setSwingLimitEnabled(<span class="keywordtype">bool</span> enabled) = 0;
+<a name="l00402"></a>00402 
+<a name="l00411"></a>00411     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>            getSwingLimitEnabled() <span class="keyword">const</span> = 0;
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413 
+<a name="l00426"></a>00426     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setTwistLimit(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> lower, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> upper) = 0;
+<a name="l00427"></a>00427 
+<a name="l00437"></a>00437     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            getTwistLimit(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> &amp;lower, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> &amp;upper) <span class="keyword">const</span> = 0;
+<a name="l00438"></a>00438 
+<a name="l00439"></a>00439 
+<a name="l00448"></a>00448     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setTwistLimitEnabled(<span class="keywordtype">bool</span> enabled) = 0;
+<a name="l00449"></a>00449 
+<a name="l00458"></a>00458     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>            getTwistLimitEnabled() <span class="keyword">const</span> = 0;
+<a name="l00459"></a>00459 
+<a name="l00460"></a>00460 
+<a name="l00472"></a>00472     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setTwistLimitContactDistance(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> contactDistance) = 0;
+<a name="l00473"></a>00473 
+<a name="l00474"></a>00474 
+<a name="l00482"></a>00482     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>          getTwistLimitContactDistance() <span class="keyword">const</span> = 0;
+<a name="l00483"></a>00483 
+<a name="l00484"></a><a class="code" href="classPxArticulationJoint.html#0ec72415d78f1148731de1d9a65a7ab4">00484</a>     <span class="keyword">virtual</span>     <span class="keyword">const</span> <span class="keywordtype">char</span>*     <a class="code" href="classPxArticulationJoint.html#0ec72415d78f1148731de1d9a65a7ab4" title="Returns string name of dynamic type.">getConcreteTypeName</a>()<span class="keyword"> const                 </span>{   <span class="keywordflow">return</span> <span class="stringliteral">"PxArticulationJoint"</span>; }
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486 <span class="keyword">protected</span>:
+<a name="l00487"></a><a class="code" href="classPxArticulationJoint.html#8ecb6fb89ec7e18314cfc9c6b255bd41">00487</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                   <a class="code" href="classPxArticulationJoint.html#8ecb6fb89ec7e18314cfc9c6b255bd41">PxArticulationJoint</a>(<a class="code" href="group__common.html#gc1fb4b256a5d900d394e89db170a2b79">PxType</a> concreteType, <a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(concreteType, baseFlags) {}
+<a name="l00488"></a><a class="code" href="classPxArticulationJoint.html#830694ba6d6b8bbe5dfdc71f446bac54">00488</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                   <a class="code" href="classPxArticulationJoint.html#830694ba6d6b8bbe5dfdc71f446bac54">PxArticulationJoint</a>(<a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(baseFlags)  {}
+<a name="l00489"></a><a class="code" href="classPxArticulationJoint.html#2a73babb0e7aa037d07132980281f302">00489</a>     <span class="keyword">virtual</span>                     <a class="code" href="classPxArticulationJoint.html#2a73babb0e7aa037d07132980281f302">~PxArticulationJoint</a>() {}
+<a name="l00490"></a><a class="code" href="classPxArticulationJoint.html#713c786ca5a9d2a93d3b5e8d3cb6943d">00490</a>     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>            <a class="code" href="classPxArticulationJoint.html#713c786ca5a9d2a93d3b5e8d3cb6943d" title="Returns whether a given type name matches with the type of this instance.">isKindOf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword">  const       </span>{   <span class="keywordflow">return</span> !::strcmp(<span class="stringliteral">"PxArticulationJoint"</span>, name) || <a class="code" href="classPxBase.html#ae9d444c7cfd1715a101350a1b1226ef" title="Returns whether a given type name matches with the type of this instance.">PxBase::isKindOf</a>(name); }
+<a name="l00491"></a>00491 };
+<a name="l00492"></a>00492 
+<a name="l00493"></a>00493 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00494"></a>00494 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
 <a name="l00495"></a>00495 <span class="preprocessor">#endif</span>
+<a name="l00496"></a>00496 <span class="preprocessor"></span>
+<a name="l00498"></a>00498 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

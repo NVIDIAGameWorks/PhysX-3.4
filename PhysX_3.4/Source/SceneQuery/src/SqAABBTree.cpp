@@ -631,7 +631,7 @@ static PX_FORCE_INLINE void refitNode(AABBTreeRuntimeNode* PX_RESTRICT current, 
 		resultMinV = V4Min(V4LoadU(&posBox.minimum.x), V4LoadU(&negBox.minimum.x));
 //		resultMaxV = V4Max(V4LoadU(&posBox.maximum.x), V4LoadU(&negBox.maximum.x));
 
-#if PX_INTEL_FAMILY
+#if PX_INTEL_FAMILY && !defined(PX_SIMD_DISABLED)
 		Vec4V posMinV = V4LoadU(&posBox.minimum.z);
 		Vec4V negMinV = V4LoadU(&negBox.minimum.z);
 		posMinV = _mm_shuffle_ps(posMinV, posMinV, _MM_SHUFFLE(0, 3, 2, 1));

@@ -41,7 +41,7 @@
 
 #if PX_WINDOWS_FAMILY || PX_XBOXONE
 #define PxSpinLockPause() __asm pause
-#elif PX_LINUX || PX_ANDROID || PX_PS4 || PX_APPLE_FAMILY
+#elif PX_LINUX || PX_ANDROID || PX_PS4 || PX_APPLE_FAMILY || PX_NX
 #define PxSpinLockPause() asm("nop")
 #else
 #error "Platform not supported!"
@@ -173,7 +173,7 @@ class PX_FOUNDATION_API ThreadImpl
 	Change the affinity mask for this thread. The mask is a platform
 	specific value.
 
-	On Windows, Linux, PS4 and XboxOne platforms, each set mask bit represents
+	On Windows, Linux, PS4, XboxOne and NX platforms, each set mask bit represents
 	the index of a logical processor that the OS may schedule thread execution on.
 	Bits outside the range of valid logical processors may be ignored or cause
 	the function to return an error.

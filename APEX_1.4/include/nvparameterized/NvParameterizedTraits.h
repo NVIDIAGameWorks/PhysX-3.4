@@ -297,7 +297,7 @@ public:
 		PX_ASSERT( retStr );
 		
 		if( NULL != retStr )
-#if PX_WINDOWS_FAMILY
+#if PX_WINDOWS_FAMILY || PX_XBOXONE
 			strcpy_s( retStr, strLen, str );
 #else
 			strncpy(retStr, str, strLen);

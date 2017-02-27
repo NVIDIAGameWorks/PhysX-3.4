@@ -72,14 +72,7 @@ void PhysXSimulateTask::run()
 	{
 		PX_ASSERT(mElapsedTime >= 0.0f);
 		SCOPED_PHYSX_LOCK_WRITE(mScene);
-	#if APEX_UE4
-		if (mScene->mPhysXScene->getNbActors(PxActorTypeFlags(0xff)))
-			mScene->mPhysXScene->simulate(mElapsedTime, &mCheckResultsTask, mScratchBlock, mScratchBlockSize, false);
-		else
-			mCheckResultsTask.removeReference();
-	#else
 		mScene->mPhysXScene->simulate(mElapsedTime, &mCheckResultsTask, mScratchBlock, mScratchBlockSize, false);
-	#endif
 	}
 #endif
 
@@ -137,12 +130,10 @@ void CheckResultsTask::run()
 #if PX_PHYSICS_VERSION_MAJOR == 3
 	{
 		SCOPED_PHYSX_LOCK_WRITE(mScene);
-		if (mScene->mPhysXScene
-#if APEX_UE4		
-			&& mScene->mPhysXScene->getNbActors(PxActorTypeFlags(0xff))
-#endif
-		)
+		if (mScene->mPhysXScene)
+		{
 			mScene->mPhysXScene->checkResults(true);
+		}
 	}
 #endif
 

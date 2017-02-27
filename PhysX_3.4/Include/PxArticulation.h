@@ -349,7 +349,7 @@ public:
 	\brief adds a link to the articulation with default attribute values.
 
 	\param[in] parent the parent link of the articulation. Should be NULL if (and only if) this is the root link
-	\param[in] pose the pose of the new link
+	\param[in] pose the initial pose of the new link. Must be a valid transform
 
 	\return the new link, or NULL if the link cannot be created because the articulation has reached
 	its maximum link count (currently 64).

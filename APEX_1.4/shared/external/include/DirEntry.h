@@ -22,6 +22,8 @@
 	#include "linux/DirEntry.h"
 #elif PX_PS4
 	#include "ps4/DirEntry.h"
+#elif PX_NX
+	#include "nx/DirEntry.h" 
 #else
 	#error "Platform not supported!"
 #endif

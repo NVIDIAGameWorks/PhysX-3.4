@@ -329,6 +329,7 @@ PX_CUDA_CALLABLE PX_FORCE_INLINE bool sameDirection(const PxVec3& d, const PxVec
 //! Checks 2 values have different signs
 PX_CUDA_CALLABLE PX_FORCE_INLINE IntBool differentSign(PxReal f0, PxReal f1)
 {
+#if !PX_EMSCRIPTEN
 	union
 	{
 		PxU32 u;
@@ -337,6 +338,10 @@ PX_CUDA_CALLABLE PX_FORCE_INLINE IntBool differentSign(PxReal f0, PxReal f1)
 	u1.f = f0;
 	u2.f = f1;
 	return IntBool((u1.u ^ u2.u) & PX_SIGN_BITMASK);
+#else
+	// javascript floats are 64-bits...
+	return IntBool( (f0*f1) < 0.0f );
+#endif
 }
 
 PX_CUDA_CALLABLE PX_FORCE_INLINE PxMat33 star(const PxVec3& v)

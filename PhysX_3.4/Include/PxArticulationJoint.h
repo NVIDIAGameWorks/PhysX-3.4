@@ -303,24 +303,27 @@ public:
 
 	Note that very small or highly elliptical limit cones may result in jitter.
 
-	\param[in] yLimit the allowed extent of rotation around the y-axis
 	\param[in] zLimit the allowed extent of rotation around the z-axis
+	\param[in] yLimit the allowed extent of rotation around the y-axis
 	<b> Range:</b> ( (0, Pi), (0, Pi) )
 	<b> Default:</b> (Pi/4, Pi/4)
-	*/
 
-	virtual		void			setSwingLimit(PxReal yLimit, PxReal zLimit) = 0;
+	\note Please note the order of zLimit and yLimit. 
+	*/
+	virtual		void			setSwingLimit(PxReal zLimit, PxReal yLimit) = 0;
 
 
 	/**
 	\brief get the extents for the swing limit cone
-	
-	\param[out] yLimit the allowed extent of rotation around the y-axis
+
 	\param[out] zLimit the allowed extent of rotation around the z-axis
+	\param[out] yLimit the allowed extent of rotation around the y-axis
+
+	\note Please note the order of zLimit and yLimit.
 
 	@see setSwingLimit()
 	*/
-	virtual		void			getSwingLimit(PxReal &yLimit, PxReal &zLimit) const = 0;
+	virtual		void			getSwingLimit(PxReal& zLimit, PxReal& yLimit) const = 0;
 
 
 

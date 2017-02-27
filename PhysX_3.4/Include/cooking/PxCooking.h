@@ -262,6 +262,28 @@ struct PxCookingParams
 	float		areaTestEpsilon;
 
 	/**
+	\brief Plane tolerance used in convex hull computation.
+
+	The value is used during hull construction. When a new point is about to be added to the hull it
+	gets dropped when the point is closer to the hull than the planeTolerance. The planeTolerance
+	is increased according to the hull size. 
+
+	If 0.0f is set all points are accepted when the convex hull is created. This may lead to edge cases
+	where the new points may be merged into an existing polygon and the polygons plane equation might 
+	slightly change therefore. This might lead to failures during polygon merging phase in the hull computation.
+
+	It is recommended to use the default value, however if it is required that all points needs to be
+	accepted or huge thin convexes are created, it might be required to lower the default value.
+
+	\note The plane tolerance is used only within PxConvexMeshCookingType::eQUICKHULL algorithm.
+
+	<b>Default value:</b> 0.0007f
+
+	<b>Range:</b> <0.0f, PX_MAX_F32)
+	*/
+	float		planeTolerance;
+
+	/**
 	\brief Convex hull creation algorithm.
 
 	<b>Default value:</b> PxConvexMeshCookingType::eQUICKHULL
@@ -377,6 +399,7 @@ struct PxCookingParams
 	PxCookingParams(const PxTolerancesScale& sc):
 		skinWidth						(0.025f*sc.length),
 		areaTestEpsilon					(0.06f*sc.length*sc.length),
+		planeTolerance					(0.0007f),
 		convexMeshCookingType			(PxConvexMeshCookingType::eQUICKHULL),
 		suppressTriangleMeshRemapTable	(false),
 		buildTriangleAdjacencies		(false),

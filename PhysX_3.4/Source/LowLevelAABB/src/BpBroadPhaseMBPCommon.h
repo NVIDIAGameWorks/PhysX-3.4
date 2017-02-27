@@ -43,7 +43,7 @@ namespace Bp
 #define MBP_USE_SENTINELS		// Probably doesn't work with 16bits boxes
 #define MBP_USE_NO_CMP_OVERLAP
 //#define MBP_USE_NO_CMP_OVERLAP_3D	// Seems slower
-#if PX_INTEL_FAMILY
+#if PX_INTEL_FAMILY && !defined(PX_SIMD_DISABLED)
 	#define MBP_SIMD_OVERLAP
 #endif
 

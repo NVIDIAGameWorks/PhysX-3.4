@@ -59,6 +59,8 @@ void solve1D(const PxSolverConstraintDesc& desc, SolverContext& cache)
 	PxSolverBody& b1 = *desc.bodyB;
 
 	PxU8* PX_RESTRICT bPtr = desc.constraint;
+	if (bPtr == NULL)
+		return;
 	//PxU32 length = desc.constraintLength;
 
 	const SolverConstraint1DHeader* PX_RESTRICT  header = reinterpret_cast<const SolverConstraint1DHeader*>(bPtr);
@@ -125,6 +127,8 @@ void solve1D(const PxSolverConstraintDesc& desc, SolverContext& cache)
 void conclude1D(const PxSolverConstraintDesc& desc, SolverContext& /*cache*/)
 {
 	SolverConstraint1DHeader* header = reinterpret_cast<SolverConstraint1DHeader*>(desc.constraint);
+	if (header == NULL)
+		return;
 	PxU8* base = desc.constraint + sizeof(SolverConstraint1DHeader);
 	PxU32 stride = header->type == DY_SC_TYPE_EXT_1D ? sizeof(SolverConstraint1DExt) : sizeof(SolverConstraint1D);
 

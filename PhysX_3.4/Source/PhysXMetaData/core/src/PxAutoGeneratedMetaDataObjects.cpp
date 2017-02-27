@@ -333,7 +333,7 @@ PX_PHYSX_CORE_API PxArticulationJointGeneratedInfo::PxArticulationJointGenerated
 	, Damping( "Damping", setPxArticulationJoint_Damping, getPxArticulationJoint_Damping)
 	, InternalCompliance( "InternalCompliance", setPxArticulationJoint_InternalCompliance, getPxArticulationJoint_InternalCompliance)
 	, ExternalCompliance( "ExternalCompliance", setPxArticulationJoint_ExternalCompliance, getPxArticulationJoint_ExternalCompliance)
-	, SwingLimit( "SwingLimit", "yLimit", "zLimit", setPxArticulationJoint_SwingLimit, getPxArticulationJoint_SwingLimit)
+	, SwingLimit( "SwingLimit", "zLimit", "yLimit", setPxArticulationJoint_SwingLimit, getPxArticulationJoint_SwingLimit)
 	, TangentialStiffness( "TangentialStiffness", setPxArticulationJoint_TangentialStiffness, getPxArticulationJoint_TangentialStiffness)
 	, TangentialDamping( "TangentialDamping", setPxArticulationJoint_TangentialDamping, getPxArticulationJoint_TangentialDamping)
 	, SwingLimitContactDistance( "SwingLimitContactDistance", setPxArticulationJoint_SwingLimitContactDistance, getPxArticulationJoint_SwingLimitContactDistance)

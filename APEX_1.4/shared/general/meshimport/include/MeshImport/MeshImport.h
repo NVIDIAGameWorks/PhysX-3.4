@@ -664,7 +664,7 @@ public:
 					ret = value;
 					break;
 				}
-#if PX_ANDROID || PX_PS4 || PX_LINUX_FAMILY
+#if PX_ANDROID || PX_PS4 || PX_LINUX_FAMILY || PX_NX
 				else if (strcasecmp(key, _key) == 0)
 #else
 				else if (::stricmp(key, _key) == 0)

@@ -91,7 +91,7 @@ static const bool gUseBruteForce = false;
 //#define EXPERIMENT
 #define USE_MBP_PAIR_MANAGER
 #define STORE_SORTED_BOUNDS
-#if PX_INTEL_FAMILY
+#if PX_INTEL_FAMILY && !defined(PX_SIMD_DISABLED)
 	#define USE_SIMD_BOUNDS
 #endif
 
@@ -1354,7 +1354,7 @@ void Aggregate::sortBounds()
 	}*/
 }
 
-#if PX_INTEL_FAMILY
+#if PX_INTEL_FAMILY && !defined(PX_SIMD_DISABLED)
 	#define SSE_CONST4(name, val) static const PX_ALIGN(16, PxU32 name[4]) = { (val), (val), (val), (val) } 
 	#define SSE_CONST(name) *(const __m128i *)&name
 	#define SSE_CONSTF(name) *(const __m128 *)&name

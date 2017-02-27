@@ -91,7 +91,6 @@ public:
 	FilterPairManager()
 	: mPairs(PX_DEBUG_EXP("FilterPairManager Array"))
 	, mFree(INVALID_FILTER_PAIR_INDEX)
-	, mInteractionToIndex(PX_DEBUG_EXP("FilterPairManager Hash"))
 	{}
 
 	PxU32 acquireIndex()
@@ -112,18 +111,14 @@ public:
 	}
 
 	void releaseIndex(PxU32 index)
-	{
-		if(mPairs[index].getType()!=FilterPair::INVALID)
-			mInteractionToIndex.erase(mPairs[index].getPtr<void*>());
-		
+	{		
 		mPairs[index].ptrAndType = mFree;
 		mFree = index;
 	}
 
-	void set(PxU32 index, void* ptr, FilterPair::Enum type)
+	void setPair(PxU32 index, Sc::ElementSimInteraction* ptr, FilterPair::Enum type)
 	{
 		mPairs[index] = FilterPair(ptr, type);
-		mInteractionToIndex[ptr] = index;
 	}
 
 	FilterPair&	operator[](PxU32 index)
@@ -131,10 +126,9 @@ public:
 		return mPairs[index];
 	}
 
-	PxU32 findIndex(void* ptr)
+	PxU32 findIndex(Sc::ElementSimInteraction* ptr)
 	{
-		const InteractionToIndex::Entry* pair = mInteractionToIndex.find(ptr);
-		return pair ? pair->second : INVALID_FILTER_PAIR_INDEX;
+		return ptr->getFilterPairIndex();
 	}
 
 private:	
@@ -142,7 +136,6 @@ private:
 
 	Ps::Array<FilterPair> mPairs;	
 	uintptr_t mFree;
-	InteractionToIndex mInteractionToIndex;
 };
 
 /* Sc::NPhaseCore methods */
@@ -711,7 +704,8 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::createRbElementInteraction(const PxFi
 		pair->raiseInteractionFlag(InteractionFlag::eIS_FILTER_PAIR);
 
 		// Filter callback pair: Set the link to the interaction
-		mFilterPairManager->set(finfo.filterPairIndex, pair, FilterPair::ELEMENT_ELEMENT);
+		mFilterPairManager->setPair(finfo.filterPairIndex, pair, FilterPair::ELEMENT_ELEMENT);
+		pair->setFilterPairIndex(finfo.filterPairIndex);
 	}
 
 	return pair;
@@ -790,8 +784,11 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::createParticlePacketBodyInteraction(P
 
 		actorElementPair->markAsFilterPair(finfo.filterPairIndex != INVALID_FILTER_PAIR_INDEX);
 
-		if(finfo.filterPairIndex != INVALID_FILTER_PAIR_INDEX)
-			mFilterPairManager->set(finfo.filterPairIndex, NULL, FilterPair::ELEMENT_ACTOR);
+		if (finfo.filterPairIndex != INVALID_FILTER_PAIR_INDEX)
+		{
+			mFilterPairManager->setPair(finfo.filterPairIndex, NULL, FilterPair::ELEMENT_ACTOR);
+			pbi->setFilterPairIndex(INVALID_FILTER_PAIR_INDEX);
+		}
 	}
 
 	ElementSimInteraction* pair = insertParticleElementRbElementPair(ps, s, actorElementPair, ccdPass);
@@ -1143,7 +1140,7 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::refilterInteraction(ElementSimInterac
 						PxU32 filterPairIndex = INVALID_FILTER_PAIR_INDEX;
 						if (pbi->readInteractionFlag(InteractionFlag::eIS_FILTER_PAIR))
 						{
-							filterPairIndex = mFilterPairManager->findIndex(aep);
+							filterPairIndex = mFilterPairManager->findIndex(pbi);
 							PX_ASSERT(filterPairIndex!=INVALID_FILTER_PAIR_INDEX);
 
 							callPairLost(pbi->getElement0(), pbi->getElement1(), filterPairIndex, false);
@@ -1574,7 +1571,8 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::convert(ElementSimInteraction* pair, 
 		// Mark the new interaction as a filter callback pair
 		result->raiseInteractionFlag(InteractionFlag::eIS_FILTER_PAIR);
 
-		mFilterPairManager->set(filterInfo.filterPairIndex, result, FilterPair::ELEMENT_ELEMENT);
+		mFilterPairManager->setPair(filterInfo.filterPairIndex, result, FilterPair::ELEMENT_ELEMENT);
+		result->setFilterPairIndex(filterInfo.filterPairIndex);
 	}
 
 	if (pair->readInteractionFlag(InteractionFlag::eIS_FILTER_PAIR))

@@ -419,10 +419,8 @@ public:
 
 	bool hasSkinningVertices();
 private:
-	void operator=(const TriangleMesh& other)
-	{
-		*this = other; /* empty */
-	}
+	void operator=(const TriangleMesh& other); // empty
+
 	void updateNormals(int subMeshNr);
 	void updateTangents();
 	void updateBoneWeights();

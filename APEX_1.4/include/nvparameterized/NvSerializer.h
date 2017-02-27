@@ -61,6 +61,7 @@ struct SerializePlatform
 		ARCH_PPC = 3,
 		ARCH_CELL = 4,
 		ARCH_ARM = 5,
+		ARCH_ARM_64 = 6,
 		ARCH_LAST
 	} ArchType;
 
@@ -107,6 +108,7 @@ struct SerializePlatform
 		OS_ANDROID = 6,
 		OS_XBOXONE = 7,
 		OS_PS4 = 8,
+		OS_HOS = 9,
 		OS_LAST
 	} OsType;
 

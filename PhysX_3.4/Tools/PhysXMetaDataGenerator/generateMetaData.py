@@ -143,28 +143,31 @@ includes += includeString(sdkRoot + '/Tools/PhysXMetaDataGenerator')
 
 print("platform:", platform.system())
 
+commonFlags = '-DNDEBUG -DPX_GENERATE_META_DATA -x c++-header -std=c++0x -w -nobuiltininc -fms-extensions '
+
 if platform.system() == "Windows":
 	# stddef.h doesn't compile with VS10 and -std=c++0x
-	commonFlags = '-cc1 -x c++-header -fms-extensions -w -nobuiltininc -boilerplate-file ' + boilerPlateFile
-	platformFlags = '-DNDEBUG -DPX_VC=11 -D_WIN32 -std=c++0x' + ' -isystem"' + os.environ['VS110COMNTOOLS'] + '/../../VC/include"'
+	# for some reason -cc1 needs to go first in commonFlags
+	commonFlags = '-cc1 ' + commonFlags
+	platformFlags = '-DPX_VC=11 -D_WIN32 ' + ' -isystem"' + os.environ['VS110COMNTOOLS'] + '/../../VC/include"'
 	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/3.3.3/win32/bin/clang.exe'))
 	debugFile = open("temp/clangCommandLine_windows.txt", "a")
 	
 elif platform.system() == "Linux":
-	commonFlags = '-fms-extensions -w -boilerplate-file ' + boilerPlateFile
-	platformFlags = '-x c++-header -DNDEBUG -std=c++0x'
+	platformFlags = ''
 	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/3.3.3/linux32/bin/clang'))
 	debugFile = open("temp/clangCommandLine_linux.txt", "a")
 	
 elif platform.system() == "Darwin":
-	commonFlags = '-fms-extensions -w -boilerplate-file ' + boilerPlateFile
-	platformFlags = '-x c++-header -DNDEBUG -std=c++0x' + ' -isysroot' + get_osx_platform_path()
+	platformFlags = ' -isysroot' + get_osx_platform_path()
 	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/3.3.3/osx/bin/clang'))
 	debugFile = open("temp/clangCommandLine_osx.txt", "a")
 	
 else:
 	print("unsupported platform, aborting!")
 	sys.exit(1)
+	
+commonFlags += ' -boilerplate-file ' + boilerPlateFile
 	
 #some checks
 if not os.path.isfile(clangExe):

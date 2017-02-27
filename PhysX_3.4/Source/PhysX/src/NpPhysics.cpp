@@ -73,6 +73,10 @@
 #include "NpCloth.h"
 #endif
 
+#if PX_NX
+#include "nx/NpMiddlewareInfo.h"
+#endif
+
 using namespace physx;
 using namespace Cm;
 
@@ -228,6 +232,10 @@ NpPhysics* NpPhysics::createInstance(PxU32 version, PxFoundation& foundation, co
 	                                 physx::pvdsdk::PsPvd* pvd)
 {
 	PX_UNUSED(foundation);
+
+#if PX_NX
+	NpSetMiddlewareInfo();  // register middleware info such that PhysX usage can be tracked
+#endif
 	
 	if (version!=PX_PHYSICS_VERSION) 
 	{

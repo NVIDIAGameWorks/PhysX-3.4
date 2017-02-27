@@ -201,7 +201,13 @@ bool Cooking::cookConvexMeshInternal(const PxConvexMeshDesc& desc_, ConvexMeshBu
 
 	if (mParams.areaTestEpsilon <= 0.0f)
 	{
-		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "Cooking::cookConvexMesh: user-provided convex mesh areaTestEpsilon is invalid!");
+		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "Cooking::cookConvexMesh: provided cooking parameter areaTestEpsilon is invalid!");
+		return false;
+	}
+
+	if(mParams.planeTolerance < 0.0f)
+	{
+		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "Cooking::cookConvexMesh: provided cooking parameter planeTolerance is invalid!");
 		return false;
 	}
 
@@ -262,12 +268,12 @@ bool Cooking::cookConvexMesh(const PxConvexMeshDesc& desc_, PxOutputStream& stre
 
 	if(desc_.flags & PxConvexFlag::eCOMPUTE_CONVEX)
 	{			
-		const PxU32 gpuMaxVertsLimit = 64;
+		const PxU16 gpuMaxVertsLimit = 64;
 
 		// GRB supports 64 verts max
 		if(desc_.flags & PxConvexFlag::eGPU_COMPATIBLE)
 		{
-			desc.vertexLimit = gpuMaxVertsLimit;
+			desc.vertexLimit = PxMin(desc.vertexLimit, gpuMaxVertsLimit);
 		}
 
 		if(mParams.convexMeshCookingType == PxConvexMeshCookingType::eINFLATION_INCREMENTAL_HULL)
@@ -308,13 +314,23 @@ bool Cooking::cookConvexMesh(const PxConvexMeshDesc& desc_, PxOutputStream& stre
 //////////////////////////////////////////////////////////////////////////
 // cook convex mesh from given desc, copy the results into internal convex mesh
 // and insert the mesh into PxPhysics
-PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback)
+PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc_, PxPhysicsInsertionCallback& insertionCallback)
 {
 	PX_FPU_GUARD;
 	// choose cooking library if needed
 	ConvexHullLib* hullLib = NULL;	
+	PxConvexMeshDesc desc = desc_;
+
 	if(desc.flags & PxConvexFlag::eCOMPUTE_CONVEX)
 	{
+		const PxU16 gpuMaxVertsLimit = 64;
+
+		// GRB supports 64 verts max
+		if(desc_.flags & PxConvexFlag::eGPU_COMPATIBLE)
+		{
+			desc.vertexLimit = PxMin(desc.vertexLimit, gpuMaxVertsLimit);
+		}
+
 		if (mParams.convexMeshCookingType == PxConvexMeshCookingType::eINFLATION_INCREMENTAL_HULL)
 		{
 			hullLib = PX_NEW(InflationConvexHullLib) (desc, mParams);

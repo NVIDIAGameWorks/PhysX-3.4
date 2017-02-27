@@ -57,6 +57,17 @@ namespace physx { namespace Sn {
 		void deallocate( PxU8* inMem ) { mAllocator->deallocate( inMem ); }
 	};
 
+	inline bool isEmpty(const char *s)
+	{
+		while (*s != '\0')
+		{
+			if (!isspace(*s))
+				return false;
+			s++;
+		}
+		return true;
+	}
+
 	inline void strtoLong( Triangle<PxU32>& ioDatatype,const char*& ioData )
 	{
 		strto( ioDatatype.mIdx0, ioData );
@@ -144,9 +155,7 @@ namespace physx { namespace Sn {
 				++theCount;
 				char* theStartData = const_cast< char*>( copyStr( &tempAllocator, theSrcData ) );
 				const char* theData = theStartData;
-				PxU32 theLen = strLenght( theData );
-				const char* theEndData = theData + theLen;
-				while( theData < theEndData )
+				while( !isEmpty(theData) )
 				{
 					//These buffers are whitespace delimited.
 					TDataType theType;

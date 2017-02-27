@@ -312,6 +312,9 @@ public:
 	/**
 	\brief Creates a scene.
 
+	\note Every scene uses a Thread Local Storage slot. This imposes a platform specific limit on the
+	number of scenes that can be created.
+
 	\param[in] sceneDesc Scene descriptor. See #PxSceneDesc
 	\return The new scene object.
 

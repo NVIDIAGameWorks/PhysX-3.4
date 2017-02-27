@@ -47,23 +47,28 @@
 // all unknown/experimental cases should better default to NO SIMD.
 
 // enable/disable SIMD
-#if PX_INTEL_FAMILY
+#if !defined(PX_SIMD_DISABLED)
+#if PX_INTEL_FAMILY && (!defined(__EMSCRIPTEN__) || defined(__SSE2__))
 #define COMPILE_VECTOR_INTRINSICS 1
 #elif PX_ANDROID&& PX_NEON
 #define COMPILE_VECTOR_INTRINSICS 1
 #elif PX_IOS&& PX_NEON
 #define COMPILE_VECTOR_INTRINSICS 1
+#elif PX_NX
+#define COMPILE_VECTOR_INTRINSICS 1
+#else
+#define COMPILE_VECTOR_INTRINSICS 0
+#endif
 #else
 #define COMPILE_VECTOR_INTRINSICS 0
 #endif
 
-#if defined(COMPILE_VECTOR_INTRINSICS) && PX_INTEL_FAMILY&&(PX_UNIX_FAMILY || PX_PS4)
+#if COMPILE_VECTOR_INTRINSICS && PX_INTEL_FAMILY&&(PX_UNIX_FAMILY || PX_PS4)
 // only SSE2 compatible platforms should reach this
 #if PX_EMSCRIPTEN
 #include <emmintrin.h>
-#else
-#include <xmmintrin.h>
 #endif
+#include <xmmintrin.h>
 #endif
 
 namespace physx

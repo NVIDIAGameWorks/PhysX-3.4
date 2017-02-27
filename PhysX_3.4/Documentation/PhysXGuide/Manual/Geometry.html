@@ -195,6 +195,7 @@ The toolkit helper function PxToolkit::createConvexMeshSafe illustrates the most
 <li>Computes mass and inertia tensor assuming density is 1.</li>
 <li>Saves data to stream.</li>
 </ul>
+<p>When the hull is constructed each new vertex added must be further than PxCookingParams::planeTolerance from the hull, if not that vertex is dropped.</p>
 </div>
 <div class="section" id="inflation-based-incremental-algorithm">
 <h5>Inflation Based Incremental Algorithm<a class="headerlink" href="#inflation-based-incremental-algorithm" title="Permalink to this headline">¶</a></h5>

@@ -179,7 +179,7 @@ void growPatches(CorrelationBuffer& fb,
 				 const ContactPoint* cb,
 				 const PxTransform& bodyFrame0,
 				 const PxTransform& bodyFrame1,
-				 PxReal	,	//unused correlationDistance
+				 PxReal correlationDistance,
 				 PxU32 frictionPatchStartIndex,
 				 PxReal frictionOffsetThreshold)
 {
@@ -221,7 +221,7 @@ void growPatches(CorrelationBuffer& fb,
 						break;
 					case 1:
 						pointDistSq = (worldPoint-worldAnchors[0]).magnitudeSquared(); 
-						if (pointDistSq > (0.025f * 0.025f))
+						if (pointDistSq > (correlationDistance * correlationDistance))
 						{
 							fb.contactID[i][1] = PxU16(cp.start+j);
 							worldAnchors[1] = worldPoint;

@@ -35,6 +35,9 @@
 #if PX_LINUX || PX_PS4 || PX_OSX
 
 #if PX_X86 || PX_X64
+#if PX_EMSCRIPTEN
+#include <emmintrin.h>
+#endif
 #include <xmmintrin.h>
 #elif PX_NEON
 #include <arm_neon.h>

@@ -734,6 +734,7 @@ Creates a static rigid actor with the specified pose and all other fields initia
 <p>
 Creates a scene. 
 <p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>Every scene uses a Thread Local Storage slot. This imposes a platform specific limit on the number of scenes that can be created.</dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>sceneDesc</em>&nbsp;</td><td>Scene descriptor. See <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> </td></tr>

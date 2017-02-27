@@ -172,7 +172,7 @@ PxU32 raycast_capsule(GU_RAY_FUNC_PARAMS)
 	if(!intersectRayCapsule(rayOrigin, rayDir, capsule, t))
 		return 0;
 
-	if(t>maxDist)
+	if(t<0.0f || t>maxDist)
 		return 0;
 
 	// PT: we can't avoid computing the position here since it's needed to compute the normal anyway

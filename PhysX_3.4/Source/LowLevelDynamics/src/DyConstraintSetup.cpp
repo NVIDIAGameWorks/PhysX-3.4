@@ -397,8 +397,14 @@ PxSolverConstraintPrepDesc& prepDesc,
 PxConstraintAllocator& allocator,
 PxReal dt, PxReal invdt)
 {
-	if (prepDesc .numRows== 0)
+	if (prepDesc.numRows == 0)
+	{
+		prepDesc.desc->constraint = NULL;
+		prepDesc.desc->writeBack = NULL;
+		prepDesc.desc->constraintLengthOver16 = 0;
+		prepDesc.desc->writeBackLengthOver4 = 0;
 		return 0;
+	}
 
 	PxSolverConstraintDesc& desc = *prepDesc.desc;
 

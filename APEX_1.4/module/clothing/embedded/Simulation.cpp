@@ -1677,6 +1677,7 @@ void Simulation::getVelocities(PxVec3* velocities) const
 	PX_PROFILE_ZONE("SimulationPxCloth::getVelocities", GetInternalApexSDK()->getContextId());
 
 	PX_ALIGN(16, PxMat44 oldFrameDiff) = PxMat44(PxIdentity);
+	
 	bool useOldFrame = false;
 	if (mGlobalPose != mGlobalPosePrevious && mLocalSpaceSim && mLastTimestep > 0.0f)
 	{
@@ -1687,6 +1688,7 @@ void Simulation::getVelocities(PxVec3* velocities) const
 		const float w = mCloth->getPreviousIterationDt() / mLastTimestep;
 		oldFrameDiff = interpolateMatrix(w, oldFrameDiff, mGlobalPoseNormalized);
 		oldFrameDiff = mGlobalPoseNormalized.inverseRT() * oldFrameDiff;
+		oldFrameDiff.column3[3] = 0.f; //V3StoreU internally check that vec3 has zero at index 3
 		useOldFrame = true;
 	}
 

@@ -31,8 +31,8 @@
 #define PXFOUNDATION_PXPREPROCESSOR_H
 
 #include <stddef.h>
-#if !(defined(__clang__) && (defined(_WIN32) || defined(_WIN64)))
-#include <ciso646>  // detect std::lib, unless clang on windows is used (PxMetaDataGenerator issue)
+#if !defined(PX_GENERATE_META_DATA)
+#include <ciso646>  
 #endif
 /** \addtogroup foundation
   @{
@@ -87,6 +87,8 @@ Operating system defines, see http://sourceforge.net/p/predef/wiki/OperatingSyst
 #define PX_OSX 1
 #elif defined(__ORBIS__)
 #define PX_PS4 1
+#elif defined(__NX__)
+#define PX_NX 1
 #else
 #error "Unknown operating system"
 #endif
@@ -111,14 +113,16 @@ Architecture defines, see http://sourceforge.net/p/predef/wiki/Architectures/
 /**
 SIMD defines
 */
-#if defined(__i386__) || defined(_M_IX86) || defined(__x86_64__) || defined(_M_X64) || defined (__EMSCRIPTEN__)
+#if !defined(PX_SIMD_DISABLED)
+#if defined(__i386__) || defined(_M_IX86) || defined(__x86_64__) || defined(_M_X64) || (defined (__EMSCRIPTEN__) && defined(__SSE2__))
 #define PX_SSE2 1
 #endif
-#if defined(_M_ARM) || defined(__ARM_NEON__)
+#if defined(_M_ARM) || defined(__ARM_NEON__) || defined(__ARM_NEON)
 #define PX_NEON 1
 #endif
 #if defined(_M_PPC) || defined(__CELLOS_LV2__)
 #define PX_VMX 1
+#endif
 #endif
 
 /**
@@ -156,6 +160,9 @@ define anything not defined on this platform to 0
 #endif
 #ifndef PX_PS4
 #define PX_PS4 0
+#endif
+#ifndef PX_NX
+#define PX_NX 0
 #endif
 #ifndef PX_X64
 #define PX_X64 0
@@ -418,7 +425,7 @@ General defines
 */
 
 // static assert
-#if(defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7))) || (PX_PS4) || (PX_APPLE_FAMILY)
+#if(defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7))) || (PX_PS4) || (PX_APPLE_FAMILY) || (PX_NX) || (PX_CLANG && PX_ARM)
 #define PX_COMPILE_TIME_ASSERT(exp) typedef char PxCompileTimeAssert_Dummy[(exp) ? 1 : -1] __attribute__((unused))
 #else
 #define PX_COMPILE_TIME_ASSERT(exp) typedef char PxCompileTimeAssert_Dummy[(exp) ? 1 : -1]
@@ -462,13 +469,13 @@ PX_CUDA_CALLABLE PX_INLINE void PX_UNUSED(T const&)
 // This assert works on win32/win64, but may need further specialization on other platforms.
 // Some GCC compilers need the compiler flag -malign-double to be set.
 // Apparently the apple-clang-llvm compiler doesn't support malign-double.
-#if PX_PS4 || PX_APPLE_FAMILY
+#if PX_PS4 || PX_APPLE_FAMILY || (PX_CLANG && !PX_ARM)
 struct PxPackValidation
 {
 	char _;
 	long a;
 };
-#elif PX_ANDROID
+#elif PX_ANDROID || (PX_CLANG && PX_ARM)
 struct PxPackValidation
 {
 	char _;
@@ -481,7 +488,7 @@ struct PxPackValidation
 	long long a;
 };
 #endif
-#if !PX_APPLE_FAMILY
+#if !PX_APPLE_FAMILY && !PX_EMSCRIPTEN
 PX_COMPILE_TIME_ASSERT(PX_OFFSET_OF(PxPackValidation, a) == 8);
 #endif
 

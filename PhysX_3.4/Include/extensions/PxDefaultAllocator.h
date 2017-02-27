@@ -40,7 +40,7 @@
 
 #include <stdlib.h>
 
-#if PX_WINDOWS || PX_LINUX_FAMILY
+#if PX_WINDOWS || PX_LINUX_FAMILY || PX_NX
 #include <malloc.h>
 #endif
 
@@ -60,7 +60,7 @@ PX_FORCE_INLINE void platformAlignedFree(void* ptr)
 {
 	_aligned_free(ptr);
 }
-#elif PX_LINUX_FAMILY
+#elif PX_LINUX_FAMILY || PX_NX
 PX_FORCE_INLINE void* platformAlignedAlloc(size_t size)
 {
 	return ::memalign(16, size);

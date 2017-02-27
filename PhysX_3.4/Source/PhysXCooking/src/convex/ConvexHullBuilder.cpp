@@ -289,7 +289,7 @@ bool ConvexHullBuilder::checkHullPolygons() const
 
 		// Test hull vertices against polygon plane
 		// compute the test epsilon the same way we construct the hull, verts are considered coplanar within this epsilon	
-		const float planeTolerance = 0.002f;
+		const float planeTolerance = 0.02f;
 		const float testEpsilon = PxMax(planeTolerance * (PxMax(PxAbs(hullMax.x), PxAbs(hullMin.x)) +
 			PxMax(PxAbs(hullMax.y), PxAbs(hullMin.y)) +
 			PxMax(PxAbs(hullMax.z), PxAbs(hullMin.z))), planeTolerance);

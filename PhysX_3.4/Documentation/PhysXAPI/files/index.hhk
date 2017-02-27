@@ -1491,6 +1491,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g56b7f4f37ac451a47f3d7d661069aa49"><param name="Name" value="PX_NOINLINE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g8901e378c5ba8f305e8714d5758cd9dd"><param name="Name" value="PX_NORMALIZATION_EPSILON"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g65237bda8f886bb466e89d01a1ba0a77"><param name="Name" value="PX_NVTX"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gcac831050259f36f05bb5b58daa6d036"><param name="Name" value="PX_NX"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gace09d9150d8d87671f893afe548ebac"><param name="Name" value="PX_OFFSET_OF"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g2ac82f7e080e1411a86f98758a0f3875"><param name="Name" value="PX_OFFSET_OF_RT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g305a9ab26a10d521e58782103206edf5"><param name="Name" value="PX_OFFSETOF_BASE"></OBJECT>
@@ -2458,9 +2459,9 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#481a89c37da3a6869133ea0c596debc8"><param name="Name" value="getSuspensionData"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#f0d6a8e7337d6bf2cadddb81a82dd367"><param name="Name" value="getSuspForceAppPointOffset"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#a7044f8657ea0b87aa4ca7d3de0f5dd0"><param name="Name" value="getSuspTravelDirection"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#323e42848da8f98bf65af17fe5079456"><param name="Name" value="getSwingLimit"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#04c80251726b0706cc85960d6c960a6d"><param name="Name" value="getSwingLimit"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#323e42848da8f98bf65af17fe5079456"><param name="Name" value="PxArticulationJoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#04c80251726b0706cc85960d6c960a6d"><param name="Name" value="PxArticulationJoint"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxD6Joint.html#f2919895cc7726ee85c25600ae849362"><param name="Name" value="PxD6Joint"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#71c9ff63ac915714b595c184846546a2"><param name="Name" value="getSwingLimitContactDistance"></OBJECT>
@@ -4011,6 +4012,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacephysx.html#3849f86abc21d3a58949481603fe8309"><param name="Name" value="PxU8"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxGeometryHolder.html#da7be9a86ef1c21903f8a6999449f8c9"><param name="Name" value="plane"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html#45e4d60211cdd58d80a10dad39da64c9"><param name="Name" value="planeTolerance"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__extensions.html#gd874c3dcee0d1f3ec91e1880a1f09582"><param name="Name" value="platformAlignedAlloc"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__extensions.html#gd874c3dcee0d1f3ec91e1880a1f09582"><param name="Name" value="extensions"></OBJECT>
@@ -4661,6 +4663,11 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g65237bda8f886bb466e89d01a1ba0a77"><param name="Name" value="foundation"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g65237bda8f886bb466e89d01a1ba0a77"><param name="Name" value="PxPreprocessor.h"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gcac831050259f36f05bb5b58daa6d036"><param name="Name" value="PX_NX"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gcac831050259f36f05bb5b58daa6d036"><param name="Name" value="foundation"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gcac831050259f36f05bb5b58daa6d036"><param name="Name" value="PxPreprocessor.h"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gace09d9150d8d87671f893afe548ebac"><param name="Name" value="PX_OFFSET_OF"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gace09d9150d8d87671f893afe548ebac"><param name="Name" value="foundation"></OBJECT>
@@ -5079,7 +5086,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#c773f11ee13400595c0392e027f9a0a2"><param name="Name" value="getInternalCompliance"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#fb82a4d6b9ad7cf3f5fd9d9dc03ccca5"><param name="Name" value="getParentPose"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#e11979e97274ce2fa604db8615dc5b71"><param name="Name" value="getStiffness"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#323e42848da8f98bf65af17fe5079456"><param name="Name" value="getSwingLimit"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#04c80251726b0706cc85960d6c960a6d"><param name="Name" value="getSwingLimit"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#71c9ff63ac915714b595c184846546a2"><param name="Name" value="getSwingLimitContactDistance"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#01b0447f6c84cdc547f9abd7df7c717c"><param name="Name" value="getSwingLimitEnabled"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#2d30be935dca3002fa865c258ded66e5"><param name="Name" value="getTangentialDamping"></OBJECT>
@@ -5098,7 +5105,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#023d58f64e1e29a984beb935ca2a4f54"><param name="Name" value="setInternalCompliance"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#8dd529f6924fa777f99c1d646ef3bca6"><param name="Name" value="setParentPose"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#e00f55560d4d4b78a20d97b20e39dafb"><param name="Name" value="setStiffness"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#03ba690a377eecbae437748db9047539"><param name="Name" value="setSwingLimit"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#12544e79ee2ef6ff061e6a3a9e1e65c8"><param name="Name" value="setSwingLimit"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#909101d144f45f8fd8fbf1e2f01f9072"><param name="Name" value="setSwingLimitContactDistance"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#c8f06505ec2b8bd187124008f428ce1e"><param name="Name" value="setSwingLimitEnabled"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#9ba1951c929b003bf57dcea26756bf9f"><param name="Name" value="setTangentialDamping"></OBJECT>
@@ -6610,6 +6617,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html#72e8ee721f648af02c40db8162bb07e8"><param name="Name" value="meshSizePerformanceTradeOff"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html#19bb7e28765df5c8ec1a86a45004c7b6"><param name="Name" value="meshWeldTolerance"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html#8015768aa6024f1283cab006abdb63b5"><param name="Name" value="midphaseDesc"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html#45e4d60211cdd58d80a10dad39da64c9"><param name="Name" value="planeTolerance"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html#738bc9799f789da5c453cadae5eaec47"><param name="Name" value="PxCookingParams"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html#6a51be76bb79ac1dd9a2788f54569c60"><param name="Name" value="scale"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html#645572e949b89821e81278a675e89176"><param name="Name" value="skinWidth"></OBJECT>
@@ -8580,6 +8588,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g2af6846d9d49e433af97059f0291eef1"><param name="Name" value="PX_NOCOPY"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g56b7f4f37ac451a47f3d7d661069aa49"><param name="Name" value="PX_NOINLINE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g65237bda8f886bb466e89d01a1ba0a77"><param name="Name" value="PX_NVTX"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#gcac831050259f36f05bb5b58daa6d036"><param name="Name" value="PX_NX"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#gace09d9150d8d87671f893afe548ebac"><param name="Name" value="PX_OFFSET_OF"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g2ac82f7e080e1411a86f98758a0f3875"><param name="Name" value="PX_OFFSET_OF_RT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g305a9ab26a10d521e58782103206edf5"><param name="Name" value="PX_OFFSETOF_BASE"></OBJECT>
@@ -12005,9 +12014,9 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#2d919fecb713d371d2624e3b5b37053b"><param name="Name" value="setSuspensionData"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#cd51a38c9e5cf37b1c0b5feed7b03c04"><param name="Name" value="setSuspForceAppPointOffset"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#13bf7c0a8e2765fa34146c7518950329"><param name="Name" value="setSuspTravelDirection"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#03ba690a377eecbae437748db9047539"><param name="Name" value="setSwingLimit"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#12544e79ee2ef6ff061e6a3a9e1e65c8"><param name="Name" value="setSwingLimit"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#03ba690a377eecbae437748db9047539"><param name="Name" value="PxArticulationJoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#12544e79ee2ef6ff061e6a3a9e1e65c8"><param name="Name" value="PxArticulationJoint"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxD6Joint.html#72a1f48dffd418d278ec9beb110a9236"><param name="Name" value="PxD6Joint"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#909101d144f45f8fd8fbf1e2f01f9072"><param name="Name" value="setSwingLimitContactDistance"></OBJECT>

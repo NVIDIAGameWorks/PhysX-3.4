@@ -75,6 +75,8 @@ PxPvd*                  gPvd = NULL;
 
 physx::shdfnd::Array<PxConstraint*>* gConstraints = NULL;
 
+PxCooking*				gCooking = NULL;
+
 PxReal stackZ = 10.0f;
 
 //Enable to 1 to use centimeter units instead of meter units.
@@ -367,6 +369,61 @@ void createStack(const PxTransform& t, PxU32 size, PxReal halfExtent)
 	shape->release();
 }
 
+struct Triangle
+{
+	PxU32 ind0, ind1, ind2;
+};
+
+PxTriangleMesh* createMeshGround()
+{
+	const PxU32 gridSize = 8;
+	const PxReal gridStep = 512.f / (gridSize-1);
+
+	PxVec3 verts[gridSize * gridSize];
+
+	const PxU32 nbTriangles = 2 * (gridSize - 1) * (gridSize-1);
+
+	Triangle indices[nbTriangles];
+
+	for (PxU32 a = 0; a < gridSize; ++a)
+	{
+		for (PxU32 b = 0; b < gridSize; ++b)
+		{
+			verts[a * gridSize + b] = PxVec3(-400.f + b*gridStep, 0.f, -400.f + a*gridStep);
+		}
+	}
+
+	for (PxU32 a = 0; a < (gridSize-1); ++a)
+	{
+		for (PxU32 b = 0; b < (gridSize-1); ++b)
+		{
+			Triangle& tri0 = indices[(a * (gridSize-1) + b) * 2];
+			Triangle& tri1 = indices[((a * (gridSize-1) + b) * 2) + 1];
+
+			tri0.ind0 = a * gridSize + b + 1;
+			tri0.ind1 = a * gridSize + b;
+			tri0.ind2 = (a + 1) * gridSize + b + 1;
+
+			tri1.ind0 = (a + 1) * gridSize + b + 1;
+			tri1.ind1 = a * gridSize + b;
+			tri1.ind2 = (a + 1) * gridSize + b;
+		}
+	}
+
+
+	PxTriangleMeshDesc meshDesc;
+	meshDesc.points.data = verts;
+	meshDesc.points.count = gridSize * gridSize;
+	meshDesc.points.stride = sizeof(PxVec3);
+	meshDesc.triangles.count = nbTriangles;
+	meshDesc.triangles.data = indices;
+	meshDesc.triangles.stride = sizeof(Triangle);
+
+	PxTriangleMesh* triMesh = gCooking->createTriangleMesh(meshDesc, gPhysics->getPhysicsInsertionCallback());
+
+	return triMesh;
+}
+
 void updateContactPairs();
 
 void initPhysics(bool /*interactive*/)
@@ -377,6 +434,10 @@ void initPhysics(bool /*interactive*/)
 	gPvd->connect(*transport, PxPvdInstrumentationFlag::ePROFILE);
 
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, gPvd);
+
+	PxCookingParams cookingParams(gPhysics->getTolerancesScale());
+
+	gCooking = PxCreateCooking(PX_PHYSICS_VERSION, *gFoundation, cookingParams);
 	
 
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
@@ -406,11 +467,21 @@ void initPhysics(bool /*interactive*/)
 
 	gConstraints = new physx::shdfnd::Array<PxConstraint*>();
 
+	
+
+	PxTriangleMesh* mesh = createMeshGround();
+
+	PxTriangleMeshGeometry geom(mesh);
+
+	PxRigidStatic* groundMesh = gPhysics->createRigidStatic(PxTransform(PxVec3(0, 2, 0)));
+	groundMesh->createShape(geom, *gMaterial);
+	gScene->addActor(*groundMesh);
+
 	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0,1,0,0), *gMaterial);
 	gScene->addActor(*groundPlane);
 
 	for (PxU32 i = 0; i<4; i++)
-		createStack(PxTransform(PxVec3(0, 0, stackZ -= 10.0f*gUnitScale)), 20, gUnitScale);
+		createStack(PxTransform(PxVec3(0, 2, stackZ -= 10.0f*gUnitScale)), 20, gUnitScale);
 
 
 	
@@ -421,8 +492,8 @@ void initPhysics(bool /*interactive*/)
 	updateInertia(ball, 1000.f);
 	updateInertia(ball2, 1000.f);
 
-	PxD6Joint* joint = PxD6JointCreate(*gPhysics, ball, PxTransform(PxVec3(0, 2, 0)*gUnitScale), ball2, PxTransform(PxVec3(0, -2, 0)*gUnitScale));
-	PxD6Joint* joint2 = PxD6JointCreate(*gPhysics, ball2, PxTransform(PxVec3(0, 2, 0)*gUnitScale), ball3, PxTransform(PxVec3(0, -2, 0)*gUnitScale));
+	PxD6Joint* joint = PxD6JointCreate(*gPhysics, ball, PxTransform(PxVec3(0, 4, 0)*gUnitScale), ball2, PxTransform(PxVec3(0, -2, 0)*gUnitScale));
+	PxD6Joint* joint2 = PxD6JointCreate(*gPhysics, ball2, PxTransform(PxVec3(0, 4, 0)*gUnitScale), ball3, PxTransform(PxVec3(0, -2, 0)*gUnitScale));
 	
 	gConstraints->pushBack(joint->getConstraint());
 	gConstraints->pushBack(joint2->getConstraint());
@@ -773,7 +844,7 @@ void stepPhysics(bool interactive)
 			contactDesc.mInvMassScales.angular0 = contactDesc.mInvMassScales.angular1 = contactDesc.mInvMassScales.linear0 = contactDesc.mInvMassScales.linear1 = 1.f;
 		}
 
-		immediate::PxCreateContactConstraints(&header, 1, contactDescs, *gConstraintAllocator, invDt, -2.f * gUnitScale, 0.04f * gUnitScale, 0.01f * gUnitScale);
+		immediate::PxCreateContactConstraints(&header, 1, contactDescs, *gConstraintAllocator, invDt, -2.f * gUnitScale, 0.04f * gUnitScale, 0.025f * gUnitScale);
 
 #if WITH_PERSISTENCY
 		for (PxU32 a = 0; a < header.mStride; ++a)
@@ -802,9 +873,10 @@ void stepPhysics(bool interactive)
 
 			PxConstraint* constraints[4];
 
+			header.mStartIndex += activeContactPairs.size();
+
 			for (PxU32 a = 0; a < header.mStride; ++a)
 			{
-				header.mStartIndex += activeContactPairs.size();
 				PxSolverConstraintDesc& constraintDesc = orderedDescs[header.mStartIndex + a];
 				//Extract the contact pair that we saved in this structure earlier.
 				PxConstraint& constraint = *reinterpret_cast<PxConstraint*>(constraintDesc.constraint);

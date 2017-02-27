@@ -1173,6 +1173,8 @@ void TriangleMeshBuilder::checkMeshIndicesSize()
 				grbIndices16[i] = Ps::to16(grbIndices32[i]);
 		}
 
+		PX_FREE(grbIndices32);
+
 		onMeshIndexFormatChange();
 	}
 }

@@ -95,6 +95,8 @@ const SerializePlatform &GetCurrentPlatform()
 		platform.osType = SerializePlatform::OS_ANDROID;
 #	elif PX_LINUX == 1
 		platform.osType = SerializePlatform::OS_LINUX;
+#	elif PX_NX == 1
+		platform.osType = SerializePlatform::OS_HOS;		
 #	else
 #		error "Undefined OS"
 #	endif
@@ -112,6 +114,8 @@ const SerializePlatform &GetCurrentPlatform()
 		platform.archType = SerializePlatform::ARCH_CELL;
 #	elif PX_ARM == 1
 		platform.archType = SerializePlatform::ARCH_ARM;
+#	elif PX_A64 == 1
+		platform.archType = SerializePlatform::ARCH_ARM_64;		
 #	else
 #		error "Unknown architecture"
 #	endif
@@ -178,6 +182,18 @@ bool GetPlatform(const char *name, SerializePlatform &platform_)
 		platform_.compilerType = SerializePlatform::COMP_GCC;
 		platform_.osType = SerializePlatform::OS_ANDROID;
 	}
+	else if (0 == strcmp("HOSARM32", name))
+	{
+		platform_.archType = SerializePlatform::ARCH_ARM;
+		platform_.compilerType = SerializePlatform::COMP_GCC;
+		platform_.osType = SerializePlatform::OS_HOS;
+	}
+	else if (0 == strcmp("HOSARM64", name))
+	{
+		platform_.archType = SerializePlatform::ARCH_ARM_64;
+		platform_.compilerType = SerializePlatform::COMP_GCC;
+		platform_.osType = SerializePlatform::OS_HOS;
+	}	
 	else if( 0 == strcmp("GccLinux32", name) )
 	{
 		platform_.archType = SerializePlatform::ARCH_X86;
@@ -285,6 +301,18 @@ const char *GetPlatformName(const SerializePlatform &platform_)
 		case SerializePlatform::ARCH_CELL:
 		case SerializePlatform::ARCH_ARM:
 		case SerializePlatform::ARCH_LAST:
+		default:
+			return unknown;
+		}
+
+	case SerializePlatform::OS_HOS:
+		switch (platform.archType)
+		{
+		case SerializePlatform::ARCH_ARM:
+			return "HOSARM32";
+		case SerializePlatform::ARCH_ARM_64:
+			return "HOSARM64";
+
 		default:
 			return unknown;
 		}

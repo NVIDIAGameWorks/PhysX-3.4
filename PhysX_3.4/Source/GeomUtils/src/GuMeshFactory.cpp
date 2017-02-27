@@ -138,10 +138,12 @@ PxTriangleMesh* GuMeshFactory::createTriangleMesh(TriangleMeshData& data)
 	{
 		PX_NEW_SERIALIZED(np, RTreeTriangleMesh)(*this, data);
 	}
+#if !defined(PX_SIMD_DISABLED)
 	else if(data.mType==PxMeshMidPhase::eBVH34)
 	{
 		PX_NEW_SERIALIZED(np, BV4TriangleMesh)(*this, data);
 	}
+#endif
 	else return NULL;
 
 	if(np)
@@ -192,8 +194,10 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 	TriangleMeshData* data;
 	if(midphaseID==PxMeshMidPhase::eBVH33)
 		data = PX_NEW(RTreeTriangleData);
+#if !defined(PX_SIMD_DISABLED)
 	else if(midphaseID==PxMeshMidPhase::eBVH34)
 		data = PX_NEW(BV4TriangleData);
+#endif
 	else return NULL;
 
 	// Import mesh
@@ -329,6 +333,7 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 			return NULL;
 		}
 	}
+#if !defined(PX_SIMD_DISABLED)
 	else if(midphaseID==PxMeshMidPhase::eBVH34)
 	{
 		BV4TriangleData* bv4data = static_cast<BV4TriangleData*>(data);
@@ -347,6 +352,7 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 			bv4data->mMeshInterface.setPointers(reinterpret_cast<IndTri32*>(tris), NULL, verts);
 		bv4data->mBV4Tree.mMeshInterface = &bv4data->mMeshInterface;
 	}
+#endif
 	else PX_ASSERT(0);
 
 	// Import local bounds

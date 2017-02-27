@@ -36,6 +36,7 @@
 #include "PsFoundation.h"
 #include "PsUtilities.h"
 #include "NpScene.h"
+#include "PxGeometryQuery.h"
 
 using namespace physx;
 using namespace Sq;
@@ -522,6 +523,14 @@ void NpBatchQuery::sweep(
 	PX_CHECK_AND_RETURN(distance >= 0.0f, "Batch sweep input check: distance cannot be negative");
 	PX_CHECK_AND_RETURN(distance != 0.0f || !(hitFlags & PxHitFlag::eASSUME_NO_INITIAL_OVERLAP),
 		"Batch sweep input check: zero-length sweep only valid without the PxHitFlag::eASSUME_NO_INITIAL_OVERLAP flag");
+
+#if PX_CHECKED
+	if(!PxGeometryQuery::isValid(geometry))
+	{
+		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "Provided geometry is not valid");
+		return;
+	}
+#endif // PX_CHECKED
 
 	if (mNbSweeps >= mDesc.queryMemory.getMaxSweepsPerExecute())
 	{

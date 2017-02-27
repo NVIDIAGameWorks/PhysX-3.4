@@ -219,7 +219,12 @@ namespace physx { namespace Sn {
 							, PxU32 inObjPerLine, PxStrideIterator<const TDataType>& inData, TAccessOperator inAccessOperator
 							, PxU32 inBufSize, const char* inPropName, PxU32 /*inStride*/, TWriteOperator inOperator )
 	{
+#if PX_NX
+		const auto *dat = &inData[0];
+		if (inBufSize && dat != NULL)
+#else
 		if ( inBufSize && &inData[0])
+#endif
 		{
 			for ( PxU32 idx = 0; idx < inBufSize; ++idx )
 			{
@@ -239,8 +244,13 @@ namespace physx { namespace Sn {
 	inline void writeStrideFlags( XmlWriter& inWriter, MemoryBuffer& inTempBuffer
 							, PxU32 inObjPerLine, PxStrideIterator<const TDataType>& inData, TAccessOperator /*inAccessOperator*/
 							, PxU32 inBufSize, const char* inPropName, const PxU32ToName* inTable)
-	{		
+	{
+#if PX_NX
+		const auto *dat = &inData[0];
+		if (inBufSize && dat != NULL)
+#else
 		if ( inBufSize && &inData[0])
+#endif
 		{
 			for ( PxU32 idx = 0; idx < inBufSize; ++idx )
 			{	

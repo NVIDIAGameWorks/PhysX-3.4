@@ -646,7 +646,7 @@ const char * formatNumber(MiI32 number) // JWR  format this integer into a fancy
 
 	char scratch[512];
 
-#if defined (LINUX_GENERIC) || defined(LINUX) || defined(__CELLOS_LV2__) || defined(__APPLE__) || defined(ANDROID) || PX_PS4 || PX_LINUX_FAMILY
+#if defined (LINUX_GENERIC) || defined(LINUX) || defined(__CELLOS_LV2__) || defined(__APPLE__) || defined(ANDROID) || PX_PS4 || PX_LINUX_FAMILY || PX_NX
 	snprintf(scratch, 10, "%d", number);
 #else
 	itoa(number,scratch,10);

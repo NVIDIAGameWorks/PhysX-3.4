@@ -32,12 +32,21 @@
 #include <cmath>
 
 // ps4 compiler defines _M_X64 without value
-#if((defined _M_IX86) || (defined _M_X64) || (defined __i386__) || (defined __x86_64__))
+#if !defined(PX_SIMD_DISABLED)
+#if((defined _M_IX86) || (defined _M_X64) || (defined __i386__) || (defined __x86_64__) || (defined __EMSCRIPTEN__ && defined __SSE2__))
 #define NVMATH_SSE2 1
 #else
 #define NVMATH_SSE2 0
 #endif
-#define NVMATH_NEON (defined _M_ARM || defined __ARM_NEON__)
+#if((defined _M_ARM) || (defined __ARM_NEON__) || (defined __ARM_NEON_FP))
+#define NVMATH_NEON 1
+#else
+#define NVMATH_NEON 0
+#endif
+#else
+#define NVMATH_SSE2 0
+#define NVMATH_NEON 0
+#endif
 
 // which simd types are implemented (one or both are all valid options)
 #define NVMATH_SIMD (NVMATH_SSE2 || NVMATH_NEON)
@@ -51,7 +60,11 @@
 // Simd4f and Simd4i map to different types
 #define NVMATH_DISTINCT_TYPES (NVMATH_SSE2 || NVMATH_NEON)
 // support inline assembler
-#define NVMATH_INLINE_ASSEMBLER !((defined _M_ARM) || (defined SN_TARGET_PSP2) || (defined __arm64__))
+#if !((defined _M_ARM) || (defined SN_TARGET_PSP2) || (defined __arm64__) || (defined __aarch64__))
+#define NVMATH_INLINE_ASSEMBLER 1
+#else
+#define NVMATH_INLINE_ASSEMBLER 0
+#endif
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // expression template

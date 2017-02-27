@@ -14,6 +14,9 @@
 
 #include "PxPhysicsAPI.h"
 #include "Apex.h"
+#include <cstring>
+#include <string>
+
 
 
 using namespace physx;
@@ -108,5 +111,83 @@ public:
 
 	virtual bool getInstanceLayoutData(uint32_t, uint32_t, UserRenderInstanceBufferDesc*) { return false; }
 };
+
+#if PX_NX
+#include <nn/fs.h>
+#else
+#include <sys/stat.h>
+#endif
+
+
+// Check that path exist
+bool isFileExist(const char* path)
+{
+#if PX_NX 
+	nn::fs::DirectoryEntryType t;
+	nn::Result r = nn::fs::GetEntryType(&t, path);
+	if (r.IsFailure() || t != nn::fs::DirectoryEntryType_File)
+		return false;
+#else 
+	struct stat tmp;
+	if (0 != stat(path, &tmp))
+		return false;
+#endif
+	return true;
+}
+
+
+void snippetMain(const char*);
+
+#if PX_WINDOWS_FAMILY
+#include "Shlwapi.h"
+
+int main(int, char**)
+{
+	LPTSTR cmd = GetCommandLine();
+	PathRemoveFileSpec(cmd);
+
+	char buf[256];
+	strcpy(buf, cmd + 1);
+	strcat(buf, "/../../");
+	snippetMain(buf);
+
+	return 0;
+}
+
+#elif PX_NX
+
+#include <nn/os.h>
+#include <nn/fs.h>
+
+static void* alloc(size_t size)			{ return malloc(size); }
+static void dealloc(void* ptr, size_t)	{ free(ptr); }
+
+extern "C" void nnMain()
+{
+	nn::fs::SetAllocator(alloc, dealloc);
+	nn::Result res = nn::fs::MountHostRoot();
+	if (res.IsSuccess())
+	{
+		int argc = nn::os::GetHostArgc();
+		char** argv = nn::os::GetHostArgv();
+
+		std::string path(argv[0]);
+		path = path.substr(0, path.find_last_of("/\\"));
+		path.append(("/.."));
+		path.append(("/../"));
+		std::replace(path.begin(), path.end(), '\\', '/');
+
+		res = nn::fs::MountHost("host", path.c_str());
+		if (res.IsSuccess())
+		{
+			snippetMain("host:/");
+			nn::fs::Unmount("host");
+		}
+
+		nn::fs::UnmountHostRoot();
+	}
+}
+
+#endif
 
 #endif

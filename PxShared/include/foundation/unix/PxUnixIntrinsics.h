@@ -37,8 +37,8 @@
 #error "This file should only be included by Unix builds!!"
 #endif
 
-#if PX_LINUX && PX_ARM
-	// Linux ARM toolchain can somehow end up including cmath header after math.h, which will undef a bunch of macros and place them in std namespace
+#if PX_LINUX && !defined(__CUDACC__)
+	// Linux and CUDA compilation does not work with std::isfnite, as it is not marked as CUDA callable	
 	#ifndef isfinite
 		#define isfinite	std::isfinite
 	#endif

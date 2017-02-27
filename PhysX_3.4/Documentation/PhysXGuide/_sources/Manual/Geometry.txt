@@ -192,6 +192,8 @@ The Quickhull algorithm performs these steps:
 * Computes mass and inertia tensor assuming density is 1.
 * Saves data to stream.
 
+When the hull is constructed each new vertex added must be further than PxCookingParams::planeTolerance from the hull, if not that vertex is dropped. 
+
 Inflation Based Incremental Algorithm
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

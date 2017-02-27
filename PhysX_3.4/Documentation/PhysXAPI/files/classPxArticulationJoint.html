@@ -101,12 +101,12 @@ Collaboration diagram for PxArticulationJoint:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual PxReal&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationJoint.html#69ecdfb49624645217280df2430009e5">getExternalCompliance</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get the drive external compliance  <a href="#69ecdfb49624645217280df2430009e5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationJoint.html#03ba690a377eecbae437748db9047539">setSwingLimit</a> (PxReal yLimit, PxReal zLimit)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationJoint.html#12544e79ee2ef6ff061e6a3a9e1e65c8">setSwingLimit</a> (PxReal zLimit, PxReal yLimit)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set the extents of the cone limit. The extents are measured in the frame of the parent.  <a href="#03ba690a377eecbae437748db9047539"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationJoint.html#323e42848da8f98bf65af17fe5079456">getSwingLimit</a> (PxReal &amp;yLimit, PxReal &amp;zLimit) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set the extents of the cone limit. The extents are measured in the frame of the parent.  <a href="#12544e79ee2ef6ff061e6a3a9e1e65c8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationJoint.html#04c80251726b0706cc85960d6c960a6d">getSwingLimit</a> (PxReal &amp;zLimit, PxReal &amp;yLimit) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get the extents for the swing limit cone  <a href="#323e42848da8f98bf65af17fe5079456"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get the extents for the swing limit cone  <a href="#04c80251726b0706cc85960d6c960a6d"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationJoint.html#df1f03b5945c8db6103f6529736af5a8">setTangentialStiffness</a> (PxReal spring)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set the tangential spring for the limit cone <b> Range:</b> ([0, PX_MAX_F32), [0, PX_MAX_F32)) <b> Default:</b> (0.0, 0.0)  <a href="#df1f03b5945c8db6103f6529736af5a8"></a><br></td></tr>
@@ -422,7 +422,7 @@ get the drive strength of the joint acceleration spring
 
 </div>
 </div><p>
-<a class="anchor" name="323e42848da8f98bf65af17fe5079456"></a><!-- doxytag: member="PxArticulationJoint::getSwingLimit" ref="323e42848da8f98bf65af17fe5079456" args="(PxReal &amp;yLimit, PxReal &amp;zLimit) const =0" -->
+<a class="anchor" name="04c80251726b0706cc85960d6c960a6d"></a><!-- doxytag: member="PxArticulationJoint::getSwingLimit" ref="04c80251726b0706cc85960d6c960a6d" args="(PxReal &amp;zLimit, PxReal &amp;yLimit) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -430,13 +430,13 @@ get the drive strength of the joint acceleration spring
           <td class="memname">virtual void PxArticulationJoint::getSwingLimit           </td>
           <td>(</td>
           <td class="paramtype">PxReal &amp;&nbsp;</td>
-          <td class="paramname"> <em>yLimit</em>, </td>
+          <td class="paramname"> <em>zLimit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">PxReal &amp;&nbsp;</td>
-          <td class="paramname"> <em>zLimit</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>yLimit</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -452,11 +452,12 @@ get the extents for the swing limit cone
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>yLimit</em>&nbsp;</td><td>the allowed extent of rotation around the y-axis </td></tr>
-    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>zLimit</em>&nbsp;</td><td>the allowed extent of rotation around the z-axis</td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>zLimit</em>&nbsp;</td><td>the allowed extent of rotation around the z-axis </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>yLimit</em>&nbsp;</td><td>the allowed extent of rotation around the y-axis</td></tr>
   </table>
 </dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxArticulationJoint.html#03ba690a377eecbae437748db9047539" title="set the extents of the cone limit. The extents are measured in the frame of the parent...">setSwingLimit()</a> </dd></dl>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>Please note the order of zLimit and yLimit.</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxArticulationJoint.html#12544e79ee2ef6ff061e6a3a9e1e65c8" title="set the extents of the cone limit. The extents are measured in the frame of the parent...">setSwingLimit()</a> </dd></dl>
 
 </div>
 </div><p>
@@ -914,7 +915,7 @@ The acceleration generated by the spring drive is proportional to this value and
 
 </div>
 </div><p>
-<a class="anchor" name="03ba690a377eecbae437748db9047539"></a><!-- doxytag: member="PxArticulationJoint::setSwingLimit" ref="03ba690a377eecbae437748db9047539" args="(PxReal yLimit, PxReal zLimit)=0" -->
+<a class="anchor" name="12544e79ee2ef6ff061e6a3a9e1e65c8"></a><!-- doxytag: member="PxArticulationJoint::setSwingLimit" ref="12544e79ee2ef6ff061e6a3a9e1e65c8" args="(PxReal zLimit, PxReal yLimit)=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -922,13 +923,13 @@ The acceleration generated by the spring drive is proportional to this value and
           <td class="memname">virtual void PxArticulationJoint::setSwingLimit           </td>
           <td>(</td>
           <td class="paramtype">PxReal&nbsp;</td>
-          <td class="paramname"> <em>yLimit</em>, </td>
+          <td class="paramname"> <em>zLimit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">PxReal&nbsp;</td>
-          <td class="paramname"> <em>zLimit</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>yLimit</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -945,10 +946,11 @@ set the extents of the cone limit. The extents are measured in the frame of the 
 Note that very small or highly elliptical limit cones may result in jitter.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>yLimit</em>&nbsp;</td><td>the allowed extent of rotation around the y-axis </td></tr>
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>zLimit</em>&nbsp;</td><td>the allowed extent of rotation around the z-axis <b> Range:</b> ( (0, Pi), (0, Pi) ) <b> Default:</b> (Pi/4, Pi/4) </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>zLimit</em>&nbsp;</td><td>the allowed extent of rotation around the z-axis </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>yLimit</em>&nbsp;</td><td>the allowed extent of rotation around the y-axis <b> Range:</b> ( (0, Pi), (0, Pi) ) <b> Default:</b> (Pi/4, Pi/4)</td></tr>
   </table>
 </dl>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>Please note the order of zLimit and yLimit. </dd></dl>
 
 </div>
 </div><p>

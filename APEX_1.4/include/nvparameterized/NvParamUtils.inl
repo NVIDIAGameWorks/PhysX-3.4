@@ -175,7 +175,7 @@ struct ParameterFind
 
 		if (longName && strlen(longName))
 		{
-#if PX_GCC || PX_LINUX || PX_PS4 || PX_ANDROID || PX_OSX
+#if PX_GCC || PX_LINUX || PX_PS4 || PX_ANDROID || PX_OSX || PX_CLANG
 			if ( local_stricmp(longName,mSearchNames[mNameIndex]) == 0 )
 #else
 #pragma warning(push)

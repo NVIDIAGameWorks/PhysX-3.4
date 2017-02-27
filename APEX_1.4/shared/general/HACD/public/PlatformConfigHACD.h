@@ -110,6 +110,10 @@ class PxEmpty;
 #define HACD_X64
 #endif
 
+#if PX_A64
+#define HACD_A64
+#endif
+
 #if PX_PPC
 #define HACD_PPC
 #endif
@@ -183,7 +187,7 @@ public:
 	virtual bool Cancelled() = 0;
 };
 
-#ifdef HACD_X64
+#if defined(HACD_X64) || defined(HACD_A64)
 typedef uint64_t HaSizeT;
 #else
 typedef uint32_t HaSizeT;

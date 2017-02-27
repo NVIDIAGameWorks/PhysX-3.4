@@ -19,6 +19,8 @@
 #include "basicios/BasicIosAsset.h"
 #include "RenderMeshAsset.h"
 
+#include <legacy/ModuleLegacy.h>
+
 #include "PsString.h"
 
 #include <sys/stat.h>
@@ -58,15 +60,10 @@ public:
 		{
 			Asset* asset = 0;
 
-			CHAR buf[256];
-			strcpy(buf, gMediaPath);
-			strcat(buf, name);
-			strcat(buf, ".apx");
-			const char* path = &buf[1];
+			const char* path = name;
 
 			// does file exists?
-			struct stat info;
-			if ((stat(path, &info) != -1) && (info.st_mode & (S_IFREG)) != 0)
+			if (isFileExist(path))
 			{
 				PxFileBuf* stream = gApexSDK->createStream(path, PxFileBuf::OPEN_READ_ONLY);
 
@@ -159,6 +156,11 @@ void initApex()
 	gApexSDK = CreateApexSDK(apexDesc, &error);
 	PX_ASSERT(gApexSDK);
 
+#if APEX_MODULES_STATIC_LINK
+	nvidia::apex::instantiateModuleParticles();
+	nvidia::apex::instantiateModuleLegacy();
+#endif
+
 	// Initialize particles module
 	ModuleParticles* apexParticlesModule = static_cast<ModuleParticles*>(gApexSDK->createModule("Particles"));
 	PX_ASSERT(apexParticlesModule);
@@ -178,29 +180,29 @@ void releaseAPEX()
 	delete gMyResourceCallback;
 }
 
-int main(int, char**)
+void snippetMain(const char* rootPath)
 {
 	initPhysX();
 	initApex();
 
 	Asset* asset;
 
-	gMediaPath = GetCommandLine();
-	PathRemoveFileSpec(gMediaPath);
-	strcat(gMediaPath, "/../../snippets/SnippetCommon/");
+	std::string path;
+	path.append(rootPath);
+	path.append("/snippets/SnippetCommon/");
 
-	asset = loadApexAsset(EMITTER_AUTHORING_TYPE_NAME, "testMeshEmitter4BasicIos6");
+	std::string file0 = path + "testMeshEmitter4BasicIos6.apx";
+	asset = loadApexAsset(EMITTER_AUTHORING_TYPE_NAME, file0.c_str());
 	asset->forceLoadAssets();
 	gApexSDK->forceLoadAssets();
 	asset->release();
 
-	asset = loadApexAsset(EMITTER_AUTHORING_TYPE_NAME, "testSpriteEmitter4BasicIos6");
+	std::string file1 = path + "testMeshEmitter4BasicIos6.apx";
+	asset = loadApexAsset(EMITTER_AUTHORING_TYPE_NAME, file1.c_str());
 	asset->forceLoadAssets();
 	gApexSDK->forceLoadAssets();
 	asset->release();
 
 	releaseAPEX();
 	releasePhysX();
-
-	return 0;
 }

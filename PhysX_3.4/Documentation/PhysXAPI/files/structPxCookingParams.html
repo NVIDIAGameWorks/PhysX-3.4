@@ -51,6 +51,9 @@ Collaboration diagram for PxCookingParams:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxCookingParams.html#ec2fbb426b8c0bb2daee1e31b8e2adc2">areaTestEpsilon</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Zero-size area epsilon used in convex hull computation.  <a href="#ec2fbb426b8c0bb2daee1e31b8e2adc2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxCookingParams.html#45e4d60211cdd58d80a10dad39da64c9">planeTolerance</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Plane tolerance used in convex hull computation.  <a href="#45e4d60211cdd58d80a10dad39da64c9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="structPxConvexMeshCookingType.html#5a2ae723aca74c185675cd7ba2c9c115">PxConvexMeshCookingType::Enum</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxCookingParams.html#fbc71c4ade3b80715855125413d58f97">convexMeshCookingType</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convex hull creation algorithm.  <a href="#fbc71c4ade3b80715855125413d58f97"></a><br></td></tr>
@@ -296,6 +299,28 @@ Controls the desired midphase desc structure for triangle meshes.
 <dl class="note" compact><dt><b>Note:</b></dt><dd>If <a class="el" href="structPxMeshMidPhase.html#49f740883fbfb1a49631c28818c219f44d8e09539bc0a01c8ffd1b8bae24cbf1" title="Invalid mesh midphase.">PxMeshMidPhase::eINVALID</a> is used, the default <a class="el" href="structPxMeshMidPhase.html#49f740883fbfb1a49631c28818c219f4a791bfd986fc6edb77db2928e3c5e529" title="Default midphase mesh structure, as used up to PhysX 3.3.">PxMeshMidPhase::eBVH33</a> is used and the deprecated parameters <a class="el" href="structPxCookingParams.html#3cd5e4ba954507ba48882fcd806f66e3" title="Mesh cooking hint. Used to specify mesh hierarchy construction preference.">PxCookingParams::meshCookingHint</a> and <a class="el" href="structPxCookingParams.html#72e8ee721f648af02c40db8162bb07e8" title="Controls the trade-off between mesh size and runtime performance.">PxCookingParams::meshSizePerformanceTradeOff</a> are used.</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxBVH33MidphaseDesc.html" title="Structure describing parameters affecting BVH33 midphase mesh structure.">PxBVH33MidphaseDesc</a>, <a class="el" href="structPxBVH34MidphaseDesc.html" title="Structure describing parameters affecting BVH34 midphase mesh structure.">PxBVH34MidphaseDesc</a>, <a class="el" href="classPxMidphaseDesc.html" title="Structure describing parameters affecting midphase mesh structure.">PxMidphaseDesc</a></dd></dl>
 <b>Default value:</b> <a class="el" href="structPxMeshMidPhase.html#49f740883fbfb1a49631c28818c219f44d8e09539bc0a01c8ffd1b8bae24cbf1" title="Invalid mesh midphase.">PxMeshMidPhase::eINVALID</a> 
+</div>
+</div><p>
+<a class="anchor" name="45e4d60211cdd58d80a10dad39da64c9"></a><!-- doxytag: member="PxCookingParams::planeTolerance" ref="45e4d60211cdd58d80a10dad39da64c9" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float <a class="el" href="structPxCookingParams.html#45e4d60211cdd58d80a10dad39da64c9">PxCookingParams::planeTolerance</a>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Plane tolerance used in convex hull computation. 
+<p>
+The value is used during hull construction. When a new point is about to be added to the hull it gets dropped when the point is closer to the hull than the planeTolerance. The planeTolerance is increased according to the hull size.<p>
+If 0.0f is set all points are accepted when the convex hull is created. This may lead to edge cases where the new points may be merged into an existing polygon and the polygons plane equation might slightly change therefore. This might lead to failures during polygon merging phase in the hull computation.<p>
+It is recommended to use the default value, however if it is required that all points needs to be accepted or huge thin convexes are created, it might be required to lower the default value.<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>The plane tolerance is used only within <a class="el" href="structPxConvexMeshCookingType.html#5a2ae723aca74c185675cd7ba2c9c11518916173251aae02128c79b69af46906" title="The Quickhull algorithm constructs the hull from the given input points. The resulting...">PxConvexMeshCookingType::eQUICKHULL</a> algorithm.</dd></dl>
+<b>Default value:</b> 0.0007f<p>
+<b>Range:</b> &lt;0.0f, PX_MAX_F32) 
 </div>
 </div><p>
 <a class="anchor" name="6a51be76bb79ac1dd9a2788f54569c60"></a><!-- doxytag: member="PxCookingParams::scale" ref="6a51be76bb79ac1dd9a2788f54569c60" args="" -->

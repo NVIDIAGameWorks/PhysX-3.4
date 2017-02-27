@@ -157,7 +157,8 @@ PxAgain SweepCapsuleMeshHitCallback::processHit( // all reported coords are in m
 	}
 
 	const PxReal alignmentValue = computeAlignmentValue(triNormal, mUnitDir);
-	if(keepTriangle(localHit.distance, alignmentValue, mBestDist, mBestAlignmentValue, mTrueSweepDistance, distEpsilon))	
+//	if(keepTriangle(localHit.distance, alignmentValue, mBestDist, mBestAlignmentValue, mTrueSweepDistance, distEpsilon))	
+	if(keepTriangle(localHit.distance, alignmentValue, mBestDist, mBestAlignmentValue, mTrueSweepDistance, GU_EPSILON_SAME_DISTANCE))	
 	{
 		mBestAlignmentValue = alignmentValue;
 

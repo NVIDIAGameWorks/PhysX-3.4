@@ -57,7 +57,7 @@
 <a name="l00040"></a>00040 
 <a name="l00041"></a>00041 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
 <a name="l00042"></a>00042 
-<a name="l00043"></a>00043 <span class="preprocessor">#if PX_WINDOWS || PX_LINUX_FAMILY</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#if PX_WINDOWS || PX_LINUX_FAMILY || PX_NX</span>
 <a name="l00044"></a>00044 <span class="preprocessor"></span><span class="preprocessor">#include &lt;malloc.h&gt;</span>
 <a name="l00045"></a>00045 <span class="preprocessor">#endif</span>
 <a name="l00046"></a>00046 <span class="preprocessor"></span>
@@ -77,7 +77,7 @@
 <a name="l00060"></a>00060 {
 <a name="l00061"></a>00061     _aligned_free(ptr);
 <a name="l00062"></a>00062 }
-<a name="l00063"></a>00063 <span class="preprocessor">#elif PX_LINUX_FAMILY</span>
+<a name="l00063"></a>00063 <span class="preprocessor">#elif PX_LINUX_FAMILY || PX_NX</span>
 <a name="l00064"></a>00064 <span class="preprocessor"></span><a class="code" href="group__foundation.html#g6a774eed3cad34b0f636332a3d28c6bb">PX_FORCE_INLINE</a> <span class="keywordtype">void</span>* <a class="code" href="group__extensions.html#gd874c3dcee0d1f3ec91e1880a1f09582">platformAlignedAlloc</a>(<span class="keywordtype">size_t</span> size)
 <a name="l00065"></a>00065 {
 <a name="l00066"></a>00066     return ::memalign(16, size);

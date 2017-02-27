@@ -108,6 +108,9 @@
 #elif PX_XBOXONE
 #include <malloc.h>
 #define PxAlloca(x) alloca(x)
+#elif PX_NX
+#include <malloc.h>
+#define PxAlloca(x) alloca(x)
 #endif
 
 #define PxAllocaAligned(x, alignment) ((size_t(PxAlloca(x + alignment)) + (alignment - 1)) & ~size_t(alignment - 1))

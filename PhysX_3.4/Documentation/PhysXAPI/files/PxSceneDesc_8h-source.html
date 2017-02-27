@@ -292,133 +292,135 @@
 <a name="l00807"></a>00807 
 <a name="l00811"></a><a class="code" href="classPxSceneDesc.html#b90ebca71afa21639bd99693df30e197">00811</a>     <a class="code" href="structPxgDynamicsMemoryConfig.html" title="Sizes of pre-allocated buffers use for GPU dynamics.">PxgDynamicsMemoryConfig</a> <a class="code" href="classPxSceneDesc.html#b90ebca71afa21639bd99693df30e197" title="The pre-allocations performed in the GPU dynamics pipeline.">gpuDynamicsConfig</a>;
 <a name="l00812"></a>00812 
-<a name="l00817"></a><a class="code" href="classPxSceneDesc.html#3673610cdfbcb84103e2c3840754ecac">00817</a>     <a class="code" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>                   <a class="code" href="classPxSceneDesc.html#3673610cdfbcb84103e2c3840754ecac" title="Limitation for the partitions in the GPU dynamics pipeline. This variable must be...">gpuMaxNumPartitions</a>;
-<a name="l00818"></a>00818 
-<a name="l00822"></a><a class="code" href="classPxSceneDesc.html#c02177181688e06f18f504e3ba6327a7">00822</a>     <a class="code" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>                   <a class="code" href="classPxSceneDesc.html#c02177181688e06f18f504e3ba6327a7" title="Defines which compute version the GPU dynamics should target. DO NOT MODIFY.">gpuComputeVersion</a>;
-<a name="l00823"></a>00823 
-<a name="l00824"></a>00824 <span class="keyword">private</span>:
-<a name="l00828"></a>00828     <span class="comment">// For internal use only</span>
-<a name="l00829"></a>00829     <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>       tolerancesScale;
-<a name="l00835"></a>00835 <span class="keyword">public</span>:
-<a name="l00844"></a>00844     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <a class="code" href="group__physics.html#g8c083fd86a8c52ff269aa4dd3407127b" title="constructor sets to default.">PxSceneDesc</a>(<span class="keyword">const</span> <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>&amp; scale);
-<a name="l00845"></a>00845 
-<a name="l00854"></a>00854     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">void</span> <a class="code" href="group__physics.html#ga7375184ba494172fa7677dae44bd9a8" title="(re)sets the structure to the default.">setToDefault</a>(<span class="keyword">const</span> <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>&amp; scale);
-<a name="l00855"></a>00855 
-<a name="l00860"></a>00860     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">bool</span> <a class="code" href="group__physics.html#g67b3ce67bea6cdb19619bed61f9e7641" title="Returns true if the descriptor is valid.">isValid</a>() <span class="keyword">const</span>;
-<a name="l00861"></a>00861 
-<a name="l00865"></a>00865     <span class="comment">// For internal use only</span>
-<a name="l00866"></a>00866     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keyword">const</span> <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>&amp; getTolerancesScale()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> tolerancesScale; }
-<a name="l00870"></a>00870 };
-<a name="l00871"></a>00871 
-<a name="l00872"></a><a class="code" href="group__physics.html#g8c083fd86a8c52ff269aa4dd3407127b">00872</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <a class="code" href="group__physics.html#g8c083fd86a8c52ff269aa4dd3407127b" title="constructor sets to default.">PxSceneDesc::PxSceneDesc</a>(<span class="keyword">const</span> <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>&amp; scale):
-<a name="l00873"></a>00873     gravity                             (<a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>(0.0f)),
-<a name="l00874"></a>00874     simulationEventCallback             (NULL),
-<a name="l00875"></a>00875     contactModifyCallback               (NULL),
-<a name="l00876"></a>00876     ccdContactModifyCallback            (NULL),
-<a name="l00877"></a>00877 
-<a name="l00878"></a>00878     filterShaderData                    (NULL),
-<a name="l00879"></a>00879     filterShaderDataSize                (0),
-<a name="l00880"></a>00880     filterShader                        (NULL),
-<a name="l00881"></a>00881     filterCallback                      (NULL),
-<a name="l00882"></a>00882     broadPhaseType                      (<a class="code" href="structPxBroadPhaseType.html" title="Broad phase algorithm used in the simulation.">PxBroadPhaseType</a>::eSAP),
-<a name="l00883"></a>00883     broadPhaseCallback                  (NULL),
-<a name="l00884"></a>00884 
-<a name="l00885"></a>00885     frictionType                        (<a class="code" href="structPxFrictionType.html" title="Enum for selecting the friction algorithm used for simulation.">PxFrictionType</a>::ePATCH),
-<a name="l00886"></a>00886     bounceThresholdVelocity             (0.2f * scale.speed),
-<a name="l00887"></a>00887     frictionOffsetThreshold             (0.04f * scale.length),
-<a name="l00888"></a>00888     ccdMaxSeparation                    (0.04f * scale.length),
-<a name="l00889"></a>00889 
-<a name="l00890"></a>00890     flags                               (<a class="code" href="structPxSceneFlag.html" title="flags for configuring properties of the scene">PxSceneFlag</a>::eENABLE_PCM),
+<a name="l00819"></a><a class="code" href="classPxSceneDesc.html#3673610cdfbcb84103e2c3840754ecac">00819</a>     <a class="code" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>                   <a class="code" href="classPxSceneDesc.html#3673610cdfbcb84103e2c3840754ecac" title="Limitation for the partitions in the GPU dynamics pipeline. This variable must be...">gpuMaxNumPartitions</a>;
+<a name="l00820"></a>00820 
+<a name="l00824"></a><a class="code" href="classPxSceneDesc.html#c02177181688e06f18f504e3ba6327a7">00824</a>     <a class="code" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>                   <a class="code" href="classPxSceneDesc.html#c02177181688e06f18f504e3ba6327a7" title="Defines which compute version the GPU dynamics should target. DO NOT MODIFY.">gpuComputeVersion</a>;
+<a name="l00825"></a>00825 
+<a name="l00826"></a>00826 <span class="keyword">private</span>:
+<a name="l00830"></a>00830     <span class="comment">// For internal use only</span>
+<a name="l00831"></a>00831     <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>       tolerancesScale;
+<a name="l00837"></a>00837 <span class="keyword">public</span>:
+<a name="l00846"></a>00846     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <a class="code" href="group__physics.html#g8c083fd86a8c52ff269aa4dd3407127b" title="constructor sets to default.">PxSceneDesc</a>(<span class="keyword">const</span> <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>&amp; scale);
+<a name="l00847"></a>00847 
+<a name="l00856"></a>00856     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">void</span> <a class="code" href="group__physics.html#ga7375184ba494172fa7677dae44bd9a8" title="(re)sets the structure to the default.">setToDefault</a>(<span class="keyword">const</span> <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>&amp; scale);
+<a name="l00857"></a>00857 
+<a name="l00862"></a>00862     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">bool</span> <a class="code" href="group__physics.html#g67b3ce67bea6cdb19619bed61f9e7641" title="Returns true if the descriptor is valid.">isValid</a>() <span class="keyword">const</span>;
+<a name="l00863"></a>00863 
+<a name="l00867"></a>00867     <span class="comment">// For internal use only</span>
+<a name="l00868"></a>00868     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keyword">const</span> <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>&amp; getTolerancesScale()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> tolerancesScale; }
+<a name="l00872"></a>00872 };
+<a name="l00873"></a>00873 
+<a name="l00874"></a><a class="code" href="group__physics.html#g8c083fd86a8c52ff269aa4dd3407127b">00874</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <a class="code" href="group__physics.html#g8c083fd86a8c52ff269aa4dd3407127b" title="constructor sets to default.">PxSceneDesc::PxSceneDesc</a>(<span class="keyword">const</span> <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>&amp; scale):
+<a name="l00875"></a>00875     gravity                             (<a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>(0.0f)),
+<a name="l00876"></a>00876     simulationEventCallback             (NULL),
+<a name="l00877"></a>00877     contactModifyCallback               (NULL),
+<a name="l00878"></a>00878     ccdContactModifyCallback            (NULL),
+<a name="l00879"></a>00879 
+<a name="l00880"></a>00880     filterShaderData                    (NULL),
+<a name="l00881"></a>00881     filterShaderDataSize                (0),
+<a name="l00882"></a>00882     filterShader                        (NULL),
+<a name="l00883"></a>00883     filterCallback                      (NULL),
+<a name="l00884"></a>00884     broadPhaseType                      (<a class="code" href="structPxBroadPhaseType.html" title="Broad phase algorithm used in the simulation.">PxBroadPhaseType</a>::eSAP),
+<a name="l00885"></a>00885     broadPhaseCallback                  (NULL),
+<a name="l00886"></a>00886 
+<a name="l00887"></a>00887     frictionType                        (<a class="code" href="structPxFrictionType.html" title="Enum for selecting the friction algorithm used for simulation.">PxFrictionType</a>::ePATCH),
+<a name="l00888"></a>00888     bounceThresholdVelocity             (0.2f * scale.speed),
+<a name="l00889"></a>00889     frictionOffsetThreshold             (0.04f * scale.length),
+<a name="l00890"></a>00890     ccdMaxSeparation                    (0.04f * scale.length),
 <a name="l00891"></a>00891 
-<a name="l00892"></a>00892     cpuDispatcher                       (NULL),
-<a name="l00893"></a>00893     gpuDispatcher                       (NULL),
-<a name="l00894"></a>00894 
-<a name="l00895"></a>00895     staticStructure                     (<a class="code" href="structPxPruningStructureType.html" title="Pruning structure used to accelerate scene queries.">PxPruningStructureType</a>::eDYNAMIC_AABB_TREE),
-<a name="l00896"></a>00896     dynamicStructure                    (<a class="code" href="structPxPruningStructureType.html" title="Pruning structure used to accelerate scene queries.">PxPruningStructureType</a>::eDYNAMIC_AABB_TREE),
-<a name="l00897"></a>00897     dynamicTreeRebuildRateHint          (100),
-<a name="l00898"></a>00898 
-<a name="l00899"></a>00899     userData                            (NULL),
+<a name="l00892"></a>00892     flags                               (<a class="code" href="structPxSceneFlag.html" title="flags for configuring properties of the scene">PxSceneFlag</a>::eENABLE_PCM),
+<a name="l00893"></a>00893 
+<a name="l00894"></a>00894     cpuDispatcher                       (NULL),
+<a name="l00895"></a>00895     gpuDispatcher                       (NULL),
+<a name="l00896"></a>00896 
+<a name="l00897"></a>00897     staticStructure                     (<a class="code" href="structPxPruningStructureType.html" title="Pruning structure used to accelerate scene queries.">PxPruningStructureType</a>::eDYNAMIC_AABB_TREE),
+<a name="l00898"></a>00898     dynamicStructure                    (<a class="code" href="structPxPruningStructureType.html" title="Pruning structure used to accelerate scene queries.">PxPruningStructureType</a>::eDYNAMIC_AABB_TREE),
+<a name="l00899"></a>00899     dynamicTreeRebuildRateHint          (100),
 <a name="l00900"></a>00900 
-<a name="l00901"></a>00901     solverBatchSize                     (128),
+<a name="l00901"></a>00901     userData                            (NULL),
 <a name="l00902"></a>00902 
-<a name="l00903"></a>00903     nbContactDataBlocks                 (0),
-<a name="l00904"></a>00904     maxNbContactDataBlocks              (1&lt;&lt;16),
-<a name="l00905"></a>00905     contactReportStreamBufferSize       (8192),
-<a name="l00906"></a>00906     ccdMaxPasses                        (1),
-<a name="l00907"></a>00907     wakeCounterResetValue               (20.0f*0.02f),
-<a name="l00908"></a>00908     sanityBounds                        (<a class="code" href="classPxBounds3.html" title="Class representing 3D range or axis aligned bounding box.">PxBounds3</a>(<a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>(-<a class="code" href="group__foundation.html#gc1b800617c25ba00871816b8a0756d89">PX_MAX_BOUNDS_EXTENTS</a>), <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>(<a class="code" href="group__foundation.html#gc1b800617c25ba00871816b8a0756d89">PX_MAX_BOUNDS_EXTENTS</a>))),
-<a name="l00909"></a>00909 #if <a class="code" href="group__foundation.html#g0a511de410e7de7a8625fb572f88bd89">PX_SUPPORT_GPU_PHYSX</a>
-<a name="l00910"></a>00910     gpuMaxNumPartitions                 (8),
-<a name="l00911"></a>00911     gpuComputeVersion                   (0),
-<a name="l00912"></a>00912 #endif
-<a name="l00913"></a>00913     tolerancesScale                     (scale)
-<a name="l00914"></a>00914 {
-<a name="l00915"></a>00915 }
-<a name="l00916"></a>00916 
-<a name="l00917"></a><a class="code" href="group__physics.html#ga7375184ba494172fa7677dae44bd9a8">00917</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">void</span> <a class="code" href="group__physics.html#ga7375184ba494172fa7677dae44bd9a8" title="(re)sets the structure to the default.">PxSceneDesc::setToDefault</a>(<span class="keyword">const</span> <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>&amp; scale)
-<a name="l00918"></a>00918 {
-<a name="l00919"></a>00919     *<span class="keyword">this</span> = <a class="code" href="group__physics.html#g8c083fd86a8c52ff269aa4dd3407127b" title="constructor sets to default.">PxSceneDesc</a>(scale);
-<a name="l00920"></a>00920 }
-<a name="l00921"></a>00921 
-<a name="l00922"></a><a class="code" href="group__physics.html#g67b3ce67bea6cdb19619bed61f9e7641">00922</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">bool</span> <a class="code" href="group__physics.html#g67b3ce67bea6cdb19619bed61f9e7641" title="Returns true if the descriptor is valid.">PxSceneDesc::isValid</a>()<span class="keyword"> const</span>
-<a name="l00923"></a>00923 <span class="keyword"></span>{
-<a name="l00924"></a>00924     <span class="keywordflow">if</span>(!<a class="code" href="classPxSceneDesc.html#9410287c6ea926dad9e2b2374541ad38" title="The custom filter shader to use for collision filtering.">filterShader</a>)
-<a name="l00925"></a>00925         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00926"></a>00926 
-<a name="l00927"></a>00927     <span class="keywordflow">if</span>( ((<a class="code" href="classPxSceneDesc.html#710c03915bbaaa9bdf23925d535c3883" title="Size (in bytes) of the shared global filter data filterShaderData.">filterShaderDataSize</a> == 0) &amp;&amp; (<a class="code" href="classPxSceneDesc.html#d9ceb142127cc259aa2f5d322a1494e2" title="Shared global filter data which will get passed into the filter shader.">filterShaderData</a> != NULL)) ||
-<a name="l00928"></a>00928         ((<a class="code" href="classPxSceneDesc.html#710c03915bbaaa9bdf23925d535c3883" title="Size (in bytes) of the shared global filter data filterShaderData.">filterShaderDataSize</a> &gt; 0) &amp;&amp; (<a class="code" href="classPxSceneDesc.html#d9ceb142127cc259aa2f5d322a1494e2" title="Shared global filter data which will get passed into the filter shader.">filterShaderData</a> == NULL)) )
-<a name="l00929"></a>00929         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00930"></a>00930 
-<a name="l00931"></a>00931     <span class="keywordflow">if</span>(!<a class="code" href="classPxSceneDesc.html#b996312333ef4fdf5f77fcc16b84923e" title="Expected scene limits.">limits</a>.<a class="code" href="group__physics.html#g0fdb519fc67615aed0a8548b8f6fcab1" title="Returns true if the descriptor is valid.">isValid</a>())
-<a name="l00932"></a>00932         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00933"></a>00933 
-<a name="l00934"></a>00934     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#00495fa3240d1087d38cf33eebc313a7" title="Defines the structure used to store static objects.">staticStructure</a>!=<a class="code" href="structPxPruningStructureType.html#058454782f6ed1cc953b8d6561b636d99001cb07511fa509eae16a4a933a77f6" title="Using a static AABB tree.">PxPruningStructureType::eSTATIC_AABB_TREE</a> &amp;&amp; <a class="code" href="classPxSceneDesc.html#00495fa3240d1087d38cf33eebc313a7" title="Defines the structure used to store static objects.">staticStructure</a>!=<a class="code" href="structPxPruningStructureType.html#058454782f6ed1cc953b8d6561b636d9374d304bffaa55f53556e2b40a592e54" title="Using a dynamic AABB tree.">PxPruningStructureType::eDYNAMIC_AABB_TREE</a>)
-<a name="l00935"></a>00935         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00936"></a>00936 
-<a name="l00937"></a>00937     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#c3270ea72968fc446cacb81a7ce683d3" title="Hint for how much work should be done per simulation frame to rebuild the pruning...">dynamicTreeRebuildRateHint</a> &lt; 4)
-<a name="l00938"></a>00938         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00939"></a>00939 
-<a name="l00940"></a>00940     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#bc7769532392c8e47ec4580677145e34" title="A contact with a relative velocity below this will not bounce. A typical value for...">bounceThresholdVelocity</a> &lt; 0.0f)
-<a name="l00941"></a>00941         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00942"></a>00942     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#f707e0c97624aaf6fa9ab2e82aadbecf" title="A threshold of contact separation distance used to decide if a contact point will...">frictionOffsetThreshold</a> &lt; 0.0f)
+<a name="l00903"></a>00903     solverBatchSize                     (128),
+<a name="l00904"></a>00904 
+<a name="l00905"></a>00905     nbContactDataBlocks                 (0),
+<a name="l00906"></a>00906     maxNbContactDataBlocks              (1&lt;&lt;16),
+<a name="l00907"></a>00907     contactReportStreamBufferSize       (8192),
+<a name="l00908"></a>00908     ccdMaxPasses                        (1),
+<a name="l00909"></a>00909     wakeCounterResetValue               (20.0f*0.02f),
+<a name="l00910"></a>00910     sanityBounds                        (<a class="code" href="classPxBounds3.html" title="Class representing 3D range or axis aligned bounding box.">PxBounds3</a>(<a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>(-<a class="code" href="group__foundation.html#gc1b800617c25ba00871816b8a0756d89">PX_MAX_BOUNDS_EXTENTS</a>), <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>(<a class="code" href="group__foundation.html#gc1b800617c25ba00871816b8a0756d89">PX_MAX_BOUNDS_EXTENTS</a>))),
+<a name="l00911"></a>00911 #if <a class="code" href="group__foundation.html#g0a511de410e7de7a8625fb572f88bd89">PX_SUPPORT_GPU_PHYSX</a>
+<a name="l00912"></a>00912     gpuMaxNumPartitions                 (8),
+<a name="l00913"></a>00913     gpuComputeVersion                   (0),
+<a name="l00914"></a>00914 #endif
+<a name="l00915"></a>00915     tolerancesScale                     (scale)
+<a name="l00916"></a>00916 {
+<a name="l00917"></a>00917 }
+<a name="l00918"></a>00918 
+<a name="l00919"></a><a class="code" href="group__physics.html#ga7375184ba494172fa7677dae44bd9a8">00919</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">void</span> <a class="code" href="group__physics.html#ga7375184ba494172fa7677dae44bd9a8" title="(re)sets the structure to the default.">PxSceneDesc::setToDefault</a>(<span class="keyword">const</span> <a class="code" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>&amp; scale)
+<a name="l00920"></a>00920 {
+<a name="l00921"></a>00921     *<span class="keyword">this</span> = <a class="code" href="group__physics.html#g8c083fd86a8c52ff269aa4dd3407127b" title="constructor sets to default.">PxSceneDesc</a>(scale);
+<a name="l00922"></a>00922 }
+<a name="l00923"></a>00923 
+<a name="l00924"></a><a class="code" href="group__physics.html#g67b3ce67bea6cdb19619bed61f9e7641">00924</a> <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <span class="keywordtype">bool</span> <a class="code" href="group__physics.html#g67b3ce67bea6cdb19619bed61f9e7641" title="Returns true if the descriptor is valid.">PxSceneDesc::isValid</a>()<span class="keyword"> const</span>
+<a name="l00925"></a>00925 <span class="keyword"></span>{
+<a name="l00926"></a>00926     <span class="keywordflow">if</span>(!<a class="code" href="classPxSceneDesc.html#9410287c6ea926dad9e2b2374541ad38" title="The custom filter shader to use for collision filtering.">filterShader</a>)
+<a name="l00927"></a>00927         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00928"></a>00928 
+<a name="l00929"></a>00929     <span class="keywordflow">if</span>( ((<a class="code" href="classPxSceneDesc.html#710c03915bbaaa9bdf23925d535c3883" title="Size (in bytes) of the shared global filter data filterShaderData.">filterShaderDataSize</a> == 0) &amp;&amp; (<a class="code" href="classPxSceneDesc.html#d9ceb142127cc259aa2f5d322a1494e2" title="Shared global filter data which will get passed into the filter shader.">filterShaderData</a> != NULL)) ||
+<a name="l00930"></a>00930         ((<a class="code" href="classPxSceneDesc.html#710c03915bbaaa9bdf23925d535c3883" title="Size (in bytes) of the shared global filter data filterShaderData.">filterShaderDataSize</a> &gt; 0) &amp;&amp; (<a class="code" href="classPxSceneDesc.html#d9ceb142127cc259aa2f5d322a1494e2" title="Shared global filter data which will get passed into the filter shader.">filterShaderData</a> == NULL)) )
+<a name="l00931"></a>00931         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00932"></a>00932 
+<a name="l00933"></a>00933     <span class="keywordflow">if</span>(!<a class="code" href="classPxSceneDesc.html#b996312333ef4fdf5f77fcc16b84923e" title="Expected scene limits.">limits</a>.<a class="code" href="group__physics.html#g0fdb519fc67615aed0a8548b8f6fcab1" title="Returns true if the descriptor is valid.">isValid</a>())
+<a name="l00934"></a>00934         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00935"></a>00935 
+<a name="l00936"></a>00936     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#00495fa3240d1087d38cf33eebc313a7" title="Defines the structure used to store static objects.">staticStructure</a>!=<a class="code" href="structPxPruningStructureType.html#058454782f6ed1cc953b8d6561b636d99001cb07511fa509eae16a4a933a77f6" title="Using a static AABB tree.">PxPruningStructureType::eSTATIC_AABB_TREE</a> &amp;&amp; <a class="code" href="classPxSceneDesc.html#00495fa3240d1087d38cf33eebc313a7" title="Defines the structure used to store static objects.">staticStructure</a>!=<a class="code" href="structPxPruningStructureType.html#058454782f6ed1cc953b8d6561b636d9374d304bffaa55f53556e2b40a592e54" title="Using a dynamic AABB tree.">PxPruningStructureType::eDYNAMIC_AABB_TREE</a>)
+<a name="l00937"></a>00937         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00938"></a>00938 
+<a name="l00939"></a>00939     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#c3270ea72968fc446cacb81a7ce683d3" title="Hint for how much work should be done per simulation frame to rebuild the pruning...">dynamicTreeRebuildRateHint</a> &lt; 4)
+<a name="l00940"></a>00940         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00941"></a>00941 
+<a name="l00942"></a>00942     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#bc7769532392c8e47ec4580677145e34" title="A contact with a relative velocity below this will not bounce. A typical value for...">bounceThresholdVelocity</a> &lt; 0.0f)
 <a name="l00943"></a>00943         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00944"></a>00944     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#74dc6e8ebde591ca823a3ea4807fca33" title="A threshold for speculative CCD. Used to control whether bias, restitution or a combination...">ccdMaxSeparation</a> &lt; 0.0f)
+<a name="l00944"></a>00944     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#f707e0c97624aaf6fa9ab2e82aadbecf" title="A threshold of contact separation distance used to decide if a contact point will...">frictionOffsetThreshold</a> &lt; 0.0f)
 <a name="l00945"></a>00945         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00946"></a>00946 
-<a name="l00947"></a>00947     <span class="keywordflow">if</span>(!<a class="code" href="classPxSceneDesc.html#c74f5f6c12d72b873716f82c2225b725" title="The CPU task dispatcher for the scene.">cpuDispatcher</a>)
-<a name="l00948"></a>00948         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00949"></a>00949 
-<a name="l00950"></a>00950     <span class="keywordflow">if</span>(!<a class="code" href="classPxSceneDesc.html#02d696140e9828477c8aa493a048f48a" title="Size of the contact report stream (in bytes).">contactReportStreamBufferSize</a>)
-<a name="l00951"></a>00951         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00952"></a>00952 
-<a name="l00953"></a>00953     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#8791132cbe8cce32f051e5eaab774d35" title="Setting to define the maximum number of 16K blocks that can be allocated to store...">maxNbContactDataBlocks</a> &lt; <a class="code" href="classPxSceneDesc.html#625cdbae7d2149a9df472fb4f9c06f83" title="Setting to define the number of 16K blocks that will be initially reserved to store...">nbContactDataBlocks</a>)
-<a name="l00954"></a>00954         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00955"></a>00955 
-<a name="l00956"></a>00956     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#79e2c9c06f711272a48d7f07451117b7" title="The wake counter reset value.">wakeCounterResetValue</a> &lt;= 0.0f)
-<a name="l00957"></a>00957         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00958"></a>00958 
-<a name="l00959"></a>00959     <span class="comment">//Adaptive force and stabilization are incompatible. You can only have one or the other</span>
-<a name="l00960"></a>00960     <span class="keywordflow">if</span>((<a class="code" href="classPxSceneDesc.html#9510b1233fb0ab03e9c1d5be44ff5a38" title="Flags used to select scene options.">flags</a> &amp; (<a class="code" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53f41a174026200b36d385fbe91a67eac0" title="Enable adaptive forces to accelerate convergence of the solver.">PxSceneFlag::eADAPTIVE_FORCE</a> | <a class="code" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53909e1cb63ea9c0394e2c2b3a526f47fe" title="Enables additional stabilization pass in solver.">PxSceneFlag::eENABLE_STABILIZATION</a>)) == (<a class="code" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53f41a174026200b36d385fbe91a67eac0" title="Enable adaptive forces to accelerate convergence of the solver.">PxSceneFlag::eADAPTIVE_FORCE</a> | <a class="code" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53909e1cb63ea9c0394e2c2b3a526f47fe" title="Enables additional stabilization pass in solver.">PxSceneFlag::eENABLE_STABILIZATION</a>))
-<a name="l00961"></a>00961         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00962"></a>00962 
-<a name="l00963"></a>00963     <span class="keywordflow">if</span>(!<a class="code" href="classPxSceneDesc.html#8d6ba51fe74a6c5ea4a46709abb89168" title="The bounds used to sanity check user-set positions of actors and articulation links...">sanityBounds</a>.<a class="code" href="group__foundation.html#g1a4839a26d49a14844a13fc6a845191e">isValid</a>())
-<a name="l00964"></a>00964         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00965"></a>00965 
-<a name="l00966"></a>00966 <span class="preprocessor">#if PX_SUPPORT_GPU_PHYSX</span>
-<a name="l00967"></a>00967 <span class="preprocessor"></span>    <span class="comment">//gpuMaxNumPartitions must be power of 2</span>
-<a name="l00968"></a>00968     <span class="keywordflow">if</span>((<a class="code" href="classPxSceneDesc.html#3673610cdfbcb84103e2c3840754ecac" title="Limitation for the partitions in the GPU dynamics pipeline. This variable must be...">gpuMaxNumPartitions</a>&amp;(<a class="code" href="classPxSceneDesc.html#3673610cdfbcb84103e2c3840754ecac" title="Limitation for the partitions in the GPU dynamics pipeline. This variable must be...">gpuMaxNumPartitions</a> - 1)) != 0)
-<a name="l00969"></a>00969         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00970"></a>00970 <span class="preprocessor">#endif</span>
-<a name="l00971"></a>00971 <span class="preprocessor"></span>
-<a name="l00972"></a>00972     <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00973"></a>00973 }
-<a name="l00974"></a>00974 
-<a name="l00975"></a>00975 
-<a name="l00976"></a>00976 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00977"></a>00977 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00978"></a>00978 <span class="preprocessor">#endif</span>
-<a name="l00979"></a>00979 <span class="preprocessor"></span>
-<a name="l00981"></a>00981 <span class="preprocessor">#endif</span>
+<a name="l00946"></a>00946     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#74dc6e8ebde591ca823a3ea4807fca33" title="A threshold for speculative CCD. Used to control whether bias, restitution or a combination...">ccdMaxSeparation</a> &lt; 0.0f)
+<a name="l00947"></a>00947         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00948"></a>00948 
+<a name="l00949"></a>00949     <span class="keywordflow">if</span>(!<a class="code" href="classPxSceneDesc.html#c74f5f6c12d72b873716f82c2225b725" title="The CPU task dispatcher for the scene.">cpuDispatcher</a>)
+<a name="l00950"></a>00950         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00951"></a>00951 
+<a name="l00952"></a>00952     <span class="keywordflow">if</span>(!<a class="code" href="classPxSceneDesc.html#02d696140e9828477c8aa493a048f48a" title="Size of the contact report stream (in bytes).">contactReportStreamBufferSize</a>)
+<a name="l00953"></a>00953         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00954"></a>00954 
+<a name="l00955"></a>00955     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#8791132cbe8cce32f051e5eaab774d35" title="Setting to define the maximum number of 16K blocks that can be allocated to store...">maxNbContactDataBlocks</a> &lt; <a class="code" href="classPxSceneDesc.html#625cdbae7d2149a9df472fb4f9c06f83" title="Setting to define the number of 16K blocks that will be initially reserved to store...">nbContactDataBlocks</a>)
+<a name="l00956"></a>00956         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00957"></a>00957 
+<a name="l00958"></a>00958     <span class="keywordflow">if</span>(<a class="code" href="classPxSceneDesc.html#79e2c9c06f711272a48d7f07451117b7" title="The wake counter reset value.">wakeCounterResetValue</a> &lt;= 0.0f)
+<a name="l00959"></a>00959         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00960"></a>00960 
+<a name="l00961"></a>00961     <span class="comment">//Adaptive force and stabilization are incompatible. You can only have one or the other</span>
+<a name="l00962"></a>00962     <span class="keywordflow">if</span>((<a class="code" href="classPxSceneDesc.html#9510b1233fb0ab03e9c1d5be44ff5a38" title="Flags used to select scene options.">flags</a> &amp; (<a class="code" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53f41a174026200b36d385fbe91a67eac0" title="Enable adaptive forces to accelerate convergence of the solver.">PxSceneFlag::eADAPTIVE_FORCE</a> | <a class="code" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53909e1cb63ea9c0394e2c2b3a526f47fe" title="Enables additional stabilization pass in solver.">PxSceneFlag::eENABLE_STABILIZATION</a>)) == (<a class="code" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53f41a174026200b36d385fbe91a67eac0" title="Enable adaptive forces to accelerate convergence of the solver.">PxSceneFlag::eADAPTIVE_FORCE</a> | <a class="code" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53909e1cb63ea9c0394e2c2b3a526f47fe" title="Enables additional stabilization pass in solver.">PxSceneFlag::eENABLE_STABILIZATION</a>))
+<a name="l00963"></a>00963         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00964"></a>00964 
+<a name="l00965"></a>00965     <span class="keywordflow">if</span>(!<a class="code" href="classPxSceneDesc.html#8d6ba51fe74a6c5ea4a46709abb89168" title="The bounds used to sanity check user-set positions of actors and articulation links...">sanityBounds</a>.<a class="code" href="group__foundation.html#g1a4839a26d49a14844a13fc6a845191e">isValid</a>())
+<a name="l00966"></a>00966         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00967"></a>00967 
+<a name="l00968"></a>00968 <span class="preprocessor">#if PX_SUPPORT_GPU_PHYSX</span>
+<a name="l00969"></a>00969 <span class="preprocessor"></span>    <span class="comment">//gpuMaxNumPartitions must be power of 2</span>
+<a name="l00970"></a>00970     <span class="keywordflow">if</span>((<a class="code" href="classPxSceneDesc.html#3673610cdfbcb84103e2c3840754ecac" title="Limitation for the partitions in the GPU dynamics pipeline. This variable must be...">gpuMaxNumPartitions</a>&amp;(<a class="code" href="classPxSceneDesc.html#3673610cdfbcb84103e2c3840754ecac" title="Limitation for the partitions in the GPU dynamics pipeline. This variable must be...">gpuMaxNumPartitions</a> - 1)) != 0)
+<a name="l00971"></a>00971         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00972"></a>00972     <span class="keywordflow">if</span> (<a class="code" href="classPxSceneDesc.html#3673610cdfbcb84103e2c3840754ecac" title="Limitation for the partitions in the GPU dynamics pipeline. This variable must be...">gpuMaxNumPartitions</a> &gt; 32)
+<a name="l00973"></a>00973         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00974"></a>00974 <span class="preprocessor">#endif</span>
+<a name="l00975"></a>00975 <span class="preprocessor"></span>
+<a name="l00976"></a>00976     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00977"></a>00977 }
+<a name="l00978"></a>00978 
+<a name="l00979"></a>00979 
+<a name="l00980"></a>00980 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00981"></a>00981 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00982"></a>00982 <span class="preprocessor">#endif</span>
+<a name="l00983"></a>00983 <span class="preprocessor"></span>
+<a name="l00985"></a>00985 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

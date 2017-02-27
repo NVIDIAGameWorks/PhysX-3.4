@@ -38,7 +38,7 @@ using namespace physx;
 namespace
 {
 
-#define SN_NUM_BINARY_PLATFORMS 11
+#define SN_NUM_BINARY_PLATFORMS 13
 const PxU32 sBinaryPlatformTags[SN_NUM_BINARY_PLATFORMS] =
 {
 	PX_MAKE_FOURCC('W','_','3','2'),
@@ -51,7 +51,9 @@ const PxU32 sBinaryPlatformTags[SN_NUM_BINARY_PLATFORMS] =
 	PX_MAKE_FOURCC('A','N','D','R'),
 	PX_MAKE_FOURCC('A','I','O','S'),
 	PX_MAKE_FOURCC('A','A','6','4'),
-	PX_MAKE_FOURCC('X','O','N','E')
+	PX_MAKE_FOURCC('X','O','N','E'),
+	PX_MAKE_FOURCC('N','X','3','2'),
+	PX_MAKE_FOURCC('N','X','6','4')
 };
 
 const char* sBinaryPlatformNames[SN_NUM_BINARY_PLATFORMS] =
@@ -66,7 +68,9 @@ const char* sBinaryPlatformNames[SN_NUM_BINARY_PLATFORMS] =
 	"android",
 	"ios",
 	"ios64",
-	"xboxone"
+	"xboxone",
+	"nx32",
+	"nx64"
 };
 
 #define SN_NUM_BINARY_COMPATIBLE_VERSIONS 1
@@ -107,6 +111,10 @@ PxU32 getBinaryPlatformTag()
 	return sBinaryPlatformTags[9];
 #elif PX_XBOXONE
 	return sBinaryPlatformTags[10];
+#elif PX_NX && !PX_A64
+	return sBinaryPlatformTags[11];
+#elif PX_NX && PX_A64
+	return sBinaryPlatformTags[12];
 #else
 	#error Unknown binary platform
 #endif

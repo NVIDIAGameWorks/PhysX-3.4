@@ -49,9 +49,7 @@ namespace local
 {		
 	//////////////////////////////////////////////////////////////////////////
 	static const float MIN_ADJACENT_ANGLE = 3.0f;  // in degrees  - result wont have two adjacent facets within this angle of each other.
-	static const float PLANE_THICKNES = 3.0f * PX_EPS_F32;  // points within this distance are considered on a plane
-	static const float ACCEPTANCE_EPSILON_MULTIPLY = 2000.0f; // used to scale up plane tolerance to accept new points into convex, plane thickness tolerance is too high for point acceptance
-	static const float PLANE_TOLERANCE = 0.001f;  // points within this distance are considered on a plane for post adjacent merging and eye vertex acceptance
+	static const float PLANE_THICKNES = 3.0f * PX_EPS_F32;  // points within this distance are considered on a plane	
 	static const float MAXDOT_MINANG = cosf(Ps::degToRad(MIN_ADJACENT_ANGLE)); // adjacent angle for dot product tests
 
 	//////////////////////////////////////////////////////////////////////////
@@ -290,13 +288,13 @@ namespace local
 
 			QuickHullHalfEdge* testEdge = edge;
 			QuickHullHalfEdge* startEdge = NULL;
-			float minDist = FLT_MAX;
+			float maxDist = 0.0f;
 			for (PxU32 i = 0; i < 3; i++)
 			{
 				const float d = (testEdge->tail.point - testEdge->next->tail.point).magnitudeSquared();
-				if (d < minDist)
+				if (d > maxDist)
 				{
-					minDist = d;
+					maxDist = d;
 					startEdge = testEdge;
 				}
 				testEdge = testEdge->next;
@@ -430,7 +428,7 @@ namespace local
 		void postMergeHull();
 
 		// check if 2 faces can be merged
-		bool canMergeFaces(const QuickHullHalfEdge& he, float planeTolerance);
+		bool canMergeFaces(const QuickHullHalfEdge& he);
 
 		// get next free face
 		PX_FORCE_INLINE QuickHullFace* getFreeHullFace()
@@ -444,6 +442,8 @@ namespace local
 			return mFreeHalfEdges.getFreeItem();
 		}
 
+		PX_FORCE_INLINE PxU32 getNbHullVerts() { return mOutputNumVertices; }
+
 	protected:
 		friend class physx::QuickHullConvexHullLib;
 
@@ -453,7 +453,8 @@ namespace local
 		PxVec3					mInteriorPoint;		// interior point for int/ext tests
 
 		PxU32					mMaxVertices;		// maximum number of vertices (can be different as we may add vertices during the cleanup
-		PxU32					mNumVertices;		// actual number of vertices
+		PxU32					mNumVertices;		// actual number of input vertices
+		PxU32					mOutputNumVertices;	// num vertices of the computed hull
 
 		QuickHullVertex*		mVerticesList;		// vertices list preallocated
 		MemBlock<QuickHullHalfEdge, false>	mFreeHalfEdges;	// free half edges
@@ -660,7 +661,7 @@ namespace local
 	//////////////////////////////////////////////////////////////////////////
 
 	QuickHull::QuickHull(const PxCookingParams& params, const PxConvexMeshDesc& desc)
-		: mCookingParams(params), mConvexDesc(desc), mVerticesList(NULL), mNumHullFaces(0), mPrecomputedMinMax(false),
+		: mCookingParams(params), mConvexDesc(desc), mOutputNumVertices(0), mVerticesList(NULL), mNumHullFaces(0), mPrecomputedMinMax(false),
 		mTolerance(-1.0f), mPlaneTolerance(-1.0f)
 	{
 	}
@@ -813,7 +814,9 @@ namespace local
 		mTolerance = PxMax(local::PLANE_THICKNES * (PxMax(PxAbs(max.x), PxAbs(min.x)) +
 			PxMax(PxAbs(max.y), PxAbs(min.y)) +
 			PxMax(PxAbs(max.z), PxAbs(min.z))), local::PLANE_THICKNES);
-		mPlaneTolerance = local::PLANE_TOLERANCE;
+		mPlaneTolerance = PxMax(mCookingParams.planeTolerance * (PxMax(PxAbs(max.x), PxAbs(min.x)) +
+			PxMax(PxAbs(max.y), PxAbs(min.y)) +
+			PxMax(PxAbs(max.z), PxAbs(min.z))), mCookingParams.planeTolerance);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1131,11 +1134,13 @@ namespace local
 			PX_ASSERT(eyeFace);
 			if (!addPointToHull(eyeVtx, *eyeFace))
 			{
+				mOutputNumVertices = numVerts;
 				// we hit the polygons hard limit
 				return QuickHullResult::ePOLYGONS_LIMIT_REACHED;
 			}
 			numVerts++;
 		}
+		mOutputNumVertices = numVerts;
 
 		// vertex limit has been reached. We did not stopped the iteration, since we
 		// will use the produced hull to compute OBB from it and use the planes
@@ -1155,7 +1160,7 @@ namespace local
 	{	
 		QuickHullVertex* eyeVtx = NULL;
 		QuickHullFace* eyeF = NULL;
-		float maxDist = PxMax(mTolerance*ACCEPTANCE_EPSILON_MULTIPLY, mPlaneTolerance);
+		float maxDist = mPlaneTolerance;
 		for (PxU32 i = 0; i < mHullFaces.size(); i++)
 		{
 			if (mHullFaces[i]->state == QuickHullFace::eVISIBLE && mHullFaces[i]->conflictList)
@@ -1310,8 +1315,7 @@ namespace local
 
 	//////////////////////////////////////////////////////////////////////////
 	// merge adjacent faces doing normal test
-	// we try to merge more aggressively 2 faces with the same normal. 
-	// We use bigger tolerance for the plane thickness in the end - mPlaneTolerance. 
+	// we try to merge more aggressively 2 faces with the same normal. 	
 	bool QuickHull::doPostAdjacentMerge(QuickHullFace& face, const float maxdot_minang)
 	{
 		QuickHullHalfEdge* hedge = face.edge;
@@ -1329,7 +1333,7 @@ namespace local
 				if (face.area > oppFace.area)
 				{
 					// check if we can merge the 2 faces
-					merge = canMergeFaces(*hedge, mPlaneTolerance);
+					merge = canMergeFaces(*hedge);
 				}
 			}
 
@@ -1359,7 +1363,7 @@ namespace local
 	// 4. checks that the new polygon is still convex
 	// 5. checks if we are about to merge only 2 neighbor faces, we dont 
 	// want to merge additional faces, that might corrupt the convexity
-	bool QuickHull::canMergeFaces(const QuickHullHalfEdge& he, float planeTolerance)
+	bool QuickHull::canMergeFaces(const QuickHullHalfEdge& he)
 	{
 		const QuickHullFace& face1 = *he.face;
 		const QuickHullFace& face2 = *he.twin->face;
@@ -1400,12 +1404,13 @@ namespace local
 		mergedFace.computeNormalAndCentroid();
 
 		// test the vertex distance
+		float maxDist = mPlaneTolerance;
 		QuickHullHalfEdge* qhe = mergedFace.edge;
 		do
 		{
 			const QuickHullVertex& vertex = qhe->tail;
 			const float dist = mergedFace.distanceToPlane(vertex.point);
-			if (dist > planeTolerance)
+			if (dist > maxDist)
 			{
 				return false;
 			}
@@ -1796,7 +1801,15 @@ PxConvexMeshCookingResult::Enum QuickHullConvexHullLib::createConvexHull()
 		res = PxConvexMeshCookingResult::eSUCCESS;		
 		break;
 	case local::QuickHullResult::ePOLYGONS_LIMIT_REACHED:
-		res = PxConvexMeshCookingResult::ePOLYGONS_LIMIT_REACHED;
+		if(mQuickHull->getNbHullVerts() > mConvexMeshDesc.vertexLimit)
+		{
+			// expand the hull
+			if(mConvexMeshDesc.flags & PxConvexFlag::ePLANE_SHIFTING)
+				res = expandHull();
+			else
+				res = expandHullOBB();
+		}
+		res = PxConvexMeshCookingResult::ePOLYGONS_LIMIT_REACHED;		
 		break;
 	case local::QuickHullResult::eVERTEX_LIMIT_REACHED:
 		{
@@ -1896,7 +1909,9 @@ bool QuickHullConvexHullLib::cleanupForSimplex(PxVec3* vertices, PxU32 vertexCou
 		PxMax(PxAbs(max.y), PxAbs(min.y)) +
 		PxMax(PxAbs(max.z), PxAbs(min.z))), local::PLANE_THICKNES);
 
-	planeTolerance = local::PLANE_TOLERANCE;
+	planeTolerance = PxMax(mCookingParams.planeTolerance * (PxMax(PxAbs(max.x), PxAbs(min.x)) +
+		PxMax(PxAbs(max.y), PxAbs(min.y)) +
+		PxMax(PxAbs(max.z), PxAbs(min.z))), mCookingParams.planeTolerance);
 
 	float fmax = 0;
 	PxU32 imax = 0;
@@ -2312,7 +2327,7 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromQuickHull(PxConvexMeshDesc& d
 			polygon.mPlane[0] = face.normal[0];
 			polygon.mPlane[1] = face.normal[1];
 			polygon.mPlane[2] = face.normal[2];
-			polygon.mPlane[3] = -face.normal.dot(face.centroid);
+			polygon.mPlane[3] = -face.planeOffset;
 
 			polygon.mIndexBase = indexOffset;
 			polygon.mNbVerts = face.numEdges;

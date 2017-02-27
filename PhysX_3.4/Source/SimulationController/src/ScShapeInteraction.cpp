@@ -111,8 +111,6 @@ Sc::ShapeInteraction::ShapeInteraction(ShapeSim& s1, ShapeSim& s2, ActorPair* aP
 		onActivate(contactManager);
 	}
 
-	PX_ASSERT((&getShape0()) && (&getShape1()));
-
 	if(aPair)
 		aPair->incRefCount();
 }

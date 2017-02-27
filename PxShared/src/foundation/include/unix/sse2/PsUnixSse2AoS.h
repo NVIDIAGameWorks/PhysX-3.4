@@ -35,7 +35,7 @@
 #if !COMPILE_VECTOR_INTRINSICS
 #error Vector intrinsics should not be included when using scalar implementation.
 #endif
-#ifdef __EMSCRIPTEN__
+#if PX_EMSCRIPTEN
 typedef int8_t   __int8_t;
 typedef int16_t  __int16_t;
 typedef int32_t  __int32_t;

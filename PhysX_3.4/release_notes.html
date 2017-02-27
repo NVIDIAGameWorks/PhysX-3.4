@@ -31,7 +31,7 @@
 <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4</h1>
-<h2 style="TEXT-ALIGN: center">January 2017</h2>
+<h2 style="TEXT-ALIGN: center">February 2017</h2>
 
 	<h2>Supported Platforms</h2>
 	<blockquote>
@@ -211,6 +211,7 @@
             <li>Calls to contact modification callbacks can be made from multiple threads simultaneously. Therefore, modification callbacks should must be thread-safe. </li>
             <li>Unified heightfield contact generation is now the default heightfield contact generation approach. This approach offers similar performance and behavior to contact generation with triangle meshes. Unified heightfields have no thickness because contact genreation operates on triangles so objects may tunnel if CCD is not enabled.</li>
             <li>When unified heightfield contact generation is in use, the bounds of heightfield shapes are no longer extruded by "thickness".</li>
+			<li>PxArticulationJoint::setTwistLimit and PxArticulationJoint::getTwistLimit were incorrectly documented with zLimit and yLimit in the wrong order.  The behavior of both functions remains unchanged but now they are correctly documented with zLimit and yLimit in the correct order. This is simply a clarification of the existing function behavior.</li>
 		</ul>
 		<li>Removed:</li>
 		<ul>

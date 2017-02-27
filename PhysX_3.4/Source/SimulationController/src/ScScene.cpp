@@ -138,7 +138,7 @@ void PxcDisplayContactCacheStats();
 class ScAfterIntegrationTask :  public Cm::Task
 {
 public:
-	static const PxU32 MaxTasks = 128;
+	static const PxU32 MaxTasks = 256;
 private:
 	const IG::NodeIndex* const	mIndices;
 	const PxU32					mNumBodies;
@@ -277,7 +277,7 @@ public:
 
 	virtual const char* getName() const
 	{
-		return "ScScene.afterIntegration";
+		return "ScScene.afterIntegrationTask";
 	}
 
 private:
@@ -311,7 +311,7 @@ public:
 
 		const IG::NodeIndex*const nodeIndices = islandSim.getActiveNodes(IG::Node::eRIGID_BODY_TYPE);
 
-		if(0)
+		if(1)
 		{
 			for(PxU32 i = 0; i < numBodies; i+=MaxBodiesPerTask)
 			{
@@ -3901,11 +3901,12 @@ void Sc::Scene::afterIntegration(PxBaseTask* continuation)
 	PxsTransformCache& cache = getLowLevelContext()->getTransformCache();
 	Bp::BoundsArray& boundArray = getBoundsArray();
 
-	mSimulationController->udpateScBodyAndShapeSim(cache, boundArray, continuation);
-
 	{
 		PX_PROFILE_ZONE("AfterIntegration::lockStage", getContextId());
 		mLLContext->getLock().lock();
+		
+
+		mSimulationController->udpateScBodyAndShapeSim(cache, boundArray, continuation);
 
 		const IG::IslandSim& islandSim = mSimpleIslandManager->getAccurateIslandSim();
 
@@ -6314,9 +6315,9 @@ void Sc::Scene::preallocateContactManagers(PxBaseTask* continuation)
 
 	{
 		//We allocate at least 1 element in this array to ensure that the onOverlapCreated functions don't go bang!
-		mPreallocatedContactManagers.reserve(totalCreatedPairs);
-		mPreallocatedShapeInteractions.reserve(totalCreatedPairs);
-		mPreallocatedInteractionMarkers.reserve(totalSuppressPairs);
+		mPreallocatedContactManagers.reserve(totalCreatedPairs+1);
+		mPreallocatedShapeInteractions.reserve(totalCreatedPairs+1);
+		mPreallocatedInteractionMarkers.reserve(totalSuppressPairs+1);
 
 		mPreallocatedContactManagers.forceSize_Unsafe(totalCreatedPairs);
 		mPreallocatedShapeInteractions.forceSize_Unsafe(totalCreatedPairs);

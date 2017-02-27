@@ -30,6 +30,9 @@
 #pragma once
 
 #if PX_GCC_FAMILY
+#if PX_EMSCRIPTEN
+#include <emmintrin.h>
+#endif
 #include <xmmintrin.h> // _BitScanForward
 #else
 #pragma warning(push)

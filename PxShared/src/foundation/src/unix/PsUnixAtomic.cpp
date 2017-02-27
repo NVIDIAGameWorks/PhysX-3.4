@@ -29,7 +29,11 @@
 #include "Ps.h"
 #include "PsAtomic.h"
 
+#if ! PX_EMSCRIPTEN
 #define PAUSE() asm("nop")
+#else
+#define PAUSE()
+#endif
 
 namespace physx
 {

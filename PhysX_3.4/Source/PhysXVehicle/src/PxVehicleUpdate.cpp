@@ -2304,7 +2304,7 @@ bool intersectRayPlane
  const PxVec4& hitPlane,
  PxF32& jounce, PxVec3& wheelBottomPos)
 {
-	
+    PX_UNUSED(width);	
 
 	//Compute the raycast start pos and direction.
 	PxVec3 v, w;
@@ -2325,7 +2325,6 @@ bool intersectRayPlane
 	//const PxVec3 latDir = carChassisTrnsfm.rotate(gRight);
 	//const PxF32 signDot = computeSign(hitNorm.dot(latDir));
 	//v -= latDir*(signDot*0.5f*width);
-	PX_UNUSED(width);
 
 	//Work out the point on the susp line that touches the intersection plane.
 	//n.(v+wt)+d=0 where n,d describe the plane; v,w describe the susp ray; t is the point on the susp line.
@@ -7425,9 +7424,9 @@ void PxVehicleWheels4SuspensionSweeps
 			wheelShape->getConvexMeshGeometry(convMeshGeom);
 			convMeshGeom.scale.scale =
 				PxVec3(
-				gRight.x*sweepWidthScale + (gUp.x + gForward.x)*sweepRadiusScale,
-				gRight.y*sweepWidthScale + (gUp.y + gForward.y)*sweepRadiusScale,
-				gRight.z*sweepWidthScale + (gUp.z + gForward.z)*sweepRadiusScale);
+					PxAbs(gRight.x*sweepWidthScale + (gUp.x + gForward.x)*sweepRadiusScale),
+					PxAbs(gRight.y*sweepWidthScale + (gUp.y + gForward.y)*sweepRadiusScale),
+					PxAbs(gRight.z*sweepWidthScale + (gUp.z + gForward.z)*sweepRadiusScale));
 			suspGeometry.storeAny(convMeshGeom);
 		}
 		else if (PxGeometryType::eCAPSULE == wheelShape->getGeometryType())

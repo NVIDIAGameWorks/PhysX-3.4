@@ -56,6 +56,8 @@ namespace NvParameterized
 
 char Spog[] = "test";
 
+#define COND_DUP(str) (mStaticAllocation) ? (char *)(str) : local_strdup(str)
+
 template <typename T>
 void swap(T& a, T&b)
 {
@@ -64,7 +66,6 @@ void swap(T& a, T&b)
 	a = tmp;
 }
 
-#define COND_DUP(str) (mStaticAllocation) ? (char *)(str) : local_strdup(str)
 
 int32_t local_strcmp(const char* s1, const char* s2)
 {
@@ -5708,7 +5709,7 @@ ErrorType NvParameters::rawSetParamMat34LegacyArray(const Handle &handle, const 
 		NV_ERR_CHECK_RETURN(memberHandle.set(offset * 12));
 
 		size_t tmp;
-		void *ptr=NULL;
+		void *ptr = NULL;
 		this->getVarPtr(memberHandle, ptr, tmp);
 		if(ptr == NULL)
 		{

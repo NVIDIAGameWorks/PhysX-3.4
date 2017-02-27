@@ -75,7 +75,7 @@
 			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /wd4350 /d2Zi+</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/src/foundation/include;./../../../shared/general/RenderDebug/include;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;PX_DEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -118,7 +118,7 @@
 			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
 			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /wd4350 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/src/foundation/include;./../../../shared/general/RenderDebug/include;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;APEX_SHIPPING;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -161,7 +161,7 @@
 			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
 			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /wd4350 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/src/foundation/include;./../../../shared/general/RenderDebug/include;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -204,7 +204,7 @@
 			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
 			<RuntimeTypeInfo>false</RuntimeTypeInfo>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /MP /wd4350 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/src/foundation/include;./../../../shared/general/RenderDebug/include;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_ENABLE_CHECKED_ASSERTS;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>

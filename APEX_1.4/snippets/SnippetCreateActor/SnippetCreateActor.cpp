@@ -15,6 +15,8 @@
 #include "nvparameterized/NvParameterized.h"
 #include "nvparameterized/NvParamUtils.h"
 
+#include <legacy/ModuleLegacy.h>
+
 #include "PsString.h"
 
 #include <sys/stat.h>
@@ -43,8 +45,7 @@ public:
 			const char* path = name;
 
 			// does file exists?
-			struct stat info;
-			if ((stat(path, &info) != -1) && (info.st_mode & (S_IFREG)) != 0)
+			if (isFileExist(path))
 			{
 				PxFileBuf* stream = gApexSDK->createStream(path, PxFileBuf::OPEN_READ_ONLY);
 
@@ -113,10 +114,19 @@ void initApex()
 	gApexSDK = CreateApexSDK(apexDesc, &error);
 	PX_ASSERT(gApexSDK);
 
+#if APEX_MODULES_STATIC_LINK
+	nvidia::apex::instantiateModuleDestructible();
+	nvidia::apex::instantiateModuleLegacy();
+#endif
+
 	// Initialize destructible module
 	gModuleDestructible = static_cast<ModuleDestructible*>(gApexSDK->createModule("Destructible"));
 	NvParameterized::Interface* params = gModuleDestructible->getDefaultModuleDesc();
 	gModuleDestructible->init(*params);
+
+	// Initialize legacy module
+	Module* legacy = (gApexSDK->createModule("Legacy"));
+	legacy->init(*legacy->getDefaultModuleDesc());
 
 	// Create Apex scene
 	SceneDesc sceneDesc;
@@ -137,18 +147,17 @@ void releaseAPEX()
 	delete gMyResourceCallback;
 }
 
-#include "Shlwapi.h"
 
-int main(int, char**)
+void snippetMain(const char* rootPath)
 {
 	initPhysX();
 	initApex();
 
-	LPTSTR cmd = GetCommandLine();
-	PathRemoveFileSpec(cmd);
-	strcat(cmd, "/../../snippets/SnippetCommon/cow.apb");
+	std::string path;
+	path.append(rootPath);
+	path.append("/snippets/SnippetCommon/Wall.apx");
 
-	Asset* asset = loadApexAsset(&cmd[1]);
+	Asset* asset = loadApexAsset(path.c_str());
 
 	DestructibleAsset* destructibleAsset = static_cast<DestructibleAsset*>(asset);
 
@@ -168,6 +177,4 @@ int main(int, char**)
 
 	releaseAPEX();
 	releasePhysX();
-
-	return 0;
 }

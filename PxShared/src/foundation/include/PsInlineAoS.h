@@ -35,7 +35,7 @@
 #if PX_WINDOWS
 #include "windows/PsWindowsTrigConstants.h"
 #include "windows/PsWindowsInlineAoS.h"
-#elif(PX_UNIX_FAMILY || PX_PS4)
+#elif(PX_UNIX_FAMILY || PX_PS4 || PX_NX)
 #include "unix/PsUnixTrigConstants.h"
 #include "unix/PsUnixInlineAoS.h"
 #elif PX_XBOXONE

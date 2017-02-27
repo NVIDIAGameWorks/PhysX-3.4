@@ -54,7 +54,11 @@ namespace Cm
 
 		virtual void run()
 		{
+#if PX_NX  // special case because default rounding mode is not nearest
+			PX_FPU_GUARD;
+#else
 			PX_SIMD_GUARD;
+#endif
 			runInternal();
 		}
 
@@ -69,7 +73,11 @@ namespace Cm
 
 		virtual void run()
 		{
+#if PX_NX  // special case because default rounding mode is not nearest
+			PX_FPU_GUARD;
+#else
 			PX_SIMD_GUARD;
+#endif
 			runInternal();
 		}
 

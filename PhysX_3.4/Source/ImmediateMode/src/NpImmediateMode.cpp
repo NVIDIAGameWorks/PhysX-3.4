@@ -413,31 +413,43 @@ namespace physx
 		for (PxU32 i = 0; i < nbHeaders; ++i)
 		{
 			PxConstraintBatchHeader& batchHeader = batchHeaders[i];
+
+			PxU8 type = DY_SC_TYPE_BLOCK_1D;
 			if (batchHeader.mStride == 4)
 			{
 				PxU32 totalRows = 0;
 				PxU32 maxRows = 0;
+				bool batchable = true;
 				for (PxU32 a = 0; a < batchHeader.mStride; ++a)
 				{
+					if (jointDescs[currentDescIdx + a].numRows == 0)
+					{
+						batchable = false;
+						break;
+					}
 					totalRows += jointDescs[currentDescIdx + a].numRows;
 					maxRows = PxMax(maxRows, jointDescs[currentDescIdx + a].numRows);
 				}
 
-				state = Dy::setupSolverConstraint4
-					(jointDescs + currentDescIdx,
-					dt, invDt, totalRows,
-					allocator, maxRows);
+				if (batchable)
+				{
+					state = Dy::setupSolverConstraint4
+						(jointDescs + currentDescIdx,
+						dt, invDt, totalRows,
+						allocator, maxRows);
+				}
 			}
 
 			if (state == Dy::SolverConstraintPrepState::eUNBATCHABLE)
 			{
+				type = DY_SC_TYPE_RB_1D;
 				for (PxU32 a = 0; a < batchHeader.mStride; ++a)
 				{
 					Dy::ConstraintHelper::setupSolverConstraint(jointDescs[currentDescIdx + a], allocator, dt, invDt);
 				}
 			}
 
-			batchHeader.mConstraintType = *jointDescs[currentDescIdx].desc->constraint;
+			batchHeader.mConstraintType = type;
 			currentDescIdx += batchHeader.mStride;
 		}
 
@@ -678,8 +690,12 @@ namespace physx
 				if (cache.isMultiManifold())
 				{
 					multiManifold.fromBuffer(reinterpret_cast<PxU8*>(&cache.getMultipleManifold()));
-					cache.setManifold(&multiManifold);
 				}
+				else
+				{
+					multiManifold.initialize();
+				}
+				cache.setMultiManifold(&multiManifold);
 
 				//Do collision detection, then write manifold out...
 				g_PCMContactMethodTable[type0][type1](geomUnion0, geomUnion1, transform0, transform1, params, cache, contactBuffer, NULL);

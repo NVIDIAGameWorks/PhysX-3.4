@@ -430,7 +430,7 @@ adds a link to the articulation with default attribute values.
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>parent</em>&nbsp;</td><td>the parent link of the articulation. Should be NULL if (and only if) this is the root link </td></tr>
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pose</em>&nbsp;</td><td>the pose of the new link</td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pose</em>&nbsp;</td><td>the initial pose of the new link. Must be a valid transform</td></tr>
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>the new link, or NULL if the link cannot be created because the articulation has reached its maximum link count (currently 64).</dd></dl>

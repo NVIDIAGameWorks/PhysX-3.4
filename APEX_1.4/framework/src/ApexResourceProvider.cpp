@@ -600,7 +600,7 @@ uint32_t 			ApexResourceProvider::findResourceU32(const char* nameSpace, const c
 		{
 			if (mResources[id].valueIsSet)
 			{
-#if PX_X64
+#if defined(PX_X64) || defined(PX_A64)
 				uint64_t ret64 = (uint64_t)mResources[id].ptr;
 				ret = (uint32_t)ret64;
 #else

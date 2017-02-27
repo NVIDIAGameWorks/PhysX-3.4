@@ -393,7 +393,7 @@ public:
 	
 	\note if this called on an articulation link, only the link is updated, not the entire articulation.
 
-	\note see #PxRigidBodyExt::computeVelocityDeltaFromImpulse for detatils of how to compute the change in angular velocity that 
+	\note see #PxRigidBodyExt::computeVelocityDeltaFromImpulse for details of how to compute the change in angular velocity that 
 	will arise from the application of an impulsive torque, where an impulsive torque is an applied torque multiplied by a timestep.
 
 	<b>Sleeping:</b> This call wakes the actor if it is sleeping and the autowake parameter is true (default) or the torque is non-zero.

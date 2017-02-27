@@ -53,6 +53,8 @@
 #if PX_APPLE_FAMILY
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#include <TargetConditionals.h>
+#include <pthread.h>
 #endif
 
 // fwd
@@ -102,7 +104,7 @@ _ThreadImpl* getThread(ThreadImpl* impl)
 static void setTid(_ThreadImpl& threadImpl)
 {
 // query TID
-#if PX_PS4
+#if PX_PS4 || (defined (TARGET_OS_TV) && TARGET_OS_TV)
 // AM: TODO: neither of the below are implemented
 #elif PX_APPLE_FAMILY
 	threadImpl.tid = syscall(SYS_gettid);

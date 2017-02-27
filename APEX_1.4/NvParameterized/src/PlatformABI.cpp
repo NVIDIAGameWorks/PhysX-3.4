@@ -167,6 +167,21 @@ Serializer::ErrorType PlatformABI::GetPredefinedABI(const SerializePlatform &pla
 		return Serializer::ERROR_NONE;
 	}
 
+	NV_BOOL_ERR_CHECK_RETURN(GetPlatform("HOSARM32", knownPlatform), Serializer::ERROR_UNKNOWN);
+	if (knownPlatform == platform)
+	{
+		//Default params are ok
+		return Serializer::ERROR_NONE;
+	}
+
+	NV_BOOL_ERR_CHECK_RETURN(GetPlatform("HOSARM64", knownPlatform), Serializer::ERROR_UNKNOWN);
+	if (knownPlatform == platform)
+	{
+		params.doReuseParentPadding = true;
+		params.sizes.pointer = params.aligns.pointer = 8;
+		return Serializer::ERROR_NONE;
+	}	
+
 	//Add new platforms here
 
 	return Serializer::ERROR_INVALID_PLATFORM_NAME;

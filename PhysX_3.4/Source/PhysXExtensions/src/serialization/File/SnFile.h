@@ -57,7 +57,7 @@ PX_INLINE PxI32 fopen_s(FILE** file, const char* name, const char* mode)
 } // namespace sn
 } // namespace physx
 
-#elif PX_UNIX_FAMILY || PX_PS4 
+#elif PX_UNIX_FAMILY || PX_PS4 || PX_NX
 
 #include <stdio.h>
 
