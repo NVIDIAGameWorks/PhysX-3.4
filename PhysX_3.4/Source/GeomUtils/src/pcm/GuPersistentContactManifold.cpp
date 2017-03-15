@@ -818,7 +818,8 @@ void Gu::PersistentContactManifold::addManifoldContactsToContactBuffer(Gu::Conta
 	This function is for sphere/capsule vs other primitives. We treat sphere as a point and capsule as a segment in the contact gen and store the sphere center or a point in the segment for capsule
 	in the manifold. 
 */
-void Gu::PersistentContactManifold::addManifoldContactsToContactBuffer(Gu::ContactBuffer& contactBuffer, const Ps::aos::Vec3VArg normal, const Ps::aos::PsTransformV& transf0, const Ps::aos::FloatVArg radius, const Ps::aos::FloatVArg contactOffset)
+void Gu::PersistentContactManifold::addManifoldContactsToContactBuffer(Gu::ContactBuffer& contactBuffer, const Ps::aos::Vec3VArg normal, const Ps::aos::Vec3VArg projectionNormal,
+	const Ps::aos::PsTransformV& transf0, const Ps::aos::FloatVArg radius, const Ps::aos::FloatVArg contactOffset)
 {
 	using namespace Ps::aos;
 
@@ -837,7 +838,7 @@ void Gu::PersistentContactManifold::addManifoldContactsToContactBuffer(Gu::Conta
 		//may introduce noticeable instability.
 		if(FAllGrtrOrEq(contactOffset, dist))
 		{
-			const Vec3V worldP =V3NegScaleSub(normal, radius, transf0.transform(p.mLocalPointA));
+			const Vec3V worldP =V3NegScaleSub(projectionNormal, radius, transf0.transform(p.mLocalPointA));
 
 			Gu::ContactPoint& contact = contactBuffer.contacts[contactCount++];
 			//Fast allign store

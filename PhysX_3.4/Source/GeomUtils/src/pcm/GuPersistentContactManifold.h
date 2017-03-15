@@ -341,7 +341,7 @@ public:
 	//This function is for adding box/convexhull manifold contacts to the contact buffer
 	void addManifoldContactsToContactBuffer(Gu::ContactBuffer& contactBuffer, const Ps::aos::Vec3VArg normal, const Ps::aos::PsTransformV& transf1, const Ps::aos::FloatVArg contactOffset);
 	//This function is for adding sphere/capsule manifold contacts to the contact buffer
-	void addManifoldContactsToContactBuffer(Gu::ContactBuffer& contactBuffer, const Ps::aos::Vec3VArg normal, const Ps::aos::PsTransformV& transf0, const Ps::aos::FloatVArg radius, const Ps::aos::FloatVArg contactOffset);
+	void addManifoldContactsToContactBuffer(Gu::ContactBuffer& contactBuffer, const Ps::aos::Vec3VArg normal, const Ps::aos::Vec3VArg projectionNormal, const Ps::aos::PsTransformV& transf0, const Ps::aos::FloatVArg radius, const Ps::aos::FloatVArg contactOffset);
 
 	//get the average normal in the manifold in world space
 	Ps::aos::Vec3V getWorldNormal(const Ps::aos::PsTransformV& trB);

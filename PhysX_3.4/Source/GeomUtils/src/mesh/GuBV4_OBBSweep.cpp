@@ -31,7 +31,7 @@
 using namespace physx;
 using namespace Gu;
 
-#if PX_INTEL_FAMILY
+#if PX_INTEL_FAMILY  && !defined(PX_SIMD_DISABLED)
 #include "PsVecMath.h"
 using namespace physx::shdfnd::aos;
 #include "GuBV4_BoxSweep_Internal.h"

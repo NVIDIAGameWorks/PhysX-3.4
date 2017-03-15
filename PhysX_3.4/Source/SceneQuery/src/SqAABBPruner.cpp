@@ -518,7 +518,7 @@ void AABBPruner::visualize(Cm::RenderOutput& out, PxU32 color) const
 	// getAABBTree() asserts when pruner is dirty. NpScene::visualization() does not enforce flushUpdate. see DE7834
 	const AABBTree* tree = mAABBTree;
 
-	if(tree)
+	if(tree && tree->getNodes())
 	{
 		struct Local
 		{

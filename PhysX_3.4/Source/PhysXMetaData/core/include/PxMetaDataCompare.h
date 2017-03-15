@@ -96,9 +96,11 @@ struct EqualityOp
 	void operator()( const PxReadOnlyCollectionPropertyInfo<PxPropertyInfoName::PxArticulationLink_Children, PxArticulationLink, PxArticulationLink* >& inProp, PxU32 ) {}
 	void operator()( const PxReadOnlyCollectionPropertyInfo<PxPropertyInfoName::PxRigidActor_Constraints, PxRigidActor, PxConstraint* >& inProp, PxU32 ){}
 	void operator()( const PxReadOnlyCollectionPropertyInfo<PxPropertyInfoName::PxAggregate_Actors, PxAggregate, PxActor* >& inProp, PxU32 ) {}
+#if PX_USE_CLOTH_API
     void operator()( const PxWriteOnlyPropertyInfo<PxPropertyInfoName::PxCloth_TargetPose, PxCloth, const PxTransform &  >& inProp, PxU32 ) {}
 	void operator()( const PxWriteOnlyPropertyInfo<PxPropertyInfoName::PxCloth_InertiaScale, PxCloth, PxReal >& inProp, PxU32 ) {}
 	void operator()( const PxWriteOnlyPropertyInfo<PxPropertyInfoName::PxCloth_DragCoefficient, PxCloth, PxReal >& inProp, PxU32 ) {}
+#endif
 		
     template<PxU32 TKey, typename TObjType, typename TGetPropType>
 	void operator()( const PxBufferCollectionPropertyInfo<TKey, TObjType, TGetPropType> & inProp, PxU32 )

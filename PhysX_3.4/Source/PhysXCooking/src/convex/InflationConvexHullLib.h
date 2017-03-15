@@ -54,7 +54,8 @@ namespace physx
 			eSUCCESS = 0,		// success!
 			eFAILURE,		// failed.
 			eVERTEX_LIMIT_REACHED,		// vertex limit reached fallback.
-			eZERO_AREA_TEST_FAILED// area test failed - failed to create simplex
+			eZERO_AREA_TEST_FAILED,		// area test failed - failed to create simplex
+			ePOLYGON_LIMIT_REACHED		// polygons hard limit 255 reached
 		};
 
 		PxU32	mVcount;

@@ -31,7 +31,7 @@
 using namespace physx;
 using namespace Gu;
 
-#if PX_INTEL_FAMILY
+#if PX_INTEL_FAMILY  && !defined(PX_SIMD_DISABLED)
 
 #include "PsVecMath.h"
 using namespace physx::shdfnd::aos;
@@ -153,10 +153,10 @@ public:
 			if(intersectTriangleBoxBV4(params->mVerts[VRef0], params->mVerts[VRef1], params->mVerts[VRef2], params->mRModelToBox_Padded, params->mTModelToBox_Padded, params->mBoxExtents_PaddedAligned))
 			{
 				OBBParamsAll* ParamsAll = static_cast<OBBParamsAll*>(params);
-				ParamsAll->mHits[ParamsAll->mNbHits] = primIndex;
-				ParamsAll->mNbHits++;
 				if(ParamsAll->mNbHits==ParamsAll->mMaxNbHits)
 					return 1;
+				ParamsAll->mHits[ParamsAll->mNbHits] = primIndex;
+				ParamsAll->mNbHits++;
 			}
 			primIndex++;
 		}while(nbToGo--);
@@ -373,10 +373,10 @@ public:
 		{
 			if(__CapsuleTriangle(ParamsAll, primIndex))
 			{
-				ParamsAll->mHits[ParamsAll->mNbHits] = primIndex;
-				ParamsAll->mNbHits++;
 				if(ParamsAll->mNbHits==ParamsAll->mMaxNbHits)
 					return 1;
+				ParamsAll->mHits[ParamsAll->mNbHits] = primIndex;
+				ParamsAll->mNbHits++;
 			}
 			primIndex++;
 		}while(nbToGo--);

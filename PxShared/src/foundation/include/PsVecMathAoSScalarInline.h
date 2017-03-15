@@ -40,8 +40,13 @@
 
 #define BOOL_TO_U16(b) (PxU16)(- PxI32(b))
 
+#define PX_VECMATH_ASSERT_ENABLED 0
 
+#if PX_VECMATH_ASSERT_ENABLED
 #define VECMATHAOS_ASSERT(x) { PX_ASSERT(x); }
+#else
+#define VECMATHAOS_ASSERT(x)
+#endif
 
 /////////////////////////////////////////////////////////////////////
 ////INTERNAL USE ONLY AND TESTS

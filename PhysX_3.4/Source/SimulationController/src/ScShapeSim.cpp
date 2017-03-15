@@ -100,10 +100,13 @@ void Sc::ShapeSim::initSubsystemsDependingOnElementID()
 		PX_PROFILE_ZONE("API.simAddShapeToBroadPhase", scScene.getContextId());
 		if(isBroadPhase(mCore.getFlags()))
 		{
-			internalAddToBroadPhase();
-
-			scScene.updateContactDistance(index, getContactOffset());
+			internalAddToBroadPhase();			
 		}
+		else
+		{
+			scScene.getAABBManager()->reserveSpaceForBounds(index);
+		}
+		scScene.updateContactDistance(index, getContactOffset());
 	}
 
 	if(scScene.getDirtyShapeSimMap().size() <= index)

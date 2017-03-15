@@ -119,8 +119,13 @@ void Sc::ElementSim::setElementInteractionsDirty(InteractionDirtyFlag::Enum flag
 
 // we pun these constants in order to increment the stats when adding and removing from BP
 PX_COMPILE_TIME_ASSERT(PxU32(PxSimulationStatistics::eRIGID_BODY) == PxU32(Sc::ElementType::eSHAPE));
+#if PX_USE_CLOTH_API
 PX_COMPILE_TIME_ASSERT(PxU32(PxSimulationStatistics::eCLOTH) == PxU32(Sc::ElementType::eCLOTH));
+#endif
+
+#if PX_USE_PARTICLE_SYSTEM_API
 PX_COMPILE_TIME_ASSERT(PxU32(PxSimulationStatistics::ePARTICLE_SYSTEM) == PxU32(Sc::ElementType::ePARTICLE_PACKET));
+#endif
 
 void Sc::ElementSim::addToAABBMgr(PxReal contactDistance, PxU32 group, bool isTrigger)
 {

@@ -58,7 +58,9 @@ bool pcmContactPlaneCapsule(GU_CONTACT_METHOD_ARGS)
 	const PsTransformV aToB(transf1.transformInv(transf0));
 
 	//in world space
-	const Vec3V negPlaneNormal = V3Normalize(V3Neg(QuatGetBasisVector0(transf1.q)));
+	const Vec3V planeNormal = V3Normalize(QuatGetBasisVector0(transf1.q));
+	const Vec3V contactNormal = V3Neg(planeNormal);
+	
 	//ML:localNormal is the local space of plane normal, however, because shape1 is capulse and shape0 is plane, we need to use the reverse of contact normal(which will be the plane normal) to make the refreshContactPoints
 	//work out the correct pentration for points
 	const Vec3V localNormal = V3UnitX();
@@ -86,7 +88,6 @@ bool pcmContactPlaneCapsule(GU_CONTACT_METHOD_ARGS)
 	const PxU32 newContacts = manifold.mNumContacts;
 	const bool bLostContacts = (newContacts != initialContacts);//((initialContacts == 0) || (newContacts != initialContacts));
 
-	//PX_UNUSED(bLostContacts);
 	if(bLostContacts || manifold.invalidate_PrimitivesPlane(aToB, radius, FLoad(0.02f)))  
 	{
 		manifold.mNumContacts = 0;
@@ -106,20 +107,24 @@ bool pcmContactPlaneCapsule(GU_CONTACT_METHOD_ARGS)
 		if(FAllGrtr(inflatedRadius, signDist1))
 		{
 			const Vec3V localPointA = aToB.transformInv(e);
+			
 			const Vec3V localPointB = V3NegScaleSub(localNormal, signDist1, e);
 			const Vec4V localNormalPen = V4SetW(Vec4V_From_Vec3V(localNormal), signDist1);
 			//add to manifold
 			manifold.addManifoldPoint2(localPointA, localPointB, localNormalPen, replaceBreakingThreshold); 
 		}
 
-		manifold.addManifoldContactsToContactBuffer(contactBuffer, negPlaneNormal, transf0, radius, contactDist);
+		manifold.addManifoldContactsToContactBuffer(contactBuffer, contactNormal, planeNormal, transf0, radius, contactDist);
 
+#if	PCM_LOW_LEVEL_DEBUG
+		manifold.drawManifold(*renderOutput, transf0, transf1);
+#endif
 
 		return manifold.getNumContacts() > 0;
 	}
 	else
 	{
-		manifold.addManifoldContactsToContactBuffer(contactBuffer, negPlaneNormal, transf0, radius, contactDist);
+		manifold.addManifoldContactsToContactBuffer(contactBuffer, contactNormal, planeNormal, transf0, radius, contactDist);
 		return manifold.getNumContacts() > 0;
 	}
 }

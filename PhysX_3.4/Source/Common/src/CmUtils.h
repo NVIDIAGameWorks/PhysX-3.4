@@ -136,7 +136,7 @@ public:
 
 		PX_ASSERT(&element<mData || &element>=mData+mSize);
 		if(mSize==mCapacity)
-			(owner.*realloc)(mData, mCapacity, mSize, PxU16(mSize+1));
+			(owner.*realloc)(mData, mCapacity, mSize, IndexType(mSize+1));
 
 		PX_ASSERT(mData && mSize<mCapacity);
 		mData[mSize++] = element;

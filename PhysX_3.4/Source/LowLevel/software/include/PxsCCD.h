@@ -129,6 +129,7 @@ struct PxsCCDBody
 	PxsRigidBody*				mBody;						//The rigid body 
 	PxsCCDOverlap*				mOverlappingObjects;		//A list of overlapping bodies for island update
 	PxU32						mUpdateCount;				//How many times this body has eben updated in the CCD. This is correlated with CCD shapes' update counts.
+	PxU32						mNbInteractionsThisPass;	//How many interactions this pass
 
 	
 

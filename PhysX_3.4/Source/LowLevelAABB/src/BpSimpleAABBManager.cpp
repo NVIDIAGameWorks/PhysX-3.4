@@ -1617,6 +1617,14 @@ static void removeAggregateFromDirtyArray(Aggregate* aggregate, Ps::Array<Aggreg
 	}
 }
 
+void SimpleAABBManager::reserveSpaceForBounds(BoundsIndex index)
+{
+	if (index >= mVolumeData.size())
+		reserveShapeSpace(index);
+
+	resetEntry(index); //KS - make sure this entry is flagged as invalid
+}
+
 // PT: TODO: what is the "userData" here?
 bool SimpleAABBManager::addBounds(BoundsIndex index, PxReal contactDistance, PxU32 group, void* userData, AggregateHandle aggregateHandle, PxU8 volumeType)
 {

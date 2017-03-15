@@ -297,9 +297,13 @@ bool physx::Gu::computeCapsule_TriangleMeshMTD(	const PxTriangleMeshGeometry& tr
 		}
 	}
 
-	normal = V3Normalize(translation);
-	distV = FNeg(V3Length(translation));
+	const FloatV translationF = V3Length(translation);
+	distV = FNeg(translationF);
+
+	const BoolV con = FIsGrtr(translationF, FZero());
+	normal = V3Sel(con, V3ScaleInv(translation, translationF), zeroV);
 	
+
 	if(foundInitial)
 	{
 		FStore(distV, &hit.distance);
@@ -409,8 +413,12 @@ bool physx::Gu::computeCapsule_HeightFieldMTD(const PxHeightFieldGeometry& heigh
 		}
 	}
 
-	normal = V3Normalize(translation);
-	distV = FNeg(V3Length(translation));
+	const FloatV translationF = V3Length(translation);
+	distV = FNeg(translationF);
+
+	const BoolV con = FIsGrtr(translationF, FZero());
+	normal = V3Sel(con, V3ScaleInv(translation, translationF), zeroV);
+
 	if(foundInitial)
 	{
 		FStore(distV, &hit.distance);
@@ -580,8 +588,12 @@ bool physx::Gu::computeBox_TriangleMeshMTD(const PxTriangleMeshGeometry& triMesh
 		}
 	}
 
-	worldNormal = V3Normalize(translation);
-	distV = FNeg(V3Length(translation));
+	const FloatV translationF = V3Length(translation);
+	distV = FNeg(translationF);
+
+	const BoolV con = FIsGrtr(translationF, FZero());
+	worldNormal = V3Sel(con, V3ScaleInv(translation, translationF), zeroV);
+
 	if(foundInitial)
 	{
 		//transform closestA to world space
@@ -722,8 +734,12 @@ bool physx::Gu::computeBox_HeightFieldMTD(	const PxHeightFieldGeometry& heightFi
 		}
 	}
 
-	worldNormal = V3Normalize(translation);
-	distV = FNeg(V3Length(translation));
+
+	const FloatV translationF = V3Length(translation);
+	distV = FNeg(translationF);
+
+	const BoolV con = FIsGrtr(translationF, FZero());
+	worldNormal = V3Sel(con, V3ScaleInv(translation, translationF), zeroV);
 	
 	if(foundInitial)
 	{
@@ -881,8 +897,13 @@ bool physx::Gu::computeConvex_TriangleMeshMTD(	const PxTriangleMeshGeometry& tri
 		}
 	}
 
-	worldNormal = V3Normalize(translation);
-	distV = FNeg(V3Length(translation));
+	
+	const FloatV translationF = V3Length(translation);
+	distV = FNeg(translationF);
+
+	const BoolV con = FIsGrtr(translationF, FZero());
+	worldNormal = V3Sel(con, V3ScaleInv(translation, translationF), zeroV);
+
 	if(foundInitial)
 	{
 		//transform closestA to world space
@@ -1041,8 +1062,13 @@ bool physx::Gu::computeConvex_HeightFieldMTD(	const PxHeightFieldGeometry& heigh
 		}
 	}
 
-	worldNormal = V3Normalize(translation);
-	distV = FNeg(V3Length(translation));
+
+	const FloatV translationF = V3Length(translation);
+	distV = FNeg(translationF);
+
+	const BoolV con = FIsGrtr(translationF, FZero());
+	worldNormal = V3Sel(con, V3ScaleInv(translation, translationF), zeroV);
+
 	if(foundInitial)
 	{
 		//transform closestA to world space

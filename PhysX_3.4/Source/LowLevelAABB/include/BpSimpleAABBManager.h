@@ -324,6 +324,7 @@ namespace Bp
 		BoundsIndex		destroyAggregate(AggregateHandle aggregateHandle);
 
 		bool			addBounds(BoundsIndex index, PxReal contactDistance, PxU32 group, void* userdata, AggregateHandle aggregateHandle, PxU8 volumeType);
+		void			reserveSpaceForBounds(BoundsIndex index);
 		void			removeBounds(BoundsIndex index);
 
 		void			setContactOffset(BoundsIndex handle, PxReal offset)

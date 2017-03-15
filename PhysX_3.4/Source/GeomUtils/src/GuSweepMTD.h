@@ -78,7 +78,13 @@ namespace Gu
 		}
 		else
 		{
+			//ML: touching contact. We need to overwrite the normal to the negative of sweep direction
+			if (sweepHit.distance == 0.0f)
+			{
+				sweepHit.normal = -unitDir;
+			}
 			sweepHit.flags |= PxHitFlag::ePOSITION;
+			
 		}
 	}
 }

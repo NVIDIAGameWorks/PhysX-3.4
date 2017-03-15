@@ -72,7 +72,7 @@ static bool fullContactsGenerationCapsuleBox(const CapsuleV& capsule, const BoxV
 		
 		normal = transf1.rotate(normal);
 		
-		manifold.addManifoldContactsToContactBuffer(contactBuffer, normal, transf0, capsule.radius, contactDist);
+		manifold.addManifoldContactsToContactBuffer(contactBuffer, normal, normal, transf0, capsule.radius, contactDist);
 	
 		return true;
 		
@@ -210,7 +210,7 @@ bool pcmContactCapsuleBox(GU_CONTACT_METHOD_ARGS)
 				manifold.addManifoldPoint2(curRTrans.transformInv(closestA), closestB, localNormalPen, replaceBreakingThreshold);
 				
 				normal = transf1.rotate(normal);
-				manifold.addManifoldContactsToContactBuffer(contactBuffer, normal, transf0, capsuleRadius, contactDist);
+				manifold.addManifoldContactsToContactBuffer(contactBuffer, normal, normal, transf0, capsuleRadius, contactDist);
 			
 				return true;
 			}
@@ -219,7 +219,7 @@ bool pcmContactCapsuleBox(GU_CONTACT_METHOD_ARGS)
 	else if(manifold.getNumContacts() > 0)
 	{
 		const Vec3V worldNormal = manifold.getWorldNormal(transf1);
-		manifold.addManifoldContactsToContactBuffer(contactBuffer, worldNormal, transf0, capsuleRadius, contactDist);
+		manifold.addManifoldContactsToContactBuffer(contactBuffer, worldNormal, worldNormal, transf0, capsuleRadius, contactDist);
 		return true;
 	}
 

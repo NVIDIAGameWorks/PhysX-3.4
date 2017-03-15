@@ -31,7 +31,7 @@
 using namespace physx;
 using namespace Gu;
 
-#if PX_INTEL_FAMILY
+#if PX_INTEL_FAMILY  && !defined(PX_SIMD_DISABLED)
 
 #include "PsVecMath.h"
 using namespace physx::shdfnd::aos;
@@ -228,10 +228,10 @@ public:
 			if(__SphereTriangle(params, primIndex))
 			{
 				SphereParamsAll* ParamsAll = static_cast<SphereParamsAll*>(params);
-				ParamsAll->mHits[ParamsAll->mNbHits] = primIndex;
-				ParamsAll->mNbHits++;
 				if(ParamsAll->mNbHits==ParamsAll->mMaxNbHits)
 					return 1;
+				ParamsAll->mHits[ParamsAll->mNbHits] = primIndex;
+				ParamsAll->mNbHits++;
 			}
 			primIndex++;
 		}while(nbToGo--);

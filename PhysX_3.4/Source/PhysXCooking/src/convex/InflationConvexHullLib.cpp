@@ -609,10 +609,10 @@ PxConvexMeshCookingResult::Enum InflationConvexHullLib::createConvexHull()
 
 	// compute the actual hull
 	ConvexHullLibResult::ErrorCode hullResult = computeHull(ovcount,vsource);
-	if(hullResult == ConvexHullLibResult::eSUCCESS)
+	if(hullResult == ConvexHullLibResult::eSUCCESS || hullResult == ConvexHullLibResult::ePOLYGON_LIMIT_REACHED)
 	{
 		mFinished = true;
-		res = PxConvexMeshCookingResult::eSUCCESS;
+		res = (hullResult == ConvexHullLibResult::eSUCCESS) ? PxConvexMeshCookingResult::eSUCCESS : PxConvexMeshCookingResult::ePOLYGONS_LIMIT_REACHED;
 	}
 	else
 	{
@@ -705,11 +705,33 @@ ConvexHullLibResult::ErrorCode InflationConvexHullLib::calchull(const PxVec3* ve
 	if ((rc == ConvexHullLibResult::eFAILURE) || (rc == ConvexHullLibResult::eZERO_AREA_TEST_FAILED))
 		return rc;
 
+	// count the triangles if we did not reached the polygons count hard limit 255
+	PxU32 numTriangles = 0;
+	for (PxU32 i = 0; i < triangles.size(); i++)
+	{
+		if((triangles)[i])
+			numTriangles++;
+	}
+
+	// if the polygons hard limit has been reached run the overhull, that will terminate 
+	// when either polygons or vertex limit has been reached
+	if(numTriangles > 255)
+	{
+		Ps::Array<PxPlane> planes;
+		if(!calchullplanes(verts,triangles,planes))
+			return ConvexHullLibResult::eFAILURE;
+
+		if(!overhull(verts, verts_count, planes,hullOut))
+			return ConvexHullLibResult::eFAILURE;
+
+		return ConvexHullLibResult::ePOLYGON_LIMIT_REACHED;
+	}
+
 	// if vertex limit reached construct the hullOut from the expanded planes
 	if(rc == ConvexHullLibResult::eVERTEX_LIMIT_REACHED)
 	{
 		if(mConvexMeshDesc.flags & PxConvexFlag::ePLANE_SHIFTING)
-		rc = expandHull(verts,verts_count,triangles,hullOut);
+			rc = expandHull(verts,verts_count,triangles,hullOut);
 		else
 			rc = expandHullOBB(verts,verts_count,triangles,hullOut);
 		if ((rc == ConvexHullLibResult::eFAILURE) || (rc == ConvexHullLibResult::eZERO_AREA_TEST_FAILED))
@@ -1427,6 +1449,14 @@ bool InflationConvexHullLib::overhull(const PxVec3* verts, PxU32 vertsCount,cons
 
 		// check for vertex limit
 		if(c->getVertices().size() > mConvexMeshDesc.vertexLimit)
+		{
+			PX_DELETE(c); 
+			c=tmp; 
+			maxplanes = 0;
+			break;
+		}
+		// check for polygons hard limit
+		if(c->getFacets().size() > 255)
 		{
 			PX_DELETE(c); 
 			c=tmp; 

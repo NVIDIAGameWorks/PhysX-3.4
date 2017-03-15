@@ -2,7 +2,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>Release Notes - NVIDIA PhysX SDK 3.4</title>
+<title>Release Notes - NVIDIA PhysX SDK 3.4.0.21821222</title>
 <style type="text/css">
 	body
 	{
@@ -28,6 +28,72 @@
 
 <body>
 
+<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.0.21821222</h1>
+<h2 style="TEXT-ALIGN: center">March 2017</h2>
+
+	<h2>Supported Platforms</h2>
+	<blockquote>
+		<h3>Runtime</h3>
+		<ul>
+		<li>Apple iOS</li>
+		<li>Apple Mac OS X</li>
+		<li>Google Android ARM (version 2.2 or later required for SDK, 2.3 or later required for snippets)</li>
+		<li>Linux (tested on Ubuntu)</li>
+		<li>Microsoft Windows XP or later (NVIDIA Driver version R304 or later is required for GPU acceleration)</li>
+		<li>Microsoft XBox One</li>
+		<li>Sony Playstation 4</li>
+		</ul>
+		<h3>Development</h3>
+		<ul>
+				<li>Microsoft Windows XP or later</li>
+				<li>Microsoft Visual Studio 2012, 2013, 2015</li>
+				<li>Xcode 8.2</li>
+		</ul>
+	</blockquote>
+	<h2>Known Issues</h2>
+	<blockquote>
+	<ul>
+	</ul>
+	</blockquote>
+	<h2>Changes and Resolved Issues</h2>
+	<blockquote>
+
+	<i>Note: Platform specific issues and changes can be found in the readme file of the corresponding platform.</i>
+
+	</blockquote>
+
+	<h3>General</h3>
+	<ul>
+		<li>Fixed:</li>
+		<ul>
+			<li>A rare crash happening in the debug visualization code has been fixed.</li>
+		</ul>
+	</ul>
+
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fixed a bug in PCM capsule vs plane contact gen.</li>
+            <li>A crash happening with more than 64K interactions has been fixed.</li>
+            <li>Fixed an island management issue in CCD when using multiple CCD passes.</li>
+            <li>Fixed a bug with GPU rigid bodies with non-simulation scene query-only shapes.</li>
+        </ul>
+    </ul>
+
+	<h3>Scene queries</h3>
+	<ul>
+		<li>Fixed:</li>
+		<ul>
+			<li>A bug in the BVH34 overlap code sometimes made PxMeshOverlapUtil::findOverlap assert (reporting an incorrect buffer overflow). This has been fixed.</li>
+            <li>Fix a bug in the case of two primitives just touching in sweep with eMTD flag on. </li>
+		</ul>
+	</ul>
+
+<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<br>
 <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4</h1>

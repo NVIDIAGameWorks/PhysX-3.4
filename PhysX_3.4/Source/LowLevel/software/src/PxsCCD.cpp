@@ -1478,9 +1478,10 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 							b->mCCD->mOverlappingObjects = NULL;
 							b->mCCD->mUpdateCount = 0;
 							b->mCCD->mHasAnyPassDone = false;
-							
+							b->mCCD->mNbInteractionsThisPass = 0;
 						}
 						b->mCCD->mPassDone = 0;
+						b->mCCD->mNbInteractionsThisPass++;
 					}
 					if(ba0 && ba1)
 					{
@@ -1591,7 +1592,10 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 	for (PxU32 j = 0; j < ccdBodyCount; j++)
 	{
 		//If the body has already been labelled or if it is kinematic, continue
-		if (islandLabels[j] != noLabelYet || mCCDBodies[j].mBody->isKinematic())
+		//Also, if the body has no interactions this pass, continue. In single-pass CCD, only bodies with interactions would be part of the CCD. However,
+		//with multi-pass CCD, we keep all bodies that interacted in previous passes. If the body now has no interactions, we skip it to ensure that island grouping doesn't fail in
+		//later stages by assigning an island ID to a body with no interactions
+		if (islandLabels[j] != noLabelYet || mCCDBodies[j].mBody->isKinematic() || mCCDBodies[j].mNbInteractionsThisPass == 0)
 			continue;
 
 		top = &mCCDBodies[j];
@@ -1899,6 +1903,7 @@ void PxsCCDContext::postCCDDepenetrate(PxBaseTask* /*continuation*/)
 	for (PxU32 j = 0; j < mCCDBodies.size(); j ++)
 	{
 		mCCDBodies[j].mOverlappingObjects = NULL;
+		mCCDBodies[j].mNbInteractionsThisPass = 0;
 	}
 
 	mCCDOverlaps.clear_NoDelete();

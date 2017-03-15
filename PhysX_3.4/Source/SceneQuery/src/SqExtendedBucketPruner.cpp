@@ -764,9 +764,9 @@ PxAgain ExtendedBucketPruner::sweep(const Gu::ShapeData& queryVolume, const PxVe
 #include "CmRenderOutput.h"
 
 // visualization
-void visualizeTree(Cm::RenderOutput& out, PxU32 color, AABBTree* tree)
+static void visualizeTree(Cm::RenderOutput& out, PxU32 color, AABBTree* tree)
 {
-	if (tree)
+	if(tree && tree->getNodes())
 	{
 		struct Local
 		{

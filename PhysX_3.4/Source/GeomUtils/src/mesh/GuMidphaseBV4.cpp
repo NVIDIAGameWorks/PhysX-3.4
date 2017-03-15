@@ -57,7 +57,7 @@ using namespace physx;
 using namespace Gu;
 using namespace Cm;
 
-#if PX_INTEL_FAMILY
+#if PX_INTEL_FAMILY && !defined(PX_SIMD_DISABLED)
 Ps::IntBool	BV4_RaycastSingle		(const PxVec3& origin, const PxVec3& dir, const BV4Tree& tree, const PxMat44* PX_RESTRICT worldm_Aligned, PxRaycastHit* PX_RESTRICT hit, float maxDist, float geomEpsilon, PxU32 flags, PxHitFlags hitFlags);
 PxU32		BV4_RaycastAll			(const PxVec3& origin, const PxVec3& dir, const BV4Tree& tree, const PxMat44* PX_RESTRICT worldm_Aligned, PxRaycastHit* PX_RESTRICT hits, PxU32 maxNbHits, float maxDist, float geomEpsilon, PxU32 flags, PxHitFlags hitFlags);
 void		BV4_RaycastCB			(const PxVec3& origin, const PxVec3& dir, const BV4Tree& tree, const PxMat44* PX_RESTRICT worldm_Aligned, float maxDist, float geomEpsilon, PxU32 flags, MeshRayCallback callback, void* userData);
