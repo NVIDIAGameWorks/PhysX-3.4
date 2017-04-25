@@ -37,6 +37,8 @@
 #include "PsSList.h"
 #include "PxDefaultCpuDispatcher.h"
 #include "ExtSharedQueueEntryPool.h"
+#include "foundation/PxProfiler.h"
+#include "task/PxTask.h"
 
 namespace physx
 {
@@ -55,50 +57,59 @@ namespace Ext
 		friend class TaskQueueHelper;
 
 	private:
-		DefaultCpuDispatcher() : mQueueEntryPool(0) {}
-		~DefaultCpuDispatcher();
-
+												DefaultCpuDispatcher() : mQueueEntryPool(0) {}
+												~DefaultCpuDispatcher();
 	public:
-		DefaultCpuDispatcher(PxU32 numThreads, PxU32* affinityMasks);
+												DefaultCpuDispatcher(PxU32 numThreads, PxU32* affinityMasks);
 
 		//---------------------------------------------------------------------------------
-		// physx::CpuDispatcher implementation
+		// PxCpuDispatcher implementation
 		//---------------------------------------------------------------------------------
-		virtual void submitTask(PxBaseTask& task);
-		virtual PxU32 getWorkerCount() const;
+		virtual			void					submitTask(PxBaseTask& task);
+		virtual			PxU32					getWorkerCount()	const	{ return mNumThreads;	}
 
 		//---------------------------------------------------------------------------------
 		// PxDefaultCpuDispatcher implementation
 		//---------------------------------------------------------------------------------
-		virtual void release();
+		virtual			void					release();
 
-		virtual void setRunProfiled(bool runProfiled) { mRunProfiled = runProfiled; }
+		virtual			void					setRunProfiled(bool runProfiled) { mRunProfiled = runProfiled; }
 
-		virtual bool getRunProfiled() const { return mRunProfiled; }
+		virtual			bool					getRunProfiled()	const	{ return mRunProfiled;	}
 
 		//---------------------------------------------------------------------------------
 		// DefaultCpuDispatcher
 		//---------------------------------------------------------------------------------
-		PxBaseTask*		getJob();
-		PxBaseTask*		stealJob();
-		PxBaseTask*		fetchNextTask();
-		void					runTask(PxBaseTask& task);
+						PxBaseTask*				getJob();
+						PxBaseTask*				stealJob();
+						PxBaseTask*				fetchNextTask();
+		PX_FORCE_INLINE	void					runTask(PxBaseTask& task)
+												{
+#if PX_SUPPORT_PXTASK_PROFILING
+													if(mRunProfiled)
+													{
+														PX_PROFILE_ZONE(task.getName(), task.getContextId());
+														task.run();
+													}
+													else
+#endif
+														task.run();
+												}
 
-    	void					waitForWork() { mWorkReady.wait(); }
-	    void					resetWakeSignal();
+    					void					waitForWork() { mWorkReady.wait(); }
+						void					resetWakeSignal();
 
-		static void				getAffinityMasks(PxU32* affinityMasks, PxU32 threadCount);
-
+		static			void					getAffinityMasks(PxU32* affinityMasks, PxU32 threadCount);
 
 	protected:
-				CpuWorkerThread*				mWorkerThreads;
-				SharedQueueEntryPool<>			mQueueEntryPool;
-				Ps::SList						mJobList;
-				Ps::Sync						mWorkReady;
-				PxU8*							mThreadNames;
-				PxU32							mNumThreads;
-				bool							mShuttingDown;
-				bool							mRunProfiled;
+						CpuWorkerThread*		mWorkerThreads;
+						SharedQueueEntryPool<>	mQueueEntryPool;
+						Ps::SList				mJobList;
+						Ps::Sync				mWorkReady;
+						PxU8*					mThreadNames;
+						PxU32					mNumThreads;
+						bool					mShuttingDown;
+						bool					mRunProfiled;
 	};
 
 #if PX_VC

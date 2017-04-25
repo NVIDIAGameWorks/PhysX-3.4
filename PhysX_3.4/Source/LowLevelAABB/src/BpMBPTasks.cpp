@@ -36,7 +36,7 @@ using namespace Bp;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MBPUpdateWorkTask::MBPUpdateWorkTask() 
+MBPUpdateWorkTask::MBPUpdateWorkTask(PxU64 contextId) : MBPTask(contextId)
 {
 }
 
@@ -44,7 +44,7 @@ MBPUpdateWorkTask::~MBPUpdateWorkTask()
 {
 }
 
-MBPPostUpdateWorkTask::MBPPostUpdateWorkTask() 
+MBPPostUpdateWorkTask::MBPPostUpdateWorkTask(PxU64 contextId) : MBPTask(contextId)
 {
 }
 

@@ -60,13 +60,13 @@ class BroadPhaseBatchUpdateWorkTask: public Cm::Task
 {
 public:
 
-	BroadPhaseBatchUpdateWorkTask() 
-		: Cm::Task(), 
-		  mSap(NULL),
-   	      mAxis(0xffffffff),
-		  mPairs(NULL),
-		  mPairsSize(0),
-		  mPairsCapacity(0)
+	BroadPhaseBatchUpdateWorkTask(PxU64 contextId=0) :
+		Cm::Task(contextId),
+		mSap(NULL),
+		mAxis(0xffffffff),
+		mPairs(NULL),
+		mPairsSize(0),
+		mPairsCapacity(0)
 	{
 	}
 
@@ -118,6 +118,7 @@ public:
 	virtual	PxBroadPhaseType::Enum		getType()					const	{ return PxBroadPhaseType::eSAP;	}
 
 	virtual	void						update(const PxU32 numCpuTasks, PxcScratchAllocator* scratchAllocator, const BroadPhaseUpdateData& updateData, physx::PxBaseTask* continuation, physx::PxBaseTask* narrowPhaseUnblockTask);
+	virtual void						fetchBroadPhaseResults(physx::PxBaseTask*) {}
 
 	virtual PxU32						getNbCreatedPairs()		const		{ return mCreatedPairsSize;		}
 	virtual BroadPhasePairReport*		getCreatedPairs()					{ return mCreatedPairsArray;	}

@@ -51,6 +51,10 @@ namespace Cm
 	class Task : public physx::PxLightCpuTask
 	{
 	public:
+		Task(PxU64 contextId)
+		{
+			mContextID = contextId;
+		}
 
 		virtual void run()
 		{
@@ -89,8 +93,7 @@ namespace Cm
 	{
 	public:
 
-		DelegateTask(T* obj, const char* name) : 
-		  mObj(obj), mName(name) { }
+		DelegateTask(PxU64 contextID, T* obj, const char* name) : Cm::Task(contextID), mObj(obj), mName(name) { }
 
 		virtual void runInternal()
 		{
@@ -122,7 +125,7 @@ namespace Cm
 	{
 		PX_NOCOPY(FanoutTask)
 	public:
-		FanoutTask(const char* name) : Cm::BaseTask(), mRefCount(0), mName(name), mNotifySubmission(false) {}
+		FanoutTask(PxU64 contextID, const char* name) : Cm::BaseTask(), mRefCount(0), mName(name), mNotifySubmission(false) { mContextID = contextID; }
 
 		virtual void runInternal() {}
 
@@ -243,8 +246,8 @@ namespace Cm
 	{
 	public:
 
-		DelegateFanoutTask(T* obj, const char* name) : 
-		  FanoutTask(name), mObj(obj) { }
+		DelegateFanoutTask(PxU64 contextID, T* obj, const char* name) : 
+		  FanoutTask(contextID, name), mObj(obj) { }
 
 		  virtual void runInternal()
 		  {

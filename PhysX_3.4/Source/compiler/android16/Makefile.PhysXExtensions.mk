@@ -116,7 +116,7 @@ PhysXExtensions_debug_hpaths    += ./../../PhysX/src
 PhysXExtensions_debug_lpaths    := 
 PhysXExtensions_debug_lpaths    += ./../../../../PxShared/lib/android16
 PhysXExtensions_debug_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_debug_defines   += PX_BUILD_NUMBER=0
+PhysXExtensions_debug_defines   += PX_BUILD_NUMBER=22017532
 PhysXExtensions_debug_defines   += ANDROID
 PhysXExtensions_debug_defines   += GLES2
 PhysXExtensions_debug_defines   += __STDC_LIMIT_MACROS
@@ -247,7 +247,7 @@ PhysXExtensions_checked_hpaths    += ./../../PhysX/src
 PhysXExtensions_checked_lpaths    := 
 PhysXExtensions_checked_lpaths    += ./../../../../PxShared/lib/android16
 PhysXExtensions_checked_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_checked_defines   += PX_BUILD_NUMBER=0
+PhysXExtensions_checked_defines   += PX_BUILD_NUMBER=22017532
 PhysXExtensions_checked_defines   += ANDROID
 PhysXExtensions_checked_defines   += GLES2
 PhysXExtensions_checked_defines   += __STDC_LIMIT_MACROS
@@ -379,7 +379,7 @@ PhysXExtensions_profile_hpaths    += ./../../PhysX/src
 PhysXExtensions_profile_lpaths    := 
 PhysXExtensions_profile_lpaths    += ./../../../../PxShared/lib/android16
 PhysXExtensions_profile_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_profile_defines   += PX_BUILD_NUMBER=0
+PhysXExtensions_profile_defines   += PX_BUILD_NUMBER=22017532
 PhysXExtensions_profile_defines   += ANDROID
 PhysXExtensions_profile_defines   += GLES2
 PhysXExtensions_profile_defines   += __STDC_LIMIT_MACROS
@@ -511,7 +511,7 @@ PhysXExtensions_release_hpaths    += ./../../PhysX/src
 PhysXExtensions_release_lpaths    := 
 PhysXExtensions_release_lpaths    += ./../../../../PxShared/lib/android16
 PhysXExtensions_release_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_release_defines   += PX_BUILD_NUMBER=0
+PhysXExtensions_release_defines   += PX_BUILD_NUMBER=22017532
 PhysXExtensions_release_defines   += ANDROID
 PhysXExtensions_release_defines   += GLES2
 PhysXExtensions_release_defines   += __STDC_LIMIT_MACROS

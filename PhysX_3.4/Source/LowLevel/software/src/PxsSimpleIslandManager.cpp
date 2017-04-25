@@ -40,6 +40,14 @@ namespace physx
 namespace IG
 {
 
+	ThirdPassTask::ThirdPassTask(PxU64 contextID, SimpleIslandManager& islandManager, IslandSim& islandSim) : Cm::Task(contextID), mIslandManager(islandManager), mIslandSim(islandSim)
+	{
+	}
+
+	PostThirdPassTask::PostThirdPassTask(PxU64 contextID, SimpleIslandManager& islandManager) : Cm::Task(contextID), mIslandManager(islandManager)
+	{
+	}
+
 	SimpleIslandManager::SimpleIslandManager(bool useEnhancedDeterminism, PxU64 contextID) : 
 		mDestroyedNodes(PX_DEBUG_EXP("mDestroyedNodes")), 
 		mInteractions(PX_DEBUG_EXP("mInteractions")), 
@@ -50,9 +58,9 @@ namespace IG
 		mConstraintOrCm(PX_DEBUG_EXP("mConstraintOrCm")),
 		mIslandManager(&mFirstPartitionEdges, mEdgeNodeIndices, &mDestroyedPartitionEdges, contextID),
 		mSpeculativeIslandManager(NULL, mEdgeNodeIndices, NULL, contextID),
-		mSpeculativeThirdPassTask(*this, mSpeculativeIslandManager),
-		mAccurateThirdPassTask(*this, mIslandManager),
-		mPostThirdPassTask(*this),
+		mSpeculativeThirdPassTask(contextID, *this, mSpeculativeIslandManager),
+		mAccurateThirdPassTask(contextID, *this, mIslandManager),
+		mPostThirdPassTask(contextID, *this),
 		mContextID(contextID)
 {
 	mFirstPartitionEdges.resize(1024);
@@ -219,7 +227,7 @@ void SimpleIslandManager::secondPassIslandGen()
 		mNodeHandles.freeHandle(mDestroyedNodes[a].index());
 	}
 	mDestroyedNodes.clear();
-	mDestroyedEdges.clear();
+	//mDestroyedEdges.clear();
 }
 
 bool SimpleIslandManager::validateDeactivations() const

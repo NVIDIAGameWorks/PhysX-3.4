@@ -144,7 +144,7 @@ namespace Pt
 class DynamicsSphTask : public Cm::Task
 {
   public:
-	DynamicsSphTask(Dynamics& context, PxU32 taskDataIndex) : mDynamicsContext(context), mTaskDataIndex(taskDataIndex)
+	DynamicsSphTask(Dynamics& context, PxU32 taskDataIndex) : Cm::Task(0), mDynamicsContext(context), mTaskDataIndex(taskDataIndex)
 	{
 	}
 
@@ -171,8 +171,8 @@ Dynamics::Dynamics(ParticleSystemSimCpu& particleSystem)
 : mParticleSystem(particleSystem)
 , mTempReorderedParticles(NULL)
 , mTempParticleForceBuf(NULL)
-, mMergeDensityTask(this, "Pt::Dynamics.mergeDensity")
-, mMergeForceTask(this, "Pt::Dynamics.mergeForce")
+, mMergeDensityTask(0, this, "Pt::Dynamics.mergeDensity")
+, mMergeForceTask(0, this, "Pt::Dynamics.mergeForce")
 , mNumTempBuffers(0)
 {
 }

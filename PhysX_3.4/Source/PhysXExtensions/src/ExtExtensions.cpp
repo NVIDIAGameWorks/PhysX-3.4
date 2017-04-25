@@ -39,9 +39,8 @@
 #include "ExtSphericalJoint.h"
 #include "PxRepXSerializer.h"
 #include "SnRepXCoreSerializer.h"
-#include "SnRepXSerializerImpl.h"
+#include "SnJointRepXSerializer.h"
 #include "PxExtensionMetaDataObjects.h"
-#include "PxJointRepXSerializer.h"
 #include "PxSerializer.h"
 #include "ExtSerialization.h"
 

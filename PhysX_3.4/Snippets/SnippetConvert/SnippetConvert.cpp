@@ -61,11 +61,10 @@
 
 #include "PxPhysicsAPI.h"
 
-#include "../SnippetCommon/SnippetPrint.h"
-#include "../SnippetUtils/SnippetUtils.h"
-
 #include <iostream>
 
+#include "../SnippetCommon/SnippetPrint.h"
+#include "../SnippetUtils/SnippetUtils.h"
 
 
 using namespace physx;

@@ -188,14 +188,20 @@ BV4Tree::BV4Tree(const PxEMPTY)
 
 void BV4Tree::exportExtraData(PxSerializationContext& stream)
 {
-	stream.alignData(16);
-	stream.writeData(mNodes, mNbNodes*sizeof(BVDataPacked));
+	if(mNbNodes)
+	{
+		stream.alignData(16);
+		stream.writeData(mNodes, mNbNodes*sizeof(BVDataPacked));
+	}
 }
 
 void BV4Tree::importExtraData(PxDeserializationContext& context)
 {
-	context.alignExtraData(16);
-	mNodes = context.readExtraData<BVDataPacked>(mNbNodes);
+	if(mNbNodes)
+	{
+		context.alignExtraData(16);
+		mNodes = context.readExtraData<BVDataPacked>(mNbNodes);
+	}
 }
 //~PX_SERIALIZATION
 

@@ -258,8 +258,6 @@ public:
 	~PxGpuWorkerThread();
 
 	void					setCudaContext(PxCudaContextManager& ctx);
-	void					emitStartEvent(const char *id);
-	void					emitStopEvent(const char *id);
 
 	/* API to TaskManager */
 	void					startSimulation();

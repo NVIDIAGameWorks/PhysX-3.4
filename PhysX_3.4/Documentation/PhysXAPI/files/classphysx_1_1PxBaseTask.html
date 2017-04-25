@@ -67,22 +67,17 @@ Collaboration diagram for physx::PxBaseTask:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#3be62f992c1ff7218e2cf0fc0ba5b244">release</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Implemented by derived implementation classes.  <a href="#3be62f992c1ff7218e2cf0fc0ba5b244"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#c5afbb44814fd220d9fa1f5ae407f21d">runProfiled</a> (uint32_t threadId=0)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE <a class="el" href="classphysx_1_1PxTaskManager.html">PxTaskManager</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#9dccf76144a25df2c2a7ed5fa8cea003">getTaskManager</a> () const </td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Execute user run method with wrapping profiling events.  <a href="#c5afbb44814fd220d9fa1f5ae407f21d"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#0621abfb63132826ccd37421b9d8011f">setProfileStat</a> (uint16_t stat)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface.">PxTaskManager</a> to which this task was submitted.  <a href="#9dccf76144a25df2c2a7ed5fa8cea003"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#0fa6ca56b758ea6b8be5c3acc8e89364">setContextId</a> (<a class="el" href="namespacephysx.html#8ee037dcecf7198800e1f302795c10ee">PxU64</a> id)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Specify stop event statistic.  <a href="#0621abfb63132826ccd37421b9d8011f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE <a class="el" href="classphysx_1_1PxTaskManager.html">PxTaskManager</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#f33b34783821f4b8cc455df2e7f45bbe">getTaskManager</a> () const </td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE <a class="el" href="namespacephysx.html#8ee037dcecf7198800e1f302795c10ee">PxU64</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#009e71e6c6274132392817f0e57716a0">getContextId</a> () const </td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface.">PxTaskManager</a> to which this task was submitted.  <a href="#f33b34783821f4b8cc455df2e7f45bbe"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Attributes</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">uint16_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#9200c8e7b7680790e5e75da22c92e3cd">mEventID</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespacephysx.html#8ee037dcecf7198800e1f302795c10ee">PxU64</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#67864643cd2dfaf8483f8b7a75376bc7">mContextID</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Registered profile event ID.  <a href="#9200c8e7b7680790e5e75da22c92e3cd"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">uint16_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#859800d5acb01168c7fae071d8e86e26">mProfileStat</a></td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Profiling statistic.  <a href="#859800d5acb01168c7fae071d8e86e26"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Context ID for profiler interface.  <a href="#67864643cd2dfaf8483f8b7a75376bc7"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classphysx_1_1PxTaskManager.html">PxTaskManager</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#f23fffec1e92c794d3ad73e9fc4fa974">mTm</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Owning <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface.">PxTaskManager</a> instance.  <a href="#f23fffec1e92c794d3ad73e9fc4fa974"></a><br></td></tr>
@@ -154,7 +149,28 @@ Implemented by derived implementation classes.
 
 <p>Implemented in <a class="el" href="classphysx_1_1PxTask.html#d3828abb4bd2237af28ecd08b972b1af">physx::PxTask</a>, and <a class="el" href="classphysx_1_1PxLightCpuTask.html#572d87fd23a65723d8e817f65e4681e6">physx::PxLightCpuTask</a>.</p>
 
-<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00272">physx::PxLightCpuTask::setContinuation()</a>.</p>
+<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00245">physx::PxLightCpuTask::setContinuation()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="009e71e6c6274132392817f0e57716a0"></a><!-- doxytag: member="physx::PxBaseTask::getContextId" ref="009e71e6c6274132392817f0e57716a0" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PX_FORCE_INLINE <a class="el" href="namespacephysx.html#8ee037dcecf7198800e1f302795c10ee">PxU64</a> physx::PxBaseTask::getContextId           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>References <a class="el" href="PxTask_8h-source.html#l00098">mContextID</a>.</p>
 
 </div>
 </div><p>
@@ -204,12 +220,12 @@ Implemented by derived implementation classes.
 
 </div>
 </div><p>
-<a class="anchor" name="f33b34783821f4b8cc455df2e7f45bbe"></a><!-- doxytag: member="physx::PxBaseTask::getTaskManager" ref="f33b34783821f4b8cc455df2e7f45bbe" args="() const " -->
+<a class="anchor" name="9dccf76144a25df2c2a7ed5fa8cea003"></a><!-- doxytag: member="physx::PxBaseTask::getTaskManager" ref="9dccf76144a25df2c2a7ed5fa8cea003" args="() const " -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PX_INLINE <a class="el" href="classphysx_1_1PxTaskManager.html">PxTaskManager</a>* physx::PxBaseTask::getTaskManager           </td>
+          <td class="memname">PX_FORCE_INLINE <a class="el" href="classphysx_1_1PxTaskManager.html">PxTaskManager</a>* physx::PxBaseTask::getTaskManager           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -223,9 +239,9 @@ Implemented by derived implementation classes.
 Return <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface.">PxTaskManager</a> to which this task was submitted. 
 <p>
 Note, can return NULL if task was not submitted, or has been completed. 
-<p>References <a class="el" href="PxTask_8h-source.html#l00125">mTm</a>.</p>
+<p>References <a class="el" href="PxTask_8h-source.html#l00099">mTm</a>.</p>
 
-<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00291">physx::PxLightCpuTask::setContinuation()</a>.</p>
+<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00264">physx::PxLightCpuTask::setContinuation()</a>.</p>
 
 </div>
 </div><p>
@@ -273,7 +289,7 @@ Implemented by derived implementation classes.
 
 <p>Implemented in <a class="el" href="classphysx_1_1PxTask.html#097c70f1419ad4991ef876ddd9a74d48">physx::PxTask</a>, and <a class="el" href="classphysx_1_1PxLightCpuTask.html#4f847956e5ba51a36bbb3ced5bb15a6c">physx::PxLightCpuTask</a>.</p>
 
-<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00342">physx::PxLightCpuTask::release()</a>, and <a class="el" href="PxGpuTask_8h-source.html#l00099">physx::PxGpuTask::release()</a>.</p>
+<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00315">physx::PxLightCpuTask::release()</a>, and <a class="el" href="PxGpuTask_8h-source.html#l00099">physx::PxGpuTask::release()</a>.</p>
 
 </div>
 </div><p>
@@ -296,19 +312,17 @@ Implemented by derived implementation classes.
 The user-implemented run method where the task's work should be performed. 
 <p>
 <a class="el" href="classphysx_1_1PxBaseTask.html#517a16d9dc630c9274a7564deb3a7e4a" title="The user-implemented run method where the task&#39;s work should be performed.">run()</a> methods must be thread safe, stack friendly (no alloca, etc), and must never block. 
-<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00091">runProfiled()</a>.</p>
-
 </div>
 </div><p>
-<a class="anchor" name="c5afbb44814fd220d9fa1f5ae407f21d"></a><!-- doxytag: member="physx::PxBaseTask::runProfiled" ref="c5afbb44814fd220d9fa1f5ae407f21d" args="(uint32_t threadId=0)" -->
+<a class="anchor" name="0fa6ca56b758ea6b8be5c3acc8e89364"></a><!-- doxytag: member="physx::PxBaseTask::setContextId" ref="0fa6ca56b758ea6b8be5c3acc8e89364" args="(PxU64 id)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PX_INLINE void physx::PxBaseTask::runProfiled           </td>
+          <td class="memname">PX_FORCE_INLINE void physx::PxBaseTask::setContextId           </td>
           <td>(</td>
-          <td class="paramtype">uint32_t&nbsp;</td>
-          <td class="paramname"> <em>threadId</em> = <code>0</code>          </td>
+          <td class="paramtype"><a class="el" href="namespacephysx.html#8ee037dcecf7198800e1f302795c10ee">PxU64</a>&nbsp;</td>
+          <td class="paramname"> <em>id</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td><code> [inline]</code></td>
         </tr>
@@ -317,46 +331,8 @@ The user-implemented run method where the task's work should be performed.
 <div class="memdoc">
 
 <p>
-Execute user run method with wrapping profiling events. 
-<p>
-Optional entry point for use by CpuDispatchers.<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>threadId</em>&nbsp;</td><td>The threadId of the thread that executed the task. </td></tr>
-  </table>
-</dl>
 
-<p>References <a class="el" href="PxTask_8h-source.html#l00125">mTm</a>, and <a class="el" href="classphysx_1_1PxBaseTask.html#517a16d9dc630c9274a7564deb3a7e4a">run()</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="0621abfb63132826ccd37421b9d8011f"></a><!-- doxytag: member="physx::PxBaseTask::setProfileStat" ref="0621abfb63132826ccd37421b9d8011f" args="(uint16_t stat)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PX_INLINE void physx::PxBaseTask::setProfileStat           </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&nbsp;</td>
-          <td class="paramname"> <em>stat</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Specify stop event statistic. 
-<p>
-If called before or while the task is executing, the given value will appear in the task's event bar in the profile viewer<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>stat</em>&nbsp;</td><td>The stat to signal when the task is finished </td></tr>
-  </table>
-</dl>
-
-<p>References <a class="el" href="PxTask_8h-source.html#l00124">mProfileStat</a>.</p>
+<p>References <a class="el" href="PxTask_8h-source.html#l00098">mContextID</a>.</p>
 
 </div>
 </div><p>
@@ -379,39 +355,22 @@ If called before or while the task is executing, the given value will appear in 
 </div>
 </div><p>
 <hr><h2>Member Data Documentation</h2>
-<a class="anchor" name="9200c8e7b7680790e5e75da22c92e3cd"></a><!-- doxytag: member="physx::PxBaseTask::mEventID" ref="9200c8e7b7680790e5e75da22c92e3cd" args="" -->
+<a class="anchor" name="67864643cd2dfaf8483f8b7a75376bc7"></a><!-- doxytag: member="physx::PxBaseTask::mContextID" ref="67864643cd2dfaf8483f8b7a75376bc7" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t <a class="el" href="classphysx_1_1PxBaseTask.html#9200c8e7b7680790e5e75da22c92e3cd">physx::PxBaseTask::mEventID</a><code> [protected]</code>          </td>
+          <td class="memname"><a class="el" href="namespacephysx.html#8ee037dcecf7198800e1f302795c10ee">PxU64</a> <a class="el" href="classphysx_1_1PxBaseTask.html#67864643cd2dfaf8483f8b7a75376bc7">physx::PxBaseTask::mContextID</a><code> [protected]</code>          </td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
 <p>
-Registered profile event ID. 
+Context ID for profiler interface. 
 <p>
 
-</div>
-</div><p>
-<a class="anchor" name="859800d5acb01168c7fae071d8e86e26"></a><!-- doxytag: member="physx::PxBaseTask::mProfileStat" ref="859800d5acb01168c7fae071d8e86e26" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t <a class="el" href="classphysx_1_1PxBaseTask.html#859800d5acb01168c7fae071d8e86e26">physx::PxBaseTask::mProfileStat</a><code> [protected]</code>          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Profiling statistic. 
-<p>
-
-<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00106">setProfileStat()</a>, and <a class="el" href="PxTask_8h-source.html#l00211">physx::PxTask::submitted()</a>.</p>
+<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00095">getContextId()</a>, and <a class="el" href="PxTask_8h-source.html#l00094">setContextId()</a>.</p>
 
 </div>
 </div><p>
@@ -430,7 +389,7 @@ Profiling statistic.
 Owning <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface.">PxTaskManager</a> instance. 
 <p>
 
-<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00332">physx::PxLightCpuTask::addReference()</a>, <a class="el" href="PxTask_8h-source.html#l00174">physx::PxTask::addReference()</a>, <a class="el" href="PxTask_8h-source.html#l00156">physx::PxTask::finishBefore()</a>, <a class="el" href="PxTask_8h-source.html#l00193">physx::PxTask::getReference()</a>, <a class="el" href="PxTask_8h-source.html#l00117">getTaskManager()</a>, <a class="el" href="PxTask_8h-source.html#l00144">physx::PxTask::release()</a>, <a class="el" href="PxTask_8h-source.html#l00317">physx::PxLightCpuTask::removeReference()</a>, <a class="el" href="PxTask_8h-source.html#l00184">physx::PxTask::removeReference()</a>, <a class="el" href="PxTask_8h-source.html#l00091">runProfiled()</a>, <a class="el" href="PxTask_8h-source.html#l00272">physx::PxLightCpuTask::setContinuation()</a>, <a class="el" href="PxTask_8h-source.html#l00164">physx::PxTask::startAfter()</a>, and <a class="el" href="PxTask_8h-source.html#l00258">physx::PxLightCpuTask::~PxLightCpuTask()</a>.</p>
+<p>Referenced by <a class="el" href="PxTask_8h-source.html#l00305">physx::PxLightCpuTask::addReference()</a>, <a class="el" href="PxTask_8h-source.html#l00148">physx::PxTask::addReference()</a>, <a class="el" href="PxTask_8h-source.html#l00130">physx::PxTask::finishBefore()</a>, <a class="el" href="PxTask_8h-source.html#l00167">physx::PxTask::getReference()</a>, <a class="el" href="PxTask_8h-source.html#l00089">getTaskManager()</a>, <a class="el" href="PxTask_8h-source.html#l00118">physx::PxTask::release()</a>, <a class="el" href="PxTask_8h-source.html#l00290">physx::PxLightCpuTask::removeReference()</a>, <a class="el" href="PxTask_8h-source.html#l00158">physx::PxTask::removeReference()</a>, <a class="el" href="PxTask_8h-source.html#l00245">physx::PxLightCpuTask::setContinuation()</a>, <a class="el" href="PxTask_8h-source.html#l00138">physx::PxTask::startAfter()</a>, and <a class="el" href="PxTask_8h-source.html#l00231">physx::PxLightCpuTask::~PxLightCpuTask()</a>.</p>
 
 </div>
 </div><p>

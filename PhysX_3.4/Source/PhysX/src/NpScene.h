@@ -433,7 +433,7 @@ private:
 
 					struct SceneCompletion : public Cm::Task
 					{
-						SceneCompletion(Ps::Sync& sync) : mSync(sync){}
+						SceneCompletion(PxU64 contextId, Ps::Sync& sync) : Cm::Task(contextId), mSync(sync){}
 						virtual void runInternal() {}
 						//ML: As soon as mSync.set is called, and the scene is shutting down,
 						//the scene may be deleted. That means this running task may also be deleted.

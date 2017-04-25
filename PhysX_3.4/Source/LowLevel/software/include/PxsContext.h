@@ -97,38 +97,6 @@ enum PxsTouchEventCount
 };
 
 
-
-class PxsCMUpdateTask : public Cm::Task
-{
-public:
-
-	static const PxU32 BATCH_SIZE = 128;
-
-	PxsCMUpdateTask(PxsContext* context, PxReal dt, PxsContactManager** cmArray, PxsContactManagerOutput* cmOutputs, Gu::Cache* caches, PxU32 cmCount,
-		PxContactModifyCallback* callback):	
-			mCmArray(cmArray), mCmOutputs(cmOutputs), mCaches(caches), mCmCount(cmCount), mDt(dt), mContext(context), mCallback(callback)
-	{
-	}
-
-	virtual void release();
-
-	/*PX_FORCE_INLINE void insert(PxsContactManager* cm)
-	{
-		PX_ASSERT(mCmCount < BATCH_SIZE);
-		mCmArray[mCmCount++]=cm;
-	}*/
-
-protected:	
-	//PxsContactManager*	mCmArray[BATCH_SIZE];
-	PxsContactManager**	mCmArray;
-	PxsContactManagerOutput* mCmOutputs;
-	Gu::Cache* mCaches;
-	PxU32				mCmCount;
-	PxReal				mDt;		//we could probably retrieve from context to save space?
-	PxsContext*			mContext;
-	PxContactModifyCallback* mCallback;
-};
-
 class PxsContext : public Ps::UserAllocated, public PxcNpContext
 {
 												PX_NOCOPY(PxsContext)

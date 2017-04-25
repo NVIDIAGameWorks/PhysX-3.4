@@ -116,7 +116,7 @@ PhysXExtensions_debug_hpaths    += ./../../PhysX/src
 PhysXExtensions_debug_lpaths    := 
 PhysXExtensions_debug_lpaths    += ./../../../../PxShared/lib/osx32
 PhysXExtensions_debug_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_debug_defines   += PX_BUILD_NUMBER=21749494
+PhysXExtensions_debug_defines   += PX_BUILD_NUMBER=22017532
 PhysXExtensions_debug_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_debug_defines   += _DEBUG
 PhysXExtensions_debug_defines   += PX_DEBUG=1
@@ -134,6 +134,7 @@ PhysXExtensions_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-m
 PhysXExtensions_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXExtensions_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXExtensions_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+PhysXExtensions_debug_cflags  += -Wno-c++11-extensions
 PhysXExtensions_debug_cflags  += -g3 -gdwarf-2 -O0
 PhysXExtensions_debug_cppflags	:= $(PhysXExtensions_debug_common_cflags)
 PhysXExtensions_debug_cppflags  += -arch i386
@@ -141,6 +142,7 @@ PhysXExtensions_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast
 PhysXExtensions_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXExtensions_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXExtensions_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+PhysXExtensions_debug_cppflags  += -Wno-c++11-extensions
 PhysXExtensions_debug_cppflags  += -g3 -gdwarf-2 -O0
 PhysXExtensions_debug_lflags    := $(PhysXExtensions_custom_lflags)
 PhysXExtensions_debug_lflags    += $(addprefix -L, $(PhysXExtensions_debug_lpaths))
@@ -238,7 +240,7 @@ PhysXExtensions_checked_hpaths    += ./../../PhysX/src
 PhysXExtensions_checked_lpaths    := 
 PhysXExtensions_checked_lpaths    += ./../../../../PxShared/lib/osx32
 PhysXExtensions_checked_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_checked_defines   += PX_BUILD_NUMBER=21749494
+PhysXExtensions_checked_defines   += PX_BUILD_NUMBER=22017532
 PhysXExtensions_checked_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_checked_defines   += NDEBUG
 PhysXExtensions_checked_defines   += PX_CHECKED=1
@@ -255,6 +257,7 @@ PhysXExtensions_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast
 PhysXExtensions_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXExtensions_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXExtensions_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+PhysXExtensions_checked_cflags  += -Wno-c++11-extensions
 PhysXExtensions_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PhysXExtensions_checked_cppflags	:= $(PhysXExtensions_checked_common_cflags)
 PhysXExtensions_checked_cppflags  += -arch i386
@@ -262,6 +265,7 @@ PhysXExtensions_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffa
 PhysXExtensions_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXExtensions_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXExtensions_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+PhysXExtensions_checked_cppflags  += -Wno-c++11-extensions
 PhysXExtensions_checked_cppflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PhysXExtensions_checked_lflags    := $(PhysXExtensions_custom_lflags)
 PhysXExtensions_checked_lflags    += $(addprefix -L, $(PhysXExtensions_checked_lpaths))
@@ -359,7 +363,7 @@ PhysXExtensions_profile_hpaths    += ./../../PhysX/src
 PhysXExtensions_profile_lpaths    := 
 PhysXExtensions_profile_lpaths    += ./../../../../PxShared/lib/osx32
 PhysXExtensions_profile_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_profile_defines   += PX_BUILD_NUMBER=21749494
+PhysXExtensions_profile_defines   += PX_BUILD_NUMBER=22017532
 PhysXExtensions_profile_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_profile_defines   += NDEBUG
 PhysXExtensions_profile_defines   += PX_PROFILE=1
@@ -376,6 +380,7 @@ PhysXExtensions_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast
 PhysXExtensions_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXExtensions_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXExtensions_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+PhysXExtensions_profile_cflags  += -Wno-c++11-extensions
 PhysXExtensions_profile_cflags  += -O3 -fno-strict-aliasing
 PhysXExtensions_profile_cppflags	:= $(PhysXExtensions_profile_common_cflags)
 PhysXExtensions_profile_cppflags  += -arch i386
@@ -383,6 +388,7 @@ PhysXExtensions_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffa
 PhysXExtensions_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXExtensions_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXExtensions_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+PhysXExtensions_profile_cppflags  += -Wno-c++11-extensions
 PhysXExtensions_profile_cppflags  += -O3 -fno-strict-aliasing
 PhysXExtensions_profile_lflags    := $(PhysXExtensions_custom_lflags)
 PhysXExtensions_profile_lflags    += $(addprefix -L, $(PhysXExtensions_profile_lpaths))
@@ -480,7 +486,7 @@ PhysXExtensions_release_hpaths    += ./../../PhysX/src
 PhysXExtensions_release_lpaths    := 
 PhysXExtensions_release_lpaths    += ./../../../../PxShared/lib/osx32
 PhysXExtensions_release_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_release_defines   += PX_BUILD_NUMBER=21749494
+PhysXExtensions_release_defines   += PX_BUILD_NUMBER=22017532
 PhysXExtensions_release_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_release_defines   += NDEBUG
 PhysXExtensions_release_defines   += PX_SUPPORT_PVD=0
@@ -496,6 +502,7 @@ PhysXExtensions_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast
 PhysXExtensions_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXExtensions_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXExtensions_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+PhysXExtensions_release_cflags  += -Wno-c++11-extensions
 PhysXExtensions_release_cflags  += -O3 -fno-strict-aliasing
 PhysXExtensions_release_cppflags	:= $(PhysXExtensions_release_common_cflags)
 PhysXExtensions_release_cppflags  += -arch i386
@@ -503,6 +510,7 @@ PhysXExtensions_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffa
 PhysXExtensions_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXExtensions_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXExtensions_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+PhysXExtensions_release_cppflags  += -Wno-c++11-extensions
 PhysXExtensions_release_cppflags  += -O3 -fno-strict-aliasing
 PhysXExtensions_release_lflags    := $(PhysXExtensions_custom_lflags)
 PhysXExtensions_release_lflags    += $(addprefix -L, $(PhysXExtensions_release_lpaths))

@@ -1514,7 +1514,7 @@ void SimpleAABBManager::reserveShapeSpace(PxU32 nbTotalBounds)
 #endif
 
 SimpleAABBManager::SimpleAABBManager(BroadPhase& bp, BoundsArray& boundsArray, Ps::Array<PxReal, Ps::VirtualAllocator>& contactDistance, PxU32 maxNbAggregates, PxU32 maxNbShapes, Ps::VirtualAllocator& allocator, PxU64 contextID) :
-	mPostBroadPhase				(this, "postBroadPhase"),
+	mFinalizeUpdateTask			(contextID),
 	mChangedHandleMap			(allocator),
 	mGroups						(allocator),
 	mContactDistance			(contactDistance),
@@ -1832,10 +1832,15 @@ void SimpleAABBManager::handleOriginShift()
 	// PT: TODO: check that aggregates code is correct here
 	for(PxU32 i=0; i<mUsedSize; i++)
 	{
-		if(!mAddedHandleMap.test(i) && mGroups[i] != PX_INVALID_U32)
+		if(mGroups[i] == PX_INVALID_U32)
+			continue;
+
 		{
 			if(mVolumeData[i].isSingleActor())
-				mUpdatedHandles.pushBack(i);	// PT: TODO: BoundsIndex-to-ShapeHandle confusion here
+			{
+				if(!mAddedHandleMap.test(i))
+					mUpdatedHandles.pushBack(i);	// PT: TODO: BoundsIndex-to-ShapeHandle confusion here
+			}
 			else if(mVolumeData[i].isAggregate())
 			{
 				const AggregateHandle aggregateHandle = mVolumeData[i].getAggregate();
@@ -1846,7 +1851,8 @@ void SimpleAABBManager::handleOriginShift()
 					aggregate->allocateBounds();
 					aggregate->computeBounds(mBoundsArray, mContactDistance.begin());
 					mBoundsArray.begin()[aggregate->mIndex] = aggregate->mBounds;
-					mUpdatedHandles.pushBack(i);	// PT: TODO: BoundsIndex-to-ShapeHandle confusion here
+					if(!mAddedHandleMap.test(i))
+						mUpdatedHandles.pushBack(i);	// PT: TODO: BoundsIndex-to-ShapeHandle confusion here
 				}
 			}
 		}
@@ -1888,7 +1894,7 @@ void SimpleAABBManager::startAggregateBoundsComputationTasks(PxU32 nbToGo, PxU32
 	PxU32 start = 0;
 	while(nbToGo)
 	{
-		AggregateBoundsComputationTask* T = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(AggregateBoundsComputationTask)), AggregateBoundsComputationTask());
+		AggregateBoundsComputationTask* T = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(AggregateBoundsComputationTask)), AggregateBoundsComputationTask(mContextID));
 
 		const PxU32 nb = nbToGo < nbAggregatesPerTask ? nbToGo : nbAggregatesPerTask;
 		T->Init(this, start, nb, mDirtyAggregates.begin());
@@ -2096,20 +2102,18 @@ void SimpleAABBManager::finalizeUpdate(PxU32 numCpuTasks, PxcScratchAllocator* s
 	mPersistentStateChanged = false;
 
 	PX_ASSERT(updateData.isValid());
-	mPostBroadPhase.setContinuation(continuation);
-
+	
 	//KS - skip broad phase if there are no updated shapes.
 	if (updateData.getNumCreatedHandles() != 0 || updateData.getNumRemovedHandles() != 0 || updateData.getNumUpdatedHandles() != 0)
-		mBroadPhase.update(numCpuTasks, scratchAllocator, updateData, &mPostBroadPhase, narrowPhaseUnlockTask);
-	else if (narrowPhaseUnlockTask)
+		mBroadPhase.update(numCpuTasks, scratchAllocator, updateData, continuation, narrowPhaseUnlockTask);
+	else
 		narrowPhaseUnlockTask->removeReference();
-	mPostBroadPhase.removeReference();
 }
 
 static PX_FORCE_INLINE void createOverlap(Ps::Array<AABBOverlap>* overlaps, const Ps::Array<VolumeData>& volumeData, PxU32 id0, PxU32 id1, ActorHandle handle)
 {
 //	overlaps.pushBack(AABBOverlap(volumeData[id0].userData, volumeData[id1].userData, handle));
-	PxU8 volumeType = PxMax(volumeData[id0].getVolumeType(), volumeData[id1].getVolumeType());
+	const PxU8 volumeType = PxMax(volumeData[id0].getVolumeType(), volumeData[id1].getVolumeType());
 	overlaps[volumeType].pushBack(AABBOverlap(reinterpret_cast<void*>(size_t(id0)), reinterpret_cast<void*>(size_t(id1)), handle));
 }
 
@@ -2119,8 +2123,8 @@ static PX_FORCE_INLINE void deleteOverlap(Ps::Array<AABBOverlap>* overlaps, cons
 //	PX_ASSERT(volumeData[id1].userData);
 	if (volumeData[id0].getUserData() && volumeData[id1].getUserData())	// PT: TODO: no idea if this is the right thing to do or if it's normal to get null ptrs here
 	{
-		PxU8 volumeType = PxMax(volumeData[id0].getVolumeType(), volumeData[id1].getVolumeType());
-		//		overlaps.pushBack(AABBOverlap(volumeData[id0].userData, volumeData[id1].userData, handle));
+		const PxU8 volumeType = PxMax(volumeData[id0].getVolumeType(), volumeData[id1].getVolumeType());
+//		overlaps.pushBack(AABBOverlap(volumeData[id0].userData, volumeData[id1].userData, handle));
 		overlaps[volumeType].pushBack(AABBOverlap(reinterpret_cast<void*>(size_t(id0)), reinterpret_cast<void*>(size_t(id1)), handle));
 	}
 }
@@ -2440,7 +2444,7 @@ static void processAggregatePairs(AggPairMap& map, SimpleAABBManager& manager)
 	}
 }
 
-void SimpleAABBManager::postBroadPhase(PxBaseTask*)
+void SimpleAABBManager::postBroadPhase(PxBaseTask*, PxBaseTask* narrowPhaseUnlockTask)
 {
 	PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase", getContextId());
 
@@ -2449,33 +2453,52 @@ void SimpleAABBManager::postBroadPhase(PxBaseTask*)
 	// PT: TODO: consider merging mCreatedOverlaps & mDestroyedOverlaps
 	// PT: TODO: revisit memory management of mCreatedOverlaps & mDestroyedOverlaps
 
+	//KS - if we ran broad phase, fetch the results now
+	if (mAddedHandles.size() != 0 || mUpdatedHandles.size() != 0 || mRemovedHandles.size() != 0)
+		mBroadPhase.fetchBroadPhaseResults(narrowPhaseUnlockTask);
+
 	for (PxU32 i = 0; i < VolumeBuckets::eCOUNT; ++i)
 	{
 		resetOrClear(mCreatedOverlaps[i]);
 		resetOrClear(mDestroyedOverlaps[i]);
 	}
 
-//	processBPPairs<CreatedPairHandler>(mBroadPhase.getNbCreatedPairs(), mBroadPhase.getCreatedPairs(), *this);
-	processBPPairs<DeletedPairHandler>(mBroadPhase.getNbDeletedPairs(), mBroadPhase.getDeletedPairs(), *this);
-
 	{
-		processAggregatePairs(mActorAggregatePairs, *this);
-		processAggregatePairs(mAggregateAggregatePairs, *this);
-
-		const PxU32 size = mDirtyAggregates.size();
-		for(PxU32 i=0;i<size;i++)
-		{
-			Aggregate* aggregate = mDirtyAggregates[i];
-			aggregate->resetDirtyState();
-
-			if(aggregate->mSelfCollisionPairs)
-				updatePairs(*aggregate->mSelfCollisionPairs);
-		}
-		resetOrClear(mDirtyAggregates);
+		PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - process deleted pairs", getContextId());
+//		processBPPairs<CreatedPairHandler>(mBroadPhase.getNbCreatedPairs(), mBroadPhase.getCreatedPairs(), *this);
+		processBPPairs<DeletedPairHandler>(mBroadPhase.getNbDeletedPairs(), mBroadPhase.getDeletedPairs(), *this);
 	}
 
-	processBPPairs<CreatedPairHandler>(mBroadPhase.getNbCreatedPairs(), mBroadPhase.getCreatedPairs(), *this);
-//	processBPPairs<DeletedPairHandler>(mBroadPhase.getNbDeletedPairs(), mBroadPhase.getDeletedPairs(), *this);
+	{
+		{
+			PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - process actor-aggregate pairs", getContextId());
+			processAggregatePairs(mActorAggregatePairs, *this);
+		}
+		{
+			PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - process aggregate pairs", getContextId());
+			processAggregatePairs(mAggregateAggregatePairs, *this);
+		}
+
+		{
+			PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - aggregate self-collisions", getContextId());
+			const PxU32 size = mDirtyAggregates.size();
+			for(PxU32 i=0;i<size;i++)
+			{
+				Aggregate* aggregate = mDirtyAggregates[i];
+				aggregate->resetDirtyState();
+
+				if(aggregate->mSelfCollisionPairs)
+					updatePairs(*aggregate->mSelfCollisionPairs);
+			}
+			resetOrClear(mDirtyAggregates);
+		}
+	}
+
+	{
+		PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - process created pairs", getContextId());
+		processBPPairs<CreatedPairHandler>(mBroadPhase.getNbCreatedPairs(), mBroadPhase.getCreatedPairs(), *this);
+//		processBPPairs<DeletedPairHandler>(mBroadPhase.getNbDeletedPairs(), mBroadPhase.getDeletedPairs(), *this);
+	}
 
 	// PT: TODO: revisit this
 	// Filter out pairs in mDestroyedOverlaps that already exist in mCreatedOverlaps. This should be done better using bitmaps
@@ -2483,6 +2506,8 @@ void SimpleAABBManager::postBroadPhase(PxBaseTask*)
 	// We could also have a dedicated function "reinsertBroadPhase()", which would preserve the existing interactions at Sc-level.
 	if(1)
 	{
+		PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - post-process", getContextId());
+
 		PxU32 totalCreatedOverlaps = 0;
 		for (PxU32 idx = 0; idx < VolumeBuckets::eCOUNT; ++idx)
 			totalCreatedOverlaps += mCreatedOverlaps[idx].size();
@@ -2523,6 +2548,7 @@ void SimpleAABBManager::postBroadPhase(PxBaseTask*)
 
 	// Handle out-of-bounds objects
 	{
+		PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - out-of-bounds", getContextId());
 		PxU32 nbObjects = mBroadPhase.getNbOutOfBoundsObjects();
 		const PxU32* objects = mBroadPhase.getOutOfBoundsObjects();
 		while(nbObjects--)

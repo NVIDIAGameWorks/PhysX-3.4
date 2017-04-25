@@ -30,33 +30,56 @@
 
 <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+<h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.0.22017166</h1>
+<h2 style="TEXT-ALIGN: center">April 2017</h2>
+
+	<h2>Changes and Resolved Issues</h2>
+	<blockquote>
+
+	<i>Note: Platform specific issues and changes can be found in the readme file of the corresponding platform.</i>
+
+	</blockquote>
+
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fixed a bug with joint breaking where sometimes joints would not break as expected.</li>
+            <li>Fix a race condition between cloth/particle/trigger interactions and the parallel filtering of rigid body interaction.</li>
+            <li>GPU rigid body feature now issues a performance warning in checked build if feature is enabled but PCM contact gen is not.</li>
+            <li>Fixed a bug with applying external force/torque to a body in buffered insertion stage.</li>
+            <li>Fixed a bug with CCD involving rotated static mesh actors.</li>
+            <li>Fixed a memory leak in CCD.</li>
+        </ul>
+ 		<li>Changed:</li>
+        <ul>
+            <li>Optimizations for GPU rigid body feature, including reduced memory footprint and improvements to performance spikes when many objects are woken in a single frame.</li>
+        </ul>
+    </ul>
+
+    <h3>Midphase</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fix Crash in BV4 code (serialization bug).</li>
+        </ul>
+    </ul>
+
+    <h3>Cooking</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fix endless loop in convex hull cooking.</li>
+        </ul>
+    </ul>
+
+<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<br>
+<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
 <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.0.21821222</h1>
 <h2 style="TEXT-ALIGN: center">March 2017</h2>
 
-	<h2>Supported Platforms</h2>
-	<blockquote>
-		<h3>Runtime</h3>
-		<ul>
-		<li>Apple iOS</li>
-		<li>Apple Mac OS X</li>
-		<li>Google Android ARM (version 2.2 or later required for SDK, 2.3 or later required for snippets)</li>
-		<li>Linux (tested on Ubuntu)</li>
-		<li>Microsoft Windows XP or later (NVIDIA Driver version R304 or later is required for GPU acceleration)</li>
-		<li>Microsoft XBox One</li>
-		<li>Sony Playstation 4</li>
-		</ul>
-		<h3>Development</h3>
-		<ul>
-				<li>Microsoft Windows XP or later</li>
-				<li>Microsoft Visual Studio 2012, 2013, 2015</li>
-				<li>Xcode 8.2</li>
-		</ul>
-	</blockquote>
-	<h2>Known Issues</h2>
-	<blockquote>
-	<ul>
-	</ul>
-	</blockquote>
 	<h2>Changes and Resolved Issues</h2>
 	<blockquote>
 

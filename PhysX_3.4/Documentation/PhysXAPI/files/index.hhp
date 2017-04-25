@@ -107,7 +107,6 @@ PxIntrinsics_8h-source.html
 PxIO_8h-source.html
 PxJoint_8h-source.html
 PxJointLimit_8h-source.html
-PxJointRepXSerializer_8h-source.html
 PxLockedData_8h-source.html
 PxMassProperties_8h-source.html
 PxMat33_8h-source.html
@@ -305,7 +304,6 @@ PxIntrinsics_8h.html
 PxIO_8h.html
 PxJoint_8h.html
 PxJointLimit_8h.html
-PxJointRepXSerializer_8h.html
 PxLockedData_8h.html
 PxMassProperties_8h.html
 PxMat33_8h.html
@@ -423,7 +421,6 @@ group__cloth.html
 group__common.html
 group__extensions.html
 group__cooking.html
-group__RepXSerializers.html
 group__Serializers.html
 group__geomutils.html
 group__pvd.html
@@ -918,8 +915,6 @@ classPxJointLinearLimit.html
 classPxJointLinearLimit-members.html
 classPxJointLinearLimitPair.html
 classPxJointLinearLimitPair-members.html
-structPxJointRepXSerializer.html
-structPxJointRepXSerializer-members.html
 structPxLocationHit.html
 structPxLocationHit-members.html
 classPxLockedData.html

@@ -170,8 +170,8 @@ namespace Gu {
 		void		traverseOBB(
 						const Gu::Box& obb,
 						const PxU32 maxResultsPerBlock, PxU32* resultsBlockBuf, Callback* processResultsBlockCallback) const;
+
 		template <int inflate>
-		//PX_PHYSX_COMMON_API
 		void		traverseRay(
 						const PxVec3& rayOrigin, const PxVec3& rayDir, // dir doesn't have to be normalized and is B-A for raySegment
 						const PxU32 maxResults, PxU32* resultsPtr,
@@ -229,6 +229,15 @@ namespace Gu {
 		friend struct RTreePage;
 	} PX_ALIGN_SUFFIX(16);
 
+#if PX_SUPPORT_EXTERN_TEMPLATE
+	//explicit template instantiation declaration
+	extern template
+	void RTree::traverseRay<0>(const PxVec3&, const PxVec3&, const PxU32, PxU32*, Gu::RTree::CallbackRaycast*, const PxVec3*, PxF32) const;
+	
+	extern template
+	void RTree::traverseRay<1>(const PxVec3&, const PxVec3&, const PxU32, PxU32*, Gu::RTree::CallbackRaycast*, const PxVec3*, PxF32) const;
+#endif
+
 #if PX_VC
 #pragma warning(pop)
 #endif
@@ -252,19 +261,6 @@ namespace Gu {
 			mPages = NULL;
 		}
 	}
-
-	// explicit instantiations for traverseRay
-	// XXX: dima: g++ 4.4 won't compile this => skipping by PX_UNIX_FAMILY
-#if PX_X86 && !PX_UNIX_FAMILY
-	template
-	//PX_PHYSX_COMMON_API
-	void RTree::traverseRay<0>(
-		const PxVec3&, const PxVec3&, const PxU32, PxU32*, Gu::RTree::CallbackRaycast*, const PxVec3*, PxF32 maxT) const;
-	template
-	//PX_PHYSX_COMMON_API
-	void RTree::traverseRay<1>(
-		const PxVec3&, const PxVec3&, const PxU32, PxU32*, Gu::RTree::CallbackRaycast*, const PxVec3*, PxF32 maxT) const;
-#endif
 
 	/////////////////////////////////////////////////////////////////////////
 	PX_FORCE_INLINE void RTreeNodeQ::setEmpty()

@@ -80,5 +80,16 @@ class SwSolverKernel
 	template <typename AccelerationIterator>
 	void integrateParticles(AccelerationIterator& accelIt, const Simd4f&);
 };
+
+#if PX_SUPPORT_EXTERN_TEMPLATE
+//explicit template instantiation declaration
+#if NV_SIMD_SIMD
+extern template class SwSolverKernel<Simd4f>;
+#endif
+#if NV_SIMD_SCALAR
+extern template class SwSolverKernel<Scalar4f>;
+#endif
+#endif
+
 }
 }

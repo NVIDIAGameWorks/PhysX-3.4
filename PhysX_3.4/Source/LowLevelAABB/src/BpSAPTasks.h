@@ -44,7 +44,7 @@ namespace Bp
 	{
 	public:
 
-		SapUpdateWorkTask()
+		SapUpdateWorkTask(PxU64 contextId) : Cm::Task(contextId)
 		{
 		}
 
@@ -72,7 +72,7 @@ namespace Bp
 	{
 	public:
 
-		SapPostUpdateWorkTask()
+		SapPostUpdateWorkTask(PxU64 contextId) : Cm::Task(contextId)
 		{
 		
 		}

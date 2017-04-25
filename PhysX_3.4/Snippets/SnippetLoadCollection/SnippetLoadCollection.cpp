@@ -56,12 +56,11 @@
 
 #include "PxPhysicsAPI.h"
 
+#include <iostream>
+
 #include "../SnippetCommon/SnippetPrint.h"
 #include "../SnippetCommon/SnippetPVD.h"
 #include "../SnippetUtils/SnippetUtils.h"
-
-#include <iostream>
-
 
 #define MAX_INPUT_FILES   16
 

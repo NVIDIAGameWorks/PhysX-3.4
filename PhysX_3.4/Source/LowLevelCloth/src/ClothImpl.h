@@ -45,9 +45,9 @@ template <typename T>
 class ClothImpl : public UserAllocated, public Cloth
 {
 	ClothImpl(const ClothImpl&);
+	ClothImpl& operator=(const ClothImpl&);
 
   public:
-	ClothImpl& operator=(const ClothImpl&);
 
 	typedef T ClothType;
 	typedef typename ClothType::FactoryType FactoryType;

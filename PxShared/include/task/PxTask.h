@@ -45,7 +45,7 @@ namespace physx
 class PxBaseTask
 {
 public:
-	PxBaseTask() : mEventID(0xFFFF), mProfileStat(0), mTm(0) {}
+	PxBaseTask() : mContextID(0), mTm(NULL) {}
 	virtual ~PxBaseTask() {}
 
     /**
@@ -78,35 +78,7 @@ public:
 	 * references to it - so it may safely run its destructor, recycle itself, etc.
 	 * provided no additional user references to the task exist
 	 */
-
     virtual void		release() = 0;
-
-	/**
-     * \brief Execute user run method with wrapping profiling events.
-     *
-     * Optional entry point for use by CpuDispatchers.
-	 *
-	 * \param[in] threadId The threadId of the thread that executed the task.
-	 */
-	PX_INLINE void runProfiled(uint32_t threadId=0)
-	{		
-		mTm->emitStartEvent(*this, threadId);
-		run();
-		mTm->emitStopEvent(*this, threadId);
-	}
-
-	/**
-     * \brief Specify stop event statistic
-     *
-     * If called before or while the task is executing, the given value
-	 * will appear in the task's event bar in the profile viewer
-	 *
-	 * \param[in] stat The stat to signal when the task is finished
-	 */
-	PX_INLINE void setProfileStat( uint16_t stat )
-	{
-		mProfileStat = stat;
-	}
 
     /**
      * \brief Return PxTaskManager to which this task was submitted
@@ -114,14 +86,16 @@ public:
      * Note, can return NULL if task was not submitted, or has been
      * completed.
      */
-	PX_INLINE PxTaskManager* getTaskManager() const
+	PX_FORCE_INLINE PxTaskManager* getTaskManager() const
 	{
 		return mTm;
 	}
 
+	PX_FORCE_INLINE	void	setContextId(PxU64 id)			{ mContextID = id;		}
+	PX_FORCE_INLINE	PxU64	getContextId()			const	{ return mContextID;	}
+
 protected:
-	uint16_t			mEventID;		//!< Registered profile event ID
-	uint16_t			mProfileStat;	//!< Profiling statistic
+	PxU64				mContextID;		//!< Context ID for profiler interface
 	PxTaskManager*		mTm;			//!< Owning PxTaskManager instance
 
 	friend class PxTaskMgr;
@@ -212,7 +186,6 @@ public:
 	{
 		mStreamIndex = 0;
 		mPreSyncRequired = false;
-		mProfileStat = 0;
 	}
 
 	/**

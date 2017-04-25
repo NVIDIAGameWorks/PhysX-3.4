@@ -38,33 +38,24 @@
 #include "ScSimStats.h"
 
 #if PX_USE_PARTICLE_SYSTEM_API
-#include "ScParticleSystemCore.h"
-#include "ScParticleBodyInteraction.h"
-#include "ScParticlePacketShape.h"
-#include "GuOverlapTests.h"
-#include "GuBox.h"
+	#include "ScParticleSystemCore.h"
+	#include "ScParticleBodyInteraction.h"
+	#include "ScParticlePacketShape.h"
+	#include "GuOverlapTests.h"
+	#include "GuBox.h"
 #endif
 
 #if PX_USE_CLOTH_API
-#include "ScClothCore.h"
-#include "ScClothSim.h"
+	#include "ScClothCore.h"
+	#include "ScClothSim.h"
 #endif // PX_USE_CLOTH_API
 
 #include "PsThread.h"
-
 #include "BpBroadPhase.h"
 
 using namespace physx;
 using namespace Sc;
 using namespace Gu;
-
-
-namespace physx
-{
-namespace Sc
-{
-}
-}
 
 struct Sc::FilterPair
 {
@@ -138,9 +129,7 @@ private:
 	uintptr_t mFree;
 };
 
-/* Sc::NPhaseCore methods */
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 Sc::NPhaseCore::NPhaseCore(Scene& scene, const PxSceneDesc& sceneDesc) :
 	mOwnerScene						(scene),
@@ -162,13 +151,12 @@ Sc::NPhaseCore::NPhaseCore(Scene& scene, const PxSceneDesc& sceneDesc) :
 #if PX_USE_CLOTH_API
 	,mClothPool						(PX_DEBUG_EXP("clothPool"))
 #endif
-	,mMergeProcessedTriggerInteractions (this, "ScNPhaseCore.mergeProcessedTriggerInteractions")
+	,mMergeProcessedTriggerInteractions (scene.getContextId(), this, "ScNPhaseCore.mergeProcessedTriggerInteractions")
 	,mTmpTriggerProcessingBlock		(NULL)
 	,mTriggerPairsToDeactivateCount	(0)
 {
 	mFilterPairManager = PX_NEW(FilterPairManager);
 }
-
 
 Sc::NPhaseCore::~NPhaseCore()
 {
@@ -197,6 +185,16 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::findInteraction(ElementSim* _element0
 PxFilterInfo Sc::NPhaseCore::onOverlapFilter(ElementSim* volume0, ElementSim* volume1, Bp::BroadPhasePair* pair)
 {
 	PX_ASSERT(!findInteraction(volume0, volume1));
+
+/*	if(0)
+	{
+		(void)volume0;
+		(void)volume1;
+		(void)pair;
+		PxFilterInfo finfo;
+		finfo.filterFlags = PxFilterFlag::eKILL;
+		return finfo;
+	}*/
 
 	if(pair)
 		pair->mUserData = NULL;	
@@ -245,7 +243,6 @@ Sc::Interaction* Sc::NPhaseCore::onOverlapCreated(ElementSim* volume0, ElementSi
 
 	switch (volumeHi->getElementType())
 	{
-
 #if PX_USE_PARTICLE_SYSTEM_API
 		case ElementType::ePARTICLE_PACKET:
 			{
@@ -357,7 +354,6 @@ Sc::Interaction* Sc::NPhaseCore::onOverlapCreated(ElementSim* volume0, ElementSi
 	return NULL;
 }
 
-
 static PX_FORCE_INLINE void prefetchPairElements(const Bp::AABBOverlap& pair, const ElementSim** elementBuffer)
 {
 	const ElementSim* e0 = reinterpret_cast<const ElementSim*>(pair.mUserData0);
@@ -369,7 +365,6 @@ static PX_FORCE_INLINE void prefetchPairElements(const Bp::AABBOverlap& pair, co
 	*elementBuffer = e0;
 	*(elementBuffer+1) = e1;
 }
-
 
 static PX_FORCE_INLINE void prefetchPairActors(const ElementSim& e0, const ElementSim& e1, const ActorSim** actorBuffer)
 {
@@ -384,7 +379,6 @@ static PX_FORCE_INLINE void prefetchPairActors(const ElementSim& e0, const Eleme
 	*actorBuffer = a0;
 	*(actorBuffer+1) = a1;
 }
-
 
 static PX_FORCE_INLINE void prefetchPairShapesCore(const ElementSim& e0, const ElementSim& e1)
 {
@@ -402,7 +396,6 @@ static PX_FORCE_INLINE void prefetchPairShapesCore(const ElementSim& e0, const E
 	}
 }
 
-
 static PX_FORCE_INLINE void prefetchPairActorsCore(const ActorSim& a0, const ActorSim& a1)
 {
 	ActorCore* ac0 = &a0.getActorCore();
@@ -412,7 +405,6 @@ static PX_FORCE_INLINE void prefetchPairActorsCore(const ActorSim& a0, const Act
 	Ps::prefetchLine(ac1);
 	Ps::prefetchLine((reinterpret_cast<PxU8*>(ac1)) + 128);
 }
-
 
 static PX_FORCE_INLINE Sc::Interaction* processElementPair(Sc::NPhaseCore& nPhaseCore, const Bp::AABBOverlap& pair, const PxU32 ccdPass, Bp::BroadPhasePair* bpPairs)
 {
@@ -425,7 +417,6 @@ static PX_FORCE_INLINE Sc::Interaction* processElementPair(Sc::NPhaseCore& nPhas
 
 	return nPhaseCore.onOverlapCreated(e0, e1, ccdPass, thisPair);
 }
-
 
 void Sc::NPhaseCore::onOverlapCreated(const Bp::AABBOverlap* PX_RESTRICT pairs, PxU32 pairCount, const PxU32 ccdPass, Bp::BroadPhasePair* bpPairs)
 {
@@ -511,8 +502,9 @@ void Sc::NPhaseCore::registerInteraction(ElementSimInteraction* interaction)
 	if (sim0 > sim1)
 		Ps::swap(sim0, sim1);
 
-	this->mElementSimMap.insert(ElementSimKey(sim0, sim1), interaction);
+	mElementSimMap.insert(ElementSimKey(sim0, sim1), interaction);
 }
+
 void Sc::NPhaseCore::unregisterInteraction(ElementSimInteraction* interaction)
 {
 	ElementSim* sim0 = &interaction->getElement0();
@@ -529,9 +521,7 @@ ElementSimInteraction* Sc::NPhaseCore::onOverlapRemovedStage1(ElementSim* volume
 	return pair;
 }
 
-
-void Sc::NPhaseCore::onOverlapRemoved(ElementSim* volume0, ElementSim* volume1, const PxU32 ccdPass, void* elemSim, PxsContactManagerOutputIterator& outputs,
-	bool useAdaptiveForce)
+void Sc::NPhaseCore::onOverlapRemoved(ElementSim* volume0, ElementSim* volume1, const PxU32 ccdPass, void* elemSim, PxsContactManagerOutputIterator& outputs, bool useAdaptiveForce)
 {
 	PX_UNUSED(elemSim);
 	// PT: ordering them here is again useless, as "findInteraction" will reorder according to counts...
@@ -544,7 +534,6 @@ void Sc::NPhaseCore::onOverlapRemoved(ElementSim* volume0, ElementSim* volume1, 
 	// PT: TODO: get rid of 'findInteraction', cf US10491
 	ElementSimInteraction* interaction = elemSim ? reinterpret_cast<ElementSimInteraction*>(elemSim) : findInteraction(elementHi, elementLo);
 
-	
 	// MS: The check below is necessary since at the moment LowLevel broadphase still tracks
 	//     killed pairs and hence reports lost overlaps
 	if (interaction)
@@ -570,7 +559,6 @@ void Sc::NPhaseCore::onOverlapRemoved(ElementSim* volume0, ElementSim* volume1, 
     }
 #endif // PX_USE_CLOTH_API
 }
-
 
 // MS: TODO: optimize this for the actor release case?
 void Sc::NPhaseCore::onVolumeRemoved(ElementSim* volume, PxU32 flags, PxsContactManagerOutputIterator& outputs, bool useAdaptiveForce)
@@ -620,7 +608,6 @@ void Sc::NPhaseCore::onVolumeRemoved(ElementSim* volume, PxU32 flags, PxsContact
 					mClothOverlaps.erase(shape);
 				}
 #endif
-
 				break;
 			}
 #if PX_USE_PARTICLE_SYSTEM_API
@@ -726,7 +713,6 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::createRbElementInteraction(ShapeSim& 
 	return createRbElementInteraction(finfo, s0, s1, contactManager, shapeInteraction, interactionMarker, isTriggerPair);
 }
 
-
 #if PX_USE_PARTICLE_SYSTEM_API
 // PT: function used only once, so safe to force inline
 static PX_FORCE_INLINE Sc::ParticleElementRbElementInteraction* findParticlePacketBodyInteraction(ParticlePacketShape* ps, ActorSim* actor)
@@ -799,7 +785,6 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::createParticlePacketBodyInteraction(P
 }
 #endif
 
-
 void Sc::NPhaseCore::managerNewTouch(Sc::ShapeInteraction& interaction, const PxU32 /*ccdPass*/, bool /*adjustCounters*/, PxsContactManagerOutputIterator& /*outputs*/)
 {
 	//(1) if the pair hasn't already been assigned, look it up!
@@ -815,7 +800,6 @@ void Sc::NPhaseCore::managerNewTouch(Sc::ShapeInteraction& interaction, const Px
 		interaction.setActorPair(*actorPair);
 	}	
 }
-
 
 Sc::ShapeInteraction* Sc::NPhaseCore::createShapeInteraction(ShapeSim& s0, ShapeSim& s1, PxPairFlags pairFlags, PxsContactManager* contactManager, Sc::ShapeInteraction* shapeInteraction)
 {
@@ -854,7 +838,6 @@ Sc::ShapeInteraction* Sc::NPhaseCore::createShapeInteraction(ShapeSim& s0, Shape
 	return si;
 }
 
-
 Sc::TriggerInteraction* Sc::NPhaseCore::createTriggerInteraction(ShapeSim& s0, ShapeSim& s1, PxPairFlags triggerFlags)
 {
 	ShapeSim* triggerShape;
@@ -874,7 +857,6 @@ Sc::TriggerInteraction* Sc::NPhaseCore::createTriggerInteraction(ShapeSim& s0, S
 	pair->setTriggerFlags(triggerFlags);
 	return pair;
 }
-
 
 Sc::ElementInteractionMarker* Sc::NPhaseCore::createElementInteractionMarker(ElementSim& e0, ElementSim& e1, Sc::ElementInteractionMarker* interactionMarker)
 {
@@ -1200,7 +1182,6 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::refilterInteraction(ElementSimInterac
 	return NULL;
 }
 
-
 PX_INLINE void Sc::NPhaseCore::callPairLost(const ElementSim& e0, const ElementSim& e1, PxU32 pairID, bool objVolumeRemoved) const
 {
 	PxFilterData fd0, fd1;
@@ -1211,7 +1192,6 @@ PX_INLINE void Sc::NPhaseCore::callPairLost(const ElementSim& e0, const ElementS
 
 	mOwnerScene.getFilterCallbackFast()->pairLost(pairID, fa0, fd0, fa1, fd1, objVolumeRemoved);
 }
-
 
 PX_INLINE void Sc::NPhaseCore::runFilterShader(const ElementSim& e0, const ElementSim& e1,
 										   PxFilterObjectAttributes& attr0, PxFilterData& filterData0,
@@ -1227,7 +1207,6 @@ PX_INLINE void Sc::NPhaseCore::runFilterShader(const ElementSim& e0, const Eleme
 																mOwnerScene.getFilterShaderDataFast(),
 																mOwnerScene.getFilterShaderDataSizeFast() );
 }
-
 
 static PX_FORCE_INLINE void fetchActorAndShape(const ElementSim& e, PxActor*& a, PxShape*& s)
 {
@@ -1246,7 +1225,6 @@ static PX_FORCE_INLINE void fetchActorAndShape(const ElementSim& e, PxActor*& a,
 	}
 #endif
 }
-
 
 PX_INLINE PxFilterInfo Sc::NPhaseCore::runFilter(const ElementSim& e0, const ElementSim& e1, PxU32 filterPairIndex, bool doCallbacks)
 {
@@ -1317,7 +1295,6 @@ PX_INLINE PxFilterInfo Sc::NPhaseCore::runFilter(const ElementSim& e0, const Ele
 	return filterInfo;
 }
 
-
 PX_FORCE_INLINE PxFilterInfo Sc::NPhaseCore::filterOutRbCollisionPair(PxU32 filterPairIndex, const PxFilterFlags filterFlags)
 {
 	if(filterPairIndex!=INVALID_FILTER_PAIR_INDEX)
@@ -1326,16 +1303,13 @@ PX_FORCE_INLINE PxFilterInfo Sc::NPhaseCore::filterOutRbCollisionPair(PxU32 filt
 	return PxFilterInfo(filterFlags);
 }
 
-
-PxFilterInfo Sc::NPhaseCore::filterRbCollisionPairSecondStage(const ShapeSim& s0, const ShapeSim& s1, const Sc::BodySim* b0, const Sc::BodySim* b1, PxU32 filterPairIndex, 
-	bool runCallbacks)
+PxFilterInfo Sc::NPhaseCore::filterRbCollisionPairSecondStage(const ShapeSim& s0, const ShapeSim& s1, const Sc::BodySim* b0, const Sc::BodySim* b1, PxU32 filterPairIndex, bool runCallbacks)
 {
 	PxFilterInfo filterInfo = runFilter(s0, s1, filterPairIndex, runCallbacks);
 	if (runCallbacks || (!(filterInfo.filterFlags & PxFilterFlag::eCALLBACK)))
 		filterInfo.pairFlags = checkRbPairFlags(s0, s1, b0, b1, filterInfo.pairFlags, filterInfo.filterFlags);
 	return filterInfo;
 }
-
 
 PxFilterInfo Sc::NPhaseCore::filterRbCollisionPair(const ShapeSim& s0, const ShapeSim& s1, PxU32 filterPairIndex, PxU32& isTriggerPair, bool runCallbacks)
 {
@@ -1439,7 +1413,6 @@ PxFilterInfo Sc::NPhaseCore::filterRbCollisionPair(const ShapeSim& s0, const Sha
 	}
 }
 
-
 Sc::ActorPair* Sc::NPhaseCore::findActorPair(ShapeSim* s0, ShapeSim* s1, Ps::IntBool isReportPair)
 {
 	PX_ASSERT(!(s0->getFlags() & PxShapeFlag::eTRIGGER_SHAPE)
@@ -1447,17 +1420,16 @@ Sc::ActorPair* Sc::NPhaseCore::findActorPair(ShapeSim* s0, ShapeSim* s1, Ps::Int
 	// This method is only for the case where a ShapeInteraction is going to be created.
 	// Else we might create an ActorPair that does not get referenced and causes a mem leak.
 	
-
 	BodyPairKey key;
 
 	RigidSim* aLess = &s0->getRbSim();
 	RigidSim* aMore = &s1->getRbSim();
 
-	if(aLess > aMore)
+	if (aLess->getID() > aMore->getID())
 		Ps::swap(aLess, aMore);
 
-	key.mSim0 = aLess;
-	key.mSim1 = aMore;
+	key.mSim0 = aLess->getID();
+	key.mSim1 = aMore->getID();
 
 	Sc::ActorPair*& actorPair = mActorPairMap[key];
 	
@@ -1469,8 +1441,7 @@ Sc::ActorPair* Sc::NPhaseCore::findActorPair(ShapeSim* s0, ShapeSim* s1, Ps::Int
 		else
 			actorPair = mActorPairReportPool.construct(s0->getRbSim(), s1->getRbSim());
 	}
-
-
+	
 	Ps::IntBool actorPairHasReports = actorPair->isReportPair();
 
 	if (!isReportPair || actorPairHasReports)
@@ -1479,8 +1450,7 @@ Sc::ActorPair* Sc::NPhaseCore::findActorPair(ShapeSim* s0, ShapeSim* s1, Ps::Int
 	{
 		PxU32 size = aLess->getActorInteractionCount();
 		Interaction** interactions = aLess->getActorInteractions();
-
-
+		
 		ActorPairReport* actorPairReport = mActorPairReportPool.construct(s0->getRbSim(), s1->getRbSim());
 		actorPairReport->convert(*actorPair);
 
@@ -1504,7 +1474,6 @@ Sc::ActorPair* Sc::NPhaseCore::findActorPair(ShapeSim* s0, ShapeSim* s1, Ps::Int
 	return actorPair;
 }
 
-
 PX_FORCE_INLINE void Sc::NPhaseCore::destroyActorPairReport(ActorPairReport& aPair)
 {
 	PX_ASSERT(aPair.isReportPair());
@@ -1512,7 +1481,6 @@ PX_FORCE_INLINE void Sc::NPhaseCore::destroyActorPairReport(ActorPairReport& aPa
 	aPair.releaseContactReportData(*this);
 	mActorPairReportPool.destroy(&aPair);
 }
-
 
 Sc::ElementSimInteraction* Sc::NPhaseCore::convert(ElementSimInteraction* pair, InteractionType::Enum newType, PxFilterInfo& filterInfo, bool removeFromDirtyList,
 	PxsContactManagerOutputIterator& outputs, bool useAdaptiveForce)
@@ -1699,6 +1667,7 @@ public:
 						TriggerInteraction** pairsToDeactivate, volatile PxI32& pairsToDeactivateCount,
 						Scene& scene)
 		:
+		Cm::Task(scene.getContextId()),
 		mTriggerPairs(triggerPairs),
 		mTriggerPairCount(triggerPairCount),
 		mLock(lock),
@@ -1794,7 +1763,6 @@ public:
 		return "ScNPhaseCore.triggerInteractionWork";
 	}
 
-
 public:
 	static const PxU32 sTriggerPairsPerTask = 64;
 
@@ -1877,7 +1845,6 @@ void Sc::NPhaseCore::processTriggerInteractions(PxBaseTask* continuation)
 	}
 }
 
-
 void Sc::NPhaseCore::mergeProcessedTriggerInteractions(PxBaseTask*)
 {
 	if (mTmpTriggerProcessingBlock)
@@ -1895,7 +1862,6 @@ void Sc::NPhaseCore::mergeProcessedTriggerInteractions(PxBaseTask*)
 	}
 }
 
-
 void Sc::NPhaseCore::visualize(Cm::RenderOutput& renderOut, PxsContactManagerOutputIterator& outputs)
 {
 	if(mOwnerScene.getVisualizationScale() == 0.0f)
@@ -1905,9 +1871,7 @@ void Sc::NPhaseCore::visualize(Cm::RenderOutput& renderOut, PxsContactManagerOut
 	PxU32 nbActiveInteractions = mOwnerScene.getNbActiveInteractions(InteractionType::eOVERLAP);
 	while(nbActiveInteractions--)
 		static_cast<ShapeInteraction*>(*interactions++)->visualize(renderOut, outputs);
-
 }
-
 
 void Sc::NPhaseCore::processPersistentContactEvents(PxsContactManagerOutputIterator& outputs)
 {
@@ -1952,7 +1916,6 @@ void Sc::NPhaseCore::processPersistentContactEvents(PxsContactManagerOutputItera
 		}
 	}
 }
-
 
 void Sc::NPhaseCore::fireCustomFilteringCallbacks(PxsContactManagerOutputIterator& outputs, bool useAdaptiveForce)
 {
@@ -2052,18 +2015,21 @@ void Sc::NPhaseCore::fireCustomFilteringCallbacks(PxsContactManagerOutputIterato
 	}
 }
 
-
 void Sc::NPhaseCore::addToDirtyInteractionList(Interaction* pair)
 {
 	mDirtyInteractions.insert(pair);
 }
-
 
 void Sc::NPhaseCore::removeFromDirtyInteractionList(Interaction* pair)
 {
 	PX_ASSERT(mDirtyInteractions.contains(pair));
 
 	mDirtyInteractions.erase(pair);
+}
+
+void Sc::NPhaseCore::reserveSpaceInNphaseCore(const PxU32 nbContactManagers)
+{
+	PX_UNUSED(nbContactManagers);
 }
 
 
@@ -2126,7 +2092,6 @@ void Sc::NPhaseCore::updateDirtyInteractions(PxsContactManagerOutputIterator& ou
 
 	mDirtyInteractions.clear();
 }
-
 
 void Sc::NPhaseCore::releaseElementPair(ElementSimInteraction* pair, PxU32 flags, const PxU32 ccdPass, bool removeFromDirtyList, PxsContactManagerOutputIterator& outputs,
 	bool useAdaptiveForce)
@@ -2211,12 +2176,14 @@ void Sc::NPhaseCore::lostTouchReports(ShapeInteraction* si, PxU32 flags, PxU32 c
 	{
 		RigidSim* sim0 = static_cast<RigidSim*>(&si->getActor0());
 		RigidSim* sim1 = static_cast<RigidSim*>(&si->getActor1());
-		if (sim0 > sim1)
-			Ps::swap(sim0, sim1);
 
 		BodyPairKey pair;
-		pair.mSim0 = sim0;
-		pair.mSim1 = sim1;
+
+		if (sim0->getID() > sim1->getID())
+			Ps::swap(sim0, sim1);
+
+		pair.mSim0 = sim0->getID();
+		pair.mSim1 = sim1->getID();
 
 		mActorPairMap.erase(pair);
 
@@ -2254,18 +2221,14 @@ void Sc::NPhaseCore::lostTouchReports(ShapeInteraction* si, PxU32 flags, PxU32 c
 	}
 }
 
-
 void Sc::NPhaseCore::releaseShapeInteraction(ShapeInteraction* si, PxU32 flags, const PxU32 ccdPass, PxsContactManagerOutputIterator& outputs, bool useAdaptiveForce)
 {
-	
 	if (flags & PairReleaseFlag::eSHAPE_BP_VOLUME_REMOVED)
 	{
 		lostTouchReports(si, flags, ccdPass, outputs, useAdaptiveForce);
 	}
 	mShapeInteractionPool.destroy(si);
-	
 }
-
 
 void Sc::NPhaseCore::clearContactReportActorPairs(bool shrinkToZero)
 {
@@ -2283,16 +2246,11 @@ void Sc::NPhaseCore::clearContactReportActorPairs(bool shrinkToZero)
 		}
 		else
 		{
-			
-			RigidSim* sim0 = &aPair->getActorA();
-			RigidSim* sim1 = &aPair->getActorB();
-
-			if(sim0 > sim1)
-				Ps::swap(sim0, sim1);
-
 			BodyPairKey pair;
-			pair.mSim0 = sim0;
-			pair.mSim1 = sim1;
+			PxU32 actorAID = aPair->getActorAID();
+			PxU32 actorBID = aPair->getActorBID();
+			pair.mSim0 = PxMin(actorAID, actorBID);
+			pair.mSim1 = PxMax(actorAID, actorBID);
 
 			mActorPairMap.erase(pair);
 			destroyActorPairReport(*aPair);
@@ -2305,7 +2263,6 @@ void Sc::NPhaseCore::clearContactReportActorPairs(bool shrinkToZero)
 		mContactReportActorPairSet.reset();
 }
 
-
 #if PX_USE_PARTICLE_SYSTEM_API
 Sc::ParticleElementRbElementInteraction* Sc::NPhaseCore::insertParticleElementRbElementPair(ParticlePacketShape& particleShape, ShapeSim& rbShape, ActorElementPair* actorElementPair, const PxU32 ccdPass)
 {
@@ -2317,7 +2274,6 @@ Sc::ParticleElementRbElementInteraction* Sc::NPhaseCore::insertParticleElementRb
 	return pbi;
 }
 #endif
-
 
 void Sc::NPhaseCore::addToPersistentContactEventPairs(ShapeInteraction* si)
 {
@@ -2347,7 +2303,6 @@ void Sc::NPhaseCore::addToPersistentContactEventPairs(ShapeInteraction* si)
 	mNextFramePersistentContactEventPairIndex++;
 }
 
-
 void Sc::NPhaseCore::addToPersistentContactEventPairsDelayed(ShapeInteraction* si)
 {
 	// Pairs which request events which do not get triggered by the sdk and thus need to be tested actively every frame.
@@ -2361,7 +2316,6 @@ void Sc::NPhaseCore::addToPersistentContactEventPairsDelayed(ShapeInteraction* s
 	si->mReportPairIndex = mPersistentContactEventPairList.size();
 	mPersistentContactEventPairList.pushBack(si);
 }
-
 
 void Sc::NPhaseCore::removeFromPersistentContactEventPairs(ShapeInteraction* si)
 {
@@ -2396,7 +2350,6 @@ void Sc::NPhaseCore::removeFromPersistentContactEventPairs(ShapeInteraction* si)
 		mPersistentContactEventPairList[index]->mReportPairIndex = index;
 }
 
-
 void Sc::NPhaseCore::addToForceThresholdContactEventPairs(ShapeInteraction* si)
 {
 	PX_ASSERT(si->getPairFlags() & ShapeInteraction::CONTACT_FORCE_THRESHOLD_PAIRS);
@@ -2409,7 +2362,6 @@ void Sc::NPhaseCore::addToForceThresholdContactEventPairs(ShapeInteraction* si)
 	si->mReportPairIndex = mForceThresholdContactEventPairList.size();
 	mForceThresholdContactEventPairList.pushBack(si);
 }
-
 
 void Sc::NPhaseCore::removeFromForceThresholdContactEventPairs(ShapeInteraction* si)
 {
@@ -2428,13 +2380,11 @@ void Sc::NPhaseCore::removeFromForceThresholdContactEventPairs(ShapeInteraction*
 		mForceThresholdContactEventPairList[index]->mReportPairIndex = index;
 }
 
-
 PxU8* Sc::NPhaseCore::reserveContactReportPairData(PxU32 pairCount, PxU32 extraDataSize, PxU32& bufferIndex)
 {
 	extraDataSize = Sc::ContactStreamManager::computeExtraDataBlockSize(extraDataSize);
 	return mContactReportBuffer.allocateNotThreadSafe(extraDataSize + (pairCount * sizeof(Sc::ContactShapePair)), bufferIndex);
 }
-
 
 PxU8* Sc::NPhaseCore::resizeContactReportPairData(PxU32 pairCount, PxU32 extraDataSize, Sc::ContactStreamManager& csm)
 {
@@ -2470,16 +2420,13 @@ PxU8* Sc::NPhaseCore::resizeContactReportPairData(PxU32 pairCount, PxU32 extraDa
 		if (extraDataSize > maxExtraDataSize)
 			csm.setMaxExtraDataSize(extraDataSize);
 	}
-
 	return stream;
 }
-
 
 Sc::ActorPairContactReportData* Sc::NPhaseCore::createActorPairContactReportData()
 {
 	return mActorPairContactReportDataPool.construct();
 }
-
 
 void Sc::NPhaseCore::releaseActorPairContactReportData(ActorPairContactReportData* data)
 {
@@ -2499,5 +2446,3 @@ void Sc::NPhaseCore::pool_deleteParticleElementRbElementPair(ParticleElementRbEl
 		mActorElementPairPool.destroy(aep);
 }
 #endif	// PX_USE_PARTICLE_SYSTEM_API
-
-

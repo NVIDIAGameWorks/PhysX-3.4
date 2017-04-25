@@ -54,6 +54,58 @@ using namespace physx;
 using namespace physx::shdfnd;
 
 
+class PxsCMUpdateTask : public Cm::Task
+{
+public:
+
+	static const PxU32 BATCH_SIZE = 128;
+
+	PxsCMUpdateTask(PxsContext* context, PxReal dt, PxsContactManager** cmArray, PxsContactManagerOutput* cmOutputs, Gu::Cache* caches, PxU32 cmCount, PxContactModifyCallback* callback) :
+			Cm::Task	(context->getContextId()),
+			mCmArray	(cmArray),
+			mCmOutputs	(cmOutputs),
+			mCaches		(caches),
+			mCmCount	(cmCount),
+			mDt			(dt),
+			mContext	(context),
+			mCallback	(callback)
+	{
+	}
+
+	virtual void release();
+
+	/*PX_FORCE_INLINE void insert(PxsContactManager* cm)
+	{
+		PX_ASSERT(mCmCount < BATCH_SIZE);
+		mCmArray[mCmCount++]=cm;
+	}*/
+
+protected:	
+	//PxsContactManager*	mCmArray[BATCH_SIZE];
+	PxsContactManager**	mCmArray;
+	PxsContactManagerOutput* mCmOutputs;
+	Gu::Cache* mCaches;
+	PxU32				mCmCount;
+	PxReal				mDt;		//we could probably retrieve from context to save space?
+	PxsContext*			mContext;
+	PxContactModifyCallback* mCallback;
+};
+
+void PxsCMUpdateTask::release()
+{
+	// We used to do Task::release(); here before fixing DE1106 (xbox pure virtual crash)
+	// Release in turn causes the dependent tasks to start running
+	// The problem was that between the time release was called and by the time we got to the destructor
+	// The task chain would get all the way to scene finalization code which would reset the allocation pool
+	// And a new task would get allocated at the same address, then we would invoke the destructor on that freshly created task
+	// This could potentially cause any number of other problems, it is suprising that it only manifested itself
+	// as a pure virtual crash
+	PxBaseTask* saveContinuation = mCont;
+	this->~PxsCMUpdateTask();
+	if (saveContinuation)
+		saveContinuation->removeReference();
+}
+
 class PxsCMDiscreteUpdateTask : public PxsCMUpdateTask
 {
 public:

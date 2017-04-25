@@ -38,12 +38,12 @@
 
 #include "PxPhysicsAPI.h"
 
-#include "../SnippetCommon/SnippetPrint.h"
 #include "../SnippetCommon/SnippetPVD.h"
 #include "../SnippetUtils/SnippetUtils.h"
 #include "PsArray.h"
 #include "PxImmediateMode.h"
 #include "extensions/PxMassProperties.h"
+#include "../SnippetCommon/SnippetPrint.h"
 
 //Enables whether we want persistent state caching (contact cache, friction caching) or not. Avoiding persistency results in one-shot collision detection and zero friction 
 //correlation but simplifies code by not longer needing to cache persistent pairs.
@@ -969,6 +969,11 @@ void cleanupPhysics(bool interactive)
 		gPvd->release();
 		transport->release();
 	}
+	if (gCooking)
+	{
+		gCooking->release();
+		gCooking = NULL;
+	}
 
 	delete gCacheAllocator;
 	delete gConstraintAllocator;
@@ -985,7 +990,7 @@ void cleanupPhysics(bool interactive)
 
 
 	
-	printf("SnippetHelloWorld done.\n");
+	printf("SnippetImmediateMode done.\n");
 }
 
 void keyPress(const char key, const PxTransform& camera)

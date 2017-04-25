@@ -26,21 +26,19 @@
 // Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
-#ifndef PX_JOINT_REPX_SERIALIZER_H
-#define PX_JOINT_REPX_SERIALIZER_H
+#ifndef SN_JOINT_REPX_SERIALIZER_H
+#define SN_JOINT_REPX_SERIALIZER_H
 /** \addtogroup RepXSerializers
   @{
 */
 
 #include "extensions/PxRepXSimpleType.h"
+#include "SnRepXSerializerImpl.h"
 
 #if !PX_DOXYGEN
 namespace physx
 {
 #endif
-	
-	template<typename TLiveType>
-	struct RepXSerializerImpl;
 	
 	class XmlReader;
 	class XmlMemoryAllocator;
@@ -50,11 +48,21 @@ namespace physx
 	template<typename TJointType>
 	struct PxJointRepXSerializer : public RepXSerializerImpl<TJointType>
 	{
-		PxJointRepXSerializer( PxAllocatorCallback& inAllocator ) : RepXSerializerImpl<TJointType>( inAllocator ) {}
-		virtual PxRepXObject fileToObject( XmlReader& inReader, XmlMemoryAllocator& inAllocator, PxRepXInstantiationArgs& inArgs, PxCollection* inCollection);
-		virtual void objectToFileImpl( const TJointType* inObj, PxCollection* inCollection, XmlWriter& inWriter, MemoryBuffer& inTempBuffer, PxRepXInstantiationArgs&);
-		virtual TJointType* allocateObject( PxRepXInstantiationArgs& ) { return NULL; }
+		PxJointRepXSerializer(PxAllocatorCallback& inAllocator) : RepXSerializerImpl<TJointType>(inAllocator) {}
+		virtual PxRepXObject fileToObject(XmlReader& inReader, XmlMemoryAllocator& inAllocator, PxRepXInstantiationArgs& inArgs, PxCollection* inCollection);
+		virtual void objectToFileImpl(const TJointType* inObj, PxCollection* inCollection, XmlWriter& inWriter, MemoryBuffer& inTempBuffer, PxRepXInstantiationArgs&);
+		virtual TJointType* allocateObject(PxRepXInstantiationArgs&) { return NULL; }
 	};
+
+#if PX_SUPPORT_EXTERN_TEMPLATE
+	// explicit template instantiations declarations
+	extern template struct PxJointRepXSerializer<PxD6Joint>;
+	extern template struct PxJointRepXSerializer<PxDistanceJoint>;
+	extern template struct PxJointRepXSerializer<PxFixedJoint>;
+	extern template struct PxJointRepXSerializer<PxPrismaticJoint>;
+	extern template struct PxJointRepXSerializer<PxRevoluteJoint>;
+	extern template struct PxJointRepXSerializer<PxSphericalJoint>;
+#endif
 
 #if !PX_DOXYGEN
 } // namespace physx

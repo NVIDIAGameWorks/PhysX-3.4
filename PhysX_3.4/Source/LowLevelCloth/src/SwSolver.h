@@ -51,6 +51,8 @@ class SwSolver : public UserAllocated, public Solver
 		using physx::PxLightCpuTask::mRefCount;
 		using physx::PxLightCpuTask::mTm;
 
+		StartSimulationTask() : Cm::Task(0)	{}
+
 		virtual void runInternal();
 		virtual const char* getName() const;
 		SwSolver* mSolver;
@@ -59,6 +61,8 @@ class SwSolver : public UserAllocated, public Solver
 	struct EndSimulationTask : public Cm::Task
 	{
 		using physx::PxLightCpuTask::mRefCount;
+
+		EndSimulationTask() : Cm::Task(0)	{}
 
 		virtual void runInternal();
 		virtual const char* getName() const;

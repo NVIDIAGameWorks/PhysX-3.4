@@ -52,9 +52,7 @@ class ThirdPassTask : public Cm::Task
 
 public:
 
-	ThirdPassTask(SimpleIslandManager& islandManager, IslandSim& islandSim) : mIslandManager(islandManager), mIslandSim(islandSim)
-	{
-	}
+	ThirdPassTask(PxU64 contextID, SimpleIslandManager& islandManager, IslandSim& islandSim);
 
 	virtual void runInternal();
 
@@ -73,9 +71,7 @@ class PostThirdPassTask : public Cm::Task
 
 public:
 
-	PostThirdPassTask(SimpleIslandManager& islandManager) : mIslandManager(islandManager)
-	{
-	}
+	PostThirdPassTask(PxU64 contextID, SimpleIslandManager& islandManager);
 
 	virtual void runInternal();
 

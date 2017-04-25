@@ -360,7 +360,7 @@ void DestructibleUserNotify::onContact(const PxContactPairHeader& pairHeader, co
 			const PxVec3& patchNormal = cp.normal;
 			const PxVec3& position = cp.point;
 #endif
-			PxVec3 velocities[2];
+			PxVec3 velocities[2] = { PxVec3(0.0f), PxVec3(0.0f) };
 			for (int i = 0; i < 2; ++i)
 			{
 				PxRigidBody* rigidBody = pairHeader.actors[i]->is<physx::PxRigidBody>();

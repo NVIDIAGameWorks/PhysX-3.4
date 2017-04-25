@@ -93,7 +93,7 @@ Sc::BodySim::BodySim(Scene& scene, BodyCore& core) :
 		hasPendingForce = (velmod->flags != 0) && 
 			(!velmod->getLinearVelModPerSec().isZero() || !velmod->getAngularVelModPerSec().isZero() ||
 			 !velmod->getLinearVelModPerStep().isZero() || !velmod->getAngularVelModPerStep().isZero());
-		mVelModState = velmod->flags;
+		mVelModState = velmod->flags;	
 		velmod->flags = 0;
 	}
 
@@ -120,6 +120,12 @@ Sc::BodySim::BodySim(Scene& scene, BodyCore& core) :
 			mNodeIndex.setIndices(index.index(), articLinkhandle & (DY_ARTICULATION_MAX_SIZE-1));
 		}
 	}
+
+
+	//If a user add force or torque before the body is inserted into the scene,
+	//this logic will make sure pre solver stage apply external force/torque to the body
+	if(hasPendingForce && !isArticulationLink())
+		scene.getVelocityModifyMap().growAndSet(mNodeIndex.index());
 
 	PX_ASSERT(mActiveListIndex == SC_NOT_IN_SCENE_INDEX);
 
@@ -493,10 +499,10 @@ void Sc::BodySim::activateInteractions(PxU32 /*infoFlag*/)
 		Ps::prefetchLine(mInteractions[PxMin(i+1,nbInteractions-1)]);
 		Interaction* interaction = mInteractions[i];
 
-		bool isNotIGControlled = interaction->getType() != Sc::InteractionType::eCONSTRAINTSHADER && interaction->getType() != Sc::InteractionType::eOVERLAP &&
+		bool isNotIGControlled = interaction->getType() != Sc::InteractionType::eOVERLAP &&
 			interaction->getType() != Sc::InteractionType::eMARKER;
 
-		if (!interaction->readInteractionFlag(InteractionFlag::eIS_ACTIVE) && isNotIGControlled)
+		if (!interaction->readInteractionFlag(InteractionFlag::eIS_ACTIVE) && (isNotIGControlled))
 		{
 			const bool proceed = interaction->onActivate(NULL);
 			if (proceed && (interaction->getType() < InteractionType::eTRACKED_IN_SCENE_COUNT))
@@ -515,7 +521,7 @@ void Sc::BodySim::deactivateInteractions(PxU32 infoFlag)
 		Ps::prefetchLine(mInteractions[PxMin(i+1,nbInteractions-1)]);
 		Interaction* interaction = mInteractions[i];
 
-		bool isNotIGControlled = interaction->getType() != Sc::InteractionType::eCONSTRAINTSHADER && interaction->getType() != Sc::InteractionType::eOVERLAP &&
+		bool isNotIGControlled = interaction->getType() != Sc::InteractionType::eOVERLAP &&
 			interaction->getType() != Sc::InteractionType::eMARKER;
 
 		if (interaction->readInteractionFlag(InteractionFlag::eIS_ACTIVE) && isNotIGControlled)

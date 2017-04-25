@@ -358,19 +358,20 @@ class PxsPreIntegrateTask : public Cm::Task
 {
 	PxsPreIntegrateTask& operator=(const PxsPreIntegrateTask&);
 public:
-	PxsPreIntegrateTask(	DynamicsContext&		context,
-							PxsBodyCore*const*		bodyArray,
-							PxsRigidBody*const*		originalBodyArray,
-							PxU32 const*				nodeIndexArray,
-							PxSolverBody*					solverBodies,
-							PxSolverBodyData*				solverBodyDataPool,
-							PxF32						dt,
-							PxU32						numBodies,
-							volatile PxU32*				maxSolverPositionIterations,
-							volatile PxU32*				maxSolverVelocityIterations,
-							const PxU32					startIndex,
-							const PxU32					numToIntegrate,
-							const PxVec3&				gravity) :
+	PxsPreIntegrateTask(	DynamicsContext&	context,
+							PxsBodyCore*const*	bodyArray,
+							PxsRigidBody*const*	originalBodyArray,
+							PxU32 const*		nodeIndexArray,
+							PxSolverBody*		solverBodies,
+							PxSolverBodyData*	solverBodyDataPool,
+							PxF32				dt,
+							PxU32				numBodies,
+							volatile PxU32*		maxSolverPositionIterations,
+							volatile PxU32*		maxSolverVelocityIterations,
+							const PxU32			startIndex,
+							const PxU32			numToIntegrate,
+							const PxVec3&		gravity) :
+		Cm::Task(context.getContextId()),
 		mContext(context),
 		mBodyArray(bodyArray),
 		mOriginalBodyArray(originalBodyArray),
@@ -418,7 +419,7 @@ class PxsParallelSolverTask : public Cm::Task
 public:
 
 	PxsParallelSolverTask(SolverIslandParams& params, DynamicsContext& context, PxFrictionType::Enum frictionType, IG::IslandSim& islandSim)
-		: mParams(params), mContext(context), mFrictionType(frictionType), mIslandSim(islandSim)
+		: Cm::Task(context.getContextId()), mParams(params), mContext(context), mFrictionType(frictionType), mIslandSim(islandSim)
 	{
 	}
 
@@ -454,6 +455,7 @@ public:
 		PxU32 stride,
 		PxsMaterialManager* materialManager,
 		PxsContactManagerOutputIterator& iterator) :
+		Cm::Task(context.getContextId()),
 		mContext(context), 
 		mThreadContext(threadContext),
 		mObjects(objects),
@@ -605,7 +607,7 @@ class PxsForceThresholdTask  : public Cm::Task
 	PxsForceThresholdTask& operator=(const PxsForceThresholdTask&);
 public:
 
-	PxsForceThresholdTask(DynamicsContext& context): mDynamicsContext(context) 
+	PxsForceThresholdTask(DynamicsContext& context) : Cm::Task(context.getContextId()), mDynamicsContext(context) 
 	{
 	}
 
@@ -747,7 +749,7 @@ public:
 
 	SolverArticulationUpdateTask(ThreadContext& islandThreadContext, Articulation** articulations, ArticulationSolverDesc* articulationDescArray, PxU32 nbToProcess, Dy::DynamicsContext& context,
 		PxU32 startIdx):
-		mIslandThreadContext(islandThreadContext), mArticulations(articulations), mArticulationDescArray(articulationDescArray), mNbToProcess(nbToProcess), mContext(context), mStartIdx(startIdx)
+		Cm::Task(context.getContextId()), mIslandThreadContext(islandThreadContext), mArticulations(articulations), mArticulationDescArray(articulationDescArray), mNbToProcess(nbToProcess), mContext(context), mStartIdx(startIdx)
 	{
 	}
 
@@ -826,6 +828,7 @@ public:
 		PxsContactManagerOutputIterator& iterator,
 		bool enhancedDeterminism
 		) :
+		Cm::Task				(context.getContextId()),
 		mContext				(context), 
 		mIslandContext			(islandContext),
 		mObjects				(objects),
@@ -1376,6 +1379,7 @@ public:
 		IslandContext& islandContext,
 		const SolverIslandObjects& objects,				  
 		const PxU32 solverBodyOffset, bool enhancedDeterminism) :
+		Cm::Task(context.getContextId()),
 		mContext(context), 
 		mIslandContext(islandContext),
 		mObjects(objects),
@@ -1479,6 +1483,7 @@ public:
 		const SolverIslandObjects& objects,				  
 		const PxU32 solverBodyOffset,
 		IG::IslandSim& islandSim) :
+		Cm::Task(context.getContextId()),
 		mContext(context), 
 		mIslandContext(islandContext),
 		mObjects(objects),
@@ -1871,6 +1876,7 @@ public:
 		const SolverIslandObjects& objects,				  
 		const PxU32 solverBodyOffset,
 		PxsContactManagerOutputIterator& cmOutputs) :
+		Cm::Task			(context.getContextId()),
 		mContext			(context), 
 		mIslandContext		(islandContext),
 		mObjects			(objects),
@@ -1974,6 +1980,7 @@ public:
 		PxU32 solverDataOffset,
 		PxsContactManagerOutputIterator& outputs,
 		bool enhancedDeterminism) : 
+		Cm::Task				(context.getContextId()),
 		mContext				(context),
 		mIslandContext			(islandContext),
 		mSolverDataOffset		(solverDataOffset),
@@ -2803,6 +2810,7 @@ class PxsCreateFinalizeContactsTask : public Cm::Task
 public:
 	PxsCreateFinalizeContactsTask( const PxU32 numConstraints, PxSolverConstraintDesc* descArray, PxSolverBodyData* solverBodyData,
 		ThreadContext& threadContext, DynamicsContext& context, PxU32 startIndex, PxU32 endIndex, PxsContactManagerOutputIterator& outputs) :
+			Cm::Task(context.getContextId()),
 			mNumConstraints(numConstraints), mDescArray(descArray), mSolverBodyData(solverBodyData),
 			mThreadContext(threadContext), mDynamicsContext(context),
 			mOutputs(outputs),

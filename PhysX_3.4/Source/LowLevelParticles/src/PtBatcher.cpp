@@ -93,10 +93,10 @@ static void sortBatchedInputs(ParticleSystemSim** particleSystems, T* inputs, Px
 }
 
 Batcher::Batcher(class Context& _context)
-: shapeGenTask("Pt::Batcher::shapeGen")
-, dynamicsCpuTask("Pt::Batcher::dynamicsCpu")
-, collPrepTask("Pt::Batcher::collPrep")
-, collisionCpuTask("Pt::Batcher::collisionCpu")
+: shapeGenTask(0, "Pt::Batcher::shapeGen")
+, dynamicsCpuTask(0, "Pt::Batcher::dynamicsCpu")
+, collPrepTask(0, "Pt::Batcher::collPrep")
+, collisionCpuTask(0, "Pt::Batcher::collisionCpu")
 , context(_context)
 {
 }

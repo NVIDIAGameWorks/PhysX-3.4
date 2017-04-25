@@ -224,7 +224,7 @@ const char* cloth::SwSolver::EndSimulationTask::getName() const
 }
 
 cloth::SwSolver::CpuClothSimulationTask::CpuClothSimulationTask(SwCloth& cloth, EndSimulationTask& continuation)
-: mCloth(&cloth), mContinuation(&continuation), mScratchMemorySize(0), mScratchMemory(0), mInvNumIterations(0.0f)
+: Cm::Task(0), mCloth(&cloth), mContinuation(&continuation), mScratchMemorySize(0), mScratchMemory(0), mInvNumIterations(0.0f)
 {
 }
 

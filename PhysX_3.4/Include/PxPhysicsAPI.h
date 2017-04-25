@@ -203,7 +203,6 @@ Alternatively, one can instead directly #include a subset of the below files.
 #include "extensions/PxSerialization.h"
 #include "extensions/PxBinaryConverter.h"
 #include "extensions/PxRepXSerializer.h"
-#include "extensions/PxJointRepXSerializer.h"
 
 //Particle Simulation
 #if PX_USE_PARTICLE_SYSTEM_API

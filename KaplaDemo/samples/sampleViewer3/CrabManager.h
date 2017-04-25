@@ -51,7 +51,7 @@ class CompletionTask : public physx::Cm::Task
 
 public:
 
-	CompletionTask(physx::shdfnd::Sync& sync) : mSync(sync)
+	CompletionTask(physx::shdfnd::Sync& sync) : physx::Cm::Task(0), mSync(sync)
 	{
 	}
 
@@ -69,7 +69,7 @@ public:
 
 
 	CrabUpdateStateTask(CrabManager* crabManager, const physx::PxU32 startIndex, const physx::PxU32 endIndex) :
-		mCrabManager(crabManager), mStartIndex(startIndex), mEndIndex(endIndex)
+		physx::Cm::Task(0), mCrabManager(crabManager), mStartIndex(startIndex), mEndIndex(endIndex)
 	{
 	}
 

@@ -39,9 +39,6 @@ namespace physx
 {
 #endif
 
-	template<typename TLiveType>
-	struct RepXSerializerImpl;
-	
 	class XmlReader;
 	class XmlMemoryAllocator;
 	class XmlWriter;
@@ -140,11 +137,17 @@ namespace physx
 	template<typename TParticleType>
 	struct PxParticleRepXSerializer : RepXSerializerImpl<TParticleType>
 	{
-		PxParticleRepXSerializer( PxAllocatorCallback& inCallback ) : RepXSerializerImpl<TParticleType>( inCallback ) {}
-		virtual void objectToFileImpl( const TParticleType*, PxCollection*, XmlWriter&, MemoryBuffer&, PxRepXInstantiationArgs& );
-		virtual PxRepXObject fileToObject( XmlReader&, XmlMemoryAllocator&, PxRepXInstantiationArgs&, PxCollection* );
-		virtual TParticleType* allocateObject( PxRepXInstantiationArgs& ) { return NULL; }	
+		PxParticleRepXSerializer(PxAllocatorCallback& inCallback) : RepXSerializerImpl<TParticleType>(inCallback) {}
+		virtual void objectToFileImpl(const TParticleType*, PxCollection*, XmlWriter&, MemoryBuffer&, PxRepXInstantiationArgs&);
+		virtual PxRepXObject fileToObject(XmlReader&, XmlMemoryAllocator&, PxRepXInstantiationArgs&, PxCollection*);
+		virtual TParticleType* allocateObject(PxRepXInstantiationArgs&) { return NULL; }
 	};
+
+#if PX_SUPPORT_EXTERN_TEMPLATE
+	// explicit template instantiations declarations
+	extern template struct PxParticleRepXSerializer<PxParticleSystem>;
+	extern template struct PxParticleRepXSerializer<PxParticleFluid>;
+#endif
 #endif
 
 #if !PX_DOXYGEN

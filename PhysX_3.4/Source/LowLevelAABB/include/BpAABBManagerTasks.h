@@ -44,7 +44,8 @@ namespace Bp
 	class AggregateBoundsComputationTask : public Cm::Task, public shdfnd::UserAllocated
 	{
 		public:
-										AggregateBoundsComputationTask() :
+										AggregateBoundsComputationTask(PxU64 contextId) :
+											Cm::Task	(contextId),
 											mManager	(NULL),
 											mStart		(0),
 											mNbToGo		(0),
@@ -74,7 +75,8 @@ namespace Bp
 	class FinalizeUpdateTask : public Cm::Task, public shdfnd::UserAllocated
 	{
 		public:
-										FinalizeUpdateTask() :
+										FinalizeUpdateTask(PxU64 contextId) :
+											Cm::Task				(contextId),
 											mManager				(NULL),
 											mNumCpuTasks			(0),
 											mScratchAllocator		(NULL),

@@ -301,5 +301,8 @@ void ClothImpl<SwCloth>::setVirtualParticles(Range<const uint32_t[4]> indices, R
 	mCloth.notifyChanged();
 }
 
+//explicit template instantiation
+template class ClothImpl<SwCloth>;
+
 } // namespace cloth
 } // namespace physx

@@ -3374,10 +3374,13 @@ void MBP::setTransientBounds(const PxBounds3* bounds, const PxReal* contactDista
 
 #define DEFAULT_CREATED_DELETED_PAIRS_CAPACITY 1024
 
-BroadPhaseMBP::BroadPhaseMBP(PxU32 maxNbRegions,
+BroadPhaseMBP::BroadPhaseMBP(	PxU32 maxNbRegions,
 								PxU32 maxNbBroadPhaseOverlaps,
 								PxU32 maxNbStaticShapes,
-								PxU32 maxNbDynamicShapes) :
+								PxU32 maxNbDynamicShapes,
+								PxU64 contextID) :
+	mMBPUpdateWorkTask		(contextID),
+	mMBPPostUpdateWorkTask	(contextID),
 	mMapping				(NULL),
 	mCapacity				(0),
 	mGroups					(NULL)

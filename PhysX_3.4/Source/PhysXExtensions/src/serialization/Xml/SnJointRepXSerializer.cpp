@@ -29,8 +29,7 @@
 #include "PxMetaDataObjects.h"
 #include "PxExtensionMetaDataObjects.h"
 #include "ExtJointMetaDataExtensions.h" 
-#include "SnRepXSerializerImpl.h"
-#include "PxJointRepXSerializer.h"
+#include "SnJointRepXSerializer.h"
 
 namespace physx { 
 
@@ -127,7 +126,7 @@ namespace physx {
 		writeAllProperties( inObj, inWriter, inTempBuffer, *inCollection );
 	}
 	
-	// explicit instantiations
+	// explicit template instantiations
 	template struct PxJointRepXSerializer<PxFixedJoint>;
 	template struct PxJointRepXSerializer<PxDistanceJoint>;
 	template struct PxJointRepXSerializer<PxD6Joint>;

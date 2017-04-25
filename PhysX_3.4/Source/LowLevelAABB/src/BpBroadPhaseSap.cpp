@@ -55,9 +55,15 @@ BroadPhaseSap::BroadPhaseSap(
 	const PxU32 maxNbStaticShapes,
 	const PxU32 maxNbDynamicShapes,
 	PxU64 contextID) :
-	mScratchAllocator	(NULL),
-	mContextID			(contextID)
+	mScratchAllocator		(NULL),
+	mSapUpdateWorkTask		(contextID),
+	mSapPostUpdateWorkTask	(contextID),
+	mContextID				(contextID)
 {
+
+	for(PxU32 i=0;i<3;i++)
+		mBatchUpdateTasks[i].setContextId(contextID);
+
 	//Boxes
 	mBoxesSize=0;
 	mBoxesSizePrev=0;

@@ -53,7 +53,7 @@ Sc::ParticleSystemSim::ParticleSystemSim(Scene& scene, ParticleSystemCore& core)
 , mParticlePacketShapePool(PX_DEBUG_EXP("ParticlePacketShapePool"))
 , mParticlePacketShapes(PX_DEBUG_EXP("ParticleSysPacketShapes"))
 , mInteractionCount(0)
-, mCollisionInputPrepTask(this, "ScParticleSystemSim.prepareCollisionInput")
+, mCollisionInputPrepTask(scene.getContextId(), this, "ScParticleSystemSim.prepareCollisionInput")
 {
 	// Set size of interaction list
 	ActorSim::setInteractionCountHint(32);

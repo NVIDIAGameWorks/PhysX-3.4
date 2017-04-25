@@ -47,9 +47,10 @@ namespace physx
 	class MBPTask : public Cm::Task, public shdfnd::UserAllocated
 	{
 		public:
-												MBPTask() :
-												mMBP				(NULL),
-												mNumCpuTasks		(0)
+												MBPTask(PxU64 contextId) :
+												Cm::Task		(contextId),
+												mMBP			(NULL),
+												mNumCpuTasks	(0)
 												{}
 
 		PX_FORCE_INLINE	void					setBroadphase(Bp::BroadPhaseMBP* mbp)			{ mMBP = mbp;					}
@@ -70,7 +71,7 @@ namespace physx
 	class MBPUpdateWorkTask : public MBPTask
 	{
 	public:							
-								MBPUpdateWorkTask();
+								MBPUpdateWorkTask(PxU64 contextId);
 								~MBPUpdateWorkTask();
 		// PxBaseTask
 		virtual const char*		getName() const { return "BpMBP.updateWork"; }
@@ -89,7 +90,7 @@ namespace physx
 	class MBPPostUpdateWorkTask : public MBPTask
 	{
 	public:
-								MBPPostUpdateWorkTask();					
+								MBPPostUpdateWorkTask(PxU64 contextId);					
 
 		// PxBaseTask
 		virtual const char*		getName() const { return "BpMBP.postUpdateWork"; }

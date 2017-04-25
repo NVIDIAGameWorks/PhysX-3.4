@@ -149,10 +149,14 @@ private:
 	
 public:
 
-	ScAfterIntegrationTask(const IG::NodeIndex* const indices, PxU32 numBodies, PxsContext* context, Context* dynamicsContext, PxsTransformCache& cache, 
-		Sc::Scene& scene) : 
-	  mIndices(indices), mNumBodies(numBodies), mContext(context), mDynamicsContext(dynamicsContext),
-	  mCache(cache), mScene(scene)
+	ScAfterIntegrationTask(const IG::NodeIndex* const indices, PxU32 numBodies, PxsContext* context, Context* dynamicsContext, PxsTransformCache& cache, Sc::Scene& scene) : 
+		Cm::Task		(scene.getContextId()),
+		mIndices		(indices),
+		mNumBodies		(numBodies),
+		mContext		(context),
+		mDynamicsContext(dynamicsContext),
+		mCache			(cache),
+		mScene			(scene)
 	{
 	}
 
@@ -378,10 +382,15 @@ private:
 	
 public:
 
-	PxgUpdateBodyAndShapeStatusTask(const IG::NodeIndex* const indices, PxU32 numBodies, PxsBodySim* bodySimsLL, PxU32* activatedBodies, PxU32* deactivatedBodies, 
-		Sc::Scene& scene, PxI32& ccdBodyWriteIndex) : 
-		mNodeIndices(indices), mNumBodies(numBodies), mScene(scene), mBodySimsLL(bodySimsLL), mActivatedBodies(activatedBodies),  
-		mDeactivatedBodies(deactivatedBodies), mCCDBodyWriteIndex(ccdBodyWriteIndex)
+	PxgUpdateBodyAndShapeStatusTask(const IG::NodeIndex* const indices, PxU32 numBodies, PxsBodySim* bodySimsLL, PxU32* activatedBodies, PxU32* deactivatedBodies, Sc::Scene& scene, PxI32& ccdBodyWriteIndex) : 
+		Cm::Task			(scene.getContextId()),
+		mNodeIndices		(indices),
+		mNumBodies			(numBodies),
+		mScene				(scene),
+		mBodySimsLL			(bodySimsLL),
+		mActivatedBodies	(activatedBodies),  
+		mDeactivatedBodies	(deactivatedBodies),
+		mCCDBodyWriteIndex	(ccdBodyWriteIndex)
 	{
 	}
 
@@ -566,48 +575,48 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 	mVisualizationParameterChanged	(false),
 	mNbRigidStatics					(0),
 	mNbRigidDynamics				(0),
-	mClothPreprocessing				(this, "ScScene.clothPreprocessing"),
-	mSecondPassNarrowPhase			(this, "ScScene.secondPassNarrowPhase"),
-	mPostNarrowPhase				(this, "ScScene.postNarrowPhase"),
-	mParticlePostCollPrep			("ScScene.particlePostCollPrep"),
-	mParticlePostShapeGen			(this, "ScScene.particlePostShapeGen"),
-	mFinalizationPhase				(this, "ScScene.finalizationPhase"),
-	mUpdateCCDMultiPass				(this, "ScScene.updateCCDMultiPass"),
-	mAfterIntegration				(this, "ScScene.afterIntegration"),
-	mConstraintProjection			(this, "ScScene.constraintProjection"),
-	mPostSolver						(this, "ScScene.postSolver"),
-	mSolver							(this, "ScScene.rigidBodySolver"),
-	mUpdateBodiesAndShapes			(this, "ScScene.updateBodiesAndShapes"),
-	mUpdateSimulationController		(this, "ScScene.updateSimulationController"),
-	mUpdateDynamics					(this, "ScScene.updateDynamics"),
-	mProcessLostContactsTask		(this, "ScScene.processLostContact"),
-	mProcessLostContactsTask2		(this, "ScScene.processLostContact2"),
-	mProcessLostContactsTask3		(this, "ScScene.processLostContact3"),
-	mDestroyManagersTask			(this, "ScScene.destroyManagers"),
-	mLostTouchReportsTask			(this, "ScScene.lostTouchReports"),
-	mUnregisterInteractionsTask		(this, "ScScene.unregisterInteractions"),
-	mProcessNarrowPhaseLostTouchTasks(this, "ScScene.processNpLostTouchTask"),
-	mProcessNPLostTouchEvents		(this, "ScScene.processNPLostTouchEvents"),
-	mPostThirdPassIslandGenTask		(this, "ScScene.postThirdPassIslandGenTask"),
-	mPostIslandGen					(this, "ScScene.postIslandGen"),
-	mIslandGen						(this, "ScScene.islandGen"),
-	mPreRigidBodyNarrowPhase		(this, "ScScene.preRigidBodyNarrowPhase"),
-	mSetEdgesConnectedTask			(this, "ScScene.setEdgesConnectedTask"),
-	mFetchPatchEventsTask			(this, "ScScene.fetchPatchEventsTask"),
-	mProcessLostPatchesTask			(this, "ScScene.processLostSolverPatchesTask"),
-	mRigidBodyNarrowPhase			(this, "ScScene.rigidBodyNarrowPhase"),
-	mRigidBodyNPhaseUnlock			(this, "ScScene.unblockNarrowPhase"),
-	mPostBroadPhase					(this, "ScScene.postBroadPhase"),
-	mPostBroadPhase2				(this, "ScScene.postBroadPhase2"),
-	mPostBroadPhase3				(this, "ScScene.postBroadPhase3"),
-	mPreallocateContactManagers		(this, "ScScene.preallocateContactManagers"),
-	mIslandInsertion				(this, "ScScene.islandInsertion"),
-	mRegisterContactManagers		(this, "ScScene.registerContactManagers"),
-	mRegisterInteractions			(this, "ScScene.registerInteractions"),
-	mRegisterSceneInteractions		(this, "ScScene.registerSceneInteractions"),
-	mBroadPhase						(this, "ScScene.broadPhase"),
-	mAdvanceStep					(this, "ScScene.advanceStep"),
-	mCollideStep					(this, "ScScene.collideStep"),	
+	mClothPreprocessing				(contextID, this, "ScScene.clothPreprocessing"),
+	mSecondPassNarrowPhase			(contextID, this, "ScScene.secondPassNarrowPhase"),
+	mPostNarrowPhase				(contextID, this, "ScScene.postNarrowPhase"),
+	mParticlePostCollPrep			(contextID, "ScScene.particlePostCollPrep"),
+	mParticlePostShapeGen			(contextID, this, "ScScene.particlePostShapeGen"),
+	mFinalizationPhase				(contextID, this, "ScScene.finalizationPhase"),
+	mUpdateCCDMultiPass				(contextID, this, "ScScene.updateCCDMultiPass"),
+	mAfterIntegration				(contextID, this, "ScScene.afterIntegration"),
+	mConstraintProjection			(contextID, this, "ScScene.constraintProjection"),
+	mPostSolver						(contextID, this, "ScScene.postSolver"),
+	mSolver							(contextID, this, "ScScene.rigidBodySolver"),
+	mUpdateBodiesAndShapes			(contextID, this, "ScScene.updateBodiesAndShapes"),
+	mUpdateSimulationController		(contextID, this, "ScScene.updateSimulationController"),
+	mUpdateDynamics					(contextID, this, "ScScene.updateDynamics"),
+	mProcessLostContactsTask		(contextID, this, "ScScene.processLostContact"),
+	mProcessLostContactsTask2		(contextID, this, "ScScene.processLostContact2"),
+	mProcessLostContactsTask3		(contextID, this, "ScScene.processLostContact3"),
+	mDestroyManagersTask			(contextID, this, "ScScene.destroyManagers"),
+	mLostTouchReportsTask			(contextID, this, "ScScene.lostTouchReports"),
+	mUnregisterInteractionsTask		(contextID, this, "ScScene.unregisterInteractions"),
+	mProcessNarrowPhaseLostTouchTasks(contextID, this, "ScScene.processNpLostTouchTask"),
+	mProcessNPLostTouchEvents		(contextID, this, "ScScene.processNPLostTouchEvents"),
+	mPostThirdPassIslandGenTask		(contextID, this, "ScScene.postThirdPassIslandGenTask"),
+	mPostIslandGen					(contextID, this, "ScScene.postIslandGen"),
+	mIslandGen						(contextID, this, "ScScene.islandGen"),
+	mPreRigidBodyNarrowPhase		(contextID, this, "ScScene.preRigidBodyNarrowPhase"),
+	mSetEdgesConnectedTask			(contextID, this, "ScScene.setEdgesConnectedTask"),
+	mFetchPatchEventsTask			(contextID, this, "ScScene.fetchPatchEventsTask"),
+	mProcessLostPatchesTask			(contextID, this, "ScScene.processLostSolverPatchesTask"),
+	mRigidBodyNarrowPhase			(contextID, this, "ScScene.rigidBodyNarrowPhase"),
+	mRigidBodyNPhaseUnlock			(contextID, this, "ScScene.unblockNarrowPhase"),
+	mPostBroadPhase					(contextID, this, "ScScene.postBroadPhase"),
+	mPostBroadPhase2				(contextID, this, "ScScene.postBroadPhase2"),
+	mPostBroadPhase3				(contextID, this, "ScScene.postBroadPhase3"),
+	mPreallocateContactManagers		(contextID, this, "ScScene.preallocateContactManagers"),
+	mIslandInsertion				(contextID, this, "ScScene.islandInsertion"),
+	mRegisterContactManagers		(contextID, this, "ScScene.registerContactManagers"),
+	mRegisterInteractions			(contextID, this, "ScScene.registerInteractions"),
+	mRegisterSceneInteractions		(contextID, this, "ScScene.registerSceneInteractions"),
+	mBroadPhase						(contextID, this, "ScScene.broadPhase"),
+	mAdvanceStep					(contextID, this, "ScScene.advanceStep"),
+	mCollideStep					(contextID, this, "ScScene.collideStep"),	
 	mTaskPool						(16384),
 	mContactReportsNeedPostSolverVelocity(false),
 	mSimulationStage				(SimulationStage::eCOMPLETE),
@@ -2106,6 +2115,11 @@ void Sc::Scene::broadPhase(PxBaseTask* continuation)
 void Sc::Scene::postBroadPhase(PxBaseTask* continuation)
 {
 	PX_PROFILE_START_CROSSTHREAD("Basic.postBroadPhase", getContextId());
+
+	//Notify narrow phase that broad phase has completed
+	mLLContext->getNphaseImplementationContext()->postBroadPhaseUpdateContactManager();
+	mAABBManager->postBroadPhase(continuation, &mRigidBodyNPhaseUnlock);
+
 	mAABBManager->getChangedAABBMgActorHandleMap().clear();
 	
 	// - Finishes broadphase update
@@ -2165,8 +2179,11 @@ public:
 	Sc::ShapeSim* mShapes[MaxShapes];
 	PxU32 mNbShapes;
 
-	DirtyShapeUpdatesTask(PxsTransformCache& cache, Bp::BoundsArray& boundsArray) : 
-		mCache(cache), mBoundsArray(boundsArray), mNbShapes(0)
+	DirtyShapeUpdatesTask(PxU64 contextID, PxsTransformCache& cache, Bp::BoundsArray& boundsArray) : 
+		Cm::Task	(contextID),
+		mCache		(cache),
+		mBoundsArray(boundsArray),
+		mNbShapes	(0)
 	{
 	}
 
@@ -2195,8 +2212,12 @@ public:
 
 	Bp::BoundsArray& mBoundsArray;
 
-	SpeculativeCCDContactDistanceUpdateTask(PxReal* contactDistances, const PxReal dt, Bp::BoundsArray& boundsArray) :
-		mContactDistances(contactDistances), mDt(dt), mNbBodies(0), mBoundsArray(boundsArray)
+	SpeculativeCCDContactDistanceUpdateTask(PxU64 contextID, PxReal* contactDistances, const PxReal dt, Bp::BoundsArray& boundsArray) :
+		Cm::Task			(contextID),
+		mContactDistances	(contactDistances),
+		mDt					(dt),
+		mNbBodies			(0),
+		mBoundsArray		(boundsArray)
 	{
 	}
 
@@ -2222,8 +2243,11 @@ public:
 	Sc::ArticulationSim* mArticulation;
 	Bp::BoundsArray& mBoundsArray;
 
-	SpeculativeCCDContactDistanceArticulationUpdateTask(PxReal* contactDistances, const PxReal dt, Bp::BoundsArray& boundsArray) :
-		mContactDistances(contactDistances), mDt(dt), mBoundsArray(boundsArray)
+	SpeculativeCCDContactDistanceArticulationUpdateTask(PxU64 contextID, PxReal* contactDistances, const PxReal dt, Bp::BoundsArray& boundsArray) :
+		Cm::Task			(contextID),
+		mContactDistances	(contactDistances),
+		mDt					(dt),
+		mBoundsArray		(boundsArray)
 	{
 	}
 
@@ -2250,7 +2274,7 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 	//calculate contact distance for speculative CCD shapes
 	Cm::BitMap::Iterator speculativeCCDIter(mSpeculativeCCDRigidBodyBitMap);
 
-	SpeculativeCCDContactDistanceUpdateTask* ccdTask = PX_PLACEMENT_NEW(pool.allocate(sizeof(SpeculativeCCDContactDistanceUpdateTask)), SpeculativeCCDContactDistanceUpdateTask)(mContactDistance->begin(), mDt, *mBoundsArray);
+	SpeculativeCCDContactDistanceUpdateTask* ccdTask = PX_PLACEMENT_NEW(pool.allocate(sizeof(SpeculativeCCDContactDistanceUpdateTask)), SpeculativeCCDContactDistanceUpdateTask)(getContextId(), mContactDistance->begin(), mDt, *mBoundsArray);
 
 	IG::IslandSim& islandSim = mSimpleIslandManager->getAccurateIslandSim();
 
@@ -2270,7 +2294,7 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 			{
 				ccdTask->setContinuation(continuation);
 				ccdTask->removeReference();
-				ccdTask = PX_PLACEMENT_NEW(pool.allocate(sizeof(SpeculativeCCDContactDistanceUpdateTask)), SpeculativeCCDContactDistanceUpdateTask)(mContactDistance->begin(), mDt, *mBoundsArray);
+				ccdTask = PX_PLACEMENT_NEW(pool.allocate(sizeof(SpeculativeCCDContactDistanceUpdateTask)), SpeculativeCCDContactDistanceUpdateTask)(getContextId(), mContactDistance->begin(), mDt, *mBoundsArray);
 			}
 		}
 	}
@@ -2291,7 +2315,7 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 		if (articulationSim)
 		{
 			hasContactDistanceChanged = true;
-			articulationUpdateTask = PX_PLACEMENT_NEW(pool.allocate(sizeof(SpeculativeCCDContactDistanceArticulationUpdateTask)), SpeculativeCCDContactDistanceArticulationUpdateTask)(mContactDistance->begin(), mDt, *mBoundsArray);
+			articulationUpdateTask = PX_PLACEMENT_NEW(pool.allocate(sizeof(SpeculativeCCDContactDistanceArticulationUpdateTask)), SpeculativeCCDContactDistanceArticulationUpdateTask)(getContextId(), mContactDistance->begin(), mDt, *mBoundsArray);
 			articulationUpdateTask->mArticulation = articulationSim;
 			articulationUpdateTask->setContinuation(continuation);
 			articulationUpdateTask->removeReference();
@@ -2308,7 +2332,7 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 	PxsTransformCache& cache = mLLContext->getTransformCache();
 	Bp::BoundsArray& boundsArray = mAABBManager->getBoundsArray();
 
-	DirtyShapeUpdatesTask* task = PX_PLACEMENT_NEW(pool.allocate(sizeof(DirtyShapeUpdatesTask)), DirtyShapeUpdatesTask)(cache, boundsArray);
+	DirtyShapeUpdatesTask* task = PX_PLACEMENT_NEW(pool.allocate(sizeof(DirtyShapeUpdatesTask)), DirtyShapeUpdatesTask)(getContextId(), cache, boundsArray);
 
 	bool hasDirtyShapes = false;
 	while ((index = dirtyShapeIter.getNext()) != Cm::BitMap::Iterator::DONE)
@@ -2323,7 +2347,7 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 			{
 				task->setContinuation(continuation);
 				task->removeReference();
-				task = PX_PLACEMENT_NEW(pool.allocate(sizeof(DirtyShapeUpdatesTask)), DirtyShapeUpdatesTask)(cache, boundsArray);
+				task = PX_PLACEMENT_NEW(pool.allocate(sizeof(DirtyShapeUpdatesTask)), DirtyShapeUpdatesTask)(getContextId(), cache, boundsArray);
 			}
 		}
 	}
@@ -2354,13 +2378,12 @@ void Sc::Scene::rigidBodyNarrowPhase(PxBaseTask* continuation)
 	mPostBroadPhase3.addDependent(*continuation);
 	mPostBroadPhase2.setContinuation(&mPostBroadPhase3);
 	mPostBroadPhase.setContinuation(&mPostBroadPhase2);
-	mRigidBodyNPhaseUnlock.setContinuation(continuation);
-	mRigidBodyNPhaseUnlock.addReference(); //Must be decremented by both BP and NP before it runs
 	mBroadPhase.setContinuation(&mPostBroadPhase);
+	mRigidBodyNPhaseUnlock.setContinuation(continuation);
+	mRigidBodyNPhaseUnlock.addReference();
 	
 	mLLContext->resetThreadContexts();
 
-	mLLContext->updateContactManager(mDt, mBoundsArray->hasChanged(), mHasContactDistanceChanged, continuation, &mRigidBodyNPhaseUnlock); // Starts update of contact managers
 
 	if (hasParticleSystems())
 	{
@@ -2388,6 +2411,8 @@ void Sc::Scene::rigidBodyNarrowPhase(PxBaseTask* continuation)
 		gpuDispatcher->getPreLaunchTask().removeReference();
 	}
 #endif
+
+	mLLContext->updateContactManager(mDt, mBoundsArray->hasChanged(), mHasContactDistanceChanged, continuation, &mRigidBodyNPhaseUnlock); // Starts update of contact managers
 
 	mPostBroadPhase3.removeReference();
 	mPostBroadPhase2.removeReference();
@@ -2494,8 +2519,12 @@ class InteractionNewTouchTask : public Cm::Task
 	const bool mUseAdaptiveForce;
 
 public:
-	InteractionNewTouchTask(PxvContactManagerTouchEvent* events, PxU32 nbEvents, PxsContactManagerOutputIterator& outputs, bool useAdaptiveForce) : mEvents(events), mNbEvents(nbEvents), mOutputs(outputs),
-		mUseAdaptiveForce(useAdaptiveForce)
+	InteractionNewTouchTask(PxU64 contextID, PxvContactManagerTouchEvent* events, PxU32 nbEvents, PxsContactManagerOutputIterator& outputs, bool useAdaptiveForce) :
+		Cm::Task			(contextID),
+		mEvents				(events),
+		mNbEvents			(nbEvents),
+		mOutputs			(outputs),
+		mUseAdaptiveForce	(useAdaptiveForce)
 	{
 	}
 
@@ -2695,10 +2724,12 @@ PX_FORCE_INLINE void Sc::Scene::putInteractionsToSleep(PxU32 infoFlag)
 {
 	const IG::IslandSim& islandSim = mSimpleIslandManager->getSpeculativeIslandSim();
 
-	for (PxU32 a = 0; a < IG::Edge::eEDGE_TYPE_COUNT; ++a)
+	//KS - only deactivate contact managers based on speculative state to trigger contact gen. When the actors were deactivated based on accurate state
+	//joints should have been deactivated.
+
 	{
-		PxU32 nbDeactivatingEdges = islandSim.getNbDeactivatingEdges(IG::Edge::EdgeType(a));
-		const IG::EdgeIndex* deactivatingEdgeIds = islandSim.getDeactivatingEdges(IG::Edge::EdgeType(a));
+		PxU32 nbDeactivatingEdges = islandSim.getNbDeactivatingEdges(IG::Edge::eCONTACT_MANAGER);
+		const IG::EdgeIndex* deactivatingEdgeIds = islandSim.getDeactivatingEdges(IG::Edge::eCONTACT_MANAGER);
 
 		for (PxU32 i = 0; i < nbDeactivatingEdges; ++i)
 		{
@@ -2749,12 +2780,14 @@ PX_FORCE_INLINE void Sc::Scene::wakeObjectsUp(PxU32 infoFlag)
 
 PX_FORCE_INLINE void Sc::Scene::wakeInteractions(PxU32 /*infoFlag*/)
 {
+	PX_PROFILE_ZONE("ScScene.wakeInteractions", getContextId());
 	const IG::IslandSim& speculativeSim = mSimpleIslandManager->getSpeculativeIslandSim();
 
-	for (PxU32 a = 0; a < IG::Edge::eEDGE_TYPE_COUNT; ++a)
+	//KS - only wake contact managers based on speculative state to trigger contact gen. Waking actors based on accurate state
+	//should activate and joints.
 	{
-		PxU32 nbActivatingEdges = speculativeSim.getNbActivatedEdges(IG::Edge::EdgeType(a));
-		const IG::EdgeIndex* activatingEdges = speculativeSim.getActivatedEdges(IG::Edge::EdgeType(a));
+		PxU32 nbActivatingEdges = speculativeSim.getNbActivatedEdges(IG::Edge::eCONTACT_MANAGER);
+		const IG::EdgeIndex* activatingEdges = speculativeSim.getActivatedEdges(IG::Edge::eCONTACT_MANAGER);
 
 		for (PxU32 i = 0; i < nbActivatingEdges; ++i)
 		{
@@ -3084,22 +3117,12 @@ void Sc::Scene::updateCCDMultiPass(PxBaseTask* parentContinuation)
 			mCCDBroadPhaseAABB.reserve(2);
 			for (int j = 0; j < 2; j++)
 			{
-				mPostCCDPass.pushBack(
-					Cm::DelegateTask<Sc::Scene, &Sc::Scene::postCCDPass>(
-					this, "ScScene.postCCDPass"));
-				mUpdateCCDSinglePass.pushBack(
-					Cm::DelegateTask<Sc::Scene, &Sc::Scene::updateCCDSinglePass>(
-					this, "ScScene.updateCCDSinglePass"));
-				mUpdateCCDSinglePass2.pushBack(
-					Cm::DelegateTask<Sc::Scene, &Sc::Scene::updateCCDSinglePassStage2>(
-					this, "ScScene.updateCCDSinglePassStage2"));
-				mUpdateCCDSinglePass3.pushBack(Cm::DelegateTask<Sc::Scene, &Sc::Scene::updateCCDSinglePassStage3>(
-					this, "ScScene.updateCCDSinglePassStage3"));
-				mCCDBroadPhase.pushBack(
-					Cm::DelegateTask<Sc::Scene, &Sc::Scene::ccdBroadPhase>(
-					this, "ScScene.ccdBroadPhase"));
-				mCCDBroadPhaseAABB.pushBack(Cm::DelegateTask<Sc::Scene, &Sc::Scene::ccdBroadPhaseAABB>(
-					this, "ScScene.ccdBroadPhaseAABB"));
+				mPostCCDPass.pushBack(Cm::DelegateTask<Sc::Scene, &Sc::Scene::postCCDPass>(getContextId(), this, "ScScene.postCCDPass"));
+				mUpdateCCDSinglePass.pushBack(Cm::DelegateTask<Sc::Scene, &Sc::Scene::updateCCDSinglePass>(getContextId(), this, "ScScene.updateCCDSinglePass"));
+				mUpdateCCDSinglePass2.pushBack(Cm::DelegateTask<Sc::Scene, &Sc::Scene::updateCCDSinglePassStage2>(getContextId(), this, "ScScene.updateCCDSinglePassStage2"));
+				mUpdateCCDSinglePass3.pushBack(Cm::DelegateTask<Sc::Scene, &Sc::Scene::updateCCDSinglePassStage3>(getContextId(), this, "ScScene.updateCCDSinglePassStage3"));
+				mCCDBroadPhase.pushBack(Cm::DelegateTask<Sc::Scene, &Sc::Scene::ccdBroadPhase>(getContextId(), this, "ScScene.ccdBroadPhase"));
+				mCCDBroadPhaseAABB.pushBack(Cm::DelegateTask<Sc::Scene, &Sc::Scene::ccdBroadPhaseAABB>(getContextId(), this, "ScScene.ccdBroadPhaseAABB"));
 			}
 		}
 
@@ -3126,8 +3149,11 @@ public:
 
 	static const PxU32 MaxPerTask = 256;
 
-	UpdateCCDBoundsTask(Sc::BodySim** bodySims, PxU32 nbToProcess, PxI32* numFastMovingShapes) : mBodySims(bodySims), 
-		mNbToProcess(nbToProcess), mNumFastMovingShapes(numFastMovingShapes)
+	UpdateCCDBoundsTask(PxU64 contextID, Sc::BodySim** bodySims, PxU32 nbToProcess, PxI32* numFastMovingShapes) :
+		Cm::Task			(contextID),
+		mBodySims			(bodySims), 
+		mNbToProcess		(nbToProcess),
+		mNumFastMovingShapes(numFastMovingShapes)
 	{
 	}
 
@@ -3178,7 +3204,7 @@ void Sc::Scene::ccdBroadPhaseAABB(PxBaseTask* continuation)
 		for (PxU32 i = 0; i < mCcdBodies.size(); i+= UpdateCCDBoundsTask::MaxPerTask)
 		{
 			const PxU32 nbToProcess = PxMin(UpdateCCDBoundsTask::MaxPerTask, mCcdBodies.size() - i);
-			UpdateCCDBoundsTask* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(UpdateCCDBoundsTask)), UpdateCCDBoundsTask)(&mCcdBodies[i], nbToProcess, &mNumFastMovingShapes);
+			UpdateCCDBoundsTask* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(UpdateCCDBoundsTask)), UpdateCCDBoundsTask)(getContextId(), &mCcdBodies[i], nbToProcess, &mNumFastMovingShapes);
 			task->setContinuation(continuation);
 			task->removeReference();
 		}
@@ -3238,6 +3264,7 @@ void Sc::Scene::updateCCDSinglePass(PxBaseTask* continuation)
 	PX_PROFILE_ZONE("Sim.updateCCDSinglePass", getContextId());
 	mReportShapePairTimeStamp++;  // This will makes sure that new report pairs will get created instead of re-using the existing ones.
 
+	mAABBManager->postBroadPhase(continuation, NULL);
 	const PxU32 currentPass = mCCDContext->getCurrentCCDPass() + 1;  // 0 is reserved for discrete collision phase
 	finishBroadPhase(currentPass, continuation);
 	
@@ -3338,12 +3365,12 @@ private:
 	ConstraintProjectionTask& operator = (const ConstraintProjectionTask&);
 
 public:
-	ConstraintProjectionTask(Sc::ConstraintGroupNode* const* projectionRoots, PxU32 projectionRootCount, Ps::Array<Sc::BodySim*>& projectedBodies, PxsContext* llContext)
-		:
-		mProjectionRoots(projectionRoots),
+	ConstraintProjectionTask(Sc::ConstraintGroupNode* const* projectionRoots, PxU32 projectionRootCount, Ps::Array<Sc::BodySim*>& projectedBodies, PxsContext* llContext) :
+		Cm::Task			(llContext->getContextId()),
+		mProjectionRoots	(projectionRoots),
 		mProjectionRootCount(projectionRootCount),
-		mProjectedBodies(projectedBodies),
-		mLLContext(llContext)
+		mProjectedBodies	(projectedBodies),
+		mLLContext			(llContext)
 	{
 	}
 
@@ -3757,6 +3784,7 @@ public:
 public:
 
 	ScBeforeSolverTask(PxReal dt, IG::SimpleIslandManager* islandManager, PxsSimulationController* simulationController, PxU64 contextID, bool simUsesAdaptiveForce) : 
+		Cm::Task				(contextID),
 		mDt						(dt),
 		mIslandManager			(islandManager),
 		mSimulationController	(simulationController),
@@ -3863,10 +3891,6 @@ void Sc::Scene::beforeSolver(PxBaseTask* continuation)
 	mBodyGravityDirty = false;
 }
 
-#if PX_DEBUG
-bool DEBUG_solverlock = false;
-#endif
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class UpdatProjectedPoseTask : public Cm::Task
@@ -3875,7 +3899,10 @@ class UpdatProjectedPoseTask : public Cm::Task
 	PxU32 mNbBodiesToProcess;
 
 public:
-	UpdatProjectedPoseTask(Sc::BodySim** projectedBodies, PxU32 nbBodiesToProcess) : mProjectedBodies(projectedBodies), mNbBodiesToProcess(nbBodiesToProcess)
+	UpdatProjectedPoseTask(PxU64 contextID, Sc::BodySim** projectedBodies, PxU32 nbBodiesToProcess) :
+		Cm::Task			(contextID),
+		mProjectedBodies	(projectedBodies),
+		mNbBodiesToProcess	(nbBodiesToProcess)
 	{
 	}
 
@@ -3977,7 +4004,7 @@ void Sc::Scene::afterIntegration(PxBaseTask* continuation)
 			for (PxU32 a = 0; a < mProjectedBodies.size(); a += maxBodiesPerTask)
 			{
 				UpdatProjectedPoseTask* task =
-					PX_PLACEMENT_NEW(flushPool.allocate(sizeof(UpdatProjectedPoseTask)), UpdatProjectedPoseTask)(&mProjectedBodies[a], PxMin(maxBodiesPerTask, mProjectedBodies.size() - a));
+					PX_PLACEMENT_NEW(flushPool.allocate(sizeof(UpdatProjectedPoseTask)), UpdatProjectedPoseTask)(getContextId(), &mProjectedBodies[a], PxMin(maxBodiesPerTask, mProjectedBodies.size() - a));
 				task->setContinuation(continuation);
 				task->removeReference();
 			}
@@ -6150,8 +6177,16 @@ public:
 	PxU32 mNbToSuppress;
 	PxU32 mNbToCallback;
 
-	OverlapFilterTask(Sc::NPhaseCore* nPhaseCore, PxFilterInfo* fInfo, const Bp::AABBOverlap* PX_RESTRICT pairs, Bp::BroadPhasePair* bpPairs, const PxU32 nbToProcess) : mNPhaseCore(nPhaseCore),
-		mPairs(pairs), mBpPairs(bpPairs), mNbToProcess(nbToProcess), mFinfo(fInfo), mNbToKeep(0), mNbToSuppress(0), mNbToCallback(0)
+	OverlapFilterTask(PxU64 contextID, Sc::NPhaseCore* nPhaseCore, PxFilterInfo* fInfo, const Bp::AABBOverlap* PX_RESTRICT pairs, Bp::BroadPhasePair* bpPairs, const PxU32 nbToProcess) :
+		Cm::Task		(contextID),
+		mNPhaseCore		(nPhaseCore),
+		mPairs			(pairs),
+		mBpPairs		(bpPairs),
+		mNbToProcess	(nbToProcess),
+		mFinfo			(fInfo),
+		mNbToKeep		(0),
+		mNbToSuppress	(0),
+		mNbToCallback	(0)
 	{
 		PxMemZero(mKeepMap, sizeof(mKeepMap));
 		PxMemZero(mCallbackMap, sizeof(mCallbackMap));
@@ -6169,7 +6204,7 @@ public:
 			if(pair.mPairHandle != BP_INVALID_BP_HANDLE && mBpPairs != NULL)
 				thisPair = &mBpPairs[pair.mPairHandle];
 
-			PxFilterInfo finfo = mNPhaseCore->onOverlapFilter(e0, e1, thisPair);
+			const PxFilterInfo finfo = mNPhaseCore->onOverlapFilter(e0, e1, thisPair);
 
 			mFinfo[a] = finfo;
 
@@ -6200,7 +6235,7 @@ class OnOverlapCreatedTask : public Cm::Task
 public:
 	Sc::NPhaseCore* mNPhaseCore;
 	const Bp::AABBOverlap* PX_RESTRICT mPairs;
-	PxFilterInfo* mFinfo;
+	const PxFilterInfo* mFinfo;
 	PxsContactManager** mContactManagers;
 	Sc::ShapeInteraction** mShapeInteractions;
 	Sc::ElementInteractionMarker** mInteractionMarkers;
@@ -6208,9 +6243,17 @@ public:
 	PxU32 mNbToProcess;
 
 
-	OnOverlapCreatedTask(Sc::NPhaseCore* nPhaseCore, const Bp::AABBOverlap* PX_RESTRICT pairs, PxFilterInfo* fInfo, PxsContactManager** contactManagers, Sc::ShapeInteraction** shapeInteractions, Sc::ElementInteractionMarker** interactionMarkers,
-		Bp::BroadPhasePair* bpPairs, PxU32 nbToProcess) : mNPhaseCore(nPhaseCore), mPairs(pairs), mFinfo(fInfo), mContactManagers(contactManagers), mShapeInteractions(shapeInteractions),
-		mInteractionMarkers(interactionMarkers), mBpPairs(bpPairs), mNbToProcess(nbToProcess)
+	OnOverlapCreatedTask(PxU64 contextID, Sc::NPhaseCore* nPhaseCore, const Bp::AABBOverlap* PX_RESTRICT pairs, const PxFilterInfo* fInfo, PxsContactManager** contactManagers, Sc::ShapeInteraction** shapeInteractions, Sc::ElementInteractionMarker** interactionMarkers,
+		Bp::BroadPhasePair* bpPairs, PxU32 nbToProcess) :
+		Cm::Task			(contextID),
+		mNPhaseCore			(nPhaseCore),
+		mPairs				(pairs),
+		mFinfo				(fInfo),
+		mContactManagers	(contactManagers),
+		mShapeInteractions	(shapeInteractions),
+		mInteractionMarkers	(interactionMarkers),
+		mBpPairs			(bpPairs),
+		mNbToProcess		(nbToProcess)
 	{
 	}
 
@@ -6292,7 +6335,7 @@ void Sc::Scene::preallocateContactManagers(PxBaseTask* continuation)
 					Sc::ShapeSim* s0 = reinterpret_cast<Sc::ShapeSim*>(pair.mUserData0);
 					Sc::ShapeSim* s1 = reinterpret_cast<Sc::ShapeSim*>(pair.mUserData1);
 
-					PxFilterInfo finfo = mNPhaseCore->filterRbCollisionPairSecondStage(*s0, *s1, s0->getBodySim(), s1->getBodySim(), INVALID_FILTER_PAIR_INDEX, true);
+					const PxFilterInfo finfo = mNPhaseCore->filterRbCollisionPairSecondStage(*s0, *s1, s0->getBodySim(), s1->getBodySim(), INVALID_FILTER_PAIR_INDEX, true);
 
 					task->mFinfo[index] = finfo;
 
@@ -6334,7 +6377,7 @@ void Sc::Scene::preallocateContactManagers(PxBaseTask* continuation)
 
 	Cm::FlushPool& flushPool = mLLContext->getTaskPool();
 
-	OnOverlapCreatedTask* createTask = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(OnOverlapCreatedTask)), OnOverlapCreatedTask)(mNPhaseCore, p,
+	OnOverlapCreatedTask* createTask = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(OnOverlapCreatedTask)), OnOverlapCreatedTask)(getContextId(), mNPhaseCore, p,
 			fInfo, cms, shapeInter, markerIter, bpPairs, 0);
 
 	PxU32 batchSize = 0;
@@ -6387,7 +6430,7 @@ void Sc::Scene::preallocateContactManagers(PxBaseTask* continuation)
 
 		
 
-			createTask = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(OnOverlapCreatedTask)), OnOverlapCreatedTask)(mNPhaseCore, p + createdOverlapCount,
+			createTask = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(OnOverlapCreatedTask)), OnOverlapCreatedTask)(getContextId(), mNPhaseCore, p + createdOverlapCount,
 				fInfo + createdOverlapCount, cms + createdStartIdx, shapeInter + createdStartIdx, markerIter + suppressedStartIdx, bpPairs, 0);
 
 			batchSize = 0;
@@ -6425,6 +6468,24 @@ void Sc::Scene::finishBroadPhase(PxU32 ccdPass, PxBaseTask* continuation)
 
 	{
 		PX_PROFILE_ZONE("Sim.processNewOverlaps", getContextId());
+
+		{
+			//KS - these functions call "registerInActors", while OverlapFilterTask reads the list of interactions
+			//in an actor. This could lead to a race condition and a crash if they occur at the same time, so we 
+			//serialize these operations
+			PX_PROFILE_ZONE("Sim.processNewOverlaps.createOverlapsNoShapeInteractions", getContextId());
+			for (PxU32 i = Bp::VolumeBuckets::ePARTICLE; i < Bp::VolumeBuckets::eCOUNT; ++i)
+			{
+
+				PxU32 createdOverlapCount;
+				const Bp::AABBOverlap* PX_RESTRICT p = aabbMgr->getCreatedOverlaps(i, createdOverlapCount);
+
+
+				mLLContext->getSimStats().mNbNewPairs += createdOverlapCount;
+				mNPhaseCore->onOverlapCreated(p, createdOverlapCount, ccdPass, bpPairs);
+			}
+		}
+
 		{
 			
 			PxU32 createdOverlapCount;
@@ -6454,31 +6515,16 @@ void Sc::Scene::finishBroadPhase(PxU32 ccdPass, PxBaseTask* continuation)
 			for (PxU32 a = 0; a < createdOverlapCount; a += nbPairsPerTask)
 			{
 				PxU32 nbToProcess = PxMin(createdOverlapCount - a, nbPairsPerTask);
-				OverlapFilterTask* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(OverlapFilterTask)), OverlapFilterTask)(mNPhaseCore, mFilterInfo.begin() + a, 
+				OverlapFilterTask* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(OverlapFilterTask)), OverlapFilterTask)(getContextId(), mNPhaseCore, mFilterInfo.begin() + a, 
 					p + a, bpPairs, nbToProcess);
 
 				task->setContinuation(&mPreallocateContactManagers);
 				task->removeReference();
 				mOverlapFilterTasks.pushBack(task);
 			}
-
 		}
 
 		mPreallocateContactManagers.removeReference();
-
-		{
-			PX_PROFILE_ZONE("Sim.processNewOverlaps.createOverlapsNoShapeInteractions", getContextId());
-			for (PxU32 i = Bp::VolumeBuckets::ePARTICLE; i < Bp::VolumeBuckets::eCOUNT; ++i)
-			{
-
-				PxU32 createdOverlapCount;
-				const Bp::AABBOverlap* PX_RESTRICT p = aabbMgr->getCreatedOverlaps(i, createdOverlapCount);
-
-
-				mLLContext->getSimStats().mNbNewPairs += createdOverlapCount;
-				mNPhaseCore->onOverlapCreated(p, createdOverlapCount, ccdPass, bpPairs);
-			}
-		}		
 	}	
 }
 

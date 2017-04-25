@@ -48,7 +48,7 @@ BroadPhase* BroadPhase::create(
 	PX_ASSERT(bpType==PxBroadPhaseType::eMBP || bpType == PxBroadPhaseType::eSAP);
 
 	if(bpType==PxBroadPhaseType::eMBP)
-		return PX_NEW(BroadPhaseMBP)(maxNbRegions, maxNbBroadPhaseOverlaps, maxNbStaticShapes, maxNbDynamicShapes);
+		return PX_NEW(BroadPhaseMBP)(maxNbRegions, maxNbBroadPhaseOverlaps, maxNbStaticShapes, maxNbDynamicShapes, contextID);
 	else
 		return PX_NEW(BroadPhaseSap)(maxNbBroadPhaseOverlaps, maxNbStaticShapes, maxNbDynamicShapes, contextID);
 }

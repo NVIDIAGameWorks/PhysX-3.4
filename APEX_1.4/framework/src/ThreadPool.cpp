@@ -267,7 +267,8 @@ void CpuWorkerThread::execute()
 #if PHYSX_PROFILE_SDK
 			if (mApexPvdClient!=NULL)
 			{
-				task->runProfiled();
+				PX_PROFILE_ZONE(task->getName(), task->getContextId());
+				task->run();
 			}
 			else
 			{

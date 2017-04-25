@@ -89,7 +89,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#2489420934eb3732e95731fc28d58e81"><param name="Name" value="PxVehicleWheelsSimData"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleExt_1_1IndexPool.html#a8925253f6aba703d7ee7fa9c78ef5bb"><param name="Name" value="allocateIndices"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxJointRepXSerializer.html#c2cec93424be05121fe0f2cbfeebf21f"><param name="Name" value="allocateObject"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxStringTable.html#fb3f0ceba601a3541b923c09d6ef14af"><param name="Name" value="allocateStr"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPx1DConstraint.html#faf3f8a6b645f3b48c123ab94016b1c2"><param name="Name" value="angular0"></OBJECT>
   <UL>
@@ -1313,11 +1312,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b34e054ccf428a1cdbd81bf1e2b87fae"><param name="Name" value="fetchResults"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#9e70b9f9ac942c0b90b2b78d45b99708"><param name="Name" value="fetchResultsFinish"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#e5515efb07a300166c0d47adce6acd6f"><param name="Name" value="fetchResultsStart"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxJointRepXSerializer.html#bd28b7f3ab7afa350ef908b77e504fdd"><param name="Name" value="fileToObject"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxJointRepXSerializer.html#bd28b7f3ab7afa350ef908b77e504fdd"><param name="Name" value="PxJointRepXSerializer"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRepXSerializer.html#7855c4cc5d86b72852018f2652ac60cb"><param name="Name" value="PxRepXSerializer"></OBJECT>
-  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRepXSerializer.html#7855c4cc5d86b72852018f2652ac60cb"><param name="Name" value="fileToObject"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVolumeCache.html#046b0c5bed6e6f0dad3696cc9b69ed17"><param name="Name" value="fill"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVolumeCache.html#43e58f6fea62f6ec81827e2f251912f505556701b332b57b8899a95c431d8b56"><param name="Name" value="FILL_OK"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVolumeCache.html#43e58f6fea62f6ec81827e2f251912f5cbdc57f8bf59feec81f31871969c8c1e"><param name="Name" value="FILL_OUT_OF_MEMORY"></OBJECT>
@@ -1512,6 +1507,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g40e7fc272047a5ab6870668b81aca1a3"><param name="Name" value="PX_STRINGIZE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gaa541ee81b5c7958c1367b710cfa99ed"><param name="Name" value="PX_STRINGIZE_HELPER"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g39f6354f5e10029a058e2141956ed9ef"><param name="Name" value="PX_SUPPORT_COMPUTE_PHYSX"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g58dd174408338f37c62dfe6ac1baec60"><param name="Name" value="PX_SUPPORT_EXTERN_TEMPLATE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g0a511de410e7de7a8625fb572f88bd89"><param name="Name" value="PX_SUPPORT_GPU_PHYSX"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gc40d28c5e85426df7a98ff9bd597810c"><param name="Name" value="PX_UNIX_EXPORT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gd7d515be586be72c5c485c5624783a97"><param name="Name" value="PX_UNIX_FAMILY"></OBJECT>
@@ -1817,6 +1813,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactStreamIterator.html#d50e5c8e8f815416304cbaced1ed3980"><param name="Name" value="getContactPoint"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#c7b1dccad5d20304653f21c91b09258a"><param name="Name" value="getContactReportStreamBufferSize"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRigidDynamic.html#cc91baffa652090e523df5e6627686ed"><param name="Name" value="getContactReportThreshold"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#009e71e6c6274132392817f0e57716a0"><param name="Name" value="getContextId"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxLightCpuTask.html#9896fbb4bbc97517e6ffb73749b6845e"><param name="Name" value="getContinuation"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxControllerManager.html#42359d7248cfdf2b4722a8d4653394b5"><param name="Name" value="getController"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxObstacleContext.html#9390f860fb489f283c9f872af2777123"><param name="Name" value="getControllerManager"></OBJECT>
@@ -2481,9 +2478,9 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxTaskManager.html#62b0f1892459275040db9ce8e274ca14"><param name="Name" value="getTaskFromID"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxGpuTask.html#9ab3b350e19305096a955bf29bffc923"><param name="Name" value="getTaskHint"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxTask.html#762b45266ec713eb7f599574a7998057"><param name="Name" value="getTaskID"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#f33b34783821f4b8cc455df2e7f45bbe"><param name="Name" value="getTaskManager"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#9dccf76144a25df2c2a7ed5fa8cea003"><param name="Name" value="getTaskManager"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#f33b34783821f4b8cc455df2e7f45bbe"><param name="Name" value="physx::PxBaseTask"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#9dccf76144a25df2c2a7ed5fa8cea003"><param name="Name" value="physx::PxBaseTask"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#be1495d04a1852030c0dec380999525a"><param name="Name" value="PxScene"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxClothFabric.html#868c8ede0e185dbf6bff4ca17fec4a8a"><param name="Name" value="getTetherAnchors"></OBJECT>
@@ -3080,6 +3077,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBase.html#1abe9d19726e1f8f8e56abeb2269b5d4"><param name="Name" value="mConcreteType"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxLightCpuTask.html#7e5dbe5f98e11385d0e0a921d3af8243"><param name="Name" value="mCont"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#614a3d5bbdfe9fccce114e0ce64913a8"><param name="Name" value="mContacts"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#67864643cd2dfaf8483f8b7a75376bc7"><param name="Name" value="mContextID"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxProfileScoped.html#567ba4c44f861d0d1fe3bd5c60b48f25"><param name="Name" value="mContextId"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleDriveDynData.html#2aded5809dd204d7c681455f4d57bdb5"><param name="Name" value="mControlAnalogVals"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#fcc7a677fe3cf662ebab5a49f5a454b9"><param name="Name" value="mCount"></OBJECT>
@@ -3136,7 +3134,6 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html#19bb7e28765df5c8ec1a86a45004c7b6"><param name="Name" value="meshWeldTolerance"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleClutchData.html#64f27aab12c4d3f6deae242e04c95e3f"><param name="Name" value="mEstimateIterations"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#9200c8e7b7680790e5e75da22c92e3cd"><param name="Name" value="mEventID"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxProfileScoped.html#12ddb6b683d02a2b43a688c355fd9b08"><param name="Name" value="mEventName"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxDeserializationContext.html#91c4d17f9b7f7acd3cd7a119fe701939"><param name="Name" value="mExtraDataAddress"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVehicleKeySmoothingData.html#4fef7697bc3c0acc926db804f81aa7a0"><param name="Name" value="mFallRates"></OBJECT>
@@ -3293,7 +3290,6 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxTask.html#ddde0e4cc4291d493d0025682f767606"><param name="Name" value="mPreSyncRequired"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxProfileScoped.html#ce0e4bb97a41a567d2221e2381273131"><param name="Name" value="mProfilerData"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#859800d5acb01168c7fae071d8e86e26"><param name="Name" value="mProfileStat"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxStrideIterator.html#45efd9aaeb835a518290c9b4b4294e04"><param name="Name" value="mPtr"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCapsuleObstacle.html#eb5634234808eb809129dda08ff54e5e"><param name="Name" value="mRadius"></OBJECT>
   <UL>
@@ -3471,7 +3467,6 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxBVH34MidphaseDesc.html#8f709ea9ebe56b30019983826ebf02d2"><param name="Name" value="numTrisPerLeaf"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRepXSerializer.html#c818078a2cd3b41cdaf26ee5bf0e1f35"><param name="Name" value="objectToFile"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxJointRepXSerializer.html#987dcedb111d233bdd44885dc1cf4532"><param name="Name" value="objectToFileImpl"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__character.html#g55edbbb581808808c8e160e9608d8790"><param name="Name" value="ObstacleHandle"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__character.html#g55edbbb581808808c8e160e9608d8790"><param name="Name" value="character"></OBJECT>
@@ -3863,19 +3858,18 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html"><param name="Name" value="physx::PxBaseTask"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#07c9f6e71f0723bcf914fce51036d36e"><param name="Name" value="addReference"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#009e71e6c6274132392817f0e57716a0"><param name="Name" value="getContextId"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#a54eb4a1b50979436a797a62e383efee"><param name="Name" value="getName"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#5a1570309c62a12c3ecfe7e695b9f21f"><param name="Name" value="getReference"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#f33b34783821f4b8cc455df2e7f45bbe"><param name="Name" value="getTaskManager"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#9200c8e7b7680790e5e75da22c92e3cd"><param name="Name" value="mEventID"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#859800d5acb01168c7fae071d8e86e26"><param name="Name" value="mProfileStat"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#9dccf76144a25df2c2a7ed5fa8cea003"><param name="Name" value="getTaskManager"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#67864643cd2dfaf8483f8b7a75376bc7"><param name="Name" value="mContextID"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#f23fffec1e92c794d3ad73e9fc4fa974"><param name="Name" value="mTm"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#387b986ef3916322502452724d9ba582"><param name="Name" value="PxBaseTask"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#c4a43ca8ae513a20c1d61bc9aecfce89"><param name="Name" value="PxTaskMgr"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#3be62f992c1ff7218e2cf0fc0ba5b244"><param name="Name" value="release"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#78f9b745c6fb4114350cb1a26f3461d3"><param name="Name" value="removeReference"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#517a16d9dc630c9274a7564deb3a7e4a"><param name="Name" value="run"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#c5afbb44814fd220d9fa1f5ae407f21d"><param name="Name" value="runProfiled"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#0621abfb63132826ccd37421b9d8011f"><param name="Name" value="setProfileStat"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#0fa6ca56b758ea6b8be5c3acc8e89364"><param name="Name" value="setContextId"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#c3100494c97a23a88fcad8e28e222822"><param name="Name" value="~PxBaseTask"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxCpuDispatcher.html"><param name="Name" value="physx::PxCpuDispatcher"></OBJECT>
@@ -4832,6 +4826,11 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g39f6354f5e10029a058e2141956ed9ef"><param name="Name" value="foundation"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g39f6354f5e10029a058e2141956ed9ef"><param name="Name" value="PxPreprocessor.h"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g58dd174408338f37c62dfe6ac1baec60"><param name="Name" value="PX_SUPPORT_EXTERN_TEMPLATE"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g58dd174408338f37c62dfe6ac1baec60"><param name="Name" value="foundation"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g58dd174408338f37c62dfe6ac1baec60"><param name="Name" value="PxPreprocessor.h"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g0a511de410e7de7a8625fb572f88bd89"><param name="Name" value="PX_SUPPORT_GPU_PHYSX"></OBJECT>
   <UL>
@@ -7801,13 +7800,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxJointLinearLimitPair.html#ebd9d130d0b09c7bc81044a91da6a32d"><param name="Name" value="PxJointLinearLimitPair"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxJointLinearLimitPair.html#247c6737628a515ca5fc8fd139678d25"><param name="Name" value="upper"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxJointRepXSerializer.html"><param name="Name" value="PxJointRepXSerializer"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxJointRepXSerializer.html#c2cec93424be05121fe0f2cbfeebf21f"><param name="Name" value="allocateObject"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxJointRepXSerializer.html#bd28b7f3ab7afa350ef908b77e504fdd"><param name="Name" value="fileToObject"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxJointRepXSerializer.html#987dcedb111d233bdd44885dc1cf4532"><param name="Name" value="objectToFileImpl"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxJointRepXSerializer.html#dcc58ed29cc162b2365dc9504dfcab47"><param name="Name" value="PxJointRepXSerializer"></OBJECT>
-  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxLightCpuTask.html#1576f85a8b81170e5fd28dec773c2a45"><param name="Name" value="PxLightCpuTask"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxLightCpuTask.html#1576f85a8b81170e5fd28dec773c2a45"><param name="Name" value="physx::PxLightCpuTask"></OBJECT>
@@ -8604,6 +8596,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g40e7fc272047a5ab6870668b81aca1a3"><param name="Name" value="PX_STRINGIZE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#gaa541ee81b5c7958c1367b710cfa99ed"><param name="Name" value="PX_STRINGIZE_HELPER"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g39f6354f5e10029a058e2141956ed9ef"><param name="Name" value="PX_SUPPORT_COMPUTE_PHYSX"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g58dd174408338f37c62dfe6ac1baec60"><param name="Name" value="PX_SUPPORT_EXTERN_TEMPLATE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g0a511de410e7de7a8625fb572f88bd89"><param name="Name" value="PX_SUPPORT_GPU_PHYSX"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#gc40d28c5e85426df7a98ff9bd597810c"><param name="Name" value="PX_UNIX_EXPORT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#gd7d515be586be72c5c485c5624783a97"><param name="Name" value="PX_UNIX_FAMILY"></OBJECT>
@@ -11543,7 +11536,6 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMeshScale.html#63902c04c9a3f326b5f969fa931e53fd"><param name="Name" value="rotation"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightFieldGeometry.html#3ad5e1a813301ada814c778ea3a3cba7"><param name="Name" value="rowScale"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#517a16d9dc630c9274a7564deb3a7e4a"><param name="Name" value="run"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#c5afbb44814fd220d9fa1f5ae407f21d"><param name="Name" value="runProfiled"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightFieldDesc.html#ffbec0b3ed43d041b12152648d13821b"><param name="Name" value="samples"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#8d6ba51fe74a6c5ea4a46709abb89168"><param name="Name" value="sanityBounds"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxClothFabricCooker.html#6d9657cf26e9eece0d0fe66dfaf5f12a"><param name="Name" value="save"></OBJECT>
@@ -11691,6 +11683,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxShape.html#07c638b68e14de5e284a03dbcc128d27"><param name="Name" value="PxShape"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRigidDynamic.html#bfd510964f2287e81fe76a1a9e1725b5"><param name="Name" value="setContactReportThreshold"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#0fa6ca56b758ea6b8be5c3acc8e89364"><param name="Name" value="setContextId"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxLightCpuTask.html#56ef764508a2bbc98d82bb6dbb09fa3e"><param name="Name" value="setContinuation"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxTaskManager.html#c391319b63678f793dc6800b5ecda801"><param name="Name" value="setCpuDispatcher"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleDriveDynData.html#a7f0d12794afa5fcfa1b5ede6bd2539d"><param name="Name" value="setCurrentGear"></OBJECT>
@@ -11914,7 +11907,6 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxControllerManager.html#aa9553cd92772fcfc583aff5678f7ef0"><param name="Name" value="setPreventVerticalSlidingAgainstCeiling"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPrismaticJoint.html#6d20577d885f919eeee64e9daba76679"><param name="Name" value="setPrismaticJointFlag"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPrismaticJoint.html#0041ced8b6962072214dc81032ed2a2d"><param name="Name" value="setPrismaticJointFlags"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxBaseTask.html#0621abfb63132826ccd37421b9d8011f"><param name="Name" value="setProfileStat"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxD6Joint.html#ba8db764141f62a0a160a0752e7e65d7"><param name="Name" value="setProjectionAngularTolerance"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxD6Joint.html#ba8db764141f62a0a160a0752e7e65d7"><param name="Name" value="PxD6Joint"></OBJECT>

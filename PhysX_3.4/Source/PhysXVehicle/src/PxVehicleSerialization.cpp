@@ -194,7 +194,7 @@ namespace physx
 	, mDriveModel(PxVehicleDriveTankControlModel::eSTANDARD) 
 	{}
 
-	// explicit instantiations
+	// explicit template instantiations
 	template struct PxVehicleRepXSerializer<PxVehicleDrive4W>;
 	template struct PxVehicleRepXSerializer<PxVehicleDriveTank>;
 	template struct PxVehicleRepXSerializer<PxVehicleDriveNW>;

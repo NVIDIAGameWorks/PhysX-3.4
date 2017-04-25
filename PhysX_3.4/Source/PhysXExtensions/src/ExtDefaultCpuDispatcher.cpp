@@ -28,7 +28,6 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
-#include "task/PxTask.h"
 #include "ExtDefaultCpuDispatcher.h"
 #include "ExtCpuWorkerThread.h"
 #include "ExtTaskQueueHelper.h"
@@ -109,7 +108,6 @@ Ext::DefaultCpuDispatcher::DefaultCpuDispatcher(PxU32 numThreads, PxU32* affinit
 	}
 }
 
-
 Ext::DefaultCpuDispatcher::~DefaultCpuDispatcher()
 {
 	for(PxU32 i = 0; i < mNumThreads; ++i)
@@ -129,22 +127,18 @@ Ext::DefaultCpuDispatcher::~DefaultCpuDispatcher()
 		PX_FREE(mThreadNames);
 }
 
-
 void Ext::DefaultCpuDispatcher::submitTask(PxBaseTask& task)
 {
-	Ps::Thread::Id currentThread = Ps::Thread::getId();
 	if(!mNumThreads)
 	{
 		// no worker threads, run directly
-		if(mRunProfiled)
-			task.runProfiled(PxU32(currentThread));
-		else
-			task.run();
+		runTask(task);
 		task.release();
 		return;
 	}	
 
 	// TODO: Could use TLS to make this more efficient
+	const Ps::Thread::Id currentThread = Ps::Thread::getId();
 	for(PxU32 i = 0; i < mNumThreads; ++i)
 	{
 		if(mWorkerThreads[i].tryAcceptJobToLocalQueue(task, currentThread))
@@ -169,33 +163,15 @@ PxBaseTask* Ext::DefaultCpuDispatcher::fetchNextTask()
 	return task;
 }
 
-void Ext::DefaultCpuDispatcher::runTask(PxBaseTask& task)
-{
-	if(mRunProfiled)
-	{
-		const PxU32 threadId = PxU32(Ps::Thread::getId());
-		task.runProfiled(threadId);
-	}
-	else
-		task.run();
-}
-
-PxU32 Ext::DefaultCpuDispatcher::getWorkerCount() const
-{
-	return mNumThreads;	
-}
-
 void Ext::DefaultCpuDispatcher::release()
 {
 	PX_DELETE(this);
 }
 
-
 PxBaseTask* Ext::DefaultCpuDispatcher::getJob(void)
 {
 	return TaskQueueHelper::fetchTask(mJobList, mQueueEntryPool);
 }
-
 
 PxBaseTask* Ext::DefaultCpuDispatcher::stealJob()
 {
@@ -211,7 +187,6 @@ PxBaseTask* Ext::DefaultCpuDispatcher::stealJob()
 
 	return ret;
 }
-
 
 void Ext::DefaultCpuDispatcher::resetWakeSignal()
 {

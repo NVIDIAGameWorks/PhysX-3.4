@@ -532,5 +532,11 @@ protected:                                                                      
 
 #define PX_SUPPORT_COMPUTE_PHYSX 0
 
+#ifndef PX_SUPPORT_EXTERN_TEMPLATE
+#define PX_SUPPORT_EXTERN_TEMPLATE ((!PX_ANDROID) && (PX_VC != 11))
+#else
+#define PX_SUPPORT_EXTERN_TEMPLATE 0
+#endif
+
 /** @} */
 #endif // #ifndef PXFOUNDATION_PXPREPROCESSOR_H

@@ -53,7 +53,9 @@ namespace Bp
 											BroadPhaseMBP(PxU32 maxNbRegions,
 															PxU32 maxNbBroadPhaseOverlaps,
 															PxU32 maxNbStaticShapes,
-															PxU32 maxNbDynamicShapes);
+															PxU32 maxNbDynamicShapes,
+															PxU64 contextID
+															);
 		virtual								~BroadPhaseMBP();
 
 	// BroadPhaseBase
@@ -67,23 +69,24 @@ namespace Bp
 	//~BroadPhaseBase
 
 	// BroadPhase
-		virtual	PxBroadPhaseType::Enum			getType()					const	{ return PxBroadPhaseType::eMBP;	}
+		virtual	PxBroadPhaseType::Enum		getType()					const	{ return PxBroadPhaseType::eMBP;	}
 
-		virtual	void							destroy();
+		virtual	void						destroy();
 
-		virtual	void							update(const PxU32 numCpuTasks, PxcScratchAllocator* scratchAllocator, const BroadPhaseUpdateData& updateData, physx::PxBaseTask* continuation, physx::PxBaseTask* narrowPhaseUnblockTask);
+		virtual	void						update(const PxU32 numCpuTasks, PxcScratchAllocator* scratchAllocator, const BroadPhaseUpdateData& updateData, physx::PxBaseTask* continuation, physx::PxBaseTask* narrowPhaseUnblockTask);
+		virtual void						fetchBroadPhaseResults(physx::PxBaseTask*) {}
 
-		virtual	PxU32							getNbCreatedPairs()		const;
-		virtual BroadPhasePairReport*			getCreatedPairs();
-		virtual PxU32							getNbDeletedPairs()		const;
-		virtual BroadPhasePairReport*			getDeletedPairs();
+		virtual	PxU32						getNbCreatedPairs()		const;
+		virtual BroadPhasePairReport*		getCreatedPairs();
+		virtual PxU32						getNbDeletedPairs()		const;
+		virtual BroadPhasePairReport*		getDeletedPairs();
 
-		virtual void							freeBuffers();
+		virtual void						freeBuffers();
 
-		virtual void							shiftOrigin(const PxVec3& shift);
+		virtual void						shiftOrigin(const PxVec3& shift);
 
 #if PX_CHECKED
-		virtual bool							isValid(const BroadPhaseUpdateData& updateData)	const;
+		virtual bool						isValid(const BroadPhaseUpdateData& updateData)	const;
 #endif
 
 		virtual BroadPhasePair*				getBroadPhasePairs() const  {return NULL;}  //KS - TODO - implement this!!!
@@ -103,7 +106,7 @@ namespace Bp
 				Ps::Array<BroadPhasePairReport>	mCreated;
 				Ps::Array<BroadPhasePairReport>	mDeleted;
 
-				const BpHandle*						mGroups;	// ### why are those 'handles'?
+				const BpHandle*				mGroups;	// ### why are those 'handles'?
 
 				void						setUpdateData(const BroadPhaseUpdateData& updateData);
 				void						update(physx::PxBaseTask* continuation);

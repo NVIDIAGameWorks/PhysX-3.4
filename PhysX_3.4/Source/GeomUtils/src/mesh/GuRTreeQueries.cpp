@@ -319,10 +319,10 @@ void RTree::traverseRay(
 	}
 }
 
-template void RTree::traverseRay<0>(
-	const PxVec3&, const PxVec3&, const PxU32, PxU32*, Gu::RTree::CallbackRaycast*, const PxVec3*, PxF32 maxT) const;
-template void RTree::traverseRay<1>(
-	const PxVec3&, const PxVec3&, const PxU32, PxU32*, Gu::RTree::CallbackRaycast*, const PxVec3*, PxF32 maxT) const;
+//explicit template instantiation
+template void RTree::traverseRay<0>(const PxVec3&, const PxVec3&, const PxU32, PxU32*, Gu::RTree::CallbackRaycast*, const PxVec3*, PxF32) const;
+
+template void RTree::traverseRay<1>(const PxVec3&, const PxVec3&, const PxU32, PxU32*, Gu::RTree::CallbackRaycast*, const PxVec3*, PxF32) const;
 
 /////////////////////////////////////////////////////////////////////////
 void RTree::traverseOBB(

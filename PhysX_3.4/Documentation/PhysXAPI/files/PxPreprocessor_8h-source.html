@@ -467,7 +467,13 @@
 <a name="l00532"></a>00532 <span class="preprocessor"></span>
 <a name="l00533"></a><a class="code" href="group__foundation.html#g39f6354f5e10029a058e2141956ed9ef">00533</a> <span class="preprocessor">#define PX_SUPPORT_COMPUTE_PHYSX 0</span>
 <a name="l00534"></a>00534 <span class="preprocessor"></span>
-<a name="l00536"></a>00536 <span class="preprocessor">#endif // #ifndef PXFOUNDATION_PXPREPROCESSOR_H</span>
+<a name="l00535"></a>00535 <span class="preprocessor">#ifndef PX_SUPPORT_EXTERN_TEMPLATE</span>
+<a name="l00536"></a><a class="code" href="group__foundation.html#g58dd174408338f37c62dfe6ac1baec60">00536</a> <span class="preprocessor"></span><span class="preprocessor">#define PX_SUPPORT_EXTERN_TEMPLATE ((!PX_ANDROID) &amp;&amp; (PX_VC != 11))</span>
+<a name="l00537"></a>00537 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00538"></a>00538 <span class="preprocessor"></span><span class="preprocessor">#define PX_SUPPORT_EXTERN_TEMPLATE 0</span>
+<a name="l00539"></a>00539 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00540"></a>00540 <span class="preprocessor"></span>
+<a name="l00542"></a>00542 <span class="preprocessor">#endif // #ifndef PXFOUNDATION_PXPREPROCESSOR_H</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

@@ -375,6 +375,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_STRINGIZE"><param name="Local" value="group__foundation.html#g40e7fc272047a5ab6870668b81aca1a3"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_STRINGIZE_HELPER"><param name="Local" value="group__foundation.html#gaa541ee81b5c7958c1367b710cfa99ed"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_SUPPORT_COMPUTE_PHYSX"><param name="Local" value="group__foundation.html#g39f6354f5e10029a058e2141956ed9ef"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_SUPPORT_EXTERN_TEMPLATE"><param name="Local" value="group__foundation.html#g58dd174408338f37c62dfe6ac1baec60"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_SUPPORT_GPU_PHYSX"><param name="Local" value="group__foundation.html#g0a511de410e7de7a8625fb572f88bd89"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_UNIX_EXPORT"><param name="Local" value="group__foundation.html#gc40d28c5e85426df7a98ff9bd597810c"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_UNIX_FAMILY"><param name="Local" value="group__foundation.html#gd7d515be586be72c5c485c5624783a97"><param name="ImageNumber" value="11"></OBJECT>
@@ -890,13 +891,6 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothMeshDesc"><param name="Local" value="classPxClothMeshDesc.html"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
     </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="RepXSerializers"><param name="Local" value="group__RepXSerializers.html"><param name="ImageNumber" value="1"></OBJECT>
-    <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="Classes"><param name="Local" value="group__RepXSerializers.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJointRepXSerializer< TJointType >"><param name="Local" value="structPxJointRepXSerializer.html"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    </UL>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="Serializers"><param name="Local" value="group__Serializers.html"><param name="ImageNumber" value="1"></OBJECT>
     <UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Defines"><param name="Local" value="group__Serializers.html"><param name="ImageNumber" value="1"></OBJECT>
@@ -1320,7 +1314,6 @@
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJointLimitParameters"><param name="Local" value="classPxJointLimitParameters.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJointLinearLimit"><param name="Local" value="classPxJointLinearLimit.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJointLinearLimitPair"><param name="Local" value="classPxJointLinearLimitPair.html"><param name="ImageNumber" value="11"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJointRepXSerializer< TJointType >"><param name="Local" value="structPxJointRepXSerializer.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxLocationHit"><param name="Local" value="structPxLocationHit.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxLockedData"><param name="Local" value="classPxLockedData.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxMassModificationProps"><param name="Local" value="structPxMassModificationProps.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -1816,7 +1809,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJointLinearLimit"><param name="Local" value="classPxJointLinearLimit.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJointLinearLimitPair"><param name="Local" value="classPxJointLinearLimitPair.html"><param name="ImageNumber" value="11"></OBJECT>
     </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJointRepXSerializer< TJointType >"><param name="Local" value="structPxJointRepXSerializer.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxLockedData"><param name="Local" value="classPxLockedData.html"><param name="ImageNumber" value="1"></OBJECT>
     <UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="PxParticleReadData"><param name="Local" value="classPxParticleReadData.html"><param name="ImageNumber" value="1"></OBJECT>
@@ -2093,7 +2085,6 @@
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxIO.h"><param name="Local" value="PxIO_8h.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJoint.h"><param name="Local" value="PxJoint_8h.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJointLimit.h"><param name="Local" value="PxJointLimit_8h.html"><param name="ImageNumber" value="11"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="PxJointRepXSerializer.h"><param name="Local" value="PxJointRepXSerializer_8h.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxLockedData.h"><param name="Local" value="PxLockedData_8h.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxMassProperties.h"><param name="Local" value="PxMassProperties_8h.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxMat33.h"><param name="Local" value="PxMat33_8h.html"><param name="ImageNumber" value="11"></OBJECT>

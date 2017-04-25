@@ -215,9 +215,6 @@ protected:
 	virtual void decrReference(PxLightCpuTask&) = 0;
 	virtual void addReference(PxLightCpuTask&) = 0;
 
-	virtual void emitStartEvent(PxBaseTask&, uint32_t threadId=0) = 0;
-	virtual void emitStopEvent(PxBaseTask&, uint32_t threadId=0) = 0;
-
 	/*! \endcond */
 
 	friend class PxBaseTask;

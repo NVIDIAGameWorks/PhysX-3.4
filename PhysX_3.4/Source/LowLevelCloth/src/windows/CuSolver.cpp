@@ -541,7 +541,7 @@ void cloth::CuSolver::interCollision()
 }
 
 cloth::CuSolver::ClothSolverTask::ClothSolverTask(FunctionPtr functionPtr, const char* name)
-: mSolver(0), mFunctionPtr(functionPtr), mName(name)
+: Cm::Task(0), mSolver(0), mFunctionPtr(functionPtr), mName(name)
 {
 }
 

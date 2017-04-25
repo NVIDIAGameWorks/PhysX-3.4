@@ -63,24 +63,6 @@ using namespace physx::shdfnd;
 #define PXS_BODYSHAPE_SLABSIZE 1024
 #define PXS_MAX_BODYSHAPE_SLABS 16
 
-
-void PxsCMUpdateTask::release()
-{
-	// We used to do Task::release(); here before fixing DE1106 (xbox pure virtual crash)
-	// Release in turn causes the dependent tasks to start running
-	// The problem was that between the time release was called and by the time we got to the destructor
-	// The task chain would get all the way to scene finalization code which would reset the allocation pool
-	// And a new task would get allocated at the same address, then we would invoke the destructor on that freshly created task
-	// This could potentially cause any number of other problems, it is suprising that it only manifested itself
-	// as a pure virtual crash
-	PxBaseTask* saveContinuation = mCont;
-	this->~PxsCMUpdateTask();
-	if (saveContinuation)
-		saveContinuation->removeReference();
-}
-
-
-
 PxsContext::PxsContext(const PxSceneDesc& desc, PxTaskManager* taskManager, Cm::FlushPool& taskPool, PxU64 contextID) :
 	mNpThreadContextPool		(this),
 	mContactManagerPool			("mContactManagerPool", this, 256, 8192),

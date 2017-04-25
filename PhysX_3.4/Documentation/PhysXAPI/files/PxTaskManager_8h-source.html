@@ -121,21 +121,18 @@
 <a name="l00215"></a>00215     <span class="keyword">virtual</span> <span class="keywordtype">void</span> decrReference(<a class="code" href="classphysx_1_1PxLightCpuTask.html" title="A PxBaseTask implementation with immediate execution and simple dependencies.">PxLightCpuTask</a>&amp;) = 0;
 <a name="l00216"></a>00216     <span class="keyword">virtual</span> <span class="keywordtype">void</span> addReference(<a class="code" href="classphysx_1_1PxLightCpuTask.html" title="A PxBaseTask implementation with immediate execution and simple dependencies.">PxLightCpuTask</a>&amp;) = 0;
 <a name="l00217"></a>00217 
-<a name="l00218"></a>00218     <span class="keyword">virtual</span> <span class="keywordtype">void</span> emitStartEvent(<a class="code" href="classphysx_1_1PxBaseTask.html" title="Base class of all task types.">PxBaseTask</a>&amp;, uint32_t threadId=0) = 0;
-<a name="l00219"></a>00219     <span class="keyword">virtual</span> <span class="keywordtype">void</span> emitStopEvent(<a class="code" href="classphysx_1_1PxBaseTask.html" title="Base class of all task types.">PxBaseTask</a>&amp;, uint32_t threadId=0) = 0;
-<a name="l00220"></a>00220 
-<a name="l00223"></a><a class="code" href="classphysx_1_1PxTaskManager.html#f33eb2b61a29f3a4d62f211a78c46f47">00223</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classphysx_1_1PxBaseTask.html" title="Base class of all task types.">PxBaseTask</a>;
-<a name="l00224"></a><a class="code" href="classphysx_1_1PxTaskManager.html#09f24c51c8921a6866cfb6dd214e1282">00224</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classphysx_1_1PxTask.html" title="A PxBaseTask implementation with deferred execution and full dependencies.">PxTask</a>;
-<a name="l00225"></a><a class="code" href="classphysx_1_1PxTaskManager.html#4635f476e861159685a7a960660a5842">00225</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classphysx_1_1PxLightCpuTask.html" title="A PxBaseTask implementation with immediate execution and simple dependencies.">PxLightCpuTask</a>;
-<a name="l00226"></a><a class="code" href="classphysx_1_1PxTaskManager.html#7f49a59cfb28fd74ba8601e2d0d2d35a">00226</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classphysx_1_1PxTaskManager.html#7f49a59cfb28fd74ba8601e2d0d2d35a">PxGpuWorkerThread</a>;
-<a name="l00227"></a>00227 };
-<a name="l00228"></a>00228 
-<a name="l00229"></a>00229 <a class="code" href="group__foundation.html#g9aad3b08e5e15565ff39638b753f4a92">PX_POP_PACK</a>
+<a name="l00220"></a><a class="code" href="classphysx_1_1PxTaskManager.html#f33eb2b61a29f3a4d62f211a78c46f47">00220</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classphysx_1_1PxBaseTask.html" title="Base class of all task types.">PxBaseTask</a>;
+<a name="l00221"></a><a class="code" href="classphysx_1_1PxTaskManager.html#09f24c51c8921a6866cfb6dd214e1282">00221</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classphysx_1_1PxTask.html" title="A PxBaseTask implementation with deferred execution and full dependencies.">PxTask</a>;
+<a name="l00222"></a><a class="code" href="classphysx_1_1PxTaskManager.html#4635f476e861159685a7a960660a5842">00222</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classphysx_1_1PxLightCpuTask.html" title="A PxBaseTask implementation with immediate execution and simple dependencies.">PxLightCpuTask</a>;
+<a name="l00223"></a><a class="code" href="classphysx_1_1PxTaskManager.html#7f49a59cfb28fd74ba8601e2d0d2d35a">00223</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classphysx_1_1PxTaskManager.html#7f49a59cfb28fd74ba8601e2d0d2d35a">PxGpuWorkerThread</a>;
+<a name="l00224"></a>00224 };
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226 <a class="code" href="group__foundation.html#g9aad3b08e5e15565ff39638b753f4a92">PX_POP_PACK</a>
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228 } <span class="comment">// end physx namespace</span>
+<a name="l00229"></a>00229 
 <a name="l00230"></a>00230 
-<a name="l00231"></a>00231 } <span class="comment">// end physx namespace</span>
-<a name="l00232"></a>00232 
-<a name="l00233"></a>00233 
-<a name="l00234"></a>00234 <span class="preprocessor">#endif // PXTASK_PXTASKMANAGER_H</span>
+<a name="l00231"></a>00231 <span class="preprocessor">#endif // PXTASK_PXTASKMANAGER_H</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

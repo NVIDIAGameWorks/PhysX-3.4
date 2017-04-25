@@ -194,9 +194,9 @@ namespace physx
 {
 
 	PxsCCDContext::PxsCCDContext(PxsContext* context, Dy::ThresholdStream& thresholdStream, PxvNphaseImplementationContext& nPhaseContext) :
-		mPostCCDSweepTask			(this, "PxsContext.postCCDSweep"),
-		mPostCCDAdvanceTask			(this, "PxsContext.postCCDAdvance"),
-		mPostCCDDepenetrateTask		(this, "PxsContext.postCCDDepenetrate"),
+		mPostCCDSweepTask			(context->getContextId(), this, "PxsContext.postCCDSweep"),
+		mPostCCDAdvanceTask			(context->getContextId(), this, "PxsContext.postCCDAdvance"),
+		mPostCCDDepenetrateTask		(context->getContextId(), this, "PxsContext.postCCDDepenetrate"),
 		mDisableCCDResweep			(false),
 		miCCDPass					(0),
 		mSweepTotalHits				(0),
@@ -857,8 +857,8 @@ class PxsCCDSweepTask : public Cm::Task
 	PxsCCDPair** 					mPairs;
 	PxU32							mNumPairs;
 public:
-	PxsCCDSweepTask(PxsCCDPair** pairs, PxU32 nPairs)
-		:	mPairs(pairs), mNumPairs(nPairs)
+	PxsCCDSweepTask(PxU64 contextID, PxsCCDPair** pairs, PxU32 nPairs)
+		:	Cm::Task(contextID), mPairs(pairs), mNumPairs(nPairs)
 	{
 	}
 
@@ -914,7 +914,7 @@ public:
 				PxU32 firstIslandPair, PxU32 firstThreadIsland, PxU32 islandsPerThread, PxU32 totalIslands, 
 				PxsCCDBody** islandBodies, PxU16* numIslandBodies, bool clipTrajectory, bool disableResweep,
 				PxI32* sweepTotalHits)
-		:	mCCDPairs(pairs), mNumPairs(nPairs), mContext(context), mCCDContext(ccdContext), mDt(dt),
+		:	Cm::Task(context->getContextId()), mCCDPairs(pairs), mNumPairs(nPairs), mContext(context), mCCDContext(ccdContext), mDt(dt),
 			mCCDPass(ccdPass), mCCDBodies(ccdBodies), mFirstThreadIsland(firstThreadIsland), 
 			mIslandsPerThread(islandsPerThread), mTotalIslandCount(totalIslands), mFirstIslandPair(firstIslandPair),
 			mIslandBodies(islandBodies), mNumIslandBodies(numIslandBodies),	mSweepTotalHits(sweepTotalHits),
@@ -1697,8 +1697,7 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 		PX_ASSERT_WITH_MESSAGE(ptr, "Failed to allocate PxsCCDSweepTask");
 		const PxU32 batchEnd = PxMin(nPairs, batchBegin + mCCDPairsPerBatch);
 		PX_ASSERT(batchEnd >= batchBegin);
-		PxsCCDSweepTask* task = PX_PLACEMENT_NEW(ptr, PxsCCDSweepTask)(
-			mCCDPtrPairs.begin() + batchBegin, batchEnd - batchBegin);
+		PxsCCDSweepTask* task = PX_PLACEMENT_NEW(ptr, PxsCCDSweepTask)(mContext->getContextId(), mCCDPtrPairs.begin() + batchBegin, batchEnd - batchBegin);
 		task->setContinuation(*mContext->mTaskManager, &mPostCCDSweepTask);
 		task->removeReference();
 	}

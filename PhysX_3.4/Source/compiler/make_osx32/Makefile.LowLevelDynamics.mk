@@ -92,6 +92,7 @@ LowLevelDynamics_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-
 LowLevelDynamics_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelDynamics_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelDynamics_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+LowLevelDynamics_debug_cflags  += -Wno-c++11-extensions
 LowLevelDynamics_debug_cflags  += -g3 -gdwarf-2 -O0
 LowLevelDynamics_debug_cppflags	:= $(LowLevelDynamics_debug_common_cflags)
 LowLevelDynamics_debug_cppflags  += -arch i386
@@ -99,6 +100,7 @@ LowLevelDynamics_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffas
 LowLevelDynamics_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelDynamics_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelDynamics_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+LowLevelDynamics_debug_cppflags  += -Wno-c++11-extensions
 LowLevelDynamics_debug_cppflags  += -g3 -gdwarf-2 -O0
 LowLevelDynamics_debug_lflags    := $(LowLevelDynamics_custom_lflags)
 LowLevelDynamics_debug_lflags    += $(addprefix -L, $(LowLevelDynamics_debug_lpaths))
@@ -201,6 +203,7 @@ LowLevelDynamics_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffas
 LowLevelDynamics_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelDynamics_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelDynamics_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+LowLevelDynamics_checked_cflags  += -Wno-c++11-extensions
 LowLevelDynamics_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 LowLevelDynamics_checked_cppflags	:= $(LowLevelDynamics_checked_common_cflags)
 LowLevelDynamics_checked_cppflags  += -arch i386
@@ -208,6 +211,7 @@ LowLevelDynamics_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ff
 LowLevelDynamics_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelDynamics_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelDynamics_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+LowLevelDynamics_checked_cppflags  += -Wno-c++11-extensions
 LowLevelDynamics_checked_cppflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 LowLevelDynamics_checked_lflags    := $(LowLevelDynamics_custom_lflags)
 LowLevelDynamics_checked_lflags    += $(addprefix -L, $(LowLevelDynamics_checked_lpaths))
@@ -310,6 +314,7 @@ LowLevelDynamics_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffas
 LowLevelDynamics_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelDynamics_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelDynamics_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+LowLevelDynamics_profile_cflags  += -Wno-c++11-extensions
 LowLevelDynamics_profile_cflags  += -O3 -fno-strict-aliasing
 LowLevelDynamics_profile_cppflags	:= $(LowLevelDynamics_profile_common_cflags)
 LowLevelDynamics_profile_cppflags  += -arch i386
@@ -317,6 +322,7 @@ LowLevelDynamics_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ff
 LowLevelDynamics_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelDynamics_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelDynamics_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+LowLevelDynamics_profile_cppflags  += -Wno-c++11-extensions
 LowLevelDynamics_profile_cppflags  += -O3 -fno-strict-aliasing
 LowLevelDynamics_profile_lflags    := $(LowLevelDynamics_custom_lflags)
 LowLevelDynamics_profile_lflags    += $(addprefix -L, $(LowLevelDynamics_profile_lpaths))
@@ -418,6 +424,7 @@ LowLevelDynamics_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffas
 LowLevelDynamics_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelDynamics_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelDynamics_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+LowLevelDynamics_release_cflags  += -Wno-c++11-extensions
 LowLevelDynamics_release_cflags  += -O3 -fno-strict-aliasing
 LowLevelDynamics_release_cppflags	:= $(LowLevelDynamics_release_common_cflags)
 LowLevelDynamics_release_cppflags  += -arch i386
@@ -425,6 +432,7 @@ LowLevelDynamics_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ff
 LowLevelDynamics_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelDynamics_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelDynamics_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
+LowLevelDynamics_release_cppflags  += -Wno-c++11-extensions
 LowLevelDynamics_release_cppflags  += -O3 -fno-strict-aliasing
 LowLevelDynamics_release_lflags    := $(LowLevelDynamics_custom_lflags)
 LowLevelDynamics_release_lflags    += $(addprefix -L, $(LowLevelDynamics_release_lpaths))

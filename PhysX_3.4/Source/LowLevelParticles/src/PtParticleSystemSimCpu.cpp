@@ -317,12 +317,12 @@ ParticleSystemSimCpu::ParticleSystemSimCpu(ContextCpu* context, PxU32 index)
 , mDynamics(*this)
 , mCollision(*this)
 , mIndex(index)
-, mPacketShapesUpdateTask(this, "Pt::ParticleSystemSimCpu.packetShapesUpdate")
-, mPacketShapesFinalizationTask(this, "Pt::ParticleSystemSimCpu.packetShapesFinalization")
-, mDynamicsUpdateTask(this, "Pt::ParticleSystemSimCpu.dynamicsUpdate")
-, mCollisionUpdateTask(this, "Pt::ParticleSystemSimCpu.collisionUpdate")
-, mCollisionFinalizationTask(this, "Pt::ParticleSystemSimCpu.collisionFinalization")
-, mSpatialHashUpdateSectionsTask(this, "Pt::ParticleSystemSimCpu.spatialHashUpdateSections")
+, mPacketShapesUpdateTask(0, this, "Pt::ParticleSystemSimCpu.packetShapesUpdate")
+, mPacketShapesFinalizationTask(0, this, "Pt::ParticleSystemSimCpu.packetShapesFinalization")
+, mDynamicsUpdateTask(0, this, "Pt::ParticleSystemSimCpu.dynamicsUpdate")
+, mCollisionUpdateTask(0, this, "Pt::ParticleSystemSimCpu.collisionUpdate")
+, mCollisionFinalizationTask(0, this, "Pt::ParticleSystemSimCpu.collisionFinalization")
+, mSpatialHashUpdateSectionsTask(0, this, "Pt::ParticleSystemSimCpu.spatialHashUpdateSections")
 {
 }
 

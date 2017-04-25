@@ -46,8 +46,6 @@
 #include "geometry/PxConvexMeshGeometry.h"
 #include "SampleAllocatorSDKClasses.h"
 
-#include "PxVehicleSerialization.h"
-
 ///////////////////////////////////
 
 SampleVehicle_VehicleManager::SampleVehicle_VehicleManager() 

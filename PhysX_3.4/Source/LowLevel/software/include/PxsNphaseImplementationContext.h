@@ -73,6 +73,7 @@ public:
 										mModifyCallback(NULL), mIslandSim(islandSim) {}
 	virtual void				destroy();
 	virtual void				updateContactManager(PxReal dt, bool hasBoundsArrayChanged, bool hasContactDistanceChanged, PxBaseTask* continuation, PxBaseTask* firstPassContinuation);
+	virtual void				postBroadPhaseUpdateContactManager() {}
 	virtual void				secondPassUpdateContactManager(PxReal dt, PxBaseTask* continuation);
 
 	virtual void				registerContactManager(PxsContactManager* cm, PxI32 touching, PxU32 numPatches);

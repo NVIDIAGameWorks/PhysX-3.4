@@ -42,7 +42,7 @@ void localSearch(PxU32& id, const PxVec3& dir, const PxVec3* verts, const Gu::Bi
 	// WARNING: there is a problem on x86 with a naive version of this code, where truncation
 	// of values from 80 bits to 32 bits as they're stored in memory means that iteratively moving to 
 	// an adjacent vertex of greater support can go into an infinite loop. So we use a version which 
-	// never vists a version twice. Note - this might not be enough for GJK, since local
+	// never visits a vertex twice. Note - this might not be enough for GJK, since local
 	// termination of the support function might not be enough to ensure convergence of GJK itself.
 
 	// if we got here, we'd better have vertices and valencies

@@ -53,7 +53,7 @@ namespace Pt
 class CollisionTask : public Cm::Task
 {
   public:
-	CollisionTask(Collision& context, PxU32 taskDataIndex) : mCollisionContext(context), mTaskDataIndex(taskDataIndex)
+	CollisionTask(Collision& context, PxU32 taskDataIndex) : Cm::Task(0), mCollisionContext(context), mTaskDataIndex(taskDataIndex)
 	{
 	}
 
@@ -83,7 +83,7 @@ how to support dominance-driven one/two-way collision (search for 'todo dominanc
 - use this flag when copying impulse to collData.shapeImpulse
 */
 Collision::Collision(ParticleSystemSimCpu& particleSystem)
-: mParticleSystem(particleSystem), mMergeTask(this, "Collision.mergeResults")
+: mParticleSystem(particleSystem), mMergeTask(0, this, "Collision.mergeResults")
 {
 }
 

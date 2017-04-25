@@ -819,18 +819,8 @@ bool NpSceneQueries::multiQuery(
 	}
 }
 
+//explicit template instantiation
+template bool NpSceneQueries::multiQuery<PxRaycastHit>(const MultiQueryInput&, PxHitCallback<PxRaycastHit>&, PxHitFlags, const PxQueryCache*, const PxQueryFilterData&, PxQueryFilterCallback*, BatchQueryFilterData*) const; 
+template bool NpSceneQueries::multiQuery<PxOverlapHit>(const MultiQueryInput&, PxHitCallback<PxOverlapHit>&, PxHitFlags, const PxQueryCache*, const PxQueryFilterData&, PxQueryFilterCallback*, BatchQueryFilterData*) const;
+template bool NpSceneQueries::multiQuery<PxSweepHit>(const MultiQueryInput&, PxHitCallback<PxSweepHit>&, PxHitFlags, const PxQueryCache*, const PxQueryFilterData&, PxQueryFilterCallback*, BatchQueryFilterData*) const;
 
-// explicit instantiations for multiQuery to fix link errors on android
-#if !PX_WINDOWS_FAMILY
-#define TMQ(hittype) \
-	template bool NpSceneQueries::multiQuery<hittype>( \
-		const MultiQueryInput& input, PxHitCallback<hittype>& hits, PxHitFlags hitFlags, \
-		const PxQueryCache* cache, const PxQueryFilterData& filterData, PxQueryFilterCallback* filterCall, \
-		BatchQueryFilterData* bfd) const;
-
-TMQ(PxRaycastHit)
-TMQ(PxOverlapHit)
-TMQ(PxSweepHit)
-
-#undef TMQ
-#endif

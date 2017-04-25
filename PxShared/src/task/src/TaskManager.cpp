@@ -168,9 +168,6 @@ public:
 	void	decrReference( PxLightCpuTask& lighttask );
 	void	addReference( PxLightCpuTask& lighttask );		
 
-	void	emitStartEvent( PxBaseTask& basetask, uint32_t threadId=0);
-	void	emitStopEvent( PxBaseTask& basetask, uint32_t threadId=0);
-
 	PxErrorCallback&			mErrorCallback;
 	PxCpuDispatcher           *mCpuDispatcher;
 	PxGpuDispatcher           *mGpuDispatcher;		
@@ -304,35 +301,6 @@ void PxTaskMgr::addReference(PxLightCpuTask& lighttask)
 	shdfnd::atomicIncrement(&lighttask.mRefCount);
 }
 
-void PxTaskMgr::emitStartEvent(PxBaseTask& basetask, uint32_t threadId)
-{
-#if DOT_LOG
-	currentTask = &basetask;
-#endif
-
-	PxBaseTask* tmp = &basetask;
-	PX_UNUSED(tmp);
-	PX_UNUSED(threadId);
-
-	/* This does not need a lock! */
-#if PX_SUPPORT_PXTASK_PROFILING
-	//PX_COMPILE_TIME_ASSERT(sizeof(PxProfileEventId::mEventId) == sizeof(PxBaseTask::mEventID));
-	PX_PROFILE_START_CROSSTHREAD(basetask.getName(),0);
-#endif
-}
-
-void PxTaskMgr::emitStopEvent(PxBaseTask& basetask, uint32_t threadId)
-{
-	PxBaseTask* tmp = &basetask;
-	PX_UNUSED(tmp);
-	PX_UNUSED(threadId);
-
-	/* This does not need a lock! */
-#if PX_SUPPORT_PXTASK_PROFILING
-	//PX_COMPILE_TIME_ASSERT(sizeof(PxProfileEventId::mEventId) == sizeof(PxBaseTask::mEventID));
-	PX_PROFILE_STOP_CROSSTHREAD(basetask.getName(),0);
-#endif
-}
 
 /*
  * Called by the owner (Scene) at the start of every frame, before
