@@ -1098,8 +1098,6 @@ namespace physx
 	
 		using namespace Ps::aos;
 
-		const FloatV threshold = FLoad(0.7071f);//about 45 degree0
-		PX_UNUSED(threshold);
 		{
 				
 			FeatureStatus status = POLYDATA0;
@@ -1139,10 +1137,10 @@ namespace physx
 				{
 					const Gu::HullPolygonData* referencePolygon = &polyData.mPolygons[feature1];
 			
-					const Vec3V contactNormal = V3Normalize(M33TrnspsMulV3(polyMap->shape2Vertex, V3LoadU(referencePolygon->mPlane.n)));
-					const Vec3V nContactNormal = V3Neg(contactNormal);
-					const FloatV cosTheta = V3Dot(nContactNormal, triNormal);
-
+					const FloatV cosTheta = V3Dot(V3Neg(minNormal), triNormal);
+					
+					const FloatV threshold = FLoad(0.707106781f);//about 45 degree0
+					
 					if(FAllGrtr(cosTheta, threshold))
 					{
 						patchNormal = triNormal;

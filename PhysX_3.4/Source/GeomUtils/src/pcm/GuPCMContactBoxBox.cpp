@@ -969,14 +969,14 @@ bool pcmContactBoxBox(GU_CONTACT_METHOD_ARGS)
 			else
 			{
 				const Vec3V zeroV = V3Zero();
-				ShrunkBoxV box0(zeroV, boxExtents0);
-				ShrunkBoxV box1(zeroV, boxExtents1);
+				BoxV box0(zeroV, boxExtents0);
+				BoxV box1(zeroV, boxExtents1);
 				Vec3V closestA(zeroV), closestB(zeroV), normal(zeroV); // these will be in the local space of B
 				FloatV penDep = FZero(); 
 				manifold.mNumWarmStartPoints = 0;
-				RelativeConvex<ShrunkBoxV> convexA(box0, aToB);
-				LocalConvex<ShrunkBoxV> convexB(box1);
-				GjkStatus status = gjkPenetration<RelativeConvex<ShrunkBoxV>, LocalConvex<ShrunkBoxV> >(convexA, convexB, aToB.p, contactDist, closestA, closestB, normal, penDep,
+				RelativeConvex<BoxV> convexA(box0, aToB);
+				LocalConvex<BoxV> convexB(box1);
+				GjkStatus status = gjkPenetration<RelativeConvex<BoxV>, LocalConvex<BoxV> >(convexA, convexB, aToB.p, contactDist, closestA, closestB, normal, penDep,
 					manifold.mAIndice, manifold.mBIndice, manifold.mNumWarmStartPoints, false);
 
 				if(status == EPA_CONTACT)

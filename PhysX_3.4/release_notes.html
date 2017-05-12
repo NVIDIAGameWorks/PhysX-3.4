@@ -2,7 +2,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>Release Notes - NVIDIA PhysX SDK 3.4.0.21821222</title>
+<title>Release Notes - NVIDIA PhysX SDK 3.4.0.22121272</title>
 <style type="text/css">
 	body
 	{
@@ -28,6 +28,47 @@
 
 <body>
 
+<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.0.22121272</h1>
+<h2 style="TEXT-ALIGN: center">May</h2>
+
+	<h2>Changes and Resolved Issues</h2>
+	<blockquote>
+
+	<i>Note: Platform specific issues and changes can be found in the readme file of the corresponding platform.</i>
+
+	</blockquote>
+
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fixed a bug in convex vs convex PCM contact gen code. There were cases in which full contact gen should have been triggered but was not. </li>
+        </ul>
+    </ul>
+
+	<h3>Scene queries</h3>
+	<ul>
+		<li>Fixed:</li>
+		<ul>
+			<li>A rare crash that could happen with sphere overlap calls has been fixed.</li>
+            <li>Fixed a stack corruption in CCD contact modification callback.</li>
+            <li>Fixed a bug where external forces were not cleared correctly with PxArticulations.</li>
+		</ul>
+	</ul>
+
+	<h3>Cooking</h3>
+	<ul>
+		<li>Changed:</li>
+		<ul>
+			<li>Convex hull cooking now reuses edge information, perf optimization.</li>
+			<li>PxCooking API is now const if possible.</li>
+		</ul>
+	</ul>
+
+<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<br>
 <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.0.22017166</h1>

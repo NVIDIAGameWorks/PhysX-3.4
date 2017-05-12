@@ -8,7 +8,6 @@
  * license agreement from NVIDIA CORPORATION is strictly prohibited.
  */
 
-#include "ApexSimdMath.h"
 #include "PxPreprocessor.h"
 #include "RenderDataFormat.h"
 #include "ClothingActorData.h"
@@ -18,6 +17,7 @@
 #include "ApexSDKIntl.h"
 
 #include "ClothingGlobals.h"
+#include "SimdMath.h"
 
 #include "ProfilerCallback.h"
 

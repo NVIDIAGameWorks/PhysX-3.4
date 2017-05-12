@@ -58,6 +58,9 @@ namespace physx
 		// fills the PxConvexMeshDesc with computed hull data
 		virtual void fillConvexMeshDesc(PxConvexMeshDesc& desc) = 0;
 
+		// compute the edge list information if possible
+		virtual bool createEdgeList(const PxU32 nbIndices, const PxU8* indices, PxU8** hullDataFacesByEdges8, PxU16** edgeData16, PxU16** edges) = 0;
+
 		static const PxU32 gpuMaxVertsPerFace = 32;
 
 	protected:

@@ -1015,39 +1015,62 @@ public:
 						pair.mIsModifiable &&
 						mCCDContext->getCCDContactModifyCallback())
 					{
-						//create a modifiable contact and then 
-						PxModifiableContact point;
-						point.contact = pair.mMinToiPoint;
-						point.normal = pair.mMinToiNormal;
+
+						PxU8 dataBuffer[sizeof(PxModifiableContact) + sizeof(PxContactPatch)];
+
+						PxContactPatch* patch = reinterpret_cast<PxContactPatch*>(dataBuffer);
+						PxModifiableContact* point = reinterpret_cast<PxModifiableContact*>(patch + 1);
+
+						patch->mMassModification.mInvInertiaScale0 = 1.f;
+						patch->mMassModification.mInvInertiaScale1 = 1.f;
+						patch->mMassModification.mInvMassScale0 = 1.f;
+						patch->mMassModification.mInvMassScale1 = 1.f;
+
+						patch->normal = pair.mMinToiNormal;
+
+						patch->dynamicFriction = pair.mDynamicFriction;
+						patch->staticFriction = pair.mStaticFriction;
+						patch->materialIndex0 = pair.mMaterialIndex0;
+						patch->materialIndex1 = pair.mMaterialIndex1;
+
+						patch->startContactIndex = 0;
+						patch->nbContacts = 1;
+
+						patch->materialFlags = 0;
+						patch->internalFlags = 0;											//44  //Can be a U16
+
+
+						point->contact = pair.mMinToiPoint;
+						point->normal = pair.mMinToiNormal;
 
 						//KS - todo - reintroduce face indices!!!!
 						//point.internalFaceIndex0 = PXC_CONTACT_NO_FACE_INDEX;
 						//point.internalFaceIndex1 = pair.mFaceIndex;
-						point.materialIndex0 = pair.mMaterialIndex0;
-						point.materialIndex1 = pair.mMaterialIndex1;
-						point.dynamicFriction = pair.mDynamicFriction;
-						point.staticFriction = pair.mStaticFriction;
-						point.restitution = pair.mRestitution;
-						point.separation = 0.f;
-						point.maxImpulse = PX_MAX_REAL;
-						point.materialFlags= 0;
-						point.targetVelocity = PxVec3(0.f);
+						point->materialIndex0 = pair.mMaterialIndex0;
+						point->materialIndex1 = pair.mMaterialIndex1;
+						point->dynamicFriction = pair.mDynamicFriction;
+						point->staticFriction = pair.mStaticFriction;
+						point->restitution = pair.mRestitution;
+						point->separation = 0.f;
+						point->maxImpulse = PX_MAX_REAL;
+						point->materialFlags = 0;
+						point->targetVelocity = PxVec3(0.f);
 
-						mCCDContext->runCCDModifiableContact(&point, 1, pair.mCCDShape0->mShapeCore, pair.mCCDShape1->mShapeCore,
+						mCCDContext->runCCDModifiableContact(point, 1, pair.mCCDShape0->mShapeCore, pair.mCCDShape1->mShapeCore,
 							pair.mCCDShape0->mRigidCore, pair.mCCDShape1->mRigidCore, pair.mBa0, pair.mBa1);
 
 						//If the maxImpulse is 0, we return to the beginning of the loop, knowing that the application did not want an interaction
 						//between the pair.
-						if(point.maxImpulse == 0.f)
+						if(point->maxImpulse == 0.f)
 						{
 							pair.mMinToi = PX_MAX_REAL;
 							continue;
 						}
-						pair.mDynamicFriction = point.dynamicFriction;
-						pair.mStaticFriction = point.staticFriction;
-						pair.mRestitution = point.restitution;
-						pair.mMinToiPoint = point.contact;
-						pair.mMinToiNormal = point.normal;
+						pair.mDynamicFriction = point->dynamicFriction;
+						pair.mStaticFriction = point->staticFriction;
+						pair.mRestitution = point->restitution;
+						pair.mMinToiPoint = point->contact;
+						pair.mMinToiNormal = point->normal;
 
 					}
 

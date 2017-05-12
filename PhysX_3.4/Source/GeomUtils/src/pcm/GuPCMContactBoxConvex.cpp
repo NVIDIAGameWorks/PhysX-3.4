@@ -106,7 +106,7 @@ static bool fullContactsGenerationBoxConvex(const PxVec3& halfExtents, const Box
 
 }
 
-static bool addGJKEPAContacts(Gu::ShrunkConvexHullV& convexHull, Gu::ShrunkBoxV& box, const PsMatTransformV& aToB, GjkStatus status,
+static bool addGJKEPAContacts(Gu::ShrunkConvexHullV& convexHull, Gu::BoxV& box, const PsMatTransformV& aToB, GjkStatus status,
 	Gu::PersistentContact* manifoldContacts, const FloatV replaceBreakingThreshold, Vec3V& closestA, Vec3V& closestB, Vec3V& normal, FloatV& penDep,
 	Gu::PersistentContactManifold& manifold)
 {
@@ -203,7 +203,7 @@ bool pcmContactBoxConvex(GU_CONTACT_METHOD_ARGS)
 
 	if(bLostContacts || manifold.invalidate_BoxConvex(curRTrans, minMargin))	
 	{
-
+		
 		GjkStatus status = manifold.mNumContacts > 0 ? GJK_UNDEFINED : GJK_NON_INTERSECT;
 
 		Vec3V closestA(zeroV), closestB(zeroV), normal(zeroV); // from a to b
@@ -211,20 +211,20 @@ bool pcmContactBoxConvex(GU_CONTACT_METHOD_ARGS)
 		
 		const QuatV vQuat = QuatVLoadU(&shapeConvex.scale.rotation.x);
 		const bool idtScale = shapeConvex.scale.isIdentity();
-		Gu::ShrunkConvexHullV convexHull(hullData, zeroV, vScale, vQuat, idtScale);
-		Gu::ShrunkBoxV box(zeroV, boxExtents);
+		Gu::ShrunkConvexHullV convexHull(hullData, V3LoadU(hullData->mCenterOfMass), vScale, vQuat, idtScale);
+		Gu::BoxV box(zeroV, boxExtents);
 		
-		const RelativeConvex<ShrunkBoxV> convexA(box, aToB);
+		const RelativeConvex<BoxV> convexA(box, aToB);
 		if(idtScale)
 		{
 			const LocalConvex<ShrunkConvexHullNoScaleV> convexB(*PX_SCONVEX_TO_NOSCALECONVEX(&convexHull));
-			status = gjkPenetration<RelativeConvex<ShrunkBoxV>, LocalConvex<ShrunkConvexHullNoScaleV> >(convexA, convexB, aToB.p, contactDist, closestA, closestB, normal, penDep,
+			status = gjkPenetration<RelativeConvex<BoxV>, LocalConvex<ShrunkConvexHullNoScaleV> >(convexA, convexB, aToB.p, contactDist, closestA, closestB, normal, penDep,
 				manifold.mAIndice, manifold.mBIndice, manifold.mNumWarmStartPoints, false);
 		}
 		else
 		{
 			const LocalConvex<ShrunkConvexHullV> convexB(convexHull);
-			status = gjkPenetration<RelativeConvex<ShrunkBoxV>, LocalConvex<ShrunkConvexHullV> >(convexA, convexB, aToB.p, contactDist, closestA, closestB, normal, penDep,
+			status = gjkPenetration<RelativeConvex<BoxV>, LocalConvex<ShrunkConvexHullV> >(convexA, convexB, aToB.p, contactDist, closestA, closestB, normal, penDep,
 				manifold.mAIndice, manifold.mBIndice, manifold.mNumWarmStartPoints, false);
 
 		} 
@@ -244,20 +244,30 @@ bool pcmContactBoxConvex(GU_CONTACT_METHOD_ARGS)
 		}
 		else
 		{
+			const Vec3V localNor = manifold.mNumContacts ? manifold.getLocalNormal() : V3Zero();
+
 			const FloatV replaceBreakingThreshold = FMul(minMargin, FLoad(0.05f));
 			
 			//addGJKEPAContacts will increase the number of contacts in manifold. If status == EPA_CONTACT, we need to run epa algorithm and generate closest points, normal and
 			//pentration. If epa doesn't degenerate, we will store the contacts information in the manifold. Otherwise, we will return true to do the fallback test
 			const bool doOverlapTest = addGJKEPAContacts(convexHull, box, aToB, status, manifoldContacts, replaceBreakingThreshold, closestA, closestB, normal, penDep, manifold);
 
-			if ((initialContacts == 0) || (manifold.mNumContacts < initialContacts) || doOverlapTest)
+			//ML: after we refresh the contacts(newContacts) and generate a GJK/EPA contacts(we will store that in the manifold), if the number of contacts is still less than the original contacts,
+			//which means we lose too mang contacts and we should regenerate all the contacts in the current configuration
+			//Also, we need to look at the existing contacts, if the existing contacts has very different normal than the GJK/EPA contacts,
+			//which means we should throw away the existing contacts and do full contact gen
+			const bool fullContactGen = FAllGrtr(FLoad(0.707106781f), V3Dot(localNor, normal)) || (manifold.mNumContacts < initialContacts);
+
+			if (fullContactGen || doOverlapTest)
 			{
 				return fullContactsGenerationBoxConvex(shapeBox.halfExtents, box, convexHull, transf0, transf1, manifoldContacts, contactBuffer, 
 					manifold, normal, closestA, closestB, contactDist, idtScale, doOverlapTest, renderOutput, FLoad(params.mToleranceLength));
 			}
 			else
 			{
-				const Vec3V worldNormal = transf1.rotate(normal);
+				const Vec3V newLocalNor = V3Add(localNor, normal);
+				const Vec3V worldNormal = V3Normalize(transf1.rotate(newLocalNor));
+				//const Vec3V worldNormal = transf1.rotate(normal);
 				manifold.addManifoldContactsToContactBuffer(contactBuffer, worldNormal, transf1, contactDist);
 				return true;
 			}

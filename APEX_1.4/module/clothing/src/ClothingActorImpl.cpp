@@ -8,10 +8,10 @@
  * license agreement from NVIDIA CORPORATION is strictly prohibited.
  */
 
-#include "ApexSimdMath.h"
-#include "ApexDefs.h"
 
+#include "ApexDefs.h"
 #include "PsIntrinsics.h"
+#include "SimdMath.h"
 
 #include "ClothingActorImpl.h"
 #include "ClothingActorProxy.h"

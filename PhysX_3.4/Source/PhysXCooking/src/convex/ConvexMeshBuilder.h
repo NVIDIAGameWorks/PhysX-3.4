@@ -47,7 +47,7 @@ namespace physx
 
 				// loads the computed or given convex hull from descriptor. 
 				// the descriptor does contain polygons directly, triangles are not allowed
-				bool				build(const PxConvexMeshDesc&, PxU32 gaussMapVertexLimit, bool validateOnly = false, bool userPolygons = false);
+				bool				build(const PxConvexMeshDesc&, PxU32 gaussMapVertexLimit, bool validateOnly = false, ConvexHullLib* hullLib = NULL);
 
 				// save the convex mesh into stream
 				bool				save(PxOutputStream& stream, bool platformMismatch)		const;
@@ -56,7 +56,7 @@ namespace physx
 				bool				copy(Gu::ConvexHullData& convexData, PxU32& nb);
 
 				// loads the convex mesh from given polygons
-				bool				loadConvexHull(const PxConvexMeshDesc&, PxU32 gaussMapVertexLimit, bool userPolygons);
+				bool				loadConvexHull(const PxConvexMeshDesc&, ConvexHullLib* hullLib);
 
 				// computed hull polygons from given triangles
 				bool				computeHullPolygons(const PxU32& nbVerts,const PxVec3* verts, const PxU32& nbTriangles, const PxU32* triangles, PxAllocatorCallback& inAllocator,

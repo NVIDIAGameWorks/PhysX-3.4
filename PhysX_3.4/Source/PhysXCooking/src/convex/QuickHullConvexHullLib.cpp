@@ -182,12 +182,12 @@ namespace local
 	// representation of quick hull half edge
 	struct QuickHullHalfEdge
 	{
-		QuickHullHalfEdge() : prev(NULL), next(NULL), twin(NULL), face(NULL)
+		QuickHullHalfEdge() : prev(NULL), next(NULL), twin(NULL), face(NULL), edgeIndex(0xFFFFFFFF)
 		{
 		}
 
 		QuickHullHalfEdge(PxU32 )
-			: prev(NULL), next(NULL), twin(NULL), face(NULL)
+			: prev(NULL), next(NULL), twin(NULL), face(NULL), edgeIndex(0xFFFFFFFF)
 		{
 		}
 
@@ -198,6 +198,8 @@ namespace local
 		QuickHullHalfEdge*		twin;  // twin/opposite edge
 
 		QuickHullFace*			face;  // face where the edge belong
+
+		PxU32					edgeIndex; // edge index used for edge creation
 
 		PX_FORCE_INLINE const QuickHullVertex& getTail() const
 		{
@@ -256,17 +258,18 @@ namespace local
 
 		QuickHullFace*			nextFace;		// used to indicate next free face in faceList
 		PxU32					index;			// face index for compare identification
+		PxU8					outIndex;		// face index used for output descriptor
 
 	public:
 		QuickHullFace()
 			: edge(NULL), numEdges(0), conflictList(NULL), area(0.0f), planeOffset(0.0f), expandOffset(-FLT_MAX),
-			state(eVISIBLE), nextFace(NULL)
+			state(eVISIBLE), nextFace(NULL), outIndex(0)
 		{
 		}
 
 		QuickHullFace(PxU32 ind)
 			: edge(NULL), numEdges(0), conflictList(NULL), area(0.0f), planeOffset(0.0f), expandOffset(-FLT_MAX),
-			state(eVISIBLE), nextFace(NULL), index(ind)
+			state(eVISIBLE), nextFace(NULL), index(ind), outIndex(0)
 		{
 		}
 
@@ -1778,7 +1781,7 @@ namespace local
 //////////////////////////////////////////////////////////////////////////
 
 QuickHullConvexHullLib::QuickHullConvexHullLib(const PxConvexMeshDesc& desc, const PxCookingParams& params)
-	: ConvexHullLib(desc, params),mQuickHull(NULL), mCropedConvexHull(NULL), mVertsOut(NULL), mIndicesOut(NULL), mPolygonsOut(NULL)
+	: ConvexHullLib(desc, params),mQuickHull(NULL), mCropedConvexHull(NULL), mOutMemoryBuffer(NULL), mFaceTranslateTable(NULL)
 {
 	mQuickHull = PX_NEW_TEMP(local::QuickHull)(params, desc);
 	mQuickHull->preallocate(desc.points.count);
@@ -1796,9 +1799,8 @@ QuickHullConvexHullLib::~QuickHullConvexHullLib()
 		PX_DELETE(mCropedConvexHull);
 	}
 
-	PX_FREE(mVertsOut);
-	PX_FREE(mPolygonsOut);
-	PX_FREE(mIndicesOut);
+	PX_FREE(mOutMemoryBuffer);
+	mFaceTranslateTable = NULL;  // memory is a part of mOutMemoryBuffer
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -2224,9 +2226,8 @@ PxConvexMeshCookingResult::Enum QuickHullConvexHullLib::expandHullOBB()
 	computeOBBFromConvex(convexDesc, sides, obbTransform);
 
 	// free the memory used for the convex mesh desc
-	PX_FREE_AND_RESET(mVertsOut);
-	PX_FREE_AND_RESET(mPolygonsOut);
-	PX_FREE_AND_RESET(mIndicesOut);
+	PX_FREE_AND_RESET(mOutMemoryBuffer);
+	mFaceTranslateTable = NULL;
 
 	// crop the OBB
 	PxU32 maxplanes = PxMin(PxU32(256), expandPlanes.size());
@@ -2279,8 +2280,72 @@ PxConvexMeshCookingResult::Enum QuickHullConvexHullLib::expandHullOBB()
 	return PxConvexMeshCookingResult::eSUCCESS;
 }
 
+//////////////////////////////////////////////////////////////////////////
 
+bool QuickHullConvexHullLib::createEdgeList(const PxU32 nbIndices, const PxU8* indices, PxU8** outHullDataFacesByEdges8, PxU16** outEdgeData16, PxU16** outEdges)
+{
+	// if we croped hull, we dont have the edge information, early exit
+	if (mCropedConvexHull)
+		return false;
 
+	PX_ASSERT(mQuickHull);
+
+	// Make sure we did recieved empty buffers
+	PX_ASSERT(*outHullDataFacesByEdges8 == NULL);
+	PX_ASSERT(*outEdges == NULL);
+	PX_ASSERT(*outEdgeData16 == NULL);
+
+	// Allocated the out bufferts
+	PxU8* hullDataFacesByEdges8 = PX_NEW(PxU8)[nbIndices];
+	PxU16* edges = PX_NEW(PxU16)[nbIndices];
+	PxU16* edgeData16 = PX_NEW(PxU16)[nbIndices];
+
+	*outHullDataFacesByEdges8 = hullDataFacesByEdges8;
+	*outEdges = edges;
+	*outEdgeData16 = edgeData16;
+
+	PxU16 edgeIndex = 0;
+	PxU32 edgeOffset = 0;
+	for(PxU32 i = 0; i < mQuickHull->mNumHullFaces; i++)
+	{
+		const local::QuickHullFace& face = *mQuickHull->mHullFaces[mFaceTranslateTable[i]];
+
+		// Face must be visible
+		PX_ASSERT(face.state == local::QuickHullFace::eVISIBLE);
+
+		// parse the edges
+		const PxU32 startEdgeOffset = edgeOffset;
+		local::QuickHullHalfEdge* hedge = face.edge;
+		do
+		{
+			// check if hedge has been stored
+			if(hedge->edgeIndex == 0xFFFFFFFF)
+			{
+				edges[edgeIndex*2] = indices[edgeOffset];
+				edges[edgeIndex*2 + 1] = indices[(hedge->next != face.edge) ? edgeOffset + 1 : startEdgeOffset];
+
+				hullDataFacesByEdges8[edgeIndex*2] = hedge->face->outIndex;
+				hullDataFacesByEdges8[edgeIndex*2 + 1] = hedge->next->twin->face->outIndex;
+
+				edgeData16[edgeOffset] = edgeIndex;
+
+				hedge->edgeIndex = edgeIndex;
+				hedge->next->twin->prev->edgeIndex = edgeIndex;
+
+				edgeIndex++;
+			}
+			else
+			{
+				edgeData16[edgeOffset] = Ps::to16(hedge->edgeIndex);
+			}
+
+			hedge = hedge->next;
+			edgeOffset++;
+		} while (hedge != face.edge);
+	}
+
+	return true;
+}
 
 //////////////////////////////////////////////////////////////////////////
 // fill the descriptor with computed verts, indices and polygons
@@ -2317,12 +2382,20 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromQuickHull(PxConvexMeshDesc& d
 	}
 
 	// allocate out buffers
-	PxU32* indices = reinterpret_cast<PxU32*> (PX_ALLOC_TEMP(sizeof(PxU32)*numIndices, "PxU32"));
-	PxI32* translateTable = reinterpret_cast<PxI32*> (PX_ALLOC_TEMP(sizeof(PxU32)*mQuickHull->mNumVertices, "PxU32"));
+	const PxU32 indicesBufferSize = sizeof(PxU32)*numIndices;
+	const PxU32 verticesBufferSize = sizeof(PxVec3)*mQuickHull->mNumVertices + 1;
+	const PxU32 facesBufferSize = sizeof(PxHullPolygon)*numFacesOut;
+	const PxU32 faceTranslationTableSize = sizeof(PxU16)*numFacesOut;
+	const PxU32 translationTableSize = sizeof(PxU32)*mQuickHull->mNumVertices;
+	const PxU32 bufferMemorySize = indicesBufferSize + verticesBufferSize + facesBufferSize + faceTranslationTableSize + translationTableSize;
+	mOutMemoryBuffer = reinterpret_cast<PxU8*>(PX_ALLOC_TEMP(bufferMemorySize, "ConvexMeshDesc"));
+
+	PxU32* indices = reinterpret_cast<PxU32*> (mOutMemoryBuffer);
+	PxVec3* vertices = reinterpret_cast<PxVec3*> (mOutMemoryBuffer + indicesBufferSize);
+	PxHullPolygon* polygons = reinterpret_cast<PxHullPolygon*> (mOutMemoryBuffer + indicesBufferSize + verticesBufferSize);
+	mFaceTranslateTable = reinterpret_cast<PxU16*> (mOutMemoryBuffer + indicesBufferSize + verticesBufferSize + facesBufferSize);
+	PxI32* translateTable = reinterpret_cast<PxI32*> (mOutMemoryBuffer + indicesBufferSize + verticesBufferSize + facesBufferSize + faceTranslationTableSize);
 	PxMemSet(translateTable,-1,mQuickHull->mNumVertices*sizeof(PxU32));
-	// allocate additional vec3 for V4 safe load in VolumeInteration
-	PxVec3* vertices = reinterpret_cast<PxVec3*> (PX_ALLOC_TEMP(sizeof(PxVec3)*mQuickHull->mNumVertices + 1, "PxVec3"));
-	PxHullPolygon* polygons = reinterpret_cast<PxHullPolygon*> (PX_ALLOC_TEMP(sizeof(PxHullPolygon)*numFacesOut, "PxHullPolygon"));
 
 	// go over the hullPolygons and mark valid vertices, create translateTable
 	PxU32 numVertices = 0;
@@ -2380,12 +2453,13 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromQuickHull(PxConvexMeshDesc& d
 			faceIndex = (i == largestFace) ? 0 : i;
 		}
 
-		const local::QuickHullFace& face = *mQuickHull->mHullFaces[faceIndex];
+		local::QuickHullFace& face = *mQuickHull->mHullFaces[faceIndex];
 		if(face.state == local::QuickHullFace::eVISIBLE)
 		{
 			//create index data
 			local::QuickHullHalfEdge* he = face.edge;
 			PxU32 index = 0;
+			he->edgeIndex = 0xFFFFFFFF;
 			indices[index + indexOffset] = PxU32(translateTable[he->tail.index]);
 			index++;
 			he = he->next;
@@ -2393,6 +2467,7 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromQuickHull(PxConvexMeshDesc& d
 			{
 				indices[index + indexOffset] = PxU32(translateTable[he->tail.index]);
 				index++;
+				he->edgeIndex = 0xFFFFFFFF;
 				he = he->next;
 			}
 
@@ -2407,17 +2482,13 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromQuickHull(PxConvexMeshDesc& d
 			polygon.mNbVerts = face.numEdges;
 			indexOffset += face.numEdges;
 			polygons[numFacesOut] = polygon;
+			mFaceTranslateTable[numFacesOut] = Ps::to16(faceIndex);
+			face.outIndex = Ps::to8(numFacesOut);
 			numFacesOut++;
 		}
 	}
 
-	PX_ASSERT(mQuickHull->mNumHullFaces == numFacesOut);
-
-	mVertsOut = vertices;
-	mIndicesOut = indices;
-	mPolygonsOut = polygons;
-
-	PX_FREE(translateTable);
+	PX_ASSERT(mQuickHull->mNumHullFaces == numFacesOut);	
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -2426,17 +2497,21 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromCroppedHull(PxConvexMeshDesc&
 {
 	PX_ASSERT(mCropedConvexHull);
 
+	// allocate the output buffers
+	const PxU32 numIndices = mCropedConvexHull->getEdges().size();
+	const PxU32 numPolygons = mCropedConvexHull->getFacets().size();
+	const PxU32 numVertices = mCropedConvexHull->getVertices().size();
+	const PxU32 indicesBufferSize = sizeof(PxU32)*numIndices;
+	const PxU32 facesBufferSize = sizeof(PxHullPolygon)*numPolygons;
+	const PxU32 verticesBufferSize = sizeof(PxVec3)*numVertices + 1; // allocate additional vec3 for V4 safe load in VolumeInteration
+	const PxU32 bufferMemorySize = indicesBufferSize + verticesBufferSize + facesBufferSize;
+	mOutMemoryBuffer = reinterpret_cast<PxU8*>(PX_ALLOC_TEMP(bufferMemorySize, "ConvexMeshDesc"));
+
 	// parse the hullOut and fill the result with vertices and polygons
-	mIndicesOut = reinterpret_cast<PxU32*> (PX_ALLOC_TEMP(sizeof(PxU32)*(mCropedConvexHull->getEdges().size()), "PxU32"));
-	PxU32 numIndices = mCropedConvexHull->getEdges().size();
-
-	PxU32 numPolygons = mCropedConvexHull->getFacets().size();
-	mPolygonsOut = reinterpret_cast<PxHullPolygon*> (PX_ALLOC_TEMP(sizeof(PxHullPolygon)*numPolygons, "PxHullPolygon"));
-
-	// allocate additional vec3 for V4 safe load in VolumeInteration
-	mVertsOut = reinterpret_cast<PxVec3*> (PX_ALLOC_TEMP(sizeof(PxVec3)*mCropedConvexHull->getVertices().size() + 1, "PxVec3"));
-	PxU32 numVertices = mCropedConvexHull->getVertices().size();
-	PxMemCopy(mVertsOut, mCropedConvexHull->getVertices().begin(), sizeof(PxVec3)*numVertices);
+	PxU32* indicesOut = reinterpret_cast<PxU32*> (mOutMemoryBuffer);	
+	PxHullPolygon* polygonsOut = reinterpret_cast<PxHullPolygon*> (mOutMemoryBuffer + indicesBufferSize);	
+	PxVec3* vertsOut = reinterpret_cast<PxVec3*> (mOutMemoryBuffer + indicesBufferSize + facesBufferSize);	
+	PxMemCopy(vertsOut, mCropedConvexHull->getVertices().begin(), sizeof(PxVec3)*numVertices);
 
 	PxU32 i = 0;
 	PxU32 k = 0;
@@ -2444,7 +2519,7 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromCroppedHull(PxConvexMeshDesc&
 	while (i < mCropedConvexHull->getEdges().size())
 	{
 		j = 1;
-		PxHullPolygon& polygon = mPolygonsOut[k];
+		PxHullPolygon& polygon = polygonsOut[k];
 		// get num indices per polygon
 		while (j + i < mCropedConvexHull->getEdges().size() && mCropedConvexHull->getEdges()[i].p == mCropedConvexHull->getEdges()[i + j].p)
 		{
@@ -2462,7 +2537,7 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromCroppedHull(PxConvexMeshDesc&
 
 		while (j--)
 		{
-			mIndicesOut[i] = mCropedConvexHull->getEdges()[i].v;
+			indicesOut[i] = mCropedConvexHull->getEdges()[i].v;
 			i++;
 		}
 		k++;
@@ -2472,15 +2547,15 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromCroppedHull(PxConvexMeshDesc&
 
 	outDesc.indices.count = numIndices;
 	outDesc.indices.stride = sizeof(PxU32);
-	outDesc.indices.data = mIndicesOut;
+	outDesc.indices.data = indicesOut;
 
 	outDesc.points.count = numVertices;
 	outDesc.points.stride = sizeof(PxVec3);
-	outDesc.points.data = mVertsOut;
+	outDesc.points.data = vertsOut;
 
 	outDesc.polygons.count = numPolygons;
 	outDesc.polygons.stride = sizeof(PxHullPolygon);
-	outDesc.polygons.data = mPolygonsOut;
+	outDesc.polygons.data = polygonsOut;
 
 	swapLargestFace(outDesc);
 }

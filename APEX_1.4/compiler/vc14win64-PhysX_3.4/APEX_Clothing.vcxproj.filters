@@ -18,6 +18,66 @@
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
+		<Filter Include="Clothing\src\simd">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\src\simd\neon">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\neon\NvNeonSimd4f.h">
+			<Filter>Clothing\src\simd\neon</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\neon\NvNeonSimd4i.h">
+			<Filter>Clothing\src\simd\neon</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\neon\NvNeonSimdTypes.h">
+			<Filter>Clothing\src\simd\neon</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\src\simd\scalar">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\scalar\NvScalarSimd4f.h">
+			<Filter>Clothing\src\simd\scalar</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\scalar\NvScalarSimd4i.h">
+			<Filter>Clothing\src\simd\scalar</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\scalar\NvScalarSimdTypes.h">
+			<Filter>Clothing\src\simd\scalar</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\src\simd\sse2">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\sse2\NvSse2Simd4f.h">
+			<Filter>Clothing\src\simd\sse2</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\sse2\NvSse2Simd4i.h">
+			<Filter>Clothing\src\simd\sse2</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\sse2\NvSse2SimdTypes.h">
+			<Filter>Clothing\src\simd\sse2</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\NvSimd4f.h">
+			<Filter>Clothing\src\simd</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\NvSimd4i.h">
+			<Filter>Clothing\src\simd</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\NvSimdTypes.h">
+			<Filter>Clothing\src\simd</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
 		<Filter Include="Clothing\src\autogen">
 		</Filter>
 	</ItemGroup>
@@ -96,9 +156,15 @@
 		<ClCompile Include="..\..\module\clothing\src\ModuleClothingImpl.cpp">
 			<Filter>Clothing\src</Filter>
 		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\SimdMath.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
 		<ClCompile Include="..\..\module\clothing\src\SimulationAbstract.cpp">
 			<Filter>Clothing\src</Filter>
 		</ClCompile>
+		<ClInclude Include="..\..\module\clothing\src\SimdMath.h">
+			<Filter>Clothing\src</Filter>
+		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
 		<Filter Include="Clothing\include">

@@ -78,18 +78,26 @@ namespace Gu
 		{
 		}
 
-		PX_SUPPORT_INLINE ShrunkConvexHullV(const Gu::ConvexHullData* _hullData, const Ps::aos::Vec3VArg _center, const Ps::aos::Vec3VArg scale, const Ps::aos::QuatVArg scaleRot, const bool idtScale):
-													ConvexHullV(_hullData, _center, scale, scaleRot, idtScale)
+		PX_SUPPORT_INLINE ShrunkConvexHullV(const Gu::ConvexHullData* hullData_, const Ps::aos::Vec3VArg center_, const Ps::aos::Vec3VArg scale, const Ps::aos::QuatVArg scaleRot, 
+			const bool idtScale):
+			ConvexHullV(hullData_, center_, scale, scaleRot, idtScale)
 		{
 		}
 
-
-
-
 		PX_FORCE_INLINE Ps::aos::Vec3V supportPoint(const PxI32 index, Ps::aos::FloatV* marginDif) const
 		{
+			using namespace Ps::aos;
+
+			if (getMarginF() > 0.f)
+			{
+				//p is in the shape space
+				return planeShift(PxU32(index), getMargin(), marginDif);
+			}
+			else
+			{
+				return M33MulV3(vertex2Shape, V3LoadU_SafeReadW(verts[index]));
+			}
 			
-			return planeShift(PxU32(index), getMargin(), marginDif);
 		}
 
 		//get the support point in vertex space
@@ -155,8 +163,15 @@ namespace Gu
 			//get the extreme point index
 			const PxU32 maxIndex = supportVertexIndex(_dir);
 			index = PxI32(maxIndex);
-			//p is in the shape space
-			return planeShift(maxIndex, getMargin(), marginDif);
+			if (getMarginF() > 0.f)
+			{
+				//p is in the shape space
+				return planeShift(maxIndex, getMargin(), marginDif);
+			}
+			else
+			{
+				return M33MulV3(vertex2Shape, V3LoadU_SafeReadW(verts[index]));
+			}
 		}
 
 	
@@ -173,7 +188,6 @@ namespace Gu
 			//transfrom from a to b space
 			return aTob.transform(p);
 		}
-
 	};
 
 }

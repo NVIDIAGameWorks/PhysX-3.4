@@ -96,6 +96,9 @@ namespace physx
 		// computes the convex hull from provided points
 		virtual PxConvexMeshCookingResult::Enum createConvexHull();
 
+		// Inflation convex hull does not store edge information so we cannot provide the edge list
+		virtual bool createEdgeList(const PxU32 , const PxU8* , PxU8** , PxU16** , PxU16** ) { return false; }
+
 		// fills the convexmeshdesc with computed hull data
 		virtual void fillConvexMeshDesc(PxConvexMeshDesc& desc);
 

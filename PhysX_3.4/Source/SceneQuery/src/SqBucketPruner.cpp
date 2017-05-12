@@ -690,10 +690,10 @@ bool BucketPrunerCore::removeObject(const PrunerPayload& object, PxU32& timeStam
 			
 			// Invalidating the box does not invalidate the sorting, since it's now captured in mData0/mData1.
 			// That is, mData0/mData1 keep their previous integer-encoded values, as if the box/object was still here.
-			PxBounds3 empty;
-			empty.setEmpty();
-			mSortedWorldBoxes[sortedIndex].mCenter = empty.getCenter();
-			mSortedWorldBoxes[sortedIndex].mExtents = empty.getExtents();
+//			PxBounds3 empty;
+//			empty.setEmpty();
+			mSortedWorldBoxes[sortedIndex].mCenter = PxVec3(0.0f);
+			mSortedWorldBoxes[sortedIndex].mExtents = PxVec3(-2.0f*PxSqrt(0.25f * 1e33f));	// PT: TODO: refactor value with similar one in SqAABBTree.cpp
 			// Note that we don't touch mSortedObjects here. We could, but this is not necessary.
 		}
 		return true;

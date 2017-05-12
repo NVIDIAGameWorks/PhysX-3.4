@@ -32,8 +32,8 @@
 // cloth solver is 50% slower (!) on MSVC 11 and earlier when Simd4f lives in a namespace
 #define NV_SIMD_USE_NAMESPACE 0
 
-#include "NvSimd4f.h"
-#include "NvSimd4i.h"
+#include "Simd4f.h"
+#include "Simd4i.h"
 
 namespace physx
 {

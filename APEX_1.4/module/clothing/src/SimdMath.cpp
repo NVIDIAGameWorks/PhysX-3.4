@@ -1,4 +1,4 @@
-#include "NvSimd4f.h"
+#include "SimdMath.h"
 
 #include "PxMat44.h"
 #include "PxMat33.h"

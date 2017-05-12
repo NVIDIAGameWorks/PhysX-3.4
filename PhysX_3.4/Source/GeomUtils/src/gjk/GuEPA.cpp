@@ -36,6 +36,7 @@
 
 #define EPA_DEBUG	0
 
+
 namespace physx
 {
 namespace Gu
@@ -422,13 +423,17 @@ namespace Gu
 		const FloatV dist = facet->getPlaneDist();
 		//planeNormal is pointing from B to A, however, the normal we are expecting is from A to B which match the GJK margin intersect case, therefore,
 		//we need to flip the normal
-		const Vec3V n =V3Neg(facet->getPlaneNormal());
+		Vec3V planeNormal = facet->getPlaneNormal();
+
+		const Vec3V normalDir = V3Sub(a.getCenter(), b.getCenter());
+		if (FAllGrtr(zero, V3Dot(normalDir, planeNormal)))
+			planeNormal = V3Neg(planeNormal);
 		
 		if(takeCoreShape)
 		{
 			pa = _pa;
 			pb = _pb;
-			normal = n;
+			normal = planeNormal;
 			penDepth = FNeg(dist);
 		}
 		else
@@ -440,12 +445,27 @@ namespace Gu
 			const FloatV marginA = FSel(aQuadratic, a.getMargin(), zero);
 			const FloatV marginB = FSel(bQuadratic, b.getMargin(), zero);
 			const FloatV sumMargin = FAdd(marginA, marginB);
-			pa = V3NegScaleSub(n, marginA, _pa);
-			pb = V3ScaleAdd(n, marginB, _pb);
-			normal = n;
+			pa = V3NegScaleSub(planeNormal, marginA, _pa);
+			pb = V3ScaleAdd(planeNormal, marginB, _pb);
+			normal = planeNormal;
 			penDepth = FNeg(FAdd(dist, sumMargin));
-			
+
 #if	EPA_DEBUG
+
+			PxVec3 tempA, tempB;
+
+			V3StoreU(pa, tempA);
+			V3StoreU(pb, tempB);
+
+			if (!tempA.isFinite())
+			{
+				Ps::debugBreak();
+			}
+
+			if (!tempB.isFinite())
+			{
+				Ps::debugBreak();
+			}
 			const Vec3V v = V3Sub(_pb, _pa);
 			const FloatV length = V3Length(v);
 			const Vec3V cn = V3ScaleInv(v, length); 
@@ -554,15 +574,13 @@ namespace Gu
 			}
 		}
 
-		const FloatV eps = FEps();
+	
 		const FloatV tenPerc = FLoad(0.1f);
 		const FloatV minMargin = FMin(a.getMinMargin(), b.getMinMargin());
 		const FloatV eps2 = FMul(minMargin, tenPerc);
 
 		Facet* PX_RESTRICT facet = NULL;
-		Facet* PX_RESTRICT bestFacet = NULL;
-
-		bool hasMoreFacets = false;
+	
 		Vec3V tempa, tempb, q;
 
 		do 
@@ -574,7 +592,6 @@ namespace Gu
 			
 			if (!facet->isObsolete()) 
 			{
-				bestFacet = facet;
 				Ps::prefetchLine(edgeBuffer.m_pEdges);
 				Ps::prefetchLine(edgeBuffer.m_pEdges,128);
 				Ps::prefetchLine(edgeBuffer.m_pEdges,256);
@@ -594,6 +611,7 @@ namespace Gu
 				//the plane normal, which means the distance should be positive. However, if the origin isn't contained in the polytope, dist
 				//might be negative
 				const FloatV dist = V3Dot(q, planeNormal);
+
 				//update the upper bound to the minimum between exisiting upper bound and the distance if distance is positive
 				upper_bound = FSel(FIsGrtrOrEq(dist, zero), FMin(upper_bound, dist), upper_bound);
 				//lower bound is the plane distance, which will be the smallest among all the facets in the prority queue
@@ -608,13 +626,14 @@ namespace Gu
 				}
 
 				//if planeDist is the same as dist, which means the support point we get out from the Mincowsky sum is one of the point
-				//in the triangle facet, we should exist because we can't progress further.
+				//in the triangle facet, we should exist because we can't progress further. We can use the fact as contact information
 				const FloatV dif = FSub(dist, planeDist);
-				const BoolV degeneratedCondition = FIsGrtr(eps, dif);
-				if(BAllEqTTTT(degeneratedCondition))
+				const BoolV degeneratedCondition = FIsGrtr(eps2, dif);
+				if (BAllEqTTTT(degeneratedCondition))
 				{
 					calculateContactInformation(aBuf, bBuf, facet, a, b, pa, pb, normal, penDepth, takeCoreShape);
-					return EPA_DEGENERATE;
+
+					return EPA_CONTACT;
 				}
 
 				aBuf[numVertsLocal]=tempa;
@@ -677,17 +696,8 @@ namespace Gu
 			}
 			facetManager.freeID(facet->m_FacetId);
 
-			hasMoreFacets = (heap.size() > 0);
-			//after polytope expansion, we don't have a better facet to work with so that we should process the best facet
-			//this sometime won't produce the MTD but the result seems close enough so we accept it as contact.
-			//test case in BenchMark_GJKEPABoxConvex
-			if(hasMoreFacets && FAllGrtr( heap.top()->getPlaneDist(), upper_bound))
-			{
-				calculateContactInformation(aBuf, bBuf, bestFacet, a, b, pa, pb, normal, penDepth, takeCoreShape);
-				return EPA_CONTACT;
-			}
 		}
-		while(hasMoreFacets && numVertsLocal != MaxSupportPoints);
+		while((heap.size() > 0) && FAllGrtr(upper_bound, heap.top()->getPlaneDist()) && numVertsLocal != MaxSupportPoints);
 
 		calculateContactInformation(aBuf, bBuf, facet, a, b, pa, pb, normal, penDepth, takeCoreShape);
 

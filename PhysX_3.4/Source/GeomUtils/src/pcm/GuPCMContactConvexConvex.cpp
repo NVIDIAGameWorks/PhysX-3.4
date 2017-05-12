@@ -43,6 +43,7 @@
 namespace physx
 {
 
+
 	using namespace Ps::aos;
 
 namespace Gu
@@ -144,8 +145,8 @@ static GjkStatus convexHullHasScale0(ShrunkConvexHullV& convexHull0, ShrunkConve
 }
 
 
-static bool addGJKEPAContacts(Gu::ShrunkConvexHullV& convexHull0, Gu::ShrunkConvexHullV& convexHull1, const PsMatTransformV& aToB, GjkStatus status, 
-	Gu::PersistentContact* manifoldContacts, const FloatV replaceBreakingThreshold, Vec3V& closestA, Vec3V& closestB, Vec3V& normal, FloatV& penDep, 
+static bool addGJKEPAContacts(Gu::ShrunkConvexHullV& convexHull0, Gu::ShrunkConvexHullV& convexHull1, const PsMatTransformV& aToB, 
+	GjkStatus& status, Gu::PersistentContact* manifoldContacts, const FloatV replaceBreakingThreshold, Vec3V& closestA, Vec3V& closestB, Vec3V& normal, FloatV& penDep, 
 	Gu::PersistentContactManifold& manifold)
 {
 	bool doOverlapTest = false;
@@ -232,7 +233,6 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 	//ML: after refreshContactPoints, we might lose some contacts
 	const bool bLostContacts = (manifold.mNumContacts != initialContacts);
 
-	PX_UNUSED(bLostContacts);
 	if(bLostContacts || manifold.invalidate_BoxConvex(curRTrans, minMargin))
 	{
 		GjkStatus status = manifold.mNumContacts > 0 ? GJK_UNDEFINED : GJK_NON_INTERSECT;
@@ -242,9 +242,11 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 		const QuatV vQuat0 = QuatVLoadU(&shapeConvex0.scale.rotation.x);
 		const QuatV vQuat1 = QuatVLoadU(&shapeConvex1.scale.rotation.x);
 		const Vec3V zeroV = V3Zero();
-		Gu::ShrunkConvexHullV convexHull0(hullData0, zeroV, vScale0, vQuat0, idtScale0);
-		Gu::ShrunkConvexHullV convexHull1(hullData1, zeroV, vScale1, vQuat1, idtScale1);
 
+
+		Gu::ShrunkConvexHullV convexHull0(hullData0, V3LoadU(hullData0->mCenterOfMass), vScale0, vQuat0, idtScale0);
+		Gu::ShrunkConvexHullV convexHull1(hullData1, V3LoadU(hullData1->mCenterOfMass), vScale1, vQuat1, idtScale1);
+	
 		Vec3V closestA(zeroV), closestB(zeroV), normal(zeroV); // from a to b
 		FloatV penDep =  FZero();
 
@@ -273,19 +275,28 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 		else
 		{
 			const FloatV replaceBreakingThreshold = FMul(minMargin, FLoad(0.05f));
-			
-			const bool doOverlapTest = addGJKEPAContacts(convexHull0, convexHull1, aToB, status, manifoldContacts, replaceBreakingThreshold, closestA, closestB, normal, penDep, manifold);
 
+			const Vec3V localNor = manifold.mNumContacts ? manifold.getLocalNormal() : V3Zero();
+			
+			const bool doOverlapTest = addGJKEPAContacts(convexHull0, convexHull1, aToB,
+				status, manifoldContacts, replaceBreakingThreshold, closestA, closestB, normal, penDep, manifold);
+			
 			//ML: after we refresh the contacts(newContacts) and generate a GJK/EPA contacts(we will store that in the manifold), if the number of contacts is still less than the original contacts,
 			//which means we lose too mang contacts and we should regenerate all the contacts in the current configuration
-			if (initialContacts == 0 || (manifold.mNumContacts < initialContacts) || doOverlapTest)
+			//Also, we need to look at the existing contacts, if the existing contacts has very different normal than the GJK/EPA contacts,
+			//which means we should throw away the existing contacts and do full contact gen
+			const bool fullContactGen = FAllGrtr(FLoad(0.707106781f), V3Dot(localNor, normal)) || (manifold.mNumContacts < initialContacts);
+			if (fullContactGen  || doOverlapTest)
 			{
 				return fullContactsGenerationConvexConvex(convexHull0, convexHull1, transf0, transf1, idtScale0, idtScale1, manifoldContacts, contactBuffer, 
 					manifold, normal, closestA, closestB, contactDist, doOverlapTest, renderOutput, FLoad(params.mToleranceLength));
 			}
 			else
 			{
-				const Vec3V worldNormal = manifold.getWorldNormal(transf1);
+				const Vec3V newLocalNor = V3Add(localNor, normal);
+				const Vec3V worldNormal = V3Normalize(transf1.rotate(newLocalNor));
+				
+				//const Vec3V worldNormal = manifold.getWorldNormal(transf1);
 				manifold.addManifoldContactsToContactBuffer(contactBuffer, worldNormal, transf1, contactDist);
 				return true;
 			}
@@ -305,6 +316,7 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 	return false;
 	
 }
+
 
 }
 }

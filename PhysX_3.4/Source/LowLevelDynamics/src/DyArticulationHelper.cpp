@@ -844,7 +844,7 @@ PxU32 ArticulationHelper::computeUnconstrainedVelocities(	const ArticulationSolv
 
 		FloatV h = FLoad(dt);
 
-		const Cm::SpatialVector* acceleration = desc.acceleration;
+		Cm::SpatialVector* acceleration = desc.acceleration;
 
 		const Vec3V vGravity = V3LoadU(gravity);
 
@@ -856,6 +856,8 @@ PxU32 ArticulationHelper::computeUnconstrainedVelocities(	const ArticulationSolv
 				linearAccel = V3Add(linearAccel, vGravity);
 			Cm::SpatialVectorV a(linearAccel, V3LoadA(acceleration[i].angular));
 			Z[i] = -ArticulationFnsSimd<ArticulationFnsSimdBase>::multiply(baseInertia[i], a) * h;
+			//KS - zero accelerations to ensure they don't get re-applied next frame if nothing touches them again.
+			acceleration[i].linear = PxVec3(0.f); acceleration[i].angular = PxVec3(0.f);
 		}
 
 		applyImpulses(fsData, Z, getVelocity(fsData));

@@ -261,7 +261,7 @@ namespace Gu
 		const FloatV p0dv2 = V3Dot(p0, v2);
 
 		const FloatV det = FNegScaleSub(v1dv2, v1dv2, FMul(v1dv1, v2dv2));//FSub( FMul(v1dv1, v2dv2), FMul(v1dv2, v1dv2) ); // non-negative
-		const FloatV recip = FRecip(det);
+		const FloatV recip = FSel(FIsGrtr(det, FEps()), FRecip(det), FZero());
 
 		const FloatV lambda1 = FMul(FNegScaleSub(p0dv1, v2dv2, FMul(p0dv2, v1dv2)), recip);
 		const FloatV lambda2 = FMul(FNegScaleSub(p0dv2, v1dv1, FMul(p0dv1, v1dv2)), recip);

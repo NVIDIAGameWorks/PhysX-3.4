@@ -288,7 +288,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#9290088c460b018a8d9f3e083882c0d0"><param name="Name" value="PxVehicleWheelsSimData"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#ed62f5c91008c92db20857e2c29c06a1"><param name="Name" value="computeForwardSpeed"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#cd3843988c38adae7b0227f6eaa079dc"><param name="Name" value="computeHullPolygons"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#75c77a6b39563de7b2d3736e0aaac85b"><param name="Name" value="computeHullPolygons"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulation.html#bfe3887e17be7b04d71a7d21c96c181d"><param name="Name" value="computeImpulseResponse"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxControllerManager.html#68b50621423ec866d69fdbef95d43ae6"><param name="Name" value="computeInteractions"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRigidBodyExt.html#a1215782ff3e5c18ca42d8805578c21a"><param name="Name" value="computeLinearAngularImpulse"></OBJECT>
@@ -343,9 +343,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxGeometryHolder.html#993d07984abdcd1800f2f36a4b89538a"><param name="Name" value="PxGeometryHolder"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html#fbc71c4ade3b80715855125413d58f97"><param name="Name" value="convexMeshCookingType"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#7c9d154cb2293b3109ad9dbc5b86dc51"><param name="Name" value="cookConvexMesh"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1"><param name="Name" value="cookConvexMesh"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRepXInstantiationArgs.html#8a4e0d0441584160e656b449a3c998a7"><param name="Name" value="cooker"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#4f1fe97c6d0437b9b57b6853bd3a216a"><param name="Name" value="cookHeightField"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#bf4f0fe5c9a709cde84338c5bdf7cde4"><param name="Name" value="cookHeightField"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__cooking.html"><param name="Name" value="cooking"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__cooking.html#g5e7791d7f0688a9f642a9345a7083708"><param name="Name" value="isValid"></OBJECT>
@@ -358,7 +358,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__cooking.html#g15d3050ac143dfb67ad43a8682c7b569"><param name="Name" value="PxTriangleMeshDesc"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__cooking.html#g6e86954b2426aae207489af9928d45e3"><param name="Name" value="setToDefault"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#bfed14c83906e67228c82f14090cf8b5"><param name="Name" value="cookTriangleMesh"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#29bea4d23794e1521a0a6cbfa8e62464"><param name="Name" value="cookTriangleMesh"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__character.html#g08c251badc674d74a5f9abb07ae5ad8f"><param name="Name" value="copy"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__character.html#g08c251badc674d74a5f9abb07ae5ad8f"><param name="Name" value="character"></OBJECT>
@@ -392,17 +392,17 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#e2eafca38332e6d7dff642641317e90a"><param name="Name" value="createCollectionFromXml"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#1126f3f545ebe183be1753f62d1efc7d"><param name="Name" value="createConstraint"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxControllerManager.html#8e05d3238438b16de95f5f8d04b5c674"><param name="Name" value="createController"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#87797d1f55b7e2ac7e68b9be59039fee"><param name="Name" value="createConvexMesh"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#b2aa803493356f5c916fa92c69164472"><param name="Name" value="createConvexMesh"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#87797d1f55b7e2ac7e68b9be59039fee"><param name="Name" value="PxCooking"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#b2aa803493356f5c916fa92c69164472"><param name="Name" value="PxCooking"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#54fc5f8b0884977ccfd45ea829392a52"><param name="Name" value="PxPhysics"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMat33.html#e7052afa072d3c45c1f570a6a794c6a5"><param name="Name" value="createDiagonal"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulation.html#795fd4cd7bb40e05c9e9bfd6f0d73a70"><param name="Name" value="createDriveCache"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRigidActorExt.html#e708f5ca3fc5f1ce3db14032a89f62b9"><param name="Name" value="createExclusiveShape"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#1cb07ad25394fcb3ecb52eff93990e8f"><param name="Name" value="createHeightField"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#0a3d0ec6145be91dd6707535724d8ffb"><param name="Name" value="createHeightField"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#1cb07ad25394fcb3ecb52eff93990e8f"><param name="Name" value="PxCooking"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#0a3d0ec6145be91dd6707535724d8ffb"><param name="Name" value="PxCooking"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#1806546c22306e8d44b7ff7719fbcc99"><param name="Name" value="PxPhysics"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleExt.html#b1c48052580ebe5df919b6b5505a9bad"><param name="Name" value="createIndexPool"></OBJECT>
@@ -435,9 +435,9 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxStringTableExt.html#b55c61beea368e12068fa362e7f86294"><param name="Name" value="createStringTable"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxTaskManager.html#940fded6abf31baf0dd31b01b2b86c36"><param name="Name" value="createTaskManager"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#257827f6057895a7bed2e7f05c662919"><param name="Name" value="createTriangleMesh"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#e3b75906fe677e931d9bb34df57f8cb8"><param name="Name" value="createTriangleMesh"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#257827f6057895a7bed2e7f05c662919"><param name="Name" value="PxCooking"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#e3b75906fe677e931d9bb34df57f8cb8"><param name="Name" value="PxCooking"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#29dcbbe128cef11eaf4ce5696c216dfd"><param name="Name" value="PxPhysics"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b5921a4665caaa38d0e02d9324b77c7c"><param name="Name" value="createVolumeCache"></OBJECT>
@@ -2264,7 +2264,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxActor.html#660828fb83c91f0ada2ca43e06aa2b35"><param name="Name" value="PxActor"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBatchQuery.html#3f9f6115709370fc445c03c9da06b691"><param name="Name" value="PxBatchQuery"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#2b65125364e71ef09bf8fd98daeb34ee"><param name="Name" value="getParams"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#83607708fd1cb2f58a3d758a558f5b28"><param name="Name" value="getParams"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationJoint.html#fb82a4d6b9ad7cf3f5fd9d9dc03ccca5"><param name="Name" value="getParentPose"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#4462120f9e721e95129b39ea716c7586"><param name="Name" value="getParticleAccelerations"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleBase.html#b7b8a318215e2a0a06446753e905bcd1"><param name="Name" value="getParticleBaseFlags"></OBJECT>
@@ -4017,7 +4017,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__extensions.html#gea2576f54650c42280d79ce79ea1979a"><param name="Name" value="extensions"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__extensions.html#gea2576f54650c42280d79ce79ea1979a"><param name="Name" value="PxDefaultAllocator.h"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#9da6aad06ad372657490e798722c68f8"><param name="Name" value="platformMismatch"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#82e0864b92d51d409f3134cc8f740102"><param name="Name" value="platformMismatch"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxGeometryQuery.html#248da4b70cd35bd32d4481775b4c9821"><param name="Name" value="pointDistance"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxTriangle.html#a8871506b2da5d6a82ffb5bb7410cb39"><param name="Name" value="pointFromUV"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPlane.html#b2e1652edb0075afcdf4e28f513ec736"><param name="Name" value="pointInPlane"></OBJECT>
@@ -6589,19 +6589,19 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html"><param name="Name" value="PxCooking"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#cd3843988c38adae7b0227f6eaa079dc"><param name="Name" value="computeHullPolygons"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#7c9d154cb2293b3109ad9dbc5b86dc51"><param name="Name" value="cookConvexMesh"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#4f1fe97c6d0437b9b57b6853bd3a216a"><param name="Name" value="cookHeightField"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#bfed14c83906e67228c82f14090cf8b5"><param name="Name" value="cookTriangleMesh"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#87797d1f55b7e2ac7e68b9be59039fee"><param name="Name" value="createConvexMesh"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#1cb07ad25394fcb3ecb52eff93990e8f"><param name="Name" value="createHeightField"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#257827f6057895a7bed2e7f05c662919"><param name="Name" value="createTriangleMesh"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#2b65125364e71ef09bf8fd98daeb34ee"><param name="Name" value="getParams"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#9da6aad06ad372657490e798722c68f8"><param name="Name" value="platformMismatch"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#75c77a6b39563de7b2d3736e0aaac85b"><param name="Name" value="computeHullPolygons"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1"><param name="Name" value="cookConvexMesh"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#bf4f0fe5c9a709cde84338c5bdf7cde4"><param name="Name" value="cookHeightField"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#29bea4d23794e1521a0a6cbfa8e62464"><param name="Name" value="cookTriangleMesh"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#b2aa803493356f5c916fa92c69164472"><param name="Name" value="createConvexMesh"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#0a3d0ec6145be91dd6707535724d8ffb"><param name="Name" value="createHeightField"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#e3b75906fe677e931d9bb34df57f8cb8"><param name="Name" value="createTriangleMesh"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#83607708fd1cb2f58a3d758a558f5b28"><param name="Name" value="getParams"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#82e0864b92d51d409f3134cc8f740102"><param name="Name" value="platformMismatch"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#cf1f0cfa4c76ccbe42e84af17a90fb3e"><param name="Name" value="release"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#febe112057bd03660dd78dee384d5321"><param name="Name" value="setParams"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#b77e8c999ebbb766fb14c31e18dafaf9"><param name="Name" value="validateConvexMesh"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#70c3d33e9e89919f6659da1b528acbf6"><param name="Name" value="validateTriangleMesh"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#ea8a3c270cc6db602ad250c82c1225bc"><param name="Name" value="validateConvexMesh"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#fca9fe3e3bb8b4943d35475f80f37d2e"><param name="Name" value="validateTriangleMesh"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#22a1e6a4a68af0bb0f6568bb59108938"><param name="Name" value="~PxCooking"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxCookingParams.html"><param name="Name" value="PxCookingParams"></OBJECT>
@@ -12376,8 +12376,8 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxBatchQueryMemory.html#21e15901b0b7e88fe8f59ea06dcff69e"><param name="Name" value="userSweepResultBuffer"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxBatchQueryMemory.html#f38a1a9598d64f6dedd9db17308e0cb8"><param name="Name" value="userSweepTouchBuffer"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRaycastHit.html#43a429012ce502bac4636be3e5540f29"><param name="Name" value="v"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#b77e8c999ebbb766fb14c31e18dafaf9"><param name="Name" value="validateConvexMesh"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#70c3d33e9e89919f6659da1b528acbf6"><param name="Name" value="validateTriangleMesh"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#ea8a3c270cc6db602ad250c82c1225bc"><param name="Name" value="validateConvexMesh"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#fca9fe3e3bb8b4943d35475f80f37d2e"><param name="Name" value="validateTriangleMesh"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleReadData.html#f5fe5cf59728941236f20bcd2aeb7276"><param name="Name" value="validParticleBitmap"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleReadData.html#c8fb8c413f919e1f7e95700a45859c35"><param name="Name" value="validParticleRange"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxJointLinearLimit.html#a433e50f27f94ca7191b1251e45f7ed6"><param name="Name" value="value"></OBJECT>

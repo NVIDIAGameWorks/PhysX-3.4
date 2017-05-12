@@ -108,8 +108,6 @@ bool BigConvexDataBuilder::save(PxOutputStream& stream, bool platformMismatch) c
 // we dont compute the edges again here, we have them temporary stored in mHullDataFacesByAllEdges8 structure
 bool BigConvexDataBuilder::computeValencies(const ConvexHullBuilder& meshBuilder)
 {	
-	PX_ASSERT(meshBuilder.mHullDataFacesByAllEdges8);
-
 	// Create valencies
 	const PxU32 numVertices = meshBuilder.mHull->mNbHullVertices;
 	mSVM->mData.mNbVerts = numVertices;
@@ -159,8 +157,10 @@ bool BigConvexDataBuilder::computeValencies(const ConvexHullBuilder& meshBuilder
 				mSVM->mData.mAdjacentVerts[mSVM->mData.mValencies[vertexIndex].mOffset++] = prevIndex;
 				numAdj++;
 				// now traverse the neighbors	
-				PxU8 n0 = meshBuilder.mHullDataFacesByAllEdges8[(meshBuilder.mHullDataPolygons[i].mVRef8 + j)*2];
-				PxU8 n1 = meshBuilder.mHullDataFacesByAllEdges8[(meshBuilder.mHullDataPolygons[i].mVRef8 + j)*2 + 1];
+				const PxU16 edgeIndex = PxU16(meshBuilder.mEdgeData16[meshBuilder.mHullDataPolygons[i].mVRef8 + j]*2);
+				PxU8 n0 = meshBuilder.mHullDataFacesByEdges8[edgeIndex];
+				PxU8 n1 = meshBuilder.mHullDataFacesByEdges8[edgeIndex + 1];
+				
 				PxU32 neighborPolygon = n0 == i ? n1 : n0;				
 				while (neighborPolygon != i)
 				{
@@ -192,8 +192,10 @@ bool BigConvexDataBuilder::computeValencies(const ConvexHullBuilder& meshBuilder
 					}
 
 					// now move to next neighbor
-					n0 = meshBuilder.mHullDataFacesByAllEdges8[(meshBuilder.mHullDataPolygons[neighborPolygon].mVRef8 + nextEdgeIndex)*2];
-					n1 = meshBuilder.mHullDataFacesByAllEdges8[(meshBuilder.mHullDataPolygons[neighborPolygon].mVRef8 + nextEdgeIndex)*2 + 1];
+					const PxU16 edgeIndex2 = PxU16(meshBuilder.mEdgeData16[(meshBuilder.mHullDataPolygons[neighborPolygon].mVRef8 + nextEdgeIndex)]*2);
+					n0 = meshBuilder.mHullDataFacesByEdges8[edgeIndex2];
+					n1 = meshBuilder.mHullDataFacesByEdges8[edgeIndex2 + 1];
+
 					neighborPolygon = n0 == neighborPolygon ? n1 : n0;
 				}
 				vertexMarker[vertexIndex] = numAdj;

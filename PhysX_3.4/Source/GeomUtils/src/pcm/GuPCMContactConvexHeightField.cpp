@@ -219,13 +219,13 @@ bool Gu::pcmContactConvexHeightField(GU_CONTACT_METHOD_ARGS)
 
 	if(idtScaleConvex)
 	{
-		SupportLocalShrunkImpl<Gu::ConvexHullNoScaleV, Gu::ShrunkConvexHullNoScaleV> convexMap(static_cast<ConvexHullNoScaleV&>(convexHull), convexTransform, convexHull.vertex2Shape, convexHull.shape2Vertex, idtScaleConvex);
+		SupportLocalImpl<Gu::ConvexHullNoScaleV> convexMap(static_cast<ConvexHullNoScaleV&>(convexHull), convexTransform, convexHull.vertex2Shape, convexHull.shape2Vertex, idtScaleConvex);
 		return Gu::PCMContactConvexHeightfield(polyData, &convexMap, minMargin, hullAABB, shapHeightField, transform0, transform1, params.mContactDistance, contactBuffer, convexScaling, 
 			idtScaleConvex, multiManifold, renderOutput);
 	}
 	else
 	{
-		SupportLocalShrunkImpl<Gu::ConvexHullV, Gu::ShrunkConvexHullV> convexMap(convexHull, convexTransform, convexHull.vertex2Shape, convexHull.shape2Vertex, idtScaleConvex);
+		SupportLocalImpl<Gu::ConvexHullV> convexMap(convexHull, convexTransform, convexHull.vertex2Shape, convexHull.shape2Vertex, idtScaleConvex);
 		return Gu::PCMContactConvexHeightfield(polyData, &convexMap, minMargin, hullAABB, shapHeightField, transform0, transform1, params.mContactDistance, contactBuffer, convexScaling, 
 			idtScaleConvex, multiManifold, renderOutput);
 	}
@@ -266,7 +266,7 @@ bool Gu::pcmContactBoxHeightField(GU_CONTACT_METHOD_ARGS)
 
 	Mat33V identity =  M33Identity();
 	//SupportLocalImpl<Gu::BoxV> boxMap(boxV, boxTransform, identity, identity);
-	SupportLocalShrunkImpl<Gu::BoxV, Gu::ShrunkBoxV> boxMap(boxV, boxTransform, identity, identity, true);
+	SupportLocalImpl<Gu::BoxV> boxMap(boxV, boxTransform, identity, identity, true);
 
 	return Gu::PCMContactConvexHeightfield(polyData, &boxMap, minMargin, hullAABB, shapHeightField, transform0, transform1, params.mContactDistance, contactBuffer, 
 		idtScaling, true, multiManifold, renderOutput);

@@ -79,6 +79,7 @@ namespace Gu
 
 		PX_INLINE ShrunkBoxV(const PxGeometry& geom) : BoxV(geom)
 		{
+			margin = minExtent * BOX_MARGIN_CCD_RATIO;
 			initialiseMarginDif();
 		}
 
@@ -92,6 +93,8 @@ namespace Gu
 		PX_FORCE_INLINE ShrunkBoxV(const Ps::aos::Vec3VArg origin, const Ps::aos::Vec3VArg extent) : 
 																				BoxV(origin, extent)
 		{
+			//calculate margin
+			margin = minExtent * BOX_MARGIN_RATIO;
 			initialiseMarginDif();
 		}
 		
@@ -178,9 +181,6 @@ namespace Gu
 			const PxReal tempMarginDif = sqrtf(sqMargin * 3.f);
 			const PxReal marginDif_ = tempMarginDif - margin;
 			marginDif = FLoad(marginDif_);
-			/*	const FloatV sqMargin = FMul(margin, margin);
-			const FloatV tempMarginDif =  FSqrt(FAdd(sqMargin, FAdd(sqMargin, sqMargin)));
-			marginDif = FSub(tempMarginDif, margin);*/
 		}
 	};
 }	

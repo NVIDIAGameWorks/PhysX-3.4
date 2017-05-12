@@ -131,7 +131,7 @@ namespace Gu
 		}
 
 
-		// PT: TODO: is there a difference between 'originalVerts' and the 'verts' class member? Also why is this a member function at all?
+		//This funcation is just to load the PxVec3 to Vec3V. However, for GuVecConvexHul.h, this is used to transform all the verts from vertex space to shape space
 		PX_SUPPORT_INLINE void populateVerts(const PxU8* inds, PxU32 numInds, const PxVec3* originalVerts, Ps::aos::Vec3V* verts_)const
 		{
 			using namespace Ps::aos;
@@ -163,7 +163,6 @@ namespace Gu
 			using namespace Ps::aos;
 		
 			//transform dir into the shape space
-//			const Vec3V _dir = aTob.rotateInv(dir);//relTra.rotateInv(dir);
 			const Vec3V _dir = aTobT.rotate(dir);//relTra.rotateInv(dir);
 			const Vec3V maxPoint = supportLocal(_dir);
 			//translate maxPoint from shape space of a back to the b space
@@ -189,7 +188,6 @@ namespace Gu
 			using namespace Ps::aos;
 
 			//transform dir from b space to the shape space of a space
-//			const Vec3V _dir = aTob.rotateInv(dir);//relTra.rotateInv(dir);//M33MulV3(skewInvRot, dir);
 			const Vec3V _dir = aTobT.rotate(dir);//relTra.rotateInv(dir);//M33MulV3(skewInvRot, dir);
 			const Vec3V p = supportLocal(_dir, index, marginDif);
 			//transfrom from a to b space

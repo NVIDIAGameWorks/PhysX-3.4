@@ -450,14 +450,14 @@ public:
 
 	@see PxCookingParams setParams()
 	*/
-	virtual const PxCookingParams& getParams() = 0;
+	virtual const PxCookingParams& getParams() const = 0;
 
 	/**
 	\brief Checks endianness is the same between cooking & target platforms
 
 	\return True if there is and endian mismatch.
 	*/
-	virtual bool  platformMismatch() = 0;
+	virtual bool  platformMismatch() const = 0;
 
 	/**
 	\brief Cooks a triangle mesh. The results are written to the stream.
@@ -479,7 +479,7 @@ public:
 
 	@see cookConvexMesh() setParams() PxPhysics.createTriangleMesh() PxTriangleMeshCookingResult::Enum
 	*/
-	virtual bool  cookTriangleMesh(const PxTriangleMeshDesc& desc, PxOutputStream& stream, PxTriangleMeshCookingResult::Enum* condition = NULL) = 0;
+	virtual bool  cookTriangleMesh(const PxTriangleMeshDesc& desc, PxOutputStream& stream, PxTriangleMeshCookingResult::Enum* condition = NULL) const = 0;
 
 	/**
 	\brief Cooks and creates a triangle mesh and inserts it into PxPhysics.
@@ -492,7 +492,7 @@ public:
 
 	@see cookTriangleMesh() setParams() PxPhysics.createTriangleMesh() PxPhysicsInsertionCallback
 	*/
-	virtual PxTriangleMesh*    createTriangleMesh(const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback) = 0;
+	virtual PxTriangleMesh*    createTriangleMesh(const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback) const = 0;
 
 	/**
 	\brief Verifies if the triangle mesh is valid. Prints an error message for each inconsistency found.
@@ -507,7 +507,7 @@ public:
 
 	@see cookTriangleMesh()
 	*/
-	virtual bool  validateTriangleMesh(const PxTriangleMeshDesc& desc) = 0;
+	virtual bool  validateTriangleMesh(const PxTriangleMeshDesc& desc) const = 0;
 
 	/**
 	\brief Cooks a convex mesh. The results are written to the stream.
@@ -532,7 +532,7 @@ public:
 
 	@see cookTriangleMesh() setParams() PxConvexMeshCookingResult::Enum
 	*/
-	virtual bool  cookConvexMesh(const PxConvexMeshDesc& desc, PxOutputStream& stream, PxConvexMeshCookingResult::Enum* condition = NULL) = 0;
+	virtual bool  cookConvexMesh(const PxConvexMeshDesc& desc, PxOutputStream& stream, PxConvexMeshCookingResult::Enum* condition = NULL) const = 0;
 
 	/**
 	\brief Cooks and creates a convex mesh and inserts it into PxPhysics.
@@ -548,7 +548,7 @@ public:
 
 	@see cookConvexMesh() setParams() PxPhysicsInsertionCallback
 	*/
-	virtual PxConvexMesh*    createConvexMesh(const PxConvexMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback) = 0;
+	virtual PxConvexMesh*    createConvexMesh(const PxConvexMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback) const = 0;
 
 	/**
 	\brief Verifies if the convex mesh is valid. Prints an error message for each inconsistency found.
@@ -563,7 +563,7 @@ public:
 
 	@see cookConvexMesh()
 	*/
-	virtual bool  validateConvexMesh(const PxConvexMeshDesc& desc) = 0;
+	virtual bool  validateConvexMesh(const PxConvexMeshDesc& desc) const = 0;
 
 
 	/**
@@ -588,7 +588,7 @@ public:
 	@see cookConvexMesh() PxConvexFlags PxConvexMeshDesc PxSimpleTriangleMesh
 	*/
 	virtual bool  computeHullPolygons(const PxSimpleTriangleMesh& mesh, PxAllocatorCallback& inCallback, PxU32& nbVerts, PxVec3*& vertices,
-											PxU32& nbIndices, PxU32*& indices, PxU32& nbPolygons, PxHullPolygon*& hullPolygons) = 0;
+											PxU32& nbIndices, PxU32*& indices, PxU32& nbPolygons, PxHullPolygon*& hullPolygons) const = 0;
 
 	/**
 	\brief Cooks a heightfield. The results are written to the stream.
@@ -604,7 +604,7 @@ public:
 
 	@see PxPhysics.createHeightField()
 	*/
-	virtual bool  cookHeightField(const PxHeightFieldDesc& desc, PxOutputStream& stream) = 0;
+	virtual bool  cookHeightField(const PxHeightFieldDesc& desc, PxOutputStream& stream) const = 0;
 
 	/**
 	\brief Cooks and creates a heightfield mesh and inserts it into PxPhysics.
@@ -615,7 +615,7 @@ public:
 
 	@see cookConvexMesh() setParams() PxPhysics.createTriangleMesh() PxPhysicsInsertionCallback
 	*/
-	virtual PxHeightField*    createHeightField(const PxHeightFieldDesc& desc, PxPhysicsInsertionCallback& insertionCallback) = 0;
+	virtual PxHeightField*    createHeightField(const PxHeightFieldDesc& desc, PxPhysicsInsertionCallback& insertionCallback) const = 0;
 
 
 protected:

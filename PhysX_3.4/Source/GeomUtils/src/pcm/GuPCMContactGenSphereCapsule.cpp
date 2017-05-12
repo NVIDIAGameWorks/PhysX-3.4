@@ -324,8 +324,8 @@ namespace Gu
 		}
 		else
 		{
-			const FloatV eps = FLoad(PCM_WITNESS_POINT_EPS);
-			const FloatV lowerEps = FMul(toleranceScale, FLoad(PCM_WITNESS_POINT_ABSOLUTE_EPS));
+			const FloatV eps = FLoad(PCM_WITNESS_POINT_SCALE);
+			const FloatV lowerEps = FMul(toleranceScale, FLoad(PCM_WITNESS_POINT_LOWER_EPS));
 			const FloatV tolerance = FMax(FMul(margin, eps), lowerEps);
 
 			referencePolygon = &polyData.mPolygons[getWitnessPolygonIndex(polyData, map, V3Neg(normal), closest, tolerance)];
@@ -374,8 +374,8 @@ namespace Gu
 			const PxU32 faceContacts = numContacts - originalContacts;
 			if(faceContacts < 2)
 			{
-				const FloatV eps = FLoad(PCM_WITNESS_POINT_EPS);
-				const FloatV lowerEps = FMul(toleranceScale, FLoad(PCM_WITNESS_POINT_ABSOLUTE_EPS));
+				const FloatV eps = FLoad(PCM_WITNESS_POINT_SCALE);
+				const FloatV lowerEps = FMul(toleranceScale, FLoad(PCM_WITNESS_POINT_LOWER_EPS));
 				const FloatV toleranceA = FMax(FMul(margin, eps), lowerEps);
 
 				const Gu::HullPolygonData& referencePolygon = polyData.mPolygons[getWitnessPolygonIndex(polyData, map, V3Neg(tNormal), closest, toleranceA)];

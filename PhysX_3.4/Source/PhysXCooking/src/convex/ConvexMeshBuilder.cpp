@@ -66,7 +66,7 @@ ConvexMeshBuilder::~ConvexMeshBuilder()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // load the mesh data from given polygons
-bool ConvexMeshBuilder::build(const PxConvexMeshDesc& desc, PxU32 gaussMapVertexLimit, bool validateOnly, bool userPolygons)
+bool ConvexMeshBuilder::build(const PxConvexMeshDesc& desc, PxU32 gaussMapVertexLimit, bool validateOnly, ConvexHullLib* hullLib)
 {
 	if(!desc.isValid())
 	{
@@ -74,7 +74,7 @@ bool ConvexMeshBuilder::build(const PxConvexMeshDesc& desc, PxU32 gaussMapVertex
 		return false;
 	}
 
-	if(!loadConvexHull(desc, gaussMapVertexLimit, userPolygons))
+	if(!loadConvexHull(desc, hullLib))
 		return false;
 
 	// Compute local bounds (*after* hull has been created)
@@ -239,7 +239,7 @@ void ConvexMeshBuilder::computeMassInfo(bool lowerPrecision)
 #pragma warning(disable:4996)	// permitting use of gatherStrided until we have a replacement.
 #endif
 
-bool ConvexMeshBuilder::loadConvexHull(const PxConvexMeshDesc& desc, PxU32 gaussMapVertexLimit, bool userPolygons)
+bool ConvexMeshBuilder::loadConvexHull(const PxConvexMeshDesc& desc, ConvexHullLib* hullLib)
 {
 	// gather points
 	PxVec3* geometry = reinterpret_cast<PxVec3*>(PxAlloca(sizeof(PxVec3)*desc.points.count));
@@ -281,7 +281,7 @@ bool ConvexMeshBuilder::loadConvexHull(const PxConvexMeshDesc& desc, PxU32 gauss
 		Cooking::gatherStrided(desc.polygons.data,hullPolygons,desc.polygons.count,sizeof(PxHullPolygon),desc.polygons.stride);
 
 		// if user polygons, make sure the largest one is the first one
-		if (userPolygons)
+		if (!hullLib)
 		{
 			PxU32 largestPolygon = 0;
 			for (PxU32 i = 1; i < desc.polygons.count; i++)
@@ -299,7 +299,7 @@ bool ConvexMeshBuilder::loadConvexHull(const PxConvexMeshDesc& desc, PxU32 gauss
 	}
 	
 	const bool doValidation = desc.flags & PxConvexFlag::eDISABLE_MESH_VALIDATION ? false : true;
-  	if(!hullBuilder.init(desc.points.count, geometry, topology, desc.indices.count, desc.polygons.count, hullPolygons, gaussMapVertexLimit, doValidation))
+  	if(!hullBuilder.init(desc.points.count, geometry, topology, desc.indices.count, desc.polygons.count, hullPolygons, doValidation, hullLib))
   	{
 		Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "Gu::ConvexMesh::loadConvexHull: convex hull init failed!");
   		return false;

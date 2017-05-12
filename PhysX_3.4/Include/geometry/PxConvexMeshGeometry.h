@@ -104,7 +104,7 @@ public:
 		PxGeometry	(PxGeometryType::eCONVEXMESH),
 		scale		(scaling),
 		convexMesh	(mesh),
-		meshFlags	(flags)
+		meshFlags(flags)
 	{
 	}
 
@@ -138,7 +138,6 @@ PX_INLINE bool PxConvexMeshGeometry::isValid() const
 		return false;
 	if(!convexMesh)
 		return false;
-
 	return true;
 }
 

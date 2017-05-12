@@ -615,7 +615,8 @@ static PX_FORCE_INLINE void refitNode(AABBTreeRuntimeNode* PX_RESTRICT current, 
 		else
 		{
 			// Might happen after a node has been invalidated
-			const float max = 0.25f * 1e33f;	// ###
+//			const float max = 0.25f * 1e33f;	// ###
+			const float max = PxSqrt(0.25f * 1e33f);	// ###
 			resultMinV = V4Load(max);
 			resultMaxV = V4Load(-max);
 		}

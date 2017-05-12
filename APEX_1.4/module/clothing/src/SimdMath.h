@@ -14,7 +14,7 @@
 #include "PxMat44.h"
 #include "PxVec3.h"
 #include "PsMathUtils.h"
-#include "NvSimd4f.h"
+#include "simd/NvSimd4f.h"
 
 namespace nvidia
 {

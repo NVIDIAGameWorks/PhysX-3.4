@@ -64,6 +64,7 @@ namespace Gu
 			minMargin = 0.f;
 			sweepMargin = 0.f;
 			center = Ps::aos::V3Zero();
+			maxMargin = PX_MAX_F32;
 		}
 
 		PX_FORCE_INLINE ConvexV(const ConvexType::Type type_, const Ps::aos::Vec3VArg center_) : type(type_), bMarginIsRadius(false)
@@ -73,8 +74,8 @@ namespace Gu
 			margin = 0.f;
 			minMargin = 0.f;
 			sweepMargin = 0.f;
+			maxMargin = PX_MAX_F32;
 		}
-
 
 		//everytime when someone transform the object, they need to up
 		PX_FORCE_INLINE void setCenter(const Ps::aos::Vec3VArg _center)
@@ -90,6 +91,15 @@ namespace Gu
 		PX_FORCE_INLINE void setMargin(const PxReal margin_)
 		{
 			margin = margin_;
+			//compare with margin and choose the smallest one
+			margin = PxMin<PxReal>(maxMargin, margin);
+		}
+
+		PX_FORCE_INLINE void setMaxMargin(const PxReal maxMargin_)
+		{
+			maxMargin = maxMargin_;
+			//compare with margin and choose the smallest one
+			margin = PxMin<PxReal>(maxMargin, margin);
 		}
 
 		PX_FORCE_INLINE void setMinMargin(const Ps::aos::FloatVArg minMargin_)
@@ -137,12 +147,19 @@ namespace Gu
 			return bMarginIsRadius;
 		}
 
+		PX_FORCE_INLINE PxReal getMarginF() const
+		{
+			return margin;
+		}
+
+
 	protected:
 		~ConvexV(){}
 		Ps::aos::Vec3V center;
-		PxReal margin;		//margin is the amount by which we shrunk the shape for a convex or box. If the shape are sphere/capsule, margin is the radius
-		PxReal minMargin;	//minMargin is some percentage of marginBase, which is used to determine the termination condition for gjk
-		PxReal sweepMargin;// sweepMargin minMargin is some percentage of marginBase, which is used to determine the termination condition for gjkRaycast
+		PxReal margin;				//margin is the amount by which we shrunk the shape for a convex or box. If the shape are sphere/capsule, margin is the radius
+		PxReal minMargin;			//minMargin is some percentage of marginBase, which is used to determine the termination condition for gjk
+		PxReal sweepMargin;			//sweepMargin minMargin is some percentage of marginBase, which is used to determine the termination condition for gjkRaycast
+		PxReal maxMargin;			//the shrunk amount defined by the application
 		ConvexType::Type	type;
 		bool bMarginIsRadius;
 	};

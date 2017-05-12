@@ -65,14 +65,14 @@ void Cooking::setParams(const PxCookingParams& params)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const PxCookingParams& Cooking::getParams()
+const PxCookingParams& Cooking::getParams() const
 {
 	return mParams;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Cooking::platformMismatch()
+bool Cooking::platformMismatch() const
 {
 	// Get current endianness (the one for the platform where cooking is performed)
 	PxI8 currentEndian = Ps::littleEndian();
@@ -100,7 +100,7 @@ void Cooking::release()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool Cooking::validateTriangleMesh(const PxTriangleMeshDesc& desc)
+bool Cooking::validateTriangleMesh(const PxTriangleMeshDesc& desc) const
 {
 	// cooking code does lots of float bitwise reinterpretation that generates exceptions
 	PX_FPU_GUARD;
@@ -118,7 +118,7 @@ bool Cooking::validateTriangleMesh(const PxTriangleMeshDesc& desc)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Cooking::cookTriangleMesh(TriangleMeshBuilder& builder, const PxTriangleMeshDesc& desc, PxOutputStream& stream, PxTriangleMeshCookingResult::Enum* condition)
+bool Cooking::cookTriangleMesh(TriangleMeshBuilder& builder, const PxTriangleMeshDesc& desc, PxOutputStream& stream, PxTriangleMeshCookingResult::Enum* condition) const
 {
 	// cooking code does lots of float bitwise reinterpretation that generates exceptions
 	PX_FPU_GUARD;
@@ -136,7 +136,7 @@ bool Cooking::cookTriangleMesh(TriangleMeshBuilder& builder, const PxTriangleMes
 	return true;
 }
 
-bool Cooking::cookTriangleMesh(const PxTriangleMeshDesc& desc, PxOutputStream& stream, PxTriangleMeshCookingResult::Enum* condition)
+bool Cooking::cookTriangleMesh(const PxTriangleMeshDesc& desc, PxOutputStream& stream, PxTriangleMeshCookingResult::Enum* condition) const
 {
 	if((mParams.midphaseDesc.getType() == PxMeshMidPhase::eINVALID) || (mParams.midphaseDesc.getType() == PxMeshMidPhase::eBVH33))
 	{
@@ -150,7 +150,7 @@ bool Cooking::cookTriangleMesh(const PxTriangleMeshDesc& desc, PxOutputStream& s
 	}
 }
 
-PxTriangleMesh* Cooking::createTriangleMesh(TriangleMeshBuilder& builder, const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback)
+PxTriangleMesh* Cooking::createTriangleMesh(TriangleMeshBuilder& builder, const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback) const
 {	
 	// cooking code does lots of float bitwise reinterpretation that generates exceptions
 	PX_FPU_GUARD;
@@ -171,7 +171,7 @@ PxTriangleMesh* Cooking::createTriangleMesh(TriangleMeshBuilder& builder, const 
 	return static_cast<PxTriangleMesh*>(insertionCallback.buildObjectFromData(type, &builder.getMeshData()));
 }
 
-PxTriangleMesh* Cooking::createTriangleMesh(const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback)
+PxTriangleMesh* Cooking::createTriangleMesh(const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback) const
 {	
 	if((mParams.midphaseDesc.getType() == PxMeshMidPhase::eINVALID) || (mParams.midphaseDesc.getType() == PxMeshMidPhase::eBVH33))
 	{
@@ -188,7 +188,7 @@ PxTriangleMesh* Cooking::createTriangleMesh(const PxTriangleMeshDesc& desc, PxPh
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // cook convex mesh from given desc, internal function to be shared between create/cook convex mesh
 bool Cooking::cookConvexMeshInternal(const PxConvexMeshDesc& desc_, ConvexMeshBuilder& meshBuilder, ConvexHullLib* hullLib,
-	PxConvexMeshCookingResult::Enum* condition)
+	PxConvexMeshCookingResult::Enum* condition) const
 {
 	if (condition)
 		*condition = PxConvexMeshCookingResult::eFAILURE;
@@ -244,7 +244,7 @@ bool Cooking::cookConvexMeshInternal(const PxConvexMeshDesc& desc_, ConvexMeshBu
 		return false;
 	}
 		
-	if (!meshBuilder.build(desc, mParams.gaussMapLimit, false, hullLib ? false : true))
+	if (!meshBuilder.build(desc, mParams.gaussMapLimit, false, hullLib))
 	{	
 		return false;
 	}
@@ -259,7 +259,7 @@ bool Cooking::cookConvexMeshInternal(const PxConvexMeshDesc& desc_, ConvexMeshBu
 
 //////////////////////////////////////////////////////////////////////////
 // cook convex mesh from given desc, save the results into stream
-bool Cooking::cookConvexMesh(const PxConvexMeshDesc& desc_, PxOutputStream& stream, PxConvexMeshCookingResult::Enum* condition)
+bool Cooking::cookConvexMesh(const PxConvexMeshDesc& desc_, PxOutputStream& stream, PxConvexMeshCookingResult::Enum* condition) const
 {	
 	PX_FPU_GUARD;
 	// choose cooking library if needed
@@ -314,7 +314,7 @@ bool Cooking::cookConvexMesh(const PxConvexMeshDesc& desc_, PxOutputStream& stre
 //////////////////////////////////////////////////////////////////////////
 // cook convex mesh from given desc, copy the results into internal convex mesh
 // and insert the mesh into PxPhysics
-PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc_, PxPhysicsInsertionCallback& insertionCallback)
+PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc_, PxPhysicsInsertionCallback& insertionCallback) const
 {
 	PX_FPU_GUARD;
 	// choose cooking library if needed
@@ -381,7 +381,7 @@ PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc_, PxPhysics
 
 //////////////////////////////////////////////////////////////////////////
 
-bool Cooking::validateConvexMesh(const PxConvexMeshDesc& desc)
+bool Cooking::validateConvexMesh(const PxConvexMeshDesc& desc) const
 {
 	ConvexMeshBuilder mesh(mParams.buildGPUData);
 	return mesh.build(desc, mParams.gaussMapLimit, true);
@@ -390,7 +390,7 @@ bool Cooking::validateConvexMesh(const PxConvexMeshDesc& desc)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool Cooking::computeHullPolygons(const PxSimpleTriangleMesh& mesh, PxAllocatorCallback& inCallback,PxU32& nbVerts, PxVec3*& vertices,
-		PxU32& nbIndices, PxU32*& indices, PxU32& nbPolygons, PxHullPolygon*& hullPolygons)
+		PxU32& nbIndices, PxU32*& indices, PxU32& nbPolygons, PxHullPolygon*& hullPolygons) const
 {
 	PxVec3* geometry = reinterpret_cast<PxVec3*>(PxAlloca(sizeof(PxVec3)*mesh.points.count));
 	Cooking::gatherStrided(mesh.points.data, geometry, mesh.points.count, sizeof(PxVec3), mesh.points.stride);
@@ -425,7 +425,7 @@ bool Cooking::computeHullPolygons(const PxSimpleTriangleMesh& mesh, PxAllocatorC
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Cooking::cookHeightField(const PxHeightFieldDesc& desc, PxOutputStream& stream)
+bool Cooking::cookHeightField(const PxHeightFieldDesc& desc, PxOutputStream& stream) const
 {
 	PX_FPU_GUARD;
 
@@ -458,7 +458,7 @@ bool Cooking::cookHeightField(const PxHeightFieldDesc& desc, PxOutputStream& str
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-PxHeightField* Cooking::createHeightField(const PxHeightFieldDesc& desc, PxPhysicsInsertionCallback& insertionCallback)
+PxHeightField* Cooking::createHeightField(const PxHeightFieldDesc& desc, PxPhysicsInsertionCallback& insertionCallback) const
 {
 	PX_FPU_GUARD;
 

@@ -43,9 +43,7 @@ namespace Gu
 	class CapsuleV;
 	class BoxV;
 	class ConvexHullV;
-	class ShrunkConvexHullV;
 	class ConvexHullNoScaleV;
-	class ShrunkConvexHullNoScaleV;
 
 	
 #if PX_VC 
@@ -66,7 +64,7 @@ namespace Gu
 		{
 		}
 
-		void setShapeSpaceCenterofMass(const Ps::aos::Vec3VArg _shapeSpaceCenterOfMass)
+		PX_FORCE_INLINE void setShapeSpaceCenterofMass(const Ps::aos::Vec3VArg _shapeSpaceCenterOfMass)
 		{
 			shapeSpaceCenterOfMass = _shapeSpaceCenterOfMass;
 		}
@@ -104,13 +102,7 @@ namespace Gu
 			return conv.supportLocal(dir, min, max);
 		}
 
-
 		void populateVerts(const PxU8* inds, PxU32 numInds, const PxVec3* originalVerts, Ps::aos::Vec3V* verts) const 
-		{
-			conv.populateVerts(inds, numInds, originalVerts, verts);
-		}
-
-		PX_FORCE_INLINE void populateVertsFast(const PxU8* inds, PxU32 numInds, const PxVec3* originalVerts, Ps::aos::Vec3V* verts) const 
 		{
 			conv.populateVerts(inds, numInds, originalVerts, verts);
 		}
@@ -119,42 +111,6 @@ namespace Gu
 		SupportLocalImpl& operator=(const SupportLocalImpl&);
 
 	};
-
-	template <typename Convex, typename ShrunkConvex>
-	class SupportLocalShrunkImpl : public SupportLocal
-	{
-		SupportLocalShrunkImpl& operator=(const SupportLocalShrunkImpl&);
-	public:
-		const Convex& conv;
-		const ShrunkConvex& shrunkConvex;
-		SupportLocalShrunkImpl(const Convex& _conv, const Ps::aos::PsTransformV& _transform, const Ps::aos::Mat33V& _vertex2Shape, const Ps::aos::Mat33V& _shape2Vertex, const bool _isIdentityScale = true) : 
-		SupportLocal(_transform, _vertex2Shape, _shape2Vertex, _isIdentityScale), conv(_conv), 
-		shrunkConvex(static_cast<const ShrunkConvex&>(static_cast<const ConvexV&>(_conv)))	//ML: The types may or may not be related but they will share the base class (ConvexV) so to avoid
-																							//a compiler warning if we use reinterpret_cast unnecessarily, we static cast to base, then back up to 
-																							//the derived type. We guarantee that all types that are converted between are data compatible
-		{
-		}
-
-		Ps::aos::Vec3V doSupport(const Ps::aos::Vec3VArg dir) const
-		{
-			//return conv.supportVertsLocal(dir);
-			return conv.supportLocal(dir);
-		}
-
-		void doSupport(const Ps::aos::Vec3VArg dir, Ps::aos::FloatV& min, Ps::aos::FloatV& max) const
-		{
-			return conv.supportLocal(dir, min, max);
-		}
-
-		void populateVerts(const PxU8* inds, PxU32 numInds, const PxVec3* originalVerts, Ps::aos::Vec3V* verts) const 
-		{
-			conv.populateVerts(inds, numInds, originalVerts, verts);
-		}
-
-		PX_COMPILE_TIME_ASSERT(sizeof(Convex) == sizeof(ShrunkConvex));
-
-	};
-
 }
 
 }

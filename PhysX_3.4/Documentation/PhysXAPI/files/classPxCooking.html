@@ -35,39 +35,39 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321">setParams</a> (const <a class="el" href="structPxCookingParams.html">PxCookingParams</a> &amp;params)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets cooking parameters.  <a href="#febe112057bd03660dd78dee384d5321"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="el" href="structPxCookingParams.html">PxCookingParams</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#2b65125364e71ef09bf8fd98daeb34ee">getParams</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="el" href="structPxCookingParams.html">PxCookingParams</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#83607708fd1cb2f58a3d758a558f5b28">getParams</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets cooking parameters.  <a href="#2b65125364e71ef09bf8fd98daeb34ee"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#9da6aad06ad372657490e798722c68f8">platformMismatch</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets cooking parameters.  <a href="#83607708fd1cb2f58a3d758a558f5b28"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#82e0864b92d51d409f3134cc8f740102">platformMismatch</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks endianness is the same between cooking &amp; target platforms.  <a href="#9da6aad06ad372657490e798722c68f8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#bfed14c83906e67228c82f14090cf8b5">cookTriangleMesh</a> (const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;desc, <a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;stream, <a class="el" href="structPxTriangleMeshCookingResult.html#be8e2312c47cc522a546c34ea337fb64">PxTriangleMeshCookingResult::Enum</a> *condition=NULL)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks endianness is the same between cooking &amp; target platforms.  <a href="#82e0864b92d51d409f3134cc8f740102"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#29bea4d23794e1521a0a6cbfa8e62464">cookTriangleMesh</a> (const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;desc, <a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;stream, <a class="el" href="structPxTriangleMeshCookingResult.html#be8e2312c47cc522a546c34ea337fb64">PxTriangleMeshCookingResult::Enum</a> *condition=NULL) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks a triangle mesh. The results are written to the stream.  <a href="#bfed14c83906e67228c82f14090cf8b5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxTriangleMesh.html">PxTriangleMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#257827f6057895a7bed2e7f05c662919">createTriangleMesh</a> (const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;desc, <a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;insertionCallback)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks a triangle mesh. The results are written to the stream.  <a href="#29bea4d23794e1521a0a6cbfa8e62464"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxTriangleMesh.html">PxTriangleMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#e3b75906fe677e931d9bb34df57f8cb8">createTriangleMesh</a> (const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;desc, <a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;insertionCallback) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks and creates a triangle mesh and inserts it into <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>.  <a href="#257827f6057895a7bed2e7f05c662919"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#70c3d33e9e89919f6659da1b528acbf6">validateTriangleMesh</a> (const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;desc)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks and creates a triangle mesh and inserts it into <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>.  <a href="#e3b75906fe677e931d9bb34df57f8cb8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#fca9fe3e3bb8b4943d35475f80f37d2e">validateTriangleMesh</a> (const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;desc) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Verifies if the triangle mesh is valid. Prints an error message for each inconsistency found.  <a href="#70c3d33e9e89919f6659da1b528acbf6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#7c9d154cb2293b3109ad9dbc5b86dc51">cookConvexMesh</a> (const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;desc, <a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;stream, <a class="el" href="structPxConvexMeshCookingResult.html#c1c7b1cbfc80b0af00bec95faf1ebf42">PxConvexMeshCookingResult::Enum</a> *condition=NULL)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Verifies if the triangle mesh is valid. Prints an error message for each inconsistency found.  <a href="#fca9fe3e3bb8b4943d35475f80f37d2e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1">cookConvexMesh</a> (const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;desc, <a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;stream, <a class="el" href="structPxConvexMeshCookingResult.html#c1c7b1cbfc80b0af00bec95faf1ebf42">PxConvexMeshCookingResult::Enum</a> *condition=NULL) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks a convex mesh. The results are written to the stream.  <a href="#7c9d154cb2293b3109ad9dbc5b86dc51"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxConvexMesh.html">PxConvexMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#87797d1f55b7e2ac7e68b9be59039fee">createConvexMesh</a> (const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;desc, <a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;insertionCallback)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks a convex mesh. The results are written to the stream.  <a href="#de8e845a8a4253292aed0ef93177ffa1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxConvexMesh.html">PxConvexMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#b2aa803493356f5c916fa92c69164472">createConvexMesh</a> (const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;desc, <a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;insertionCallback) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks and creates a convex mesh and inserts it into <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>.  <a href="#87797d1f55b7e2ac7e68b9be59039fee"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#b77e8c999ebbb766fb14c31e18dafaf9">validateConvexMesh</a> (const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;desc)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks and creates a convex mesh and inserts it into <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>.  <a href="#b2aa803493356f5c916fa92c69164472"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#ea8a3c270cc6db602ad250c82c1225bc">validateConvexMesh</a> (const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;desc) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Verifies if the convex mesh is valid. Prints an error message for each inconsistency found.  <a href="#b77e8c999ebbb766fb14c31e18dafaf9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#cd3843988c38adae7b0227f6eaa079dc">computeHullPolygons</a> (const <a class="el" href="classPxSimpleTriangleMesh.html">PxSimpleTriangleMesh</a> &amp;mesh, <a class="el" href="classPxAllocatorCallback.html">PxAllocatorCallback</a> &amp;inCallback, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> &amp;nbVerts, <a class="el" href="classPxVec3.html">PxVec3</a> *&amp;vertices, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> &amp;nbIndices, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> *&amp;indices, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> &amp;nbPolygons, <a class="el" href="structPxHullPolygon.html">PxHullPolygon</a> *&amp;hullPolygons)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Verifies if the convex mesh is valid. Prints an error message for each inconsistency found.  <a href="#ea8a3c270cc6db602ad250c82c1225bc"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#75c77a6b39563de7b2d3736e0aaac85b">computeHullPolygons</a> (const <a class="el" href="classPxSimpleTriangleMesh.html">PxSimpleTriangleMesh</a> &amp;mesh, <a class="el" href="classPxAllocatorCallback.html">PxAllocatorCallback</a> &amp;inCallback, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> &amp;nbVerts, <a class="el" href="classPxVec3.html">PxVec3</a> *&amp;vertices, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> &amp;nbIndices, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> *&amp;indices, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> &amp;nbPolygons, <a class="el" href="structPxHullPolygon.html">PxHullPolygon</a> *&amp;hullPolygons) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Computed hull polygons from given vertices and triangles. Polygons are needed for <a class="el" href="classPxConvexMeshDesc.html" title="Descriptor class for PxConvexMesh.">PxConvexMeshDesc</a> rather than triangles.  <a href="#cd3843988c38adae7b0227f6eaa079dc"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#4f1fe97c6d0437b9b57b6853bd3a216a">cookHeightField</a> (const <a class="el" href="classPxHeightFieldDesc.html">PxHeightFieldDesc</a> &amp;desc, <a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;stream)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Computed hull polygons from given vertices and triangles. Polygons are needed for <a class="el" href="classPxConvexMeshDesc.html" title="Descriptor class for PxConvexMesh.">PxConvexMeshDesc</a> rather than triangles.  <a href="#75c77a6b39563de7b2d3736e0aaac85b"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#bf4f0fe5c9a709cde84338c5bdf7cde4">cookHeightField</a> (const <a class="el" href="classPxHeightFieldDesc.html">PxHeightFieldDesc</a> &amp;desc, <a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;stream) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks a heightfield. The results are written to the stream.  <a href="#4f1fe97c6d0437b9b57b6853bd3a216a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxHeightField.html">PxHeightField</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#1cb07ad25394fcb3ecb52eff93990e8f">createHeightField</a> (const <a class="el" href="classPxHeightFieldDesc.html">PxHeightFieldDesc</a> &amp;desc, <a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;insertionCallback)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks a heightfield. The results are written to the stream.  <a href="#bf4f0fe5c9a709cde84338c5bdf7cde4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxHeightField.html">PxHeightField</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#0a3d0ec6145be91dd6707535724d8ffb">createHeightField</a> (const <a class="el" href="classPxHeightFieldDesc.html">PxHeightFieldDesc</a> &amp;desc, <a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;insertionCallback) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks and creates a heightfield mesh and inserts it into <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>.  <a href="#1cb07ad25394fcb3ecb52eff93990e8f"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks and creates a heightfield mesh and inserts it into <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>.  <a href="#0a3d0ec6145be91dd6707535724d8ffb"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#22a1e6a4a68af0bb0f6568bb59108938">~PxCooking</a> ()</td></tr>
 
@@ -93,7 +93,7 @@
 </div>
 </div><p>
 <hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="cd3843988c38adae7b0227f6eaa079dc"></a><!-- doxytag: member="PxCooking::computeHullPolygons" ref="cd3843988c38adae7b0227f6eaa079dc" args="(const PxSimpleTriangleMesh &amp;mesh, PxAllocatorCallback &amp;inCallback, PxU32 &amp;nbVerts, PxVec3 *&amp;vertices, PxU32 &amp;nbIndices, PxU32 *&amp;indices, PxU32 &amp;nbPolygons, PxHullPolygon *&amp;hullPolygons)=0" -->
+<a class="anchor" name="75c77a6b39563de7b2d3736e0aaac85b"></a><!-- doxytag: member="PxCooking::computeHullPolygons" ref="75c77a6b39563de7b2d3736e0aaac85b" args="(const PxSimpleTriangleMesh &amp;mesh, PxAllocatorCallback &amp;inCallback, PxU32 &amp;nbVerts, PxVec3 *&amp;vertices, PxU32 &amp;nbIndices, PxU32 *&amp;indices, PxU32 &amp;nbPolygons, PxHullPolygon *&amp;hullPolygons) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -148,7 +148,7 @@
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td><td><code> [pure virtual]</code></td>
+          <td></td><td></td><td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -172,11 +172,11 @@ The provided <a class="el" href="classPxAllocatorCallback.html" title="Abstract 
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>true on success</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#7c9d154cb2293b3109ad9dbc5b86dc51" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> <a class="el" href="group__cooking.html#g36d3375ae49e62c3842c3fbe0c620651" title="collection of set bits defined in PxConvexFlag.">PxConvexFlags</a> <a class="el" href="classPxConvexMeshDesc.html" title="Descriptor class for PxConvexMesh.">PxConvexMeshDesc</a> <a class="el" href="classPxSimpleTriangleMesh.html" title="A structure describing a triangle mesh.">PxSimpleTriangleMesh</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> <a class="el" href="group__cooking.html#g36d3375ae49e62c3842c3fbe0c620651" title="collection of set bits defined in PxConvexFlag.">PxConvexFlags</a> <a class="el" href="classPxConvexMeshDesc.html" title="Descriptor class for PxConvexMesh.">PxConvexMeshDesc</a> <a class="el" href="classPxSimpleTriangleMesh.html" title="A structure describing a triangle mesh.">PxSimpleTriangleMesh</a> </dd></dl>
 
 </div>
 </div><p>
-<a class="anchor" name="7c9d154cb2293b3109ad9dbc5b86dc51"></a><!-- doxytag: member="PxCooking::cookConvexMesh" ref="7c9d154cb2293b3109ad9dbc5b86dc51" args="(const PxConvexMeshDesc &amp;desc, PxOutputStream &amp;stream, PxConvexMeshCookingResult::Enum *condition=NULL)=0" -->
+<a class="anchor" name="de8e845a8a4253292aed0ef93177ffa1"></a><!-- doxytag: member="PxCooking::cookConvexMesh" ref="de8e845a8a4253292aed0ef93177ffa1" args="(const PxConvexMeshDesc &amp;desc, PxOutputStream &amp;stream, PxConvexMeshCookingResult::Enum *condition=NULL) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -201,7 +201,7 @@ The provided <a class="el" href="classPxAllocatorCallback.html" title="Abstract 
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td><td><code> [pure virtual]</code></td>
+          <td></td><td></td><td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -211,7 +211,7 @@ The provided <a class="el" href="classPxAllocatorCallback.html" title="Abstract 
 Cooks a convex mesh. The results are written to the stream. 
 <p>
 To create a triangle mesh object it is necessary to first 'cook' the mesh data into a form which allows the SDK to perform efficient collision detection.<p>
-<a class="el" href="classPxCooking.html#7c9d154cb2293b3109ad9dbc5b86dc51" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> allows a mesh description to be cooked into a binary stream suitable for loading and performing collision detection at runtime.<p>
+<a class="el" href="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> allows a mesh description to be cooked into a binary stream suitable for loading and performing collision detection at runtime.<p>
 Example<p>
 <div class="fragment"><pre class="fragment"><span class="comment">//TODO: Add Code Snippet Here</span>
 </pre></div><p>
@@ -225,11 +225,11 @@ If those limits are exceeded in either the user-provided data or the final cooke
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>true on success.</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#bfed14c83906e67228c82f14090cf8b5" title="Cooks a triangle mesh. The results are written to the stream.">cookTriangleMesh()</a> <a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321" title="Sets cooking parameters.">setParams()</a> <a class="el" href="structPxConvexMeshCookingResult.html#c1c7b1cbfc80b0af00bec95faf1ebf42">PxConvexMeshCookingResult::Enum</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#29bea4d23794e1521a0a6cbfa8e62464" title="Cooks a triangle mesh. The results are written to the stream.">cookTriangleMesh()</a> <a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321" title="Sets cooking parameters.">setParams()</a> <a class="el" href="structPxConvexMeshCookingResult.html#c1c7b1cbfc80b0af00bec95faf1ebf42">PxConvexMeshCookingResult::Enum</a> </dd></dl>
 
 </div>
 </div><p>
-<a class="anchor" name="4f1fe97c6d0437b9b57b6853bd3a216a"></a><!-- doxytag: member="PxCooking::cookHeightField" ref="4f1fe97c6d0437b9b57b6853bd3a216a" args="(const PxHeightFieldDesc &amp;desc, PxOutputStream &amp;stream)=0" -->
+<a class="anchor" name="bf4f0fe5c9a709cde84338c5bdf7cde4"></a><!-- doxytag: member="PxCooking::cookHeightField" ref="bf4f0fe5c9a709cde84338c5bdf7cde4" args="(const PxHeightFieldDesc &amp;desc, PxOutputStream &amp;stream) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -248,7 +248,7 @@ If those limits are exceeded in either the user-provided data or the final cooke
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td><td><code> [pure virtual]</code></td>
+          <td></td><td></td><td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -258,7 +258,7 @@ If those limits are exceeded in either the user-provided data or the final cooke
 Cooks a heightfield. The results are written to the stream. 
 <p>
 To create a heightfield object there is an option to precompute some of calculations done while loading the heightfield data.<p>
-<a class="el" href="classPxCooking.html#4f1fe97c6d0437b9b57b6853bd3a216a" title="Cooks a heightfield. The results are written to the stream.">cookHeightField()</a> allows a heightfield description to be cooked into a binary stream suitable for loading and performing collision detection at runtime.<p>
+<a class="el" href="classPxCooking.html#bf4f0fe5c9a709cde84338c5bdf7cde4" title="Cooks a heightfield. The results are written to the stream.">cookHeightField()</a> allows a heightfield description to be cooked into a binary stream suitable for loading and performing collision detection at runtime.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>desc</em>&nbsp;</td><td>The heightfield descriptor to read the HF from. </td></tr>
@@ -270,7 +270,7 @@ To create a heightfield object there is an option to precompute some of calculat
 
 </div>
 </div><p>
-<a class="anchor" name="bfed14c83906e67228c82f14090cf8b5"></a><!-- doxytag: member="PxCooking::cookTriangleMesh" ref="bfed14c83906e67228c82f14090cf8b5" args="(const PxTriangleMeshDesc &amp;desc, PxOutputStream &amp;stream, PxTriangleMeshCookingResult::Enum *condition=NULL)=0" -->
+<a class="anchor" name="29bea4d23794e1521a0a6cbfa8e62464"></a><!-- doxytag: member="PxCooking::cookTriangleMesh" ref="29bea4d23794e1521a0a6cbfa8e62464" args="(const PxTriangleMeshDesc &amp;desc, PxOutputStream &amp;stream, PxTriangleMeshCookingResult::Enum *condition=NULL) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -295,7 +295,7 @@ To create a heightfield object there is an option to precompute some of calculat
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td><td><code> [pure virtual]</code></td>
+          <td></td><td></td><td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -305,7 +305,7 @@ To create a heightfield object there is an option to precompute some of calculat
 Cooks a triangle mesh. The results are written to the stream. 
 <p>
 To create a triangle mesh object it is necessary to first 'cook' the mesh data into a form which allows the SDK to perform efficient collision detection.<p>
-<a class="el" href="classPxCooking.html#bfed14c83906e67228c82f14090cf8b5" title="Cooks a triangle mesh. The results are written to the stream.">cookTriangleMesh()</a> allows a mesh description to be cooked into a binary stream suitable for loading and performing collision detection at runtime.<p>
+<a class="el" href="classPxCooking.html#29bea4d23794e1521a0a6cbfa8e62464" title="Cooks a triangle mesh. The results are written to the stream.">cookTriangleMesh()</a> allows a mesh description to be cooked into a binary stream suitable for loading and performing collision detection at runtime.<p>
 Example<p>
 <div class="fragment"><pre class="fragment"><span class="comment">//TODO: Add Code Snippet Here</span>
 </pre></div><p>
@@ -317,11 +317,11 @@ Example<p>
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>true on success</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#7c9d154cb2293b3109ad9dbc5b86dc51" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> <a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321" title="Sets cooking parameters.">setParams()</a> <a class="el" href="classPxPhysics.html#29dcbbe128cef11eaf4ce5696c216dfd" title="Creates a triangle mesh object.">PxPhysics.createTriangleMesh()</a> <a class="el" href="structPxTriangleMeshCookingResult.html#be8e2312c47cc522a546c34ea337fb64">PxTriangleMeshCookingResult::Enum</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> <a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321" title="Sets cooking parameters.">setParams()</a> <a class="el" href="classPxPhysics.html#29dcbbe128cef11eaf4ce5696c216dfd" title="Creates a triangle mesh object.">PxPhysics.createTriangleMesh()</a> <a class="el" href="structPxTriangleMeshCookingResult.html#be8e2312c47cc522a546c34ea337fb64">PxTriangleMeshCookingResult::Enum</a> </dd></dl>
 
 </div>
 </div><p>
-<a class="anchor" name="87797d1f55b7e2ac7e68b9be59039fee"></a><!-- doxytag: member="PxCooking::createConvexMesh" ref="87797d1f55b7e2ac7e68b9be59039fee" args="(const PxConvexMeshDesc &amp;desc, PxPhysicsInsertionCallback &amp;insertionCallback)=0" -->
+<a class="anchor" name="b2aa803493356f5c916fa92c69164472"></a><!-- doxytag: member="PxCooking::createConvexMesh" ref="b2aa803493356f5c916fa92c69164472" args="(const PxConvexMeshDesc &amp;desc, PxPhysicsInsertionCallback &amp;insertionCallback) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -340,7 +340,7 @@ Example<p>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td><td><code> [pure virtual]</code></td>
+          <td></td><td></td><td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -358,11 +358,11 @@ Cooks and creates a convex mesh and inserts it into <a class="el" href="classPxP
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd><a class="el" href="classPxConvexMesh.html" title="A convex mesh.">PxConvexMesh</a> pointer on success</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#7c9d154cb2293b3109ad9dbc5b86dc51" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> <a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321" title="Sets cooking parameters.">setParams()</a> <a class="el" href="classPxPhysicsInsertionCallback.html" title="Callback interface that permits PxCooking to insert a TriangleMesh, HeightfieldMesh...">PxPhysicsInsertionCallback</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> <a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321" title="Sets cooking parameters.">setParams()</a> <a class="el" href="classPxPhysicsInsertionCallback.html" title="Callback interface that permits PxCooking to insert a TriangleMesh, HeightfieldMesh...">PxPhysicsInsertionCallback</a> </dd></dl>
 
 </div>
 </div><p>
-<a class="anchor" name="1cb07ad25394fcb3ecb52eff93990e8f"></a><!-- doxytag: member="PxCooking::createHeightField" ref="1cb07ad25394fcb3ecb52eff93990e8f" args="(const PxHeightFieldDesc &amp;desc, PxPhysicsInsertionCallback &amp;insertionCallback)=0" -->
+<a class="anchor" name="0a3d0ec6145be91dd6707535724d8ffb"></a><!-- doxytag: member="PxCooking::createHeightField" ref="0a3d0ec6145be91dd6707535724d8ffb" args="(const PxHeightFieldDesc &amp;desc, PxPhysicsInsertionCallback &amp;insertionCallback) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -381,7 +381,7 @@ Cooks and creates a convex mesh and inserts it into <a class="el" href="classPxP
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td><td><code> [pure virtual]</code></td>
+          <td></td><td></td><td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -397,11 +397,11 @@ Cooks and creates a heightfield mesh and inserts it into <a class="el" href="cla
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd><a class="el" href="classPxHeightField.html" title="A height field class.">PxHeightField</a> pointer on success</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#7c9d154cb2293b3109ad9dbc5b86dc51" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> <a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321" title="Sets cooking parameters.">setParams()</a> <a class="el" href="classPxPhysics.html#29dcbbe128cef11eaf4ce5696c216dfd" title="Creates a triangle mesh object.">PxPhysics.createTriangleMesh()</a> <a class="el" href="classPxPhysicsInsertionCallback.html" title="Callback interface that permits PxCooking to insert a TriangleMesh, HeightfieldMesh...">PxPhysicsInsertionCallback</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> <a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321" title="Sets cooking parameters.">setParams()</a> <a class="el" href="classPxPhysics.html#29dcbbe128cef11eaf4ce5696c216dfd" title="Creates a triangle mesh object.">PxPhysics.createTriangleMesh()</a> <a class="el" href="classPxPhysicsInsertionCallback.html" title="Callback interface that permits PxCooking to insert a TriangleMesh, HeightfieldMesh...">PxPhysicsInsertionCallback</a> </dd></dl>
 
 </div>
 </div><p>
-<a class="anchor" name="257827f6057895a7bed2e7f05c662919"></a><!-- doxytag: member="PxCooking::createTriangleMesh" ref="257827f6057895a7bed2e7f05c662919" args="(const PxTriangleMeshDesc &amp;desc, PxPhysicsInsertionCallback &amp;insertionCallback)=0" -->
+<a class="anchor" name="e3b75906fe677e931d9bb34df57f8cb8"></a><!-- doxytag: member="PxCooking::createTriangleMesh" ref="e3b75906fe677e931d9bb34df57f8cb8" args="(const PxTriangleMeshDesc &amp;desc, PxPhysicsInsertionCallback &amp;insertionCallback) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -420,7 +420,7 @@ Cooks and creates a heightfield mesh and inserts it into <a class="el" href="cla
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td><td><code> [pure virtual]</code></td>
+          <td></td><td></td><td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -437,11 +437,11 @@ Cooks and creates a triangle mesh and inserts it into <a class="el" href="classP
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd><a class="el" href="classPxTriangleMesh.html" title="A triangle mesh, also called a &#39;polygon soup&#39;.">PxTriangleMesh</a> pointer on success.</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#bfed14c83906e67228c82f14090cf8b5" title="Cooks a triangle mesh. The results are written to the stream.">cookTriangleMesh()</a> <a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321" title="Sets cooking parameters.">setParams()</a> <a class="el" href="classPxPhysics.html#29dcbbe128cef11eaf4ce5696c216dfd" title="Creates a triangle mesh object.">PxPhysics.createTriangleMesh()</a> <a class="el" href="classPxPhysicsInsertionCallback.html" title="Callback interface that permits PxCooking to insert a TriangleMesh, HeightfieldMesh...">PxPhysicsInsertionCallback</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#29bea4d23794e1521a0a6cbfa8e62464" title="Cooks a triangle mesh. The results are written to the stream.">cookTriangleMesh()</a> <a class="el" href="classPxCooking.html#febe112057bd03660dd78dee384d5321" title="Sets cooking parameters.">setParams()</a> <a class="el" href="classPxPhysics.html#29dcbbe128cef11eaf4ce5696c216dfd" title="Creates a triangle mesh object.">PxPhysics.createTriangleMesh()</a> <a class="el" href="classPxPhysicsInsertionCallback.html" title="Callback interface that permits PxCooking to insert a TriangleMesh, HeightfieldMesh...">PxPhysicsInsertionCallback</a> </dd></dl>
 
 </div>
 </div><p>
-<a class="anchor" name="2b65125364e71ef09bf8fd98daeb34ee"></a><!-- doxytag: member="PxCooking::getParams" ref="2b65125364e71ef09bf8fd98daeb34ee" args="()=0" -->
+<a class="anchor" name="83607708fd1cb2f58a3d758a558f5b28"></a><!-- doxytag: member="PxCooking::getParams" ref="83607708fd1cb2f58a3d758a558f5b28" args="() const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -450,7 +450,7 @@ Cooks and creates a triangle mesh and inserts it into <a class="el" href="classP
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [pure virtual]</code></td>
+          <td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -464,7 +464,7 @@ Gets cooking parameters.
 
 </div>
 </div><p>
-<a class="anchor" name="9da6aad06ad372657490e798722c68f8"></a><!-- doxytag: member="PxCooking::platformMismatch" ref="9da6aad06ad372657490e798722c68f8" args="()=0" -->
+<a class="anchor" name="82e0864b92d51d409f3134cc8f740102"></a><!-- doxytag: member="PxCooking::platformMismatch" ref="82e0864b92d51d409f3134cc8f740102" args="() const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -473,7 +473,7 @@ Gets cooking parameters.
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [pure virtual]</code></td>
+          <td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -533,11 +533,11 @@ Sets cooking parameters.
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>params</em>&nbsp;</td><td>Cooking parameters</td></tr>
   </table>
 </dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#2b65125364e71ef09bf8fd98daeb34ee" title="Gets cooking parameters.">getParams()</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#83607708fd1cb2f58a3d758a558f5b28" title="Gets cooking parameters.">getParams()</a> </dd></dl>
 
 </div>
 </div><p>
-<a class="anchor" name="b77e8c999ebbb766fb14c31e18dafaf9"></a><!-- doxytag: member="PxCooking::validateConvexMesh" ref="b77e8c999ebbb766fb14c31e18dafaf9" args="(const PxConvexMeshDesc &amp;desc)=0" -->
+<a class="anchor" name="ea8a3c270cc6db602ad250c82c1225bc"></a><!-- doxytag: member="PxCooking::validateConvexMesh" ref="ea8a3c270cc6db602ad250c82c1225bc" args="(const PxConvexMeshDesc &amp;desc) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -547,7 +547,7 @@ Sets cooking parameters.
           <td class="paramtype">const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>desc</em>          </td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [pure virtual]</code></td>
+          <td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -564,11 +564,11 @@ The convex mesh descriptor must contain an already created convex mesh - the ver
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>true if all the validity conditions hold, false otherwise.</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#7c9d154cb2293b3109ad9dbc5b86dc51" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1" title="Cooks a convex mesh. The results are written to the stream.">cookConvexMesh()</a> </dd></dl>
 
 </div>
 </div><p>
-<a class="anchor" name="70c3d33e9e89919f6659da1b528acbf6"></a><!-- doxytag: member="PxCooking::validateTriangleMesh" ref="70c3d33e9e89919f6659da1b528acbf6" args="(const PxTriangleMeshDesc &amp;desc)=0" -->
+<a class="anchor" name="fca9fe3e3bb8b4943d35475f80f37d2e"></a><!-- doxytag: member="PxCooking::validateTriangleMesh" ref="fca9fe3e3bb8b4943d35475f80f37d2e" args="(const PxTriangleMeshDesc &amp;desc) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -578,7 +578,7 @@ The convex mesh descriptor must contain an already created convex mesh - the ver
           <td class="paramtype">const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>desc</em>          </td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [pure virtual]</code></td>
+          <td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -594,7 +594,7 @@ The following conditions are true for a valid triangle mesh: 1. There are no dup
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>true if all the validity conditions hold, false otherwise.</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#bfed14c83906e67228c82f14090cf8b5" title="Cooks a triangle mesh. The results are written to the stream.">cookTriangleMesh()</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCooking.html#29bea4d23794e1521a0a6cbfa8e62464" title="Cooks a triangle mesh. The results are written to the stream.">cookTriangleMesh()</a> </dd></dl>
 
 </div>
 </div><p>

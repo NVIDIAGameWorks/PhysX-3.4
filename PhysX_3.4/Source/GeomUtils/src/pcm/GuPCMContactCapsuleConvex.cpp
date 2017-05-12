@@ -149,7 +149,7 @@ bool pcmContactCapsuleConvex(GU_CONTACT_METHOD_ARGS)
 
 		manifold.setRelativeTransform(curRTrans);
 		const QuatV vQuat = QuatVLoadU(&shapeConvex.scale.rotation.x);  
-		ConvexHullV convexHull(hullData, zeroV, vScale, vQuat, idtScale);
+		ConvexHullV convexHull(hullData, V3LoadU(hullData->mCenterOfMass), vScale, vQuat, idtScale);
 		convexHull.setMargin(zero);
 	
 		//transform capsule(a) into the local space of convexHull(b)

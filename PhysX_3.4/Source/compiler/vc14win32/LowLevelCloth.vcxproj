@@ -74,7 +74,7 @@
 			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
 			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
-			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;./../../../../PxShared/src/NvSimd/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>false</ExceptionHandling>
 			<WarningLevel>Level4</WarningLevel>
@@ -116,7 +116,7 @@
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
-			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;./../../../../PxShared/src/NvSimd/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=CHECKED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>false</ExceptionHandling>
 			<WarningLevel>Level4</WarningLevel>
@@ -158,7 +158,7 @@
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
-			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;./../../../../PxShared/src/NvSimd/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>false</ExceptionHandling>
 			<WarningLevel>Level4</WarningLevel>
@@ -201,7 +201,7 @@
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
-			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;./../../../../PxShared/src/NvSimd/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<ExceptionHandling>false</ExceptionHandling>
 			<WarningLevel>Level4</WarningLevel>
@@ -277,6 +277,12 @@
 		<ClInclude Include="..\..\LowLevelCloth\src\PointInterpolator.h">
 		</ClInclude>
 		<ClInclude Include="..\..\LowLevelCloth\src\Simd.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\Simd4f.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\Simd4i.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SimdTypes.h">
 		</ClInclude>
 		<ClInclude Include="..\..\LowLevelCloth\src\StackAllocator.h">
 		</ClInclude>

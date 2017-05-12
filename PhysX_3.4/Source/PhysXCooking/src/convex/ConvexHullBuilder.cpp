@@ -37,6 +37,7 @@
 #include "PxCooking.h"
 #include "CookingUtils.h"
 #include "ConvexHullBuilder.h"
+#include "ConvexHullLib.h"
 #include "CmRadixSortBuffered.h"
 #include "MeshCleaner.h"
 #include "PsArray.h"
@@ -62,7 +63,6 @@ ConvexHullBuilder::ConvexHullBuilder(Gu::ConvexHullData* hull, const bool buildG
 	mHullDataVertexData8		(NULL),
 	mHullDataFacesByEdges8		(NULL),
 	mHullDataFacesByVertices8	(NULL),
-	mHullDataFacesByAllEdges8	(NULL),
 	mEdgeData16					(NULL),
 	mEdges						(NULL),
 	mHull						(hull),
@@ -82,7 +82,6 @@ ConvexHullBuilder::~ConvexHullBuilder()
 	PX_DELETE_POD(mHullDataVertexData8);
 	PX_DELETE_POD(mHullDataFacesByEdges8);
 	PX_DELETE_POD(mHullDataFacesByVertices8);
-	PX_DELETE_POD(mHullDataFacesByAllEdges8);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -92,8 +91,10 @@ ConvexHullBuilder::~ConvexHullBuilder()
 // \param		indices	[in] indices array
 // \param		nbPolygons	[in] number of polygons
 // \param		hullPolygons	[in] polygons array
+// \param		doValidation	[in] specifies whether we should run the validation code
+// \param		hullLib	[in] if hullLib is provided, we can reuse the hull create data, hulllib is NULL in case of user provided polygons
 bool ConvexHullBuilder::init(PxU32 nbVerts, const PxVec3* verts, const PxU32* indices, const PxU32 nbIndices,
-	const PxU32 nbPolygons, const PxHullPolygon* hullPolygons, PxU32 gaussMapVertexLimit, bool doValidation, bool userPolygons)
+	const PxU32 nbPolygons, const PxHullPolygon* hullPolygons, bool doValidation, ConvexHullLib* hullLib)
 {
 	PX_ASSERT(indices);
 	PX_ASSERT(verts);
@@ -106,7 +107,6 @@ bool ConvexHullBuilder::init(PxU32 nbVerts, const PxVec3* verts, const PxU32* in
 	mHullDataVertexData8			= NULL;
 	mHullDataFacesByEdges8			= NULL;
 	mHullDataFacesByVertices8		= NULL;
-	mHullDataFacesByAllEdges8		= NULL;
 
 	mEdges							= NULL;
 	mEdgeData16						= NULL;
@@ -153,13 +153,20 @@ bool ConvexHullBuilder::init(PxU32 nbVerts, const PxVec3* verts, const PxU32* in
 		dest += numVerts;
 	}
 
-	if(!calculateVertexMapTable(nbPolygons, userPolygons))
+	if(!calculateVertexMapTable(nbPolygons, (hullLib != NULL) ? false : true))
 		return false;
 
 	// moved create edge list here from save, copy. This is a part of the validation process and
 	// we need to create the edge list anyway
-	if (!createEdgeList(doValidation, nbIndices, mHull->mNbHullVertices > gaussMapVertexLimit ? true : false))
-		return false;
+	if(!hullLib || !hullLib->createEdgeList(nbIndices, mHullDataVertexData8, &mHullDataFacesByEdges8, &mEdgeData16, &mEdges))
+	{
+		if (!createEdgeList(doValidation, nbIndices))
+			return false;
+	}
+	else
+	{
+		mHull->mNbEdges = PxU16(nbIndices/2);
+	}
 		
 #ifdef USE_PRECOMPUTED_HULL_PROJECTION		
 	// Loop through polygons	
@@ -524,7 +531,7 @@ bool ConvexHullBuilder::calculateVertexMapTable(PxU32 nbPolygons, bool userPolyg
 
 //////////////////////////////////////////////////////////////////////////
 // create edge list
-bool ConvexHullBuilder::createEdgeList(bool doValidation, PxU32 nbEdges, bool prepareBigHullData)
+bool ConvexHullBuilder::createEdgeList(bool doValidation, PxU32 nbEdges)
 {
 	// Code below could be greatly simplified if we assume manifold meshes!
 
@@ -560,11 +567,6 @@ bool ConvexHullBuilder::createEdgeList(bool doValidation, PxU32 nbEdges, bool pr
 	{
 		Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "Cooking::cookConvexMesh: non-manifold mesh cannot be used, invalid mesh!");
 		return false;
-	}
-
-	if (prepareBigHullData)
-	{
-		mHullDataFacesByAllEdges8 = PX_NEW(PxU8)[nbEdges * 2];
 	}
 
 	// 1) Get some bytes: I need one EdgesRefs for each face, and some temp buffers	
@@ -642,37 +644,6 @@ bool ConvexHullBuilder::createEdgeList(bool doValidation, PxU32 nbEdges, bool pr
 	
 	mHull->mNbEdges = 0;												// #non-redundant edges
 
-	// A.B. Comment out the early exit temporary since we need to precompute the additonal edge data for GPU
-	//if (!doValidation)
-	//{
-	//	// TODO avoroshilov: this codepath is not supported
-
-	//	for (PxU32 i = 0; i < nbEdgesUnshared; i = i + 2)
-	//	{
-	//		const PxU32 sortedIndex = sorted[i];							// Between 0 and Nb
-	//		const PxU32 nextSortedIndex = sorted[i + 1];							// Between 0 and Nb
-	//		const PxU32 polyID = polyIndex[sortedIndex];					// Poly index
-	//		const PxU32 nextPolyID = polyIndex[nextSortedIndex];					// Poly index
-	//		
-	//		mHullDataFacesByEdges8[(mHull->mNbEdges) * 2] = Ps::to8(polyID);
-	//		mHullDataFacesByEdges8[(mHull->mNbEdges) * 2 + 1] = Ps::to8(nextPolyID);
-
-	//		// store the full edge data for later use in big convex hull valencies computation			
-	//		if(mHullDataFacesByAllEdges8)
-	//		{
-	//			mHullDataFacesByAllEdges8[edgeData[sortedIndex] * 2] = Ps::to8(polyID);
-	//			mHullDataFacesByAllEdges8[edgeData[sortedIndex] * 2 + 1] = Ps::to8(nextPolyID);
-
-	//			mHullDataFacesByAllEdges8[edgeData[nextSortedIndex] * 2] = Ps::to8(polyID);
-	//			mHullDataFacesByAllEdges8[edgeData[nextSortedIndex] * 2 + 1] = Ps::to8(nextPolyID);
-	//		}
-	//		mHull->mNbEdges++;
-	//	}
-
-	//	PX_DELETE_POD(bufferAdd);
-	//	return true;
-	//}
-
 	// 4) Loop through all possible edges
 	// - clean edges list by removing redundant edges
 	// - create EdgesRef list	
@@ -685,7 +656,6 @@ bool ConvexHullBuilder::createEdgeList(bool doValidation, PxU32 nbEdges, bool pr
 
 	PxU32 previousRef0 = PX_INVALID_U32;
 	PxU32 previousRef1 = PX_INVALID_U32;
-	PxU32 previousIndex = PX_INVALID_U32;
 	PxU32 previousPolyId = PX_INVALID_U32;
 
 	PxU16 nbHullEdges = 0;
@@ -732,23 +702,6 @@ bool ConvexHullBuilder::createEdgeList(bool doValidation, PxU32 nbEdges, bool pr
 
 		mEdgeData16[mHullDataPolygons[polyID].mVRef8 + vertexID] = Ps::to16(i / 2);
 
-		if (mHullDataFacesByAllEdges8)
-		{
-			if (previousIndex != PX_INVALID_U32)
-			{
-				// store the full edge data for later use in big convex hull valencies computation			
-				mHullDataFacesByAllEdges8[edgeData[sortedIndex] * 2] = Ps::to8(polyID);
-				mHullDataFacesByAllEdges8[edgeData[sortedIndex] * 2 + 1] = Ps::to8(polyIndex[previousIndex]);
-
-				mHullDataFacesByAllEdges8[edgeData[previousIndex] * 2] = Ps::to8(polyID);
-				mHullDataFacesByAllEdges8[edgeData[previousIndex] * 2 + 1] = Ps::to8(polyIndex[previousIndex]);
-				previousIndex = PX_INVALID_U32;
-			}
-			else
-			{
-				previousIndex = sortedIndex;
-			}
-		}
 		// Create mEdgesRef on the fly
 
 		polyIndex2[i] = polyID;

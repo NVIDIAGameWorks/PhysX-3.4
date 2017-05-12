@@ -8,7 +8,7 @@
  * license agreement from NVIDIA CORPORATION is strictly prohibited.
  */
 
-#include "ApexSimdMath.h"
+#include "SimdMath.h"
 #include "PxPreprocessor.h"
 #include "RenderDataFormat.h"
 #include "ClothingAssetData.h"

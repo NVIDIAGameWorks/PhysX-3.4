@@ -38,6 +38,7 @@
 namespace physx
 {
 	struct PxHullPolygon;
+	class ConvexHullLib;
 
 	namespace Gu
 	{
@@ -57,12 +58,12 @@ namespace physx
 												~ConvexHullBuilder();
 
 					bool						init(PxU32 nbVerts, const PxVec3* verts, const PxU32* indices, const PxU32 nbIndices, const PxU32 nbPolygons, 
-													const PxHullPolygon* hullPolygons, PxU32 gaussMapVertexLimit, bool doValidation = true, bool userPolygons = false);
+													const PxHullPolygon* hullPolygons, bool doValidation = true, ConvexHullLib* hullLib = NULL);
 
 					bool						save(PxOutputStream& stream, bool platformMismatch)	const;
 					bool						copy(Gu::ConvexHullData& hullData, PxU32& nb);
 					
-					bool						createEdgeList(bool doValidation, PxU32 nbEdges, bool prepareBigHullData);					
+					bool						createEdgeList(bool doValidation, PxU32 nbEdges);
 					bool						checkHullPolygons()	const;										
 
 					bool						calculateVertexMapTable(PxU32 nbPolygons, bool userPolygons = false);					
@@ -78,7 +79,6 @@ namespace physx
 					PxU8*						mHullDataVertexData8;
 					PxU8*						mHullDataFacesByEdges8;
 					PxU8*						mHullDataFacesByVertices8;
-					PxU8*						mHullDataFacesByAllEdges8; // data used fom big hull valencies computation
 
 					PxU16*						mEdgeData16;	//!< Edge indices indexed by hull polygons
 					PxU16*						mEdges;			//!< Edge to vertex mapping

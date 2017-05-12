@@ -54,9 +54,6 @@
 		<ClCompile Include="..\..\common\src\ApexIsoMesh.cpp">
 			<Filter>Common\src</Filter>
 		</ClCompile>
-		<ClCompile Include="..\..\common\src\ApexMath.cpp">
-			<Filter>Common\src</Filter>
-		</ClCompile>
 		<ClCompile Include="..\..\common\src\ApexMeshContractor.cpp">
 			<Filter>Common\src</Filter>
 		</ClCompile>
@@ -274,9 +271,6 @@
 			<Filter>Common\include</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\common\include\ApexSharedUtils.h">
-			<Filter>Common\include</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\common\include\ApexSimdMath.h">
 			<Filter>Common\include</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\common\include\ApexSubdivider.h">

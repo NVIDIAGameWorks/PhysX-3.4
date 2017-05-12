@@ -66,6 +66,9 @@ namespace physx
 		// fills the convexmeshdesc with computed hull data
 		virtual void fillConvexMeshDesc(PxConvexMeshDesc& desc);
 
+		// provide the edge list information
+		virtual bool createEdgeList(const PxU32, const PxU8* , PxU8** , PxU16** , PxU16** );
+
 	protected:
 		// if vertex limit reached we need to expand the hull using the OBB slicing
 		PxConvexMeshCookingResult::Enum expandHullOBB();
@@ -88,9 +91,8 @@ namespace physx
 		local::QuickHull*		mQuickHull;		// the internal quick hull representation
 		ConvexHull*				mCropedConvexHull; //the hull cropped from OBB, used for vertex limit path
 
-		PxVec3*					mVertsOut;		// vertices for output
-		PxU32*					mIndicesOut;    // inidices for output
-		PxHullPolygon*			mPolygonsOut;   // polygons for output
+		PxU8*					mOutMemoryBuffer;   // memory buffer used for output data
+		PxU16*					mFaceTranslateTable; // translation table mapping output faces to internal quick hull table
 	};
 }
 

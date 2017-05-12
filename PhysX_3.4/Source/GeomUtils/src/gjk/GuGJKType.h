@@ -57,7 +57,7 @@ namespace Gu
 		PX_FORCE_INLINE Ps::aos::BoolV	isMarginEqRadius()	const { return mConvex.isMarginEqRadius();	}
 		PX_FORCE_INLINE bool			getMarginIsRadius()	const { return mConvex.getMarginIsRadius();	}
 		PX_FORCE_INLINE Ps::aos::FloatV	getMargin()			const { return mConvex.getMargin();			}
-		PX_FORCE_INLINE Ps::aos::Vec3V	getCenter()			const { return mConvex.getCenter();			}
+		
 
 		template <typename Convex>
 		PX_FORCE_INLINE const Convex& getConvex() const { return static_cast<const Convex&>(mConvex); }
@@ -66,6 +66,7 @@ namespace Gu
 		virtual Ps::aos::Vec3V support(const Ps::aos::Vec3VArg v) const = 0;
 		virtual Ps::aos::Vec3V support(const Ps::aos::Vec3VArg dir, PxI32& index, Ps::aos::FloatV* marginDif) const = 0;
 		virtual Ps::aos::FloatV getSweepMargin() const = 0;
+		virtual Ps::aos::Vec3V	getCenter() const = 0;
 		virtual ~GjkConvexBase(){}
 	
 	
@@ -117,6 +118,8 @@ namespace Gu
 			return getConvex<Convex>().supportLocal(dir, index, marginDif);
 		}
 
+		virtual Ps::aos::Vec3V getCenter() const { return getConvex<Convex>().getCenter(); }
+
 		//ML: we can't force inline function, otherwise win modern will throw compiler error
 		PX_INLINE LocalConvex<typename Shrink<Convex>::Type > getShrunkConvex() const 
 		{ 
@@ -148,6 +151,8 @@ namespace Gu
 		{
 			return getConvex<Convex>().supportRelative(dir, mAToB, mAToBTransposed, index, marginDif);
 		}
+
+		virtual Ps::aos::Vec3V getCenter() const { return mAToB.transform(getConvex<Convex>().getCenter()); }
 
 		PX_FORCE_INLINE Ps::aos::PsMatTransformV& getRelativeTransform(){ return mAToB; }
 
