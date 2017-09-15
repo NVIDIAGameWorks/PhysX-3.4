@@ -84,7 +84,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>/LIBPATH:../../../Lib/vc12win64 PhysX3CommonDEBUG_x64.lib PhysX3DEBUG_x64.lib PhysX3CookingDEBUG_x64.lib PhysX3CharacterKinematicDEBUG_x64.lib PhysX3ExtensionsDEBUG.lib PhysX3VehicleDEBUG.lib PxTaskDEBUG_x64.lib PxCudaContextManagerDEBUG_x64.lib PxFoundationDEBUG_x64.lib PsFastXmlDEBUG_x64.lib PxPvdSDKDEBUG_x64.lib /LIBPATH:../../lib/vc12win64 SnippetUtilsDEBUG.lib /DEBUG</AdditionalOptions>
+			<AdditionalOptions>/LIBPATH:../../../Lib/vc12win64 PhysX3CommonDEBUG_x64.lib PhysX3DEBUG_x64.lib PhysX3CookingDEBUG_x64.lib PhysX3CharacterKinematicDEBUG_x64.lib PhysX3ExtensionsDEBUG.lib PhysX3VehicleDEBUG.lib PxTaskDEBUG_x64.lib PxFoundationDEBUG_x64.lib PsFastXmlDEBUG_x64.lib PxPvdSDKDEBUG_x64.lib /LIBPATH:../../lib/vc12win64 SnippetUtilsDEBUG.lib /DEBUG</AdditionalOptions>
 			<AdditionalDependencies>Winmm.lib;OpenGL32.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)DEBUG.exe</OutputFile>
 			<AdditionalLibraryDirectories>./../../../Common/lib/vc12win64;./../../lib/vc12win64;./../../../../PxShared/lib/vc12win64;./../../Graphics/lib/win64/glut;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -131,7 +131,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>/LIBPATH:../../../Lib/vc12win64 PhysX3CommonCHECKED_x64.lib PhysX3CHECKED_x64.lib PhysX3CookingCHECKED_x64.lib PhysX3CharacterKinematicCHECKED_x64.lib PhysX3ExtensionsCHECKED.lib PhysX3VehicleCHECKED.lib PxTaskCHECKED_x64.lib PxCudaContextManagerCHECKED_x64.lib PxFoundationCHECKED_x64.lib PsFastXmlCHECKED_x64.lib PxPvdSDKCHECKED_x64.lib /LIBPATH:../../lib/vc12win64 SnippetUtilsCHECKED.lib</AdditionalOptions>
+			<AdditionalOptions>/LIBPATH:../../../Lib/vc12win64 PhysX3CommonCHECKED_x64.lib PhysX3CHECKED_x64.lib PhysX3CookingCHECKED_x64.lib PhysX3CharacterKinematicCHECKED_x64.lib PhysX3ExtensionsCHECKED.lib PhysX3VehicleCHECKED.lib PxTaskCHECKED_x64.lib PxFoundationCHECKED_x64.lib PsFastXmlCHECKED_x64.lib PxPvdSDKCHECKED_x64.lib /LIBPATH:../../lib/vc12win64 SnippetUtilsCHECKED.lib</AdditionalOptions>
 			<AdditionalDependencies>Winmm.lib;OpenGL32.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)CHECKED.exe</OutputFile>
 			<AdditionalLibraryDirectories>./../../../Common/lib/vc12win64;./../../lib/vc12win64;./../../../../PxShared/lib/vc12win64;./../../Graphics/lib/win64/glut;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -178,7 +178,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>/INCREMENTAL:NO /LIBPATH:../../../Lib/vc12win64 PhysX3CommonPROFILE_x64.lib PhysX3PROFILE_x64.lib PhysX3CookingPROFILE_x64.lib PhysX3CharacterKinematicPROFILE_x64.lib PhysX3ExtensionsPROFILE.lib PhysX3VehiclePROFILE.lib PxTaskPROFILE_x64.lib PxCudaContextManagerPROFILE_x64.lib PxFoundationPROFILE_x64.lib PsFastXmlPROFILE_x64.lib PxPvdSDKPROFILE_x64.lib /LIBPATH:../../lib/vc12win64 SnippetUtilsPROFILE.lib /DEBUG</AdditionalOptions>
+			<AdditionalOptions>/INCREMENTAL:NO /LIBPATH:../../../Lib/vc12win64 PhysX3CommonPROFILE_x64.lib PhysX3PROFILE_x64.lib PhysX3CookingPROFILE_x64.lib PhysX3CharacterKinematicPROFILE_x64.lib PhysX3ExtensionsPROFILE.lib PhysX3VehiclePROFILE.lib PxTaskPROFILE_x64.lib PxFoundationPROFILE_x64.lib PsFastXmlPROFILE_x64.lib PxPvdSDKPROFILE_x64.lib /LIBPATH:../../lib/vc12win64 SnippetUtilsPROFILE.lib /DEBUG</AdditionalOptions>
 			<AdditionalDependencies>Winmm.lib;OpenGL32.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)PROFILE.exe</OutputFile>
 			<AdditionalLibraryDirectories>./../../../Common/lib/vc12win64;./../../lib/vc12win64;./../../../../PxShared/lib/vc12win64;./../../Graphics/lib/win64/glut;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -225,7 +225,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>/INCREMENTAL:NO /LIBPATH:../../../Lib/vc12win64 PhysX3Common_x64.lib PhysX3_x64.lib PhysX3Cooking_x64.lib PhysX3CharacterKinematic_x64.lib PhysX3Extensions.lib PhysX3Vehicle.lib PxTask_x64.lib PxCudaContextManager_x64.lib PxFoundation_x64.lib PsFastXml_x64.lib PxPvdSDK_x64.lib /LIBPATH:../../lib/vc12win64 SnippetUtils.lib</AdditionalOptions>
+			<AdditionalOptions>/INCREMENTAL:NO /LIBPATH:../../../Lib/vc12win64 PhysX3Common_x64.lib PhysX3_x64.lib PhysX3Cooking_x64.lib PhysX3CharacterKinematic_x64.lib PhysX3Extensions.lib PhysX3Vehicle.lib PxTask_x64.lib PxFoundation_x64.lib PsFastXml_x64.lib PxPvdSDK_x64.lib /LIBPATH:../../lib/vc12win64 SnippetUtils.lib</AdditionalOptions>
 			<AdditionalDependencies>Winmm.lib;OpenGL32.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
 			<AdditionalLibraryDirectories>./../../../Common/lib/vc12win64;./../../lib/vc12win64;./../../../../PxShared/lib/vc12win64;./../../Graphics/lib/win64/glut;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

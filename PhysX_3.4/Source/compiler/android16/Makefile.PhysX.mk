@@ -114,8 +114,8 @@ PhysX_release_hpaths    += ./../../PhysXCooking/src/convex
 PhysX_release_hpaths    += ./../../SceneQuery/include
 PhysX_release_hpaths    += ./../../PhysXMetaData/core/include
 PhysX_release_lpaths    := 
-PhysX_release_lpaths    += ./../../../Lib/android16
 PhysX_release_lpaths    += ./../../../../PxShared/lib/android16
+PhysX_release_lpaths    += ./../../../Lib/android16
 PhysX_release_defines   := $(PhysX_custom_defines)
 PhysX_release_defines   += ANDROID
 PhysX_release_defines   += GLES2
@@ -128,17 +128,17 @@ PhysX_release_defines   += PX_PHYSX_STATIC_LIB
 PhysX_release_defines   += NDEBUG
 PhysX_release_defines   += PX_SUPPORT_PVD=0
 PhysX_release_libraries := 
+PhysX_release_libraries += PxPvdSDK
+PhysX_release_libraries += PxFoundation
+PhysX_release_libraries += PhysX3Common
 PhysX_release_libraries += LowLevel
 PhysX_release_libraries += LowLevelAABB
-PhysX_release_libraries += LowLevelCloth
 PhysX_release_libraries += LowLevelDynamics
+PhysX_release_libraries += LowLevelCloth
 PhysX_release_libraries += LowLevelParticles
-PhysX_release_libraries += PhysX3Common
-PhysX_release_libraries += PxFoundation
-PhysX_release_libraries += PxPvdSDK
-PhysX_release_libraries += PxTask
 PhysX_release_libraries += SceneQuery
 PhysX_release_libraries += SimulationController
+PhysX_release_libraries += PxTask
 PhysX_release_common_cflags	:= $(PhysX_custom_cflags)
 PhysX_release_common_cflags    += -MMD
 PhysX_release_common_cflags    += $(addprefix -D, $(PhysX_release_defines))
@@ -180,9 +180,9 @@ postbuild_PhysX_release: mainbuild_PhysX_release
 mainbuild_PhysX_release: prebuild_PhysX_release $(PhysX_release_bin)
 prebuild_PhysX_release:
 
-$(PhysX_release_bin): $(LowLevel_release_obj) $(LowLevelAABB_release_obj) $(LowLevelCloth_release_obj) $(LowLevelDynamics_release_obj) $(LowLevelParticles_release_obj) $(PhysXCommon_release_obj) $(PxTask_release_obj) $(SceneQuery_release_obj) $(SimulationController_release_obj) $(PhysX_release_obj) build_LowLevel_release build_LowLevelAABB_release build_LowLevelCloth_release build_LowLevelDynamics_release build_LowLevelParticles_release build_PhysXCommon_release build_PxFoundation_release build_PxPvdSDK_release build_PxTask_release build_SceneQuery_release build_SimulationController_release 
+$(PhysX_release_bin): $(PhysXCommon_release_obj) $(LowLevel_release_obj) $(LowLevelAABB_release_obj) $(LowLevelDynamics_release_obj) $(LowLevelCloth_release_obj) $(LowLevelParticles_release_obj) $(SceneQuery_release_obj) $(SimulationController_release_obj) $(PxTask_release_obj) $(PhysX_release_obj) build_PxPvdSDK_release build_PxFoundation_release build_PhysXCommon_release build_LowLevel_release build_LowLevelAABB_release build_LowLevelDynamics_release build_LowLevelCloth_release build_LowLevelParticles_release build_SceneQuery_release build_SimulationController_release build_PxTask_release 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3.a`
-	@$(AR) rcs $(PhysX_release_bin) $(LowLevel_release_obj) $(LowLevelAABB_release_obj) $(LowLevelCloth_release_obj) $(LowLevelDynamics_release_obj) $(LowLevelParticles_release_obj) $(PhysXCommon_release_obj) $(PxTask_release_obj) $(SceneQuery_release_obj) $(SimulationController_release_obj) $(PhysX_release_obj)
+	@$(AR) rcs $(PhysX_release_bin) $(PhysXCommon_release_obj) $(LowLevel_release_obj) $(LowLevelAABB_release_obj) $(LowLevelDynamics_release_obj) $(LowLevelCloth_release_obj) $(LowLevelParticles_release_obj) $(SceneQuery_release_obj) $(SimulationController_release_obj) $(PxTask_release_obj) $(PhysX_release_obj)
 	$(ECHO) building $@ complete!
 
 PhysX_release_DEPDIR = $(dir $(@))/$(*F)
@@ -266,8 +266,8 @@ PhysX_debug_hpaths    += ./../../PhysXCooking/src/convex
 PhysX_debug_hpaths    += ./../../SceneQuery/include
 PhysX_debug_hpaths    += ./../../PhysXMetaData/core/include
 PhysX_debug_lpaths    := 
-PhysX_debug_lpaths    += ./../../../Lib/android16
 PhysX_debug_lpaths    += ./../../../../PxShared/lib/android16
+PhysX_debug_lpaths    += ./../../../Lib/android16
 PhysX_debug_defines   := $(PhysX_custom_defines)
 PhysX_debug_defines   += ANDROID
 PhysX_debug_defines   += GLES2
@@ -283,17 +283,17 @@ PhysX_debug_defines   += PX_CHECKED=1
 PhysX_debug_defines   += PX_SUPPORT_PVD=1
 PhysX_debug_defines   += PX_NVTX=1
 PhysX_debug_libraries := 
+PhysX_debug_libraries += PxPvdSDKDEBUG
+PhysX_debug_libraries += PxFoundationDEBUG
+PhysX_debug_libraries += PhysX3CommonDEBUG
 PhysX_debug_libraries += LowLevelDEBUG
 PhysX_debug_libraries += LowLevelAABBDEBUG
-PhysX_debug_libraries += LowLevelClothDEBUG
 PhysX_debug_libraries += LowLevelDynamicsDEBUG
+PhysX_debug_libraries += LowLevelClothDEBUG
 PhysX_debug_libraries += LowLevelParticlesDEBUG
-PhysX_debug_libraries += PhysX3CommonDEBUG
-PhysX_debug_libraries += PxFoundationDEBUG
-PhysX_debug_libraries += PxPvdSDKDEBUG
-PhysX_debug_libraries += PxTaskDEBUG
 PhysX_debug_libraries += SceneQueryDEBUG
 PhysX_debug_libraries += SimulationControllerDEBUG
+PhysX_debug_libraries += PxTaskDEBUG
 PhysX_debug_common_cflags	:= $(PhysX_custom_cflags)
 PhysX_debug_common_cflags    += -MMD
 PhysX_debug_common_cflags    += $(addprefix -D, $(PhysX_debug_defines))
@@ -333,9 +333,9 @@ postbuild_PhysX_debug: mainbuild_PhysX_debug
 mainbuild_PhysX_debug: prebuild_PhysX_debug $(PhysX_debug_bin)
 prebuild_PhysX_debug:
 
-$(PhysX_debug_bin): $(LowLevel_debug_obj) $(LowLevelAABB_debug_obj) $(LowLevelCloth_debug_obj) $(LowLevelDynamics_debug_obj) $(LowLevelParticles_debug_obj) $(PhysXCommon_debug_obj) $(PxTask_debug_obj) $(SceneQuery_debug_obj) $(SimulationController_debug_obj) $(PhysX_debug_obj) build_LowLevel_debug build_LowLevelAABB_debug build_LowLevelCloth_debug build_LowLevelDynamics_debug build_LowLevelParticles_debug build_PhysXCommon_debug build_PxFoundation_debug build_PxPvdSDK_debug build_PxTask_debug build_SceneQuery_debug build_SimulationController_debug 
+$(PhysX_debug_bin): $(PhysXCommon_debug_obj) $(LowLevel_debug_obj) $(LowLevelAABB_debug_obj) $(LowLevelDynamics_debug_obj) $(LowLevelCloth_debug_obj) $(LowLevelParticles_debug_obj) $(SceneQuery_debug_obj) $(SimulationController_debug_obj) $(PxTask_debug_obj) $(PhysX_debug_obj) build_PxPvdSDK_debug build_PxFoundation_debug build_PhysXCommon_debug build_LowLevel_debug build_LowLevelAABB_debug build_LowLevelDynamics_debug build_LowLevelCloth_debug build_LowLevelParticles_debug build_SceneQuery_debug build_SimulationController_debug build_PxTask_debug 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3DEBUG.a`
-	@$(AR) rcs $(PhysX_debug_bin) $(LowLevel_debug_obj) $(LowLevelAABB_debug_obj) $(LowLevelCloth_debug_obj) $(LowLevelDynamics_debug_obj) $(LowLevelParticles_debug_obj) $(PhysXCommon_debug_obj) $(PxTask_debug_obj) $(SceneQuery_debug_obj) $(SimulationController_debug_obj) $(PhysX_debug_obj)
+	@$(AR) rcs $(PhysX_debug_bin) $(PhysXCommon_debug_obj) $(LowLevel_debug_obj) $(LowLevelAABB_debug_obj) $(LowLevelDynamics_debug_obj) $(LowLevelCloth_debug_obj) $(LowLevelParticles_debug_obj) $(SceneQuery_debug_obj) $(SimulationController_debug_obj) $(PxTask_debug_obj) $(PhysX_debug_obj)
 	$(ECHO) building $@ complete!
 
 PhysX_debug_DEPDIR = $(dir $(@))/$(*F)
@@ -419,8 +419,8 @@ PhysX_checked_hpaths    += ./../../PhysXCooking/src/convex
 PhysX_checked_hpaths    += ./../../SceneQuery/include
 PhysX_checked_hpaths    += ./../../PhysXMetaData/core/include
 PhysX_checked_lpaths    := 
-PhysX_checked_lpaths    += ./../../../Lib/android16
 PhysX_checked_lpaths    += ./../../../../PxShared/lib/android16
+PhysX_checked_lpaths    += ./../../../Lib/android16
 PhysX_checked_defines   := $(PhysX_custom_defines)
 PhysX_checked_defines   += ANDROID
 PhysX_checked_defines   += GLES2
@@ -435,17 +435,17 @@ PhysX_checked_defines   += PX_CHECKED=1
 PhysX_checked_defines   += PX_SUPPORT_PVD=1
 PhysX_checked_defines   += PX_NVTX=1
 PhysX_checked_libraries := 
+PhysX_checked_libraries += PxPvdSDKCHECKED
+PhysX_checked_libraries += PxFoundationCHECKED
+PhysX_checked_libraries += PhysX3CommonCHECKED
 PhysX_checked_libraries += LowLevelCHECKED
 PhysX_checked_libraries += LowLevelAABBCHECKED
-PhysX_checked_libraries += LowLevelClothCHECKED
 PhysX_checked_libraries += LowLevelDynamicsCHECKED
+PhysX_checked_libraries += LowLevelClothCHECKED
 PhysX_checked_libraries += LowLevelParticlesCHECKED
-PhysX_checked_libraries += PhysX3CommonCHECKED
-PhysX_checked_libraries += PxFoundationCHECKED
-PhysX_checked_libraries += PxPvdSDKCHECKED
-PhysX_checked_libraries += PxTaskCHECKED
 PhysX_checked_libraries += SceneQueryCHECKED
 PhysX_checked_libraries += SimulationControllerCHECKED
+PhysX_checked_libraries += PxTaskCHECKED
 PhysX_checked_common_cflags	:= $(PhysX_custom_cflags)
 PhysX_checked_common_cflags    += -MMD
 PhysX_checked_common_cflags    += $(addprefix -D, $(PhysX_checked_defines))
@@ -487,9 +487,9 @@ postbuild_PhysX_checked: mainbuild_PhysX_checked
 mainbuild_PhysX_checked: prebuild_PhysX_checked $(PhysX_checked_bin)
 prebuild_PhysX_checked:
 
-$(PhysX_checked_bin): $(LowLevel_checked_obj) $(LowLevelAABB_checked_obj) $(LowLevelCloth_checked_obj) $(LowLevelDynamics_checked_obj) $(LowLevelParticles_checked_obj) $(PhysXCommon_checked_obj) $(PxTask_checked_obj) $(SceneQuery_checked_obj) $(SimulationController_checked_obj) $(PhysX_checked_obj) build_LowLevel_checked build_LowLevelAABB_checked build_LowLevelCloth_checked build_LowLevelDynamics_checked build_LowLevelParticles_checked build_PhysXCommon_checked build_PxFoundation_checked build_PxPvdSDK_checked build_PxTask_checked build_SceneQuery_checked build_SimulationController_checked 
+$(PhysX_checked_bin): $(PhysXCommon_checked_obj) $(LowLevel_checked_obj) $(LowLevelAABB_checked_obj) $(LowLevelDynamics_checked_obj) $(LowLevelCloth_checked_obj) $(LowLevelParticles_checked_obj) $(SceneQuery_checked_obj) $(SimulationController_checked_obj) $(PxTask_checked_obj) $(PhysX_checked_obj) build_PxPvdSDK_checked build_PxFoundation_checked build_PhysXCommon_checked build_LowLevel_checked build_LowLevelAABB_checked build_LowLevelDynamics_checked build_LowLevelCloth_checked build_LowLevelParticles_checked build_SceneQuery_checked build_SimulationController_checked build_PxTask_checked 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3CHECKED.a`
-	@$(AR) rcs $(PhysX_checked_bin) $(LowLevel_checked_obj) $(LowLevelAABB_checked_obj) $(LowLevelCloth_checked_obj) $(LowLevelDynamics_checked_obj) $(LowLevelParticles_checked_obj) $(PhysXCommon_checked_obj) $(PxTask_checked_obj) $(SceneQuery_checked_obj) $(SimulationController_checked_obj) $(PhysX_checked_obj)
+	@$(AR) rcs $(PhysX_checked_bin) $(PhysXCommon_checked_obj) $(LowLevel_checked_obj) $(LowLevelAABB_checked_obj) $(LowLevelDynamics_checked_obj) $(LowLevelCloth_checked_obj) $(LowLevelParticles_checked_obj) $(SceneQuery_checked_obj) $(SimulationController_checked_obj) $(PxTask_checked_obj) $(PhysX_checked_obj)
 	$(ECHO) building $@ complete!
 
 PhysX_checked_DEPDIR = $(dir $(@))/$(*F)
@@ -573,8 +573,8 @@ PhysX_profile_hpaths    += ./../../PhysXCooking/src/convex
 PhysX_profile_hpaths    += ./../../SceneQuery/include
 PhysX_profile_hpaths    += ./../../PhysXMetaData/core/include
 PhysX_profile_lpaths    := 
-PhysX_profile_lpaths    += ./../../../Lib/android16
 PhysX_profile_lpaths    += ./../../../../PxShared/lib/android16
+PhysX_profile_lpaths    += ./../../../Lib/android16
 PhysX_profile_defines   := $(PhysX_custom_defines)
 PhysX_profile_defines   += ANDROID
 PhysX_profile_defines   += GLES2
@@ -589,17 +589,17 @@ PhysX_profile_defines   += PX_PROFILE=1
 PhysX_profile_defines   += PX_SUPPORT_PVD=1
 PhysX_profile_defines   += PX_NVTX=1
 PhysX_profile_libraries := 
+PhysX_profile_libraries += PxPvdSDKPROFILE
+PhysX_profile_libraries += PxFoundationPROFILE
+PhysX_profile_libraries += PhysX3CommonPROFILE
 PhysX_profile_libraries += LowLevelPROFILE
 PhysX_profile_libraries += LowLevelAABBPROFILE
-PhysX_profile_libraries += LowLevelClothPROFILE
 PhysX_profile_libraries += LowLevelDynamicsPROFILE
+PhysX_profile_libraries += LowLevelClothPROFILE
 PhysX_profile_libraries += LowLevelParticlesPROFILE
-PhysX_profile_libraries += PhysX3CommonPROFILE
-PhysX_profile_libraries += PxFoundationPROFILE
-PhysX_profile_libraries += PxPvdSDKPROFILE
-PhysX_profile_libraries += PxTaskPROFILE
 PhysX_profile_libraries += SceneQueryPROFILE
 PhysX_profile_libraries += SimulationControllerPROFILE
+PhysX_profile_libraries += PxTaskPROFILE
 PhysX_profile_common_cflags	:= $(PhysX_custom_cflags)
 PhysX_profile_common_cflags    += -MMD
 PhysX_profile_common_cflags    += $(addprefix -D, $(PhysX_profile_defines))
@@ -641,9 +641,9 @@ postbuild_PhysX_profile: mainbuild_PhysX_profile
 mainbuild_PhysX_profile: prebuild_PhysX_profile $(PhysX_profile_bin)
 prebuild_PhysX_profile:
 
-$(PhysX_profile_bin): $(LowLevel_profile_obj) $(LowLevelAABB_profile_obj) $(LowLevelCloth_profile_obj) $(LowLevelDynamics_profile_obj) $(LowLevelParticles_profile_obj) $(PhysXCommon_profile_obj) $(PxTask_profile_obj) $(SceneQuery_profile_obj) $(SimulationController_profile_obj) $(PhysX_profile_obj) build_LowLevel_profile build_LowLevelAABB_profile build_LowLevelCloth_profile build_LowLevelDynamics_profile build_LowLevelParticles_profile build_PhysXCommon_profile build_PxFoundation_profile build_PxPvdSDK_profile build_PxTask_profile build_SceneQuery_profile build_SimulationController_profile 
+$(PhysX_profile_bin): $(PhysXCommon_profile_obj) $(LowLevel_profile_obj) $(LowLevelAABB_profile_obj) $(LowLevelDynamics_profile_obj) $(LowLevelCloth_profile_obj) $(LowLevelParticles_profile_obj) $(SceneQuery_profile_obj) $(SimulationController_profile_obj) $(PxTask_profile_obj) $(PhysX_profile_obj) build_PxPvdSDK_profile build_PxFoundation_profile build_PhysXCommon_profile build_LowLevel_profile build_LowLevelAABB_profile build_LowLevelDynamics_profile build_LowLevelCloth_profile build_LowLevelParticles_profile build_SceneQuery_profile build_SimulationController_profile build_PxTask_profile 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3PROFILE.a`
-	@$(AR) rcs $(PhysX_profile_bin) $(LowLevel_profile_obj) $(LowLevelAABB_profile_obj) $(LowLevelCloth_profile_obj) $(LowLevelDynamics_profile_obj) $(LowLevelParticles_profile_obj) $(PhysXCommon_profile_obj) $(PxTask_profile_obj) $(SceneQuery_profile_obj) $(SimulationController_profile_obj) $(PhysX_profile_obj)
+	@$(AR) rcs $(PhysX_profile_bin) $(PhysXCommon_profile_obj) $(LowLevel_profile_obj) $(LowLevelAABB_profile_obj) $(LowLevelDynamics_profile_obj) $(LowLevelCloth_profile_obj) $(LowLevelParticles_profile_obj) $(SceneQuery_profile_obj) $(SimulationController_profile_obj) $(PxTask_profile_obj) $(PhysX_profile_obj)
 	$(ECHO) building $@ complete!
 
 PhysX_profile_DEPDIR = $(dir $(@))/$(*F)

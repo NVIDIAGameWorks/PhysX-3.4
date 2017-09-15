@@ -176,7 +176,8 @@ public:
 									PxU64 contextID,
 									const bool enableStabilization,
 									const bool useEnhancedDeterminism,
-									const bool useAdaptiveForce
+									const bool useAdaptiveForce,
+									const PxReal maxBiasCoefficient
 									);
 	
 	/**
@@ -268,7 +269,8 @@ protected:
 														PxU64 contextID,
 														const bool enableStabilization,
 														const bool useEnhancedDeterminism,
-														const bool useAdaptiveForce
+														const bool useAdaptiveForce,
+														const PxReal maxBiasCoefficient
 														);
 	/**
 	\brief Destructor for DynamicsContext

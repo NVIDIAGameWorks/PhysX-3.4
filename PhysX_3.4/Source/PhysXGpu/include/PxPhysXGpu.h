@@ -33,11 +33,11 @@
 
 #include "task/PxTask.h"
 
-#include "Pxg.h"
 #include "Ps.h"
 #include "PsArray.h"
 #include "PxSceneGpu.h"
 #include "foundation/PxBounds3.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 
 namespace physx
@@ -214,7 +214,7 @@ public:
 	virtual Dy::Context* createGpuDynamicsContext(Cm::FlushPool& taskPool, PxsKernelWranglerManager* gpuKernelWragler, 
 		PxGpuDispatcher* gpuDispatcher, PxGraphicsContextManager* graphicsContextManager,
 		const PxgDynamicsMemoryConfig& config, IG::IslandSim* accurateIslandSim, const PxU32 maxNumPartitions, 
-		const bool enableStabilization, const bool useEnhancedDeterminism, const bool useAdaptiveForce, 
+		const bool enableStabilization, const bool useEnhancedDeterminism, const bool useAdaptiveForce, const PxReal maxBiasCoefficient,
 		const PxU32 gpuComputeVersion, PxvSimStats& simStats, PxsHeapMemoryAllocatorManager* heapMemoryManager) = 0;
 
 };

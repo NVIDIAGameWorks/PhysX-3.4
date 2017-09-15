@@ -46,15 +46,15 @@ namespace Gu
 	//full contact gen code for box/convexhull vs convexhull
 	bool generateFullContactManifold(Gu::PolygonalData& polyData0, Gu::PolygonalData& polyData1, Gu::SupportLocal* map0, Gu::SupportLocal* map1, Gu::PersistentContact* manifoldContacts, 
 		PxU32& numContacts, const Ps::aos::FloatVArg contactDist, const Ps::aos::Vec3VArg normal, const Ps::aos::Vec3VArg closestA, const Ps::aos::Vec3VArg closestB, 
-		const Ps::aos::FloatVArg toleranceA, const Ps::aos::FloatVArg toleranceB, bool doOverlapTest, Cm::RenderOutput* renderOutput, const Ps::aos::FloatVArg toleranceScale);
+		const PxReal toleranceA, const PxReal toleranceB, bool doOverlapTest, Cm::RenderOutput* renderOutput, const PxReal toleranceScale);
 
 	//full contact gen code for capsule vs convexhulll
 	bool generateFullContactManifold(const Gu::CapsuleV& capsule, Gu::PolygonalData& polyData, Gu::SupportLocal* map, const Ps::aos::PsMatTransformV& aToB,  Gu::PersistentContact* manifoldContacts, 
-		PxU32& numContacts, const Ps::aos::FloatVArg contactDist, Ps::aos::Vec3V& normal, const Ps::aos::Vec3VArg closest, const Ps::aos::FloatVArg tolerance, bool doOverlapTest, const Ps::aos::FloatVArg toleranceScale);
+		PxU32& numContacts, const Ps::aos::FloatVArg contactDist, Ps::aos::Vec3V& normal, const Ps::aos::Vec3VArg closest, const PxReal tolerance, bool doOverlapTest, const PxReal toleranceScale);
 
 	//full contact gen code for capsule vs box
 	bool generateCapsuleBoxFullContactManifold(const Gu::CapsuleV& capsule, Gu::PolygonalData& polyData, Gu::SupportLocal* map, const Ps::aos::PsMatTransformV& aToB, Gu::PersistentContact* manifoldContacts, PxU32& numContacts,
-		const Ps::aos::FloatVArg contactDist, Ps::aos::Vec3V& normal, const Ps::aos::Vec3VArg closest, const Ps::aos::FloatVArg boxMargin, const bool doOverlapTest, const Ps::aos::FloatVArg toeranceScale);
+		const Ps::aos::FloatVArg contactDist, Ps::aos::Vec3V& normal, const Ps::aos::Vec3VArg closest, const PxReal boxMargin, const bool doOverlapTest, const PxReal toeranceScale);
 
 	//MTD code for box/convexhull vs box/convexhull
 	bool computeMTD(Gu::PolygonalData& polyData0, Gu::PolygonalData& polyData1,  SupportLocal* map0, SupportLocal* map1, Ps::aos::FloatV& penDepth, Ps::aos::Vec3V& normal);

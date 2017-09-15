@@ -694,7 +694,7 @@ bool PxTaskMgr::dispatchTask( PxTaskID taskID, bool gpuGroupStart )
         break;
     }
 
-    tt.mType = PxTaskType::TT_COMPLETED;
+	mTaskTable[taskID].mType = PxTaskType::TT_COMPLETED;
     return gpuGroupStart;
 }
 

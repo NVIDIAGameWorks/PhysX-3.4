@@ -65,7 +65,8 @@ bool pcmContactPlaneBox(GU_CONTACT_METHOD_ARGS)
 
 	const Vec3V boxExtents = V3LoadU(shapeBox.halfExtents);
 
-	const FloatV boxMargin = CalculatePCMBoxMargin(boxExtents);
+	const PxReal toleranceLength = params.mToleranceLength;
+	const FloatV boxMargin = CalculatePCMBoxMargin(boxExtents, toleranceLength);
 	const FloatV projectBreakingThreshold = FMul(boxMargin, FLoad(0.2f));
 	const PxU32 initialContacts = manifold.mNumContacts;
 	
@@ -74,8 +75,6 @@ bool pcmContactPlaneBox(GU_CONTACT_METHOD_ARGS)
 	const PxU32 newContacts = manifold.mNumContacts;
 	const bool bLostContacts = (newContacts != initialContacts);//((initialContacts == 0) || (newContacts != initialContacts));
 
-	//PX_UNUSED(bLostContacts);
-	//if(bLostContacts || manifold.invalidate_BoxConvex(curTransf, boxMargin))
 	if(bLostContacts || manifold.invalidate_PrimitivesPlane(curTransf, boxMargin, FLoad(0.2f)))
 	{
 		//ML:localNormal is the local space of plane normal, however, because shape1 is box and shape0 is plane, we need to use the reverse of contact normal(which will be the plane normal) to make the refreshContactPoints

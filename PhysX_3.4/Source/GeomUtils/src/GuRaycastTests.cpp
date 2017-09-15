@@ -168,7 +168,7 @@ PxU32 raycast_capsule(GU_RAY_FUNC_PARAMS)
 	getCapsuleSegment(pose, capsuleGeom, capsule);
 	capsule.radius = capsuleGeom.radius;
 
-	PxReal t;
+	PxReal t = 0.0f;
 	if(!intersectRayCapsule(rayOrigin, rayDir, capsule, t))
 		return 0;
 

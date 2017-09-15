@@ -107,10 +107,10 @@ ApexFramework_debug_hpaths    += ./../../../PxShared/src/cudamanager/include
 ApexFramework_debug_lpaths    := 
 ApexFramework_debug_lpaths    += ./../../../PxShared/lib/makeandroid16
 ApexFramework_debug_lpaths    += ./../../../PhysX_3.4/Lib/android16
-ApexFramework_debug_lpaths    += ./../../lib/android16
-ApexFramework_debug_lpaths    += ./../../NvParameterized/lib/android16
 ApexFramework_debug_lpaths    += ./../../../PxShared/lib/android16
+ApexFramework_debug_lpaths    += ./../../NvParameterized/lib/android16
 ApexFramework_debug_lpaths    += ./../../shared/general/RenderDebug/lib/android16
+ApexFramework_debug_lpaths    += ./../../lib/android16
 ApexFramework_debug_defines   := $(ApexFramework_custom_defines)
 ApexFramework_debug_defines   += ANDROID
 ApexFramework_debug_defines   += GLES2
@@ -128,14 +128,14 @@ ApexFramework_debug_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 ApexFramework_debug_defines   += PHYSX_PROFILE_SDK
 ApexFramework_debug_defines   += PX_NVTX=1
 ApexFramework_debug_libraries := 
-ApexFramework_debug_libraries += ApexCommonDEBUG
-ApexFramework_debug_libraries += ApexSharedDEBUG
+ApexFramework_debug_libraries += PxFoundationDEBUG
 ApexFramework_debug_libraries += NvParameterizedDEBUG
 ApexFramework_debug_libraries += PsFastXmlDEBUG
-ApexFramework_debug_libraries += PxFoundationDEBUG
-ApexFramework_debug_libraries += PxPvdSDKDEBUG
-ApexFramework_debug_libraries += PxTaskDEBUG
 ApexFramework_debug_libraries += RenderDebugDEBUG
+ApexFramework_debug_libraries += PxTaskDEBUG
+ApexFramework_debug_libraries += PxPvdSDKDEBUG
+ApexFramework_debug_libraries += ApexSharedDEBUG
+ApexFramework_debug_libraries += ApexCommonDEBUG
 ApexFramework_debug_libraries += PhysX3CommonDEBUG
 ApexFramework_debug_common_cflags	:= $(ApexFramework_custom_cflags)
 ApexFramework_debug_common_cflags    += $(addprefix -D, $(ApexFramework_debug_defines))
@@ -174,9 +174,9 @@ postbuild_ApexFramework_debug: mainbuild_ApexFramework_debug
 mainbuild_ApexFramework_debug: prebuild_ApexFramework_debug $(ApexFramework_debug_bin)
 prebuild_ApexFramework_debug:
 
-$(ApexFramework_debug_bin): $(NvParameterized_debug_obj) $(PsFastXml_debug_obj) $(PxPvdSDK_debug_obj) $(PxTask_debug_obj) $(RenderDebug_debug_obj) $(ApexFramework_debug_obj) build_ApexCommon_debug build_ApexShared_debug build_NvParameterized_debug build_PsFastXml_debug build_PxFoundation_debug build_PxPvdSDK_debug build_PxTask_debug build_RenderDebug_debug 
+$(ApexFramework_debug_bin): $(NvParameterized_debug_obj) $(PsFastXml_debug_obj) $(RenderDebug_debug_obj) $(PxTask_debug_obj) $(PxPvdSDK_debug_obj) $(ApexFramework_debug_obj) build_PxFoundation_debug build_NvParameterized_debug build_PsFastXml_debug build_RenderDebug_debug build_PxTask_debug build_PxPvdSDK_debug build_ApexShared_debug build_ApexCommon_debug 
 	mkdir -p `dirname ./../../lib/android16/libApexFrameworkDEBUG.a`
-	@$(AR) rcs $(ApexFramework_debug_bin) $(NvParameterized_debug_obj) $(PsFastXml_debug_obj) $(PxPvdSDK_debug_obj) $(PxTask_debug_obj) $(RenderDebug_debug_obj) $(ApexFramework_debug_obj)
+	@$(AR) rcs $(ApexFramework_debug_bin) $(NvParameterized_debug_obj) $(PsFastXml_debug_obj) $(RenderDebug_debug_obj) $(PxTask_debug_obj) $(PxPvdSDK_debug_obj) $(ApexFramework_debug_obj)
 	$(ECHO) building $@ complete!
 
 ApexFramework_debug_DEPDIR = $(dir $(@))/$(*F)
@@ -258,10 +258,10 @@ ApexFramework_release_hpaths    += ./../../../PxShared/src/cudamanager/include
 ApexFramework_release_lpaths    := 
 ApexFramework_release_lpaths    += ./../../../PxShared/lib/makeandroid16
 ApexFramework_release_lpaths    += ./../../../PhysX_3.4/Lib/android16
-ApexFramework_release_lpaths    += ./../../lib/android16
-ApexFramework_release_lpaths    += ./../../NvParameterized/lib/android16
 ApexFramework_release_lpaths    += ./../../../PxShared/lib/android16
+ApexFramework_release_lpaths    += ./../../NvParameterized/lib/android16
 ApexFramework_release_lpaths    += ./../../shared/general/RenderDebug/lib/android16
+ApexFramework_release_lpaths    += ./../../lib/android16
 ApexFramework_release_defines   := $(ApexFramework_custom_defines)
 ApexFramework_release_defines   += ANDROID
 ApexFramework_release_defines   += GLES2
@@ -274,14 +274,14 @@ ApexFramework_release_defines   += PX_PHYSX_STATIC_LIB
 ApexFramework_release_defines   += NDEBUG
 ApexFramework_release_defines   += APEX_SHIPPING
 ApexFramework_release_libraries := 
-ApexFramework_release_libraries += ApexCommon
-ApexFramework_release_libraries += ApexShared
+ApexFramework_release_libraries += PxFoundation
 ApexFramework_release_libraries += NvParameterized
 ApexFramework_release_libraries += PsFastXml
-ApexFramework_release_libraries += PxFoundation
-ApexFramework_release_libraries += PxPvdSDK
-ApexFramework_release_libraries += PxTask
 ApexFramework_release_libraries += RenderDebug
+ApexFramework_release_libraries += PxTask
+ApexFramework_release_libraries += PxPvdSDK
+ApexFramework_release_libraries += ApexShared
+ApexFramework_release_libraries += ApexCommon
 ApexFramework_release_libraries += PhysX3Common
 ApexFramework_release_common_cflags	:= $(ApexFramework_custom_cflags)
 ApexFramework_release_common_cflags    += $(addprefix -D, $(ApexFramework_release_defines))
@@ -319,9 +319,9 @@ postbuild_ApexFramework_release: mainbuild_ApexFramework_release
 mainbuild_ApexFramework_release: prebuild_ApexFramework_release $(ApexFramework_release_bin)
 prebuild_ApexFramework_release:
 
-$(ApexFramework_release_bin): $(NvParameterized_release_obj) $(PsFastXml_release_obj) $(PxPvdSDK_release_obj) $(PxTask_release_obj) $(RenderDebug_release_obj) $(ApexFramework_release_obj) build_ApexCommon_release build_ApexShared_release build_NvParameterized_release build_PsFastXml_release build_PxFoundation_release build_PxPvdSDK_release build_PxTask_release build_RenderDebug_release 
+$(ApexFramework_release_bin): $(NvParameterized_release_obj) $(PsFastXml_release_obj) $(RenderDebug_release_obj) $(PxTask_release_obj) $(PxPvdSDK_release_obj) $(ApexFramework_release_obj) build_PxFoundation_release build_NvParameterized_release build_PsFastXml_release build_RenderDebug_release build_PxTask_release build_PxPvdSDK_release build_ApexShared_release build_ApexCommon_release 
 	mkdir -p `dirname ./../../lib/android16/libApexFramework.a`
-	@$(AR) rcs $(ApexFramework_release_bin) $(NvParameterized_release_obj) $(PsFastXml_release_obj) $(PxPvdSDK_release_obj) $(PxTask_release_obj) $(RenderDebug_release_obj) $(ApexFramework_release_obj)
+	@$(AR) rcs $(ApexFramework_release_bin) $(NvParameterized_release_obj) $(PsFastXml_release_obj) $(RenderDebug_release_obj) $(PxTask_release_obj) $(PxPvdSDK_release_obj) $(ApexFramework_release_obj)
 	$(ECHO) building $@ complete!
 
 ApexFramework_release_DEPDIR = $(dir $(@))/$(*F)
@@ -403,10 +403,10 @@ ApexFramework_profile_hpaths    += ./../../../PxShared/src/cudamanager/include
 ApexFramework_profile_lpaths    := 
 ApexFramework_profile_lpaths    += ./../../../PxShared/lib/makeandroid16
 ApexFramework_profile_lpaths    += ./../../../PhysX_3.4/Lib/android16
-ApexFramework_profile_lpaths    += ./../../lib/android16
-ApexFramework_profile_lpaths    += ./../../NvParameterized/lib/android16
 ApexFramework_profile_lpaths    += ./../../../PxShared/lib/android16
+ApexFramework_profile_lpaths    += ./../../NvParameterized/lib/android16
 ApexFramework_profile_lpaths    += ./../../shared/general/RenderDebug/lib/android16
+ApexFramework_profile_lpaths    += ./../../lib/android16
 ApexFramework_profile_defines   := $(ApexFramework_custom_defines)
 ApexFramework_profile_defines   += ANDROID
 ApexFramework_profile_defines   += GLES2
@@ -422,14 +422,14 @@ ApexFramework_profile_defines   += PHYSX_PROFILE_SDK
 ApexFramework_profile_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 ApexFramework_profile_defines   += PX_NVTX=1
 ApexFramework_profile_libraries := 
-ApexFramework_profile_libraries += ApexCommonPROFILE
-ApexFramework_profile_libraries += ApexSharedPROFILE
+ApexFramework_profile_libraries += PxFoundationPROFILE
 ApexFramework_profile_libraries += NvParameterizedPROFILE
 ApexFramework_profile_libraries += PsFastXmlPROFILE
-ApexFramework_profile_libraries += PxFoundationPROFILE
-ApexFramework_profile_libraries += PxPvdSDKPROFILE
-ApexFramework_profile_libraries += PxTaskPROFILE
 ApexFramework_profile_libraries += RenderDebugPROFILE
+ApexFramework_profile_libraries += PxTaskPROFILE
+ApexFramework_profile_libraries += PxPvdSDKPROFILE
+ApexFramework_profile_libraries += ApexSharedPROFILE
+ApexFramework_profile_libraries += ApexCommonPROFILE
 ApexFramework_profile_libraries += PhysX3CommonPROFILE
 ApexFramework_profile_common_cflags	:= $(ApexFramework_custom_cflags)
 ApexFramework_profile_common_cflags    += $(addprefix -D, $(ApexFramework_profile_defines))
@@ -467,9 +467,9 @@ postbuild_ApexFramework_profile: mainbuild_ApexFramework_profile
 mainbuild_ApexFramework_profile: prebuild_ApexFramework_profile $(ApexFramework_profile_bin)
 prebuild_ApexFramework_profile:
 
-$(ApexFramework_profile_bin): $(NvParameterized_profile_obj) $(PsFastXml_profile_obj) $(PxPvdSDK_profile_obj) $(PxTask_profile_obj) $(RenderDebug_profile_obj) $(ApexFramework_profile_obj) build_ApexCommon_profile build_ApexShared_profile build_NvParameterized_profile build_PsFastXml_profile build_PxFoundation_profile build_PxPvdSDK_profile build_PxTask_profile build_RenderDebug_profile 
+$(ApexFramework_profile_bin): $(NvParameterized_profile_obj) $(PsFastXml_profile_obj) $(RenderDebug_profile_obj) $(PxTask_profile_obj) $(PxPvdSDK_profile_obj) $(ApexFramework_profile_obj) build_PxFoundation_profile build_NvParameterized_profile build_PsFastXml_profile build_RenderDebug_profile build_PxTask_profile build_PxPvdSDK_profile build_ApexShared_profile build_ApexCommon_profile 
 	mkdir -p `dirname ./../../lib/android16/libApexFrameworkPROFILE.a`
-	@$(AR) rcs $(ApexFramework_profile_bin) $(NvParameterized_profile_obj) $(PsFastXml_profile_obj) $(PxPvdSDK_profile_obj) $(PxTask_profile_obj) $(RenderDebug_profile_obj) $(ApexFramework_profile_obj)
+	@$(AR) rcs $(ApexFramework_profile_bin) $(NvParameterized_profile_obj) $(PsFastXml_profile_obj) $(RenderDebug_profile_obj) $(PxTask_profile_obj) $(PxPvdSDK_profile_obj) $(ApexFramework_profile_obj)
 	$(ECHO) building $@ complete!
 
 ApexFramework_profile_DEPDIR = $(dir $(@))/$(*F)
@@ -551,10 +551,10 @@ ApexFramework_checked_hpaths    += ./../../../PxShared/src/cudamanager/include
 ApexFramework_checked_lpaths    := 
 ApexFramework_checked_lpaths    += ./../../../PxShared/lib/makeandroid16
 ApexFramework_checked_lpaths    += ./../../../PhysX_3.4/Lib/android16
-ApexFramework_checked_lpaths    += ./../../lib/android16
-ApexFramework_checked_lpaths    += ./../../NvParameterized/lib/android16
 ApexFramework_checked_lpaths    += ./../../../PxShared/lib/android16
+ApexFramework_checked_lpaths    += ./../../NvParameterized/lib/android16
 ApexFramework_checked_lpaths    += ./../../shared/general/RenderDebug/lib/android16
+ApexFramework_checked_lpaths    += ./../../lib/android16
 ApexFramework_checked_defines   := $(ApexFramework_custom_defines)
 ApexFramework_checked_defines   += ANDROID
 ApexFramework_checked_defines   += GLES2
@@ -571,14 +571,14 @@ ApexFramework_checked_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 ApexFramework_checked_defines   += PX_ENABLE_CHECKED_ASSERTS
 ApexFramework_checked_defines   += PX_NVTX=1
 ApexFramework_checked_libraries := 
-ApexFramework_checked_libraries += ApexCommonCHECKED
-ApexFramework_checked_libraries += ApexSharedCHECKED
+ApexFramework_checked_libraries += PxFoundationCHECKED
 ApexFramework_checked_libraries += NvParameterizedCHECKED
 ApexFramework_checked_libraries += PsFastXmlCHECKED
-ApexFramework_checked_libraries += PxFoundationCHECKED
-ApexFramework_checked_libraries += PxPvdSDKCHECKED
-ApexFramework_checked_libraries += PxTaskCHECKED
 ApexFramework_checked_libraries += RenderDebugCHECKED
+ApexFramework_checked_libraries += PxTaskCHECKED
+ApexFramework_checked_libraries += PxPvdSDKCHECKED
+ApexFramework_checked_libraries += ApexSharedCHECKED
+ApexFramework_checked_libraries += ApexCommonCHECKED
 ApexFramework_checked_libraries += PhysX3CommonCHECKED
 ApexFramework_checked_common_cflags	:= $(ApexFramework_custom_cflags)
 ApexFramework_checked_common_cflags    += $(addprefix -D, $(ApexFramework_checked_defines))
@@ -617,9 +617,9 @@ postbuild_ApexFramework_checked: mainbuild_ApexFramework_checked
 mainbuild_ApexFramework_checked: prebuild_ApexFramework_checked $(ApexFramework_checked_bin)
 prebuild_ApexFramework_checked:
 
-$(ApexFramework_checked_bin): $(NvParameterized_checked_obj) $(PsFastXml_checked_obj) $(PxPvdSDK_checked_obj) $(PxTask_checked_obj) $(RenderDebug_checked_obj) $(ApexFramework_checked_obj) build_ApexCommon_checked build_ApexShared_checked build_NvParameterized_checked build_PsFastXml_checked build_PxFoundation_checked build_PxPvdSDK_checked build_PxTask_checked build_RenderDebug_checked 
+$(ApexFramework_checked_bin): $(NvParameterized_checked_obj) $(PsFastXml_checked_obj) $(RenderDebug_checked_obj) $(PxTask_checked_obj) $(PxPvdSDK_checked_obj) $(ApexFramework_checked_obj) build_PxFoundation_checked build_NvParameterized_checked build_PsFastXml_checked build_RenderDebug_checked build_PxTask_checked build_PxPvdSDK_checked build_ApexShared_checked build_ApexCommon_checked 
 	mkdir -p `dirname ./../../lib/android16/libApexFrameworkCHECKED.a`
-	@$(AR) rcs $(ApexFramework_checked_bin) $(NvParameterized_checked_obj) $(PsFastXml_checked_obj) $(PxPvdSDK_checked_obj) $(PxTask_checked_obj) $(RenderDebug_checked_obj) $(ApexFramework_checked_obj)
+	@$(AR) rcs $(ApexFramework_checked_bin) $(NvParameterized_checked_obj) $(PsFastXml_checked_obj) $(RenderDebug_checked_obj) $(PxTask_checked_obj) $(PxPvdSDK_checked_obj) $(ApexFramework_checked_obj)
 	$(ECHO) building $@ complete!
 
 ApexFramework_checked_DEPDIR = $(dir $(@))/$(*F)

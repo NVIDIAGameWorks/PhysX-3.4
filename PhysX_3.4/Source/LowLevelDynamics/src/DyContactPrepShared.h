@@ -234,7 +234,7 @@ private:
 		const Vec3VArg normal, const FloatVArg norVel, const VecCrossV& norCross, const Vec3VArg angVel0, const Vec3VArg angVel1,
 		const FloatVArg invDt, const FloatVArg invDtp8, const FloatVArg restDistance, const FloatVArg maxPenBias,  const FloatVArg restitution,
 		const FloatVArg bounceThreshold, const Gu::ContactPoint& contact, SolverContactPoint& solverContact,
-		const FloatVArg ccdMaxSeparation)
+		const FloatVArg ccdMaxSeparation, const Vec3VArg solverOffsetSlop)
 	{
 		const FloatV zero = FZero();
 		const Vec3V point = V3LoadA(contact.point);
@@ -245,8 +245,14 @@ private:
 		const Vec3V ra = V3Sub(point, bodyFrame0p);
 		const Vec3V rb = V3Sub(point, bodyFrame1p);
 
-		const Vec3V raXn = V3Cross(ra, norCross);
-		const Vec3V rbXn = V3Cross(rb, norCross);
+		//ra = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(ra)), V3Zero(), ra);
+		//rb = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(rb)), V3Zero(), rb);
+
+		Vec3V raXn = V3Cross(ra, norCross);
+		Vec3V rbXn = V3Cross(rb, norCross);
+
+		raXn = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(raXn)), V3Zero(), raXn);
+		rbXn = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(rbXn)), V3Zero(), rbXn);
 
 		const Vec3V raXnSqrtInertia = M33MulV3(invSqrtInertia0, raXn);
 		const Vec3V rbXnSqrtInertia = M33MulV3(invSqrtInertia1, rbXn);				

@@ -69,7 +69,7 @@ SnippetConvexMeshCreate_debug_common_cflags    += -MMD
 SnippetConvexMeshCreate_debug_common_cflags    += $(addprefix -D, $(SnippetConvexMeshCreate_debug_defines))
 SnippetConvexMeshCreate_debug_common_cflags    += $(addprefix -I, $(SnippetConvexMeshCreate_debug_hpaths))
 SnippetConvexMeshCreate_debug_common_cflags  += -m32
-SnippetConvexMeshCreate_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetConvexMeshCreate_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetConvexMeshCreate_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetConvexMeshCreate_debug_common_cflags  += -Wno-uninitialized
 SnippetConvexMeshCreate_debug_common_cflags  += -g3 -gdwarf-2
@@ -180,7 +180,7 @@ SnippetConvexMeshCreate_checked_common_cflags    += -MMD
 SnippetConvexMeshCreate_checked_common_cflags    += $(addprefix -D, $(SnippetConvexMeshCreate_checked_defines))
 SnippetConvexMeshCreate_checked_common_cflags    += $(addprefix -I, $(SnippetConvexMeshCreate_checked_hpaths))
 SnippetConvexMeshCreate_checked_common_cflags  += -m32
-SnippetConvexMeshCreate_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetConvexMeshCreate_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetConvexMeshCreate_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetConvexMeshCreate_checked_common_cflags  += -Wno-uninitialized
 SnippetConvexMeshCreate_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -291,7 +291,7 @@ SnippetConvexMeshCreate_profile_common_cflags    += -MMD
 SnippetConvexMeshCreate_profile_common_cflags    += $(addprefix -D, $(SnippetConvexMeshCreate_profile_defines))
 SnippetConvexMeshCreate_profile_common_cflags    += $(addprefix -I, $(SnippetConvexMeshCreate_profile_hpaths))
 SnippetConvexMeshCreate_profile_common_cflags  += -m32
-SnippetConvexMeshCreate_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetConvexMeshCreate_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetConvexMeshCreate_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetConvexMeshCreate_profile_common_cflags  += -Wno-uninitialized
 SnippetConvexMeshCreate_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -401,7 +401,7 @@ SnippetConvexMeshCreate_release_common_cflags    += -MMD
 SnippetConvexMeshCreate_release_common_cflags    += $(addprefix -D, $(SnippetConvexMeshCreate_release_defines))
 SnippetConvexMeshCreate_release_common_cflags    += $(addprefix -I, $(SnippetConvexMeshCreate_release_hpaths))
 SnippetConvexMeshCreate_release_common_cflags  += -m32
-SnippetConvexMeshCreate_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetConvexMeshCreate_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetConvexMeshCreate_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetConvexMeshCreate_release_common_cflags  += -Wno-uninitialized
 SnippetConvexMeshCreate_release_common_cflags  += -O3 -fno-strict-aliasing

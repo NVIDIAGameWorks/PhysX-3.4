@@ -75,8 +75,6 @@ PxU32 PtrTable::find(const void* ptr) const
 		if(ptrs[i] == ptr)
 			return i;
 	}
-		
-	PX_ASSERT(0);
 	return 0xffffffff;
 }
 

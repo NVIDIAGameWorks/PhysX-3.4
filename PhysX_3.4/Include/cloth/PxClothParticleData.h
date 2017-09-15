@@ -50,9 +50,10 @@ struct PxClothParticle;
 
 /**
 \brief Data layout descriptor for reading cloth data from the SDK.
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 @see PxCloth.lockParticleData()
 */
-class PxClothParticleData : public PxLockedData
+class PX_DEPRECATED PxClothParticleData : public PxLockedData
 {
 public:
 	/**

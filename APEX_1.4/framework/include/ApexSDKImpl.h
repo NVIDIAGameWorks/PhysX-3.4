@@ -315,6 +315,15 @@ namespace nvidia
 				return mCustomDllNamePostfix.c_str();
 			}
 
+			bool isParticlesSupported() const
+			{
+#if APEX_USE_PARTICLES
+				return true;
+#else
+				return false;
+#endif
+			}
+
 			virtual ModuleIntl *getInternalModule(Module *module);
 			virtual Module *getModule(ModuleIntl *module);
 

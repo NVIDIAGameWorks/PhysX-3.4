@@ -32,6 +32,12 @@ PhysX particles
 
 The PhysX particle feature has been deprecated in PhysX version 3.4. The standalone library PhysX FleX is an alternative with a richer feature set.
 
+++++++++++++++++++++++++++++++++++++++++++++++++
+PhysX cloth
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+The PhysX clothing feature has been deprecated in PhysX version 3.4.1. The PhysX and APEX clothing features are replaced by the standalone NvCloth library.
+
 .. _migration_3_4_core_phsx:
 
 =====================================================

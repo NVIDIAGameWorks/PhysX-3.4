@@ -34,7 +34,7 @@
 
 #if PX_WINDOWS && !PX_NEON
 #include "windows/PsWindowsAoS.h"
-#elif(PX_UNIX_FAMILY || PX_PS4 || PX_NX)
+#elif(PX_UNIX_FAMILY || PX_PS4 || PX_SWITCH)
 #include "unix/PsUnixAoS.h"
 #elif PX_XBOXONE
 #include "XboxOne/PsXboxOneAoS.h"

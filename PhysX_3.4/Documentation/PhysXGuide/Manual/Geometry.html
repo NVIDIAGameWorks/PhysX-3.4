@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Geometry &mdash; NVIDIA PhysX SDK 3.4.0 Documentation</title>
+    <title>Geometry &mdash; NVIDIA PhysX SDK 3.4.1 Documentation</title>
     
     <link rel="stylesheet" href="../_static/nvidia.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '3.4.0',
+        VERSION:     '3.4.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="NVIDIA PhysX SDK 3.4.0 Documentation" href="../index.html" />
+    <link rel="top" title="NVIDIA PhysX SDK 3.4.1 Documentation" href="../index.html" />
     <link rel="up" title="User&#39;s Guide" href="Index.html" />
     <link rel="next" title="Rigid Body Overview" href="RigidBodyOverview.html" />
     <link rel="prev" title="Threading" href="Threading.html" /> 
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="Threading.html" title="Threading"
              accesskey="P">previous</a> |</li>
-        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.0 Documentation</a> &raquo;</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.1 Documentation</a> &raquo;</li>
           <li><a href="Index.html" accesskey="U">User's Guide</a> &raquo;</li> 
       </ul>
     </div>  
@@ -155,6 +155,7 @@
 <p>Please note that mesh validation is required for debug and checked builds, as creating meshes from unvalidated input descriptors may result in undefined behavior. Providing PxConvexFlag::eFAST_INERTIA_COMPUTATION flag the volume integration will use SIMD code path which does faster computation but with lesser precision.</p>
 <p>The user can optionally provide a per-instance PxMeshScale in the PxConvexMeshGeometry. The scale defaults to identity. Negative scale is not supported for convex meshes.</p>
 <p>PxConvexMeshGeometry also contains flags to tweak some aspects of the convex object. By default the system computes approximate (loose) bounds around convex objects. Using PxConvexMeshGeometryFlag::eTIGHT_BOUNDS enables smaller/tighter bounds, which are more expensive to compute but could result in improved simulation performance when a lot of convex objects are interacting with each other.</p>
+<p>PxConvexMeshGeometry also contains a variable called maxMargin. By default, it is set to be 3.4e38f. If the maxMargin is smaller than the margin amount calculcated by the PCM contact gen, it will choose the smallest margin for the shrunk shape to perform incremental update using GJK algorithm. In this case, application might notice some artefacts around the vertex collision. If the maxMargin is set to be a small value, this can reduce the visibility of these artefacts. If maxMargin is set to zero, PCM will use the original shape for the GJK algorithm. This will result in no artefacts for this approach. However, there is a trade off between performance and accuracy.</p>
 </div>
 <div class="section" id="convex-mesh-cooking">
 <h3>Convex Mesh cooking<a class="headerlink" href="#convex-mesh-cooking" title="Permalink to this headline">¶</a></h3>
@@ -807,7 +808,7 @@ The toolkit helper function PxToolkit::createConvexMeshSafe illustrates the most
         <li class="right" >
           <a href="Threading.html" title="Threading"
              >previous</a> |</li>
-        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.0 Documentation</a> &raquo;</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.1 Documentation</a> &raquo;</li>
           <li><a href="Index.html" >User's Guide</a> &raquo;</li> 
       </ul>
     </div>

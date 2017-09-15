@@ -59,7 +59,7 @@ namespace Gu
 
 
 	PX_FORCE_INLINE void CalculateBoxMargin(const Ps::aos::Vec3VArg extent, PxReal& minExtent, PxReal& minMargin, PxReal& sweepMargin,
-		 const PxReal minMarginR = BOX_MIN_MARGIN_RATIO)
+		const PxReal minMarginR = BOX_MIN_MARGIN_RATIO)
 	{
 		using namespace Ps::aos;
 
@@ -80,10 +80,19 @@ namespace Gu
 	}
 
 	//This method is called in the PCM contact gen for the refreshing contacts 
-	PX_FORCE_INLINE Ps::aos::FloatV CalculatePCMBoxMargin(const Ps::aos::Vec3VArg extent)
+	PX_FORCE_INLINE Ps::aos::FloatV CalculatePCMBoxMargin(const Ps::aos::Vec3VArg extent, const PxReal toleranceLength, const PxReal toleranceMarginRatio = BOX_MARGIN_RATIO)
 	{
 		using namespace Ps::aos;
 	
+		const FloatV min = V3ExtractMin(extent);//FMin(V3GetX(extent), FMin(V3GetY(extent), V3GetZ(extent)));
+		const FloatV toleranceMargin = FLoad(toleranceLength * toleranceMarginRatio);
+		return FMin(FMul(min, FLoad(BOX_MARGIN_RATIO)), toleranceMargin);
+	}
+
+	PX_FORCE_INLINE Ps::aos::FloatV CalculateMTDBoxMargin(const Ps::aos::Vec3VArg extent)
+	{
+		using namespace Ps::aos;
+
 		const FloatV min = V3ExtractMin(extent);//FMin(V3GetX(extent), FMin(V3GetY(extent), V3GetZ(extent)));
 		return FMul(min, FLoad(BOX_MARGIN_RATIO));
 	}
@@ -106,7 +115,8 @@ namespace Gu
 			marginDif = Ps::aos::FZero();
 			margin = 0.f;
 		}
-																		
+		
+		//this constructor is used by the CCD system
 		PX_FORCE_INLINE BoxV(const PxGeometry& geom) : ConvexV(ConvexType::eBOX, Ps::aos::V3Zero())
 		{
 			using namespace Ps::aos;
@@ -125,8 +135,13 @@ namespace Gu
 		{
 		}
 
+		PX_FORCE_INLINE void resetMargin(const PxReal toleranceLength)
+		{
+			minMargin = PxMin(toleranceLength * BOX_MIN_MARGIN_RATIO, minMargin);
+		}
+
 		//! Assignment operator
-		PX_INLINE const BoxV& operator=(const BoxV& other)
+		PX_FORCE_INLINE const BoxV& operator=(const BoxV& other)
 		{
 			center	= other.center;
 			extents	= other.extents;

@@ -77,7 +77,7 @@ SnippetVehicleContactMod_debug_common_cflags    += -MMD
 SnippetVehicleContactMod_debug_common_cflags    += $(addprefix -D, $(SnippetVehicleContactMod_debug_defines))
 SnippetVehicleContactMod_debug_common_cflags    += $(addprefix -I, $(SnippetVehicleContactMod_debug_hpaths))
 SnippetVehicleContactMod_debug_common_cflags  += -m64
-SnippetVehicleContactMod_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleContactMod_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleContactMod_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleContactMod_debug_common_cflags  += -Wno-uninitialized
 SnippetVehicleContactMod_debug_common_cflags  += -g3 -gdwarf-2
@@ -188,7 +188,7 @@ SnippetVehicleContactMod_checked_common_cflags    += -MMD
 SnippetVehicleContactMod_checked_common_cflags    += $(addprefix -D, $(SnippetVehicleContactMod_checked_defines))
 SnippetVehicleContactMod_checked_common_cflags    += $(addprefix -I, $(SnippetVehicleContactMod_checked_hpaths))
 SnippetVehicleContactMod_checked_common_cflags  += -m64
-SnippetVehicleContactMod_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleContactMod_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleContactMod_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleContactMod_checked_common_cflags  += -Wno-uninitialized
 SnippetVehicleContactMod_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -299,7 +299,7 @@ SnippetVehicleContactMod_profile_common_cflags    += -MMD
 SnippetVehicleContactMod_profile_common_cflags    += $(addprefix -D, $(SnippetVehicleContactMod_profile_defines))
 SnippetVehicleContactMod_profile_common_cflags    += $(addprefix -I, $(SnippetVehicleContactMod_profile_hpaths))
 SnippetVehicleContactMod_profile_common_cflags  += -m64
-SnippetVehicleContactMod_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleContactMod_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleContactMod_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleContactMod_profile_common_cflags  += -Wno-uninitialized
 SnippetVehicleContactMod_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -409,7 +409,7 @@ SnippetVehicleContactMod_release_common_cflags    += -MMD
 SnippetVehicleContactMod_release_common_cflags    += $(addprefix -D, $(SnippetVehicleContactMod_release_defines))
 SnippetVehicleContactMod_release_common_cflags    += $(addprefix -I, $(SnippetVehicleContactMod_release_hpaths))
 SnippetVehicleContactMod_release_common_cflags  += -m64
-SnippetVehicleContactMod_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleContactMod_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleContactMod_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleContactMod_release_common_cflags  += -Wno-uninitialized
 SnippetVehicleContactMod_release_common_cflags  += -O3 -fno-strict-aliasing

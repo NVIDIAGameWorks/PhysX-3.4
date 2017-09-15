@@ -77,7 +77,7 @@ SnippetNestedScene_debug_common_cflags    += -MMD
 SnippetNestedScene_debug_common_cflags    += $(addprefix -D, $(SnippetNestedScene_debug_defines))
 SnippetNestedScene_debug_common_cflags    += $(addprefix -I, $(SnippetNestedScene_debug_hpaths))
 SnippetNestedScene_debug_common_cflags  += -m64
-SnippetNestedScene_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetNestedScene_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetNestedScene_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetNestedScene_debug_common_cflags  += -Wno-uninitialized
 SnippetNestedScene_debug_common_cflags  += -g3 -gdwarf-2
@@ -188,7 +188,7 @@ SnippetNestedScene_checked_common_cflags    += -MMD
 SnippetNestedScene_checked_common_cflags    += $(addprefix -D, $(SnippetNestedScene_checked_defines))
 SnippetNestedScene_checked_common_cflags    += $(addprefix -I, $(SnippetNestedScene_checked_hpaths))
 SnippetNestedScene_checked_common_cflags  += -m64
-SnippetNestedScene_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetNestedScene_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetNestedScene_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetNestedScene_checked_common_cflags  += -Wno-uninitialized
 SnippetNestedScene_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -299,7 +299,7 @@ SnippetNestedScene_profile_common_cflags    += -MMD
 SnippetNestedScene_profile_common_cflags    += $(addprefix -D, $(SnippetNestedScene_profile_defines))
 SnippetNestedScene_profile_common_cflags    += $(addprefix -I, $(SnippetNestedScene_profile_hpaths))
 SnippetNestedScene_profile_common_cflags  += -m64
-SnippetNestedScene_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetNestedScene_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetNestedScene_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetNestedScene_profile_common_cflags  += -Wno-uninitialized
 SnippetNestedScene_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -409,7 +409,7 @@ SnippetNestedScene_release_common_cflags    += -MMD
 SnippetNestedScene_release_common_cflags    += $(addprefix -D, $(SnippetNestedScene_release_defines))
 SnippetNestedScene_release_common_cflags    += $(addprefix -I, $(SnippetNestedScene_release_hpaths))
 SnippetNestedScene_release_common_cflags  += -m64
-SnippetNestedScene_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetNestedScene_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetNestedScene_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetNestedScene_release_common_cflags  += -Wno-uninitialized
 SnippetNestedScene_release_common_cflags  += -O3 -fno-strict-aliasing

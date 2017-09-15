@@ -34,7 +34,6 @@
 // The source code for the generate was at one time checked into:
 // physx/PhysXMetaDataGenerator/llvm/tools/clang/lib/Frontend/PhysXMetaDataAction.cpp
 #include "PxExtensionMetaDataObjects.h"
-#include "PxPhysicsAPI.h"
 #include "PxMetaDataCppPrefix.h"
 #include "PxExtensionsAPI.h"
 using namespace physx;

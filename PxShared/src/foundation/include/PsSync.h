@@ -70,9 +70,9 @@ class PX_FOUNDATION_API SyncImpl
 	void reset();
 
 	/**
-   Size of this class.
-   */
-	static const uint32_t& getSize();
+	Size of this class.
+	*/
+	static uint32_t getSize();
 };
 
 /*!

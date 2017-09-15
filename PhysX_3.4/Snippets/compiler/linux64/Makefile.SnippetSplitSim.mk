@@ -70,7 +70,7 @@ SnippetSplitSim_debug_common_cflags    += -MMD
 SnippetSplitSim_debug_common_cflags    += $(addprefix -D, $(SnippetSplitSim_debug_defines))
 SnippetSplitSim_debug_common_cflags    += $(addprefix -I, $(SnippetSplitSim_debug_hpaths))
 SnippetSplitSim_debug_common_cflags  += -m64
-SnippetSplitSim_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSplitSim_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSplitSim_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSplitSim_debug_common_cflags  += -Wno-uninitialized
 SnippetSplitSim_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetSplitSim_checked_common_cflags    += -MMD
 SnippetSplitSim_checked_common_cflags    += $(addprefix -D, $(SnippetSplitSim_checked_defines))
 SnippetSplitSim_checked_common_cflags    += $(addprefix -I, $(SnippetSplitSim_checked_hpaths))
 SnippetSplitSim_checked_common_cflags  += -m64
-SnippetSplitSim_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSplitSim_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSplitSim_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSplitSim_checked_common_cflags  += -Wno-uninitialized
 SnippetSplitSim_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetSplitSim_profile_common_cflags    += -MMD
 SnippetSplitSim_profile_common_cflags    += $(addprefix -D, $(SnippetSplitSim_profile_defines))
 SnippetSplitSim_profile_common_cflags    += $(addprefix -I, $(SnippetSplitSim_profile_hpaths))
 SnippetSplitSim_profile_common_cflags  += -m64
-SnippetSplitSim_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSplitSim_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSplitSim_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSplitSim_profile_common_cflags  += -Wno-uninitialized
 SnippetSplitSim_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetSplitSim_release_common_cflags    += -MMD
 SnippetSplitSim_release_common_cflags    += $(addprefix -D, $(SnippetSplitSim_release_defines))
 SnippetSplitSim_release_common_cflags    += $(addprefix -I, $(SnippetSplitSim_release_hpaths))
 SnippetSplitSim_release_common_cflags  += -m64
-SnippetSplitSim_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSplitSim_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSplitSim_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSplitSim_release_common_cflags  += -Wno-uninitialized
 SnippetSplitSim_release_common_cflags  += -O3 -fno-strict-aliasing

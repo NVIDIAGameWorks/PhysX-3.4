@@ -34,9 +34,6 @@
 #error Scalar version should not be included when using vector intrinsics.
 #endif
 
-// Remove this define when all platforms use simd solver.
-#define PX_SUPPORT_SIMD
-
 struct VecI16V;
 struct VecU16V;
 struct VecI32V;

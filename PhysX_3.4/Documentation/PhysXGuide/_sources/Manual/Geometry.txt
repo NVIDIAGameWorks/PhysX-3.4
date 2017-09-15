@@ -138,6 +138,8 @@ The user can optionally provide a per-instance PxMeshScale in the PxConvexMeshGe
 
 PxConvexMeshGeometry also contains flags to tweak some aspects of the convex object. By default the system computes approximate (loose) bounds around convex objects. Using PxConvexMeshGeometryFlag::eTIGHT_BOUNDS enables smaller/tighter bounds, which are more expensive to compute but could result in improved simulation performance when a lot of convex objects are interacting with each other.
 
+PxConvexMeshGeometry also contains a variable called maxMargin. By default, it is set to be 3.4e38f. If the maxMargin is smaller than the margin amount calculcated by the PCM contact gen, it will choose the smallest margin for the shrunk shape to perform incremental update using GJK algorithm. In this case, application might notice some artefacts around the vertex collision. If the maxMargin is set to be a small value, this can reduce the visibility of these artefacts. If maxMargin is set to zero, PCM will use the original shape for the GJK algorithm. This will result in no artefacts for this approach. However, there is a trade off between performance and accuracy.
+
 
 +++++++++++++++++++++++++++++++
 Convex Mesh cooking

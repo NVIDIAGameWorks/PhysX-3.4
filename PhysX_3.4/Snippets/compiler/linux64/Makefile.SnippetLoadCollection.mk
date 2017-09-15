@@ -69,7 +69,7 @@ SnippetLoadCollection_debug_common_cflags    += -MMD
 SnippetLoadCollection_debug_common_cflags    += $(addprefix -D, $(SnippetLoadCollection_debug_defines))
 SnippetLoadCollection_debug_common_cflags    += $(addprefix -I, $(SnippetLoadCollection_debug_hpaths))
 SnippetLoadCollection_debug_common_cflags  += -m64
-SnippetLoadCollection_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetLoadCollection_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetLoadCollection_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetLoadCollection_debug_common_cflags  += -Wno-uninitialized
 SnippetLoadCollection_debug_common_cflags  += -g3 -gdwarf-2
@@ -180,7 +180,7 @@ SnippetLoadCollection_checked_common_cflags    += -MMD
 SnippetLoadCollection_checked_common_cflags    += $(addprefix -D, $(SnippetLoadCollection_checked_defines))
 SnippetLoadCollection_checked_common_cflags    += $(addprefix -I, $(SnippetLoadCollection_checked_hpaths))
 SnippetLoadCollection_checked_common_cflags  += -m64
-SnippetLoadCollection_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetLoadCollection_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetLoadCollection_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetLoadCollection_checked_common_cflags  += -Wno-uninitialized
 SnippetLoadCollection_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -291,7 +291,7 @@ SnippetLoadCollection_profile_common_cflags    += -MMD
 SnippetLoadCollection_profile_common_cflags    += $(addprefix -D, $(SnippetLoadCollection_profile_defines))
 SnippetLoadCollection_profile_common_cflags    += $(addprefix -I, $(SnippetLoadCollection_profile_hpaths))
 SnippetLoadCollection_profile_common_cflags  += -m64
-SnippetLoadCollection_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetLoadCollection_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetLoadCollection_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetLoadCollection_profile_common_cflags  += -Wno-uninitialized
 SnippetLoadCollection_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -401,7 +401,7 @@ SnippetLoadCollection_release_common_cflags    += -MMD
 SnippetLoadCollection_release_common_cflags    += $(addprefix -D, $(SnippetLoadCollection_release_defines))
 SnippetLoadCollection_release_common_cflags    += $(addprefix -I, $(SnippetLoadCollection_release_hpaths))
 SnippetLoadCollection_release_common_cflags  += -m64
-SnippetLoadCollection_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetLoadCollection_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetLoadCollection_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetLoadCollection_release_common_cflags  += -Wno-uninitialized
 SnippetLoadCollection_release_common_cflags  += -O3 -fno-strict-aliasing

@@ -42,6 +42,7 @@
 #include "GuPCMShapeConvex.h"
 #include "GuContactBuffer.h"
 
+
 namespace physx
 {
 
@@ -53,7 +54,7 @@ namespace Gu
 static bool fullContactsGenerationBoxConvex(const PxVec3& halfExtents, const BoxV& box, ConvexHullV& convexHull, const PsTransformV& transf0, const PsTransformV& transf1, 
 									PersistentContact* manifoldContacts, ContactBuffer& contactBuffer, Gu::PersistentContactManifold& manifold, Vec3VArg normal, 
 									const Vec3VArg closestA, const Vec3VArg closestB, const FloatVArg contactDist, const bool idtScale, const bool doOverlapTest, Cm::RenderOutput* renderOutput,
-									const FloatVArg toleranceScale)
+									const PxReal toleranceScale)
 {
 	Gu::PolygonalData polyData0;
 	PCMPolygonalBox polyBox0(halfExtents);
@@ -72,13 +73,13 @@ static bool fullContactsGenerationBoxConvex(const PxVec3& halfExtents, const Box
 		static_cast<SupportLocal*>(PX_PLACEMENT_NEW(buff1, SupportLocalImpl<ConvexHullV>)(convexHull, transf1, convexHull.vertex2Shape, convexHull.shape2Vertex, idtScale)));
 
 	PxU32 numContacts = 0;
-	if(generateFullContactManifold(polyData0, polyData1, &map0, map1, manifoldContacts, numContacts, contactDist, normal, closestA, closestB, box.getMargin(), convexHull.getMargin(), 
+	if(generateFullContactManifold(polyData0, polyData1, &map0, map1, manifoldContacts, numContacts, contactDist, normal, closestA, closestB, box.getMarginF(), convexHull.getMarginF(), 
 		doOverlapTest, renderOutput, toleranceScale))
 	{
 		if (numContacts > 0)
 		{
 			//reduce contacts
-			manifold.addBatchManifoldContacts(manifoldContacts, numContacts);
+			manifold.addBatchManifoldContacts(manifoldContacts, numContacts, toleranceScale);
 
 #if	PCM_LOW_LEVEL_DEBUG
 			manifold.drawManifold(*renderOutput, transf0, transf1);
@@ -185,9 +186,10 @@ bool pcmContactBoxConvex(GU_CONTACT_METHOD_ARGS)
 	const PsTransformV curRTrans(transf1.transformInv(transf0));
 	const PsMatTransformV aToB(curRTrans);
 
+	const PxReal tolerenceLength = params.mToleranceLength;
 	const Gu::ConvexHullData* hullData = shapeConvex.hullData;
-	const FloatV convexMargin = Gu::CalculatePCMConvexMargin(hullData, vScale);
-	const FloatV boxMargin = Gu::CalculatePCMBoxMargin(boxExtents);
+	const FloatV convexMargin = Gu::CalculatePCMConvexMargin(hullData, vScale, tolerenceLength);
+	const FloatV boxMargin = Gu::CalculatePCMBoxMargin(boxExtents, tolerenceLength);
 
 	const FloatV minMargin = FMin(convexMargin, boxMargin);//FMin(boxMargin, convexMargin);
 	const FloatV projectBreakingThreshold = FMul(minMargin, FLoad(0.8f));
@@ -212,6 +214,7 @@ bool pcmContactBoxConvex(GU_CONTACT_METHOD_ARGS)
 		const QuatV vQuat = QuatVLoadU(&shapeConvex.scale.rotation.x);
 		const bool idtScale = shapeConvex.scale.isIdentity();
 		Gu::ShrunkConvexHullV convexHull(hullData, V3LoadU(hullData->mCenterOfMass), vScale, vQuat, idtScale);
+		convexHull.setMaxMargin(shapeConvex.maxMargin);
 		Gu::BoxV box(zeroV, boxExtents);
 		
 		const RelativeConvex<BoxV> convexA(box, aToB);
@@ -236,7 +239,7 @@ bool pcmContactBoxConvex(GU_CONTACT_METHOD_ARGS)
 		if(status == GJK_DEGENERATE)
 		{
 			return fullContactsGenerationBoxConvex(shapeBox.halfExtents, box, convexHull, transf0, transf1, manifoldContacts, contactBuffer, 
-				manifold, normal, closestA, closestB, contactDist, idtScale, true, renderOutput, FLoad(params.mToleranceLength));
+				manifold, normal, closestA, closestB, contactDist, idtScale, true, renderOutput, params.mToleranceLength);
 		}
 		else if(status == GJK_NON_INTERSECT)
 		{
@@ -261,7 +264,7 @@ bool pcmContactBoxConvex(GU_CONTACT_METHOD_ARGS)
 			if (fullContactGen || doOverlapTest)
 			{
 				return fullContactsGenerationBoxConvex(shapeBox.halfExtents, box, convexHull, transf0, transf1, manifoldContacts, contactBuffer, 
-					manifold, normal, closestA, closestB, contactDist, idtScale, doOverlapTest, renderOutput, FLoad(params.mToleranceLength));
+					manifold, normal, closestA, closestB, contactDist, idtScale, doOverlapTest, renderOutput, params.mToleranceLength);
 			}
 			else
 			{

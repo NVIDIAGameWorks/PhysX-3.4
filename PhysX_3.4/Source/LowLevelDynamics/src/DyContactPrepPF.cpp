@@ -72,6 +72,7 @@ bool createFinalizeSolverContactsCoulomb(PxSolverContactDesc& contactDesc,
 		PxReal bounceThresholdF32,
 		PxReal frictionOffsetThreshold,
 		PxReal correlationDistance,
+		PxReal solverOffsetSlop,
 		PxConstraintAllocator& constraintAllocator,
 		PxFrictionType::Enum frictionType);
 
@@ -92,9 +93,11 @@ static bool setupFinalizeSolverConstraintsCoulomb(
 							PxReal invMassScale0, PxReal invInertiaScale0, 
 							PxReal invMassScale1, PxReal invInertiaScale1,
 							PxReal restDist,
-							const PxReal maxCCDSeparation)
+							const PxReal maxCCDSeparation,
+							const PxReal solverOffsetSlopF32)
 {   
 	const FloatV ccdMaxSeparation = FLoad(maxCCDSeparation);
+	const Vec3V solverOffsetSlop = V3Load(solverOffsetSlopF32);
 	PxU8* PX_RESTRICT ptr = workspace;
 	const FloatV zero=FZero();
 
@@ -227,7 +230,7 @@ static bool setupFinalizeSolverConstraintsCoulomb(
 					invMassNorLenSq1, angD0, angD1, bodyFrame0p, bodyFrame1p,
 					normal, norVel, norCross, angVel0, angVel1,
 					invDt, invDtp8, restDistance, maxPenBias,  restitution,
-					bounceThreshold, contact, *solverContact, ccdMaxSeparation);
+					bounceThreshold, contact, *solverContact, ccdMaxSeparation, solverOffsetSlop);
 			}			
 			ptr = p;
 		}
@@ -315,6 +318,8 @@ static bool setupFinalizeSolverConstraintsCoulomb(
 					const Vec3V point = V3LoadU(contact.point);
 					const Vec3V ra = V3Sub(point, bodyFrame0p);
 					const Vec3V rb = V3Sub(point, bodyFrame1p);
+					//ra = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(ra)), V3Zero(), ra);
+					//rb = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(rb)), V3Zero(), rb);
 					const Vec3V targetVel = V3LoadU(contact.targetVel);
 
 					for(PxU32 k = 0; k < frictionPerPointCount; ++k)
@@ -327,8 +332,11 @@ static bool setupFinalizeSolverConstraintsCoulomb(
 						p += frictionStride;
 						//f0->brokenOrContactIndex = contactId;
 
-						const Vec3V raXn = V3Cross(ra, t0);
-						const Vec3V rbXn = V3Cross(rb, t0);
+						Vec3V raXn = V3Cross(ra, t0);
+						Vec3V rbXn = V3Cross(rb, t0);
+
+						raXn = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(raXn)), V3Zero(), raXn);
+						rbXn = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(rbXn)), V3Zero(), rbXn);
 
 						const Vec3V delAngVel0 = M33MulV3(invSqrtInertia0, raXn);
 						const Vec3V delAngVel1 = M33MulV3(invSqrtInertia1, rbXn);
@@ -494,9 +502,11 @@ bool createFinalizeSolverContactsCoulomb1D(PxSolverContactDesc& contactDesc,
 	PxReal bounceThresholdF32,
 	PxReal frictionOffsetThreshold,
 	PxReal correlationDistance,
+	PxReal solverOffsetSlop,
 	PxConstraintAllocator& constraintAllocator)
 {
-	return createFinalizeSolverContactsCoulomb(contactDesc, output, threadContext, invDtF32, bounceThresholdF32, frictionOffsetThreshold, correlationDistance, constraintAllocator, PxFrictionType::eONE_DIRECTIONAL);
+	return createFinalizeSolverContactsCoulomb(contactDesc, output, threadContext, invDtF32, bounceThresholdF32, frictionOffsetThreshold, correlationDistance, solverOffsetSlop,
+		constraintAllocator, PxFrictionType::eONE_DIRECTIONAL);
 }
 
 bool createFinalizeSolverContactsCoulomb2D(PxSolverContactDesc& contactDesc,
@@ -506,10 +516,12 @@ bool createFinalizeSolverContactsCoulomb2D(PxSolverContactDesc& contactDesc,
 	PxReal bounceThresholdF32,
 	PxReal frictionOffsetThreshold,
 	PxReal correlationDistance,
+	PxReal solverOffsetSlop,
 	PxConstraintAllocator& constraintAllocator)
 
 {
-	return createFinalizeSolverContactsCoulomb(contactDesc, output, threadContext, invDtF32, bounceThresholdF32, frictionOffsetThreshold, correlationDistance, constraintAllocator, PxFrictionType::eTWO_DIRECTIONAL);
+	return createFinalizeSolverContactsCoulomb(contactDesc, output, threadContext, invDtF32, bounceThresholdF32, frictionOffsetThreshold, correlationDistance, solverOffsetSlop,
+		constraintAllocator, PxFrictionType::eTWO_DIRECTIONAL);
 }
 
 bool createFinalizeSolverContactsCoulomb(PxSolverContactDesc& contactDesc,
@@ -519,6 +531,7 @@ bool createFinalizeSolverContactsCoulomb(PxSolverContactDesc& contactDesc,
 								 PxReal bounceThresholdF32,
 								 PxReal frictionOffsetThreshold,
 								 PxReal correlationDistance,
+								 PxReal solverOffsetSlop,
 								 PxConstraintAllocator& constraintAllocator,
 								 PxFrictionType::Enum frictionType)
 {
@@ -634,7 +647,7 @@ bool createFinalizeSolverContactsCoulomb(PxSolverContactDesc& contactDesc,
 
 				hasFriction = setupFinalizeSolverConstraintsCoulomb(contactDesc.shapeInteraction, buffer, c, contactDesc.bodyFrame0, contactDesc.bodyFrame1, solverConstraint,
 					data0, data1, invDtF32, bounceThresholdF32, numFrictionPerPatch, contactDesc.hasForceThresholds, contactDesc.bodyState1 == PxSolverContactDesc::eSTATIC_BODY,
-					invMassScale0, invInertiaScale0, invMassScale1, invInertiaScale1, contactDesc.restDistance, contactDesc.maxCCDSeparation);
+					invMassScale0, invInertiaScale0, invMassScale1, invInertiaScale1, contactDesc.restDistance, contactDesc.maxCCDSeparation, solverOffsetSlop);
 			}
 			*(reinterpret_cast<PxU32*>(solverConstraint + solverConstraintByteSize)) = 0;
 			*(reinterpret_cast<PxU32*>(solverConstraint + solverConstraintByteSize + 4)) = hasFriction ? 0xFFFFFFFF : 0;

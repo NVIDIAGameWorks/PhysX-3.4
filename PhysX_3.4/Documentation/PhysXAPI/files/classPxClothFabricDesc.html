@@ -89,7 +89,8 @@ Collaboration diagram for PxClothFabricDesc:</div>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 References all the data required to create a fabric. 
 <p>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html#c32634024422793b65190304c4631494" title="Creates a cloth fabric object.">PxPhysics.createClothFabric()</a>, <a class="el" href="classPxClothFabricCooker.html#041888e50a3dcd31130ea63443696deb" title="Returns the fabric descriptor to create the fabric.">PxClothFabricCooker.getDescriptor()</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html#aff72c208eb0bb4faa418c1f258707d9" title="Creates a cloth fabric object.">PxPhysics.createClothFabric()</a>, <a class="el" href="classPxClothFabricCooker.html#041888e50a3dcd31130ea63443696deb" title="Returns the fabric descriptor to create the fabric.">PxClothFabricCooker.getDescriptor()</a> </dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000065">Deprecated:</a></b></dt><dd>The PhysX cloth feature has been deprecated in PhysX version 3.4.1 </dd></dl>
 <hr><h2>Member Data Documentation</h2>
 <a class="anchor" name="2b88e1f9a84616b513fd5ad6b7ad17e1"></a><!-- doxytag: member="PxClothFabricDesc::indices" ref="2b88e1f9a84616b513fd5ad6b7ad17e1" args="" -->
 <div class="memitem">
@@ -106,7 +107,7 @@ References all the data required to create a fabric.
 Array of particle indices which specifies the pair of constrained vertices. See <a class="el" href="classPxClothFabric.html#085f09b26d28b5d071fc3476fb76753e" title="Copies the particle indices array to a user specified buffer.">PxClothFabric.getParticleIndices()</a>. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -125,7 +126,7 @@ Array of particle indices which specifies the pair of constrained vertices. See 
 The number of particles needed when creating a <a class="el" href="classPxCloth.html" title="Set of connected particles tailored towards simulating character cloth.">PxCloth</a> instance from the fabric. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -144,7 +145,7 @@ The number of particles needed when creating a <a class="el" href="classPxCloth.
 The number of solver phases. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -163,7 +164,7 @@ The number of solver phases.
 The number of sets in the fabric. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -182,7 +183,7 @@ The number of sets in the fabric.
 Size of tetherAnchors and tetherLengths arrays, needs to be multiple of nbParticles. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -201,7 +202,7 @@ Size of tetherAnchors and tetherLengths arrays, needs to be multiple of nbPartic
 The number of triangles in the triangles array. (1 triangle means 3 indices in the array). 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -220,7 +221,7 @@ The number of triangles in the triangles array. (1 triangle means 3 indices in t
 Array defining which constraints to solve each phase. See <a class="el" href="classPxClothFabric.html#9f9bcc2229fc09f89f5c4819dbbd6d33" title="Copies the phase array to a user specified buffer.">PxClothFabric.getPhases()</a>. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -239,7 +240,7 @@ Array defining which constraints to solve each phase. See <a class="el" href="cl
 Array of rest values for each constraint. See <a class="el" href="classPxClothFabric.html#fb53563992c3181c6f2b6c826deea2b0" title="Copies the rest values array to a user specified buffer.">PxClothFabric.getRestvalues()</a>. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -258,7 +259,7 @@ Array of rest values for each constraint. See <a class="el" href="classPxClothFa
 Array with an index per set which points one entry beyond the last constraint of the set. See <a class="el" href="classPxClothFabric.html#f45bfae66b62c892245fac4dbc099f71" title="Copies the set array to a user specified buffer.">PxClothFabric.getSets()</a>. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -277,7 +278,7 @@ Array with an index per set which points one entry beyond the last constraint of
 Array of particle indices specifying the tether anchors. See <a class="el" href="classPxClothFabric.html#868c8ede0e185dbf6bff4ca17fec4a8a" title="Copies the tether anchors array to a user specified buffer.">PxClothFabric.getTetherAnchors()</a>. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -296,7 +297,7 @@ Array of particle indices specifying the tether anchors. See <a class="el" href=
 Array of rest distance between tethered particle pairs. See <a class="el" href="classPxClothFabric.html#8dde7c6c2105602237ded25f44c4eeee" title="Copies the tether lengths array to a user specified buffer.">PxClothFabric.getTetherLengths()</a>. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -315,7 +316,7 @@ Array of rest distance between tethered particle pairs. See <a class="el" href="
 Array of triangle indices used to calculate air friction. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00152">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothFabric_8h-source.html#l00155">isValid()</a>.</p>
 
 </div>
 </div><p>

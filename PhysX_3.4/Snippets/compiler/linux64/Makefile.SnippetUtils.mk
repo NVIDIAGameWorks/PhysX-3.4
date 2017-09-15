@@ -45,7 +45,7 @@ SnippetUtils_debug_common_cflags    += -MMD
 SnippetUtils_debug_common_cflags    += $(addprefix -D, $(SnippetUtils_debug_defines))
 SnippetUtils_debug_common_cflags    += $(addprefix -I, $(SnippetUtils_debug_hpaths))
 SnippetUtils_debug_common_cflags  += -m64
-SnippetUtils_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetUtils_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetUtils_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetUtils_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 SnippetUtils_debug_common_cflags  += -Wno-missing-field-initializers
@@ -132,7 +132,7 @@ SnippetUtils_checked_common_cflags    += -MMD
 SnippetUtils_checked_common_cflags    += $(addprefix -D, $(SnippetUtils_checked_defines))
 SnippetUtils_checked_common_cflags    += $(addprefix -I, $(SnippetUtils_checked_hpaths))
 SnippetUtils_checked_common_cflags  += -m64
-SnippetUtils_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetUtils_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetUtils_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetUtils_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 SnippetUtils_checked_common_cflags  += -Wno-missing-field-initializers
@@ -219,7 +219,7 @@ SnippetUtils_profile_common_cflags    += -MMD
 SnippetUtils_profile_common_cflags    += $(addprefix -D, $(SnippetUtils_profile_defines))
 SnippetUtils_profile_common_cflags    += $(addprefix -I, $(SnippetUtils_profile_hpaths))
 SnippetUtils_profile_common_cflags  += -m64
-SnippetUtils_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetUtils_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetUtils_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetUtils_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 SnippetUtils_profile_common_cflags  += -Wno-missing-field-initializers
@@ -305,7 +305,7 @@ SnippetUtils_release_common_cflags    += -MMD
 SnippetUtils_release_common_cflags    += $(addprefix -D, $(SnippetUtils_release_defines))
 SnippetUtils_release_common_cflags    += $(addprefix -I, $(SnippetUtils_release_hpaths))
 SnippetUtils_release_common_cflags  += -m64
-SnippetUtils_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetUtils_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetUtils_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetUtils_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 SnippetUtils_release_common_cflags  += -Wno-missing-field-initializers

@@ -33,8 +33,6 @@
 #include "foundation/PxPreprocessor.h"
 #include "PsVecMath.h"
 
-#ifdef PX_SUPPORT_SIMD
-
 #include "CmPhysXCommon.h"
 #include "DySolverBody.h"
 #include "DySolverContact.h"
@@ -214,8 +212,6 @@ PX_FORCE_INLINE static FloatV solveExtContacts(SolverContactPointExt* contacts, 
 }
 
 }
-
-#endif //PX_SUPPORT_SIMD
 
 #endif //DY_SOLVER_CORE_SHARED_H
 

@@ -58,7 +58,7 @@ namespace Ext
 			cB2w.q = -cB2w.q;
 
 		body0WorldOffset = cB2w.p-bA2w.p;
-		joint::ConstraintHelper ch(constraints, cB2w.p - bA2w.p, cB2w.p - bB2w.p);
+		joint::ConstraintHelper ch(constraints, cA2w.p - bA2w.p, cB2w.p - bB2w.p);
 
 		if(data.jointFlags & PxSphericalJointFlag::eLIMIT_ENABLED)
 		{

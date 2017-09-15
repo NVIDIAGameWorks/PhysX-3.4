@@ -34,7 +34,6 @@
 #include "foundation/PxSimpleTypes.h"
 #include "foundation/PxPreprocessor.h"
 #include "foundation/PxTransform.h"
-#include "DyGpuAPI.h"
 #include "CmBitMap.h"
 #include "PsArray.h"
 

@@ -38,7 +38,7 @@ PxTask_debug_common_cflags    += -MMD
 PxTask_debug_common_cflags    += $(addprefix -D, $(PxTask_debug_defines))
 PxTask_debug_common_cflags    += $(addprefix -I, $(PxTask_debug_hpaths))
 PxTask_debug_common_cflags  += -m32
-PxTask_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxTask_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxTask_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxTask_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxTask_debug_common_cflags  += -Wno-missing-field-initializers
@@ -117,7 +117,7 @@ PxTask_release_common_cflags    += -MMD
 PxTask_release_common_cflags    += $(addprefix -D, $(PxTask_release_defines))
 PxTask_release_common_cflags    += $(addprefix -I, $(PxTask_release_hpaths))
 PxTask_release_common_cflags  += -m32
-PxTask_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxTask_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxTask_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxTask_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxTask_release_common_cflags  += -Wno-missing-field-initializers
@@ -197,7 +197,7 @@ PxTask_checked_common_cflags    += -MMD
 PxTask_checked_common_cflags    += $(addprefix -D, $(PxTask_checked_defines))
 PxTask_checked_common_cflags    += $(addprefix -I, $(PxTask_checked_hpaths))
 PxTask_checked_common_cflags  += -m32
-PxTask_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxTask_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxTask_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxTask_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxTask_checked_common_cflags  += -Wno-missing-field-initializers
@@ -277,7 +277,7 @@ PxTask_profile_common_cflags    += -MMD
 PxTask_profile_common_cflags    += $(addprefix -D, $(PxTask_profile_defines))
 PxTask_profile_common_cflags    += $(addprefix -I, $(PxTask_profile_hpaths))
 PxTask_profile_common_cflags  += -m32
-PxTask_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxTask_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxTask_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxTask_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxTask_profile_common_cflags  += -Wno-missing-field-initializers

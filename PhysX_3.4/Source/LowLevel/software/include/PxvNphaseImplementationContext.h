@@ -35,10 +35,6 @@
 #include "PxsContactManagerState.h"
 #include "PsArray.h"
 
-#if PX_SUPPORT_GPU_PHYSX
-#include "Pxg.h"
-#endif
-
 namespace physx
 {
 

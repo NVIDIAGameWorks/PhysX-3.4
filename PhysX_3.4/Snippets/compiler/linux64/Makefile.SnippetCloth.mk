@@ -69,7 +69,7 @@ SnippetCloth_debug_common_cflags    += -MMD
 SnippetCloth_debug_common_cflags    += $(addprefix -D, $(SnippetCloth_debug_defines))
 SnippetCloth_debug_common_cflags    += $(addprefix -I, $(SnippetCloth_debug_hpaths))
 SnippetCloth_debug_common_cflags  += -m64
-SnippetCloth_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetCloth_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetCloth_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetCloth_debug_common_cflags  += -Wno-uninitialized
 SnippetCloth_debug_common_cflags  += -g3 -gdwarf-2
@@ -180,7 +180,7 @@ SnippetCloth_checked_common_cflags    += -MMD
 SnippetCloth_checked_common_cflags    += $(addprefix -D, $(SnippetCloth_checked_defines))
 SnippetCloth_checked_common_cflags    += $(addprefix -I, $(SnippetCloth_checked_hpaths))
 SnippetCloth_checked_common_cflags  += -m64
-SnippetCloth_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetCloth_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetCloth_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetCloth_checked_common_cflags  += -Wno-uninitialized
 SnippetCloth_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -291,7 +291,7 @@ SnippetCloth_profile_common_cflags    += -MMD
 SnippetCloth_profile_common_cflags    += $(addprefix -D, $(SnippetCloth_profile_defines))
 SnippetCloth_profile_common_cflags    += $(addprefix -I, $(SnippetCloth_profile_hpaths))
 SnippetCloth_profile_common_cflags  += -m64
-SnippetCloth_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetCloth_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetCloth_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetCloth_profile_common_cflags  += -Wno-uninitialized
 SnippetCloth_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -401,7 +401,7 @@ SnippetCloth_release_common_cflags    += -MMD
 SnippetCloth_release_common_cflags    += $(addprefix -D, $(SnippetCloth_release_defines))
 SnippetCloth_release_common_cflags    += $(addprefix -I, $(SnippetCloth_release_hpaths))
 SnippetCloth_release_common_cflags  += -m64
-SnippetCloth_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetCloth_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetCloth_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetCloth_release_common_cflags  += -Wno-uninitialized
 SnippetCloth_release_common_cflags  += -O3 -fno-strict-aliasing

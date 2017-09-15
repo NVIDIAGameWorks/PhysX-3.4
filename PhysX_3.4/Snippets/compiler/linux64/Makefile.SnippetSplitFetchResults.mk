@@ -70,7 +70,7 @@ SnippetSplitFetchResults_debug_common_cflags    += -MMD
 SnippetSplitFetchResults_debug_common_cflags    += $(addprefix -D, $(SnippetSplitFetchResults_debug_defines))
 SnippetSplitFetchResults_debug_common_cflags    += $(addprefix -I, $(SnippetSplitFetchResults_debug_hpaths))
 SnippetSplitFetchResults_debug_common_cflags  += -m64
-SnippetSplitFetchResults_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSplitFetchResults_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSplitFetchResults_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSplitFetchResults_debug_common_cflags  += -Wno-uninitialized
 SnippetSplitFetchResults_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetSplitFetchResults_checked_common_cflags    += -MMD
 SnippetSplitFetchResults_checked_common_cflags    += $(addprefix -D, $(SnippetSplitFetchResults_checked_defines))
 SnippetSplitFetchResults_checked_common_cflags    += $(addprefix -I, $(SnippetSplitFetchResults_checked_hpaths))
 SnippetSplitFetchResults_checked_common_cflags  += -m64
-SnippetSplitFetchResults_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSplitFetchResults_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSplitFetchResults_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSplitFetchResults_checked_common_cflags  += -Wno-uninitialized
 SnippetSplitFetchResults_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetSplitFetchResults_profile_common_cflags    += -MMD
 SnippetSplitFetchResults_profile_common_cflags    += $(addprefix -D, $(SnippetSplitFetchResults_profile_defines))
 SnippetSplitFetchResults_profile_common_cflags    += $(addprefix -I, $(SnippetSplitFetchResults_profile_hpaths))
 SnippetSplitFetchResults_profile_common_cflags  += -m64
-SnippetSplitFetchResults_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSplitFetchResults_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSplitFetchResults_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSplitFetchResults_profile_common_cflags  += -Wno-uninitialized
 SnippetSplitFetchResults_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetSplitFetchResults_release_common_cflags    += -MMD
 SnippetSplitFetchResults_release_common_cflags    += $(addprefix -D, $(SnippetSplitFetchResults_release_defines))
 SnippetSplitFetchResults_release_common_cflags    += $(addprefix -I, $(SnippetSplitFetchResults_release_hpaths))
 SnippetSplitFetchResults_release_common_cflags  += -m64
-SnippetSplitFetchResults_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSplitFetchResults_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSplitFetchResults_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSplitFetchResults_release_common_cflags  += -Wno-uninitialized
 SnippetSplitFetchResults_release_common_cflags  += -O3 -fno-strict-aliasing

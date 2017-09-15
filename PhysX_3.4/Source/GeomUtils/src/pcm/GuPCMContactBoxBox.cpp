@@ -927,8 +927,9 @@ bool pcmContactBoxBox(GU_CONTACT_METHOD_ARGS)
 	const PsTransformV curRTrans(transf1.transformInv(transf0));
 	const PsMatTransformV aToB(curRTrans);
 
-	const FloatV boxMargin0 = Gu::CalculatePCMBoxMargin(boxExtents0);
-	const FloatV boxMargin1 = Gu::CalculatePCMBoxMargin(boxExtents1);
+	const PxReal toleranceLength = params.mToleranceLength;
+	const FloatV boxMargin0 = Gu::CalculatePCMBoxMargin(boxExtents0, toleranceLength);
+	const FloatV boxMargin1 = Gu::CalculatePCMBoxMargin(boxExtents1, toleranceLength);
 	const FloatV minMargin = FMin(boxMargin0, boxMargin1);
 
 	const PxU32 initialContacts = manifold.mNumContacts;
@@ -958,7 +959,7 @@ bool pcmContactBoxBox(GU_CONTACT_METHOD_ARGS)
 			if(numContacts > 0)
 			{
 			
-				manifold.addBatchManifoldContacts(manifoldContacts, numContacts);
+				manifold.addBatchManifoldContacts(manifoldContacts, numContacts, toleranceLength);
 				const Vec3V worldNormal = transfV1.rotate(Vec3V_From_Vec4V(manifold.mContactPoints[0].mLocalNormalPen));
 				manifold.addManifoldContactsToContactBuffer(contactBuffer, worldNormal, transfV1);
 #if	PCM_LOW_LEVEL_DEBUG
@@ -971,6 +972,7 @@ bool pcmContactBoxBox(GU_CONTACT_METHOD_ARGS)
 				const Vec3V zeroV = V3Zero();
 				BoxV box0(zeroV, boxExtents0);
 				BoxV box1(zeroV, boxExtents1);
+
 				Vec3V closestA(zeroV), closestB(zeroV), normal(zeroV); // these will be in the local space of B
 				FloatV penDep = FZero(); 
 				manifold.mNumWarmStartPoints = 0;

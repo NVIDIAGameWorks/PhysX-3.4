@@ -34,7 +34,7 @@
 #include "foundation/PxAssert.h"
 #include <math.h>
 
-#if PX_ANDROID
+#if PX_ANDROID || (PX_LINUX && !(PX_X64 || PX_X64)) // x86[_64] Linux uses inline assembly for debug break
 #include <signal.h> // for Ns::debugBreak() { raise(SIGTRAP); }
 #endif
 

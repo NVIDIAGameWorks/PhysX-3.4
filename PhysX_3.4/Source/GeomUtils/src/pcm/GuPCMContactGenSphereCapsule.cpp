@@ -306,7 +306,7 @@ namespace Gu
 
 
 	bool generateCapsuleBoxFullContactManifold(const CapsuleV& capsule, PolygonalData& polyData, SupportLocal* map, const PsMatTransformV& aToB, PersistentContact* manifoldContacts, PxU32& numContacts,
-		const FloatVArg contactDist, Vec3V& normal, const Vec3VArg closest, const FloatVArg margin, const bool doOverlapTest, const FloatVArg toleranceScale)
+		const FloatVArg contactDist, Vec3V& normal, const Vec3VArg closest, const PxReal margin, const bool doOverlapTest, const PxReal toleranceScale)
 	{
 		
 		const PxU32 originalContacts = numContacts;
@@ -324,11 +324,12 @@ namespace Gu
 		}
 		else
 		{
-			const FloatV eps = FLoad(PCM_WITNESS_POINT_SCALE);
-			const FloatV lowerEps = FMul(toleranceScale, FLoad(PCM_WITNESS_POINT_LOWER_EPS));
-			const FloatV tolerance = FMax(FMul(margin, eps), lowerEps);
+			const PxReal lowerEps = toleranceScale * PCM_WITNESS_POINT_LOWER_EPS;
+			const PxReal upperEps = toleranceScale * PCM_WITNESS_POINT_UPPER_EPS;
+			const PxReal tolerance = PxClamp(margin, lowerEps, upperEps);
 
-			referencePolygon = &polyData.mPolygons[getWitnessPolygonIndex(polyData, map, V3Neg(normal), closest, tolerance)];
+			const PxU32 featureIndex = getWitnessPolygonIndex(polyData, map, V3Neg(normal), closest, tolerance);
+			referencePolygon = &polyData.mPolygons[featureIndex];
 			
 		}
 
@@ -344,7 +345,7 @@ namespace Gu
 
 		//capsule is in the local space of polyData
 	bool generateFullContactManifold(const CapsuleV& capsule, PolygonalData& polyData, SupportLocal* map, const PsMatTransformV& aToB, PersistentContact* manifoldContacts, PxU32& numContacts,
-		const FloatVArg contactDist, Vec3V& normal, const Vec3VArg closest, const FloatVArg margin, const bool doOverlapTest, const Ps::aos::FloatVArg toleranceScale)
+		const FloatVArg contactDist, Vec3V& normal, const Vec3VArg closest, const PxReal margin, const bool doOverlapTest, const PxReal toleranceLength)
 	{
 		const PxU32 originalContacts = numContacts;
 
@@ -374,11 +375,13 @@ namespace Gu
 			const PxU32 faceContacts = numContacts - originalContacts;
 			if(faceContacts < 2)
 			{
-				const FloatV eps = FLoad(PCM_WITNESS_POINT_SCALE);
-				const FloatV lowerEps = FMul(toleranceScale, FLoad(PCM_WITNESS_POINT_LOWER_EPS));
-				const FloatV toleranceA = FMax(FMul(margin, eps), lowerEps);
+			
+				const PxReal lowerEps = toleranceLength * PCM_WITNESS_POINT_LOWER_EPS;
+				const PxReal upperEps = toleranceLength * PCM_WITNESS_POINT_UPPER_EPS;
+				const PxReal tolerance = PxClamp(margin, lowerEps, upperEps);
 
-				const Gu::HullPolygonData& referencePolygon = polyData.mPolygons[getWitnessPolygonIndex(polyData, map, V3Neg(tNormal), closest, toleranceA)];
+				const PxU32 featureIndex = getWitnessPolygonIndex(polyData, map, V3Neg(tNormal), closest, tolerance);
+				const Gu::HullPolygonData& referencePolygon = polyData.mPolygons[featureIndex];
 				generatedContactsEEContacts(capsule, polyData,referencePolygon, map, aToB,  manifoldContacts, numContacts, contactDist, tNormal);
 			}
 		}

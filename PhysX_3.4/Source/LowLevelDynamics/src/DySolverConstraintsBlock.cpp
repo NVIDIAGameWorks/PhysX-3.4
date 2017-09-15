@@ -32,8 +32,6 @@
 #include "PsVecMath.h"
 #include "PsFPU.h"
 
-#ifdef PX_SUPPORT_SIMD
-
 #include "CmPhysXCommon.h"
 #include "DySolverBody.h"
 #include "DySolverContact.h"
@@ -105,7 +103,7 @@ static void solveContact4_Block(const PxSolverConstraintDesc* PX_RESTRICT desc, 
 	//hopefully pointer aliasing doesn't bite.
 	PxU8* PX_RESTRICT currPtr = desc[0].constraint;
 
-	Vec4V vMax = V4Splat(FMax());
+	
 
 	const PxU8* PX_RESTRICT prefetchAddress = currPtr + sizeof(SolverContactHeader4) + sizeof(SolverContactBatchPointDynamic4);
 
@@ -129,26 +127,12 @@ static void solveContact4_Block(const PxSolverConstraintDesc* PX_RESTRICT desc, 
 		const PxU32 numNormalConstr = hdr->numNormalConstr;
 		const PxU32	numFrictionConstr = hdr->numFrictionConstr;
 
-		bool hasMaxImpulse = (hdr->flag & SolverContactHeader4::eHAS_MAX_IMPULSE) != 0;
-
 		Vec4V* appliedForces = reinterpret_cast<Vec4V*>(currPtr);
 		currPtr += sizeof(Vec4V)*numNormalConstr;
 
 		SolverContactBatchPointDynamic4* PX_RESTRICT contacts = reinterpret_cast<SolverContactBatchPointDynamic4*>(currPtr);
 
-		Vec4V* maxImpulses;
 		currPtr = reinterpret_cast<PxU8*>(contacts + numNormalConstr);
-		PxU32 maxImpulseMask = 0;
-		if(hasMaxImpulse)
-		{
-			maxImpulseMask = 0xFFFFFFFF;
-			maxImpulses = reinterpret_cast<Vec4V*>(currPtr);
-			currPtr += sizeof(Vec4V) * numNormalConstr;
-		}
-		else
-		{
-			maxImpulses = &vMax;
-		}
 
 				
 		SolverFrictionSharedData4* PX_RESTRICT fd = reinterpret_cast<SolverFrictionSharedData4*>(currPtr);
@@ -192,7 +176,7 @@ static void solveContact4_Block(const PxSolverConstraintDesc* PX_RESTRICT desc, 
 			prefetchAddress += offset;
 
 			const Vec4V appliedForce = appliedForces[i];
-			const Vec4V maxImpulse = maxImpulses[i & maxImpulseMask];			
+			const Vec4V maxImpulse = c.maxContactImpulse;			
 			
 			Vec4V contactNormalVel2 = V4Mul(c.raXnX, angState0T0);
 			Vec4V contactNormalVel4 = V4Mul(c.rbXnX, angState1T0);
@@ -426,7 +410,6 @@ static void solveContact4_StaticBlock(const PxSolverConstraintDesc* PX_RESTRICT 
 
 	//We'll need this.
 	const Vec4V vZero	= V4Zero();
-	Vec4V vMax	= V4Splat(FMax());
 	
 	Vec4V linVel00 = V4LoadA(&b00.linearVelocity.x);
 	Vec4V angState00 = V4LoadA(&b00.angularState.x);
@@ -463,7 +446,6 @@ static void solveContact4_StaticBlock(const PxSolverConstraintDesc* PX_RESTRICT 
 
 		const PxU32 numNormalConstr = hdr->numNormalConstr;
 		const PxU32	numFrictionConstr = hdr->numFrictionConstr;
-		bool hasMaxImpulse = (hdr->flag & SolverContactHeader4::eHAS_MAX_IMPULSE) != 0;
 
 		Vec4V* appliedForces = reinterpret_cast<Vec4V*>(currPtr);
 		currPtr += sizeof(Vec4V)*numNormalConstr;
@@ -471,20 +453,6 @@ static void solveContact4_StaticBlock(const PxSolverConstraintDesc* PX_RESTRICT 
 		SolverContactBatchPointBase4* PX_RESTRICT contacts = reinterpret_cast<SolverContactBatchPointBase4*>(currPtr);
 
 		currPtr = reinterpret_cast<PxU8*>(contacts + numNormalConstr);
-
-		Vec4V* maxImpulses;
-		PxU32 maxImpulseMask;
-		if(hasMaxImpulse)
-		{
-			maxImpulseMask = 0xFFFFFFFF;
-			maxImpulses = reinterpret_cast<Vec4V*>(currPtr);
-			currPtr += sizeof(Vec4V) * numNormalConstr;
-		}
-		else
-		{
-			maxImpulseMask = 0;
-			maxImpulses = &vMax;
-		}
 
 		SolverFrictionSharedData4* PX_RESTRICT fd = reinterpret_cast<SolverFrictionSharedData4*>(currPtr);
 		if(numFrictionConstr)
@@ -523,7 +491,7 @@ static void solveContact4_StaticBlock(const PxSolverConstraintDesc* PX_RESTRICT 
 			prefetchAddress += offset;
 
 			const Vec4V appliedForce = appliedForces[i];
-			const Vec4V maxImpulse = maxImpulses[i&maxImpulseMask];
+			const Vec4V maxImpulse = c.maxContactImpulse;
 			Vec4V contactNormalVel2 = V4MulAdd(c.raXnX, angState0T0, contactNormalVel1);
 			contactNormalVel2 = V4MulAdd(c.raXnY, angState0T1, contactNormalVel2);
 			const Vec4V normalVel = V4MulAdd(c.raXnZ, angState0T2, contactNormalVel2);
@@ -689,10 +657,6 @@ static void concludeContact4_Block(const PxSolverConstraintDesc* PX_RESTRICT des
 
 		SolverContactBatchPointBase4* PX_RESTRICT contacts = reinterpret_cast<SolverContactBatchPointBase4*>(currPtr);
 		currPtr += (numNormalConstr * contactSize);
-		bool hasMaxImpulse = (hdr->flag & SolverContactHeader4::eHAS_MAX_IMPULSE) != 0;
-
-		if(hasMaxImpulse)
-			currPtr += sizeof(Vec4V) * numNormalConstr;
 
 		currPtr += sizeof(Vec4V)*numFrictionConstr;
 
@@ -759,11 +723,6 @@ void writeBackContact4_Block(const PxSolverConstraintDesc* PX_RESTRICT desc, Sol
 
 		//SolverContactBatchPointBase4* PX_RESTRICT contacts = (SolverContactBatchPointBase4*)currPtr;
 		currPtr += (numNormalConstr * contactSize);
-
-		bool hasMaxImpulse = (hdr->flag & SolverContactHeader4::eHAS_MAX_IMPULSE) != 0;
-
-		if(hasMaxImpulse)
-			currPtr += sizeof(Vec4V) * numNormalConstr;
 
 		SolverFrictionSharedData4* PX_RESTRICT fd = reinterpret_cast<SolverFrictionSharedData4*>(currPtr);
 		if(numFrictionConstr)
@@ -1227,4 +1186,3 @@ void writeBack1D4Block(const PxSolverConstraintDesc* PX_RESTRICT desc, const PxU
 
 }
 
-#endif

@@ -29,15 +29,7 @@
 
 #pragma once
 
-#if NV_WIIU
-#pragma ghs nowarning 193 // warning #193-D: zero used for undefined preprocessing identifier
-#endif
-
 #include <algorithm>
-
-#if NV_WIIU
-#pragma ghs endnowarning
-#endif
 
 #ifdef _MSC_VER
 typedef __int32 int32_t;

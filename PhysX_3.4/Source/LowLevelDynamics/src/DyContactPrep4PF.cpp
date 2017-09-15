@@ -72,11 +72,12 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb(
 		PxReal bounceThresholdF32,
 		PxReal frictionOffsetThreshold,
 		PxReal correlationDistance,
+		PxReal solverOffsetSlop,
 		PxConstraintAllocator& constraintAllocator,
 		PxFrictionType::Enum frictionType);
 
 static bool setupFinalizeSolverConstraintsCoulomb4(PxSolverContactDesc* PX_RESTRICT descs, PxU8* PX_RESTRICT workspace, 
-											const PxReal invDtF32, PxReal bounceThresholdF32, CorrelationBuffer& c, const PxU32 numFrictionPerPoint,
+											const PxReal invDtF32, PxReal bounceThresholdF32, PxReal solverOffsetSlopF32, CorrelationBuffer& c, const PxU32 numFrictionPerPoint,
 											const PxU32 numContactPoints4, const PxU32 /*solverConstraintByteSize*/,
 											const Ps::aos::Vec4VArg invMassScale0, const Ps::aos::Vec4VArg invInertiaScale0, 
 											const Ps::aos::Vec4VArg invMassScale1, const Ps::aos::Vec4VArg invInertiaScale1)
@@ -84,6 +85,7 @@ static bool setupFinalizeSolverConstraintsCoulomb4(PxSolverContactDesc* PX_RESTR
 	//KS - final step. Create the constraints in the place we pre-allocated...
 
 	const Vec4V ccdMaxSeparation = Ps::aos::V4LoadXYZW(descs[0].maxCCDSeparation, descs[1].maxCCDSeparation, descs[2].maxCCDSeparation, descs[3].maxCCDSeparation);
+	const Vec4V solverOffsetSlop = V4Load(solverOffsetSlopF32);
 
 	const Vec4V zero = V4Zero();
 
@@ -483,6 +485,14 @@ static bool setupFinalizeSolverConstraintsCoulomb4(PxSolverContactDesc* PX_RESTR
 				const Vec4V rbY = V4Sub(pointY, bodyFrame1pY);
 				const Vec4V rbZ = V4Sub(pointZ, bodyFrame1pZ);
 
+				/*raX = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(raX)), zero, raX);
+				raY = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(raY)), zero, raY);
+				raZ = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(raZ)), zero, raZ);
+
+				rbX = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(rbX)), zero, rbX);
+				rbY = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(rbY)), zero, rbY);
+				rbZ = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(rbZ)), zero, rbZ);*/
+
 				{
 					const Vec4V separation = V4Merge(FLoad(con0.separation), FLoad(con1.separation), FLoad(con2.separation),
 						FLoad(con3.separation));
@@ -492,9 +502,13 @@ static bool setupFinalizeSolverConstraintsCoulomb4(PxSolverContactDesc* PX_RESTR
 					const Vec4V cTargetVel = V4MulAdd(normalX, targetVelX, V4MulAdd(normalY, targetVelY, V4Mul(normalZ, targetVelZ)));
 
 					//raXn = cross(ra, normal) which = Vec3V( a.y*b.z-a.z*b.y, a.z*b.x-a.x*b.z, a.x*b.y-a.y*b.x);
-					const Vec4V raXnX = V4NegMulSub(raZ, normalY, V4Mul(raY, normalZ));
-					const Vec4V raXnY = V4NegMulSub(raX, normalZ, V4Mul(raZ, normalX));
-					const Vec4V raXnZ = V4NegMulSub(raY, normalX, V4Mul(raX, normalY));
+					Vec4V raXnX = V4NegMulSub(raZ, normalY, V4Mul(raY, normalZ));
+					Vec4V raXnY = V4NegMulSub(raX, normalZ, V4Mul(raZ, normalX));
+					Vec4V raXnZ = V4NegMulSub(raY, normalX, V4Mul(raX, normalY));
+
+					raXnX = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(raXnX)), zero, raXnX);
+					raXnY = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(raXnY)), zero, raXnY);
+					raXnZ = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(raXnZ)), zero, raXnZ);
 
 					const Vec4V v0a0 = V4Mul(invInertia0X0, raXnX);
 					const Vec4V v0a1 = V4Mul(invInertia0X1, raXnX);
@@ -519,9 +533,13 @@ static bool setupFinalizeSolverConstraintsCoulomb4(PxSolverContactDesc* PX_RESTR
 					if(isDynamic)
 					{
 						SolverContact4Dynamic* PX_RESTRICT dynamicContact = static_cast<SolverContact4Dynamic*>(solverContact);
-						const Vec4V rbXnX = V4NegMulSub(rbZ, normalY, V4Mul(rbY, normalZ));
-						const Vec4V rbXnY = V4NegMulSub(rbX, normalZ, V4Mul(rbZ, normalX));
-						const Vec4V rbXnZ = V4NegMulSub(rbY, normalX, V4Mul(rbX, normalY));
+						Vec4V rbXnX = V4NegMulSub(rbZ, normalY, V4Mul(rbY, normalZ));
+						Vec4V rbXnY = V4NegMulSub(rbX, normalZ, V4Mul(rbZ, normalX));
+						Vec4V rbXnZ = V4NegMulSub(rbY, normalX, V4Mul(rbX, normalY));
+
+						rbXnX = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(rbXnX)), zero, rbXnX);
+						rbXnY = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(rbXnY)), zero, rbXnY);
+						rbXnZ = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(rbXnZ)), zero, rbXnZ);
 
 						const Vec4V v0b0 = V4Mul(invInertia1X0, rbXnX);
 						const Vec4V v0b1 = V4Mul(invInertia1X1, rbXnX);
@@ -610,9 +628,13 @@ static bool setupFinalizeSolverConstraintsCoulomb4(PxSolverContactDesc* PX_RESTR
 
 					fricIndex = 1 - fricIndex;
 
-					const Vec4V raXnX = V4NegMulSub(raZ, tY, V4Mul(raY, tZ));
-					const Vec4V raXnY = V4NegMulSub(raX, tZ, V4Mul(raZ, tX));
-					const Vec4V raXnZ = V4NegMulSub(raY, tX, V4Mul(raX, tY));
+					Vec4V raXnX = V4NegMulSub(raZ, tY, V4Mul(raY, tZ));
+					Vec4V raXnY = V4NegMulSub(raX, tZ, V4Mul(raZ, tX));
+					Vec4V raXnZ = V4NegMulSub(raY, tX, V4Mul(raX, tY));
+
+					raXnX = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(raXnX)), zero, raXnX);
+					raXnY = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(raXnY)), zero, raXnY);
+					raXnZ = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(raXnZ)), zero, raXnZ);
 
 					const Vec4V v0a0 = V4Mul(invInertia0X0, raXnX);
 					const Vec4V v0a1 = V4Mul(invInertia0X1, raXnX);
@@ -638,9 +660,13 @@ static bool setupFinalizeSolverConstraintsCoulomb4(PxSolverContactDesc* PX_RESTR
 					{
 						SolverFriction4Dynamic* PX_RESTRICT dFric = static_cast<SolverFriction4Dynamic*>(friction);
 
-						const Vec4V rbXnX = V4NegMulSub(rbZ, tY, V4Mul(rbY, tZ));
-						const Vec4V rbXnY = V4NegMulSub(rbX, tZ, V4Mul(rbZ, tX));
-						const Vec4V rbXnZ = V4NegMulSub(rbY, tX, V4Mul(rbX, tY));
+						Vec4V rbXnX = V4NegMulSub(rbZ, tY, V4Mul(rbY, tZ));
+						Vec4V rbXnY = V4NegMulSub(rbX, tZ, V4Mul(rbZ, tX));
+						Vec4V rbXnZ = V4NegMulSub(rbY, tX, V4Mul(rbX, tY));
+
+						rbXnX = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(rbXnX)), zero, rbXnX);
+						rbXnY = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(rbXnY)), zero, rbXnY);
+						rbXnZ = V4Sel(V4IsGrtr(solverOffsetSlop, V4Abs(rbXnZ)), zero, rbXnZ);
 						
 						const Vec4V v0b0 = V4Mul(invInertia1X0, rbXnX);
 						const Vec4V v0b1 = V4Mul(invInertia1X1, rbXnX);
@@ -850,10 +876,11 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb1D(
 	PxReal bounceThresholdF32,
 	PxReal frictionOffsetThreshold,
 	PxReal correlationDistance,
+	PxReal solverOffsetSlop,
 	PxConstraintAllocator& constraintAllocator)
 {
 	return createFinalizeSolverContacts4Coulomb(outputs, threadContext, blockDescs, invDtF32, bounceThresholdF32, 
-		frictionOffsetThreshold, correlationDistance, constraintAllocator, PxFrictionType::eONE_DIRECTIONAL);
+		frictionOffsetThreshold, correlationDistance, solverOffsetSlop, constraintAllocator, PxFrictionType::eONE_DIRECTIONAL);
 }
 
 SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb2D(
@@ -864,10 +891,11 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb2D(
 	PxReal bounceThresholdF32,
 	PxReal frictionOffsetThreshold,
 	PxReal correlationDistance,
+	PxReal solverOffsetSlop,
 	PxConstraintAllocator& constraintAllocator)
 {
 	return createFinalizeSolverContacts4Coulomb(outputs, threadContext, blockDescs, invDtF32, bounceThresholdF32,
-		frictionOffsetThreshold, correlationDistance, constraintAllocator, PxFrictionType::eTWO_DIRECTIONAL);
+		frictionOffsetThreshold, correlationDistance, solverOffsetSlop, constraintAllocator, PxFrictionType::eTWO_DIRECTIONAL);
 }
 
 
@@ -879,6 +907,7 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb(
 								 PxReal bounceThresholdF32,
 								 PxReal frictionOffsetThreshold,
 								 PxReal correlationDistance,
+								 PxReal solverOffsetSlop,
 								 PxConstraintAllocator& constraintAllocator,
 								 PxFrictionType::Enum frictionType)
 {
@@ -1001,7 +1030,7 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb(
 
 
 	bool hasFriction = setupFinalizeSolverConstraintsCoulomb4(blockDescs, solverConstraint, 
-											invDtF32, bounceThresholdF32, c, numFrictionPerPoint, numContactPoints4, solverConstraintByteSize,
+											invDtF32, bounceThresholdF32, solverOffsetSlop, c, numFrictionPerPoint, numContactPoints4, solverConstraintByteSize,
 											iMassScale0, iInertiaScale0, iMassScale1, iInertiaScale1);
 
 	*(reinterpret_cast<PxU32*>(solverConstraint + solverConstraintByteSize)) = 0;

@@ -127,10 +127,8 @@ struct SolverContactPoint
 	PX_FORCE_INLINE FloatV getMaxImpulse() const			{return FLoad(maxImpulse);}
 
 
-#ifdef PX_SUPPORT_SIMD
 	PX_FORCE_INLINE Vec3V getRaXn() const					{return raXn;}
 	PX_FORCE_INLINE Vec3V getRbXn() const					{return rbXn;}
-#endif
 
 	PX_FORCE_INLINE void setRaXn(const PxVec3& v)			{V3WriteXYZ(raXn, v);}
 	PX_FORCE_INLINE void setRbXn(const PxVec3& v)			{V3WriteXYZ(rbXn, v);}
@@ -181,11 +179,9 @@ struct SolverContactFriction
 	PX_FORCE_INLINE FloatV getVelMultiplier() const			{return V4GetW(raXnXYZ_velMultiplierW);}
 	PX_FORCE_INLINE FloatV getBias() const					{return V4GetW(rbXnXYZ_biasW);}
 
-#ifdef PX_SUPPORT_SIMD
 	PX_FORCE_INLINE Vec3V getNormal() const					{return Vec3V_From_Vec4V(normalXYZ_appliedForceW);}
 	PX_FORCE_INLINE Vec3V getRaXn() const					{return Vec3V_From_Vec4V(raXnXYZ_velMultiplierW);}
 	PX_FORCE_INLINE Vec3V getRbXn() const					{return Vec3V_From_Vec4V(rbXnXYZ_biasW);}
-#endif	
 
 	PX_FORCE_INLINE void setNormal(const PxVec3& v)			{V4WriteXYZ(normalXYZ_appliedForceW, v);}
 	PX_FORCE_INLINE void setRaXn(const PxVec3& v)			{V4WriteXYZ(raXnXYZ_velMultiplierW, v);}

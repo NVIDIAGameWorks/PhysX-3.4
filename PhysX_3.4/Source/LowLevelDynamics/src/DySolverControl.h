@@ -62,45 +62,6 @@ inline void BusyWaitStates(volatile PxU32* stateA, volatile PxU32* stateB, const
 }
 
 
-PX_FORCE_INLINE void WaitBodyABodyBRequiredState(const PxSolverConstraintDesc& desc, const PxI32 iterationA, const PxI32 iterationB)
-{
-	PxSolverBody* PX_RESTRICT pBodyA = desc.bodyA;
-	PxSolverBody* PX_RESTRICT pBodyB = desc.bodyB;
-
-	const PxU32 requiredProgressA=(desc.bodyASolverProgress == 0xFFFF) ? 0xFFFF : PxU32(desc.bodyASolverProgress + iterationA * pBodyA->maxSolverNormalProgress + iterationB * pBodyA->maxSolverFrictionProgress);
-	const PxU32 requiredProgressB=(desc.bodyBSolverProgress == 0xFFFF) ? 0xFFFF : PxU32(desc.bodyBSolverProgress + iterationA * pBodyB->maxSolverNormalProgress + iterationB * pBodyB->maxSolverFrictionProgress);
-	PX_ASSERT(requiredProgressA!=0xFFFFFFFF || requiredProgressB!=0xFFFFFFFF);
-
-	const PxU32 solverProgressA = pBodyA->solverProgress;
-	const PxU32 solverProgressB = pBodyB->solverProgress;	
-
-	if(solverProgressA != requiredProgressA || solverProgressB != requiredProgressB)
-	{
-		BusyWaitStates(&pBodyA->solverProgress, &pBodyB->solverProgress, requiredProgressA, requiredProgressB);
-	}	
-}
-
-PX_FORCE_INLINE void IncrementBodyProgress(const PxSolverConstraintDesc& desc)
-{
-	PxSolverBody* PX_RESTRICT pBodyA = desc.bodyA;
-	PxSolverBody* PX_RESTRICT pBodyB = desc.bodyB;
-
-	const PxU32 maxProgressA = pBodyA->maxSolverNormalProgress;
-	const PxU32 maxProgressB = pBodyB->maxSolverNormalProgress;
-
-	//NB - this approach removes the need for an imul (which is a non-pipeline instruction on PPC chips)
-	const PxU32 requiredProgressA=(maxProgressA == 0xFFFF) ? 0xFFFF : pBodyA->solverProgress + 1;
-	const PxU32 requiredProgressB=(maxProgressB == 0xFFFF) ? 0xFFFF : pBodyB->solverProgress + 1;
-
-	volatile PxU32* solveProgressA = &pBodyA->solverProgress;
-	volatile PxU32* solveProgressB = &pBodyB->solverProgress;
-
-	*solveProgressA=requiredProgressA;
-	*solveProgressB=requiredProgressB;
-
-}
-
-
 class BatchIterator
 {
 public:
@@ -127,10 +88,9 @@ private:
 };
 
 
-template<bool bWaitIncrement>
-void SolveBlockParallel	(PxSolverConstraintDesc* PX_RESTRICT constraintList, const PxI32 batchCount, const PxI32 index,  
+inline void SolveBlockParallel	(PxSolverConstraintDesc* PX_RESTRICT constraintList, const PxI32 batchCount, const PxI32 index,  
 						 const PxI32 headerCount, SolverContext& cache, BatchIterator& iterator,
-						 SolveBlockMethod solveTable[], const PxI32 normalIteration, const PxI32 frictionIteration,
+						 SolveBlockMethod solveTable[],
 						 const PxI32 iteration
 						)
 {
@@ -152,22 +112,10 @@ void SolveBlockParallel	(PxSolverConstraintDesc* PX_RESTRICT constraintList, con
 		{
 			Ps::prefetchLine(block[b].bodyA);
 			Ps::prefetchLine(block[b].bodyB);
-			if(bWaitIncrement)
-				WaitBodyABodyBRequiredState(block[b], normalIteration, frictionIteration);
 		}
 
 		//OK. We have a number of constraints to run...
 		solveTable[header.mConstraintType](block, PxU32(numToGrab), cache);
-
-		//Increment body progresses
-		if(bWaitIncrement)
-		{
-			Ps::memoryBarrier();
-			for(PxI32 j = 0; j < numToGrab; ++j)
-			{
-				IncrementBodyProgress(block[j]);	
-			}
-		}
 	}
 }
 

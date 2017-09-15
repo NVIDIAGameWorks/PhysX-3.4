@@ -361,6 +361,7 @@ namespace physx
 						bounceThreshold,
 						frictionOffsetThreshold,
 						correlationDistance,
+						0.f,
 						allocator);
 				}
 			}
@@ -369,7 +370,8 @@ namespace physx
 			{
 				for (PxU32 a = 0; a < batchHeader.mStride; ++a)
 				{
-					Dy::createFinalizeSolverContacts(contactDescs[currentContactDescIdx + a], cb, invDt, bounceThreshold, frictionOffsetThreshold, correlationDistance, allocator);
+					Dy::createFinalizeSolverContacts(contactDescs[currentContactDescIdx + a], cb, invDt, bounceThreshold, frictionOffsetThreshold, 
+						correlationDistance, 0.f, allocator);
 				}
 			}
 			PxU8 type = *contactDescs[currentContactDescIdx].desc->constraint;

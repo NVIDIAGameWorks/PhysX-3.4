@@ -118,7 +118,8 @@ A fabric consists of <code>phases</code> that represent a group of internal cons
 <li>A phase consists of the type of constraints, the index of the set referencing the indices.</li>
 </ul>
 Additionally, a fabric also stores the data for the tether constraints, which limit the distances between two particles. The tether constraints are stored in an array, and the index of a constraint determines which particle is affected: element i affects particle iN, where N is the number of particles. The tether anchor is the index of the other particle, and the tether length is the maximum distance that these two particles are allowed to be away from each other. A tether constraint is momentum conserving if the anchor particle has infinite mass (zero inverse weight).<p>
-<dl class="see" compact><dt><b>See also:</b></dt><dd>The fabric structure can be created from a mesh using <a class="el" href="group__extensions.html#gf39f6f4f4aa2bdadc81159d28a648c20" title="Cooks a triangle mesh to a PxClothFabric.">PxClothFabricCreate</a>. Alternatively, the fabric data can be saved into a stream (see <a class="el" href="classPxClothFabricCooker.html#6d9657cf26e9eece0d0fe66dfaf5f12a" title="Saves the fabric data to a platform and version dependent stream.">PxClothFabricCooker.save()</a>) and later created from the stream using <a class="el" href="classPxPhysics.html#c32634024422793b65190304c4631494" title="Creates a cloth fabric object.">PxPhysics.createClothFabric(PxInputStream&amp;)</a>. </dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000066">Deprecated:</a></b></dt><dd>The PhysX cloth feature has been deprecated in PhysX version 3.4.1</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd>The fabric structure can be created from a mesh using <a class="el" href="group__extensions.html#gf39f6f4f4aa2bdadc81159d28a648c20" title="Cooks a triangle mesh to a PxClothFabric.">PxClothFabricCreate</a>. Alternatively, the fabric data can be saved into a stream (see <a class="el" href="classPxClothFabricCooker.html#6d9657cf26e9eece0d0fe66dfaf5f12a" title="Saves the fabric data to a platform and version dependent stream.">PxClothFabricCooker.save()</a>) and later created from the stream using <a class="el" href="classPxPhysics.html#aff72c208eb0bb4faa418c1f258707d9" title="Creates a cloth fabric object.">PxPhysics.createClothFabric(PxInputStream&amp;)</a>. </dd></dl>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" name="57fdb4cae7066205298f234ff7e5c15d"></a><!-- doxytag: member="PxClothFabric::PxClothFabric" ref="57fdb4cae7066205298f234ff7e5c15d" args="(PxType concreteType, PxBaseFlags baseFlags)" -->
 <div class="memitem">
@@ -669,7 +670,7 @@ Returns whether a given type name matches with the type of this instance.
 <p>
 Decrements the cloth fabric's reference count, and releases it if the new reference count is zero. 
 <p>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html#c32634024422793b65190304c4631494" title="Creates a cloth fabric object.">PxPhysics.createClothFabric()</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html#aff72c208eb0bb4faa418c1f258707d9" title="Creates a cloth fabric object.">PxPhysics.createClothFabric()</a> </dd></dl>
 
 <p>Implements <a class="el" href="classPxBase.html#fe6aedda1df0d6d29b1a28213a5ee25a">PxBase</a>.</p>
 

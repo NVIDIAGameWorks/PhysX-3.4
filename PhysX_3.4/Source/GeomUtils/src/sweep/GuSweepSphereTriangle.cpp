@@ -326,7 +326,10 @@ bool Gu::sweepSphereTriangles(	PxU32 nbTris, const PxTriangle* PX_RESTRICT trian
 			continue;
 
 		if(currentDistance==0.0f)
+		{
+			triNormalOut = -unitDir;
 			return setInitialOverlapResults(h, unitDir, i);
+		}
 
 		curT = currentDistance;
 		index = i;		

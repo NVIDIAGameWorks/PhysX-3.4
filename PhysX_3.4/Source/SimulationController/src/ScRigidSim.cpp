@@ -68,12 +68,31 @@ Sc::RigidSim::~RigidSim()
 	scScene.getRigidIDTracker().releaseID(mRigidId);
 }
 
+bool notifyActorInteractionsOfTransformChange(Sc::ActorSim& actor);
 void Sc::RigidSim::notifyShapesOfTransformChange()
 {
-	for(ElementSim* e = getElements_(); e!=0; e = e->mNextInActor)
+	if(0)
 	{
-		if(e->getElementType() == ElementType::eSHAPE)
-			static_cast<Sc::ShapeSim*>(e)->onVolumeOrTransformChange(true);
+		for(ElementSim* e = getElements_(); e!=0; e = e->mNextInActor)
+		{
+			if(e->getElementType() == ElementType::eSHAPE)
+				static_cast<Sc::ShapeSim*>(e)->onVolumeOrTransformChange(true);
+		}
+	}
+	else
+	{
+		const bool isDynamic = notifyActorInteractionsOfTransformChange(*this);
+
+		ElementSim* current = getElements_();
+		while(current)
+		{
+			if(current->getElementType() == ElementType::eSHAPE)
+			{
+				ShapeSim* sim = static_cast<ShapeSim*>(current);
+				sim->markBoundsForUpdate(false, isDynamic);
+			}
+			current = current->mNextInActor;
+		}
 	}
 }
 

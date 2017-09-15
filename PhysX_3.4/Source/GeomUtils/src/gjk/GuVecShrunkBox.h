@@ -77,6 +77,7 @@ namespace Gu
 		{
 		}
 
+		//this is used by CCD system
 		PX_INLINE ShrunkBoxV(const PxGeometry& geom) : BoxV(geom)
 		{
 			margin = minExtent * BOX_MARGIN_CCD_RATIO;
@@ -90,8 +91,8 @@ namespace Gu
 		\param extent Extents/radii of the obb.
 		*/
 
-		PX_FORCE_INLINE ShrunkBoxV(const Ps::aos::Vec3VArg origin, const Ps::aos::Vec3VArg extent) : 
-																				BoxV(origin, extent)
+		PX_FORCE_INLINE ShrunkBoxV(const Ps::aos::Vec3VArg origin, const Ps::aos::Vec3VArg extent) 
+			: BoxV(origin, extent)
 		{
 			//calculate margin
 			margin = minExtent * BOX_MARGIN_RATIO;
@@ -103,6 +104,13 @@ namespace Gu
 		*/
 		PX_INLINE ~ShrunkBoxV()
 		{
+		}
+
+		PX_FORCE_INLINE void resetMargin(const PxReal toleranceLength)
+		{
+			BoxV::resetMargin(toleranceLength);
+			margin = PxMin(toleranceLength * BOX_MARGIN_RATIO, margin);
+			initialiseMarginDif();
 		}
 
 		//! Assignment operator

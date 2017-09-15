@@ -95,7 +95,7 @@ const SerializePlatform &GetCurrentPlatform()
 		platform.osType = SerializePlatform::OS_ANDROID;
 #	elif PX_LINUX == 1
 		platform.osType = SerializePlatform::OS_LINUX;
-#	elif PX_NX == 1
+#	elif PX_SWITCH == 1
 		platform.osType = SerializePlatform::OS_HOS;		
 #	else
 #		error "Undefined OS"

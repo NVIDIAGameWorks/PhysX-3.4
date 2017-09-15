@@ -74,9 +74,9 @@ PhysXCharacterKinematic_debug_defines   += PX_CHECKED=1
 PhysXCharacterKinematic_debug_defines   += PX_SUPPORT_PVD=1
 PhysXCharacterKinematic_debug_defines   += PX_NVTX=1
 PhysXCharacterKinematic_debug_libraries := 
-PhysXCharacterKinematic_debug_libraries += PhysX3CommonDEBUG
 PhysXCharacterKinematic_debug_libraries += PhysX3ExtensionsDEBUG
 PhysXCharacterKinematic_debug_libraries += PxFoundationDEBUG
+PhysXCharacterKinematic_debug_libraries += PhysX3CommonDEBUG
 PhysXCharacterKinematic_debug_common_cflags	:= $(PhysXCharacterKinematic_custom_cflags)
 PhysXCharacterKinematic_debug_common_cflags    += -MMD
 PhysXCharacterKinematic_debug_common_cflags    += $(addprefix -D, $(PhysXCharacterKinematic_debug_defines))
@@ -116,7 +116,7 @@ postbuild_PhysXCharacterKinematic_debug: mainbuild_PhysXCharacterKinematic_debug
 mainbuild_PhysXCharacterKinematic_debug: prebuild_PhysXCharacterKinematic_debug $(PhysXCharacterKinematic_debug_bin)
 prebuild_PhysXCharacterKinematic_debug:
 
-$(PhysXCharacterKinematic_debug_bin): $(PhysXCharacterKinematic_debug_obj) build_PhysXCommon_debug build_PhysXExtensions_debug build_PxFoundation_debug 
+$(PhysXCharacterKinematic_debug_bin): $(PhysXCharacterKinematic_debug_obj) build_PhysXExtensions_debug build_PxFoundation_debug build_PhysXCommon_debug 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3CharacterKinematicDEBUG.a`
 	@$(AR) rcs $(PhysXCharacterKinematic_debug_bin) $(PhysXCharacterKinematic_debug_obj)
 	$(ECHO) building $@ complete!
@@ -193,9 +193,9 @@ PhysXCharacterKinematic_checked_defines   += PX_CHECKED=1
 PhysXCharacterKinematic_checked_defines   += PX_SUPPORT_PVD=1
 PhysXCharacterKinematic_checked_defines   += PX_NVTX=1
 PhysXCharacterKinematic_checked_libraries := 
-PhysXCharacterKinematic_checked_libraries += PhysX3CommonCHECKED
 PhysXCharacterKinematic_checked_libraries += PhysX3ExtensionsCHECKED
 PhysXCharacterKinematic_checked_libraries += PxFoundationCHECKED
+PhysXCharacterKinematic_checked_libraries += PhysX3CommonCHECKED
 PhysXCharacterKinematic_checked_common_cflags	:= $(PhysXCharacterKinematic_custom_cflags)
 PhysXCharacterKinematic_checked_common_cflags    += -MMD
 PhysXCharacterKinematic_checked_common_cflags    += $(addprefix -D, $(PhysXCharacterKinematic_checked_defines))
@@ -237,7 +237,7 @@ postbuild_PhysXCharacterKinematic_checked: mainbuild_PhysXCharacterKinematic_che
 mainbuild_PhysXCharacterKinematic_checked: prebuild_PhysXCharacterKinematic_checked $(PhysXCharacterKinematic_checked_bin)
 prebuild_PhysXCharacterKinematic_checked:
 
-$(PhysXCharacterKinematic_checked_bin): $(PhysXCharacterKinematic_checked_obj) build_PhysXCommon_checked build_PhysXExtensions_checked build_PxFoundation_checked 
+$(PhysXCharacterKinematic_checked_bin): $(PhysXCharacterKinematic_checked_obj) build_PhysXExtensions_checked build_PxFoundation_checked build_PhysXCommon_checked 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3CharacterKinematicCHECKED.a`
 	@$(AR) rcs $(PhysXCharacterKinematic_checked_bin) $(PhysXCharacterKinematic_checked_obj)
 	$(ECHO) building $@ complete!
@@ -314,9 +314,9 @@ PhysXCharacterKinematic_profile_defines   += PX_PROFILE=1
 PhysXCharacterKinematic_profile_defines   += PX_SUPPORT_PVD=1
 PhysXCharacterKinematic_profile_defines   += PX_NVTX=1
 PhysXCharacterKinematic_profile_libraries := 
-PhysXCharacterKinematic_profile_libraries += PhysX3CommonPROFILE
 PhysXCharacterKinematic_profile_libraries += PhysX3ExtensionsPROFILE
 PhysXCharacterKinematic_profile_libraries += PxFoundationPROFILE
+PhysXCharacterKinematic_profile_libraries += PhysX3CommonPROFILE
 PhysXCharacterKinematic_profile_common_cflags	:= $(PhysXCharacterKinematic_custom_cflags)
 PhysXCharacterKinematic_profile_common_cflags    += -MMD
 PhysXCharacterKinematic_profile_common_cflags    += $(addprefix -D, $(PhysXCharacterKinematic_profile_defines))
@@ -358,7 +358,7 @@ postbuild_PhysXCharacterKinematic_profile: mainbuild_PhysXCharacterKinematic_pro
 mainbuild_PhysXCharacterKinematic_profile: prebuild_PhysXCharacterKinematic_profile $(PhysXCharacterKinematic_profile_bin)
 prebuild_PhysXCharacterKinematic_profile:
 
-$(PhysXCharacterKinematic_profile_bin): $(PhysXCharacterKinematic_profile_obj) build_PhysXCommon_profile build_PhysXExtensions_profile build_PxFoundation_profile 
+$(PhysXCharacterKinematic_profile_bin): $(PhysXCharacterKinematic_profile_obj) build_PhysXExtensions_profile build_PxFoundation_profile build_PhysXCommon_profile 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3CharacterKinematicPROFILE.a`
 	@$(AR) rcs $(PhysXCharacterKinematic_profile_bin) $(PhysXCharacterKinematic_profile_obj)
 	$(ECHO) building $@ complete!
@@ -433,9 +433,9 @@ PhysXCharacterKinematic_release_defines   += PX_PHYSX_STATIC_LIB
 PhysXCharacterKinematic_release_defines   += NDEBUG
 PhysXCharacterKinematic_release_defines   += PX_SUPPORT_PVD=0
 PhysXCharacterKinematic_release_libraries := 
-PhysXCharacterKinematic_release_libraries += PhysX3Common
 PhysXCharacterKinematic_release_libraries += PhysX3Extensions
 PhysXCharacterKinematic_release_libraries += PxFoundation
+PhysXCharacterKinematic_release_libraries += PhysX3Common
 PhysXCharacterKinematic_release_common_cflags	:= $(PhysXCharacterKinematic_custom_cflags)
 PhysXCharacterKinematic_release_common_cflags    += -MMD
 PhysXCharacterKinematic_release_common_cflags    += $(addprefix -D, $(PhysXCharacterKinematic_release_defines))
@@ -477,7 +477,7 @@ postbuild_PhysXCharacterKinematic_release: mainbuild_PhysXCharacterKinematic_rel
 mainbuild_PhysXCharacterKinematic_release: prebuild_PhysXCharacterKinematic_release $(PhysXCharacterKinematic_release_bin)
 prebuild_PhysXCharacterKinematic_release:
 
-$(PhysXCharacterKinematic_release_bin): $(PhysXCharacterKinematic_release_obj) build_PhysXCommon_release build_PhysXExtensions_release build_PxFoundation_release 
+$(PhysXCharacterKinematic_release_bin): $(PhysXCharacterKinematic_release_obj) build_PhysXExtensions_release build_PxFoundation_release build_PhysXCommon_release 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3CharacterKinematic.a`
 	@$(AR) rcs $(PhysXCharacterKinematic_release_bin) $(PhysXCharacterKinematic_release_obj)
 	$(ECHO) building $@ complete!

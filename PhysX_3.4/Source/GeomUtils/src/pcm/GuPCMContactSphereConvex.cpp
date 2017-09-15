@@ -136,8 +136,8 @@ bool pcmContactSphereConvex(GU_CONTACT_METHOD_ARGS)
 	const PsTransformV curRTrans(transf1.transformInv(transf0));
 	const PsMatTransformV aToB(curRTrans);
 	
-	
-	const FloatV convexMargin = Gu::CalculatePCMConvexMargin(hullData, vScale);
+	const PxReal toleranceLength = params.mToleranceLength;
+	const FloatV convexMargin = Gu::CalculatePCMConvexMargin(hullData, vScale, toleranceLength);
 
 	const PxU32 initialContacts = manifold.mNumContacts;
 	const FloatV minMargin = FMin(convexMargin, sphereRadius);
@@ -169,7 +169,7 @@ bool pcmContactSphereConvex(GU_CONTACT_METHOD_ARGS)
 		const bool idtScale = shapeConvex.scale.isIdentity();
 		//use the original shape
 		ConvexHullV convexHull(hullData, zeroV, vScale, vQuat, idtScale);
-		convexHull.setMargin(zero);
+		convexHull.setMargin(0.f);
 		//transform capsule into the local space of convexHull
 		CapsuleV capsule(aToB.p, sphereRadius);
 

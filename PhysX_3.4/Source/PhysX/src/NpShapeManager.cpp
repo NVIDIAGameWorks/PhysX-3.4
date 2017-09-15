@@ -103,32 +103,26 @@ void NpShapeManager::attachShape(NpShape& shape, PxRigidActor& actor)
 	shape.onActorAttach(actor);
 }
 				 
-void NpShapeManager::detachShape(NpShape& s, PxRigidActor& actor, bool wakeOnLostTouch)
+bool NpShapeManager::detachShape(NpShape& s, PxRigidActor& actor, bool wakeOnLostTouch)
 {
 	PX_ASSERT(!mPruningStructure);
 
-	PtrTableStorageManager& sm = NpFactory::getInstance().getPtrTableStorageManager();
-
 	const PxU32 index = mShapes.find(&s);
-	PX_ASSERT(index!=0xffffffff);
-
-	Scb::RigidObject& ro = static_cast<Scb::RigidObject&>(NpActor::getScbFromPxActor(actor));
+	if(index==0xffffffff)
+		return false;
 
 	NpScene* scene = NpActor::getAPIScene(actor);
 	if(scene && isSceneQuery(s))
 		scene->getSceneQueryManagerFast().removePrunerShape(getPrunerData(index));
 
-	Scb::Shape& scbShape = s.getScbShape();
-	ro.onShapeDetach(scbShape, wakeOnLostTouch, (s.getRefCount() == 1));
+	Scb::RigidObject& ro = static_cast<Scb::RigidObject&>(NpActor::getScbFromPxActor(actor));
+	ro.onShapeDetach(s.getScbShape(), wakeOnLostTouch, (s.getRefCount() == 1));
+	PtrTableStorageManager& sm = NpFactory::getInstance().getPtrTableStorageManager();
 	mShapes.replaceWithLast(index, sm);
 	mSceneQueryData.replaceWithLast(index, sm);
 	
 	s.onActorDetach();
-}
-
-bool NpShapeManager::shapeIsAttached(NpShape& s) const
-{
-	return mShapes.find(&s)!=0xffffffff;
+	return true;
 }
 
 void NpShapeManager::detachAll(NpScene* scene)
@@ -290,24 +284,6 @@ void NpShapeManager::teardownSceneQuery(SceneQueryManager& sqManager, PxU32 inde
 #include "PxMeshQuery.h"
 #include "GuConvexEdgeFlags.h"
 #include "GuMidphaseInterface.h"
-
-static const PxDebugColor::Enum gColors[] =
-{
-	PxDebugColor::eARGB_BLACK,		
-	PxDebugColor::eARGB_RED,		
-	PxDebugColor::eARGB_GREEN,		
-	PxDebugColor::eARGB_BLUE,		
-	PxDebugColor::eARGB_YELLOW,	
-	PxDebugColor::eARGB_MAGENTA,	
-	PxDebugColor::eARGB_CYAN,		
-	PxDebugColor::eARGB_WHITE,		
-	PxDebugColor::eARGB_GREY,		
-	PxDebugColor::eARGB_DARKRED,	
-	PxDebugColor::eARGB_DARKGREEN,	
-	PxDebugColor::eARGB_DARKBLUE,	
-};
-
-static const PxU32 gColorCount = sizeof(gColors)/sizeof(PxDebugColor::Enum);
 
 static const PxU32 gCollisionShapeColor = PxU32(PxDebugColor::eARGB_MAGENTA);
 
@@ -528,7 +504,7 @@ static void visualizeTriangleMesh(const PxTriangleMeshGeometry& geometry, Render
 	{
 		if(visualizeShapes)
 		{
-			PxU32 scolor = gCollisionShapeColor;
+			const PxU32 scolor = gCollisionShapeColor;
 
 			out << midt << scolor;	// PT: no need to output this for each segment!
 
@@ -542,11 +518,6 @@ static void visualizeTriangleMesh(const PxTriangleMeshGeometry& geometry, Render
 			{
 				PxVec3 wp[3];
 				getTriangle(*triangleMesh, i, wp, transformed, indices, has16Bit);
-				const PxU32 localMaterialIndex = triangleMesh->getTriangleMaterialIndex(i);
-				// PT: TODO: I doubt this is correct. "localMaterialIndex" will be 0xffff for most meshes so
-				// the color we pick is basically random. Also, get rid of these modulos (==divisions)
-				scolor = gColors[localMaterialIndex % gColorCount];
-			
 				outputTriangle(segments, wp[0], wp[1], wp[2], scolor);
 				segments+=3;
 			}
@@ -569,8 +540,7 @@ static void visualizeHeightField(const PxHeightFieldGeometry& hfGeometry, Render
 	const HeightField* heightfield = static_cast<const HeightField*>(hfGeometry.heightField);
 
 	// PT: TODO: the debug viz for HFs is minimal at the moment...
-	// PT: TODO: REALLY? all shapes use magenta but HFs use yellow?
-	PxU32 scolor = PxU32(PxDebugColor::eARGB_YELLOW);
+	const PxU32 scolor = gCollisionShapeColor;
 	const PxMat44 midt = PxMat44(PxIdentity);
 
 	HeightFieldUtil hfUtil(hfGeometry);
@@ -603,10 +573,6 @@ static void visualizeHeightField(const PxHeightFieldGeometry& hfGeometry, Render
 			//The check has been done in the findOverlapHeightField
 			//if(heightfield->isValidTriangle(index) && heightfield->getTriangleMaterial(index) != PxHeightFieldMaterial::eHOLE)
 			{
-				const PxU16 localMaterialIndex = heightfield->getTriangleMaterialIndex(index);
-				// PT: TODO: optimize away modulos/divisions
-				scolor = gColors[localMaterialIndex % gColorCount];
-
 				outputTriangle(segments, currentTriangle.verts[0], currentTriangle.verts[1], currentTriangle.verts[2], scolor);
 				segments+=3;
 			}
@@ -623,15 +589,13 @@ static void visualizeHeightField(const PxHeightFieldGeometry& hfGeometry, Render
 
 		for(PxU32 i=0; i<nbTriangles; i++)
 		{
-			// PT: TODO: optimize away the useless divisions/modulos in the lines below
 			if(heightfield->isValidTriangle(i) && heightfield->getTriangleMaterial(i) != PxHeightFieldMaterial::eHOLE)
 			{
 				PxU32 vi0, vi1, vi2;
 				heightfield->getTriangleVertexIndices(i, vi0, vi1, vi2);
-				const PxU16 localMaterialIndex = heightfield->getTriangleMaterialIndex(i);
 
 				PxDebugLine* segments = out.reserveSegments(3);
-				outputTriangle(segments, tmpVerts[vi0], tmpVerts[vi1], tmpVerts[vi2], gColors[localMaterialIndex % gColorCount]);
+				outputTriangle(segments, tmpVerts[vi0], tmpVerts[vi1], tmpVerts[vi2], scolor);
 			}
 		}
 		PX_FREE(tmpVerts);
@@ -686,17 +650,17 @@ void NpShapeManager::visualize(RenderOutput& out, NpScene* scene, const PxRigidA
 	const bool visualizeCompounds = (nbShapes>1) && scene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_COMPOUNDS)!=0.0f;
 
 	// PT: moved all these out of the loop, no need to grab them once per shape
+	const PxBounds3& cullbox		= scene->getScene().getVisualizationCullingBox();
 	const bool visualizeAABBs		= scene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_AABBS)!=0.0f;
 	const bool visualizeShapes		= scene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_SHAPES)!=0.0f;
 	const bool visualizeEdges		= scene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_EDGES)!=0.0f;
 	const float fNormals			= scene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_FNORMALS);
 	const bool visualizeFNormals	= fNormals!=0.0f;
 	const bool visualizeCollision	= visualizeShapes || visualizeFNormals || visualizeEdges;
-	const bool useCullBox			= scene->getVisualizationParameter(PxVisualizationParameter::eCULL_BOX)!=0.0f;
+	const bool useCullBox			= !cullbox.isEmpty();
 	const bool needsShapeBounds0	= visualizeCompounds || (visualizeCollision && useCullBox);
 	const PxReal collisionAxes		= scale * scene->getVisualizationParameter(PxVisualizationParameter::eCOLLISION_AXES);
 	const PxReal fscale				= scale * fNormals;
-	const PxBounds3& cullbox		= scene->getScene().getVisualizationCullingBox();
 
 	const PxTransform actorPose = actor.getGlobalPose();
 

@@ -365,6 +365,7 @@ struct PxsCCDPair
 	PxReal					mRestitution;			// The restitution coefficient
 	PxU32					mEstimatePass;			// The current estimation pass. Used after a sweep hit was found to determine if the pair needs re-estimating.
 	PxReal					mAppliedForce;			// The applied force for this pair. Only valid if the pair has been responded to.
+	PxReal					mMaxImpulse;			// The maximum impulse to be applied 
 
 	E_TOIType				mToiType;				// The TOI type (estimate, precise).
 	bool					mHasFriction;			// Whether we want to simulate CCD friction for this pair

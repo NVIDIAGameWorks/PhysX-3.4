@@ -87,7 +87,7 @@
 		</ClCompile>
 		<Link>
 			<AdditionalOptions>/MAP /MACHINE:x86 /DELAYLOAD:nvcuda.dll /DELAYLOAD:PxFoundationDEBUG_x86.dll /DELAYLOAD:PxPvdSDKDEBUG_x86.dll /DELAYLOAD:PhysX3CommonDEBUG_x86.dll /DEBUG</AdditionalOptions>
-			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;./../../../Lib/vc14win32/PhysX3GpuDEBUG_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)PhysX3DEBUG_x86.dll</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
@@ -133,7 +133,7 @@
 		</ClCompile>
 		<Link>
 			<AdditionalOptions>/MAP /MACHINE:x86 /DELAYLOAD:nvcuda.dll /DELAYLOAD:PxFoundationCHECKED_x86.dll /DELAYLOAD:PxPvdSDKCHECKED_x86.dll /DELAYLOAD:PhysX3CommonCHECKED_x86.dll</AdditionalOptions>
-			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;./../../../Lib/vc14win32/PhysX3GpuCHECKED_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)PhysX3CHECKED_x86.dll</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
@@ -179,7 +179,7 @@
 		</ClCompile>
 		<Link>
 			<AdditionalOptions>/MAP /MACHINE:x86 /DELAYLOAD:nvcuda.dll /DELAYLOAD:PxFoundationPROFILE_x86.dll /DELAYLOAD:PxPvdSDKPROFILE_x86.dll /DELAYLOAD:PhysX3CommonPROFILE_x86.dll /INCREMENTAL:NO /DEBUG</AdditionalOptions>
-			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;./../../../Lib/vc14win32/PhysX3GpuPROFILE_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)PhysX3PROFILE_x86.dll</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
@@ -225,7 +225,7 @@
 		</ClCompile>
 		<Link>
 			<AdditionalOptions>/MAP /MACHINE:x86 /DELAYLOAD:nvcuda.dll /DELAYLOAD:PxFoundation_x86.dll /DELAYLOAD:PxPvdSDK_x86.dll /DELAYLOAD:PhysX3Common_x86.dll /INCREMENTAL:NO</AdditionalOptions>
-			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;./../../../Lib/vc14win32/PhysX3Gpu_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)PhysX3_x86.dll</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>

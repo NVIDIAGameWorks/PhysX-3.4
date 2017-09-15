@@ -34,7 +34,6 @@
 // The source code for the generate was at one time checked into:
 // physx/PhysXMetaDataGenerator/llvm/tools/clang/lib/Frontend/PhysXMetaDataAction.cpp
 #include "PxVehicleMetaDataObjects.h"
-#include "PxPhysicsAPI.h"
 #include "PxMetaDataCppPrefix.h"
 #include "PxVehicleSuspWheelTire4.h"
 using namespace physx;

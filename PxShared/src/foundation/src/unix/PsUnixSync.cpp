@@ -61,10 +61,9 @@ _SyncImpl* getSync(SyncImpl* impl)
 }
 }
 
-static const uint32_t gSize = sizeof(_SyncImpl);
-const uint32_t& SyncImpl::getSize()
+uint32_t SyncImpl::getSize()
 {
-	return gSize;
+	return sizeof(_SyncImpl);
 }
 
 struct PxUnixScopeLock

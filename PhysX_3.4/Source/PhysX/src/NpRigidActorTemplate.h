@@ -233,14 +233,16 @@ template<class APIClass>
 void NpRigidActorTemplate<APIClass>::detachShape(PxShape& shape, bool wakeOnLostTouch)
 {
 	NP_WRITE_CHECK(NpActor::getOwnerScene(*this));
-	PX_CHECK_AND_RETURN(mShapeManager.shapeIsAttached(static_cast<NpShape&>(shape)), "PxRigidActor::detachShape: shape is not attached!")
 	if (mShapeManager.getPruningStructure())
 	{
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxRigidActor::detachShape: Actor is part of a pruning structure, pruning structure is now invalid!");
 		mShapeManager.getPruningStructure()->invalidate(this);
 	}
 
-	mShapeManager.detachShape(static_cast<NpShape&>(shape), *this, wakeOnLostTouch);
+	if(!mShapeManager.detachShape(static_cast<NpShape&>(shape), *this, wakeOnLostTouch))
+	{
+		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxRigidActor::detachShape: shape is not attached to this actor!");
+	}
 }
 
 

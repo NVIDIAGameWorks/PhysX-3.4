@@ -350,8 +350,8 @@ static const char* getUINameForPhysXParam(physx::PxVisualizationParameter::Enum 
 		return "Body Lin Velocity";
 	case PxVisualizationParameter::eBODY_ANG_VELOCITY:
 		return "Body Ang Velocity";
-	case PxVisualizationParameter::eBODY_JOINT_GROUPS:
-		return "Body Joint";
+	case PxVisualizationParameter::eDEPRECATED_BODY_JOINT_GROUPS:
+		return "Body Joint (Deprecated)";
 	case PxVisualizationParameter::eCONTACT_POINT:
 		return "Contact Point";
 	case PxVisualizationParameter::eCONTACT_NORMAL:

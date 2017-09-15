@@ -115,8 +115,9 @@ struct SolverContactBatchPointBase4
 	Vec4V velMultiplier;
 	Vec4V scaledBias;
 	Vec4V biasedErr;
+	Vec4V maxContactImpulse;
 };
-PX_COMPILE_TIME_ASSERT(sizeof(SolverContactBatchPointBase4) == 96);
+PX_COMPILE_TIME_ASSERT(sizeof(SolverContactBatchPointBase4) == 112);
 
 /**
 \brief Contains the additional data required to represent 4 contacts between 2 dynamic bodies
@@ -128,7 +129,7 @@ struct SolverContactBatchPointDynamic4 : public SolverContactBatchPointBase4
 	Vec4V rbXnY;
 	Vec4V rbXnZ;
 }; 
-PX_COMPILE_TIME_ASSERT(sizeof(SolverContactBatchPointDynamic4) == 144);
+PX_COMPILE_TIME_ASSERT(sizeof(SolverContactBatchPointDynamic4) == 160);
 
 /**
 \brief This represents the shared information of a batch of 4 friction constraints

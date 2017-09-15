@@ -619,6 +619,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 	mCollideStep					(contextID, this, "ScScene.collideStep"),	
 	mTaskPool						(16384),
 	mContactReportsNeedPostSolverVelocity(false),
+	mUseGpuRigidBodies				(false),
 	mSimulationStage				(SimulationStage::eCOMPLETE),
 	mTmpConstraintGroupRootBuffer	(NULL),
 	mPosePreviewBodies				(PX_DEBUG_EXP("scenePosePreviewBodies"))
@@ -693,6 +694,8 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 			useGpuBroadphase = false;
 	}
 #endif
+
+	mUseGpuRigidBodies = useGpuBroadphase || useGpuDynamics;
 
 	mLLContext = PX_NEW(PxsContext)(desc, mTaskManager, mTaskPool, contextID);
 	
@@ -773,7 +776,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 		mDynamicsContext = createDynamicsContext
 			(&mLLContext->getNpMemBlockPool(), mLLContext->getScratchAllocator(),
 			mLLContext->getTaskPool(), mLLContext->getSimStats(), &mLLContext->getTaskManager(), allocatorCallback, &getMaterialManager(),
-			&mSimpleIslandManager->getAccurateIslandSim(), contextID, mEnableStabilization, useEnhancedDeterminism, useAdaptiveForce);
+			&mSimpleIslandManager->getAccurateIslandSim(), contextID, mEnableStabilization, useEnhancedDeterminism, useAdaptiveForce, desc.maxBiasCoefficient);
 
 		mLLContext->setNphaseImplementationContext(createNphaseImplementationContext(*mLLContext, &mSimpleIslandManager->getAccurateIslandSim()));
 
@@ -786,7 +789,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 	{
 #if PX_SUPPORT_GPU_PHYSX
 		mDynamicsContext = PxvGetPhysXGpu(true)->createGpuDynamicsContext(mLLContext->getTaskPool(), mGpuWranglerManagers, mLLContext->getTaskManager().getGpuDispatcher(), NULL,
-			desc.gpuDynamicsConfig, &mSimpleIslandManager->getAccurateIslandSim(), desc.gpuMaxNumPartitions, mEnableStabilization, useEnhancedDeterminism, useAdaptiveForce, desc.gpuComputeVersion, mLLContext->getSimStats(),
+			desc.gpuDynamicsConfig, &mSimpleIslandManager->getAccurateIslandSim(), desc.gpuMaxNumPartitions, mEnableStabilization, useEnhancedDeterminism, useAdaptiveForce, desc.maxBiasCoefficient, desc.gpuComputeVersion, mLLContext->getSimStats(),
 			mHeapMemoryAllocationManager);
 
 		void* contactStreamBase = NULL;
@@ -838,6 +841,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 	setSolverBatchSize(desc.solverBatchSize);
 	mDynamicsContext->setFrictionOffsetThreshold(desc.frictionOffsetThreshold);
 	mDynamicsContext->setCCDSeparationThreshold(desc.ccdMaxSeparation);
+	mDynamicsContext->setSolverOffsetSlop(desc.solverOffsetSlop);
 
 	const PxTolerancesScale& scale = Physics::getInstance().getTolerancesScale();
 	mDynamicsContext->setCorrelationDistance(0.025f * scale.length);
@@ -2129,6 +2133,8 @@ void Sc::Scene::postBroadPhase(PxBaseTask* continuation)
 
 void Sc::Scene::postBroadPhaseStage2(PxBaseTask* continuation)
 {
+	// - Wakes actors that lost touch if appropriate
+	processLostTouchPairs();
 	//Release unused Cms back to the pool (later, this needs to be done in a thread-safe way from multiple worker threads
 	mIslandInsertion.setContinuation(continuation);
 	mRegisterContactManagers.setContinuation(continuation);
@@ -6056,8 +6062,8 @@ void Sc::Scene::islandInsertion(PxBaseTask* /*continuation*/)
 			}
 		}
 
-		// - Wakes actors that lost touch if appropriate
-		processLostTouchPairs();
+		//// - Wakes actors that lost touch if appropriate
+		//processLostTouchPairs();
 
 		if(mCCDPass == 0)
 		{

@@ -688,7 +688,7 @@ bool PxsCCDPair::sweepAdvanceToToi(PxReal dt, bool clipTrajectoryToToi)
 #else
 			const PxReal impulseDivisor = sumRecipMass;
 #endif
-			const PxReal jImp = normalResponse/impulseDivisor;
+			const PxReal jImp = PxMax(-mMaxImpulse, normalResponse/impulseDivisor);
 
 			PxVec3 j(0.f);
 
@@ -1016,7 +1016,7 @@ public:
 						mCCDContext->getCCDContactModifyCallback())
 					{
 
-						PxU8 dataBuffer[sizeof(PxModifiableContact) + sizeof(PxContactPatch)];
+						PX_ALIGN(16, PxU8 dataBuffer[sizeof(PxModifiableContact) + sizeof(PxContactPatch)]);
 
 						PxContactPatch* patch = reinterpret_cast<PxContactPatch*>(dataBuffer);
 						PxModifiableContact* point = reinterpret_cast<PxModifiableContact*>(patch + 1);
@@ -1066,6 +1066,10 @@ public:
 							pair.mMinToi = PX_MAX_REAL;
 							continue;
 						}
+
+						if ((patch->internalFlags & PxContactPatch::eHAS_MAX_IMPULSE))
+							pair.mMaxImpulse = point->maxImpulse;
+
 						pair.mDynamicFriction = point->dynamicFriction;
 						pair.mStaticFriction = point->staticFriction;
 						pair.mRestitution = point->restitution;
@@ -1358,6 +1362,8 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 
 	mCCDOverlaps.clear_NoDelete();
 
+	PxU32 nbKinematicStaticCollisions = 0;
+
 
 	bool needsSweep = false;
 
@@ -1528,6 +1534,8 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 				}
 				
 				//We now create the CCD pair. These are used in the CCD sweep and update phases
+				if (ba0->isKinematic() && (ba1 == NULL || ba1->isKinematic()))
+					nbKinematicStaticCollisions++;
 				{
 					PxsCCDPair& p = mCCDPairs.pushBack();
 					p.mBa0 = ba0;
@@ -1544,6 +1552,8 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 					p.mFaceIndex = PXC_CONTACT_NO_FACE_INDEX;
 					p.mIsModifiable = cm->isChangeable() != 0;
 					p.mAppliedForce = 0.f;
+					p.mMaxImpulse = PxMin((ba0->mCore->mFlags & PxRigidBodyFlag::eENABLE_CCD_MAX_CONTACT_IMPULSE) ? ba0->mCore->maxContactImpulse : PX_MAX_F32, 
+						(ba1 && ba1->mCore->mFlags & PxRigidBodyFlag::eENABLE_CCD_MAX_CONTACT_IMPULSE) ? ba1->mCore->maxContactImpulse : PX_MAX_F32);
 
 #if PX_ENABLE_SIM_STATS
 					mContext->mSimStats.mNbCCDPairs[PxMin(p.mG0, p.mG1)][PxMax(p.mG0, p.mG1)] ++;
@@ -1594,7 +1604,7 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 	const PxU16 noLabelYet = 0xFFFF;
 	
 	//Temporary array allocations. Ideally, we should use the scratch pad for there
-	Array<PxU16> islandLabels; 
+	Array<PxU32> islandLabels; 
 	islandLabels.resize(ccdBodyCount);
 	Array<const PxsCCDBody*> stack; 
 	stack.reserve(ccdBodyCount);
@@ -1608,7 +1618,7 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 	for (PxU32 j = 0; j < ccdBodyCount; j++)
 		islandLabels[j] = noLabelYet;
 
-	PxU16 islandCount = 0;
+	PxU32 islandCount = 0;
 	PxU32 stackSize = 0;
 	const PxsCCDBody* top = NULL;
 	
@@ -1653,6 +1663,15 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 		islandCount++;
 	}
 
+	PxU32 kinematicIslandId = islandCount;
+
+	islandCount += nbKinematicStaticCollisions;
+
+	for (PxU32 i = kinematicIslandId; i < islandCount; ++i)
+		mIslandSizes[i] = 1;
+
+	
+
 		// --------------------------------------------------------------------------------------
 	// label pairs with island ids
 	// (need an extra loop since we don't maintain a mapping from atom to all of it's pairs)
@@ -1666,11 +1685,12 @@ void PxsCCDContext::updateCCD(PxReal dt, PxBaseTask* continuation, bool disableR
 		PxsCCDPair& p = *mCCDPtrPairs[j];
 		PxU32 id0 = p.mBa0 && !p.mBa0->isKinematic()? islandLabels[p.mBa0->mCCD->getIndex()] : staticLabel;
 		PxU32 id1 = p.mBa1 && !p.mBa1->isKinematic()? islandLabels[p.mBa1->mCCD->getIndex()] : staticLabel;
-		PX_ASSERT(id0 != 0xFFFF || id1 != 0xFFFF);
 
-		PX_ASSERT(id0 == staticLabel || id1 == staticLabel || (id0 == id1));
+		PxU32 islandId = PxMin(id0, id1);
+		if (islandId == staticLabel)
+			islandId = kinematicIslandId++;
 
-		p.mIslandId = PxMin(id0, id1);
+		p.mIslandId = islandId;
 		mCCDIslandHistogram[p.mIslandId] ++;
 		PX_ASSERT(p.mIslandId != staticLabel);
 		totalActivePairs++;

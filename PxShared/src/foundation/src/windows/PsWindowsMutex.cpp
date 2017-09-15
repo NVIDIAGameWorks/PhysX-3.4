@@ -99,11 +99,9 @@ void MutexImpl::unlock()
 	LeaveCriticalSection(&getMutex(this)->mLock);
 }
 
-static const uint32_t gSize = sizeof(MutexWinImpl);
-
-const uint32_t& MutexImpl::getSize()
+uint32_t MutexImpl::getSize()
 {
-	return gSize;
+	return sizeof(MutexWinImpl);
 }
 
 class ReadWriteLockImpl

@@ -58,7 +58,8 @@ namespace Dy
 	const PxReal invDtF32,									\
 	PxReal bounceThresholdF32,								\
 	PxReal frictionOffsetThreshold,							\
-	PxReal	correlationDistance,							\
+	PxReal correlationDistance,								\
+	PxReal solverOffsetSlop,								\
 	PxConstraintAllocator& constraintAllocator				
 
 #define CREATE_FINALIZE_SOVLER_CONTACT_METHOD_ARGS_4									\
@@ -69,6 +70,7 @@ namespace Dy
 								 PxReal bounceThresholdF32,								\
 								 PxReal	frictionThresholdF32,							\
 								 PxReal	correlationDistanceF32,							\
+								 PxReal solverOffsetSlopF32,							\
 								 PxConstraintAllocator& constraintAllocator				
 
 	
@@ -92,6 +94,7 @@ bool createFinalizeSolverContacts(	PxSolverContactDesc& contactDesc,
 									PxReal bounceThresholdF32,
 									PxReal frictionOffsetThreshold,
 									PxReal correlationDistance,
+									PxReal solverOffsetSlop,
 									PxConstraintAllocator& constraintAllocator);
 
 bool createFinalizeSolverContacts(	PxSolverContactDesc& contactDesc,
@@ -100,6 +103,7 @@ bool createFinalizeSolverContacts(	PxSolverContactDesc& contactDesc,
 									PxReal bounceThresholdF32,
 									PxReal frictionOffsetThreshold,
 									PxReal correlationDistance,
+									PxReal solverOffsetSlop,
 									PxConstraintAllocator& constraintAllocator);
 
 SolverConstraintPrepState::Enum createFinalizeSolverContacts4(	PxsContactManagerOutput** outputs,
@@ -109,6 +113,7 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4(	PxsContactManager
 																 PxReal bounceThresholdF32,
 																 PxReal frictionOffsetThreshold,
 																 PxReal correlationDistance,
+																 PxReal solverOffsetSlop,
 																 PxConstraintAllocator& constraintAllocator);
 
 SolverConstraintPrepState::Enum createFinalizeSolverContacts4(	Dy::CorrelationBuffer& c,
@@ -117,6 +122,7 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4(	Dy::CorrelationBu
 																PxReal bounceThresholdF32,
 																PxReal	frictionOffsetThreshold,
 																PxReal correlationDistance,
+																PxReal solverOffsetSlop,
 																PxConstraintAllocator& constraintAllocator);
 
 
@@ -128,6 +134,7 @@ bool createFinalizeSolverContactsCoulomb1D(PxSolverContactDesc& contactDesc,
 											 PxReal bounceThresholdF32,
 											 PxReal frictionOffsetThreshold,
 											 PxReal correlationDistance,
+											 PxReal solverOffsetSlop,
 											 PxConstraintAllocator& constraintAllocator);
 
 bool createFinalizeSolverContactsCoulomb2D(PxSolverContactDesc& contactDesc,
@@ -137,6 +144,7 @@ bool createFinalizeSolverContactsCoulomb2D(PxSolverContactDesc& contactDesc,
 											PxReal bounceThresholdF32,
 											PxReal frictionOffsetThreshold,
 											PxReal correlationDistance,
+											PxReal solverOffsetSlop,
 											PxConstraintAllocator& constraintAllocator);
 
 
@@ -147,6 +155,7 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb1D(	PxsConta
 																		 PxReal bounceThresholdF32,
 																		 PxReal frictionOffsetThreshold,
 																		 PxReal correlationDistance,
+																		 PxReal solverOffsetSlop,
 																		 PxConstraintAllocator& constraintAllocator);
 
 SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb2D(PxsContactManagerOutput** outputs,
@@ -156,6 +165,7 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb2D(PxsContac
 																		PxReal bounceThresholdF32,
 																		PxReal frictionOffsetThreshold,
 																		PxReal correlationDistance,
+																		PxReal solverOffsetSlop,
 																		PxConstraintAllocator& constraintAllocator);
 
 

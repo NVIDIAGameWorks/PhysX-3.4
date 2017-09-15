@@ -160,9 +160,10 @@ struct PxActorType
 #if PX_USE_CLOTH_API
 		/**
 		\brief A cloth
+		\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 		@see PxCloth
 		*/
-		eCLOTH,
+		eCLOTH PX_DEPRECATED,
 #endif
 
 		//brief internal use only!

@@ -149,9 +149,10 @@ struct PxActorTypeFlag
 #if PX_USE_CLOTH_API
 		/**
 		\brief A cloth
+		\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 		@see PxCloth
 		*/
-		eCLOTH				= (1 << 5)
+		eCLOTH				PX_DEPRECATED = (1 << 5)
 #endif
 	};
 };
@@ -743,14 +744,17 @@ class PxScene
 	\note The PxCloth objects that interact can be controlled through the filter
 	shader, @see PxSimulationFilterShader. Cloth objects with the PxClothFlag::eGPU
 	set can only interact with other GPU simulated cloth objects.
+	
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 	*/
-	virtual void				setClothInterCollisionDistance(PxF32 distance) = 0;
+	PX_DEPRECATED virtual void	setClothInterCollisionDistance(PxF32 distance) = 0;
 
 	/**
 	\brief Retrieves distance used for cloth inter-collision.
 	\return The distance used for cloth inter-collision.
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 	*/
-	virtual PxF32				getClothInterCollisionDistance() const = 0;
+	PX_DEPRECATED virtual PxF32	getClothInterCollisionDistance() const = 0;
 
 	/**
 	\brief Sets the cloth inter-collision stiffness.
@@ -759,13 +763,15 @@ class PxScene
 	when they are closer than the inter-collision distance.
 
 	\param [in] stiffness Fraction of distance residual to resolve per iteration (default: 1.0).
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 	*/
-	virtual void				setClothInterCollisionStiffness(PxF32 stiffness) = 0; 
+	PX_DEPRECATED virtual void	setClothInterCollisionStiffness(PxF32 stiffness) = 0; 
 	/**
 	\brief Retrieves the stiffness coefficient used for cloth inter-collision.
 	\return The stiffness coefficient used for cloth inter-collision.
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 	*/
-	virtual PxF32				getClothInterCollisionStiffness() const = 0; 
+	PX_DEPRECATED virtual PxF32	getClothInterCollisionStiffness() const = 0; 
 
 	/**
 	\brief Sets the number of inter-collision separation iterations to perform.
@@ -774,13 +780,15 @@ class PxScene
 	of separation passes that are performed.
 
 	\param[in] nbIterations The number of iterations to perform (default: 1).
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 	*/
-	virtual void				setClothInterCollisionNbIterations(PxU32 nbIterations) = 0; 	
+	PX_DEPRECATED virtual void	setClothInterCollisionNbIterations(PxU32 nbIterations) = 0; 	
 	/**
 	\brief Retrieves the number of iterations used for cloth inter-collision.
 	\return The number of iterations used for cloth inter-collision.
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 	*/
-	virtual PxU32				getClothInterCollisionNbIterations() const = 0; 
+	PX_DEPRECATED virtual PxU32	getClothInterCollisionNbIterations() const = 0; 
 	//@}
 
 	#endif // PX_USE_CLOTH_API
@@ -1282,9 +1290,9 @@ class PxScene
 
 
 	/**
-	\brief Defines a box in world space to which visualization geometry will be (conservatively) culled
+	\brief Defines a box in world space to which visualization geometry will be (conservatively) culled. Use a non-empty culling box to enable the feature, and an empty culling box to disable it.
 	
-	\param[in] box the box to which the geometry will be culled.
+	\param[in] box the box to which the geometry will be culled. Empty box to disable the feature.
 	@see setVisualizationParameter getVisualizationCullingBox getRenderBuffer()
 	*/
 	virtual void				setVisualizationCullingBox(const PxBounds3& box) = 0;

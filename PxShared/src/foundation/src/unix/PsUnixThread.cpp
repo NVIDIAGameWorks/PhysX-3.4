@@ -135,10 +135,9 @@ void* PxThreadStart(void* arg)
 }
 }
 
-static const uint32_t gSize = sizeof(_ThreadImpl);
-const uint32_t& ThreadImpl::getSize()
+uint32_t ThreadImpl::getSize()
 {
-	return gSize;
+	return sizeof(_ThreadImpl);
 }
 
 ThreadImpl::Id ThreadImpl::getId()
@@ -314,10 +313,16 @@ uint32_t ThreadImpl::setAffinityMask(uint32_t mask)
 	return uint32_t(prevMask);
 }
 
+#if PX_PS4
+int32_t setNamePS4(pthread_t, const char*);
+#endif
+
 void ThreadImpl::setName(const char* name)
 {
-#if(defined(ANDROID) && (__ANDROID_API__ > 8))
+#if (defined(ANDROID) && (__ANDROID_API__ > 8))
 	pthread_setname_np(getThread(this)->thread, name);
+#elif PX_PS4
+	setNamePS4(getThread(this)->thread, name);
 #else
 	// not implemented because most unix APIs expect setName()
 	// to be called from the thread's context. Example see next comment:

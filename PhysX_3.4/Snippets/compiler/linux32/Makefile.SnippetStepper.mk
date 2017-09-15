@@ -69,7 +69,7 @@ SnippetStepper_debug_common_cflags    += -MMD
 SnippetStepper_debug_common_cflags    += $(addprefix -D, $(SnippetStepper_debug_defines))
 SnippetStepper_debug_common_cflags    += $(addprefix -I, $(SnippetStepper_debug_hpaths))
 SnippetStepper_debug_common_cflags  += -m32
-SnippetStepper_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetStepper_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetStepper_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetStepper_debug_common_cflags  += -Wno-uninitialized
 SnippetStepper_debug_common_cflags  += -g3 -gdwarf-2
@@ -180,7 +180,7 @@ SnippetStepper_checked_common_cflags    += -MMD
 SnippetStepper_checked_common_cflags    += $(addprefix -D, $(SnippetStepper_checked_defines))
 SnippetStepper_checked_common_cflags    += $(addprefix -I, $(SnippetStepper_checked_hpaths))
 SnippetStepper_checked_common_cflags  += -m32
-SnippetStepper_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetStepper_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetStepper_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetStepper_checked_common_cflags  += -Wno-uninitialized
 SnippetStepper_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -291,7 +291,7 @@ SnippetStepper_profile_common_cflags    += -MMD
 SnippetStepper_profile_common_cflags    += $(addprefix -D, $(SnippetStepper_profile_defines))
 SnippetStepper_profile_common_cflags    += $(addprefix -I, $(SnippetStepper_profile_hpaths))
 SnippetStepper_profile_common_cflags  += -m32
-SnippetStepper_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetStepper_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetStepper_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetStepper_profile_common_cflags  += -Wno-uninitialized
 SnippetStepper_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -401,7 +401,7 @@ SnippetStepper_release_common_cflags    += -MMD
 SnippetStepper_release_common_cflags    += $(addprefix -D, $(SnippetStepper_release_defines))
 SnippetStepper_release_common_cflags    += $(addprefix -I, $(SnippetStepper_release_hpaths))
 SnippetStepper_release_common_cflags  += -m32
-SnippetStepper_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetStepper_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetStepper_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetStepper_release_common_cflags  += -Wno-uninitialized
 SnippetStepper_release_common_cflags  += -O3 -fno-strict-aliasing

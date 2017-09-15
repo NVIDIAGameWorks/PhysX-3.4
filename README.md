@@ -2,6 +2,13 @@
 Welcome to NVIDIA's PhysX and APEX SDK source code repository.
 ==============================================================
 
+NOTE: APEX SDK has been deprecated. We recommend the following libraries as replacements:
+For APEX Clothing: NvCloth - https://github.com/NVIDIAGameWorks/NvCloth
+For APEX Destruction: Blast - https://github.com/NVIDIAGameWorks/Blast
+For APEX Particles: Flex - https://github.com/NVIDIAGameWorks/FleX
+For APEX Turbulence: Flow - https://github.com/NVIDIAGameWorks/Flow
+
+
 To begin, clone this repository onto your local drive.
 ______________________________________________________________
 See the following readme files: \PhysX_3.4\readme_*.html, \APEX_1.4\readme.txt 

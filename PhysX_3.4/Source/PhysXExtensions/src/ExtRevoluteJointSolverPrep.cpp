@@ -61,7 +61,7 @@ namespace Ext
 			cB2w.q = -cB2w.q;
 
 		body0WorldOffset = cB2w.p-bA2w.p;
-		Ext::joint::ConstraintHelper ch(constraints, cB2w.p - bA2w.p, cB2w.p - bB2w.p);
+		Ext::joint::ConstraintHelper ch(constraints, cA2w.p - bA2w.p, cB2w.p - bB2w.p);
 
 		ch.prepareLockedAxes(cA2w.q, cB2w.q, cA2w.transformInv(cB2w.p), 7, PxU32(limitIsLocked ? 7 : 6));
 

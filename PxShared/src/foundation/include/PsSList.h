@@ -91,7 +91,7 @@ struct PX_FOUNDATION_API SListImpl
 	void push(SListEntry* entry);
 	SListEntry* pop();
 	SListEntry* flush();
-	static const uint32_t& getSize();
+	static uint32_t getSize();
 };
 
 template <typename Alloc = ReflectionAllocator<SListImpl> >

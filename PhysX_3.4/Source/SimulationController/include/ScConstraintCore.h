@@ -58,7 +58,7 @@ namespace Sc
 	//==================================================================================================
 	public:
 // PX_SERIALIZATION
-											ConstraintCore(const PxEMPTY) : mConnector(NULL), mSim(NULL)	{}
+											ConstraintCore(const PxEMPTY) : mFlags(PxEmpty), mConnector(NULL), mSim(NULL)	{}
 	PX_FORCE_INLINE	void					setConstraintFunctions(PxConstraintConnector& n,
 																   const PxConstraintShaderTable& shaders)
 											{ 

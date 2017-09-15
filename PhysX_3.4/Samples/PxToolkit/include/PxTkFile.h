@@ -56,7 +56,7 @@ PX_INLINE physx::PxI32 fopen_s(FILE** file, const char* name, const char* mode)
 
 } // namespace PxToolkit
 
-#elif PX_UNIX_FAMILY || PX_PS4 || PX_NX
+#elif PX_UNIX_FAMILY || PX_PS4 || PX_SWITCH
 
 #include <stdio.h>
 

@@ -95,6 +95,16 @@ public:
 	virtual		bool	setMetaData(PxInputStream& srcMetaData, PxInputStream& dstMetaData)					= 0;
 
 	/**
+	\brief Test utility function to compare two sets of meta data.
+
+	The meta data needs to be set before calling the compareMetaData method.
+	This method will issue PxErrorCode::eDEBUG_INFO messages if mismatches are encountered.
+
+	\return True if meta data is equivalend
+	*/
+	virtual		bool	compareMetaData() const = 0;
+
+	/**
 	\brief Converts binary stream from source platform to target platform
 
 	The converter needs to be configured with source and destination meta data before calling the conversion method. 

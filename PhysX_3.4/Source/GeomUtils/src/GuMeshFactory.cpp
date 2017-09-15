@@ -367,10 +367,11 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 		stream.read(data->mExtraTrigData, nb*sizeof(PxU8));
 	}
 
-	if(serialFlags & IMSF_GRB_DATA)
+	if (serialFlags & IMSF_GRB_DATA)
 	{
-		data->mGRB_meshAdjVerticiesTotal = readDword(mismatch, stream);
-
+		PxU32 GRB_meshAdjVerticiesTotal = 0;
+		if (version < 15)
+			GRB_meshAdjVerticiesTotal = readDword(mismatch, stream);
 
 		//read grb triangle indices
 		PX_ASSERT(data->mGRB_triIndices);
@@ -402,7 +403,7 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 			if (data->has16BitIndices())
 			{
 				PxU16* tris16 = reinterpret_cast<PxU16*>(data->mGRB_triIndices);
-				stream.read(tris16, nbIndices*sizeof(PxU16));
+				stream.read(tris16, nbIndices * sizeof(PxU16));
 				if (mismatch)
 				{
 					for (PxU32 i = 0; i<nbIndices; i++)
@@ -441,7 +442,7 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 			else
 			{
 				PxU32* tris32 = reinterpret_cast<PxU32*>(data->mGRB_triIndices);
-				stream.read(tris32, nbIndices*sizeof(PxU32));
+				stream.read(tris32, nbIndices * sizeof(PxU32));
 
 				if (mismatch)
 				{
@@ -450,35 +451,33 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 				}
 			}
 		}
-		
 
-		data->mGRB_triAdjacencies = static_cast<void *>(PX_NEW(PxU32)[data->mNbTriangles*4]);
-		data->mGRB_vertValency = PX_NEW(PxU32)[data->mNbVertices];
-		data->mGRB_adjVertStart = PX_NEW(PxU32)[data->mNbVertices];
-		data->mGRB_adjVertices = PX_NEW(PxU32)[data->mGRB_meshAdjVerticiesTotal];
+
+		data->mGRB_triAdjacencies = static_cast<void *>(PX_NEW(PxU32)[data->mNbTriangles * 4]);
 		data->mGRB_faceRemap = PX_NEW(PxU32)[data->mNbTriangles];
 
-		stream.read(data->mGRB_triAdjacencies, sizeof(PxU32)*data->mNbTriangles*4);
-		stream.read(data->mGRB_vertValency, sizeof(PxU32)*data->mNbVertices);
-		stream.read(data->mGRB_adjVertStart, sizeof(PxU32)*data->mNbVertices);
-		stream.read(data->mGRB_adjVertices, sizeof(PxU32)*data->mGRB_meshAdjVerticiesTotal);
+		stream.read(data->mGRB_triAdjacencies, sizeof(PxU32)*data->mNbTriangles * 4);
+		if (version < 15)
+		{
+			//stream.read(data->mGRB_vertValency, sizeof(PxU32)*data->mNbVertices);
+			for (PxU32 i = 0; i < data->mNbVertices; ++i)
+				readDword(mismatch, stream);
+			//stream.read(data->mGRB_adjVertStart, sizeof(PxU32)*data->mNbVertices);
+			for (PxU32 i = 0; i < data->mNbVertices; ++i)
+				readDword(mismatch, stream);
+			//stream.read(data->mGRB_adjVertices, sizeof(PxU32)*GRB_meshAdjVerticiesTotal);
+			for (PxU32 i = 0; i < GRB_meshAdjVerticiesTotal; ++i)
+				readDword(mismatch, stream);
+		}
 		stream.read(data->mGRB_faceRemap, sizeof(PxU32)*data->mNbTriangles);
 
-		if(mismatch)
+		if (mismatch)
 		{
-			for(PxU32 i=0;i<data->mNbTriangles*4;i++)
+			for (PxU32 i = 0; i<data->mNbTriangles * 4; i++)
 				flip(reinterpret_cast<PxU32 *>(data->mGRB_triIndices)[i]);
 
-			for(PxU32 i=0;i<data->mNbTriangles*4;i++)
+			for (PxU32 i = 0; i<data->mNbTriangles * 4; i++)
 				flip(reinterpret_cast<PxU32 *>(data->mGRB_triAdjacencies)[i]);
-			for(PxU32 i=0;i<data->mNbVertices;i++)
-			{
-				flip(data->mGRB_vertValency[i]);
-				flip(data->mGRB_adjVertStart[i]);
-			}
-			for(PxU32 i=0;i<data->mGRB_meshAdjVerticiesTotal;i++)
-				flip(data->mGRB_adjVertices[i]);
-
 		}
 
 		//read BV32

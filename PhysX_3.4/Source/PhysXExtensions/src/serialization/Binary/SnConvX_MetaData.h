@@ -146,6 +146,8 @@ namespace physx { namespace Sn {
 				MetaClass*				getMetaClass(const char* name)	const;
 				MetaClass*				getMetaClass(PxConcreteType::Enum concreteType)	const;
 				MetaClass*				addNewClass(const char* name, int size, MetaClass* master=NULL, ConvertCallback callback=NULL);
+
+				bool					compare(const MetaData& candidate) const;
 		private:
 				MetaData&				operator=(const MetaData&);
 			Sn::ConvX&					mConvX;

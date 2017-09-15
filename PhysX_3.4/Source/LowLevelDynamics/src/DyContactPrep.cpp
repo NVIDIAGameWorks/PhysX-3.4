@@ -85,11 +85,14 @@ static void setupFinalizeSolverConstraints(Sc::ShapeInteraction* shapeInteractio
 							PxReal invMassScale1, PxReal invInertiaScale1, 
 							bool hasForceThreshold, bool staticOrKinematicBody,
 							const PxReal restDist, PxU8* frictionDataPtr,
-							const PxReal maxCCDSeparation)	
+							const PxReal maxCCDSeparation,
+							const PxReal solverOffsetSlopF32)
 {
 	// NOTE II: the friction patches are sparse (some of them have no contact patches, and
 	// therefore did not get written back to the cache) but the patch addresses are dense,
 	// corresponding to valid patches
+
+	const Vec3V solverOffsetSlop = V3Load(solverOffsetSlopF32);
 
 	const FloatV ccdMaxSeparation = FLoad(maxCCDSeparation);
 
@@ -101,6 +104,7 @@ static void setupFinalizeSolverConstraints(Sc::ShapeInteraction* shapeInteractio
 									                 : DY_SC_TYPE_RB_CONTACT);
 
 	const FloatV zero=FZero();
+	const Vec3V v3Zero = V3Zero();
 
 	const FloatV d0 = FLoad(invMassScale0);
 	const FloatV d1 = FLoad(invMassScale1);
@@ -224,7 +228,7 @@ static void setupFinalizeSolverConstraints(Sc::ShapeInteraction* shapeInteractio
 					normal, norVel, norCross, angVel0, angVel1,
 					invDt, invDtp8, restDistance, maxPenBias,  restitution,
 					bounceThreshold, contact, *solverContact,
-					ccdMaxSeparation);
+					ccdMaxSeparation, solverOffsetSlop);
 			}
 
 			ptr = p;
@@ -307,20 +311,26 @@ static void setupFinalizeSolverConstraints(Sc::ShapeInteraction* shapeInteractio
 				Vec3V body0Anchor = V3LoadU(frictionPatch.body0Anchors[j]);
 				Vec3V body1Anchor = V3LoadU(frictionPatch.body1Anchors[j]);
 
-				Vec3V ra = QuatRotate(bodyFrame0q, body0Anchor);
-				Vec3V rb = QuatRotate(bodyFrame1q, body1Anchor);
-				Vec3V error =V3Sub(V3Add(ra, bodyFrame0p), V3Add(rb, bodyFrame1p));
+				const Vec3V ra = QuatRotate(bodyFrame0q, body0Anchor);
+				const Vec3V rb = QuatRotate(bodyFrame1q, body1Anchor);
 
+				//ra = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(ra)), v3Zero, ra);
+				//rb = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(rb)), v3Zero, rb);
 
 				PxU32 index = c.contactID[i][j];
+				const Vec3V error = V3Sub(V3Add(ra, bodyFrame0p), V3Add(rb, bodyFrame1p));
+				//error = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(error)), v3Zero, error);
 
 				index = index == 0xFFFF ? c.contactPatches[c.correlationListHeads[i]].start : index;
 
 				const Vec3V tvel = V3LoadA(buffer[index].targetVel);
 				
 				{
-					const Vec3V raXn = V3Cross(ra, t0Cross);
-					const Vec3V rbXn = V3Cross(rb, t0Cross);
+					Vec3V raXn = V3Cross(ra, t0Cross);
+					Vec3V rbXn = V3Cross(rb, t0Cross);
+
+					raXn = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(raXn)), v3Zero, raXn);
+					rbXn = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(rbXn)), v3Zero, rbXn);
 
 					const Vec3V raXnSqrtInertia = M33MulV3(invSqrtInertia0, raXn);
 					const Vec3V rbXnSqrtInertia = M33MulV3(invSqrtInertia1, rbXn);	
@@ -348,8 +358,11 @@ static void setupFinalizeSolverConstraints(Sc::ShapeInteraction* shapeInteractio
 
 				{
 
-					const Vec3V raXn = V3Cross(ra, t1Cross);
-					const Vec3V rbXn = V3Cross(rb, t1Cross);
+					Vec3V raXn = V3Cross(ra, t1Cross);
+					Vec3V rbXn = V3Cross(rb, t1Cross);
+
+					raXn = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(raXn)), v3Zero, raXn);
+					rbXn = V3Sel(V3IsGrtr(solverOffsetSlop, V3Abs(rbXn)), v3Zero, rbXn);
 
 					const Vec3V raXnSqrtInertia = M33MulV3(invSqrtInertia0, raXn);
 					const Vec3V rbXnSqrtInertia = M33MulV3(invSqrtInertia1, rbXn);	
@@ -533,6 +546,7 @@ bool createFinalizeSolverContacts(
 	PxReal bounceThresholdF32,
 	PxReal frictionOffsetThreshold,
 	PxReal correlationDistance,
+	PxReal solverOffsetSlop,
 	PxConstraintAllocator& constraintAllocator)
 {
 	Ps::prefetchLine(contactDesc.body0);
@@ -658,7 +672,7 @@ bool createFinalizeSolverContacts(
 				setupFinalizeSolverConstraints(contactDesc.shapeInteraction, contactDesc.contacts, c, contactDesc.bodyFrame0, contactDesc.bodyFrame1, solverConstraint,
 					data0, data1, invDtF32, bounceThresholdF32,
 					contactDesc.mInvMassScales.linear0, contactDesc.mInvMassScales.angular0, contactDesc.mInvMassScales.linear1, contactDesc.mInvMassScales.angular1, 
-					hasForceThreshold, staticOrKinematicBody, contactDesc.restDistance, frictionDataPtr, contactDesc.maxCCDSeparation);
+					hasForceThreshold, staticOrKinematicBody, contactDesc.restDistance, frictionDataPtr, contactDesc.maxCCDSeparation, solverOffsetSlop);
 			}
 			//KS - set to 0 so we have a counter for the number of times we solved the constraint
 			//only going to be used on SPU but might as well set on all platforms because this code is shared
@@ -678,6 +692,7 @@ bool createFinalizeSolverContacts(PxSolverContactDesc& contactDesc,
 								 PxReal bounceThresholdF32,
 								 PxReal frictionOffsetThreshold,
 								 PxReal correlationDistance,
+								 PxReal solverOffsetSlop,
 								 PxConstraintAllocator& constraintAllocator)
 {
 	ContactBuffer& buffer = threadContext.mContactBuffer;
@@ -714,7 +729,7 @@ bool createFinalizeSolverContacts(PxSolverContactDesc& contactDesc,
 	
 	CorrelationBuffer& c = threadContext.mCorrelationBuffer;
 
-	return createFinalizeSolverContacts(contactDesc, c,	invDtF32, bounceThresholdF32, frictionOffsetThreshold, correlationDistance, constraintAllocator);
+	return createFinalizeSolverContacts(contactDesc, c, invDtF32, bounceThresholdF32, frictionOffsetThreshold, correlationDistance, solverOffsetSlop, constraintAllocator);
 }
   
 PxU32 getContactManagerConstraintDesc(const PxsContactManagerOutput& cmOutput, const PxsContactManager& /*cm*/, PxSolverConstraintDesc& desc)

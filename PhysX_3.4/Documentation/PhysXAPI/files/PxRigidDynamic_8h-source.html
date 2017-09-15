@@ -76,84 +76,84 @@
 <a name="l00064"></a>00064 <a class="code" href="group__foundation.html#g092f922a63fdc7a95ae4f4e24b3768c1">PX_FLAGS_OPERATORS</a>(<a class="code" href="structPxRigidDynamicLockFlag.html#e2e527a7cf32504d4b5c8c6d147280e1">PxRigidDynamicLockFlag::Enum</a>, <a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a>)
 <a name="l00065"></a>00065 
 <a name="l00066"></a>00066 
-<a name="l00084"></a><a class="code" href="classPxRigidDynamic.html">00084</a> class <a class="code" href="classPxRigidDynamic.html" title="PxRigidDynamic represents a dynamic rigid simulation object in the physics SDK.">PxRigidDynamic</a> : public <a class="code" href="classPxRigidBody.html" title="PxRigidBody is a base class shared between dynamic rigid body objects.">PxRigidBody</a>
-<a name="l00085"></a>00085 {
-<a name="l00086"></a>00086 <span class="keyword">public</span>:
-<a name="l00087"></a>00087     <span class="comment">// Runtime modifications</span>
+<a name="l00083"></a><a class="code" href="classPxRigidDynamic.html">00083</a> class <a class="code" href="classPxRigidDynamic.html" title="PxRigidDynamic represents a dynamic rigid simulation object in the physics SDK.">PxRigidDynamic</a> : public <a class="code" href="classPxRigidBody.html" title="PxRigidBody is a base class shared between dynamic rigid body objects.">PxRigidBody</a>
+<a name="l00084"></a>00084 {
+<a name="l00085"></a>00085 <span class="keyword">public</span>:
+<a name="l00086"></a>00086     <span class="comment">// Runtime modifications</span>
+<a name="l00087"></a>00087 
 <a name="l00088"></a>00088 
-<a name="l00089"></a>00089 
-<a name="l00090"></a>00090 <span class="comment">/************************************************************************************************/</span>
-<a name="l00118"></a>00118     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setKinematicTarget(<span class="keyword">const</span> <a class="code" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector">PxTransform</a>&amp; destination) = 0;
-<a name="l00119"></a>00119 
-<a name="l00128"></a>00128     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>                getKinematicTarget(<a class="code" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector">PxTransform</a>&amp; target) <span class="keyword">const</span>   = 0;
-<a name="l00129"></a>00129 
-<a name="l00130"></a>00130 <span class="comment">/************************************************************************************************/</span>
-<a name="l00145"></a>00145     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setLinearDamping(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> linDamp) = 0;
-<a name="l00146"></a>00146 
-<a name="l00154"></a>00154     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getLinearDamping() <span class="keyword">const</span> = 0;
-<a name="l00155"></a>00155 
-<a name="l00169"></a>00169     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setAngularDamping(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> angDamp) = 0;
-<a name="l00170"></a>00170 
-<a name="l00178"></a>00178     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getAngularDamping() <span class="keyword">const</span> = 0;
-<a name="l00179"></a>00179 
-<a name="l00180"></a>00180 <span class="comment">/************************************************************************************************/</span>
-<a name="l00202"></a>00202     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setMaxAngularVelocity(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> maxAngVel) = 0;
-<a name="l00203"></a>00203 
-<a name="l00211"></a>00211     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getMaxAngularVelocity() <span class="keyword">const</span> = 0; 
-<a name="l00212"></a>00212 
-<a name="l00213"></a>00213 <span class="comment">/************************************************************************************************/</span>
-<a name="l00251"></a>00251     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>                isSleeping() <span class="keyword">const</span> = 0;
+<a name="l00089"></a>00089 <span class="comment">/************************************************************************************************/</span>
+<a name="l00117"></a>00117     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setKinematicTarget(<span class="keyword">const</span> <a class="code" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector">PxTransform</a>&amp; destination) = 0;
+<a name="l00118"></a>00118 
+<a name="l00127"></a>00127     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>                getKinematicTarget(<a class="code" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector">PxTransform</a>&amp; target) <span class="keyword">const</span>   = 0;
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129 <span class="comment">/************************************************************************************************/</span>
+<a name="l00144"></a>00144     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setLinearDamping(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> linDamp) = 0;
+<a name="l00145"></a>00145 
+<a name="l00153"></a>00153     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getLinearDamping() <span class="keyword">const</span> = 0;
+<a name="l00154"></a>00154 
+<a name="l00168"></a>00168     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setAngularDamping(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> angDamp) = 0;
+<a name="l00169"></a>00169 
+<a name="l00177"></a>00177     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getAngularDamping() <span class="keyword">const</span> = 0;
+<a name="l00178"></a>00178 
+<a name="l00179"></a>00179 <span class="comment">/************************************************************************************************/</span>
+<a name="l00201"></a>00201     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setMaxAngularVelocity(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> maxAngVel) = 0;
+<a name="l00202"></a>00202 
+<a name="l00210"></a>00210     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getMaxAngularVelocity() <span class="keyword">const</span> = 0; 
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212 <span class="comment">/************************************************************************************************/</span>
+<a name="l00250"></a>00250     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>                isSleeping() <span class="keyword">const</span> = 0;
+<a name="l00251"></a>00251 
 <a name="l00252"></a>00252 
-<a name="l00253"></a>00253 
-<a name="l00265"></a>00265     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setSleepThreshold(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> threshold) = 0;
-<a name="l00266"></a>00266 
-<a name="l00274"></a>00274     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getSleepThreshold() <span class="keyword">const</span> = 0;
-<a name="l00275"></a>00275 
-<a name="l00289"></a>00289     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setStabilizationThreshold(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> threshold) = 0;
-<a name="l00290"></a>00290 
-<a name="l00300"></a>00300     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getStabilizationThreshold() <span class="keyword">const</span> = 0;
+<a name="l00264"></a>00264     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setSleepThreshold(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> threshold) = 0;
+<a name="l00265"></a>00265 
+<a name="l00273"></a>00273     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getSleepThreshold() <span class="keyword">const</span> = 0;
+<a name="l00274"></a>00274 
+<a name="l00288"></a>00288     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setStabilizationThreshold(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> threshold) = 0;
+<a name="l00289"></a>00289 
+<a name="l00299"></a>00299     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getStabilizationThreshold() <span class="keyword">const</span> = 0;
+<a name="l00300"></a>00300 
 <a name="l00301"></a>00301 
-<a name="l00302"></a>00302 
-<a name="l00312"></a>00312     <span class="keyword">virtual</span>     <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxRigidDynamicLockFlags</a> getRigidDynamicLockFlags() <span class="keyword">const</span> = 0;
-<a name="l00313"></a>00313 
-<a name="l00327"></a>00327     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setRigidDynamicLockFlag(<a class="code" href="structPxRigidDynamicLockFlag.html#e2e527a7cf32504d4b5c8c6d147280e1">PxRigidDynamicLockFlag::Enum</a> flag, <span class="keywordtype">bool</span> value) = 0;
-<a name="l00328"></a>00328     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setRigidDynamicLockFlags(<a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxRigidDynamicLockFlags</a> flags) = 0;
-<a name="l00329"></a>00329     
+<a name="l00311"></a>00311     <span class="keyword">virtual</span>     <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxRigidDynamicLockFlags</a> getRigidDynamicLockFlags() <span class="keyword">const</span> = 0;
+<a name="l00312"></a>00312 
+<a name="l00326"></a>00326     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setRigidDynamicLockFlag(<a class="code" href="structPxRigidDynamicLockFlag.html#e2e527a7cf32504d4b5c8c6d147280e1">PxRigidDynamicLockFlag::Enum</a> flag, <span class="keywordtype">bool</span> value) = 0;
+<a name="l00327"></a>00327     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setRigidDynamicLockFlags(<a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxRigidDynamicLockFlags</a> flags) = 0;
+<a name="l00328"></a>00328     
+<a name="l00329"></a>00329 
 <a name="l00330"></a>00330 
-<a name="l00331"></a>00331 
-<a name="l00352"></a>00352     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setWakeCounter(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> wakeCounterValue) = 0;
-<a name="l00353"></a>00353 
-<a name="l00361"></a>00361     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getWakeCounter() <span class="keyword">const</span> = 0;
-<a name="l00362"></a>00362 
-<a name="l00377"></a>00377     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                wakeUp() = 0;
-<a name="l00378"></a>00378 
-<a name="l00393"></a>00393     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                putToSleep() = 0;
-<a name="l00394"></a>00394 
-<a name="l00395"></a>00395 <span class="comment">/************************************************************************************************/</span>
-<a name="l00396"></a>00396 
-<a name="l00415"></a>00415     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setSolverIterationCounts(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> minPositionIters, <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> minVelocityIters = 1) = 0;
-<a name="l00416"></a>00416 
-<a name="l00422"></a>00422     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                getSolverIterationCounts(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>&amp; minPositionIters, <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>&amp; minVelocityIters) <span class="keyword">const</span> = 0;
-<a name="l00423"></a>00423 
-<a name="l00443"></a>00443     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getContactReportThreshold() <span class="keyword">const</span> = 0;
-<a name="l00444"></a>00444 
-<a name="l00454"></a>00454     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setContactReportThreshold(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> threshold) = 0;
-<a name="l00455"></a>00455 
-<a name="l00456"></a><a class="code" href="classPxRigidDynamic.html#8402fd801e4ce9f6ee2a1fb3e80721dc">00456</a>     <span class="keyword">virtual</span>     <span class="keyword">const</span> <span class="keywordtype">char</span>*         <a class="code" href="classPxRigidDynamic.html#8402fd801e4ce9f6ee2a1fb3e80721dc" title="Returns string name of dynamic type.">getConcreteTypeName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="stringliteral">"PxRigidDynamic"</span>; }
-<a name="l00457"></a>00457 
-<a name="l00458"></a>00458 <span class="keyword">protected</span>:
-<a name="l00459"></a><a class="code" href="classPxRigidDynamic.html#b21ed0e4e1be20fc975fcd3ceeb4e064">00459</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                       <a class="code" href="classPxRigidDynamic.html#b21ed0e4e1be20fc975fcd3ceeb4e064">PxRigidDynamic</a>(<a class="code" href="group__common.html#gc1fb4b256a5d900d394e89db170a2b79">PxType</a> concreteType, <a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : PxRigidBody(concreteType, baseFlags) {}
-<a name="l00460"></a><a class="code" href="classPxRigidDynamic.html#9e63c1ec6872048e16f7d6b744ec3eef">00460</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                       <a class="code" href="classPxRigidDynamic.html#9e63c1ec6872048e16f7d6b744ec3eef">PxRigidDynamic</a>(<a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : PxRigidBody(baseFlags) {}
-<a name="l00461"></a><a class="code" href="classPxRigidDynamic.html#9380b2f317161026b39c6a296ba9e273">00461</a>     <span class="keyword">virtual</span>                         <a class="code" href="classPxRigidDynamic.html#9380b2f317161026b39c6a296ba9e273">~PxRigidDynamic</a>() {}
-<a name="l00462"></a><a class="code" href="classPxRigidDynamic.html#0ed60c0a05771d8679069a46b778f8f8">00462</a>     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>                <a class="code" href="classPxRigidDynamic.html#0ed60c0a05771d8679069a46b778f8f8" title="Returns whether a given type name matches with the type of this instance.">isKindOf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> !::strcmp(<span class="stringliteral">"PxRigidDynamic"</span>, name) || <a class="code" href="classPxRigidBody.html#d2e17e08871d8a2f492aee495550a0a0" title="Returns whether a given type name matches with the type of this instance.">PxRigidBody::isKindOf</a>(name); }
-<a name="l00463"></a>00463 
-<a name="l00464"></a>00464 };
-<a name="l00465"></a>00465 
-<a name="l00466"></a>00466 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00467"></a>00467 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00468"></a>00468 <span class="preprocessor">#endif</span>
-<a name="l00469"></a>00469 <span class="preprocessor"></span>
-<a name="l00471"></a>00471 <span class="preprocessor">#endif</span>
+<a name="l00351"></a>00351     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setWakeCounter(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> wakeCounterValue) = 0;
+<a name="l00352"></a>00352 
+<a name="l00360"></a>00360     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getWakeCounter() <span class="keyword">const</span> = 0;
+<a name="l00361"></a>00361 
+<a name="l00376"></a>00376     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                wakeUp() = 0;
+<a name="l00377"></a>00377 
+<a name="l00392"></a>00392     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                putToSleep() = 0;
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394 <span class="comment">/************************************************************************************************/</span>
+<a name="l00395"></a>00395 
+<a name="l00414"></a>00414     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setSolverIterationCounts(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> minPositionIters, <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> minVelocityIters = 1) = 0;
+<a name="l00415"></a>00415 
+<a name="l00421"></a>00421     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                getSolverIterationCounts(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>&amp; minPositionIters, <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>&amp; minVelocityIters) <span class="keyword">const</span> = 0;
+<a name="l00422"></a>00422 
+<a name="l00442"></a>00442     <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>              getContactReportThreshold() <span class="keyword">const</span> = 0;
+<a name="l00443"></a>00443 
+<a name="l00453"></a>00453     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                setContactReportThreshold(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> threshold) = 0;
+<a name="l00454"></a>00454 
+<a name="l00455"></a><a class="code" href="classPxRigidDynamic.html#8402fd801e4ce9f6ee2a1fb3e80721dc">00455</a>     <span class="keyword">virtual</span>     <span class="keyword">const</span> <span class="keywordtype">char</span>*         <a class="code" href="classPxRigidDynamic.html#8402fd801e4ce9f6ee2a1fb3e80721dc" title="Returns string name of dynamic type.">getConcreteTypeName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="stringliteral">"PxRigidDynamic"</span>; }
+<a name="l00456"></a>00456 
+<a name="l00457"></a>00457 <span class="keyword">protected</span>:
+<a name="l00458"></a><a class="code" href="classPxRigidDynamic.html#b21ed0e4e1be20fc975fcd3ceeb4e064">00458</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                       <a class="code" href="classPxRigidDynamic.html#b21ed0e4e1be20fc975fcd3ceeb4e064">PxRigidDynamic</a>(<a class="code" href="group__common.html#gc1fb4b256a5d900d394e89db170a2b79">PxType</a> concreteType, <a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : PxRigidBody(concreteType, baseFlags) {}
+<a name="l00459"></a><a class="code" href="classPxRigidDynamic.html#9e63c1ec6872048e16f7d6b744ec3eef">00459</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                       <a class="code" href="classPxRigidDynamic.html#9e63c1ec6872048e16f7d6b744ec3eef">PxRigidDynamic</a>(<a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : PxRigidBody(baseFlags) {}
+<a name="l00460"></a><a class="code" href="classPxRigidDynamic.html#9380b2f317161026b39c6a296ba9e273">00460</a>     <span class="keyword">virtual</span>                         <a class="code" href="classPxRigidDynamic.html#9380b2f317161026b39c6a296ba9e273">~PxRigidDynamic</a>() {}
+<a name="l00461"></a><a class="code" href="classPxRigidDynamic.html#0ed60c0a05771d8679069a46b778f8f8">00461</a>     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>                <a class="code" href="classPxRigidDynamic.html#0ed60c0a05771d8679069a46b778f8f8" title="Returns whether a given type name matches with the type of this instance.">isKindOf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> !::strcmp(<span class="stringliteral">"PxRigidDynamic"</span>, name) || <a class="code" href="classPxRigidBody.html#d2e17e08871d8a2f492aee495550a0a0" title="Returns whether a given type name matches with the type of this instance.">PxRigidBody::isKindOf</a>(name); }
+<a name="l00462"></a>00462 
+<a name="l00463"></a>00463 };
+<a name="l00464"></a>00464 
+<a name="l00465"></a>00465 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00466"></a>00466 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00467"></a>00467 <span class="preprocessor">#endif</span>
+<a name="l00468"></a>00468 <span class="preprocessor"></span>
+<a name="l00470"></a>00470 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

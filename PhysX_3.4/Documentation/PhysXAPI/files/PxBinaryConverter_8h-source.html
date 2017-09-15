@@ -79,19 +79,21 @@
 <a name="l00083"></a>00083 
 <a name="l00095"></a>00095     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>    setMetaData(<a class="code" href="classPxInputStream.html" title="Input stream class for I/O.">PxInputStream</a>&amp; srcMetaData, <a class="code" href="classPxInputStream.html" title="Input stream class for I/O.">PxInputStream</a>&amp; dstMetaData)                 = 0;
 <a name="l00096"></a>00096 
-<a name="l00109"></a>00109     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>    convert(<a class="code" href="classPxInputStream.html" title="Input stream class for I/O.">PxInputStream</a>&amp; srcStream, <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> srcSize, <a class="code" href="classPxOutputStream.html" title="Output stream class for I/O.">PxOutputStream</a>&amp; targetStream)      = 0;
-<a name="l00110"></a>00110 
-<a name="l00111"></a>00111 
-<a name="l00112"></a>00112 <span class="keyword">protected</span>:
-<a name="l00113"></a><a class="code" href="classPxBinaryConverter.html#76e9b36969e46ef131f22d2d95aa31cb">00113</a>                         <a class="code" href="classPxBinaryConverter.html#76e9b36969e46ef131f22d2d95aa31cb">PxBinaryConverter</a>()     {}
-<a name="l00114"></a><a class="code" href="classPxBinaryConverter.html#30333f47d0897b3728442e915eaaba81">00114</a>     <span class="keyword">virtual</span>             <a class="code" href="classPxBinaryConverter.html#30333f47d0897b3728442e915eaaba81">~PxBinaryConverter</a>()    {}
-<a name="l00115"></a>00115 };
-<a name="l00116"></a>00116 
-<a name="l00117"></a>00117 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00118"></a>00118 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00119"></a>00119 <span class="preprocessor">#endif</span>
-<a name="l00120"></a>00120 <span class="preprocessor"></span>
-<a name="l00122"></a>00122 <span class="preprocessor">#endif</span>
+<a name="l00105"></a>00105     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>    compareMetaData() <span class="keyword">const</span> = 0;
+<a name="l00106"></a>00106 
+<a name="l00119"></a>00119     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>    convert(<a class="code" href="classPxInputStream.html" title="Input stream class for I/O.">PxInputStream</a>&amp; srcStream, <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> srcSize, <a class="code" href="classPxOutputStream.html" title="Output stream class for I/O.">PxOutputStream</a>&amp; targetStream)      = 0;
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122 <span class="keyword">protected</span>:
+<a name="l00123"></a><a class="code" href="classPxBinaryConverter.html#76e9b36969e46ef131f22d2d95aa31cb">00123</a>                         <a class="code" href="classPxBinaryConverter.html#76e9b36969e46ef131f22d2d95aa31cb">PxBinaryConverter</a>()     {}
+<a name="l00124"></a><a class="code" href="classPxBinaryConverter.html#30333f47d0897b3728442e915eaaba81">00124</a>     <span class="keyword">virtual</span>             <a class="code" href="classPxBinaryConverter.html#30333f47d0897b3728442e915eaaba81">~PxBinaryConverter</a>()    {}
+<a name="l00125"></a>00125 };
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00128"></a>00128 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00129"></a>00129 <span class="preprocessor">#endif</span>
+<a name="l00130"></a>00130 <span class="preprocessor"></span>
+<a name="l00132"></a>00132 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

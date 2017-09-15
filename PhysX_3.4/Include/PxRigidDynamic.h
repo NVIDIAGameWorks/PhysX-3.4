@@ -76,7 +76,6 @@ Instances of this class are created by calling #PxPhysics::createRigidDynamic() 
 \li #PxVisualizationParameter::eBODY_MASS_AXES
 \li #PxVisualizationParameter::eBODY_LIN_VELOCITY
 \li #PxVisualizationParameter::eBODY_ANG_VELOCITY
-\li #PxVisualizationParameter::eBODY_JOINT_GROUPS
 
 @see PxRigidBody  PxPhysics.createRigidDynamic()  release()
 */

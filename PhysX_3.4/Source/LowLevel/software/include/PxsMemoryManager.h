@@ -33,7 +33,6 @@
 
 #include "foundation/PxPreprocessor.h"
 #include "foundation/PxSimpleTypes.h"
-#include "DyGpuAPI.h"
 #include "CmPhysXCommon.h"
 
 namespace physx

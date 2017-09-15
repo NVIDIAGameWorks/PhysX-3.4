@@ -111,71 +111,71 @@
 <a name="l00159"></a>00159 
 <a name="l00160"></a>00160 <span class="preprocessor">#if PX_USE_CLOTH_API</span>
 <a name="l00161"></a>00161 <span class="preprocessor"></span>
-<a name="l00165"></a><a class="code" href="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d797c35b252f095062fe0de0c9b93d1593">00165</a>         eCLOTH,
-<a name="l00166"></a>00166 <span class="preprocessor">#endif</span>
-<a name="l00167"></a>00167 <span class="preprocessor"></span>
-<a name="l00168"></a>00168         <span class="comment">//brief internal use only!</span>
-<a name="l00169"></a><a class="code" href="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d76abed597089004f428276d4ef225db12">00169</a>         eACTOR_COUNT,
-<a name="l00170"></a>00170 
-<a name="l00171"></a><a class="code" href="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d7c576e27c63fe565d6a1711342f781b7d">00171</a>         eACTOR_FORCE_DWORD = 0x7fffffff
-<a name="l00172"></a>00172     };
-<a name="l00173"></a>00173 };
-<a name="l00174"></a>00174 
-<a name="l00181"></a><a class="code" href="classPxActor.html">00181</a> <span class="keyword">class </span><a class="code" href="classPxActor.html" title="PxActor is the base class for the main simulation objects in the physics SDK.">PxActor</a> : <span class="keyword">public</span> <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>
-<a name="l00182"></a>00182 {
-<a name="l00183"></a>00183 <span class="keyword">public</span>:
-<a name="l00193"></a>00193     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            release() = 0;
-<a name="l00194"></a>00194 
-<a name="l00202"></a>00202     <span class="keyword">virtual</span>     <a class="code" href="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d7">PxActorType::Enum</a>   getType()   <span class="keyword">const</span> = 0;
-<a name="l00203"></a>00203 
-<a name="l00211"></a>00211     <span class="keyword">virtual</span>     <a class="code" href="classPxScene.html" title="A scene is a collection of bodies, particle systems and constraints which can interact...">PxScene</a>*        getScene()  <span class="keyword">const</span> = 0;
-<a name="l00212"></a>00212 
-<a name="l00213"></a>00213     <span class="comment">// Runtime modifications</span>
-<a name="l00214"></a>00214 
-<a name="l00227"></a>00227     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setName(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)       = 0;
-<a name="l00228"></a>00228 
-<a name="l00236"></a>00236     <span class="keyword">virtual</span>     <span class="keyword">const</span> <span class="keywordtype">char</span>*     getName()           <span class="keyword">const</span>   = 0;
-<a name="l00237"></a>00237 
-<a name="l00247"></a>00247     <span class="keyword">virtual</span>     <a class="code" href="classPxBounds3.html" title="Class representing 3D range or axis aligned bounding box.">PxBounds3</a>       getWorldBounds(<span class="keywordtype">float</span> inflation=1.01f) <span class="keyword">const</span> = 0;
-<a name="l00248"></a>00248 
-<a name="l00263"></a>00263     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setActorFlag(<a class="code" href="structPxActorFlag.html#1bc4c717e79cd547bdbe09a179ee9f1d">PxActorFlag::Enum</a> flag, <span class="keywordtype">bool</span> value) = 0;
-<a name="l00270"></a>00270     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setActorFlags( <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxActorFlags</a> inFlags ) = 0;
-<a name="l00271"></a>00271 
-<a name="l00281"></a>00281     <span class="keyword">virtual</span>     <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxActorFlags</a>    getActorFlags() <span class="keyword">const</span> = 0;
-<a name="l00282"></a>00282 
-<a name="l00299"></a>00299     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setDominanceGroup(<a class="code" href="group__physics.html#gf665154f3f66f7c4f65ca9015db8ee87">PxDominanceGroup</a> dominanceGroup)       = 0;
-<a name="l00300"></a>00300     
-<a name="l00308"></a>00308     <span class="keyword">virtual</span>     <a class="code" href="group__physics.html#gf665154f3f66f7c4f65ca9015db8ee87">PxDominanceGroup</a>    getDominanceGroup() <span class="keyword">const</span> = 0;
-<a name="l00309"></a>00309 
-<a name="l00310"></a>00310     
-<a name="l00320"></a>00320     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setOwnerClient( <a class="code" href="PxClient_8h.html#cb0e5a85de6c250f2a54db46e3aa0a12" title="An ID to identify different clients for multiclient support.">PxClientID</a> inClient ) = 0;
-<a name="l00321"></a>00321 
-<a name="l00329"></a>00329     <span class="keyword">virtual</span>     <a class="code" href="PxClient_8h.html#cb0e5a85de6c250f2a54db46e3aa0a12" title="An ID to identify different clients for multiclient support.">PxClientID</a>      getOwnerClient() <span class="keyword">const</span> = 0;
-<a name="l00330"></a>00330 
-<a name="l00346"></a>00346     <a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <span class="keyword">virtual</span>       <span class="keywordtype">void</span>            setClientBehaviorFlags(<a class="code" href="PxClient_8h.html#1e59792b13a65e6152d785fb8e91b92d" title="Bitfield that contains a set of raised flags defined in PxActorClientBehaviorFlag...">PxActorClientBehaviorFlags</a>) = 0;
-<a name="l00347"></a>00347 
-<a name="l00357"></a>00357     <a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <span class="keyword">virtual</span>       <a class="code" href="PxClient_8h.html#1e59792b13a65e6152d785fb8e91b92d" title="Bitfield that contains a set of raised flags defined in PxActorClientBehaviorFlag...">PxActorClientBehaviorFlags</a>  getClientBehaviorFlags()    <span class="keyword">const</span> = 0;
-<a name="l00358"></a>00358 
-<a name="l00366"></a>00366     <span class="keyword">virtual</span>     <a class="code" href="classPxAggregate.html" title="Class to aggregate actors into a single broad-phase entry.">PxAggregate</a>*    getAggregate()  <span class="keyword">const</span> = 0;
-<a name="l00367"></a>00367 
-<a name="l00368"></a>00368     <span class="comment">//public variables:</span>
-<a name="l00369"></a><a class="code" href="classPxActor.html#ce426ce4cca4de88806beee01eb4b87e">00369</a>                 <span class="keywordtype">void</span>*           userData;   
-<a name="l00370"></a>00370 
+<a name="l00166"></a>00166         eCLOTH PX_DEPRECATED,
+<a name="l00167"></a>00167 <span class="preprocessor">#endif</span>
+<a name="l00168"></a>00168 <span class="preprocessor"></span>
+<a name="l00169"></a>00169         <span class="comment">//brief internal use only!</span>
+<a name="l00170"></a><a class="code" href="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d76abed597089004f428276d4ef225db12">00170</a>         eACTOR_COUNT,
+<a name="l00171"></a>00171 
+<a name="l00172"></a><a class="code" href="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d7c576e27c63fe565d6a1711342f781b7d">00172</a>         eACTOR_FORCE_DWORD = 0x7fffffff
+<a name="l00173"></a>00173     };
+<a name="l00174"></a>00174 };
+<a name="l00175"></a>00175 
+<a name="l00182"></a><a class="code" href="classPxActor.html">00182</a> <span class="keyword">class </span><a class="code" href="classPxActor.html" title="PxActor is the base class for the main simulation objects in the physics SDK.">PxActor</a> : <span class="keyword">public</span> <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>
+<a name="l00183"></a>00183 {
+<a name="l00184"></a>00184 <span class="keyword">public</span>:
+<a name="l00194"></a>00194     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            release() = 0;
+<a name="l00195"></a>00195 
+<a name="l00203"></a>00203     <span class="keyword">virtual</span>     <a class="code" href="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d7">PxActorType::Enum</a>   getType()   <span class="keyword">const</span> = 0;
+<a name="l00204"></a>00204 
+<a name="l00212"></a>00212     <span class="keyword">virtual</span>     <a class="code" href="classPxScene.html" title="A scene is a collection of bodies, particle systems and constraints which can interact...">PxScene</a>*        getScene()  <span class="keyword">const</span> = 0;
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214     <span class="comment">// Runtime modifications</span>
+<a name="l00215"></a>00215 
+<a name="l00228"></a>00228     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setName(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)       = 0;
+<a name="l00229"></a>00229 
+<a name="l00237"></a>00237     <span class="keyword">virtual</span>     <span class="keyword">const</span> <span class="keywordtype">char</span>*     getName()           <span class="keyword">const</span>   = 0;
+<a name="l00238"></a>00238 
+<a name="l00248"></a>00248     <span class="keyword">virtual</span>     <a class="code" href="classPxBounds3.html" title="Class representing 3D range or axis aligned bounding box.">PxBounds3</a>       getWorldBounds(<span class="keywordtype">float</span> inflation=1.01f) <span class="keyword">const</span> = 0;
+<a name="l00249"></a>00249 
+<a name="l00264"></a>00264     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setActorFlag(<a class="code" href="structPxActorFlag.html#1bc4c717e79cd547bdbe09a179ee9f1d">PxActorFlag::Enum</a> flag, <span class="keywordtype">bool</span> value) = 0;
+<a name="l00271"></a>00271     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setActorFlags( <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxActorFlags</a> inFlags ) = 0;
+<a name="l00272"></a>00272 
+<a name="l00282"></a>00282     <span class="keyword">virtual</span>     <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxActorFlags</a>    getActorFlags() <span class="keyword">const</span> = 0;
+<a name="l00283"></a>00283 
+<a name="l00300"></a>00300     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setDominanceGroup(<a class="code" href="group__physics.html#gf665154f3f66f7c4f65ca9015db8ee87">PxDominanceGroup</a> dominanceGroup)       = 0;
+<a name="l00301"></a>00301     
+<a name="l00309"></a>00309     <span class="keyword">virtual</span>     <a class="code" href="group__physics.html#gf665154f3f66f7c4f65ca9015db8ee87">PxDominanceGroup</a>    getDominanceGroup() <span class="keyword">const</span> = 0;
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311     
+<a name="l00321"></a>00321     <span class="keyword">virtual</span>     <span class="keywordtype">void</span>            setOwnerClient( <a class="code" href="PxClient_8h.html#cb0e5a85de6c250f2a54db46e3aa0a12" title="An ID to identify different clients for multiclient support.">PxClientID</a> inClient ) = 0;
+<a name="l00322"></a>00322 
+<a name="l00330"></a>00330     <span class="keyword">virtual</span>     <a class="code" href="PxClient_8h.html#cb0e5a85de6c250f2a54db46e3aa0a12" title="An ID to identify different clients for multiclient support.">PxClientID</a>      getOwnerClient() <span class="keyword">const</span> = 0;
+<a name="l00331"></a>00331 
+<a name="l00347"></a>00347     <a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <span class="keyword">virtual</span>       <span class="keywordtype">void</span>            setClientBehaviorFlags(<a class="code" href="PxClient_8h.html#1e59792b13a65e6152d785fb8e91b92d" title="Bitfield that contains a set of raised flags defined in PxActorClientBehaviorFlag...">PxActorClientBehaviorFlags</a>) = 0;
+<a name="l00348"></a>00348 
+<a name="l00358"></a>00358     <a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <span class="keyword">virtual</span>       <a class="code" href="PxClient_8h.html#1e59792b13a65e6152d785fb8e91b92d" title="Bitfield that contains a set of raised flags defined in PxActorClientBehaviorFlag...">PxActorClientBehaviorFlags</a>  getClientBehaviorFlags()    <span class="keyword">const</span> = 0;
+<a name="l00359"></a>00359 
+<a name="l00367"></a>00367     <span class="keyword">virtual</span>     <a class="code" href="classPxAggregate.html" title="Class to aggregate actors into a single broad-phase entry.">PxAggregate</a>*    getAggregate()  <span class="keyword">const</span> = 0;
+<a name="l00368"></a>00368 
+<a name="l00369"></a>00369     <span class="comment">//public variables:</span>
+<a name="l00370"></a><a class="code" href="classPxActor.html#ce426ce4cca4de88806beee01eb4b87e">00370</a>                 <span class="keywordtype">void</span>*           userData;   
 <a name="l00371"></a>00371 
-<a name="l00372"></a>00372 <span class="keyword">protected</span>:
-<a name="l00373"></a><a class="code" href="classPxActor.html#05d86747e2fc14c89497fa06c8f0f252">00373</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                   <a class="code" href="classPxActor.html#05d86747e2fc14c89497fa06c8f0f252">PxActor</a>(<a class="code" href="group__common.html#gc1fb4b256a5d900d394e89db170a2b79">PxType</a> concreteType, <a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(concreteType, baseFlags), userData(NULL) {}
-<a name="l00374"></a><a class="code" href="classPxActor.html#1780362a59125a7d22619937b2d7a511">00374</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                   <a class="code" href="classPxActor.html#1780362a59125a7d22619937b2d7a511">PxActor</a>(<a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(baseFlags) {}
-<a name="l00375"></a><a class="code" href="classPxActor.html#d20c683780b093e7c9348b9e0fd8836d">00375</a>     <span class="keyword">virtual</span>                     <a class="code" href="classPxActor.html#d20c683780b093e7c9348b9e0fd8836d">~PxActor</a>()  {}
-<a name="l00376"></a><a class="code" href="classPxActor.html#fe6ddb3480f61350f60496c2e903c5c7">00376</a>     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>            <a class="code" href="classPxActor.html#fe6ddb3480f61350f60496c2e903c5c7" title="Returns whether a given type name matches with the type of this instance.">isKindOf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword">  const       </span>{   <span class="keywordflow">return</span> !::strcmp(<span class="stringliteral">"PxActor"</span>, name) || <a class="code" href="classPxBase.html#ae9d444c7cfd1715a101350a1b1226ef" title="Returns whether a given type name matches with the type of this instance.">PxBase::isKindOf</a>(name); }
-<a name="l00377"></a>00377 
+<a name="l00372"></a>00372 
+<a name="l00373"></a>00373 <span class="keyword">protected</span>:
+<a name="l00374"></a><a class="code" href="classPxActor.html#05d86747e2fc14c89497fa06c8f0f252">00374</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                   <a class="code" href="classPxActor.html#05d86747e2fc14c89497fa06c8f0f252">PxActor</a>(<a class="code" href="group__common.html#gc1fb4b256a5d900d394e89db170a2b79">PxType</a> concreteType, <a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(concreteType, baseFlags), userData(NULL) {}
+<a name="l00375"></a><a class="code" href="classPxActor.html#1780362a59125a7d22619937b2d7a511">00375</a>     <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                   <a class="code" href="classPxActor.html#1780362a59125a7d22619937b2d7a511">PxActor</a>(<a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(baseFlags) {}
+<a name="l00376"></a><a class="code" href="classPxActor.html#d20c683780b093e7c9348b9e0fd8836d">00376</a>     <span class="keyword">virtual</span>                     <a class="code" href="classPxActor.html#d20c683780b093e7c9348b9e0fd8836d">~PxActor</a>()  {}
+<a name="l00377"></a><a class="code" href="classPxActor.html#fe6ddb3480f61350f60496c2e903c5c7">00377</a>     <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>            <a class="code" href="classPxActor.html#fe6ddb3480f61350f60496c2e903c5c7" title="Returns whether a given type name matches with the type of this instance.">isKindOf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword">  const       </span>{   <span class="keywordflow">return</span> !::strcmp(<span class="stringliteral">"PxActor"</span>, name) || <a class="code" href="classPxBase.html#ae9d444c7cfd1715a101350a1b1226ef" title="Returns whether a given type name matches with the type of this instance.">PxBase::isKindOf</a>(name); }
 <a name="l00378"></a>00378 
-<a name="l00379"></a>00379 };
-<a name="l00380"></a>00380 
-<a name="l00381"></a>00381 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00382"></a>00382 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00383"></a>00383 <span class="preprocessor">#endif</span>
-<a name="l00384"></a>00384 <span class="preprocessor"></span>
-<a name="l00386"></a>00386 <span class="preprocessor">#endif</span>
+<a name="l00379"></a>00379 
+<a name="l00380"></a>00380 };
+<a name="l00381"></a>00381 
+<a name="l00382"></a>00382 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00383"></a>00383 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00384"></a>00384 <span class="preprocessor">#endif</span>
+<a name="l00385"></a>00385 <span class="preprocessor"></span>
+<a name="l00387"></a>00387 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

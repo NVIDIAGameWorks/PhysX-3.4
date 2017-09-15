@@ -36,6 +36,12 @@
 
 #include "foundation/Px.h"
 
+/*Temporary disable support for VS2017 for windows platform, as we wait for compiler fix:
+https://developercommunity.visualstudio.com/content/problem/66047/possible-compiler-bug.html
+*/
+#if (PX_VC == 15) && PX_WINDOWS
+#error Visual studio 2017 is not supported because of a compiler bug, support will be enabled once a fix is out.
+#endif
 
 // define API function declaration (public API only needed because of extensions)
 #if defined PX_PHYSX_STATIC_LIB || defined PX_PHYSX_CORE_STATIC_LIB
@@ -53,6 +59,25 @@
 		#define PX_PHYSX_CORE_API
     #endif
 #endif
+
+#if PX_SUPPORT_GPU_PHYSX
+
+// define API function declaration
+#if PX_WINDOWS 
+#if defined PX_PHYSX_GPU_EXPORTS
+#define PX_PHYSX_GPU_API __declspec(dllexport)
+#else
+#define PX_PHYSX_GPU_API __declspec(dllimport)
+#endif
+#elif PX_UNIX_FAMILY
+#define PX_PHYSX_GPU_API PX_UNIX_EXPORT
+#else
+#define PX_PHYSX_GPU_API
+#endif
+
+#else // PX_SUPPORT_GPU_PHYSX
+#define PX_PHYSX_GPU_API
+#endif // PX_SUPPORT_GPU_PHYSX
 
 #if PX_WINDOWS && !defined(__CUDACC__)
 	#if defined PX_PHYSX_COMMON_EXPORTS

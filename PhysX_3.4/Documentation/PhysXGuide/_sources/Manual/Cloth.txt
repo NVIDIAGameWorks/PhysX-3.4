@@ -11,6 +11,8 @@ Cloth
 Introduction
 ====================================================
 
+**The PhysX clothing feature has been deprecated in PhysX version 3.4.1. The PhysX and APEX clothing features are replaced by the standalone NvCloth library.**
+
 Realistic movement of character clothing greatly improves the player experience. The PhysX 3 cloth feature is a complete and high-performance solution to simulate character clothing. It provides local space simulation for high accuracy and stability, new techniques to reduce stretching, collision against a variety of shapes, as well as particle self-collision and inter-collision to avoid the cloth penetrating itself or other cloth instances. The simulation can be offloaded to CUDA capable GPUs for better performance or to run assets at higher resolutions than the CPU is able to handle.
 
 PhysX 3 cloth is a rewrite of the PhysX 2 deformables, tailored towards simulating character cloth. Softbodies, tearing, and two-way interaction have been removed, while behavior and performance for cloth simulation have been improved.

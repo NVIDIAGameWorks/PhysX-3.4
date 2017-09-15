@@ -70,7 +70,7 @@ SnippetContactReport_debug_common_cflags    += -MMD
 SnippetContactReport_debug_common_cflags    += $(addprefix -D, $(SnippetContactReport_debug_defines))
 SnippetContactReport_debug_common_cflags    += $(addprefix -I, $(SnippetContactReport_debug_hpaths))
 SnippetContactReport_debug_common_cflags  += -m32
-SnippetContactReport_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetContactReport_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetContactReport_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetContactReport_debug_common_cflags  += -Wno-uninitialized
 SnippetContactReport_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetContactReport_checked_common_cflags    += -MMD
 SnippetContactReport_checked_common_cflags    += $(addprefix -D, $(SnippetContactReport_checked_defines))
 SnippetContactReport_checked_common_cflags    += $(addprefix -I, $(SnippetContactReport_checked_hpaths))
 SnippetContactReport_checked_common_cflags  += -m32
-SnippetContactReport_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetContactReport_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetContactReport_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetContactReport_checked_common_cflags  += -Wno-uninitialized
 SnippetContactReport_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetContactReport_profile_common_cflags    += -MMD
 SnippetContactReport_profile_common_cflags    += $(addprefix -D, $(SnippetContactReport_profile_defines))
 SnippetContactReport_profile_common_cflags    += $(addprefix -I, $(SnippetContactReport_profile_hpaths))
 SnippetContactReport_profile_common_cflags  += -m32
-SnippetContactReport_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetContactReport_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetContactReport_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetContactReport_profile_common_cflags  += -Wno-uninitialized
 SnippetContactReport_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetContactReport_release_common_cflags    += -MMD
 SnippetContactReport_release_common_cflags    += $(addprefix -D, $(SnippetContactReport_release_defines))
 SnippetContactReport_release_common_cflags    += $(addprefix -I, $(SnippetContactReport_release_hpaths))
 SnippetContactReport_release_common_cflags  += -m32
-SnippetContactReport_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetContactReport_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetContactReport_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetContactReport_release_common_cflags  += -Wno-uninitialized
 SnippetContactReport_release_common_cflags  += -O3 -fno-strict-aliasing

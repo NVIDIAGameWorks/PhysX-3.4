@@ -37,11 +37,12 @@
 #error "This file should only be included by Unix builds!!"
 #endif
 
-#if PX_LINUX && !defined(__CUDACC__)
-	// Linux and CUDA compilation does not work with std::isfnite, as it is not marked as CUDA callable	
-	#ifndef isfinite
-		#define isfinite	std::isfinite
-	#endif
+#if (PX_LINUX || PX_ANDROID) && !defined(__CUDACC__) && !PX_EMSCRIPTEN
+    // Linux/android and CUDA compilation does not work with std::isfnite, as it is not marked as CUDA callable
+    #include <cmath>
+    #ifndef isfinite
+        using std::isfinite;
+    #endif
 #endif
 
 #include <math.h>
@@ -125,7 +126,10 @@ PX_CUDA_CALLABLE PX_FORCE_INLINE float selectMax(float a, float b)
 //! \brief platform-specific finiteness check (not INF or NAN)
 PX_CUDA_CALLABLE PX_FORCE_INLINE bool isFinite(float a)
 {
-	return !!isfinite(a);
+	//std::isfinite not recommended as of Feb 2017, since it doesn't work with g++/clang's floating point optimization.
+    union localU { PxU32 i; float f; } floatUnion;
+    floatUnion.f = a;
+    return !((floatUnion.i & 0x7fffffff) >= 0x7f800000);
 }
 
 //! \brief platform-specific finiteness check (not INF or NAN)

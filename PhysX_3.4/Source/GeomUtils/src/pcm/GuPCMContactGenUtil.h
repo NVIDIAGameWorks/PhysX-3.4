@@ -36,10 +36,10 @@
 #include "GuVecCapsule.h"
 #include "GuConvexSupportTable.h"
 
-//Percentage of margin
-#define	PCM_WITNESS_POINT_SCALE			1e-1f
 //The smallest epsilon we will permit (scaled by PxTolerancesScale.length)
-#define	PCM_WITNESS_POINT_LOWER_EPS		1e-3f
+#define	PCM_WITNESS_POINT_LOWER_EPS		1e-2f
+//The largest epsilon we will permit (scaled by PxTolerancesScale.length)
+#define	PCM_WITNESS_POINT_UPPER_EPS		5e-2f
 
 namespace physx
 {
@@ -273,39 +273,73 @@ namespace Gu
 
 	}
 
-	PX_FORCE_INLINE PxU32 getWitnessPolygonIndex(const Gu::PolygonalData& polyData,  SupportLocal* map, const Ps::aos::Vec3VArg normal,
-		const Ps::aos::Vec3VArg closest, const Ps::aos::FloatVArg tolerance)
+	PX_FORCE_INLINE PxU32 getWitnessPolygonIndex(const Gu::PolygonalData& polyData, SupportLocal* map, const Ps::aos::Vec3VArg normal,
+		const Ps::aos::Vec3VArg closest, const PxReal tolerance)
 	{
 		using namespace Ps::aos;
+
+		PxReal pd[256];
+		//first pass : calculate the smallest distance from the closest point to the polygon face
 
 		//transform the closest p to vertex space
 		const Vec3V p = M33MulV3(map->shape2Vertex, closest);
 		PxU32 closestFaceIndex = 0;
-		Vec4V plane = V4LoadU(&polyData.mPolygons[0].mPlane.n.x);
-		Vec3V n = Vec3V_From_Vec4V(plane);
-		Vec3V bestN = V3Normalize(M33TrnspsMulV3(map->shape2Vertex, n));
-		FloatV bestProj = V3Dot(bestN, normal);
-		FloatV d = V4GetW(plane);
-		FloatV pd = FAbs(FAdd(d, V3Dot(n, p))); 
-		FloatV minDist = pd;
 
-		for(PxU32 i=1; i< polyData.mNbPolygons; ++i)
+		PxVec3 closestP;
+		V3StoreU(p, closestP);
+
+		const PxReal eps = -tolerance;
+
+		PxPlane plane = polyData.mPolygons[0].mPlane;
+		PxReal dist = plane.distance(closestP);
+		PxReal minDist = dist >= eps ? dist : PX_MAX_F32;
+		pd[0] = minDist;
+		PxReal maxDist = dist;
+		PxU32 maxFaceIndex = 0;
+
+		for (PxU32 i = 1; i < polyData.mNbPolygons; ++i)
 		{
-			plane = V4LoadU(&polyData.mPolygons[i].mPlane.n.x);
-			n = Vec3V_From_Vec4V(plane);
-			d = V4GetW(plane);
-			pd = FAbs(FAdd(d, V3Dot(n, p))); 
-		
-			//if the difference between the minimum distance and the distance of p to plane i is within tolerance, we use the normal to chose the best plane 
-			if (FAllGrtrOrEq(tolerance, FSub(pd, minDist)))
+			plane = polyData.mPolygons[i].mPlane;
+			dist = plane.distance(closestP);
+			pd[i] = dist >= eps ? dist : PX_MAX_F32;
+			if (minDist > pd[i])
 			{
-				//rotate the plane normal to shape space
+				minDist = pd[i];
+				closestFaceIndex = i;
+			}
+			if (dist > maxDist)
+			{
+				maxDist = dist;
+				maxFaceIndex = i;
+			}
+		}
+
+		if (minDist == PX_MAX_F32)
+			return maxFaceIndex;
+
+		//second pass : select the face which has the normal most close to the gjk/epa normal
+		Vec4V plane4 = V4LoadU(&polyData.mPolygons[closestFaceIndex].mPlane.n.x);
+		Vec3V n = Vec3V_From_Vec4V(plane4);
+		n = V3Normalize(M33TrnspsMulV3(map->shape2Vertex, n));
+		FloatV bestProj = V3Dot(n, normal);
+
+		const PxU32 firstPassIndex = closestFaceIndex;
+
+		for (PxU32 i = 0; i< polyData.mNbPolygons; ++i)
+		{
+			//if the difference between the minimum distance and the distance of p to plane i is within tolerance, we use the normal to chose the best plane 
+			if ((tolerance >(pd[i] - minDist)) && (firstPassIndex != i))
+			{
+				plane4 = V4LoadU(&polyData.mPolygons[i].mPlane.n.x);
+				n = Vec3V_From_Vec4V(plane4);
+				//rotate the plane normal to shape space. We can roate normal into the vertex space. The reason for
+				//that is because it will lose some numerical precision if the object has large scale and this algorithm
+				//will choose different face
 				n = V3Normalize(M33TrnspsMulV3(map->shape2Vertex, n));
 				FloatV proj = V3Dot(n, normal);
 
-				if(FAllGrtr(bestProj, proj))
+				if (FAllGrtr(bestProj, proj))
 				{
-					minDist= pd;
 					closestFaceIndex = i;
 					bestProj = proj;
 				}
@@ -314,7 +348,6 @@ namespace Gu
 
 		return closestFaceIndex;
 	}
-
 
 	//ML: this function is shared by the sphere/capsule vs convex hulls full contact gen, capsule in the local space of polyData
 	PX_FORCE_INLINE bool testPolyDataAxis(const Gu::CapsuleV& capsule, const Gu::PolygonalData& polyData, SupportLocal* map,  const Ps::aos::FloatVArg contactDist, Ps::aos::FloatV& minOverlap, Ps::aos::Vec3V& separatingAxis)

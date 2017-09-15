@@ -49,7 +49,7 @@
 #include "foundation/PxPreprocessor.h"
 
 #define APEX_SDK_VERSION 1
-#define APEX_SDK_RELEASE 0x01040000
+#define APEX_SDK_RELEASE 0x01040100
 
 #if USE_RTTI
 #define DYNAMIC_CAST(type) dynamic_cast<type>

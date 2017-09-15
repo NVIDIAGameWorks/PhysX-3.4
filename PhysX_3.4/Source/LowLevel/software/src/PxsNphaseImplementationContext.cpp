@@ -32,11 +32,6 @@
 #include "CmFlushPool.h"
 #include "PxsSimpleIslandManager.h"
 
-//Enable tuner profiling.
-#ifdef PX_PS3
-#include "CellTimerMarker.h"
-#endif
-
 #if PX_SUPPORT_GPU_PHYSX
 #include "PxPhysXGpu.h"
 #include "task/PxGpuDispatcher.h"

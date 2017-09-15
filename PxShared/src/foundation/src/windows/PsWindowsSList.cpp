@@ -68,11 +68,9 @@ SListEntry* SListImpl::flush()
 	return reinterpret_cast<SListEntry*>(InterlockedFlushSList(getDetail(this)));
 }
 
-static const uint32_t gSize = sizeof(SLIST_HEADER);
-
-const uint32_t& SListImpl::getSize()
+uint32_t SListImpl::getSize()
 {
-	return gSize;
+	return sizeof(SLIST_HEADER);
 }
 
 } // namespace shdfnd

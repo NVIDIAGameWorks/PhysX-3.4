@@ -260,10 +260,12 @@ public:
 
 	\param[in] stream The stream to load the cloth fabric from.
 	\return The new cloth fabric.
+	
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 
 	@see PxClothFabric PxClothFabric.release() PxInputStream PxCloth PxRegisterCloth
 	*/
-	virtual PxClothFabric*		createClothFabric(PxInputStream& stream) = 0;
+	PX_DEPRECATED virtual PxClothFabric*	createClothFabric(PxInputStream& stream) = 0;
 
 	/**
 	\brief Creates a cloth fabric object from particle connectivity and restlength information.
@@ -275,18 +277,22 @@ public:
 	\param[in] desc Fabric descriptor, see #PxClothFabricDesc.
 	\return The new cloth fabric.
 
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
+
 	@see PxClothFabric PxClothFabric.release() PxCloth
 	*/
-	virtual PxClothFabric*		createClothFabric(const PxClothFabricDesc& desc) = 0;
+	PX_DEPRECATED virtual PxClothFabric*	createClothFabric(const PxClothFabricDesc& desc) = 0;
 
 	/**
 	\brief Return the number of cloth fabrics that currently exist.
 
 	\return Number of cloth fabrics.
+	
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 
 	@see getClothFabrics()
 	*/
-	virtual PxU32				getNbClothFabrics() const = 0;
+	PX_DEPRECATED virtual PxU32	getNbClothFabrics() const = 0;
 
 	/**
 	\brief Writes the array of cloth fabrics to a user buffer.
@@ -299,9 +305,11 @@ public:
 	\param[in] bufferSize The number of cloth fabric pointers which can be stored in the buffer.
 	\return The number of cloth fabric pointers written to userBuffer, this should be less or equal to bufferSize.
 
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
+
 	@see getNbClothFabrics() PxClothFabric
 	*/
-	virtual	PxU32				getClothFabrics(PxClothFabric** userBuffer, PxU32 bufferSize) const = 0;
+	PX_DEPRECATED virtual	PxU32	getClothFabrics(PxClothFabric** userBuffer, PxU32 bufferSize) const = 0;
 #endif
 
 	//@}
@@ -416,9 +424,11 @@ public:
 	\param flags Cloth flags.
 	\return The new cloth.
 
+	\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
+	
 	@see PxCloth PxClothFabric PxClothFlags PxRegisterCloth
 	*/
-	virtual PxCloth*			createCloth(const PxTransform& globalPose, PxClothFabric& fabric, const PxClothParticle* particles, PxClothFlags flags) = 0;
+	PX_DEPRECATED virtual PxCloth*	createCloth(const PxTransform& globalPose, PxClothFabric& fabric, const PxClothParticle* particles, PxClothFlags flags) = 0;
 #endif
 
 	/**
@@ -739,8 +749,10 @@ On resource constrained platforms, it is possible to call PxCreateBasePhysics() 
 to save on code memory if your application does not use cloth.  In this case the linker should strip out
 the relevant implementation code from the library.  If you need to use cloth but not some other optional
 component, you shoud call PxCreateBasePhysics() followed by this call.
+
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 */
-PX_C_EXPORT PX_PHYSX_CORE_API void PX_CALL_CONV PxRegisterCloth(physx::PxPhysics& physics);
+PX_DEPRECATED PX_C_EXPORT PX_PHYSX_CORE_API void PX_CALL_CONV PxRegisterCloth(physx::PxPhysics& physics);
 
 /**
 \brief Enables the usage of the particles feature.  This function is called automatically inside PxCreatePhysics(). (deprecated)

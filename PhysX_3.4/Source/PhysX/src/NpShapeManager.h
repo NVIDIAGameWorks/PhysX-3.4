@@ -73,8 +73,7 @@ public:
 					PxU32					getShapes(PxShape** buffer, PxU32 bufferSize, PxU32 startIndex=0) const;
 
 					void					attachShape(NpShape& shape, PxRigidActor& actor);
-					void					detachShape(NpShape& s, PxRigidActor &actor, bool wakeOnLostTouch);
-					bool					shapeIsAttached(NpShape& s) const;
+					bool					detachShape(NpShape& s, PxRigidActor &actor, bool wakeOnLostTouch);
 					void					detachAll(NpScene *scene);
 
 					void					teardownSceneQuery(Sq::SceneQueryManager& sqManager, const NpShape& shape);

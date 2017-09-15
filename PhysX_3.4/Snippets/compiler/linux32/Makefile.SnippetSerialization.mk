@@ -70,7 +70,7 @@ SnippetSerialization_debug_common_cflags    += -MMD
 SnippetSerialization_debug_common_cflags    += $(addprefix -D, $(SnippetSerialization_debug_defines))
 SnippetSerialization_debug_common_cflags    += $(addprefix -I, $(SnippetSerialization_debug_hpaths))
 SnippetSerialization_debug_common_cflags  += -m32
-SnippetSerialization_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSerialization_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSerialization_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSerialization_debug_common_cflags  += -Wno-uninitialized
 SnippetSerialization_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetSerialization_checked_common_cflags    += -MMD
 SnippetSerialization_checked_common_cflags    += $(addprefix -D, $(SnippetSerialization_checked_defines))
 SnippetSerialization_checked_common_cflags    += $(addprefix -I, $(SnippetSerialization_checked_hpaths))
 SnippetSerialization_checked_common_cflags  += -m32
-SnippetSerialization_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSerialization_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSerialization_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSerialization_checked_common_cflags  += -Wno-uninitialized
 SnippetSerialization_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetSerialization_profile_common_cflags    += -MMD
 SnippetSerialization_profile_common_cflags    += $(addprefix -D, $(SnippetSerialization_profile_defines))
 SnippetSerialization_profile_common_cflags    += $(addprefix -I, $(SnippetSerialization_profile_hpaths))
 SnippetSerialization_profile_common_cflags  += -m32
-SnippetSerialization_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSerialization_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSerialization_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSerialization_profile_common_cflags  += -Wno-uninitialized
 SnippetSerialization_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetSerialization_release_common_cflags    += -MMD
 SnippetSerialization_release_common_cflags    += $(addprefix -D, $(SnippetSerialization_release_defines))
 SnippetSerialization_release_common_cflags    += $(addprefix -I, $(SnippetSerialization_release_hpaths))
 SnippetSerialization_release_common_cflags  += -m32
-SnippetSerialization_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSerialization_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSerialization_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSerialization_release_common_cflags  += -Wno-uninitialized
 SnippetSerialization_release_common_cflags  += -O3 -fno-strict-aliasing

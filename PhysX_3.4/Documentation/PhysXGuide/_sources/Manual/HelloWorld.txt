@@ -12,7 +12,7 @@ concise format, free from the complexity of a sample framework or game engine. T
 in the top-level directory of the PhysX SDK, alongside directories for Documentation, Include, Samples, etc.
 
 The folder {SDK Root}/Snippets/compiler/{platform} contains the Snippets solution file, e.g.
-        Snippets/compiler/vc10win64/Snippets.sln
+        Snippets/compiler/vc14win64/Snippets.sln
 
 Although a few of the Snippets support rendering, ( Win32, Win64, OSX and Linux only ) most Snippets do not provide rendering, require no input,
 and provide only limited output through messages. Although Snippets can be run from a command prompt or by double-clicking the executable

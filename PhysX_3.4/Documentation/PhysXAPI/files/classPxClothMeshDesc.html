@@ -68,6 +68,7 @@ Collaboration diagram for PxClothMeshDesc:</div>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Descriptor class for a cloth mesh. 
 <p>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000073">Deprecated:</a></b></dt><dd>The PhysX cloth feature has been deprecated in PhysX version 3.4.1</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd>PxCooking.cookClothMesh() </dd></dl>
 <hr><h2>Member Data Documentation</h2>
 <a class="anchor" name="952a2399574b931bc5b1d09c66793175"></a><!-- doxytag: member="PxClothMeshDesc::flags" ref="952a2399574b931bc5b1d09c66793175" args="" -->
@@ -85,7 +86,7 @@ Descriptor class for a cloth mesh.
 Flags bits, combined from values of the enum <a class="el" href="structPxMeshFlag.html" title="Enum with flag values to be used in PxSimpleTriangleMesh::flags.">PxMeshFlag</a>. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothMeshDesc_8h-source.html#l00130">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothMeshDesc_8h-source.html#l00132">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -104,7 +105,7 @@ Flags bits, combined from values of the enum <a class="el" href="structPxMeshFla
 Determines whether particle is simulated or static. A positive value denotes that the particle is being simulated, zero denotes a static particle. This data is used to generate tether and zero stretch constraints. If invMasses.data is null, all particles are assumed to be simulated and no tether and zero stretch constraints are being generated. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothMeshDesc_8h-source.html#l00130">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothMeshDesc_8h-source.html#l00132">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -123,7 +124,7 @@ Determines whether particle is simulated or static. A positive value denotes tha
 Pointer to first vertex point. 
 <p>
 
-<p>Referenced by <a class="el" href="PxClothMeshDesc_8h-source.html#l00130">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothMeshDesc_8h-source.html#l00132">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -144,7 +145,7 @@ Pointer to the first quad.
 These are quadruples of 0 based indices: vert0 vert1 vert2 vert3 vert0 vert1 vert2 vert3 vert0 vert1 vert2 vert3 ...<p>
 where vert* is either a 32 or 16 bit unsigned integer. There are a total of 4*count indices. The stride determines the byte offset to the next index quadruple.<p>
 This is declared as a void pointer because it is actually either an PxU16 or a PxU32 pointer. 
-<p>Referenced by <a class="el" href="PxClothMeshDesc_8h-source.html#l00130">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothMeshDesc_8h-source.html#l00132">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -165,7 +166,7 @@ Pointer to the first triangle.
 These are triplets of 0 based indices: vert0 vert1 vert2 vert0 vert1 vert2 vert0 vert1 vert2 ...<p>
 where vert* is either a 32 or 16 bit unsigned integer. There are a total of 3*count indices. The stride determines the byte offset to the next index triple.<p>
 This is declared as a void pointer because it is actually either an PxU16 or a PxU32 pointer. 
-<p>Referenced by <a class="el" href="PxClothMeshDesc_8h-source.html#l00130">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxClothMeshDesc_8h-source.html#l00132">isValid()</a>.</p>
 
 </div>
 </div><p>

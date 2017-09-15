@@ -79,6 +79,7 @@ namespace Sn {
 		PX_FORCE_INLINE	bool					verboseMode()	const	{ return mReportMode==PxConverterReportMode::eVERBOSE;	}
 
 		virtual			bool					setMetaData(PxInputStream& srcMetaData, PxInputStream& dstMetaData);
+		virtual			bool					compareMetaData() const;
 		virtual			bool					convert(PxInputStream& srcStream, PxU32 srcSize, PxOutputStream& targetStream);
 		
 	private:

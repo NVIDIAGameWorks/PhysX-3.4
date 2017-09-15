@@ -192,18 +192,14 @@ bool Gu::pcmContactConvexMesh(GU_CONTACT_METHOD_ARGS)
 	PxBounds3 hullAABB;
 	PolygonalData polyData;
 	const bool idtScaleConvex = getPCMConvexData(shape0, convexScaling, hullAABB, polyData);
-
-	const Vec3V vScale = V3LoadU_SafeReadW(shapeConvex.scale.scale);	// PT: safe because 'rotation' follows 'scale' in PxMeshScale
-	const FloatV convexMargin = CalculatePCMConvexMargin(hullData, vScale);
 	const QuatV vQuat = QuatVLoadU(&shapeConvex.scale.rotation.x);
 
-	const FloatV epsilon = FLoad(GU_PCM_MESH_MANIFOLD_EPSILON);
-	const FloatV toleranceLength = FLoad(params.mToleranceLength);
-	const FloatV toleranceMargin = FMul(epsilon, toleranceLength);
-	const FloatV minMargin = FMin(convexMargin, toleranceMargin);
+	const Vec3V vScale = V3LoadU_SafeReadW(shapeConvex.scale.scale);	// PT: safe because 'rotation' follows 'scale' in PxMeshScale
+	
+	const PxReal toleranceScale = params.mToleranceLength;
+	const FloatV minMargin = CalculatePCMConvexMargin(hullData, vScale, toleranceScale, GU_PCM_MESH_MANIFOLD_EPSILON);
 	
 	ConvexHullV convexHull(hullData, V3Zero(), vScale, vQuat, idtScaleConvex);
-
 
 	if(idtScaleConvex)
 	{
@@ -240,11 +236,8 @@ bool Gu::pcmContactBoxMesh(GU_CONTACT_METHOD_ARGS)
 	Cm::FastVertex2ShapeScaling idtScaling;
 
 	const Vec3V boxExtents = V3LoadU(shapeBox.halfExtents);
-	const FloatV boxMargin = Gu::CalculatePCMBoxMargin(boxExtents);
-	const FloatV epsilon = FLoad(GU_PCM_MESH_MANIFOLD_EPSILON);
-	const FloatV toleranceLength = FLoad(params.mToleranceLength);
-	const FloatV toleranceMargin = FMul(epsilon, toleranceLength);
-	const FloatV minMargin = FMin(boxMargin, toleranceMargin);
+	const PxReal toleranceLength = params.mToleranceLength;
+	const FloatV minMargin = Gu::CalculatePCMBoxMargin(boxExtents, toleranceLength, GU_PCM_MESH_MANIFOLD_EPSILON);
 
 	BoxV boxV(V3Zero(), boxExtents);
 

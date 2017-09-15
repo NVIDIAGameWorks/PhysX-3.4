@@ -46,8 +46,9 @@ namespace physx
 \brief Sphere representation used for cloth-sphere and cloth-capsule collision.
 \details Cloth can collide with spheres and capsules.  Each capsule is represented by
 a pair of spheres with possibly different radii.
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 */
-struct PxClothCollisionSphere
+struct PX_DEPRECATED PxClothCollisionSphere
 {
 	PxVec3 pos;    //!< position of the sphere
 	PxReal radius; //!< radius of the sphere.
@@ -64,8 +65,9 @@ struct PxClothCollisionSphere
 \brief Plane representation used for cloth-convex collision.
 \details Cloth can collide with convexes.  Each convex is represented by
 a mask of the planes that make up the convex.
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 */
-struct PxClothCollisionPlane
+struct PX_DEPRECATED PxClothCollisionPlane
 {
 	PxVec3 normal;   //!< The normal to the plane
 	PxReal distance; //!< The distance to the origin (in the normal direction)
@@ -80,8 +82,9 @@ struct PxClothCollisionPlane
 
 /**
 \brief Triangle representation used for cloth-mesh collision.
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 */
-struct PxClothCollisionTriangle
+struct PX_DEPRECATED PxClothCollisionTriangle
 {
 	PxVec3 vertex0;
 	PxVec3 vertex1;

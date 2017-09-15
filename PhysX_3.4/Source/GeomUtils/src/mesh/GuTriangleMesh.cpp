@@ -67,11 +67,7 @@ Gu::TriangleMesh::TriangleMesh(GuMeshFactory& factory, TriangleMeshData& d)
 ,	mGRB_triIndices					(d.mGRB_triIndices)
 
 ,	mGRB_triAdjacencies				(d.mGRB_triAdjacencies)
-,	mGRB_vertValency				(d.mGRB_vertValency)
-,	mGRB_adjVertStart				(d.mGRB_adjVertStart)
-,	mGRB_adjVertices				(d.mGRB_adjVertices)
 
-,	mGRB_meshAdjVerticiesTotal		(d.mGRB_meshAdjVerticiesTotal)
 ,	mGRB_faceRemap					(d.mGRB_faceRemap)
 ,	mGRB_BV32Tree					(d.mGRB_BV32Tree)
 {
@@ -86,9 +82,6 @@ Gu::TriangleMesh::TriangleMesh(GuMeshFactory& factory, TriangleMeshData& d)
 	d.mGRB_triIndices = 0;
 
 	d.mGRB_triAdjacencies = 0;
-	d.mGRB_vertValency = 0;
-	d.mGRB_adjVertStart = 0;
-	d.mGRB_adjVertices = 0;
 	d.mGRB_faceRemap = 0;
 	d.mGRB_BV32Tree = 0;
 
@@ -111,9 +104,6 @@ Gu::TriangleMesh::~TriangleMesh()
 		PX_FREE_AND_RESET(mGRB_triIndices); 
 
 		PX_FREE_AND_RESET(mGRB_triAdjacencies);
-		PX_FREE_AND_RESET(mGRB_vertValency);
-		PX_FREE_AND_RESET(mGRB_adjVertStart);
-		PX_FREE_AND_RESET(mGRB_adjVertices);
 		PX_FREE_AND_RESET(mGRB_faceRemap);
 
 		BV32Tree* bv32Tree = reinterpret_cast<BV32Tree*>(mGRB_BV32Tree);
@@ -197,10 +187,6 @@ void Gu::TriangleMesh::importExtraData(PxDeserializationContext& context)
 
 	mGRB_triIndices = NULL;
 	mGRB_triAdjacencies = NULL;
-	mGRB_vertValency = NULL;
-	mGRB_adjVertStart = NULL;
-	mGRB_adjVertices = NULL;
-	mGRB_meshAdjVerticiesTotal = 0;
 	mGRB_faceRemap = NULL;
 	mGRB_BV32Tree = NULL;
 }

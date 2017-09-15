@@ -37,7 +37,7 @@
 #pragma warning(disable : 4996) // unsafe string functions
 #endif
 
-#if PX_PS4 || PX_APPLE_FAMILY
+#if PX_PS4 || PX_APPLE_FAMILY || (PX_LINUX && PX_X86 && PX_CLANG)
 #pragma clang diagnostic push
 // error : format string is not a string literal
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
@@ -176,7 +176,7 @@ void printFormatted(const char* format, ...)
 }
 }
 
-#if PX_PS4 || PX_APPLE_FAMILY
+#if PX_PS4 || PX_APPLE_FAMILY || (PX_LINUX && PX_X86 && PX_CLANG)
 #pragma clang diagnostic pop
 #endif
 

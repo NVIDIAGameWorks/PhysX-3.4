@@ -76,13 +76,13 @@ void Sc::RigidCore::onShapeChange(Sc::ShapeCore& shape, ShapeChangeNotifyFlags n
 	Sc::ShapeSim& s = sim->getSimForShape(shape);
 
 	if(notifyFlags & ShapeChangeNotifyFlag::eGEOMETRY)
-		s.onVolumeOrTransformChange(false, forceBoundsUpdate);
+		s.onVolumeOrTransformChange(forceBoundsUpdate);
 	if(notifyFlags & ShapeChangeNotifyFlag::eMATERIAL)
 		s.onMaterialChange();
 	if(notifyFlags & ShapeChangeNotifyFlag::eRESET_FILTERING)
 		s.onResetFiltering();
 	if(notifyFlags & ShapeChangeNotifyFlag::eSHAPE2BODY)
-		s.onVolumeOrTransformChange(false, forceBoundsUpdate);
+		s.onVolumeOrTransformChange(forceBoundsUpdate);
 	if(notifyFlags & ShapeChangeNotifyFlag::eFILTERDATA)
 		s.onFilterDataChange();
 	if(notifyFlags & ShapeChangeNotifyFlag::eFLAGS)

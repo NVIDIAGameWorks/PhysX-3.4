@@ -218,7 +218,7 @@ struct PxSceneFlag
 		
 		\note This flag is not mutable, and must be set in PxSceneDesc at scene creation.
 
-		<b>Default:</b> false
+		<b>Default:</b> true
 		*/
 		eENABLE_PCM	= (1 << 9),
 
@@ -644,6 +644,16 @@ public:
 	PxReal ccdMaxSeparation;
 
 	/**
+	\brief A slop value used to zero contact offsets from the body's COM on an axis if the offset along that axis is smaller than this threshold. Can be used to compensate
+	for small numerical errors in contact generation.
+
+	<b>Range:</b> [0, PX_MAX_F32)<br>
+	<b>Default:</b> 0.0
+	*/
+
+	PxReal solverOffsetSlop;
+
+	/**
 	\brief Flags used to select scene options.
 
 	@see PxSceneFlag PxSceneFlags
@@ -753,6 +763,24 @@ public:
 	@see nbContactDataBlocks PxScene::setNbContactDataBlocks 
 	*/
 	PxU32					maxNbContactDataBlocks;
+
+	/**
+	\brief The maximum bias coefficient used in the constraint solver
+
+	When geometric errors are found in the constraint solver, either as a result of shapes penetrating
+	or joints becoming separated or violating limits, a bias is introduced in the solver position iterations
+	to correct these errors. This bias is proportional to 1/dt, meaning that the bias becomes increasingly 
+	strong as the time-step passed to PxScene::simulate(...) becomes smaller. This coefficient allows the
+	application to restrict how large the bias coefficient is, to reduce how violent error corrections are.
+	This can improve simulation quality in cases where either variable time-steps or extremely small time-steps
+	are used.
+	
+	<b>Default:</b> PX_MAX_F32
+
+	<b> Range</b> [0, PX_MAX_F32] <br>
+
+	*/
+	PxReal					maxBiasCoefficient;
 
 	/**
 	\brief Size of the contact report stream (in bytes).
@@ -888,6 +916,7 @@ PX_INLINE PxSceneDesc::PxSceneDesc(const PxTolerancesScale& scale):
 	bounceThresholdVelocity				(0.2f * scale.speed),
 	frictionOffsetThreshold				(0.04f * scale.length),
 	ccdMaxSeparation					(0.04f * scale.length),
+	solverOffsetSlop					(0.0f),
 
 	flags								(PxSceneFlag::eENABLE_PCM),
 
@@ -904,14 +933,15 @@ PX_INLINE PxSceneDesc::PxSceneDesc(const PxTolerancesScale& scale):
 
 	nbContactDataBlocks					(0),
 	maxNbContactDataBlocks				(1<<16),
+	maxBiasCoefficient					(PX_MAX_F32),
 	contactReportStreamBufferSize		(8192),
 	ccdMaxPasses						(1),
 	wakeCounterResetValue				(20.0f*0.02f),
 	sanityBounds						(PxBounds3(PxVec3(-PX_MAX_BOUNDS_EXTENTS), PxVec3(PX_MAX_BOUNDS_EXTENTS))),
-#if PX_SUPPORT_GPU_PHYSX
+
 	gpuMaxNumPartitions					(8),
 	gpuComputeVersion					(0),
-#endif
+
 	tolerancesScale						(scale)
 {
 }
@@ -965,13 +995,11 @@ PX_INLINE bool PxSceneDesc::isValid() const
 	if(!sanityBounds.isValid())
 		return false;
 
-#if PX_SUPPORT_GPU_PHYSX
 	//gpuMaxNumPartitions must be power of 2
 	if((gpuMaxNumPartitions&(gpuMaxNumPartitions - 1)) != 0)
 		return false;
 	if (gpuMaxNumPartitions > 32)
 		return false;
-#endif
 
 	return true;
 }

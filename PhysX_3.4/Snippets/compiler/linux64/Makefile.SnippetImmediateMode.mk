@@ -70,7 +70,7 @@ SnippetImmediateMode_debug_common_cflags    += -MMD
 SnippetImmediateMode_debug_common_cflags    += $(addprefix -D, $(SnippetImmediateMode_debug_defines))
 SnippetImmediateMode_debug_common_cflags    += $(addprefix -I, $(SnippetImmediateMode_debug_hpaths))
 SnippetImmediateMode_debug_common_cflags  += -m64
-SnippetImmediateMode_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetImmediateMode_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetImmediateMode_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetImmediateMode_debug_common_cflags  += -Wno-uninitialized
 SnippetImmediateMode_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetImmediateMode_checked_common_cflags    += -MMD
 SnippetImmediateMode_checked_common_cflags    += $(addprefix -D, $(SnippetImmediateMode_checked_defines))
 SnippetImmediateMode_checked_common_cflags    += $(addprefix -I, $(SnippetImmediateMode_checked_hpaths))
 SnippetImmediateMode_checked_common_cflags  += -m64
-SnippetImmediateMode_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetImmediateMode_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetImmediateMode_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetImmediateMode_checked_common_cflags  += -Wno-uninitialized
 SnippetImmediateMode_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetImmediateMode_profile_common_cflags    += -MMD
 SnippetImmediateMode_profile_common_cflags    += $(addprefix -D, $(SnippetImmediateMode_profile_defines))
 SnippetImmediateMode_profile_common_cflags    += $(addprefix -I, $(SnippetImmediateMode_profile_hpaths))
 SnippetImmediateMode_profile_common_cflags  += -m64
-SnippetImmediateMode_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetImmediateMode_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetImmediateMode_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetImmediateMode_profile_common_cflags  += -Wno-uninitialized
 SnippetImmediateMode_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetImmediateMode_release_common_cflags    += -MMD
 SnippetImmediateMode_release_common_cflags    += $(addprefix -D, $(SnippetImmediateMode_release_defines))
 SnippetImmediateMode_release_common_cflags    += $(addprefix -I, $(SnippetImmediateMode_release_hpaths))
 SnippetImmediateMode_release_common_cflags  += -m64
-SnippetImmediateMode_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetImmediateMode_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetImmediateMode_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetImmediateMode_release_common_cflags  += -Wno-uninitialized
 SnippetImmediateMode_release_common_cflags  += -O3 -fno-strict-aliasing

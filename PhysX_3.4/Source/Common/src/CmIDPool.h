@@ -109,7 +109,7 @@ namespace Cm
 			const PxU32 deferredFreeIDCount = mDeferredFreeIDs.size();
 			for(PxU32 a = 0; a < deferredFreeIDCount;++a)
 			{
-				this->mFreeIDs.pushBack(mDeferredFreeIDs[a]);
+				IDPoolBase<FreeBuffer>::freeID(mDeferredFreeIDs[a]);
 			}
 			mDeferredFreeIDs.clear();
 		}

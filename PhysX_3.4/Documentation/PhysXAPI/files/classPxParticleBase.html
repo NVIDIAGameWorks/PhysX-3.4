@@ -180,7 +180,7 @@ The particle base class represents the shared module for particle based simulati
 <p>
 The particle base class manages a set of particles. Particles can be created, released and updated directly through the API. When a particle is created the user gets an index for it which can be used to address the particle until it is released again.<p>
 Particles collide with static and dynamic shapes. They are also affected by the scene gravity and a user force, as well as global velocity damping. When a particle collides, a particle flag is raised corresponding to the type of actor, static or dynamic, it collided with. Additionally a shape can be flagged as a drain (See <a class="el" href="structPxShapeFlag.html" title="Flags which affect the behavior of PxShapes.">PxShapeFlag</a>), in order to get a corresponding particle flag raised when a collision occurs. This information can be used to delete particles.<p>
-<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000051">Deprecated:</a></b></dt><dd>The PhysX particle feature has been deprecated in PhysX version 3.4</dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000086">Deprecated:</a></b></dt><dd>The PhysX particle feature has been deprecated in PhysX version 3.4</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxParticleCreationData.html" title="Descriptor-like user-side class describing buffers for particle creation. (deprecated)...">PxParticleCreationData</a>, <a class="el" href="classPxParticleReadData.html" title="Data layout descriptor for reading particle data from the SDK. (deprecated).">PxParticleReadData</a>, <a class="el" href="structPxShapeFlag.html" title="Flags which affect the behavior of PxShapes.">PxShapeFlag</a>, <a class="el" href="classPxParticleSystem.html" title="The particle system class represents the main module for particle based simulation...">PxParticleSystem</a>, <a class="el" href="classPxParticleFluid.html" title="The particle fluid class represents the main module for particle based fluid simulation...">PxParticleFluid</a> </dd></dl>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" name="1688c7c5736ab69e7606d419daccfe39"></a><!-- doxytag: member="PxParticleBase::PxParticleBase" ref="1688c7c5736ab69e7606d419daccfe39" args="(PxType concreteType, PxBaseFlags baseFlags)" -->
@@ -705,7 +705,7 @@ Returns whether a given type name matches with the type of this instance.
 
 <p>Reimplemented in <a class="el" href="classPxParticleFluid.html#0db52e5bf2c3ba3ee1e4c2eec3a18a74">PxParticleFluid</a>, and <a class="el" href="classPxParticleSystem.html#5ca70971bfaa280a0401152ce3fc5fe6">PxParticleSystem</a>.</p>
 
-<p>References <a class="el" href="PxActor_8h-source.html#l00376">PxActor::isKindOf()</a>.</p>
+<p>References <a class="el" href="PxActor_8h-source.html#l00377">PxActor::isKindOf()</a>.</p>
 
 <p>Referenced by <a class="el" href="PxParticleSystem_8h-source.html#l00076">PxParticleSystem::isKindOf()</a>, and <a class="el" href="PxParticleFluid_8h-source.html#l00169">PxParticleFluid::isKindOf()</a>.</p>
 

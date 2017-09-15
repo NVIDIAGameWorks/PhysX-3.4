@@ -48,35 +48,51 @@ namespace Gu
 #define CONVEX_MARGIN_RATIO			0.1f
 #define CONVEX_MIN_MARGIN_RATIO		0.05f
 #define	CONVEX_SWEEP_MARGIN_RATIO	0.025f
+#define TOLERANCE_MARGIN_RATIO		0.08f
+#define TOLERANCE_MIN_MARGIN_RATIO	0.05f
+
 
 	//This margin is used in Persistent contact manifold
-	PX_SUPPORT_FORCE_INLINE Ps::aos::FloatV CalculatePCMConvexMargin(const Gu::ConvexHullData* hullData, const Ps::aos::Vec3VArg scale)
+	PX_SUPPORT_FORCE_INLINE Ps::aos::FloatV CalculatePCMConvexMargin(const Gu::ConvexHullData* hullData, const Ps::aos::Vec3VArg scale, 
+		const PxReal toleranceLength, const PxReal toleranceRatio = TOLERANCE_MIN_MARGIN_RATIO)
 	{
+		
 		using namespace Ps::aos;
 		const Vec3V extents= V3Mul(V3LoadU(hullData->mInternal.mExtents), scale);
+		const FloatV min = V3ExtractMin(extents);
+		const FloatV toleranceMargin = FLoad(toleranceLength * toleranceRatio);
+		//ML: 25% of the minimum extents of the internal AABB as this convex hull's margin
+		return FMin(FMul(min, FLoad(0.25f)), toleranceMargin);
+	}
+
+	PX_SUPPORT_FORCE_INLINE Ps::aos::FloatV CalculateMTDConvexMargin(const Gu::ConvexHullData* hullData, const Ps::aos::Vec3VArg scale)
+	{
+		using namespace Ps::aos;
+		const Vec3V extents = V3Mul(V3LoadU(hullData->mInternal.mExtents), scale);
 		const FloatV min = V3ExtractMin(extents);
 		//ML: 25% of the minimum extents of the internal AABB as this convex hull's margin
 		return FMul(min, FLoad(0.25f));
 	}
 
 
-	//This margin is used in PCM contact gen
-	PX_SUPPORT_FORCE_INLINE void CalculateConvexMargin(const Gu::ConvexHullData* hullData, PxReal& margin, PxReal& minMargin, PxReal& sweepMargin, const Ps::aos::Vec3VArg scale)
+	//This minMargin is used in PCM contact gen
+	PX_SUPPORT_FORCE_INLINE void CalculateConvexMargin(const Gu::ConvexHullData* hullData, PxReal& margin, PxReal& minMargin, PxReal& sweepMargin,
+		const Ps::aos::Vec3VArg scale)
 	{
 		using namespace Ps::aos;
+		
 		const Vec3V extents = V3Mul(V3LoadU(hullData->mInternal.mExtents), scale);
-		const FloatV min = V3ExtractMin(extents);
+		const FloatV min_ = V3ExtractMin(extents);
 
-		//Margin is used in the plane shifting for the shrunk convex hull
-		const FloatV margin_ = FMul(min, FLoad(CONVEX_MARGIN_RATIO));
+		PxReal minExtent;
+		FStore(min_, &minExtent);
+
+		//Margin is used in the plane shifting for the shrunk convex hull and acceptanceTolerance for overlap
+		margin = minExtent * CONVEX_MARGIN_RATIO;
 		//minMargin is used in the GJK termination condition
-		const FloatV minMargin_ = FMul(min, FLoad(CONVEX_MIN_MARGIN_RATIO));
-
-		const FloatV sweepMargin_ = FMul(min, FLoad(CONVEX_SWEEP_MARGIN_RATIO));
-
-		FStore(margin_, &margin);
-		FStore(minMargin_, &minMargin);
-		FStore(sweepMargin_, &sweepMargin);
+		minMargin = minExtent * CONVEX_MIN_MARGIN_RATIO;
+		//this is used for GJKRaycast
+		sweepMargin = minExtent * CONVEX_SWEEP_MARGIN_RATIO;
 	}
 
 	PX_SUPPORT_FORCE_INLINE Ps::aos::Mat33V ConstructSkewMatrix(const Ps::aos::Vec3VArg scale, const Ps::aos::QuatVArg rotation) 
@@ -170,39 +186,36 @@ namespace Gu
 		{
 		public:
 			PxU32 m[8];
-			PX_FORCE_INLINE TinyBitMap()			{ m[0] = m[1] = m[2] = m[3] = m[4] = m[5] = m[6] = m[7] = 0;	}
-			PX_FORCE_INLINE void set(PxU8 v)		{ m[v>>5] |= 1<<(v&31);											}
-			PX_FORCE_INLINE bool get(PxU8 v) const	{ return (m[v>>5] & 1<<(v&31)) != 0;							}
+			PX_FORCE_INLINE TinyBitMap() { m[0] = m[1] = m[2] = m[3] = m[4] = m[5] = m[6] = m[7] = 0; }
+			PX_FORCE_INLINE void set(PxU8 v) { m[v >> 5] |= 1 << (v & 31); }
+			PX_FORCE_INLINE bool get(PxU8 v) const { return (m[v >> 5] & 1 << (v & 31)) != 0; }
 		};
 
 
-		public:
+	public:
 		/**
 		\brief Constructor
 		*/
-		PX_SUPPORT_INLINE ConvexHullV(): ConvexV(ConvexType::eCONVEXHULL)
+		PX_SUPPORT_INLINE ConvexHullV() : ConvexV(ConvexType::eCONVEXHULL)
 		{
 		}
 
-		PX_SUPPORT_INLINE ConvexHullV(const Gu::ConvexHullData* _hullData, const Ps::aos::Vec3VArg _center, const Ps::aos::Vec3VArg scale, const Ps::aos::QuatVArg scaleRot, const bool idtScale):
+		PX_SUPPORT_INLINE ConvexHullV(const Gu::ConvexHullData* _hullData, const Ps::aos::Vec3VArg _center, const Ps::aos::Vec3VArg scale, const Ps::aos::QuatVArg scaleRot,
+			const bool idtScale) :
 			ConvexV(ConvexType::eCONVEXHULL, _center)
 		{
 			using namespace Ps::aos;
 
-			hullData = _hullData;	
+			hullData = _hullData;
 			const PxVec3* PX_RESTRICT tempVerts = _hullData->getHullVertices();
-			//const PxU8* PX_RESTRICT polyInds = _hullData->getFacesByVertices8();
-			//const HullPolygonData* PX_RESTRICT polygons = _hullData->mPolygons;
 			verts = tempVerts;
 			numVerts = _hullData->mNbHullVertices;
-			CalculateConvexMargin( _hullData, margin, minMargin, sweepMargin, scale);
+			CalculateConvexMargin(_hullData, margin, minMargin, sweepMargin, scale);
 			ConstructSkewMatrix(scale, scaleRot, vertex2Shape, shape2Vertex, center, idtScale);
-			/*skewScale = Mat33V temp(V3Scale(trans.col0, V3GetX(scale)), V3Scale(trans.col1, V3GetY(scale)), V3Scale(trans.col2, V3GetZ(scale)));
-			skewRot = QuatGetMat33V(scaleRot);*/
-
 			data = _hullData->mBigConvexRawData;
 		}
 
+		//this is used by CCD system
 		PX_SUPPORT_INLINE ConvexHullV(const PxGeometry& geom) : ConvexV(ConvexType::eCONVEXHULL, Ps::aos::V3Zero())
 		{
 			using namespace Ps::aos;
@@ -213,20 +226,22 @@ namespace Gu
 			const QuatV vRot = QuatVLoadU(&convexGeom.scale.rotation.x);
 			const bool idtScale = convexGeom.scale.isIdentity();
 
-			hullData = hData;	
+			hullData = hData;
 			const PxVec3* PX_RESTRICT tempVerts = hData->getHullVertices();
 			verts = tempVerts;
 			numVerts = hData->mNbHullVertices;
-			CalculateConvexMargin( hData, margin, minMargin, sweepMargin, vScale);
+			CalculateConvexMargin(hData, margin, minMargin, sweepMargin, vScale);
 			ConstructSkewMatrix(vScale, vRot, vertex2Shape, shape2Vertex, center, idtScale);
 
 			data = hData->mBigConvexRawData;
+
 		}
 
-		PX_SUPPORT_INLINE void initialize(const Gu::ConvexHullData* _hullData, const Ps::aos::Vec3VArg _center, const Ps::aos::Vec3VArg scale, const Ps::aos::QuatVArg scaleRot, const bool idtScale)
-		{	
+		PX_SUPPORT_INLINE void initialize(const Gu::ConvexHullData* _hullData, const Ps::aos::Vec3VArg _center, const Ps::aos::Vec3VArg scale,
+			const Ps::aos::QuatVArg scaleRot, const bool idtScale)
+		{
 			using namespace Ps::aos;
-			
+
 			const PxVec3* tempVerts = _hullData->getHullVertices();
 			CalculateConvexMargin(_hullData, margin, minMargin, sweepMargin, scale);
 			ConstructSkewMatrix(scale, scaleRot, vertex2Shape, shape2Vertex, center, idtScale);
@@ -234,19 +249,29 @@ namespace Gu
 			verts = tempVerts;
 			numVerts = _hullData->mNbHullVertices;
 			//rot = _rot;	
-			
+
 			center = _center;
 
-		//	searchIndex = 0;
+			//	searchIndex = 0;
 			data = _hullData->mBigConvexRawData;
 
 			hullData = _hullData;
-			if(_hullData->mBigConvexRawData)
+			if (_hullData->mBigConvexRawData)
 			{
 				Ps::prefetchLine(hullData->mBigConvexRawData->mValencies);
-				Ps::prefetchLine(hullData->mBigConvexRawData->mValencies,128);
+				Ps::prefetchLine(hullData->mBigConvexRawData->mValencies, 128);
 				Ps::prefetchLine(hullData->mBigConvexRawData->mAdjacentVerts);
 			}
+		}
+
+
+		PX_FORCE_INLINE void resetMargin(const PxReal toleranceLength)
+		{
+			const PxReal toleranceMinMargin = toleranceLength * TOLERANCE_MIN_MARGIN_RATIO;
+			const PxReal toleranceMargin = toleranceLength * TOLERANCE_MARGIN_RATIO;
+
+			margin = PxMin(margin, toleranceMargin);
+			minMargin = PxMin(minMargin, toleranceMinMargin);
 		}
 
 		PX_FORCE_INLINE Ps::aos::Vec3V supportPoint(const PxI32 index, Ps::aos::FloatV* /*marginDif*/)const

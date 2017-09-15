@@ -566,8 +566,8 @@ namespace Gu
 	}
 
 	bool generateFullContactManifold(PolygonalData& polyData0, PolygonalData& polyData1, SupportLocal* map0, SupportLocal* map1,  PersistentContact* manifoldContacts, PxU32& numContacts,
-		const FloatVArg contactDist, const Vec3VArg normal, const Vec3VArg closestA, const Vec3VArg closestB, const FloatVArg marginA, const FloatVArg marginB, const bool doOverlapTest, 
-		Cm::RenderOutput* renderOutput, const Ps::aos::FloatVArg toleranceScale)
+		const FloatVArg contactDist, const Vec3VArg normal, const Vec3VArg closestA, const Vec3VArg closestB, const PxReal marginA, const PxReal marginB, const bool doOverlapTest, 
+		Cm::RenderOutput* renderOutput, const PxReal toleranceLength)
 	{
 	
 		const PsMatTransformV transform1To0V = map0->transform.transformInv(map1->transform);
@@ -657,19 +657,50 @@ EdgeTest:
 		}
 		else
 		{
-			const FloatV eps = FLoad(PCM_WITNESS_POINT_SCALE);
-			const FloatV lowerEps = FMul(toleranceScale, FLoad(PCM_WITNESS_POINT_LOWER_EPS));
-			const FloatV toleranceA = FMax(FMul(marginA, eps), lowerEps);
-			
-			const FloatV toleranceB = FMax(FMul(marginB, eps), lowerEps);
+			const PxReal lowerEps = toleranceLength * PCM_WITNESS_POINT_LOWER_EPS;
+			const PxReal upperEps = toleranceLength * PCM_WITNESS_POINT_UPPER_EPS;
+			const PxReal toleranceA = PxClamp(marginA, lowerEps, upperEps);
+			const PxReal toleranceB = PxClamp(marginB, lowerEps, upperEps);
 
-			const PxU32 faceIndex1 = getWitnessPolygonIndex(polyData1, map1, V3Neg(normal), closestB, toleranceB);
-			const PxU32 faceIndex0 = getWitnessPolygonIndex(polyData0, map0, transform0To1V.rotateInv(normal), transform0To1V.transformInv(closestA), toleranceA);
+			const Vec3V negNormal = V3Neg(normal);
+			const Vec3V normalIn0 = transform0To1V.rotateInv(normal);
+
+			const PxU32 faceIndex1 = getWitnessPolygonIndex(polyData1, map1, negNormal, closestB, toleranceB);
+			const PxU32 faceIndex0 = getWitnessPolygonIndex(polyData0, map0, normalIn0, transform0To1V.transformInv(closestA),
+				toleranceA);
 
 			const HullPolygonData& referencePolygon = polyData1.mPolygons[faceIndex1];
 			const HullPolygonData& incidentPolygon = polyData0.mPolygons[faceIndex0];
-			generatedContacts(polyData1, polyData0, referencePolygon, incidentPolygon, map1, map0, transform1To0V, manifoldContacts, numContacts, contactDist, renderOutput);
-			
+
+			const Vec3V referenceNormal = V3Normalize(M33TrnspsMulV3(map1->shape2Vertex, V3LoadU(referencePolygon.mPlane.n)));
+			const Vec3V incidentNormal = V3Normalize(M33TrnspsMulV3(map0->shape2Vertex, V3LoadU(incidentPolygon.mPlane.n)));
+		
+			const FloatV referenceProject = FAbs(V3Dot(referenceNormal, negNormal));
+			const FloatV incidentProject = FAbs(V3Dot(incidentNormal, normalIn0));
+
+			if (FAllGrtrOrEq(referenceProject, incidentProject) )
+			{
+				generatedContacts(polyData1, polyData0, referencePolygon, incidentPolygon, map1, map0, transform1To0V, manifoldContacts, numContacts, contactDist, renderOutput);
+			}
+			else
+			{
+				generatedContacts(polyData0, polyData1, incidentPolygon, referencePolygon, map0, map1, transform0To1V, manifoldContacts, numContacts, contactDist, renderOutput);
+
+				if (numContacts > 0)
+				{
+					const Vec3V n = transform0To1V.rotate(incidentNormal);
+
+					const Vec3V nn = V3Neg(n);
+					//flip the contacts
+					for (PxU32 i = 0; i<numContacts; ++i)
+					{
+						const Vec3V localPointB = manifoldContacts[i].mLocalPointB;
+						manifoldContacts[i].mLocalPointB = manifoldContacts[i].mLocalPointA;
+						manifoldContacts[i].mLocalPointA = localPointB;
+						manifoldContacts[i].mLocalNormalPen = V4SetW(nn, V4GetW(manifoldContacts[i].mLocalNormalPen));
+					}
+				}
+			}
 		}
 	
 		return true;

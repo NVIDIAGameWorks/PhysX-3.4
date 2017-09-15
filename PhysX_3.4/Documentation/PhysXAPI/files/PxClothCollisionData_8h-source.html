@@ -59,48 +59,48 @@
 <a name="l00042"></a>00042 {
 <a name="l00043"></a>00043 <span class="preprocessor">#endif</span>
 <a name="l00044"></a>00044 <span class="preprocessor"></span>
-<a name="l00050"></a><a class="code" href="structPxClothCollisionSphere.html">00050</a> <span class="keyword">struct </span><a class="code" href="structPxClothCollisionSphere.html" title="Sphere representation used for cloth-sphere and cloth-capsule collision.">PxClothCollisionSphere</a>
-<a name="l00051"></a>00051 {
-<a name="l00052"></a><a class="code" href="structPxClothCollisionSphere.html#e8582b911399447d9e5b8934ccb2d6f8">00052</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> pos;    
-<a name="l00053"></a><a class="code" href="structPxClothCollisionSphere.html#17868162d4bc0a21307536a2efcde37b">00053</a>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> radius; 
-<a name="l00054"></a>00054 
-<a name="l00058"></a><a class="code" href="structPxClothCollisionSphere.html#f7f3ff5f23299fc3c1f4956c634efc14">00058</a>     <a class="code" href="structPxClothCollisionSphere.html#f7f3ff5f23299fc3c1f4956c634efc14" title="Default constructor, performs no initialization.">PxClothCollisionSphere</a>() {}
-<a name="l00059"></a><a class="code" href="structPxClothCollisionSphere.html#c32f107dc7091f6fcbac6e91396ea5ad">00059</a>     <a class="code" href="structPxClothCollisionSphere.html" title="Sphere representation used for cloth-sphere and cloth-capsule collision.">PxClothCollisionSphere</a>(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; p, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> r)
-<a name="l00060"></a>00060         : pos(p), radius(r) {}
-<a name="l00061"></a>00061 };
-<a name="l00062"></a>00062 
-<a name="l00068"></a><a class="code" href="structPxClothCollisionPlane.html">00068</a> <span class="keyword">struct </span><a class="code" href="structPxClothCollisionPlane.html" title="Plane representation used for cloth-convex collision.">PxClothCollisionPlane</a>
-<a name="l00069"></a>00069 {
-<a name="l00070"></a><a class="code" href="structPxClothCollisionPlane.html#7e534f3b2f378dd33cebc5d2a4780409">00070</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> normal;   
-<a name="l00071"></a><a class="code" href="structPxClothCollisionPlane.html#488afcb958cda9593710f6fafc17c26d">00071</a>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> distance; 
-<a name="l00072"></a>00072 
-<a name="l00076"></a><a class="code" href="structPxClothCollisionPlane.html#c2109f7d48a1a56beae79591a26f77b9">00076</a>     <a class="code" href="structPxClothCollisionPlane.html#c2109f7d48a1a56beae79591a26f77b9" title="Default constructor, performs no initialization.">PxClothCollisionPlane</a>() {}
-<a name="l00077"></a><a class="code" href="structPxClothCollisionPlane.html#d16d7f8370c7958371a9094a3142cda3">00077</a>     <a class="code" href="structPxClothCollisionPlane.html" title="Plane representation used for cloth-convex collision.">PxClothCollisionPlane</a>(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; normal_, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> distance_)
-<a name="l00078"></a>00078         : normal(normal_), distance(distance_) {}
-<a name="l00079"></a>00079 };
-<a name="l00080"></a>00080 
-<a name="l00084"></a><a class="code" href="structPxClothCollisionTriangle.html">00084</a> <span class="keyword">struct </span><a class="code" href="structPxClothCollisionTriangle.html" title="Triangle representation used for cloth-mesh collision.">PxClothCollisionTriangle</a>
-<a name="l00085"></a>00085 {
-<a name="l00086"></a><a class="code" href="structPxClothCollisionTriangle.html#8a6ef026e0a83a8e82acd90f22b805e2">00086</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> vertex0;
-<a name="l00087"></a><a class="code" href="structPxClothCollisionTriangle.html#37e53900a872ec72a7c96972f9277c8b">00087</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> vertex1;
-<a name="l00088"></a><a class="code" href="structPxClothCollisionTriangle.html#df7bb1be7c5c089bae128cd0681099ae">00088</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> vertex2;
-<a name="l00089"></a>00089 
-<a name="l00093"></a><a class="code" href="structPxClothCollisionTriangle.html#9f876a5633bba15bde95711884a61115">00093</a>     <a class="code" href="structPxClothCollisionTriangle.html#9f876a5633bba15bde95711884a61115" title="Default constructor, performs no initialization.">PxClothCollisionTriangle</a>() {}
-<a name="l00094"></a><a class="code" href="structPxClothCollisionTriangle.html#b412261d76b755c5cfebc39711e17d92">00094</a>     <a class="code" href="structPxClothCollisionTriangle.html" title="Triangle representation used for cloth-mesh collision.">PxClothCollisionTriangle</a>(
-<a name="l00095"></a>00095         <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; v0, 
-<a name="l00096"></a>00096         <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; v1,
-<a name="l00097"></a>00097         <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; v2) :
-<a name="l00098"></a>00098         vertex0(v0),
-<a name="l00099"></a>00099         vertex1(v1),
-<a name="l00100"></a>00100         vertex2(v2) {}
-<a name="l00101"></a>00101 };
-<a name="l00102"></a>00102 
-<a name="l00103"></a>00103 
-<a name="l00104"></a>00104 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00105"></a>00105 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00106"></a>00106 <span class="preprocessor">#endif</span>
-<a name="l00107"></a>00107 <span class="preprocessor"></span>
+<a name="l00051"></a><a class="code" href="structPxClothCollisionSphere.html">00051</a> <span class="keyword">struct </span><a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="code" href="structPxClothCollisionSphere.html" title="Sphere representation used for cloth-sphere and cloth-capsule collision.">PxClothCollisionSphere</a>
+<a name="l00052"></a>00052 {
+<a name="l00053"></a><a class="code" href="structPxClothCollisionSphere.html#e8582b911399447d9e5b8934ccb2d6f8">00053</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> pos;    
+<a name="l00054"></a><a class="code" href="structPxClothCollisionSphere.html#17868162d4bc0a21307536a2efcde37b">00054</a>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> radius; 
+<a name="l00055"></a>00055 
+<a name="l00059"></a><a class="code" href="structPxClothCollisionSphere.html#f7f3ff5f23299fc3c1f4956c634efc14">00059</a>     <a class="code" href="structPxClothCollisionSphere.html#f7f3ff5f23299fc3c1f4956c634efc14" title="Default constructor, performs no initialization.">PxClothCollisionSphere</a>() {}
+<a name="l00060"></a><a class="code" href="structPxClothCollisionSphere.html#c32f107dc7091f6fcbac6e91396ea5ad">00060</a>     <a class="code" href="structPxClothCollisionSphere.html" title="Sphere representation used for cloth-sphere and cloth-capsule collision.">PxClothCollisionSphere</a>(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; p, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> r)
+<a name="l00061"></a>00061         : pos(p), radius(r) {}
+<a name="l00062"></a>00062 };
+<a name="l00063"></a>00063 
+<a name="l00070"></a><a class="code" href="structPxClothCollisionPlane.html">00070</a> <span class="keyword">struct </span><a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="code" href="structPxClothCollisionPlane.html" title="Plane representation used for cloth-convex collision.">PxClothCollisionPlane</a>
+<a name="l00071"></a>00071 {
+<a name="l00072"></a><a class="code" href="structPxClothCollisionPlane.html#7e534f3b2f378dd33cebc5d2a4780409">00072</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> normal;   
+<a name="l00073"></a><a class="code" href="structPxClothCollisionPlane.html#488afcb958cda9593710f6fafc17c26d">00073</a>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> distance; 
+<a name="l00074"></a>00074 
+<a name="l00078"></a><a class="code" href="structPxClothCollisionPlane.html#c2109f7d48a1a56beae79591a26f77b9">00078</a>     <a class="code" href="structPxClothCollisionPlane.html#c2109f7d48a1a56beae79591a26f77b9" title="Default constructor, performs no initialization.">PxClothCollisionPlane</a>() {}
+<a name="l00079"></a><a class="code" href="structPxClothCollisionPlane.html#d16d7f8370c7958371a9094a3142cda3">00079</a>     <a class="code" href="structPxClothCollisionPlane.html" title="Plane representation used for cloth-convex collision.">PxClothCollisionPlane</a>(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; normal_, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> distance_)
+<a name="l00080"></a>00080         : normal(normal_), distance(distance_) {}
+<a name="l00081"></a>00081 };
+<a name="l00082"></a>00082 
+<a name="l00087"></a><a class="code" href="structPxClothCollisionTriangle.html">00087</a> <span class="keyword">struct </span><a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="code" href="structPxClothCollisionTriangle.html" title="Triangle representation used for cloth-mesh collision.">PxClothCollisionTriangle</a>
+<a name="l00088"></a>00088 {
+<a name="l00089"></a><a class="code" href="structPxClothCollisionTriangle.html#8a6ef026e0a83a8e82acd90f22b805e2">00089</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> vertex0;
+<a name="l00090"></a><a class="code" href="structPxClothCollisionTriangle.html#37e53900a872ec72a7c96972f9277c8b">00090</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> vertex1;
+<a name="l00091"></a><a class="code" href="structPxClothCollisionTriangle.html#df7bb1be7c5c089bae128cd0681099ae">00091</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> vertex2;
+<a name="l00092"></a>00092 
+<a name="l00096"></a><a class="code" href="structPxClothCollisionTriangle.html#9f876a5633bba15bde95711884a61115">00096</a>     <a class="code" href="structPxClothCollisionTriangle.html#9f876a5633bba15bde95711884a61115" title="Default constructor, performs no initialization.">PxClothCollisionTriangle</a>() {}
+<a name="l00097"></a><a class="code" href="structPxClothCollisionTriangle.html#b412261d76b755c5cfebc39711e17d92">00097</a>     <a class="code" href="structPxClothCollisionTriangle.html" title="Triangle representation used for cloth-mesh collision.">PxClothCollisionTriangle</a>(
+<a name="l00098"></a>00098         <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; v0, 
+<a name="l00099"></a>00099         <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; v1,
+<a name="l00100"></a>00100         <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; v2) :
+<a name="l00101"></a>00101         vertex0(v0),
+<a name="l00102"></a>00102         vertex1(v1),
+<a name="l00103"></a>00103         vertex2(v2) {}
+<a name="l00104"></a>00104 };
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00108"></a>00108 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
 <a name="l00109"></a>00109 <span class="preprocessor">#endif</span>
+<a name="l00110"></a>00110 <span class="preprocessor"></span>
+<a name="l00112"></a>00112 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

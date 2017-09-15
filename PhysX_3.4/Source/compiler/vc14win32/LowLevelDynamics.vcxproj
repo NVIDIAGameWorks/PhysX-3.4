@@ -284,8 +284,6 @@
 		</ClInclude>
 		<ClInclude Include="..\..\LowLevelDynamics\include\DyContext.h">
 		</ClInclude>
-		<ClInclude Include="..\..\LowLevelDynamics\include\DyGpuAPI.h">
-		</ClInclude>
 		<ClInclude Include="..\..\LowLevelDynamics\include\DySleepingConfigulation.h">
 		</ClInclude>
 		<ClInclude Include="..\..\LowLevelDynamics\include\DyThresholdTable.h">

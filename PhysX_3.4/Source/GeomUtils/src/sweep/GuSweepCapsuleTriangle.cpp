@@ -140,7 +140,10 @@ bool Gu::sweepCapsuleTriangles_Precise(	PxU32 nbTris, const PxTriangle* PX_RESTR
 					continue;
 
 				if(testInitialOverlap && intersectCapsuleTriangle(triNormal, currentTri.verts[0], currentTri.verts[1], currentTri.verts[2], capsule, params))
+				{
+					triNormalOut = -unitDir;
 					return setInitialOverlapResults(hit, unitDir, i);
+				}
 
 				const PxReal magnitude = triNormal.magnitude();
 				if(magnitude==0.0f)
@@ -211,7 +214,10 @@ bool Gu::sweepCapsuleTriangles_Precise(	PxU32 nbTris, const PxTriangle* PX_RESTR
 		}
 
 		if(testInitialOverlap && intersectCapsuleTriangle(denormalizedNormal, currentSrcTri.verts[0], currentSrcTri.verts[1], currentSrcTri.verts[2], capsule, params))
+		{
+			triNormalOut = -unitDir;
 			return setInitialOverlapResults(hit, unitDir, i);
+		}
 
 		// Extrude mesh on the fly
 		PxU32 nbExtrudedTris=0;

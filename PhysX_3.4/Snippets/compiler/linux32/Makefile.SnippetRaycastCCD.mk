@@ -70,7 +70,7 @@ SnippetRaycastCCD_debug_common_cflags    += -MMD
 SnippetRaycastCCD_debug_common_cflags    += $(addprefix -D, $(SnippetRaycastCCD_debug_defines))
 SnippetRaycastCCD_debug_common_cflags    += $(addprefix -I, $(SnippetRaycastCCD_debug_hpaths))
 SnippetRaycastCCD_debug_common_cflags  += -m32
-SnippetRaycastCCD_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetRaycastCCD_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetRaycastCCD_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetRaycastCCD_debug_common_cflags  += -Wno-uninitialized
 SnippetRaycastCCD_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetRaycastCCD_checked_common_cflags    += -MMD
 SnippetRaycastCCD_checked_common_cflags    += $(addprefix -D, $(SnippetRaycastCCD_checked_defines))
 SnippetRaycastCCD_checked_common_cflags    += $(addprefix -I, $(SnippetRaycastCCD_checked_hpaths))
 SnippetRaycastCCD_checked_common_cflags  += -m32
-SnippetRaycastCCD_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetRaycastCCD_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetRaycastCCD_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetRaycastCCD_checked_common_cflags  += -Wno-uninitialized
 SnippetRaycastCCD_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetRaycastCCD_profile_common_cflags    += -MMD
 SnippetRaycastCCD_profile_common_cflags    += $(addprefix -D, $(SnippetRaycastCCD_profile_defines))
 SnippetRaycastCCD_profile_common_cflags    += $(addprefix -I, $(SnippetRaycastCCD_profile_hpaths))
 SnippetRaycastCCD_profile_common_cflags  += -m32
-SnippetRaycastCCD_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetRaycastCCD_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetRaycastCCD_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetRaycastCCD_profile_common_cflags  += -Wno-uninitialized
 SnippetRaycastCCD_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetRaycastCCD_release_common_cflags    += -MMD
 SnippetRaycastCCD_release_common_cflags    += $(addprefix -D, $(SnippetRaycastCCD_release_defines))
 SnippetRaycastCCD_release_common_cflags    += $(addprefix -I, $(SnippetRaycastCCD_release_hpaths))
 SnippetRaycastCCD_release_common_cflags  += -m32
-SnippetRaycastCCD_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetRaycastCCD_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetRaycastCCD_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetRaycastCCD_release_common_cflags  += -Wno-uninitialized
 SnippetRaycastCCD_release_common_cflags  += -O3 -fno-strict-aliasing

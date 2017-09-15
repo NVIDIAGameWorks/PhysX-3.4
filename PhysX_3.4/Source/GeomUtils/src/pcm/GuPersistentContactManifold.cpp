@@ -860,7 +860,8 @@ void Gu::PersistentContactManifold::addManifoldContactsToContactBuffer(Gu::Conta
 	GU_MANIFOLD_CACHE_SIZE, we will need to do contact reduction while we are storing the chosen manifold contacts from the manifold contact list to the manifold contact
 	buffer.
 */
-void Gu::PersistentContactManifold::addBatchManifoldContacts(const PersistentContact* manifoldContacts, const PxU32 numPoints)
+void Gu::PersistentContactManifold::addBatchManifoldContacts(const PersistentContact* manifoldContacts, 
+	const PxU32 numPoints, const PxReal toleranceLength)
 {
 
 	if(numPoints <= GU_MANIFOLD_CACHE_SIZE)
@@ -875,7 +876,7 @@ void Gu::PersistentContactManifold::addBatchManifoldContacts(const PersistentCon
 	}
 	else
 	{
-		reduceBatchContacts(manifoldContacts, numPoints);
+		reduceBatchContacts(manifoldContacts, numPoints, toleranceLength);
 		mNumContacts = GU_MANIFOLD_CACHE_SIZE;
 	}
 }  
@@ -967,12 +968,16 @@ void Gu::PersistentContactManifold::reduceBatchContactsCluster(const PersistentC
 
 
 	maxDist = nmax;
-	index = PxU32(-1);
+	index = GU_MANIFOLD_INVALID_INDEX;
 	v = V3Sub(mContactPoints[1].mLocalPointB, mContactPoints[0].mLocalPointB);
-	Vec3V norm = V3Normalize(V3Cross(v, Vec3V_From_Vec4V(mContactPoints[0].mLocalNormalPen)));
+
+	const Vec3V cn0 = Vec3V_From_Vec4V(mContactPoints[0].mLocalNormalPen);
+	Vec3V norm = V3Cross(v, cn0);
+	const FloatV sqLen = V3Dot(norm, norm);
+	norm = V3Sel(FIsGrtr(sqLen, FZero()), V3ScaleInv(norm, FSqrt(sqLen)), cn0);
 
 	FloatV minDist = max;
-	PxU32 index1 = PxU32(-1);
+	PxU32 index1 = GU_MANIFOLD_INVALID_INDEX;
 	
 
 	//calculate the min and max point away from the segment
@@ -1066,112 +1071,179 @@ void Gu::PersistentContactManifold::reduceBatchContactsCluster(const PersistentC
 /*
 	This function is for box/convexhull full contact generation. If the numPoints > 4, we will reduce the contact points to 4
 */
-void Gu::PersistentContactManifold::reduceBatchContacts(const PersistentContact* manifoldPoints, const PxU32 numPoints)
+void Gu::PersistentContactManifold::reduceBatchContacts(const PersistentContact* manifoldPoints,
+	const PxU32 numPoints, const PxReal tolereanceLength)
 {
 	using namespace Ps::aos;
-	
-	bool chosen[64];
-	physx::PxMemZero(chosen, sizeof(bool)*numPoints);
+
+	PxU8 chosenIndices[4];
+	PxU8 candidates[64];
+
+	const FloatV zero = FZero();
 	const FloatV max = FMax();
 	const FloatV nmax = FNeg(max);
-	FloatV maxDist = V4GetW(manifoldPoints[0].mLocalNormalPen);
-	PxI32 index = 0;
-	//keep the deepest point
-	for(PxU32 i=1; i<numPoints; ++i)
+	FloatV maxPen = V4GetW(manifoldPoints[0].mLocalNormalPen);
+	FloatV minPen = nmax;
+	PxU32 index = 0;
+	candidates[0] = 0;
+	PxU32 candidateIndex = 0;
+
+	PxU32 nbCandiates = numPoints;
+	//keep the deepest point, candidateIndex will be the same as index
+	for (PxU32 i = 1; i<numPoints; ++i)
 	{
+		//at the begining candidates and indices will be the same
+		candidates[i] = PxU8(i);
+
 		const FloatV pen = V4GetW(manifoldPoints[i].mLocalNormalPen);
-		if(FAllGrtr(maxDist, pen))
+		minPen = FMax(minPen, pen);
+		if (FAllGrtr(maxPen, pen))
 		{
-			maxDist = pen;
-			index = PxI32(i);
+			maxPen = pen;
+			index = i;
+			candidateIndex = i;
 		}
 	}
-	//keep the deepest points in the first position
-	mContactPoints[0] =  manifoldPoints[index];
-	chosen[index] = true;
 
+	//keep the deepest points in the first position
+	chosenIndices[0] = PxU8(index);
+
+	//move the chosen indices out of the candidates indices
+	nbCandiates = nbCandiates - 1;
+	candidates[candidateIndex] = candidates[nbCandiates];
+	//indices[index] = nbCandiates;
 
 	//calculate the furthest away points
-	Vec3V v = V3Sub(manifoldPoints[0].mLocalPointB, mContactPoints[0].mLocalPointB);
-	maxDist = V3Dot(v, v);
-	index = 0;
+	Vec3V v = V3Sub(manifoldPoints[candidates[0]].mLocalPointB, manifoldPoints[chosenIndices[0]].mLocalPointB);
+	FloatV maxDist = V3Dot(v, v);
+	index = candidates[0];
+	candidateIndex = 0;
 
-	for(PxU32 i=1; i<numPoints; ++i)
+	for (PxU32 i = 1; i<nbCandiates; ++i)
 	{
-		v = V3Sub(manifoldPoints[i].mLocalPointB, mContactPoints[0].mLocalPointB);
+		v = V3Sub(manifoldPoints[candidates[i]].mLocalPointB, manifoldPoints[chosenIndices[0]].mLocalPointB);
 		const FloatV d = V3Dot(v, v);
-		if(FAllGrtr(d, maxDist))
+		if (FAllGrtr(d, maxDist))
 		{
 			maxDist = d;
-			index = PxI32(i);
+			index = candidates[i];
+			candidateIndex = i;
 		}
 	}
 
-	//PX_ASSERT(chosen[index] == false);
-	mContactPoints[1] =  manifoldPoints[index];
-	chosen[index] = true;
+	chosenIndices[1] = PxU8(index);
+	//move the chosen indices out of the candidates indices
+	nbCandiates = nbCandiates - 1;
+	candidates[candidateIndex] = candidates[nbCandiates];
 
+	v = V3Sub(manifoldPoints[chosenIndices[1]].mLocalPointB, manifoldPoints[chosenIndices[0]].mLocalPointB);
+	const Vec3V cn0 = Vec3V_From_Vec4V(manifoldPoints[chosenIndices[0]].mLocalNormalPen);
+	Vec3V norm = V3Cross(v, cn0);
+	const FloatV sqLen = V3Dot(norm, norm);
+	norm = V3Sel(FIsGrtr(sqLen, zero), V3ScaleInv(norm, FSqrt(sqLen)), cn0);
 
+	//reset maxDist and index
 	maxDist = nmax;
-	index = -1;
-
-	v = V3Sub(mContactPoints[1].mLocalPointB, mContactPoints[0].mLocalPointB);
-	const Vec3V vCross = V3Cross(v, Vec3V_From_Vec4V(mContactPoints[0].mLocalNormalPen));
-	const FloatV sqLen = V3Dot(vCross, vCross);
-	const Vec3V norm = V3Sel(FIsGrtr(sqLen, FZero()), V3ScaleInv(vCross, FSqrt(sqLen)), V3Zero());
-
+	index = GU_MANIFOLD_INVALID_INDEX;
+	candidateIndex = GU_MANIFOLD_INVALID_INDEX;
 	FloatV minDist = max;
-	PxI32 index1 = -1;
-	
+	PxU32 index1 = GU_MANIFOLD_INVALID_INDEX;
+	PxU32 candidateIndex1 = GU_MANIFOLD_INVALID_INDEX;
+
 
 	//calculate the min and max point away from the segment
-	for(PxU32 i=0; i<numPoints; ++i)
+	for (PxU32 i = 0; i<nbCandiates; ++i)
 	{
-		if(!chosen[i])
+		v = V3Sub(manifoldPoints[candidates[i]].mLocalPointB, manifoldPoints[chosenIndices[0]].mLocalPointB);
+		const FloatV d = V3Dot(v, norm);
+		if (FAllGrtr(d, maxDist))
 		{
-			v = V3Sub(manifoldPoints[i].mLocalPointB, mContactPoints[0].mLocalPointB);
-			const FloatV d = V3Dot(v, norm);
-			if(FAllGrtr(d, maxDist))
-			{
-				maxDist = d;
-				index = PxI32(i);
-			}
-
-			if(FAllGrtr(minDist, d))
-			{
-				minDist = d;
-				index1 = PxI32(i);
-			}
+			maxDist = d;
+			index = candidates[i];
+			candidateIndex = i;
 		}
+
+		if (FAllGrtr(minDist, d))
+		{
+			minDist = d;
+			index1 = candidates[i];
+			candidateIndex1 = i;
+		}
+
 	}
 
-	mContactPoints[2] =  manifoldPoints[index];
-	chosen[index] = true;
+
+	chosenIndices[2] = PxU8(index);
+	//move the chosen indices out of the candidates indices
+	nbCandiates = nbCandiates - 1;
+	candidates[candidateIndex] = candidates[nbCandiates];
+	if (nbCandiates == candidateIndex1)
+		candidateIndex1 = candidateIndex;
 
 	//if min and max in the same side, chose again
 	const FloatV temp = FMul(minDist, maxDist);
-	if(FAllGrtr(temp, FZero()))
+	if (FAllGrtr(temp, zero))
 	{
 		//chose again
 		maxDist = nmax;
-		for(PxU32 i=0; i<numPoints; ++i)
+		for (PxU32 i = 0; i < nbCandiates; ++i)
 		{
-			if(!chosen[i])
+			v = V3Sub(manifoldPoints[candidates[i]].mLocalPointB, manifoldPoints[chosenIndices[0]].mLocalPointB);
+			const FloatV d = V3Dot(v, norm);
+			if (FAllGrtr(d, maxDist))
 			{
-				v = V3Sub(manifoldPoints[i].mLocalPointB, mContactPoints[0].mLocalPointB);
-				const FloatV d = V3Dot(v, norm);
-				if(FAllGrtr(d, maxDist))
-				{
-					maxDist = d;
-					index1 = PxI32(i);
-				}
+				maxDist = d;
+				index1 = candidates[i];
+				candidateIndex1 = i;
 			}
 		}
+
 	}
 
-	mContactPoints[3] = manifoldPoints[index1];
-}
+	chosenIndices[3] = PxU8(index1);
+	//move the chosen indices out of the candidates indices
+	nbCandiates = nbCandiates - 1;
+	candidates[candidateIndex1] = candidates[nbCandiates];
 
+	const FloatV eps = FLoad(tolereanceLength * 0.02f);
+	const BoolV con = BAnd(FIsGrtr(eps, maxPen), FIsGrtr(minPen, eps));
+	if (BAllEqTTTT(con))
+	{
+		//post process 
+		for (PxU32 i = 0; i < 4; ++i)
+		{
+			FloatV pen = V4GetW(manifoldPoints[chosenIndices[i]].mLocalNormalPen);
+
+			if (FAllGrtr(pen, eps))
+			{
+				candidateIndex = GU_MANIFOLD_INVALID_INDEX;
+				for (PxU32 j = 0; j < nbCandiates; ++j)
+				{
+					const FloatV pen1 = V4GetW(manifoldPoints[candidates[j]].mLocalNormalPen);
+					if (FAllGrtr(pen, pen1) && FAllGrtr(eps, pen1))
+					{
+						pen = pen1;
+						candidateIndex = j;
+					}
+				}
+				if (candidateIndex < nbCandiates)
+				{
+					const PxU8 originalIndex = chosenIndices[i];
+					chosenIndices[i] = candidates[candidateIndex];
+					candidates[candidateIndex] = originalIndex;
+				}
+			}
+			mContactPoints[i] = manifoldPoints[chosenIndices[i]];
+		}
+	}
+	else
+	{
+		for (PxU32 i = 0; i < 4; ++i)
+		{
+			mContactPoints[i] = manifoldPoints[chosenIndices[i]];
+		}
+	}
+}
 /*
 	This function is for capsule full contact generation. If the numPoints > 2, we will reduce the contact points to 2
 */
@@ -1540,7 +1612,7 @@ Ps::aos::FloatV Gu::SinglePersistentContactManifold::reduceBatchContactsConvex(c
 	const FloatV max = FMax();
 	const FloatV nmax = FNeg(max);
 	FloatV maxDis = nmax;
-	PxI32 index = -1;
+	PxU32 index = GU_MANIFOLD_INVALID_INDEX;
 
 	PCMContactPatch* currentPatch = &patch;
 	while(currentPatch)
@@ -1552,7 +1624,7 @@ Ps::aos::FloatV Gu::SinglePersistentContactManifold::reduceBatchContactsConvex(c
 			if(FAllGrtr(v, maxDis))
 			{
 				maxDis = v;
-				index = PxI32(i);
+				index = i;
 			}
 		}
 		currentPatch = currentPatch->mNextPatch;
@@ -1568,7 +1640,7 @@ Ps::aos::FloatV Gu::SinglePersistentContactManifold::reduceBatchContactsConvex(c
 	//calculate the furthest away points
 	Vec3V v = V3Sub(manifoldContactExt[patch.mStartIndex].mLocalPointB, contact0);
 	maxDis = V3Dot(v, v);
-	index = PxI32(patch.mStartIndex);
+	index = patch.mStartIndex;
 
 	currentPatch = &patch;
 	while(currentPatch)
@@ -1580,7 +1652,7 @@ Ps::aos::FloatV Gu::SinglePersistentContactManifold::reduceBatchContactsConvex(c
 			if(FAllGrtr(d, maxDis))
 			{
 				maxDis = d;
-				index = PxI32(i);
+				index = i;
 			}
 		}
 		currentPatch = currentPatch->mNextPatch;
@@ -1594,11 +1666,14 @@ Ps::aos::FloatV Gu::SinglePersistentContactManifold::reduceBatchContactsConvex(c
 	maxPen = FMin(maxPen, V4GetW(manifoldContactExt[index].mLocalNormalPen));
 
 	maxDis = nmax;
-	index = -1;
+	index = GU_MANIFOLD_INVALID_INDEX;
 	v = V3Sub(contact1, contact0);
-	Vec3V norm = V3Normalize(V3Cross(v, Vec3V_From_Vec4V(mContactPoints[0].mLocalNormalPen)));
+	const Vec3V cn0 = Vec3V_From_Vec4V(mContactPoints[0].mLocalNormalPen);
+	Vec3V norm = V3Cross(v, cn0);
+	const FloatV sqLen = V3Dot(norm, norm);
+	norm = V3Sel(FIsGrtr(sqLen, FZero()), V3ScaleInv(norm, FSqrt(sqLen)), cn0);
 	FloatV minDis = max;
-	PxI32 index1 = -1;
+	PxU32 index1 = GU_MANIFOLD_INVALID_INDEX;
 	
 
 	//calculate the point furthest way to the segment
@@ -1615,13 +1690,13 @@ Ps::aos::FloatV Gu::SinglePersistentContactManifold::reduceBatchContactsConvex(c
 				if(FAllGrtr(d, maxDis))
 				{
 					maxDis = d;
-					index = PxI32(i);
+					index = i;
 				}
 
 				if(FAllGrtr(minDis, d))
 				{
 					minDis = d;
-					index1 = PxI32(i);
+					index1 = i;
 				}
 			}
 		}
@@ -1654,7 +1729,7 @@ Ps::aos::FloatV Gu::SinglePersistentContactManifold::reduceBatchContactsConvex(c
 					if(FAllGrtr(d, maxDis))
 					{
 						maxDis = d;
-						index1 = PxI32(i);
+						index1 = i;
 					}
 				}
 			}
@@ -1677,8 +1752,6 @@ Ps::aos::FloatV Gu::SinglePersistentContactManifold::reduceBatchContactsConvex(c
 		pens[a] = FMax();
 		inds[a] = 0;
 	}
-
-	
 
 	{
 		currentPatch = &patch;
@@ -1714,10 +1787,6 @@ Ps::aos::FloatV Gu::SinglePersistentContactManifold::reduceBatchContactsConvex(c
 			maxPen = FMin(maxPen, pens[i]);
 		}
 	}
-
-
-
-
 	return maxPen;
 }
 
@@ -1725,125 +1794,163 @@ PxU32 Gu::SinglePersistentContactManifold::reduceContacts(MeshPersistentContact*
 {
 	using namespace Ps::aos;  
 
-	bool* chosen = reinterpret_cast<bool*>(PxAlloca(sizeof(bool)*numPoints));
-	physx::PxMemZero(chosen, sizeof(bool)*numPoints);
-	FloatV max = FMax();
-	FloatV maxDis = max;
-	PxU32 index = 0xffffffff;
+	PxU8 chosenIndices[GU_SINGLE_MANIFOLD_SINGLE_POLYGONE_CACHE_SIZE];
+	PxU8* candidates = reinterpret_cast<PxU8*>(PxAlloca(sizeof(PxU8) * numPoints));
+
+	const FloatV max = FMax();
+	const FloatV nmax = FNeg(max);
+	const FloatV zero = FZero();
+	FloatV maxPen = V4GetW(manifoldPoints[0].mLocalNormalPen);
+	PxU32 index = 0;
+	candidates[0] = 0;
+	PxU32 candidateIndex = 0;
+	PxU32 nbCandiates = numPoints;
+
 	MeshPersistentContact newManifold[GU_SINGLE_MANIFOLD_SINGLE_POLYGONE_CACHE_SIZE];
 
 	//keep the deepest point
-	for(PxU32 i=0; i<numPoints; ++i)
-	{
-		const FloatV pen = V4GetW(manifoldPoints[i].mLocalNormalPen);
-		if(FAllGrtr(maxDis, pen))
-		{
-			maxDis = pen;
-			index = i;
-		}
-	}
-	//keep the deepest points in the first position
-	newManifold[0] = manifoldPoints[index];
-	chosen[index] = true;
-
-
-	//calculate the furthest away points
-	Vec3V v = V3Sub(manifoldPoints[0].mLocalPointB, newManifold[0].mLocalPointB);
-	maxDis = V3Dot(v, v);
-	index = 0;
-
 	for(PxU32 i=1; i<numPoints; ++i)
 	{
-		v = V3Sub(manifoldPoints[i].mLocalPointB, newManifold[0].mLocalPointB);
-		const FloatV d = V3Dot(v, v);
-		if(FAllGrtr(d, maxDis))
+		//at the begining candidates and indices will be the same
+		candidates[i] = PxU8(i);
+
+		const FloatV pen = V4GetW(manifoldPoints[i].mLocalNormalPen);
+		if(FAllGrtr(maxPen, pen))
 		{
-			maxDis = d;
+			maxPen = pen;
 			index = i;
+			candidateIndex = i;
+		}
+	}
+
+	//keep the deepest points in the first position
+	chosenIndices[0] = PxU8(index);
+
+	//move the chosen indices out of the candidates indices
+	nbCandiates = nbCandiates - 1;
+	candidates[candidateIndex] = candidates[nbCandiates];
+
+	//keep the deepest points in the first position
+	newManifold[0] = manifoldPoints[chosenIndices[0]];
+
+	//calculate the furthest away points
+	Vec3V v = V3Sub(manifoldPoints[candidates[0]].mLocalPointB, newManifold[0].mLocalPointB);
+	maxPen = V3Dot(v, v);
+	index = candidates[0];
+	candidateIndex = 0;
+
+	for(PxU32 i=1; i<nbCandiates; ++i)
+	{
+		v = V3Sub(manifoldPoints[candidates[i]].mLocalPointB, manifoldPoints[chosenIndices[0]].mLocalPointB);
+		const FloatV d = V3Dot(v, v);
+		if(FAllGrtr(d, maxPen))
+		{
+			maxPen = d;
+			index = candidates[i];
+			candidateIndex = i;
 		}  
 	}
 
-	//PX_ASSERT(chosen[index] == false);
-	newManifold[1] = manifoldPoints[index];
-	chosen[index] = true;
 
+	chosenIndices[1] = PxU8(index);
+	//move the chosen indices out of the candidates indices
+	nbCandiates = nbCandiates - 1;
+	candidates[candidateIndex] = candidates[nbCandiates];
 
-	maxDis = FNeg(max);
-	index = 0xffffffff;
-	v = V3Sub(newManifold[1].mLocalPointB, newManifold[0].mLocalPointB);
-	Vec3V norm = V3Normalize(V3Cross(v, Vec3V_From_Vec4V(newManifold[0].mLocalNormalPen)));
-	FloatV minDis = max;
-	PxU32 index1 = 0xffffffff;
+	newManifold[1] = manifoldPoints[chosenIndices[1]];
+
 	
+	v = V3Sub(newManifold[1].mLocalPointB, newManifold[0].mLocalPointB);
+	const Vec3V cn0 = Vec3V_From_Vec4V(newManifold[0].mLocalNormalPen);
+	Vec3V norm = V3Cross(v, cn0);
+	const FloatV sqLen = V3Dot(norm, norm);
+	norm = V3Sel(FIsGrtr(sqLen, zero), V3ScaleInv(norm, FSqrt(sqLen)), cn0);
+
+	FloatV maxDist = nmax;
+	FloatV minDist = max;
+	index = GU_MANIFOLD_INVALID_INDEX;
+	PxU32 index1 = GU_MANIFOLD_INVALID_INDEX;
+	PxU32 candidateIndex1 = GU_MANIFOLD_INVALID_INDEX;
 
 	//calculate the point furthest way to the segment
-	for(PxU32 i=0; i<numPoints; ++i)
+	for(PxU32 i=0; i<nbCandiates; ++i)
 	{
-		if(!chosen[i])
+		v = V3Sub(manifoldPoints[candidates[i]].mLocalPointB, newManifold[0].mLocalPointB);
+		const FloatV d = V3Dot(v, norm);
+		if(FAllGrtr(d, maxDist))
 		{
-			v = V3Sub(manifoldPoints[i].mLocalPointB, newManifold[0].mLocalPointB);
-			const FloatV d = V3Dot(v, norm);
-			if(FAllGrtr(d, maxDis))
-			{
-				maxDis = d;
-				index = i;
-			}
-
-			if(FAllGrtr(minDis, d))
-			{
-				minDis = d;
-				index1 = i;
-			}
+			maxDist = d;
+			index = candidates[i];
+			candidateIndex = i;
 		}
+
+		if(FAllGrtr(minDist, d))
+		{
+			minDist = d;
+			index1 = candidates[i];
+			candidateIndex1 = i;
+		}
+		
 	}
 
-	//PX_ASSERT(chosen[index] == false && chosen[index1]== false);
+	chosenIndices[2] = PxU8(index);
+	//move the chosen indices out of the candidates indices
+	nbCandiates = nbCandiates - 1;
+	candidates[candidateIndex] = candidates[nbCandiates];
 
-	chosen[index] = true;
-	newManifold[2] = manifoldPoints[index];
+	newManifold[2] = manifoldPoints[chosenIndices[2]];
+
+	if (nbCandiates == candidateIndex1)
+		candidateIndex1 = candidateIndex;
 	
-	const FloatV temp = FMul(minDis, maxDis);
+	const FloatV temp = FMul(minDist, maxDist);
 	if(FAllGrtr(temp, FZero()))
 	{
-		//chose the something further away from newManifold[2] 
-		maxDis = FNeg(max);
-		for(PxU32 i=0; i<numPoints; ++i)
+		//chose again
+		maxDist = nmax;
+		for (PxU32 i = 0; i < nbCandiates; ++i)
 		{
-			if(!chosen[i])
+			v = V3Sub(manifoldPoints[candidates[i]].mLocalPointB, newManifold[0].mLocalPointB);
+			const FloatV d = V3Dot(v, norm);
+			if(FAllGrtr(d, maxDist))
 			{
-				v = V3Sub(manifoldPoints[i].mLocalPointB, newManifold[0].mLocalPointB);
-				const FloatV d = V3Dot(v, norm);
-				if(FAllGrtr(d, maxDis))
-				{
-					maxDis = d;
-					index1 = i;
-				}
+				maxDist = d;
+				index1 = candidates[i];
+				candidateIndex1 = i;
 			}
 		}
-
 	}
 
-	newManifold[3]= manifoldPoints[index1];
-	chosen[index1] = true;
+	chosenIndices[3] = PxU8(index1);
+	//move the chosen indices out of the candidates indices
+	nbCandiates = nbCandiates - 1;
+	candidates[candidateIndex1] = candidates[nbCandiates];
 
-	maxDis = max;
-	index = 0xffffffff;
+	newManifold[3]= manifoldPoints[chosenIndices[3]];
+
+	maxDist = max;
+	index = GU_MANIFOLD_INVALID_INDEX;
+	candidateIndex = GU_MANIFOLD_INVALID_INDEX;
 	//choose the 5 point, second deepest in the left overlap point
-	for (PxU32 i = 0; i < numPoints; ++i)
+	for (PxU32 i = 0; i < nbCandiates; ++i)
 	{
-		if (!chosen[i])
+		const FloatV pen = V4GetW(manifoldPoints[candidates[i]].mLocalNormalPen);
+		if (FAllGrtr(maxDist, pen))
 		{
-			const FloatV pen = V4GetW(manifoldPoints[i].mLocalNormalPen);
-			if (FAllGrtr(maxDis, pen))
-			{
-				maxDis = pen;
-				index = i;
-			}
+			maxDist = pen;
+			index = candidates[i];
+			candidateIndex = i;
 		}
+		
 	}
 
-	newManifold[4] = manifoldPoints[index];
-	chosen[index] = true;
+	chosenIndices[4] = PxU8(index);
+	//move the chosen indices out of the candidates indices
+	nbCandiates = nbCandiates - 1;
+	candidates[candidateIndex] = candidates[nbCandiates];
+
+	newManifold[4] = manifoldPoints[chosenIndices[4]];
+
 
 	//copy the new manifold back
 	for(PxU32 i=0; i<GU_SINGLE_MANIFOLD_SINGLE_POLYGONE_CACHE_SIZE; ++i)
@@ -1853,7 +1960,6 @@ PxU32 Gu::SinglePersistentContactManifold::reduceContacts(MeshPersistentContact*
 
 	return GU_SINGLE_MANIFOLD_SINGLE_POLYGONE_CACHE_SIZE;
 }
-
 
 Ps::aos::FloatV Gu::SinglePersistentContactManifold::refreshContactPoints(const Ps::aos::PsMatTransformV& aToB, const Ps::aos::FloatVArg projectBreakingThreshold, const Ps::aos::FloatVArg /*contactOffset*/)
 {

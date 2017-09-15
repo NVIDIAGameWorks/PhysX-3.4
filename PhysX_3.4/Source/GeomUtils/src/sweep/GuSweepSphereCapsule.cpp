@@ -69,7 +69,7 @@ bool Gu::sweepSphereCapsule(const Sphere& sphere, const Capsule& lss, const PxVe
 	Capsule Inflated(lss.p0, lss.p1, radiusSum);
 
 	// Raycast against it
-	PxReal t;
+	PxReal t = 0.0f;
 	if(intersectRayCapsule(sphere.center, dir, Inflated, t))
 	{
 		if(t>=0.0f && t<=length)

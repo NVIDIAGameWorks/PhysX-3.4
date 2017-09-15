@@ -122,7 +122,7 @@ PX_CUDA_CALLABLE PX_FORCE_INLINE void order(T& x, T& y, E1& xe1, E1& ye1)
 	}
 }
 
-#if PX_GCC_FAMILY && !PX_EMSCRIPTEN
+#if PX_GCC_FAMILY && !PX_EMSCRIPTEN && !PX_LINUX
 __attribute__((noreturn))
 #endif
     PX_INLINE void debugBreak()
@@ -132,7 +132,11 @@ __attribute__((noreturn))
 #elif PX_ANDROID
 	raise(SIGTRAP); // works better than __builtin_trap. Proper call stack and can be continued.
 #elif PX_LINUX
-	asm("int $3");
+	#if (PX_X64 || PX_X64)
+		asm("int $3");
+	#else
+		raise(SIGTRAP);
+	#endif
 #elif PX_GCC_FAMILY
 	__builtin_trap();
 #else

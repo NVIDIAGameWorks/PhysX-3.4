@@ -49,9 +49,9 @@ Collaboration diagram for PxConvexMeshGeometry:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxConvexMeshGeometry.html#1560beb69b5adf8d53d7dd13524438a1">PxConvexMeshGeometry</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Default constructor.  <a href="#1560beb69b5adf8d53d7dd13524438a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxConvexMeshGeometry.html#d0f1b4915a75013f8f9726809e8b5fd1">PxConvexMeshGeometry</a> (<a class="el" href="classPxConvexMesh.html">PxConvexMesh</a> *mesh, const <a class="el" href="classPxMeshScale.html">PxMeshScale</a> &amp;scaling=<a class="el" href="classPxMeshScale.html">PxMeshScale</a>(), <a class="el" href="classPxFlags.html">PxConvexMeshGeometryFlags</a> flags=<a class="el" href="classPxFlags.html">PxConvexMeshGeometryFlags</a>())</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxConvexMeshGeometry.html#9a514176c85b854f1a32b0d3ae0c00bc">PxConvexMeshGeometry</a> (<a class="el" href="classPxConvexMesh.html">PxConvexMesh</a> *mesh, const <a class="el" href="classPxMeshScale.html">PxMeshScale</a> &amp;scaling=<a class="el" href="classPxMeshScale.html">PxMeshScale</a>(), <a class="el" href="classPxFlags.html">PxConvexMeshGeometryFlags</a> flags=<a class="el" href="classPxFlags.html">PxConvexMeshGeometryFlags</a>(), float margin=3.4e38f)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor.  <a href="#d0f1b4915a75013f8f9726809e8b5fd1"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor.  <a href="#9a514176c85b854f1a32b0d3ae0c00bc"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__geomutils.html#geb9f7427fef44fef543098cb347b59e6">isValid</a> () const </td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns true if the geometry is valid.  <a href="group__geomutils.html#geb9f7427fef44fef543098cb347b59e6"></a><br></td></tr>
@@ -62,6 +62,9 @@ Collaboration diagram for PxConvexMeshGeometry:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classPxConvexMesh.html">PxConvexMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxConvexMeshGeometry.html#2fdc589d347de81e55c8b45b7c133feb">convexMesh</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A reference to the convex mesh object.  <a href="#2fdc589d347de81e55c8b45b7c133feb"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PxReal&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxConvexMeshGeometry.html#769be6bf3be1bd8a39ea0a3ee6b092b1">maxMargin</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Max shrunk amount permitted by PCM contact gen.  <a href="#769be6bf3be1bd8a39ea0a3ee6b092b1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classPxFlags.html">PxConvexMeshGeometryFlags</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxConvexMeshGeometry.html#6b2561b421c602ca110e6870a3037d49">meshFlags</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Mesh flags.  <a href="#6b2561b421c602ca110e6870a3037d49"></a><br></td></tr>
@@ -95,7 +98,7 @@ Default constructor.
 Creates an empty object with a NULL mesh and identity scale. 
 </div>
 </div><p>
-<a class="anchor" name="d0f1b4915a75013f8f9726809e8b5fd1"></a><!-- doxytag: member="PxConvexMeshGeometry::PxConvexMeshGeometry" ref="d0f1b4915a75013f8f9726809e8b5fd1" args="(PxConvexMesh *mesh, const PxMeshScale &amp;scaling=PxMeshScale(), PxConvexMeshGeometryFlags flags=PxConvexMeshGeometryFlags())" -->
+<a class="anchor" name="9a514176c85b854f1a32b0d3ae0c00bc"></a><!-- doxytag: member="PxConvexMeshGeometry::PxConvexMeshGeometry" ref="9a514176c85b854f1a32b0d3ae0c00bc" args="(PxConvexMesh *mesh, const PxMeshScale &amp;scaling=PxMeshScale(), PxConvexMeshGeometryFlags flags=PxConvexMeshGeometryFlags(), float margin=3.4e38f)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -115,7 +118,13 @@ Creates an empty object with a NULL mesh and identity scale.
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classPxFlags.html">PxConvexMeshGeometryFlags</a>&nbsp;</td>
-          <td class="paramname"> <em>flags</em> = <code><a class="el" href="classPxFlags.html">PxConvexMeshGeometryFlags</a>()</code></td><td>&nbsp;</td>
+          <td class="paramname"> <em>flags</em> = <code><a class="el" href="classPxFlags.html">PxConvexMeshGeometryFlags</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&nbsp;</td>
+          <td class="paramname"> <em>margin</em> = <code>3.4e38f</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -133,7 +142,8 @@ Constructor.
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>mesh</em>&nbsp;</td><td>Mesh pointer. May be NULL, though this will not make the object valid for shape construction. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>scaling</em>&nbsp;</td><td>Scale factor. </td></tr>
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>flags</em>&nbsp;</td><td>Mesh flags. \ </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>flags</em>&nbsp;</td><td>Mesh flags. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>margin</em>&nbsp;</td><td>The maximum margin. Used to limit how much PCM shrinks the geometry by in collision detection. \ </td></tr>
   </table>
 </dl>
 
@@ -155,7 +165,26 @@ Constructor.
 A reference to the convex mesh object. 
 <p>
 
-<p>Referenced by <a class="el" href="PxConvexMeshGeometry_8h-source.html#l00131">isValid()</a>, and <a class="el" href="PxMassProperties_8h-source.html#l00083">PxMassProperties::PxMassProperties()</a>.</p>
+<p>Referenced by <a class="el" href="PxConvexMeshGeometry_8h-source.html#l00136">isValid()</a>, and <a class="el" href="PxMassProperties_8h-source.html#l00083">PxMassProperties::PxMassProperties()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="769be6bf3be1bd8a39ea0a3ee6b092b1"></a><!-- doxytag: member="PxConvexMeshGeometry::maxMargin" ref="769be6bf3be1bd8a39ea0a3ee6b092b1" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PxReal <a class="el" href="classPxConvexMeshGeometry.html#769be6bf3be1bd8a39ea0a3ee6b092b1">PxConvexMeshGeometry::maxMargin</a>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Max shrunk amount permitted by PCM contact gen. 
+<p>
+
+<p>Referenced by <a class="el" href="PxConvexMeshGeometry_8h-source.html#l00136">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -208,7 +237,7 @@ padding for mesh flags
 The scaling transformation (from vertex space to shape space). 
 <p>
 
-<p>Referenced by <a class="el" href="PxConvexMeshGeometry_8h-source.html#l00131">isValid()</a>, and <a class="el" href="PxMassProperties_8h-source.html#l00083">PxMassProperties::PxMassProperties()</a>.</p>
+<p>Referenced by <a class="el" href="PxConvexMeshGeometry_8h-source.html#l00136">isValid()</a>, and <a class="el" href="PxMassProperties_8h-source.html#l00083">PxMassProperties::PxMassProperties()</a>.</p>
 
 </div>
 </div><p>

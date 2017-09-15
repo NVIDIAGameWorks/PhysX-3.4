@@ -70,7 +70,7 @@ SnippetContactModification_debug_common_cflags    += -MMD
 SnippetContactModification_debug_common_cflags    += $(addprefix -D, $(SnippetContactModification_debug_defines))
 SnippetContactModification_debug_common_cflags    += $(addprefix -I, $(SnippetContactModification_debug_hpaths))
 SnippetContactModification_debug_common_cflags  += -m32
-SnippetContactModification_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetContactModification_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetContactModification_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetContactModification_debug_common_cflags  += -Wno-uninitialized
 SnippetContactModification_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetContactModification_checked_common_cflags    += -MMD
 SnippetContactModification_checked_common_cflags    += $(addprefix -D, $(SnippetContactModification_checked_defines))
 SnippetContactModification_checked_common_cflags    += $(addprefix -I, $(SnippetContactModification_checked_hpaths))
 SnippetContactModification_checked_common_cflags  += -m32
-SnippetContactModification_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetContactModification_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetContactModification_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetContactModification_checked_common_cflags  += -Wno-uninitialized
 SnippetContactModification_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetContactModification_profile_common_cflags    += -MMD
 SnippetContactModification_profile_common_cflags    += $(addprefix -D, $(SnippetContactModification_profile_defines))
 SnippetContactModification_profile_common_cflags    += $(addprefix -I, $(SnippetContactModification_profile_hpaths))
 SnippetContactModification_profile_common_cflags  += -m32
-SnippetContactModification_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetContactModification_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetContactModification_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetContactModification_profile_common_cflags  += -Wno-uninitialized
 SnippetContactModification_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetContactModification_release_common_cflags    += -MMD
 SnippetContactModification_release_common_cflags    += $(addprefix -D, $(SnippetContactModification_release_defines))
 SnippetContactModification_release_common_cflags    += $(addprefix -I, $(SnippetContactModification_release_hpaths))
 SnippetContactModification_release_common_cflags  += -m32
-SnippetContactModification_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetContactModification_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetContactModification_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetContactModification_release_common_cflags  += -Wno-uninitialized
 SnippetContactModification_release_common_cflags  += -O3 -fno-strict-aliasing

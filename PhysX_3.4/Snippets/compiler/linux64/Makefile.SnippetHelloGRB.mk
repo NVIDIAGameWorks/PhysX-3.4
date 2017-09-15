@@ -70,7 +70,7 @@ SnippetHelloGRB_debug_common_cflags    += -MMD
 SnippetHelloGRB_debug_common_cflags    += $(addprefix -D, $(SnippetHelloGRB_debug_defines))
 SnippetHelloGRB_debug_common_cflags    += $(addprefix -I, $(SnippetHelloGRB_debug_hpaths))
 SnippetHelloGRB_debug_common_cflags  += -m64
-SnippetHelloGRB_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetHelloGRB_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetHelloGRB_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetHelloGRB_debug_common_cflags  += -Wno-uninitialized
 SnippetHelloGRB_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetHelloGRB_checked_common_cflags    += -MMD
 SnippetHelloGRB_checked_common_cflags    += $(addprefix -D, $(SnippetHelloGRB_checked_defines))
 SnippetHelloGRB_checked_common_cflags    += $(addprefix -I, $(SnippetHelloGRB_checked_hpaths))
 SnippetHelloGRB_checked_common_cflags  += -m64
-SnippetHelloGRB_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetHelloGRB_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetHelloGRB_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetHelloGRB_checked_common_cflags  += -Wno-uninitialized
 SnippetHelloGRB_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetHelloGRB_profile_common_cflags    += -MMD
 SnippetHelloGRB_profile_common_cflags    += $(addprefix -D, $(SnippetHelloGRB_profile_defines))
 SnippetHelloGRB_profile_common_cflags    += $(addprefix -I, $(SnippetHelloGRB_profile_hpaths))
 SnippetHelloGRB_profile_common_cflags  += -m64
-SnippetHelloGRB_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetHelloGRB_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetHelloGRB_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetHelloGRB_profile_common_cflags  += -Wno-uninitialized
 SnippetHelloGRB_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetHelloGRB_release_common_cflags    += -MMD
 SnippetHelloGRB_release_common_cflags    += $(addprefix -D, $(SnippetHelloGRB_release_defines))
 SnippetHelloGRB_release_common_cflags    += $(addprefix -I, $(SnippetHelloGRB_release_hpaths))
 SnippetHelloGRB_release_common_cflags  += -m64
-SnippetHelloGRB_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetHelloGRB_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetHelloGRB_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetHelloGRB_release_common_cflags  += -Wno-uninitialized
 SnippetHelloGRB_release_common_cflags  += -O3 -fno-strict-aliasing

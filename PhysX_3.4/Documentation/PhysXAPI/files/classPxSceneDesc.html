@@ -94,6 +94,9 @@ Collaboration diagram for PxSceneDesc:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PxReal&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#74dc6e8ebde591ca823a3ea4807fca33">ccdMaxSeparation</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A threshold for speculative CCD. Used to control whether bias, restitution or a combination of the two are used to resolve the contacts.  <a href="#74dc6e8ebde591ca823a3ea4807fca33"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PxReal&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#91b6c205bf684c0f41432a23c1323ee2">solverOffsetSlop</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A slop value used to zero contact offsets from the body's COM on an axis if the offset along that axis is smaller than this threshold. Can be used to compensate for small numerical errors in contact generation.  <a href="#91b6c205bf684c0f41432a23c1323ee2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classPxFlags.html">PxSceneFlags</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#9510b1233fb0ab03e9c1d5be44ff5a38">flags</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Flags used to select scene options.  <a href="#9510b1233fb0ab03e9c1d5be44ff5a38"></a><br></td></tr>
@@ -124,6 +127,9 @@ Collaboration diagram for PxSceneDesc:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#8791132cbe8cce32f051e5eaab774d35">maxNbContactDataBlocks</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setting to define the maximum number of 16K blocks that can be allocated to store contact, friction, and contact cache data. As the complexity of a scene increases, the SDK may require to allocate new 16k blocks in addition to the blocks it has already allocated. This variable controls the maximum number of blocks that the SDK can allocate.  <a href="#8791132cbe8cce32f051e5eaab774d35"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PxReal&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#65bbe399965691dec83ba3fe1a5082ec">maxBiasCoefficient</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The maximum bias coefficient used in the constraint solver.  <a href="#65bbe399965691dec83ba3fe1a5082ec"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#02d696140e9828477c8aa493a048f48a">contactReportStreamBufferSize</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Size of the contact report stream (in bytes).  <a href="#02d696140e9828477c8aa493a048f48a"></a><br></td></tr>
@@ -171,7 +177,7 @@ A contact with a relative velocity below this will not bounce. A typical value f
  <b>Default:</b> 0.2 * <a class="el" href="classPxTolerancesScale.html#629358a15988697feaa85759d5c57e33">PxTolerancesScale::speed</a><p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxMaterial.html" title="Material class to represent a set of surface properties.">PxMaterial</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -271,7 +277,7 @@ A threshold for speculative CCD. Used to control whether bias, restitution or a 
 <dl class="note" compact><dt><b>Note:</b></dt><dd>This only has any effect on contacting pairs where one of the bodies has <a class="el" href="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596f13d6aa80b364fe2cef81a0039e37d45" title="Register a rigid body to dynamicly adjust contact offset based on velocity. This...">PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD</a> raised.</dd></dl>
 <b>Range:</b> [0, PX_MAX_F32)<br>
  <b>Default:</b> 0.04 * <a class="el" href="classPxTolerancesScale.html#7d93bf20de0e5b54783eda5bb64effeb">PxTolerancesScale::length</a> 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -312,7 +318,7 @@ The contact report stream buffer is used during the simulation to store all the 
 <b>Default:</b> 8192<p>
 <b>Range:</b> (0, PX_MAX_U32]<br>
  
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -331,7 +337,7 @@ The contact report stream buffer is used during the simulation to store all the 
 The CPU task dispatcher for the scene. 
 <p>
 See PxCpuDispatcher, <a class="el" href="classPxScene.html#6329c94cc092aff2193c1307e033f6bf" title="Return the cpu dispatcher that was set in PxSceneDesc::cpuDispatcher when creating...">PxScene::getCpuDispatcher</a> 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -371,7 +377,7 @@ This parameter gives a hint on the distribution of the workload for rebuilding t
 This parameter gives only a hint. The rebuild process might still take more or less time depending on the number of objects involved.</dd></dl>
 <b>Range:</b> [4, PX_MAX_U32)<br>
  <b>Default:</b> 100 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -411,7 +417,7 @@ The custom filter shader to use for collision filtering.
 <dl class="note" compact><dt><b>Note:</b></dt><dd>This parameter is compulsory. If you don't want to define your own filter shader you can use the default shader <a class="el" href="group__extensions.html#g587ba12f90f77543c3e4452abeb0f22f" title="Implementation of a simple filter shader that emulates PhysX 2.8.x filtering.">PxDefaultSimulationFilterShader</a> which can be found in the PhysX extensions library.</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="group__physics.html#g9db06e901a760fb02c06f27bf3e474b3" title="Filter shader to specify handling of collision pairs.">PxSimulationFilterShader</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -433,7 +439,7 @@ Shared global filter data which will get passed into the filter shader.
 <b>Default:</b> NULL<p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="group__physics.html#g9db06e901a760fb02c06f27bf3e474b3" title="Filter shader to specify handling of collision pairs.">PxSimulationFilterShader</a> <a class="el" href="classPxScene.html#5ab05d2a2c908d98aed4ca642c5f394d" title="Sets the shared global filter data which will get passed into the filter shader.">PxScene::setFilterShaderData()</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -454,7 +460,7 @@ Size (in bytes) of the shared global filter data <a class="el" href="classPxScen
 <b>Default:</b> 0<p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="group__physics.html#g9db06e901a760fb02c06f27bf3e474b3" title="Filter shader to specify handling of collision pairs.">PxSimulationFilterShader</a> <a class="el" href="classPxSceneDesc.html#d9ceb142127cc259aa2f5d322a1494e2" title="Shared global filter data which will get passed into the filter shader.">filterShaderData</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -474,7 +480,7 @@ Flags used to select scene options.
 <p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxSceneFlag.html" title="flags for configuring properties of the scene">PxSceneFlag</a> <a class="el" href="group__physics.html#g54a626a9a6d80543048bffc654814704" title="collection of set bits defined in PxSceneFlag.">PxSceneFlags</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -497,7 +503,7 @@ If the aggregated contact offset of a pair of shapes is large it might be desira
 This parameter can be used to tune the separation distance of contact points at which friction starts to have an effect.</dd></dl>
 <b>Range:</b> [0, PX_MAX_F32)<br>
  <b>Default:</b> 0.04 * <a class="el" href="classPxTolerancesScale.html#7d93bf20de0e5b54783eda5bb64effeb">PxTolerancesScale::length</a> 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -589,7 +595,7 @@ Limitation for the partitions in the GPU dynamics pipeline. This variable must b
 . 
 <p>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -629,8 +635,28 @@ Expected scene limits.
 <p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxSceneLimits.html" title="Class used to retrieve limits(e.g. maximum number of bodies) for a scene. The limits...">PxSceneLimits</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
+</div>
+</div><p>
+<a class="anchor" name="65bbe399965691dec83ba3fe1a5082ec"></a><!-- doxytag: member="PxSceneDesc::maxBiasCoefficient" ref="65bbe399965691dec83ba3fe1a5082ec" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PxReal <a class="el" href="classPxSceneDesc.html#65bbe399965691dec83ba3fe1a5082ec">PxSceneDesc::maxBiasCoefficient</a>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+The maximum bias coefficient used in the constraint solver. 
+<p>
+When geometric errors are found in the constraint solver, either as a result of shapes penetrating or joints becoming separated or violating limits, a bias is introduced in the solver position iterations to correct these errors. This bias is proportional to 1/dt, meaning that the bias becomes increasingly strong as the time-step passed to <a class="el" href="classPxScene.html#9a9cacecc3b0f6adaf2f3d2168c2aff5" title="Advances the simulation by an elapsedTime time.">PxScene::simulate</a>(...) becomes smaller. This coefficient allows the application to restrict how large the bias coefficient is, to reduce how violent error corrections are. This can improve simulation quality in cases where either variable time-steps or extremely small time-steps are used.<p>
+<b>Default:</b> PX_MAX_F32<p>
+<b> Range</b> [0, PX_MAX_F32] <br>
+ 
 </div>
 </div><p>
 <a class="anchor" name="8791132cbe8cce32f051e5eaab774d35"></a><!-- doxytag: member="PxSceneDesc::maxNbContactDataBlocks" ref="8791132cbe8cce32f051e5eaab774d35" args="" -->
@@ -654,7 +680,7 @@ If a warning is reported to the error stream to indicate the number of 16K block
 <p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxSceneDesc.html#625cdbae7d2149a9df472fb4f9c06f83" title="Setting to define the number of 16K blocks that will be initially reserved to store...">nbContactDataBlocks</a> <a class="el" href="classPxScene.html#148be23880c4e2d67f9f772066a9f966" title="set the cache blocks that can be used during simulate().">PxScene::setNbContactDataBlocks</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -678,7 +704,7 @@ Setting to define the number of 16K blocks that will be initially reserved to st
 <p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html#6dcded7be00c17004432a04a78569db1" title="Creates a scene.">PxPhysics::createScene</a> <a class="el" href="classPxScene.html#148be23880c4e2d67f9f772066a9f966" title="set the cache blocks that can be used during simulate().">PxScene::setNbContactDataBlocks</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -699,7 +725,7 @@ The bounds used to sanity check user-set positions of actors and articulation li
 These bounds are used to check the position values of rigid actors inserted into the scene, and positions set for rigid actors already within the scene.<p>
 <b>Range:</b> any valid <a class="el" href="classPxBounds3.html" title="Class representing 3D range or axis aligned bounding box.">PxBounds3</a> <br>
  <b>Default:</b> (-PX_MAX_BOUNDS_EXTENTS, PX_MAX_BOUNDS_EXTENTS) on each axis 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -743,6 +769,24 @@ This parameter defines the minimum number of actors required to spawn a separate
 
 </div>
 </div><p>
+<a class="anchor" name="91b6c205bf684c0f41432a23c1323ee2"></a><!-- doxytag: member="PxSceneDesc::solverOffsetSlop" ref="91b6c205bf684c0f41432a23c1323ee2" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PxReal <a class="el" href="classPxSceneDesc.html#91b6c205bf684c0f41432a23c1323ee2">PxSceneDesc::solverOffsetSlop</a>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+A slop value used to zero contact offsets from the body's COM on an axis if the offset along that axis is smaller than this threshold. Can be used to compensate for small numerical errors in contact generation. 
+<p>
+<b>Range:</b> [0, PX_MAX_F32)<br>
+ <b>Default:</b> 0.0 
+</div>
+</div><p>
 <a class="anchor" name="00495fa3240d1087d38cf33eebc313a7"></a><!-- doxytag: member="PxSceneDesc::staticStructure" ref="00495fa3240d1087d38cf33eebc313a7" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -759,7 +803,7 @@ Defines the structure used to store static objects.
 <p>
 <dl class="note" compact><dt><b>Note:</b></dt><dd>Only <a class="el" href="structPxPruningStructureType.html#058454782f6ed1cc953b8d6561b636d99001cb07511fa509eae16a4a933a77f6" title="Using a static AABB tree.">PxPruningStructureType::eSTATIC_AABB_TREE</a> and <a class="el" href="structPxPruningStructureType.html#058454782f6ed1cc953b8d6561b636d9374d304bffaa55f53556e2b40a592e54" title="Using a dynamic AABB tree.">PxPruningStructureType::eDYNAMIC_AABB_TREE</a> are allowed here. </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -799,7 +843,7 @@ Calling wakeUp() on objects which support sleeping will set their wake counter v
  <b>Default:</b> 0.4 (which corresponds to 20 frames for a time step of 0.02)<p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxRigidDynamic.html#4f1b9e9f437d8b8f27a6e9c2d9ea22fd" title="Wakes up the actor if it is sleeping.">PxRigidDynamic::wakeUp()</a> <a class="el" href="classPxArticulation.html#596fb9e8f1d136d571965583bc5d0d1b" title="Wakes up the articulation if it is sleeping.">PxArticulation::wakeUp()</a> <a class="el" href="classPxCloth.html#b5092893f40cf8d9399b467f59f893de" title="Forces cloth to wake up from sleep state.">PxCloth::wakeUp()</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">isValid()</a>.</p>
 
 </div>
 </div><p>

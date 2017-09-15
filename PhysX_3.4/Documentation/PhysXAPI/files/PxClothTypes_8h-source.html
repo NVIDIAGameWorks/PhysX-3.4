@@ -61,58 +61,58 @@
 <a name="l00044"></a>00044 {
 <a name="l00045"></a>00045 <span class="preprocessor">#endif</span>
 <a name="l00046"></a>00046 <span class="preprocessor"></span>
-<a name="l00053"></a><a class="code" href="structPxClothFlag.html">00053</a> <span class="keyword">struct </span><a class="code" href="structPxClothFlag.html" title="flag for behaviors of the cloth solver">PxClothFlag</a>
-<a name="l00054"></a>00054 {
-<a name="l00055"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2">00055</a>     <span class="keyword">enum</span> <a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2">Enum</a>
-<a name="l00056"></a>00056     {
-<a name="l00057"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2f9a72931c630e6b5c9c9fb3e0d27d294">00057</a>         eDEFAULT           = 0,      
-<a name="l00058"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe28b54a7339f8bf3afe3552bbc2455ad9d">00058</a>         eCUDA              = (1&lt;&lt;0), 
-<a name="l00059"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2fb660bd2c54e242a887094ded0a17faf">00059</a>         eGPU <a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> = eCUDA,  
-<a name="l00060"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2359d023e02d30616011e3f5a569b81e5">00060</a>         eSWEPT_CONTACT     = (1&lt;&lt;2), 
-<a name="l00061"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2446ef299929c4693fb60c5dc3f275952">00061</a>         eSCENE_COLLISION   = (1&lt;&lt;3), 
-<a name="l00062"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2618ea06012ef9e0257f1b34c21f0d5a1">00062</a>         eCOUNT             = 4       <span class="comment">// internal use only</span>
-<a name="l00063"></a>00063     };
-<a name="l00064"></a>00064 };
-<a name="l00065"></a>00065 
-<a name="l00066"></a><a class="code" href="group__cloth.html#g2be4311f196add0112bf7148caa36151">00066</a> <span class="keyword">typedef</span> <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxFlags&lt;PxClothFlag::Enum,PxU16&gt;</a> <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxClothFlags</a>;
-<a name="l00067"></a>00067 <a class="code" href="group__foundation.html#g092f922a63fdc7a95ae4f4e24b3768c1">PX_FLAGS_OPERATORS</a>(<a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2">PxClothFlag::Enum</a>, <a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a>)
-<a name="l00068"></a>00068 
-<a name="l00069"></a>00069 
-<a name="l00077"></a><a class="code" href="structPxClothParticle.html">00077</a> struct <a class="code" href="structPxClothParticle.html" title="Per particle data for cloth.">PxClothParticle</a>
-<a name="l00078"></a>00078 {
-<a name="l00079"></a><a class="code" href="structPxClothParticle.html#aa29731ecf5b019f45c8510aff29bed5">00079</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> pos;         
-<a name="l00080"></a><a class="code" href="structPxClothParticle.html#b407f770724473dc8d3e6754ae9fb3ef">00080</a>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> invWeight;   
-<a name="l00081"></a>00081 
-<a name="l00085"></a><a class="code" href="structPxClothParticle.html#d001c98574b520a472c4fe69c5feda97">00085</a>     <a class="code" href="structPxClothParticle.html#d001c98574b520a472c4fe69c5feda97" title="Default constructor, performs no initialization.">PxClothParticle</a>() {}
-<a name="l00086"></a><a class="code" href="structPxClothParticle.html#bba9f7f04c68b5e84e2105543e08bb55">00086</a>     PxClothParticle(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; pos_, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> invWeight_) 
-<a name="l00087"></a>00087         : pos(pos_), invWeight(invWeight_){}
-<a name="l00088"></a>00088 };
-<a name="l00089"></a>00089 
-<a name="l00095"></a><a class="code" href="structPxClothParticleMotionConstraint.html">00095</a> <span class="keyword">struct </span><a class="code" href="structPxClothParticleMotionConstraint.html" title="Constraints for cloth particle motion.">PxClothParticleMotionConstraint</a>
-<a name="l00096"></a>00096 {
-<a name="l00097"></a><a class="code" href="structPxClothParticleMotionConstraint.html#5b4aab23f6785058a76516ab751b15d2">00097</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> pos;         
-<a name="l00098"></a><a class="code" href="structPxClothParticleMotionConstraint.html#155138b41228195e930c284cf2e39be0">00098</a>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> radius;      
-<a name="l00099"></a>00099 
-<a name="l00103"></a><a class="code" href="structPxClothParticleMotionConstraint.html#428b98638f5d2b52a9b3cb448686b9c1">00103</a>     <a class="code" href="structPxClothParticleMotionConstraint.html#428b98638f5d2b52a9b3cb448686b9c1" title="Default constructor, performs no initialization.">PxClothParticleMotionConstraint</a>() {}
-<a name="l00104"></a><a class="code" href="structPxClothParticleMotionConstraint.html#3445042dc3428db66a91a13204825122">00104</a>     <a class="code" href="structPxClothParticleMotionConstraint.html" title="Constraints for cloth particle motion.">PxClothParticleMotionConstraint</a>(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; p, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> r) 
-<a name="l00105"></a>00105         : pos(p), radius(r){}
-<a name="l00106"></a>00106 };
-<a name="l00107"></a>00107 
-<a name="l00113"></a><a class="code" href="structPxClothParticleSeparationConstraint.html">00113</a> <span class="keyword">struct </span><a class="code" href="structPxClothParticleSeparationConstraint.html" title="Separation constraints for cloth particle movement.">PxClothParticleSeparationConstraint</a>
-<a name="l00114"></a>00114 {
-<a name="l00115"></a><a class="code" href="structPxClothParticleSeparationConstraint.html#9b37dcedf5e6523acfdf9a332fada420">00115</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> pos;         
-<a name="l00116"></a><a class="code" href="structPxClothParticleSeparationConstraint.html#24b98cdda050e735326bd00f35fd7b51">00116</a>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> radius;      
-<a name="l00117"></a>00117 
-<a name="l00121"></a><a class="code" href="structPxClothParticleSeparationConstraint.html#f005d1595e3341242d4f1f982432da44">00121</a>     <a class="code" href="structPxClothParticleSeparationConstraint.html#f005d1595e3341242d4f1f982432da44" title="Default constructor, performs no initialization.">PxClothParticleSeparationConstraint</a>() {}
-<a name="l00122"></a><a class="code" href="structPxClothParticleSeparationConstraint.html#aa8647668965055b7201b1a6c88aa875">00122</a>     <a class="code" href="structPxClothParticleSeparationConstraint.html" title="Separation constraints for cloth particle movement.">PxClothParticleSeparationConstraint</a>(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; p, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> r) 
-<a name="l00123"></a>00123         : pos(p), radius(r){}
-<a name="l00124"></a>00124 };
-<a name="l00125"></a>00125 
-<a name="l00126"></a>00126 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00127"></a>00127 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00128"></a>00128 <span class="preprocessor">#endif</span>
-<a name="l00129"></a>00129 <span class="preprocessor"></span>
-<a name="l00131"></a>00131 <span class="preprocessor">#endif</span>
+<a name="l00055"></a><a class="code" href="structPxClothFlag.html">00055</a> <span class="keyword">struct </span><a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="code" href="structPxClothFlag.html" title="flag for behaviors of the cloth solver">PxClothFlag</a>
+<a name="l00056"></a>00056 {
+<a name="l00057"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2">00057</a>     <span class="keyword">enum</span> <a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2">Enum</a>
+<a name="l00058"></a>00058     {
+<a name="l00059"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2f9a72931c630e6b5c9c9fb3e0d27d294">00059</a>         eDEFAULT           = 0,      
+<a name="l00060"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe28b54a7339f8bf3afe3552bbc2455ad9d">00060</a>         eCUDA              = (1&lt;&lt;0), 
+<a name="l00061"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2fb660bd2c54e242a887094ded0a17faf">00061</a>         eGPU <a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> = eCUDA,  
+<a name="l00062"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2359d023e02d30616011e3f5a569b81e5">00062</a>         eSWEPT_CONTACT     = (1&lt;&lt;2), 
+<a name="l00063"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2446ef299929c4693fb60c5dc3f275952">00063</a>         eSCENE_COLLISION   = (1&lt;&lt;3), 
+<a name="l00064"></a><a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2618ea06012ef9e0257f1b34c21f0d5a1">00064</a>         eCOUNT             = 4       <span class="comment">// internal use only</span>
+<a name="l00065"></a>00065     };
+<a name="l00066"></a>00066 };
+<a name="l00067"></a>00067 
+<a name="l00068"></a><a class="code" href="group__cloth.html#g2be4311f196add0112bf7148caa36151">00068</a> <span class="keyword">typedef</span> <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxFlags&lt;PxClothFlag::Enum,PxU16&gt;</a> <a class="code" href="classPxFlags.html" title="Container for bitfield flag variables associated with a specific enum type.">PxClothFlags</a>;
+<a name="l00069"></a>00069 <a class="code" href="group__foundation.html#g092f922a63fdc7a95ae4f4e24b3768c1">PX_FLAGS_OPERATORS</a>(<a class="code" href="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2">PxClothFlag::Enum</a>, <a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a>)
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071 
+<a name="l00080"></a><a class="code" href="structPxClothParticle.html">00080</a> struct <a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="code" href="structPxClothParticle.html" title="Per particle data for cloth.">PxClothParticle</a>
+<a name="l00081"></a>00081 {
+<a name="l00082"></a><a class="code" href="structPxClothParticle.html#aa29731ecf5b019f45c8510aff29bed5">00082</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> pos;         
+<a name="l00083"></a><a class="code" href="structPxClothParticle.html#b407f770724473dc8d3e6754ae9fb3ef">00083</a>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> invWeight;   
+<a name="l00084"></a>00084 
+<a name="l00088"></a><a class="code" href="structPxClothParticle.html#d001c98574b520a472c4fe69c5feda97">00088</a>     <a class="code" href="structPxClothParticle.html#d001c98574b520a472c4fe69c5feda97" title="Default constructor, performs no initialization.">PxClothParticle</a>() {}
+<a name="l00089"></a><a class="code" href="structPxClothParticle.html#bba9f7f04c68b5e84e2105543e08bb55">00089</a>     PxClothParticle(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; pos_, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> invWeight_) 
+<a name="l00090"></a>00090         : pos(pos_), invWeight(invWeight_){}
+<a name="l00091"></a>00091 };
+<a name="l00092"></a>00092 
+<a name="l00099"></a><a class="code" href="structPxClothParticleMotionConstraint.html">00099</a> <span class="keyword">struct </span><a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="code" href="structPxClothParticleMotionConstraint.html" title="Constraints for cloth particle motion.">PxClothParticleMotionConstraint</a>
+<a name="l00100"></a>00100 {
+<a name="l00101"></a><a class="code" href="structPxClothParticleMotionConstraint.html#5b4aab23f6785058a76516ab751b15d2">00101</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> pos;         
+<a name="l00102"></a><a class="code" href="structPxClothParticleMotionConstraint.html#155138b41228195e930c284cf2e39be0">00102</a>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> radius;      
+<a name="l00103"></a>00103 
+<a name="l00107"></a><a class="code" href="structPxClothParticleMotionConstraint.html#428b98638f5d2b52a9b3cb448686b9c1">00107</a>     <a class="code" href="structPxClothParticleMotionConstraint.html#428b98638f5d2b52a9b3cb448686b9c1" title="Default constructor, performs no initialization.">PxClothParticleMotionConstraint</a>() {}
+<a name="l00108"></a><a class="code" href="structPxClothParticleMotionConstraint.html#3445042dc3428db66a91a13204825122">00108</a>     <a class="code" href="structPxClothParticleMotionConstraint.html" title="Constraints for cloth particle motion.">PxClothParticleMotionConstraint</a>(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; p, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> r) 
+<a name="l00109"></a>00109         : pos(p), radius(r){}
+<a name="l00110"></a>00110 };
+<a name="l00111"></a>00111 
+<a name="l00118"></a><a class="code" href="structPxClothParticleSeparationConstraint.html">00118</a> <span class="keyword">struct </span><a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="code" href="structPxClothParticleSeparationConstraint.html" title="Separation constraints for cloth particle movement.">PxClothParticleSeparationConstraint</a>
+<a name="l00119"></a>00119 {
+<a name="l00120"></a><a class="code" href="structPxClothParticleSeparationConstraint.html#9b37dcedf5e6523acfdf9a332fada420">00120</a>     <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a> pos;         
+<a name="l00121"></a><a class="code" href="structPxClothParticleSeparationConstraint.html#24b98cdda050e735326bd00f35fd7b51">00121</a>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> radius;      
+<a name="l00122"></a>00122 
+<a name="l00126"></a><a class="code" href="structPxClothParticleSeparationConstraint.html#f005d1595e3341242d4f1f982432da44">00126</a>     <a class="code" href="structPxClothParticleSeparationConstraint.html#f005d1595e3341242d4f1f982432da44" title="Default constructor, performs no initialization.">PxClothParticleSeparationConstraint</a>() {}
+<a name="l00127"></a><a class="code" href="structPxClothParticleSeparationConstraint.html#aa8647668965055b7201b1a6c88aa875">00127</a>     <a class="code" href="structPxClothParticleSeparationConstraint.html" title="Separation constraints for cloth particle movement.">PxClothParticleSeparationConstraint</a>(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; p, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> r) 
+<a name="l00128"></a>00128         : pos(p), radius(r){}
+<a name="l00129"></a>00129 };
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00132"></a>00132 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00133"></a>00133 <span class="preprocessor">#endif</span>
+<a name="l00134"></a>00134 <span class="preprocessor"></span>
+<a name="l00136"></a>00136 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

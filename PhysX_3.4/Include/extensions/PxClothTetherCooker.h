@@ -41,7 +41,10 @@ namespace physx
 	
 struct PxClothSimpleTetherCookerImpl;
 
-class PxClothSimpleTetherCooker
+/**
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
+*/
+class PX_DEPRECATED PxClothSimpleTetherCooker
 {
 public:
 	/**
@@ -71,7 +74,10 @@ private:
 
 struct PxClothGeodesicTetherCookerImpl;
 
-class PxClothGeodesicTetherCooker
+/**
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
+*/
+class PX_DEPRECATED PxClothGeodesicTetherCooker
 {
 public:
 	/**

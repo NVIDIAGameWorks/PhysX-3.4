@@ -173,11 +173,7 @@ public:
 
 								// TODO avoroshilov: cooking - adjacency info - duplicated, remove it and use 'mAdjacencies' and 'mExtraTrigData' see GuTriangleMesh.cpp:325
 								void *					mGRB_triAdjacencies;			//!< GRB: adjacency data, with BOUNDARY and NONCONVEX flags (flags replace adj indices where applicable)
-								PxU32 *					mGRB_vertValency;				//!< GRB: number of adjacent vertices to a vertex
-								PxU32 *					mGRB_adjVertStart;				//!< GRB: offset for each vertex in the adjacency list
-								PxU32 *					mGRB_adjVertices;				//!< GRB: list of adjacent vertices
 
-								PxU32					mGRB_meshAdjVerticiesTotal;		//!< GRB: total number of indices in the 'mGRB_adjVertices'
 								PxU32*					mGRB_faceRemap;					//!< GRB : gpu to cpu triangle indice remap
 								void*					mGRB_BV32Tree;					//!< GRB: BV32 tree
 								// End of GRB data ------------------

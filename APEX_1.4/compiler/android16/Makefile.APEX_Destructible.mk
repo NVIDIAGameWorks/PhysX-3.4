@@ -127,8 +127,8 @@ APEX_Destructible_debug_hpaths    += ./../../module/destructible/fracture/Core
 APEX_Destructible_debug_lpaths    := 
 APEX_Destructible_debug_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Destructible_debug_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Destructible_debug_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Destructible_debug_lpaths    += ./../../../PxShared/lib/android16
+APEX_Destructible_debug_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Destructible_debug_defines   := $(APEX_Destructible_custom_defines)
 APEX_Destructible_debug_defines   += ANDROID
 APEX_Destructible_debug_defines   += GLES2
@@ -148,9 +148,9 @@ APEX_Destructible_debug_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Destructible_debug_defines   += PHYSX_PROFILE_SDK
 APEX_Destructible_debug_defines   += PX_NVTX=1
 APEX_Destructible_debug_libraries := 
-APEX_Destructible_debug_libraries += NvParameterizedDEBUG
-APEX_Destructible_debug_libraries += PsFastXmlDEBUG
 APEX_Destructible_debug_libraries += PxFoundationDEBUG
+APEX_Destructible_debug_libraries += PsFastXmlDEBUG
+APEX_Destructible_debug_libraries += NvParameterizedDEBUG
 APEX_Destructible_debug_libraries += PxPvdSDKDEBUG
 APEX_Destructible_debug_libraries += PhysX3CommonDEBUG
 APEX_Destructible_debug_libraries += PhysX3DEBUG
@@ -192,9 +192,9 @@ postbuild_APEX_Destructible_debug: mainbuild_APEX_Destructible_debug
 mainbuild_APEX_Destructible_debug: prebuild_APEX_Destructible_debug $(APEX_Destructible_debug_bin)
 prebuild_APEX_Destructible_debug:
 
-$(APEX_Destructible_debug_bin): $(NvParameterized_debug_obj) $(PsFastXml_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Destructible_debug_obj) build_NvParameterized_debug build_PsFastXml_debug build_PxFoundation_debug build_PxPvdSDK_debug 
+$(APEX_Destructible_debug_bin): $(PsFastXml_debug_obj) $(NvParameterized_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Destructible_debug_obj) build_PxFoundation_debug build_PsFastXml_debug build_NvParameterized_debug build_PxPvdSDK_debug 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_DestructibleDEBUG.a`
-	@$(AR) rcs $(APEX_Destructible_debug_bin) $(NvParameterized_debug_obj) $(PsFastXml_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Destructible_debug_obj)
+	@$(AR) rcs $(APEX_Destructible_debug_bin) $(PsFastXml_debug_obj) $(NvParameterized_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Destructible_debug_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Destructible_debug_DEPDIR = $(dir $(@))/$(*F)
@@ -281,8 +281,8 @@ APEX_Destructible_release_hpaths    += ./../../module/destructible/fracture/Core
 APEX_Destructible_release_lpaths    := 
 APEX_Destructible_release_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Destructible_release_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Destructible_release_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Destructible_release_lpaths    += ./../../../PxShared/lib/android16
+APEX_Destructible_release_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Destructible_release_defines   := $(APEX_Destructible_custom_defines)
 APEX_Destructible_release_defines   += ANDROID
 APEX_Destructible_release_defines   += GLES2
@@ -297,9 +297,9 @@ APEX_Destructible_release_defines   += ENABLE_TEST=0
 APEX_Destructible_release_defines   += NDEBUG
 APEX_Destructible_release_defines   += APEX_SHIPPING
 APEX_Destructible_release_libraries := 
-APEX_Destructible_release_libraries += NvParameterized
-APEX_Destructible_release_libraries += PsFastXml
 APEX_Destructible_release_libraries += PxFoundation
+APEX_Destructible_release_libraries += PsFastXml
+APEX_Destructible_release_libraries += NvParameterized
 APEX_Destructible_release_libraries += PxPvdSDK
 APEX_Destructible_release_libraries += PhysX3Common
 APEX_Destructible_release_libraries += PhysX3
@@ -340,9 +340,9 @@ postbuild_APEX_Destructible_release: mainbuild_APEX_Destructible_release
 mainbuild_APEX_Destructible_release: prebuild_APEX_Destructible_release $(APEX_Destructible_release_bin)
 prebuild_APEX_Destructible_release:
 
-$(APEX_Destructible_release_bin): $(NvParameterized_release_obj) $(PsFastXml_release_obj) $(PxPvdSDK_release_obj) $(APEX_Destructible_release_obj) build_NvParameterized_release build_PsFastXml_release build_PxFoundation_release build_PxPvdSDK_release 
+$(APEX_Destructible_release_bin): $(PsFastXml_release_obj) $(NvParameterized_release_obj) $(PxPvdSDK_release_obj) $(APEX_Destructible_release_obj) build_PxFoundation_release build_PsFastXml_release build_NvParameterized_release build_PxPvdSDK_release 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_Destructible.a`
-	@$(AR) rcs $(APEX_Destructible_release_bin) $(NvParameterized_release_obj) $(PsFastXml_release_obj) $(PxPvdSDK_release_obj) $(APEX_Destructible_release_obj)
+	@$(AR) rcs $(APEX_Destructible_release_bin) $(PsFastXml_release_obj) $(NvParameterized_release_obj) $(PxPvdSDK_release_obj) $(APEX_Destructible_release_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Destructible_release_DEPDIR = $(dir $(@))/$(*F)
@@ -429,8 +429,8 @@ APEX_Destructible_profile_hpaths    += ./../../module/destructible/fracture/Core
 APEX_Destructible_profile_lpaths    := 
 APEX_Destructible_profile_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Destructible_profile_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Destructible_profile_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Destructible_profile_lpaths    += ./../../../PxShared/lib/android16
+APEX_Destructible_profile_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Destructible_profile_defines   := $(APEX_Destructible_custom_defines)
 APEX_Destructible_profile_defines   += ANDROID
 APEX_Destructible_profile_defines   += GLES2
@@ -448,9 +448,9 @@ APEX_Destructible_profile_defines   += PHYSX_PROFILE_SDK
 APEX_Destructible_profile_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Destructible_profile_defines   += PX_NVTX=1
 APEX_Destructible_profile_libraries := 
-APEX_Destructible_profile_libraries += NvParameterizedPROFILE
-APEX_Destructible_profile_libraries += PsFastXmlPROFILE
 APEX_Destructible_profile_libraries += PxFoundationPROFILE
+APEX_Destructible_profile_libraries += PsFastXmlPROFILE
+APEX_Destructible_profile_libraries += NvParameterizedPROFILE
 APEX_Destructible_profile_libraries += PxPvdSDKPROFILE
 APEX_Destructible_profile_libraries += PhysX3CommonPROFILE
 APEX_Destructible_profile_libraries += PhysX3PROFILE
@@ -491,9 +491,9 @@ postbuild_APEX_Destructible_profile: mainbuild_APEX_Destructible_profile
 mainbuild_APEX_Destructible_profile: prebuild_APEX_Destructible_profile $(APEX_Destructible_profile_bin)
 prebuild_APEX_Destructible_profile:
 
-$(APEX_Destructible_profile_bin): $(NvParameterized_profile_obj) $(PsFastXml_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Destructible_profile_obj) build_NvParameterized_profile build_PsFastXml_profile build_PxFoundation_profile build_PxPvdSDK_profile 
+$(APEX_Destructible_profile_bin): $(PsFastXml_profile_obj) $(NvParameterized_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Destructible_profile_obj) build_PxFoundation_profile build_PsFastXml_profile build_NvParameterized_profile build_PxPvdSDK_profile 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_DestructiblePROFILE.a`
-	@$(AR) rcs $(APEX_Destructible_profile_bin) $(NvParameterized_profile_obj) $(PsFastXml_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Destructible_profile_obj)
+	@$(AR) rcs $(APEX_Destructible_profile_bin) $(PsFastXml_profile_obj) $(NvParameterized_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Destructible_profile_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Destructible_profile_DEPDIR = $(dir $(@))/$(*F)
@@ -580,8 +580,8 @@ APEX_Destructible_checked_hpaths    += ./../../module/destructible/fracture/Core
 APEX_Destructible_checked_lpaths    := 
 APEX_Destructible_checked_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Destructible_checked_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Destructible_checked_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Destructible_checked_lpaths    += ./../../../PxShared/lib/android16
+APEX_Destructible_checked_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Destructible_checked_defines   := $(APEX_Destructible_custom_defines)
 APEX_Destructible_checked_defines   += ANDROID
 APEX_Destructible_checked_defines   += GLES2
@@ -600,9 +600,9 @@ APEX_Destructible_checked_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Destructible_checked_defines   += PX_ENABLE_CHECKED_ASSERTS
 APEX_Destructible_checked_defines   += PX_NVTX=1
 APEX_Destructible_checked_libraries := 
-APEX_Destructible_checked_libraries += NvParameterizedCHECKED
-APEX_Destructible_checked_libraries += PsFastXmlCHECKED
 APEX_Destructible_checked_libraries += PxFoundationCHECKED
+APEX_Destructible_checked_libraries += PsFastXmlCHECKED
+APEX_Destructible_checked_libraries += NvParameterizedCHECKED
 APEX_Destructible_checked_libraries += PxPvdSDKCHECKED
 APEX_Destructible_checked_libraries += PhysX3CommonCHECKED
 APEX_Destructible_checked_libraries += PhysX3CHECKED
@@ -644,9 +644,9 @@ postbuild_APEX_Destructible_checked: mainbuild_APEX_Destructible_checked
 mainbuild_APEX_Destructible_checked: prebuild_APEX_Destructible_checked $(APEX_Destructible_checked_bin)
 prebuild_APEX_Destructible_checked:
 
-$(APEX_Destructible_checked_bin): $(NvParameterized_checked_obj) $(PsFastXml_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Destructible_checked_obj) build_NvParameterized_checked build_PsFastXml_checked build_PxFoundation_checked build_PxPvdSDK_checked 
+$(APEX_Destructible_checked_bin): $(PsFastXml_checked_obj) $(NvParameterized_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Destructible_checked_obj) build_PxFoundation_checked build_PsFastXml_checked build_NvParameterized_checked build_PxPvdSDK_checked 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_DestructibleCHECKED.a`
-	@$(AR) rcs $(APEX_Destructible_checked_bin) $(NvParameterized_checked_obj) $(PsFastXml_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Destructible_checked_obj)
+	@$(AR) rcs $(APEX_Destructible_checked_bin) $(PsFastXml_checked_obj) $(NvParameterized_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Destructible_checked_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Destructible_checked_DEPDIR = $(dir $(@))/$(*F)

@@ -35,6 +35,13 @@ ApexController::ApexController(PxSimulationFilterShader filterShader, CFirstPers
 , mUseFixedTimestep(true)
 , mFixedTimestep(1.0/60.0)
 , mTimeRemainder(0.0)
+, mModuleDestructible(NULL)
+, mModuleParticles(NULL)
+, mModuleIofx(NULL)
+, mModuleTurbulenceFS(NULL)
+, mModuleLegacy(NULL)
+, mModuleClothing(NULL)
+, mRenderVolume(NULL)
 {
 	QueryPerformanceFrequency(&mPerformanceFreq);
 }
@@ -165,18 +172,24 @@ void ApexController::initApex()
 
 	// Initialize destructible module
 	mModuleDestructible = static_cast<ModuleDestructible*>(mApexSDK->createModule("Destructible"));
+	PX_ASSERT(mModuleDestructible);
 	NvParameterized::Interface* params = mModuleDestructible->getDefaultModuleDesc();
 	mModuleDestructible->init(*params);
 
 	// Initialize particles module
 	mModuleParticles = static_cast<ModuleParticles*>(mApexSDK->createModule("Particles"));
-	mModuleParticles->init(*mModuleParticles->getDefaultModuleDesc());
+	if (mModuleParticles != NULL)
+	{
+		mModuleParticles->init(*mModuleParticles->getDefaultModuleDesc());
+		mModuleTurbulenceFS = mApexSDK->createModule("TurbulenceFS");
+		mModuleIofx = static_cast<ModuleIofx*>(mModuleParticles->getModule("IOFX"));
+	}
+
 	mModuleLegacy = mApexSDK->createModule("Legacy");
-	mModuleTurbulenceFS = mApexSDK->createModule("TurbulenceFS");
-	mModuleIofx = static_cast<ModuleIofx*>(mModuleParticles->getModule("IOFX"));
 
 	// Initialize clothing module
 	mModuleClothing = static_cast<ModuleClothing*>(mApexSDK->createModule("Clothing"));
+	PX_ASSERT(mModuleClothing);
 	mModuleClothing->init(*mModuleClothing->getDefaultModuleDesc());
 
 	mApexResourceCallback->setApexSDK(mApexSDK);
@@ -195,17 +208,20 @@ void ApexController::initApex()
 	mApexScene->allocProjMatrix(ProjMatrixType::USER_CUSTOMIZED);
 
 	// IofxLegacy render callback
-	ModuleIofxLegacy* iofxLegacyModule = static_cast<ModuleIofxLegacy*>(mApexSDK->createModule("IOFX_Legacy"));
-	if (iofxLegacyModule)
+	if (mModuleIofx)
 	{
-		IofxRenderCallback* iofxLegacyRCB = iofxLegacyModule->getIofxLegacyRenderCallback(*mApexScene);
-		mModuleIofx->setIofxRenderCallback(*mApexScene, iofxLegacyRCB);
-	}
+		ModuleIofxLegacy* iofxLegacyModule = static_cast<ModuleIofxLegacy*>(mApexSDK->createModule("IOFX_Legacy"));
+		if (iofxLegacyModule)
+		{
+			IofxRenderCallback* iofxLegacyRCB = iofxLegacyModule->getIofxLegacyRenderCallback(*mApexScene);
+			mModuleIofx->setIofxRenderCallback(*mApexScene, iofxLegacyRCB);
+		}
 
-	// render volume
-	nvidia::PxBounds3 infBounds;
-	infBounds.setMaximal();
-	mRenderVolume = mModuleIofx->createRenderVolume(*mApexScene, infBounds, 0, true);
+		// render volume
+		nvidia::PxBounds3 infBounds;
+		infBounds.setMaximal();
+		mRenderVolume = mModuleIofx->createRenderVolume(*mApexScene, infBounds, 0, true);
+	}
 
 	// connect pvd
 #if PVD_TO_FILE
@@ -315,7 +331,10 @@ void ApexController::Animate(double dt)
 		mApexRenderDebug->addDebugRenderable(renderBuffer);
 	}
 
-	mModuleIofx->prepareRenderables(*mApexScene);
+	if (mModuleIofx)
+	{
+		mModuleIofx->prepareRenderables(*mApexScene);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -545,6 +564,10 @@ void ApexController::renderTransparency(ApexRenderer* renderer)
 
 void ApexController::renderParticles(ApexRenderer* renderer, IofxRenderable::Type type)
 {
+	if (mModuleParticles == NULL)
+	{
+		return;
+	}
 	uint32_t numActors;
 	IofxActor* const* actors = mRenderVolume->lockIofxActorList(numActors);
 	for (uint32_t j = 0; j < numActors; j++)

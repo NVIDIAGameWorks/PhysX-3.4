@@ -113,10 +113,9 @@ void MutexImpl::unlock()
 	PX_UNUSED(err);
 }
 
-const uint32_t gSize = sizeof(MutexUnixImpl);
-const uint32_t& MutexImpl::getSize()
+uint32_t MutexImpl::getSize()
 {
-	return gSize;
+	return sizeof(MutexUnixImpl);
 }
 
 class ReadWriteLockImpl

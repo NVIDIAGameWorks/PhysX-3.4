@@ -112,7 +112,7 @@ public:
 	virtual bool getInstanceLayoutData(uint32_t, uint32_t, UserRenderInstanceBufferDesc*) { return false; }
 };
 
-#if PX_NX
+#if PX_SWITCH
 #include <nn/fs.h>
 #else
 #include <sys/stat.h>
@@ -122,7 +122,7 @@ public:
 // Check that path exist
 bool isFileExist(const char* path)
 {
-#if PX_NX 
+#if PX_SWITCH 
 	nn::fs::DirectoryEntryType t;
 	nn::Result r = nn::fs::GetEntryType(&t, path);
 	if (r.IsFailure() || t != nn::fs::DirectoryEntryType_File)
@@ -154,7 +154,7 @@ int main(int, char**)
 	return 0;
 }
 
-#elif PX_NX
+#elif PX_SWITCH
 
 #include <nn/os.h>
 #include <nn/fs.h>

@@ -63,18 +63,23 @@ public:
 		*/
 		eRIGID_BODY,
 
+#if PX_USE_PARTICLE_SYSTEM_API
 		/**
 		\brief A volume belonging to a particle system (deprecated)
 		\deprecated The PhysX particle feature has been deprecated in PhysX version 3.4
 		@see PxParticleSystem PxParticleFluid
 		*/
 		ePARTICLE_SYSTEM PX_DEPRECATED,
+#endif
 
+#if PX_USE_CLOTH_API
 		/**
 		\brief A volume belonging to a cloth
+		\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 		@see PxCloth
 		*/
-		eCLOTH,
+		eCLOTH PX_DEPRECATED,
+#endif
 
 		eVOLUME_COUNT
 	};

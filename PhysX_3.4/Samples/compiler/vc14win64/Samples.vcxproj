@@ -84,7 +84,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win64 /LIBPATH:../../../../PxShared/lib/vc14win64 /LIBPATH:../../../Lib/vc14win64 PhysX3CommonDEBUG_x64.lib PhysX3DEBUG_x64.lib PhysX3CookingDEBUG_x64.lib PhysX3CharacterKinematicDEBUG_x64.lib PhysX3ExtensionsDEBUG.lib PhysX3VehicleDEBUG.lib PxPvdSDKDEBUG_x64.lib PxTaskDEBUG_x64.lib PxCudaContextManagerDEBUG_x64.lib PxFoundationDEBUG_x64.lib PsFastXmlDEBUG_x64.lib /DEBUG</AdditionalOptions>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win64 /LIBPATH:../../../../PxShared/lib/vc14win64 /LIBPATH:../../../Lib/vc14win64 PhysX3CommonDEBUG_x64.lib PhysX3DEBUG_x64.lib PhysX3CookingDEBUG_x64.lib PhysX3CharacterKinematicDEBUG_x64.lib PhysX3ExtensionsDEBUG.lib PhysX3VehicleDEBUG.lib PxPvdSDKDEBUG_x64.lib PxTaskDEBUG_x64.lib PxFoundationDEBUG_x64.lib PsFastXmlDEBUG_x64.lib /DEBUG</AdditionalOptions>
 			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)DEBUG.exe</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -131,7 +131,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win64 /LIBPATH:../../../../PxShared/lib/vc14win64 /LIBPATH:../../../Lib/vc14win64 PhysX3CommonCHECKED_x64.lib PhysX3CHECKED_x64.lib PhysX3CookingCHECKED_x64.lib PhysX3CharacterKinematicCHECKED_x64.lib PhysX3ExtensionsCHECKED.lib PhysX3VehicleCHECKED.lib PxPvdSDKCHECKED_x64.lib PxTaskCHECKED_x64.lib PxCudaContextManagerCHECKED_x64.lib PxFoundationCHECKED_x64.lib PsFastXmlCHECKED_x64.lib</AdditionalOptions>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win64 /LIBPATH:../../../../PxShared/lib/vc14win64 /LIBPATH:../../../Lib/vc14win64 PhysX3CommonCHECKED_x64.lib PhysX3CHECKED_x64.lib PhysX3CookingCHECKED_x64.lib PhysX3CharacterKinematicCHECKED_x64.lib PhysX3ExtensionsCHECKED.lib PhysX3VehicleCHECKED.lib PxPvdSDKCHECKED_x64.lib PxTaskCHECKED_x64.lib PxFoundationCHECKED_x64.lib PsFastXmlCHECKED_x64.lib</AdditionalOptions>
 			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)CHECKED.exe</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -178,7 +178,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win64 /LIBPATH:../../../../PxShared/lib/vc14win64 /INCREMENTAL:NO /LIBPATH:../../../Lib/vc14win64 PhysX3CommonPROFILE_x64.lib PhysX3PROFILE_x64.lib PhysX3CookingPROFILE_x64.lib PhysX3CharacterKinematicPROFILE_x64.lib PhysX3ExtensionsPROFILE.lib PhysX3VehiclePROFILE.lib PxPvdSDKPROFILE_x64.lib PxTaskPROFILE_x64.lib PxCudaContextManagerPROFILE_x64.lib PxFoundationPROFILE_x64.lib PsFastXmlPROFILE_x64.lib /DEBUG</AdditionalOptions>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win64 /LIBPATH:../../../../PxShared/lib/vc14win64 /INCREMENTAL:NO /LIBPATH:../../../Lib/vc14win64 PhysX3CommonPROFILE_x64.lib PhysX3PROFILE_x64.lib PhysX3CookingPROFILE_x64.lib PhysX3CharacterKinematicPROFILE_x64.lib PhysX3ExtensionsPROFILE.lib PhysX3VehiclePROFILE.lib PxPvdSDKPROFILE_x64.lib PxTaskPROFILE_x64.lib PxFoundationPROFILE_x64.lib PsFastXmlPROFILE_x64.lib /DEBUG</AdditionalOptions>
 			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)PROFILE.exe</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -225,7 +225,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Link>
-			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win64 /LIBPATH:../../../../PxShared/lib/vc14win64 /INCREMENTAL:NO /LIBPATH:../../../Lib/vc14win64 PhysX3Common_x64.lib PhysX3_x64.lib PhysX3Cooking_x64.lib PhysX3CharacterKinematic_x64.lib PhysX3Extensions.lib PhysX3Vehicle.lib PxPvdSDK_x64.lib PxTask_x64.lib PxCudaContextManager_x64.lib PxFoundation_x64.lib PsFastXml_x64.lib</AdditionalOptions>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc14win64 /LIBPATH:../../../../PxShared/lib/vc14win64 /INCREMENTAL:NO /LIBPATH:../../../Lib/vc14win64 PhysX3Common_x64.lib PhysX3_x64.lib PhysX3Cooking_x64.lib PhysX3CharacterKinematic_x64.lib PhysX3Extensions.lib PhysX3Vehicle.lib PxPvdSDK_x64.lib PxTask_x64.lib PxFoundation_x64.lib PsFastXml_x64.lib</AdditionalOptions>
 			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

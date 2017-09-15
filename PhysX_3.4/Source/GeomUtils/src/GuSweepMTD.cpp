@@ -489,7 +489,7 @@ bool physx::Gu::computeBox_TriangleMeshMTD(const PxTriangleMeshGeometry& triMesh
 	const Vec3V p0 = V3LoadU(&boxTransform.p.x);
 
 	const Vec3V boxExtents = V3LoadU(box.extents);
-	const FloatV minMargin = CalculatePCMBoxMargin(boxExtents);
+	const FloatV minMargin = CalculateMTDBoxMargin(boxExtents);
 	const FloatV inflationV = FAdd(FLoad(inflation), minMargin);
 	PxReal boundInflation;
 	FStore(inflationV, &boundInflation);
@@ -632,7 +632,7 @@ bool physx::Gu::computeBox_HeightFieldMTD(	const PxHeightFieldGeometry& heightFi
 	const Vec3V p0 = V3LoadU(&boxTransform.p.x);
 
 	const Vec3V boxExtents = V3LoadU(box.extents);
-	const FloatV minMargin = CalculatePCMBoxMargin(boxExtents);
+	const FloatV minMargin = CalculateMTDBoxMargin(boxExtents);
 	const FloatV inflationV = FAdd(FLoad(inflation), minMargin);
 	//const FloatV inflationV = FLoad(inflation);
 
@@ -790,7 +790,7 @@ bool physx::Gu::computeConvex_TriangleMeshMTD(	const PxTriangleMeshGeometry& tri
 	ConvexHullV convexHull(hullData, V3Zero(), vScale, vQuat, idtScaleConvex);
 	PX_ALIGN(16, PxU8 convexBuff[sizeof(SupportLocalImpl<ConvexHullV>)]);
 	
-	const FloatV convexMargin = CalculatePCMConvexMargin(hullData, vScale);
+	const FloatV convexMargin = CalculateMTDConvexMargin(hullData, vScale);
 	const FloatV inflationV = FAdd(FLoad(inflation), convexMargin);
 	PxReal boundInflation;
 	FStore(inflationV, &boundInflation);
@@ -951,7 +951,7 @@ bool physx::Gu::computeConvex_HeightFieldMTD(	const PxHeightFieldGeometry& heigh
 	ConvexHullV convexHull(hullData, zeroV, vScale, vQuat, idtScaleConvex);
 	PX_ALIGN(16, PxU8 convexBuff[sizeof(SupportLocalImpl<ConvexHullV>)]);
 
-	const FloatV convexMargin = CalculatePCMConvexMargin(hullData, vScale);
+	const FloatV convexMargin = CalculateMTDConvexMargin(hullData, vScale);
 	const FloatV inflationV = FAdd(FLoad(inflation), convexMargin);
 	PxReal boundInflation;
 	FStore(inflationV, &boundInflation);

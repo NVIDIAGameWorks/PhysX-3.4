@@ -87,18 +87,29 @@
 <a name="l00104"></a>00104 <span class="preprocessor"></span>
 <a name="l00120"></a>00120 <a class="code" href="Pxc_8h.html#ea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> PX_FOUNDATION_API physx::PxFoundation* PX_CALL_CONV
 <a name="l00121"></a>00121 <a class="code" href="group__foundation.html#g9deda8eaad9681fc9eb456adc5225668" title="Creates an instance of the foundation class.">PxCreateFoundation</a>(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">physx::PxU32</a> version, physx::PxAllocatorCallback&amp; allocator, physx::PxErrorCallback&amp; errorCallback);
-<a name="l00129"></a>00129 <a class="code" href="Pxc_8h.html#ea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> PX_FOUNDATION_API physx::PxFoundation&amp; PX_CALL_CONV <a class="code" href="group__foundation.html#g2f06b47e22c6e93701d766444c67f3a6" title="Retrieves the Foundation SDK after it has been created.">PxGetFoundation</a>();
-<a name="l00130"></a>00130 
-<a name="l00131"></a>00131 <span class="keyword">namespace </span>physx
-<a name="l00132"></a>00132 {
-<a name="l00133"></a>00133 <span class="keyword">class </span>PxProfilerCallback;
-<a name="l00134"></a>00134 }
-<a name="l00135"></a>00135 
-<a name="l00139"></a>00139 <a class="code" href="Pxc_8h.html#ea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> PX_FOUNDATION_API <a class="code" href="classphysx_1_1PxProfilerCallback.html" title="The pure virtual callback interface for general purpose instrumentation and profiling...">physx::PxProfilerCallback</a>* PX_CALL_CONV <a class="code" href="group__foundation.html#g0fb72a858fd527761dbe042cb4adbbe6" title="Get the callback that will be used for all profiling.">PxGetProfilerCallback</a>();
-<a name="l00140"></a>00140 
-<a name="l00144"></a>00144 <a class="code" href="Pxc_8h.html#ea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> PX_FOUNDATION_API <span class="keywordtype">void</span> PX_CALL_CONV <a class="code" href="group__foundation.html#g14bf03e830d32c8da6a9a21ad60d0445" title="Set the callback that will be used for all profiling.">PxSetProfilerCallback</a>(<a class="code" href="classphysx_1_1PxProfilerCallback.html" title="The pure virtual callback interface for general purpose instrumentation and profiling...">physx::PxProfilerCallback</a>* profiler);
-<a name="l00145"></a>00145 
-<a name="l00147"></a>00147 <span class="preprocessor">#endif // PX_FOUNDATION_PX_FOUNDATION_H</span>
+<a name="l00129"></a>00129 <span class="preprocessor">#if PX_CLANG</span>
+<a name="l00130"></a>00130 <span class="preprocessor"></span><span class="preprocessor">#if PX_LINUX</span>
+<a name="l00131"></a>00131 <span class="preprocessor"></span><span class="preprocessor">    #pragma clang diagnostic push</span>
+<a name="l00132"></a>00132 <span class="preprocessor"></span><span class="preprocessor">    #pragma clang diagnostic ignored "-Wreturn-type-c-linkage"</span>
+<a name="l00133"></a>00133 <span class="preprocessor"></span><span class="preprocessor">#endif // PX_LINUX</span>
+<a name="l00134"></a>00134 <span class="preprocessor"></span><span class="preprocessor">#endif // PX_CLANG</span>
+<a name="l00135"></a>00135 <span class="preprocessor"></span><a class="code" href="Pxc_8h.html#ea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> PX_FOUNDATION_API physx::PxFoundation&amp; PX_CALL_CONV <a class="code" href="group__foundation.html#g2f06b47e22c6e93701d766444c67f3a6" title="Retrieves the Foundation SDK after it has been created.">PxGetFoundation</a>();
+<a name="l00136"></a>00136 <span class="preprocessor">#if PX_CLANG</span>
+<a name="l00137"></a>00137 <span class="preprocessor"></span><span class="preprocessor">#if PX_LINUX</span>
+<a name="l00138"></a>00138 <span class="preprocessor"></span><span class="preprocessor">    #pragma clang diagnostic pop</span>
+<a name="l00139"></a>00139 <span class="preprocessor"></span><span class="preprocessor">#endif // PX_LINUX</span>
+<a name="l00140"></a>00140 <span class="preprocessor"></span><span class="preprocessor">#endif // PX_CLANG</span>
+<a name="l00141"></a>00141 <span class="preprocessor"></span>
+<a name="l00142"></a>00142 <span class="keyword">namespace </span>physx
+<a name="l00143"></a>00143 {
+<a name="l00144"></a>00144 <span class="keyword">class </span>PxProfilerCallback;
+<a name="l00145"></a>00145 }
+<a name="l00146"></a>00146 
+<a name="l00150"></a>00150 <a class="code" href="Pxc_8h.html#ea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> PX_FOUNDATION_API <a class="code" href="classphysx_1_1PxProfilerCallback.html" title="The pure virtual callback interface for general purpose instrumentation and profiling...">physx::PxProfilerCallback</a>* PX_CALL_CONV <a class="code" href="group__foundation.html#g0fb72a858fd527761dbe042cb4adbbe6" title="Get the callback that will be used for all profiling.">PxGetProfilerCallback</a>();
+<a name="l00151"></a>00151 
+<a name="l00155"></a>00155 <a class="code" href="Pxc_8h.html#ea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> PX_FOUNDATION_API <span class="keywordtype">void</span> PX_CALL_CONV <a class="code" href="group__foundation.html#g14bf03e830d32c8da6a9a21ad60d0445" title="Set the callback that will be used for all profiling.">PxSetProfilerCallback</a>(<a class="code" href="classphysx_1_1PxProfilerCallback.html" title="The pure virtual callback interface for general purpose instrumentation and profiling...">physx::PxProfilerCallback</a>* profiler);
+<a name="l00156"></a>00156 
+<a name="l00158"></a>00158 <span class="preprocessor">#endif // PX_FOUNDATION_PX_FOUNDATION_H</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

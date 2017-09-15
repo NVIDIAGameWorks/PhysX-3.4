@@ -75,6 +75,24 @@ Collaboration diagram for PxContactSet:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxContactSet.html#145d98e983e46057f0fa57903f671c06">setMaxImpulse</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> i, PxReal s)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Alter the maximum impulse for a specific contact point in the set.  <a href="#145d98e983e46057f0fa57903f671c06"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE PxReal&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxContactSet.html#643d2c1eb96b29b8119e11e04828c26e">getRestitution</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> i) const </td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the restitution coefficient for a specific contact point in the set.  <a href="#643d2c1eb96b29b8119e11e04828c26e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxContactSet.html#2c1f31f9201c804d6310ec0129cc0cea">setRestitution</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> i, PxReal r)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Alter the restitution coefficient for a specific contact point in the set.  <a href="#2c1f31f9201c804d6310ec0129cc0cea"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE PxReal&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxContactSet.html#45700551793a60bff49adfb4775b5820">getStaticFriction</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> i) const </td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the static friction coefficient for a specific contact point in the set.  <a href="#45700551793a60bff49adfb4775b5820"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxContactSet.html#8c585855a8936d762520b1d1471bf3fe">setStaticFriction</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> i, PxReal f)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Alter the static friction coefficient for a specific contact point in the set.  <a href="#8c585855a8936d762520b1d1471bf3fe"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE PxReal&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxContactSet.html#70f975199ee66a0df4bf037cc8e10f3c">getDynamicFriction</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> i) const </td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the static friction coefficient for a specific contact point in the set.  <a href="#70f975199ee66a0df4bf037cc8e10f3c"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxContactSet.html#360344f51cce5d01c69701e3dcc3747b">setDynamicFriction</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> i, PxReal f)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Alter the static dynamic coefficient for a specific contact point in the set.  <a href="#360344f51cce5d01c69701e3dcc3747b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxContactSet.html#930b0b6a5450e9b2e83634d6803f4045">ignore</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> i)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Ignore the contact point.  <a href="#930b0b6a5450e9b2e83634d6803f4045"></a><br></td></tr>
@@ -123,6 +141,29 @@ The word 'set' in the name does not imply that duplicates are filtered in any wa
 You can use the accessors to read and write contact properties. The number of contacts is immutable, other than being able to disable contacts using <a class="el" href="classPxContactSet.html#930b0b6a5450e9b2e83634d6803f4045" title="Ignore the contact point.">ignore()</a>.<p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxContactModifyCallback.html" title="An interface class that the user can implement in order to modify contact constraints...">PxContactModifyCallback</a>, <a class="el" href="structPxModifiableContact.html" title="A modifiable contact point. This has additional fields per-contact to permit modification...">PxModifiableContact</a> </dd></dl>
 <hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="70f975199ee66a0df4bf037cc8e10f3c"></a><!-- doxytag: member="PxContactSet::getDynamicFriction" ref="70f975199ee66a0df4bf037cc8e10f3c" args="(PxU32 i) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PX_FORCE_INLINE PxReal PxContactSet::getDynamicFriction           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td>
+          <td class="paramname"> <em>i</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Get the static friction coefficient for a specific contact point in the set. 
+<p>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxModifiableContact.html#c38e4614b09fbbf10d8044b0630a7ac3" title="dynamic friction coefficient">PxModifiableContact.dynamicFriction</a> </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="02f160a1a9135d6d7f1e5f77557ce63e"></a><!-- doxytag: member="PxContactSet::getInternalFaceIndex0" ref="02f160a1a9135d6d7f1e5f77557ce63e" args="(PxU32 i)" -->
 <div class="memitem">
 <div class="memproto">
@@ -144,7 +185,7 @@ Get the face index with respect to the first shape of the pair for a specific co
 <p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd>PxModifiableContact.internalFaceIndex0 </dd></dl>
 
-<p>References <a class="el" href="PxPreprocessor_8h-source.html#l00463">PX_UNUSED()</a>, and <a class="el" href="PxContact_8h-source.html#l00047">PXC_CONTACT_NO_FACE_INDEX</a>.</p>
+<p>References <a class="el" href="PxPreprocessor_8h-source.html#l00465">PX_UNUSED()</a>, and <a class="el" href="PxContact_8h-source.html#l00047">PXC_CONTACT_NO_FACE_INDEX</a>.</p>
 
 </div>
 </div><p>
@@ -169,7 +210,7 @@ Get the face index with respect to the second shape of the pair for a specific c
 <p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd>PxModifiableContact.internalFaceIndex1 </dd></dl>
 
-<p>References <a class="el" href="PxPreprocessor_8h-source.html#l00463">PX_UNUSED()</a>, and <a class="el" href="PxContact_8h-source.html#l00047">PXC_CONTACT_NO_FACE_INDEX</a>.</p>
+<p>References <a class="el" href="PxContact_8h-source.html#l00068">PxContactPatch::eHAS_FACE_INDICES</a>, <a class="el" href="PxContact_8h-source.html#l00095">PxContactPatch::internalFlags</a>, and <a class="el" href="PxContact_8h-source.html#l00047">PXC_CONTACT_NO_FACE_INDEX</a>.</p>
 
 </div>
 </div><p>
@@ -345,6 +386,29 @@ Get the position of a specific contact point in the set.
 
 </div>
 </div><p>
+<a class="anchor" name="643d2c1eb96b29b8119e11e04828c26e"></a><!-- doxytag: member="PxContactSet::getRestitution" ref="643d2c1eb96b29b8119e11e04828c26e" args="(PxU32 i) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PX_FORCE_INLINE PxReal PxContactSet::getRestitution           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td>
+          <td class="paramname"> <em>i</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Get the restitution coefficient for a specific contact point in the set. 
+<p>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxModifiableContact.html#b064ecd581b8e47f1e597356e7592694" title="Restitution coefficient.">PxModifiableContact.restitution</a> </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="08bf7523401a88b6481ae49bedc858f3"></a><!-- doxytag: member="PxContactSet::getSeparation" ref="08bf7523401a88b6481ae49bedc858f3" args="(PxU32 i) const " -->
 <div class="memitem">
 <div class="memproto">
@@ -365,6 +429,29 @@ Get the position of a specific contact point in the set.
 Get the separation of a specific contact point in the set. 
 <p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxContact.html#1d45531c43034871f7c302e9f7c0a13f" title="Separation value (negative implies penetration).">PxModifiableContact.separation</a> </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="45700551793a60bff49adfb4775b5820"></a><!-- doxytag: member="PxContactSet::getStaticFriction" ref="45700551793a60bff49adfb4775b5820" args="(PxU32 i) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PX_FORCE_INLINE PxReal PxContactSet::getStaticFriction           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td>
+          <td class="paramname"> <em>i</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Get the static friction coefficient for a specific contact point in the set. 
+<p>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxModifiableContact.html#2e0ca722e02b42c5dd09af72732ed91d" title="static friction coefficient">PxModifiableContact.staticFriction</a> </dd></dl>
 
 </div>
 </div><p>
@@ -411,6 +498,40 @@ Get the target velocity of a specific contact point in the set.
 Ignore the contact point. 
 <p>
 If a contact point is ignored then no force will get applied at this point. This can be used to disable collision in certain areas of a shape, for example. 
+</div>
+</div><p>
+<a class="anchor" name="360344f51cce5d01c69701e3dcc3747b"></a><!-- doxytag: member="PxContactSet::setDynamicFriction" ref="360344f51cce5d01c69701e3dcc3747b" args="(PxU32 i, PxReal f)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PX_FORCE_INLINE void PxContactSet::setDynamicFriction           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td>
+          <td class="paramname"> <em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">PxReal&nbsp;</td>
+          <td class="paramname"> <em>f</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Alter the static dynamic coefficient for a specific contact point in the set. 
+<p>
+<dl class="see" compact><dt><b>See also:</b></dt><dd>PxModifiableContact.dynamic </dd></dl>
+
+<p>References <a class="el" href="PxContact_8h-source.html#l00074">PxContactPatch::eREGENERATE_PATCHES</a>, and <a class="el" href="PxContact_8h-source.html#l00095">PxContactPatch::internalFlags</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="e145d9eec7403316390478f401837dcf"></a><!-- doxytag: member="PxContactSet::setInvInertiaScale0" ref="e145d9eec7403316390478f401837dcf" args="(const PxReal scale)" -->
@@ -611,6 +732,41 @@ Alter the position of a specific contact point in the set.
 
 </div>
 </div><p>
+<a class="anchor" name="2c1f31f9201c804d6310ec0129cc0cea"></a><!-- doxytag: member="PxContactSet::setRestitution" ref="2c1f31f9201c804d6310ec0129cc0cea" args="(PxU32 i, PxReal r)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PX_FORCE_INLINE void PxContactSet::setRestitution           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td>
+          <td class="paramname"> <em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">PxReal&nbsp;</td>
+          <td class="paramname"> <em>r</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Alter the restitution coefficient for a specific contact point in the set. 
+<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>Valid ranges [0,1]</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxModifiableContact.html#b064ecd581b8e47f1e597356e7592694" title="Restitution coefficient.">PxModifiableContact.restitution</a> </dd></dl>
+
+<p>References <a class="el" href="PxContact_8h-source.html#l00074">PxContactPatch::eREGENERATE_PATCHES</a>, and <a class="el" href="PxContact_8h-source.html#l00095">PxContactPatch::internalFlags</a>.</p>
+
+</div>
+</div><p>
 <a class="anchor" name="dd1b219393a21fdbb6e6db51400aa900"></a><!-- doxytag: member="PxContactSet::setSeparation" ref="dd1b219393a21fdbb6e6db51400aa900" args="(PxU32 i, PxReal s)" -->
 <div class="memitem">
 <div class="memproto">
@@ -640,6 +796,40 @@ Alter the position of a specific contact point in the set.
 Alter the separation of a specific contact point in the set. 
 <p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxContact.html#1d45531c43034871f7c302e9f7c0a13f" title="Separation value (negative implies penetration).">PxModifiableContact.separation</a> </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="8c585855a8936d762520b1d1471bf3fe"></a><!-- doxytag: member="PxContactSet::setStaticFriction" ref="8c585855a8936d762520b1d1471bf3fe" args="(PxU32 i, PxReal f)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PX_FORCE_INLINE void PxContactSet::setStaticFriction           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td>
+          <td class="paramname"> <em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">PxReal&nbsp;</td>
+          <td class="paramname"> <em>f</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Alter the static friction coefficient for a specific contact point in the set. 
+<p>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxModifiableContact.html#2e0ca722e02b42c5dd09af72732ed91d" title="static friction coefficient">PxModifiableContact.staticFriction</a> </dd></dl>
+
+<p>References <a class="el" href="PxContact_8h-source.html#l00074">PxContactPatch::eREGENERATE_PATCHES</a>, and <a class="el" href="PxContact_8h-source.html#l00095">PxContactPatch::internalFlags</a>.</p>
 
 </div>
 </div><p>

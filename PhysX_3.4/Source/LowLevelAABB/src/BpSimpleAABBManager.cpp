@@ -1619,8 +1619,8 @@ static void removeAggregateFromDirtyArray(Aggregate* aggregate, Ps::Array<Aggreg
 
 void SimpleAABBManager::reserveSpaceForBounds(BoundsIndex index)
 {
-	if (index >= mVolumeData.size())
-		reserveShapeSpace(index);
+	if ((index+1) >= mVolumeData.size())
+		reserveShapeSpace(index+1);
 
 	resetEntry(index); //KS - make sure this entry is flagged as invalid
 }

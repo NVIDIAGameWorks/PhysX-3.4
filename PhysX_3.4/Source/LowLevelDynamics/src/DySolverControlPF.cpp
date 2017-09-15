@@ -275,8 +275,8 @@ void SolverCoreGeneralPF::solveV_Blocks(SolverIslandParams& params) const
 	for (PxU32 iteration = positionIterations; iteration > 0; iteration--)	//decreasing positive numbers == position iters
 	{
 
-		SolveBlockParallel<false>(constraintList, batchCount, normalIter * batchCount, batchCount, 
-			cache, contactIterator, iteration == 1 ? gVTableSolveConcludeBlockCoulomb : gVTableSolveBlockCoulomb, normalIter, frictionIter, normalIter);
+		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
+			cache, contactIterator, iteration == 1 ? gVTableSolveConcludeBlockCoulomb : gVTableSolveBlockCoulomb, normalIter);
 		++normalIter;
 	
 	}
@@ -286,8 +286,8 @@ void SolverCoreGeneralPF::solveV_Blocks(SolverIslandParams& params) const
 		const PxU32 numIterations = positionIterations * 2;
 		for (PxU32 iteration = numIterations; iteration > 0; iteration--)	//decreasing positive numbers == position iters
 		{
-			SolveBlockParallel<false>(frictionConstraintList, frictionBatchCount, frictionIter * frictionBatchCount, frictionBatchCount, 
-				cache, frictionIterator, iteration == 1 ? gVTableSolveConcludeBlockCoulomb : gVTableSolveBlockCoulomb, normalIter, frictionIter, frictionIter);
+			SolveBlockParallel(frictionConstraintList, frictionBatchCount, frictionIter * frictionBatchCount, frictionBatchCount, 
+				cache, frictionIterator, iteration == 1 ? gVTableSolveConcludeBlockCoulomb : gVTableSolveBlockCoulomb, frictionIter);
 			++frictionIter;
 		}
 	}
@@ -312,14 +312,14 @@ void SolverCoreGeneralPF::solveV_Blocks(SolverIslandParams& params) const
 	for(; iteration < velItersMinOne; ++iteration)
 	{	
 
-		SolveBlockParallel<false>(constraintList, batchCount, normalIter * batchCount, batchCount, 
-			cache, contactIterator, gVTableSolveBlockCoulomb, normalIter, frictionIter, normalIter);
+		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
+			cache, contactIterator, gVTableSolveBlockCoulomb, normalIter);
 		++normalIter;
 
 		if(frictionBatchCount > 0)
 		{
-			SolveBlockParallel<false>(frictionConstraintList, frictionBatchCount, frictionIter * frictionBatchCount, frictionBatchCount, 
-				cache, frictionIterator, gVTableSolveBlockCoulomb, normalIter, frictionIter, frictionIter);
+			SolveBlockParallel(frictionConstraintList, frictionBatchCount, frictionIter * frictionBatchCount, frictionBatchCount, 
+				cache, frictionIterator, gVTableSolveBlockCoulomb, frictionIter);
 			++frictionIter;
 		}
 	}
@@ -336,14 +336,14 @@ void SolverCoreGeneralPF::solveV_Blocks(SolverIslandParams& params) const
 
 	for(; iteration < velocityIterations; ++iteration)
 	{
-		SolveBlockParallel<false>(constraintList, batchCount, normalIter * batchCount, batchCount, 
-			cache, contactIterator, gVTableSolveWriteBackBlockCoulomb, normalIter, frictionIter, normalIter);
+		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
+			cache, contactIterator, gVTableSolveWriteBackBlockCoulomb, normalIter);
 		++normalIter;
 
 		if(frictionBatchCount > 0)
 		{
-			SolveBlockParallel<false>(frictionConstraintList, frictionBatchCount, frictionIter * frictionBatchCount, frictionBatchCount, 
-				cache, frictionIterator, gVTableSolveWriteBackBlockCoulomb, normalIter, frictionIter, frictionIter);
+			SolveBlockParallel(frictionConstraintList, frictionBatchCount, frictionIter * frictionBatchCount, frictionBatchCount, 
+				cache, frictionIterator, gVTableSolveWriteBackBlockCoulomb, frictionIter);
 				++frictionIter;
 		}
 	}
@@ -433,8 +433,8 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 				while(index < maxNormalIndex)
 				{
 					const PxI32 remainder = PxMin(maxNormalIndex - index, endIndexCount);
-					SolveBlockParallel<false>(constraintList, remainder, index, batchCount, cache, contactIter, solveTable, 
-						normalIteration, frictionIteration, normalIteration);
+					SolveBlockParallel(constraintList, remainder, index, batchCount, cache, contactIter, solveTable, 
+						normalIteration);
 					index += remainder;
 					endIndexCount -= remainder;
 					nbSolved += remainder;
@@ -471,8 +471,8 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 				while(frictionIndex < maxFrictionIndex)
 				{
 					const PxI32 remainder = PxMin(maxFrictionIndex - frictionIndex, frictionEndIndexCount);
-					SolveBlockParallel<false>(frictionConstraintList, remainder, frictionIndex, frictionBatchCount, cache, frictionIter, 
-						solveTable, normalIteration, frictionIteration, frictionIteration);
+					SolveBlockParallel(frictionConstraintList, remainder, frictionIndex, frictionBatchCount, cache, frictionIter, 
+						solveTable, frictionIteration);
 					frictionIndex += remainder;
 					frictionEndIndexCount -= remainder;
 					nbSolved += remainder;
@@ -582,7 +582,7 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 			while(index < maxNormalIndex)
 			{
 				const PxI32 remainder = PxMin(maxNormalIndex - index, endIndexCount);
-				SolveBlockParallel<false>(constraintList, remainder, index, batchCount, cache, contactIter, gVTableSolveBlockCoulomb, normalIteration, frictionIteration, normalIteration);
+				SolveBlockParallel(constraintList, remainder, index, batchCount, cache, contactIter, gVTableSolveBlockCoulomb, normalIteration);
 				index += remainder;
 				endIndexCount -= remainder;
 				nbSolved += remainder;
@@ -610,8 +610,8 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 			while(frictionIndex < maxFrictionIndex)
 			{
 				const PxI32 remainder = PxMin(maxFrictionIndex - frictionIndex, frictionEndIndexCount);
-				SolveBlockParallel<false>(constraintList, remainder, index, batchCount, cache, contactIter, gVTableSolveBlockCoulomb, 
-					normalIteration, frictionIteration, normalIteration);
+				SolveBlockParallel(constraintList, remainder, index, batchCount, cache, contactIter, gVTableSolveBlockCoulomb, 
+					normalIteration);
 
 				frictionIndex += remainder;
 				frictionEndIndexCount -= remainder;
@@ -652,8 +652,8 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 			{
 				const PxI32 remainder = PxMin(maxNormalIndex - index, endIndexCount);
 
-				SolveBlockParallel<false>(constraintList, remainder, normalIteration * batchCount, batchCount, 
-					cache, contactIter, gVTableSolveWriteBackBlockCoulomb, normalIteration, frictionIteration, normalIteration);
+				SolveBlockParallel(constraintList, remainder, normalIteration * batchCount, batchCount, 
+					cache, contactIter, gVTableSolveWriteBackBlockCoulomb, normalIteration);
 
 				index += remainder;
 				endIndexCount -= remainder;
@@ -688,8 +688,8 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 			{
 				const PxI32 remainder = PxMin(maxFrictionIndex - frictionIndex, frictionEndIndexCount);
 
-				SolveBlockParallel<false>(frictionConstraintList, remainder, frictionIndex, frictionBatchCount, cache, frictionIter, 
-					gVTableSolveWriteBackBlockCoulomb, normalIteration, frictionIteration, frictionIteration);
+				SolveBlockParallel(frictionConstraintList, remainder, frictionIndex, frictionBatchCount, cache, frictionIter, 
+					gVTableSolveWriteBackBlockCoulomb, frictionIteration);
 
 				frictionIndex += remainder;
 				frictionEndIndexCount -= remainder;

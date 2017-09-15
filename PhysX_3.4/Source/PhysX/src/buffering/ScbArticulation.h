@@ -105,8 +105,8 @@ public:
 	PX_INLINE		PxReal		getSleepThreshold() const						{ return read<Buf::BF_SleepThreshold>();			}
 	PX_INLINE		void		setSleepThreshold(const PxReal v)				{ write<Buf::BF_SleepThreshold>(v);					}
 
-	PX_INLINE		PxReal		getFreezeThreshold() const						{ return read<Buf::BF_SleepThreshold>();			}
-	PX_INLINE		void		setFreezeThreshold(const PxReal v)				{ write<Buf::BF_SleepThreshold>(v);					}
+	PX_INLINE		PxReal		getFreezeThreshold() const						{ return read<Buf::BF_FreezeThreshold>();			}
+	PX_INLINE		void		setFreezeThreshold(const PxReal v)				{ write<Buf::BF_FreezeThreshold>(v);				}
 
 	PX_INLINE		PxReal		getWakeCounter() const							{ return mBufferedWakeCounter;						}
 	PX_INLINE		void		setWakeCounter(const PxReal v);

@@ -105,7 +105,6 @@ namespace Sc
 		// Get an iterator to the interactions connected to the element
 		PX_FORCE_INLINE	ElementInteractionIterator getElemInteractions()	const	{ return ElementInteractionIterator(*this, mActor.getActorInteractionCount(), mActor.getActorInteractions()); }
 		PX_FORCE_INLINE	ElementInteractionReverseIterator getElemInteractionsReverse()	const	{ return ElementInteractionReverseIterator(*this, mActor.getActorInteractionCount(), mActor.getActorInteractions()); }
-		PX_FORCE_INLINE	PxU32					getElemInteractionCount()	const	{ return mActor.getActorInteractionCount(); }
 
 		PX_FORCE_INLINE	ActorSim&				getActor()					const	{ return mActor; }
 

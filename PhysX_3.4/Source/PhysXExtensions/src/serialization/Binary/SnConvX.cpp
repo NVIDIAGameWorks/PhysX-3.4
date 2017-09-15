@@ -103,6 +103,16 @@ bool Sn::ConvX::setMetaData(PxInputStream& srcMetaData, PxInputStream& dstMetaDa
 	return true;
 }
 
+bool Sn::ConvX::compareMetaData() const
+{
+	if (!mMetaData_Src || !mMetaData_Dst) {
+		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__,
+			"PxBinaryConverter: metadata not defined. Call PxBinaryConverter::setMetaData first.\n");
+		return false;
+	}
+
+	return mMetaData_Src->compare(*mMetaData_Dst);
+}
 
 bool Sn::ConvX::convert(PxInputStream& srcStream, PxU32 srcSize, PxOutputStream& targetStream)
 {

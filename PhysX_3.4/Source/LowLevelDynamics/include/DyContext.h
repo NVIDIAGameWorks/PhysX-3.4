@@ -33,7 +33,6 @@
 #include "CmPhysXCommon.h"
 #include "PxSceneDesc.h"
 #include "DyThresholdTable.h"
-#include "DyGpuAPI.h"
 #include "PxcNpThreadContext.h"
 #include "PxsSimulationController.h"
 #include "DyConstraintWriteBack.h"
@@ -91,6 +90,11 @@ public:
 	*/
 	PX_FORCE_INLINE PxReal				getFrictionOffsetThreshold()	const	{ return mFrictionOffsetThreshold;	}
 	/**
+	\brief Returns the friction offset threshold
+	\return The friction offset threshold.
+	*/
+	PX_FORCE_INLINE PxReal				getSolverOffsetSlop()	const	{ return mSolverOffsetSlop; }
+	/**
 	\brief Returns the correlation distance
 	\return The correlation distance.
 	*/
@@ -117,6 +121,11 @@ public:
 	\param[in] offset The friction offset threshold
 	*/
 	PX_FORCE_INLINE void				setFrictionOffsetThreshold(PxReal offset)		{ mFrictionOffsetThreshold = offset;				}
+	/**
+	\brief Sets the solver offset slop
+	\param[in] offset The solver offset slop
+	*/
+	PX_FORCE_INLINE void				setSolverOffsetSlop(PxReal offset)		{ mSolverOffsetSlop = offset; }
 	/**
 	\brief Sets the friction offset threshold
 	\param[in] offset The friction offset threshold
@@ -193,6 +202,8 @@ public:
 	*/
 	PX_FORCE_INLINE PxReal					getInvDt()						const	{ return mInvDt;			}
 
+	PX_FORCE_INLINE PxReal					getMaxBiasCoefficient()			const { return mMaxBiasCoefficient; }
+
 	PX_FORCE_INLINE PxVec3					getGravity()					const	{ return mGravity;			}
 
 
@@ -242,15 +253,18 @@ public:
 protected:
 
 	Context(IG::IslandSim*	accurateIslandSim, Ps::VirtualAllocatorCallback* allocatorCallback,
-		PxvSimStats& simStats, bool enableStabilization, bool useEnhancedDeterminism, bool useAdaptiveForce) :
+		PxvSimStats& simStats, bool enableStabilization, bool useEnhancedDeterminism, bool useAdaptiveForce,
+		const PxReal maxBiasCoefficient) :
 		mThresholdStream(NULL),
 		mForceChangedThresholdStream(NULL),		
 		mAccurateIslandSim(accurateIslandSim), 		
 		mDt							(1.0f), 
 		mInvDt						(1.0f),
+		mMaxBiasCoefficient			(maxBiasCoefficient),
 		mEnableStabilization		(enableStabilization),
 		mUseEnhancedDeterminism		(useEnhancedDeterminism),
 		mUseAdaptiveForce			(useAdaptiveForce),
+
 		mBounceThreshold(-2.0f),
 		mSolverBatchSize(32),
 		mConstraintWriteBackPool(Ps::VirtualAllocator(allocatorCallback)),
@@ -289,6 +303,8 @@ protected:
 	*/
 	PxReal						mInvDt;
 
+	PxReal						mMaxBiasCoefficient;
+
 	const bool					mEnableStabilization;
 
 	const bool					mUseEnhancedDeterminism;
@@ -309,6 +325,11 @@ protected:
 	\brief Threshold controlling whether friction anchors are constructed or not. If the separation is above mFrictionOffsetThreshold, the contact will not be considered to become a friction anchor
 	*/
 	PxReal						mFrictionOffsetThreshold;
+
+	/**
+	\brief Tolerance used to zero offsets along an axis if it is below this threshold. Used to compensate for small numerical divergence inside contact gen.
+	*/
+	PxReal						mSolverOffsetSlop;
 
 	/**
 	\brief Threshold controlling whether distant contacts are processed using bias, restitution or a combination of the two. This only has effect on pairs involving bodies that have enabled speculative CCD simulation mode.
@@ -359,7 +380,7 @@ Context* createDynamicsContext(	PxcNpMemBlockPool* memBlockPool,
 								PxcScratchAllocator& scratchAllocator, Cm::FlushPool& taskPool,
 								PxvSimStats& simStats, PxTaskManager* taskManager, Ps::VirtualAllocatorCallback* allocatorCallback, PxsMaterialManager* materialManager,
 								IG::IslandSim* accurateIslandSim, PxU64 contextID,
-								const bool enableStabilization, const bool useEnhancedDeterminism, const bool useAdaptiveForce 
+								const bool enableStabilization, const bool useEnhancedDeterminism, const bool useAdaptiveForce, const PxReal maxBiasCoefficient
 								);
 
 }

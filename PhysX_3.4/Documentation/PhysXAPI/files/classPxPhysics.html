@@ -75,18 +75,20 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#f842c37b9e11bf180465452e8dacfc06">getConvexMeshes</a> (<a class="el" href="classPxConvexMesh.html">PxConvexMesh</a> **userBuffer, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> bufferSize, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> startIndex=0) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Writes the array of convex mesh pointers to a user buffer.  <a href="#f842c37b9e11bf180465452e8dacfc06"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxClothFabric.html">PxClothFabric</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#c32634024422793b65190304c4631494">createClothFabric</a> (<a class="el" href="classPxInputStream.html">PxInputStream</a> &amp;stream)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual PX_DEPRECATED <br class="typebreak">
+<a class="el" href="classPxClothFabric.html">PxClothFabric</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#aff72c208eb0bb4faa418c1f258707d9">createClothFabric</a> (<a class="el" href="classPxInputStream.html">PxInputStream</a> &amp;stream)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a cloth fabric object.  <a href="#c32634024422793b65190304c4631494"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxClothFabric.html">PxClothFabric</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#73cd0d30bd183687d70e082c167e1b19">createClothFabric</a> (const <a class="el" href="classPxClothFabricDesc.html">PxClothFabricDesc</a> &amp;desc)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a cloth fabric object.  <a href="#aff72c208eb0bb4faa418c1f258707d9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual PX_DEPRECATED <br class="typebreak">
+<a class="el" href="classPxClothFabric.html">PxClothFabric</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#b8e37d6f27087b93515e8a39d4ad7179">createClothFabric</a> (const <a class="el" href="classPxClothFabricDesc.html">PxClothFabricDesc</a> &amp;desc)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a cloth fabric object from particle connectivity and restlength information.  <a href="#73cd0d30bd183687d70e082c167e1b19"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#66ab807ef19f4e229e6163db9f19df85">getNbClothFabrics</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a cloth fabric object from particle connectivity and restlength information.  <a href="#b8e37d6f27087b93515e8a39d4ad7179"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual PX_DEPRECATED <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#5c0990eef79ed840ea0cc88d0f952111">getNbClothFabrics</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the number of cloth fabrics that currently exist.  <a href="#66ab807ef19f4e229e6163db9f19df85"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#8dc5895be663e3f8d221459f59a8b803">getClothFabrics</a> (<a class="el" href="classPxClothFabric.html">PxClothFabric</a> **userBuffer, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> bufferSize) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the number of cloth fabrics that currently exist.  <a href="#5c0990eef79ed840ea0cc88d0f952111"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual PX_DEPRECATED <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#b66ea589cfffdd5948771b885f2121ad">getClothFabrics</a> (<a class="el" href="classPxClothFabric.html">PxClothFabric</a> **userBuffer, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> bufferSize) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Writes the array of cloth fabrics to a user buffer.  <a href="#8dc5895be663e3f8d221459f59a8b803"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Writes the array of cloth fabrics to a user buffer.  <a href="#b66ea589cfffdd5948771b885f2121ad"></a><br></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Scenes</div></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxScene.html">PxScene</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#6dcded7be00c17004432a04a78569db1">createScene</a> (const <a class="el" href="classPxSceneDesc.html">PxSceneDesc</a> &amp;sceneDesc)=0</td></tr>
 
@@ -112,9 +114,9 @@
 <a class="el" href="classPxParticleFluid.html">PxParticleFluid</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#ea19c431d479c76fe44f64291c872744">createParticleFluid</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> maxParticles, bool perParticleRestOffset=false)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a particle fluid. (deprecated).  <a href="#ea19c431d479c76fe44f64291c872744"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxCloth.html">PxCloth</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#73f5ca62e703a94f378e851b6b84f63c">createCloth</a> (const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;globalPose, <a class="el" href="classPxClothFabric.html">PxClothFabric</a> &amp;fabric, const <a class="el" href="structPxClothParticle.html">PxClothParticle</a> *particles, <a class="el" href="classPxFlags.html">PxClothFlags</a> flags)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual PX_DEPRECATED <a class="el" href="classPxCloth.html">PxCloth</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#1aa15d80d32aa15a3fdcd9c26fb3f3eb">createCloth</a> (const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;globalPose, <a class="el" href="classPxClothFabric.html">PxClothFabric</a> &amp;fabric, const <a class="el" href="structPxClothParticle.html">PxClothParticle</a> *particles, <a class="el" href="classPxFlags.html">PxClothFlags</a> flags)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a cloth.  <a href="#73f5ca62e703a94f378e851b6b84f63c"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a cloth.  <a href="#1aa15d80d32aa15a3fdcd9c26fb3f3eb"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxPruningStructure.html">PxPruningStructure</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxPhysics.html#5c62ebf74c105e7ecf3eaba6949a42fa">createPruningStructure</a> (<a class="el" href="classPxRigidActor.html">PxRigidActor</a> *const *actors, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> nbActors)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a pruning structure from actors.  <a href="#5c62ebf74c105e7ecf3eaba6949a42fa"></a><br></td></tr>
@@ -255,12 +257,12 @@ Creates an articulation with all fields initialized to their default values.
 
 </div>
 </div><p>
-<a class="anchor" name="73f5ca62e703a94f378e851b6b84f63c"></a><!-- doxytag: member="PxPhysics::createCloth" ref="73f5ca62e703a94f378e851b6b84f63c" args="(const PxTransform &amp;globalPose, PxClothFabric &amp;fabric, const PxClothParticle *particles, PxClothFlags flags)=0" -->
+<a class="anchor" name="1aa15d80d32aa15a3fdcd9c26fb3f3eb"></a><!-- doxytag: member="PxPhysics::createCloth" ref="1aa15d80d32aa15a3fdcd9c26fb3f3eb" args="(const PxTransform &amp;globalPose, PxClothFabric &amp;fabric, const PxClothParticle *particles, PxClothFlags flags)=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classPxCloth.html">PxCloth</a>* PxPhysics::createCloth           </td>
+          <td class="memname">virtual PX_DEPRECATED <a class="el" href="classPxCloth.html">PxCloth</a>* PxPhysics::createCloth           </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>globalPose</em>, </td>
@@ -304,16 +306,17 @@ Creates a cloth.
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>The new cloth.</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCloth.html" title="Set of connected particles tailored towards simulating character cloth.">PxCloth</a> <a class="el" href="classPxClothFabric.html" title="A cloth fabric is a structure that contains all the internal solver constraints of...">PxClothFabric</a> <a class="el" href="group__cloth.html#g2be4311f196add0112bf7148caa36151">PxClothFlags</a> <a class="el" href="group__physics.html#gb0b300b30efd81868ff51f9544e85b11" title="Enables the usage of the cloth feature. This function is called automatically inside...">PxRegisterCloth</a> </dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000025">Deprecated:</a></b></dt><dd>The PhysX cloth feature has been deprecated in PhysX version 3.4.1</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxCloth.html" title="Set of connected particles tailored towards simulating character cloth.">PxCloth</a> <a class="el" href="classPxClothFabric.html" title="A cloth fabric is a structure that contains all the internal solver constraints of...">PxClothFabric</a> <a class="el" href="group__cloth.html#g2be4311f196add0112bf7148caa36151">PxClothFlags</a> <a class="el" href="group__physics.html#ge2faa96309a4fb0cbfcd512d2431fc82" title="Enables the usage of the cloth feature. This function is called automatically inside...">PxRegisterCloth</a> </dd></dl>
 
 </div>
 </div><p>
-<a class="anchor" name="73cd0d30bd183687d70e082c167e1b19"></a><!-- doxytag: member="PxPhysics::createClothFabric" ref="73cd0d30bd183687d70e082c167e1b19" args="(const PxClothFabricDesc &amp;desc)=0" -->
+<a class="anchor" name="b8e37d6f27087b93515e8a39d4ad7179"></a><!-- doxytag: member="PxPhysics::createClothFabric" ref="b8e37d6f27087b93515e8a39d4ad7179" args="(const PxClothFabricDesc &amp;desc)=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classPxClothFabric.html">PxClothFabric</a>* PxPhysics::createClothFabric           </td>
+          <td class="memname">virtual PX_DEPRECATED <a class="el" href="classPxClothFabric.html">PxClothFabric</a>* PxPhysics::createClothFabric           </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classPxClothFabricDesc.html">PxClothFabricDesc</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>desc</em>          </td>
@@ -335,16 +338,17 @@ This can then be instanced into <a class="el" href="classPxCloth.html" title="Se
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>The new cloth fabric.</dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000020">Deprecated:</a></b></dt><dd>The PhysX cloth feature has been deprecated in PhysX version 3.4.1</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxClothFabric.html" title="A cloth fabric is a structure that contains all the internal solver constraints of...">PxClothFabric</a> <a class="el" href="classPxClothFabric.html#7e8a7516cc7cb1777c790bc82cab2eac" title="Decrements the cloth fabric&#39;s reference count, and releases it if the new reference...">PxClothFabric.release()</a> <a class="el" href="classPxCloth.html" title="Set of connected particles tailored towards simulating character cloth.">PxCloth</a> </dd></dl>
 
 </div>
 </div><p>
-<a class="anchor" name="c32634024422793b65190304c4631494"></a><!-- doxytag: member="PxPhysics::createClothFabric" ref="c32634024422793b65190304c4631494" args="(PxInputStream &amp;stream)=0" -->
+<a class="anchor" name="aff72c208eb0bb4faa418c1f258707d9"></a><!-- doxytag: member="PxPhysics::createClothFabric" ref="aff72c208eb0bb4faa418c1f258707d9" args="(PxInputStream &amp;stream)=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classPxClothFabric.html">PxClothFabric</a>* PxPhysics::createClothFabric           </td>
+          <td class="memname">virtual PX_DEPRECATED <a class="el" href="classPxClothFabric.html">PxClothFabric</a>* PxPhysics::createClothFabric           </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classPxInputStream.html">PxInputStream</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>stream</em>          </td>
@@ -365,7 +369,8 @@ This can then be instanced into <a class="el" href="classPxCloth.html" title="Se
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>The new cloth fabric.</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxClothFabric.html" title="A cloth fabric is a structure that contains all the internal solver constraints of...">PxClothFabric</a> <a class="el" href="classPxClothFabric.html#7e8a7516cc7cb1777c790bc82cab2eac" title="Decrements the cloth fabric&#39;s reference count, and releases it if the new reference...">PxClothFabric.release()</a> <a class="el" href="classPxInputStream.html" title="Input stream class for I/O.">PxInputStream</a> <a class="el" href="classPxCloth.html" title="Set of connected particles tailored towards simulating character cloth.">PxCloth</a> <a class="el" href="group__physics.html#gb0b300b30efd81868ff51f9544e85b11" title="Enables the usage of the cloth feature. This function is called automatically inside...">PxRegisterCloth</a> </dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000019">Deprecated:</a></b></dt><dd>The PhysX cloth feature has been deprecated in PhysX version 3.4.1</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxClothFabric.html" title="A cloth fabric is a structure that contains all the internal solver constraints of...">PxClothFabric</a> <a class="el" href="classPxClothFabric.html#7e8a7516cc7cb1777c790bc82cab2eac" title="Decrements the cloth fabric&#39;s reference count, and releases it if the new reference...">PxClothFabric.release()</a> <a class="el" href="classPxInputStream.html" title="Input stream class for I/O.">PxInputStream</a> <a class="el" href="classPxCloth.html" title="Set of connected particles tailored towards simulating character cloth.">PxCloth</a> <a class="el" href="group__physics.html#ge2faa96309a4fb0cbfcd512d2431fc82" title="Enables the usage of the cloth feature. This function is called automatically inside...">PxRegisterCloth</a> </dd></dl>
 
 </div>
 </div><p>
@@ -571,7 +576,7 @@ Creates a particle fluid. (deprecated).
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>The new particle fluid.</dd></dl>
-<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000018">Deprecated:</a></b></dt><dd>The PhysX particle feature has been deprecated in PhysX version 3.4</dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000024">Deprecated:</a></b></dt><dd>The PhysX particle feature has been deprecated in PhysX version 3.4</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxParticleFluid.html" title="The particle fluid class represents the main module for particle based fluid simulation...">PxParticleFluid</a> <a class="el" href="group__physics.html#g197726c3bfa1abc6fbe43875c2483b38" title="Enables the usage of the particles feature. This function is called automatically...">PxRegisterParticles</a> </dd></dl>
 
 </div>
@@ -611,7 +616,7 @@ Creates a particle system. (deprecated).
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>The new particle system.</dd></dl>
-<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000017">Deprecated:</a></b></dt><dd>The PhysX particle feature has been deprecated in PhysX version 3.4</dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000023">Deprecated:</a></b></dt><dd>The PhysX particle feature has been deprecated in PhysX version 3.4</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxParticleSystem.html" title="The particle system class represents the main module for particle based simulation...">PxParticleSystem</a> <a class="el" href="group__physics.html#g197726c3bfa1abc6fbe43875c2483b38" title="Enables the usage of the particles feature. This function is called automatically...">PxRegisterParticles</a> </dd></dl>
 
 </div>
@@ -890,12 +895,12 @@ This can then be instanced into <a class="el" href="classPxShape.html" title="Ab
 
 </div>
 </div><p>
-<a class="anchor" name="8dc5895be663e3f8d221459f59a8b803"></a><!-- doxytag: member="PxPhysics::getClothFabrics" ref="8dc5895be663e3f8d221459f59a8b803" args="(PxClothFabric **userBuffer, PxU32 bufferSize) const =0" -->
+<a class="anchor" name="b66ea589cfffdd5948771b885f2121ad"></a><!-- doxytag: member="PxPhysics::getClothFabrics" ref="b66ea589cfffdd5948771b885f2121ad" args="(PxClothFabric **userBuffer, PxU32 bufferSize) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> PxPhysics::getClothFabrics           </td>
+          <td class="memname">virtual PX_DEPRECATED <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> PxPhysics::getClothFabrics           </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classPxClothFabric.html">PxClothFabric</a> **&nbsp;</td>
           <td class="paramname"> <em>userBuffer</em>, </td>
@@ -927,7 +932,8 @@ The ordering of the cloth fabrics in the array is not specified.<p>
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>The number of cloth fabric pointers written to userBuffer, this should be less or equal to bufferSize.</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html#66ab807ef19f4e229e6163db9f19df85" title="Return the number of cloth fabrics that currently exist.">getNbClothFabrics()</a> <a class="el" href="classPxClothFabric.html" title="A cloth fabric is a structure that contains all the internal solver constraints of...">PxClothFabric</a> </dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000022">Deprecated:</a></b></dt><dd>The PhysX cloth feature has been deprecated in PhysX version 3.4.1</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html#5c0990eef79ed840ea0cc88d0f952111" title="Return the number of cloth fabrics that currently exist.">getNbClothFabrics()</a> <a class="el" href="classPxClothFabric.html" title="A cloth fabric is a structure that contains all the internal solver constraints of...">PxClothFabric</a> </dd></dl>
 
 </div>
 </div><p>
@@ -1097,12 +1103,12 @@ The ordering of the materials in the array is not specified.<p>
 
 </div>
 </div><p>
-<a class="anchor" name="66ab807ef19f4e229e6163db9f19df85"></a><!-- doxytag: member="PxPhysics::getNbClothFabrics" ref="66ab807ef19f4e229e6163db9f19df85" args="() const =0" -->
+<a class="anchor" name="5c0990eef79ed840ea0cc88d0f952111"></a><!-- doxytag: member="PxPhysics::getNbClothFabrics" ref="5c0990eef79ed840ea0cc88d0f952111" args="() const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> PxPhysics::getNbClothFabrics           </td>
+          <td class="memname">virtual PX_DEPRECATED <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> PxPhysics::getNbClothFabrics           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -1116,7 +1122,8 @@ The ordering of the materials in the array is not specified.<p>
 Return the number of cloth fabrics that currently exist. 
 <p>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>Number of cloth fabrics.</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html#8dc5895be663e3f8d221459f59a8b803" title="Writes the array of cloth fabrics to a user buffer.">getClothFabrics()</a> </dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000021">Deprecated:</a></b></dt><dd>The PhysX cloth feature has been deprecated in PhysX version 3.4.1</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html#b66ea589cfffdd5948771b885f2121ad" title="Writes the array of cloth fabrics to a user buffer.">getClothFabrics()</a> </dd></dl>
 
 </div>
 </div><p>

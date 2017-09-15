@@ -52,6 +52,8 @@ namespace physx
 #define GU_MAX_MANIFOLD_SIZE 6
 #define GU_MESH_CONTACT_REDUCTION_THRESHOLD	16
 
+#define GU_MANIFOLD_INVALID_INDEX	0xffffffff
+
 
 //ML: this is used to compared with the shape's margin to decide the final tolerance used in the manifold to validate the existing contacts.
 //In the case of big shape and relatively speaking small triangles in the mesh, we need to take a smaller margin. This helps because the PCM 
@@ -317,13 +319,13 @@ public:
 	void addBatchManifoldContacts2( const PersistentContact* manifoldPoints, const PxU32 numPoints);//max two points of contacts             
 	
 	//This function is used in the box/convexhull full manifold contact generation(maximum 4 points). 
-	void addBatchManifoldContacts(const PersistentContact* manifoldPoints, const PxU32 numPoints);
+	void addBatchManifoldContacts(const PersistentContact* manifoldPoints, const PxU32 numPoints, const PxReal toleranceLength);
 	//This function is using the cluster algorithm to reduce contacts
 	void reduceBatchContactsCluster(const PersistentContact* manifoldPoints, const PxU32 numPoints);
 	//This function is called by addBatchManifoldContacts2 to reduce the manifold contacts to 2 points;
 	void reduceBatchContacts2(const PersistentContact* manifoldPoints, const PxU32 numPoints);
 	//This function is called by addBatchManifoldContacts to reduce the manifold contacts to 4 points
-	void reduceBatchContacts(const PersistentContact* manifoldPoints, const PxU32 numPoints);
+	void reduceBatchContacts(const PersistentContact* manifoldPoints, const PxU32 numPoints, const PxReal toleranceLength);
 
 	//This function is used for incremental manifold contact reduction for box/convexhull
 	PxU32 reduceContactsForPCM(const Ps::aos::Vec3VArg localPointA, const Ps::aos::Vec3VArg localPointB, const Ps::aos::Vec4VArg localNormalPen);

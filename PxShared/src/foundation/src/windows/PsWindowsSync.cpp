@@ -44,10 +44,9 @@ HANDLE& getSync(SyncImpl* impl)
 }
 }
 
-static const uint32_t gSize = sizeof(HANDLE);
-const uint32_t& SyncImpl::getSize()
+uint32_t SyncImpl::getSize()
 {
-	return gSize;
+	return sizeof(HANDLE);
 }
 
 SyncImpl::SyncImpl()

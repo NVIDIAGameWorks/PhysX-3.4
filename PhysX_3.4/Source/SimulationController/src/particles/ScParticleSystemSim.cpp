@@ -718,6 +718,8 @@ void Sc::ParticleSystemSim::visualizeInteractions(Cm::RenderOutput& out)
 	}
 }
 
+#endif  // PX_ENABLE_DEBUG_VISUALIZATION
+
 //----------------------------------------------------------------------------//
 
 PxBaseTask& Sc::ParticleSystemSim::scheduleShapeGeneration(Pt::Context& context, const Ps::Array<ParticleSystemSim*>& particleSystems, PxBaseTask& continuation)
@@ -861,8 +863,5 @@ void Sc::ParticleSystemSim::prepareCollisionInput(PxBaseTask* /*continuation*/)
 }
 
 //----------------------------------------------------------------------------//
-
-#endif  // PX_ENABLE_DEBUG_VISUALIZATION
-
 
 #endif	// PX_USE_PARTICLE_SYSTEM_API

@@ -122,8 +122,8 @@ APEX_Clothing_debug_hpaths    += ./../../../PxShared/src/pvd/src
 APEX_Clothing_debug_lpaths    := 
 APEX_Clothing_debug_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Clothing_debug_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Clothing_debug_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Clothing_debug_lpaths    += ./../../../PxShared/lib/android16
+APEX_Clothing_debug_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Clothing_debug_defines   := $(APEX_Clothing_custom_defines)
 APEX_Clothing_debug_defines   += ANDROID
 APEX_Clothing_debug_defines   += GLES2
@@ -144,9 +144,9 @@ APEX_Clothing_debug_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Clothing_debug_defines   += PHYSX_PROFILE_SDK
 APEX_Clothing_debug_defines   += PX_NVTX=1
 APEX_Clothing_debug_libraries := 
-APEX_Clothing_debug_libraries += NvParameterizedDEBUG
-APEX_Clothing_debug_libraries += PsFastXmlDEBUG
 APEX_Clothing_debug_libraries += PxFoundationDEBUG
+APEX_Clothing_debug_libraries += PsFastXmlDEBUG
+APEX_Clothing_debug_libraries += NvParameterizedDEBUG
 APEX_Clothing_debug_libraries += PxPvdSDKDEBUG
 APEX_Clothing_debug_libraries += PhysX3CommonDEBUG
 APEX_Clothing_debug_common_cflags	:= $(APEX_Clothing_custom_cflags)
@@ -186,9 +186,9 @@ postbuild_APEX_Clothing_debug: mainbuild_APEX_Clothing_debug
 mainbuild_APEX_Clothing_debug: prebuild_APEX_Clothing_debug $(APEX_Clothing_debug_bin)
 prebuild_APEX_Clothing_debug:
 
-$(APEX_Clothing_debug_bin): $(NvParameterized_debug_obj) $(PsFastXml_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Clothing_debug_obj) build_NvParameterized_debug build_PsFastXml_debug build_PxFoundation_debug build_PxPvdSDK_debug 
+$(APEX_Clothing_debug_bin): $(PsFastXml_debug_obj) $(NvParameterized_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Clothing_debug_obj) build_PxFoundation_debug build_PsFastXml_debug build_NvParameterized_debug build_PxPvdSDK_debug 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_ClothingDEBUG.a`
-	@$(AR) rcs $(APEX_Clothing_debug_bin) $(NvParameterized_debug_obj) $(PsFastXml_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Clothing_debug_obj)
+	@$(AR) rcs $(APEX_Clothing_debug_bin) $(PsFastXml_debug_obj) $(NvParameterized_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Clothing_debug_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Clothing_debug_DEPDIR = $(dir $(@))/$(*F)
@@ -279,8 +279,8 @@ APEX_Clothing_release_hpaths    += ./../../../PxShared/src/pvd/src
 APEX_Clothing_release_lpaths    := 
 APEX_Clothing_release_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Clothing_release_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Clothing_release_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Clothing_release_lpaths    += ./../../../PxShared/lib/android16
+APEX_Clothing_release_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Clothing_release_defines   := $(APEX_Clothing_custom_defines)
 APEX_Clothing_release_defines   += ANDROID
 APEX_Clothing_release_defines   += GLES2
@@ -296,9 +296,9 @@ APEX_Clothing_release_defines   += cloth=cloth_embedded
 APEX_Clothing_release_defines   += NDEBUG
 APEX_Clothing_release_defines   += APEX_SHIPPING
 APEX_Clothing_release_libraries := 
-APEX_Clothing_release_libraries += NvParameterized
-APEX_Clothing_release_libraries += PsFastXml
 APEX_Clothing_release_libraries += PxFoundation
+APEX_Clothing_release_libraries += PsFastXml
+APEX_Clothing_release_libraries += NvParameterized
 APEX_Clothing_release_libraries += PxPvdSDK
 APEX_Clothing_release_libraries += PhysX3Common
 APEX_Clothing_release_common_cflags	:= $(APEX_Clothing_custom_cflags)
@@ -337,9 +337,9 @@ postbuild_APEX_Clothing_release: mainbuild_APEX_Clothing_release
 mainbuild_APEX_Clothing_release: prebuild_APEX_Clothing_release $(APEX_Clothing_release_bin)
 prebuild_APEX_Clothing_release:
 
-$(APEX_Clothing_release_bin): $(NvParameterized_release_obj) $(PsFastXml_release_obj) $(PxPvdSDK_release_obj) $(APEX_Clothing_release_obj) build_NvParameterized_release build_PsFastXml_release build_PxFoundation_release build_PxPvdSDK_release 
+$(APEX_Clothing_release_bin): $(PsFastXml_release_obj) $(NvParameterized_release_obj) $(PxPvdSDK_release_obj) $(APEX_Clothing_release_obj) build_PxFoundation_release build_PsFastXml_release build_NvParameterized_release build_PxPvdSDK_release 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_Clothing.a`
-	@$(AR) rcs $(APEX_Clothing_release_bin) $(NvParameterized_release_obj) $(PsFastXml_release_obj) $(PxPvdSDK_release_obj) $(APEX_Clothing_release_obj)
+	@$(AR) rcs $(APEX_Clothing_release_bin) $(PsFastXml_release_obj) $(NvParameterized_release_obj) $(PxPvdSDK_release_obj) $(APEX_Clothing_release_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Clothing_release_DEPDIR = $(dir $(@))/$(*F)
@@ -430,8 +430,8 @@ APEX_Clothing_profile_hpaths    += ./../../../PxShared/src/pvd/src
 APEX_Clothing_profile_lpaths    := 
 APEX_Clothing_profile_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Clothing_profile_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Clothing_profile_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Clothing_profile_lpaths    += ./../../../PxShared/lib/android16
+APEX_Clothing_profile_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Clothing_profile_defines   := $(APEX_Clothing_custom_defines)
 APEX_Clothing_profile_defines   += ANDROID
 APEX_Clothing_profile_defines   += GLES2
@@ -450,9 +450,9 @@ APEX_Clothing_profile_defines   += PHYSX_PROFILE_SDK
 APEX_Clothing_profile_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Clothing_profile_defines   += PX_NVTX=1
 APEX_Clothing_profile_libraries := 
-APEX_Clothing_profile_libraries += NvParameterizedPROFILE
-APEX_Clothing_profile_libraries += PsFastXmlPROFILE
 APEX_Clothing_profile_libraries += PxFoundationPROFILE
+APEX_Clothing_profile_libraries += PsFastXmlPROFILE
+APEX_Clothing_profile_libraries += NvParameterizedPROFILE
 APEX_Clothing_profile_libraries += PxPvdSDKPROFILE
 APEX_Clothing_profile_libraries += PhysX3CommonPROFILE
 APEX_Clothing_profile_common_cflags	:= $(APEX_Clothing_custom_cflags)
@@ -491,9 +491,9 @@ postbuild_APEX_Clothing_profile: mainbuild_APEX_Clothing_profile
 mainbuild_APEX_Clothing_profile: prebuild_APEX_Clothing_profile $(APEX_Clothing_profile_bin)
 prebuild_APEX_Clothing_profile:
 
-$(APEX_Clothing_profile_bin): $(NvParameterized_profile_obj) $(PsFastXml_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Clothing_profile_obj) build_NvParameterized_profile build_PsFastXml_profile build_PxFoundation_profile build_PxPvdSDK_profile 
+$(APEX_Clothing_profile_bin): $(PsFastXml_profile_obj) $(NvParameterized_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Clothing_profile_obj) build_PxFoundation_profile build_PsFastXml_profile build_NvParameterized_profile build_PxPvdSDK_profile 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_ClothingPROFILE.a`
-	@$(AR) rcs $(APEX_Clothing_profile_bin) $(NvParameterized_profile_obj) $(PsFastXml_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Clothing_profile_obj)
+	@$(AR) rcs $(APEX_Clothing_profile_bin) $(PsFastXml_profile_obj) $(NvParameterized_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Clothing_profile_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Clothing_profile_DEPDIR = $(dir $(@))/$(*F)
@@ -584,8 +584,8 @@ APEX_Clothing_checked_hpaths    += ./../../../PxShared/src/pvd/src
 APEX_Clothing_checked_lpaths    := 
 APEX_Clothing_checked_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Clothing_checked_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Clothing_checked_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Clothing_checked_lpaths    += ./../../../PxShared/lib/android16
+APEX_Clothing_checked_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Clothing_checked_defines   := $(APEX_Clothing_custom_defines)
 APEX_Clothing_checked_defines   += ANDROID
 APEX_Clothing_checked_defines   += GLES2
@@ -605,9 +605,9 @@ APEX_Clothing_checked_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Clothing_checked_defines   += PX_ENABLE_CHECKED_ASSERTS
 APEX_Clothing_checked_defines   += PX_NVTX=1
 APEX_Clothing_checked_libraries := 
-APEX_Clothing_checked_libraries += NvParameterizedCHECKED
-APEX_Clothing_checked_libraries += PsFastXmlCHECKED
 APEX_Clothing_checked_libraries += PxFoundationCHECKED
+APEX_Clothing_checked_libraries += PsFastXmlCHECKED
+APEX_Clothing_checked_libraries += NvParameterizedCHECKED
 APEX_Clothing_checked_libraries += PxPvdSDKCHECKED
 APEX_Clothing_checked_libraries += PhysX3CommonCHECKED
 APEX_Clothing_checked_common_cflags	:= $(APEX_Clothing_custom_cflags)
@@ -647,9 +647,9 @@ postbuild_APEX_Clothing_checked: mainbuild_APEX_Clothing_checked
 mainbuild_APEX_Clothing_checked: prebuild_APEX_Clothing_checked $(APEX_Clothing_checked_bin)
 prebuild_APEX_Clothing_checked:
 
-$(APEX_Clothing_checked_bin): $(NvParameterized_checked_obj) $(PsFastXml_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Clothing_checked_obj) build_NvParameterized_checked build_PsFastXml_checked build_PxFoundation_checked build_PxPvdSDK_checked 
+$(APEX_Clothing_checked_bin): $(PsFastXml_checked_obj) $(NvParameterized_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Clothing_checked_obj) build_PxFoundation_checked build_PsFastXml_checked build_NvParameterized_checked build_PxPvdSDK_checked 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_ClothingCHECKED.a`
-	@$(AR) rcs $(APEX_Clothing_checked_bin) $(NvParameterized_checked_obj) $(PsFastXml_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Clothing_checked_obj)
+	@$(AR) rcs $(APEX_Clothing_checked_bin) $(PsFastXml_checked_obj) $(NvParameterized_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Clothing_checked_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Clothing_checked_DEPDIR = $(dir $(@))/$(*F)

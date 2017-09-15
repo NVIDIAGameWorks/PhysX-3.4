@@ -41,7 +41,10 @@ namespace physx
 	
 struct PxClothMeshQuadifierImpl;
 
-class PxClothMeshQuadifier
+/**
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
+*/
+class PX_DEPRECATED PxClothMeshQuadifier
 {
 public:
 	/**

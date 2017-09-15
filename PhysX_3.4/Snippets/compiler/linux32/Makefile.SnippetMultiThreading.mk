@@ -69,7 +69,7 @@ SnippetMultiThreading_debug_common_cflags    += -MMD
 SnippetMultiThreading_debug_common_cflags    += $(addprefix -D, $(SnippetMultiThreading_debug_defines))
 SnippetMultiThreading_debug_common_cflags    += $(addprefix -I, $(SnippetMultiThreading_debug_hpaths))
 SnippetMultiThreading_debug_common_cflags  += -m32
-SnippetMultiThreading_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetMultiThreading_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetMultiThreading_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetMultiThreading_debug_common_cflags  += -Wno-uninitialized
 SnippetMultiThreading_debug_common_cflags  += -g3 -gdwarf-2
@@ -180,7 +180,7 @@ SnippetMultiThreading_checked_common_cflags    += -MMD
 SnippetMultiThreading_checked_common_cflags    += $(addprefix -D, $(SnippetMultiThreading_checked_defines))
 SnippetMultiThreading_checked_common_cflags    += $(addprefix -I, $(SnippetMultiThreading_checked_hpaths))
 SnippetMultiThreading_checked_common_cflags  += -m32
-SnippetMultiThreading_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetMultiThreading_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetMultiThreading_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetMultiThreading_checked_common_cflags  += -Wno-uninitialized
 SnippetMultiThreading_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -291,7 +291,7 @@ SnippetMultiThreading_profile_common_cflags    += -MMD
 SnippetMultiThreading_profile_common_cflags    += $(addprefix -D, $(SnippetMultiThreading_profile_defines))
 SnippetMultiThreading_profile_common_cflags    += $(addprefix -I, $(SnippetMultiThreading_profile_hpaths))
 SnippetMultiThreading_profile_common_cflags  += -m32
-SnippetMultiThreading_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetMultiThreading_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetMultiThreading_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetMultiThreading_profile_common_cflags  += -Wno-uninitialized
 SnippetMultiThreading_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -401,7 +401,7 @@ SnippetMultiThreading_release_common_cflags    += -MMD
 SnippetMultiThreading_release_common_cflags    += $(addprefix -D, $(SnippetMultiThreading_release_defines))
 SnippetMultiThreading_release_common_cflags    += $(addprefix -I, $(SnippetMultiThreading_release_hpaths))
 SnippetMultiThreading_release_common_cflags  += -m32
-SnippetMultiThreading_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetMultiThreading_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetMultiThreading_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetMultiThreading_release_common_cflags  += -Wno-uninitialized
 SnippetMultiThreading_release_common_cflags  += -O3 -fno-strict-aliasing

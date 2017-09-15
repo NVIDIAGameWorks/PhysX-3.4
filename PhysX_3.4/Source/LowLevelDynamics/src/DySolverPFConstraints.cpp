@@ -31,8 +31,6 @@
 #include "foundation/PxPreprocessor.h"
 #include "PsVecMath.h"
 
-#ifdef PX_SUPPORT_SIMD
-
 #include "CmPhysXCommon.h"
 #include "DySolverBody.h"
 #include "DySolverContact.h"
@@ -865,4 +863,3 @@ void solveConcludeContactCoulomb_BStatic	(const PxSolverConstraintDesc& desc, So
 
 }
 
-#endif //PX_SUPPORT_SIMD

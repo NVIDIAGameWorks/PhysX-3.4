@@ -53,59 +53,84 @@
 <a name="l00033"></a>00033 <span class="preprocessor"></span>
 <a name="l00037"></a>00037 <span class="preprocessor">#include "<a class="code" href="Px_8h.html">foundation/Px.h</a>"</span>
 <a name="l00038"></a>00038 
-<a name="l00039"></a>00039 
-<a name="l00040"></a>00040 <span class="comment">// define API function declaration (public API only needed because of extensions)</span>
-<a name="l00041"></a>00041 <span class="preprocessor">#if defined PX_PHYSX_STATIC_LIB || defined PX_PHYSX_CORE_STATIC_LIB</span>
-<a name="l00042"></a>00042 <span class="preprocessor"></span><span class="preprocessor">    #define PX_PHYSX_CORE_API</span>
-<a name="l00043"></a>00043 <span class="preprocessor"></span><span class="preprocessor">#else</span>
-<a name="l00044"></a>00044 <span class="preprocessor"></span><span class="preprocessor">    #if PX_WINDOWS</span>
-<a name="l00045"></a>00045 <span class="preprocessor"></span><span class="preprocessor">        #if defined PX_PHYSX_CORE_EXPORTS</span>
-<a name="l00046"></a>00046 <span class="preprocessor"></span><span class="preprocessor">            #define PX_PHYSX_CORE_API __declspec(dllexport)</span>
-<a name="l00047"></a>00047 <span class="preprocessor"></span><span class="preprocessor">        #else</span>
-<a name="l00048"></a>00048 <span class="preprocessor"></span><span class="preprocessor">            #define PX_PHYSX_CORE_API __declspec(dllimport)</span>
-<a name="l00049"></a>00049 <span class="preprocessor"></span><span class="preprocessor">        #endif</span>
-<a name="l00050"></a>00050 <span class="preprocessor"></span><span class="preprocessor">    #elif PX_UNIX_FAMILY</span>
-<a name="l00051"></a>00051 <span class="preprocessor"></span><span class="preprocessor">        #define PX_PHYSX_CORE_API PX_UNIX_EXPORT</span>
-<a name="l00052"></a>00052 <span class="preprocessor"></span><span class="preprocessor">    #else</span>
-<a name="l00053"></a><a class="code" href="group__common.html#g4636d12a5a01930fa258136f3f93366f">00053</a> <span class="preprocessor"></span><span class="preprocessor">        #define PX_PHYSX_CORE_API</span>
-<a name="l00054"></a>00054 <span class="preprocessor"></span><span class="preprocessor">    #endif</span>
-<a name="l00055"></a>00055 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
-<a name="l00056"></a>00056 <span class="preprocessor"></span>
-<a name="l00057"></a>00057 <span class="preprocessor">#if PX_WINDOWS &amp;&amp; !defined(__CUDACC__)</span>
-<a name="l00058"></a>00058 <span class="preprocessor"></span><span class="preprocessor">    #if defined PX_PHYSX_COMMON_EXPORTS</span>
-<a name="l00059"></a>00059 <span class="preprocessor"></span><span class="preprocessor">        #define PX_PHYSX_COMMON_API __declspec(dllexport)</span>
-<a name="l00060"></a>00060 <span class="preprocessor"></span><span class="preprocessor">    #else</span>
-<a name="l00061"></a>00061 <span class="preprocessor"></span><span class="preprocessor">        #define PX_PHYSX_COMMON_API __declspec(dllimport)</span>
-<a name="l00062"></a>00062 <span class="preprocessor"></span><span class="preprocessor">    #endif</span>
-<a name="l00063"></a>00063 <span class="preprocessor"></span><span class="preprocessor">#elif PX_UNIX_FAMILY</span>
-<a name="l00064"></a>00064 <span class="preprocessor"></span><span class="preprocessor">    #define PX_PHYSX_COMMON_API PX_UNIX_EXPORT</span>
-<a name="l00065"></a>00065 <span class="preprocessor"></span><span class="preprocessor">#else</span>
-<a name="l00066"></a><a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">00066</a> <span class="preprocessor"></span><span class="preprocessor">    #define PX_PHYSX_COMMON_API</span>
-<a name="l00067"></a>00067 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
-<a name="l00068"></a>00068 <span class="preprocessor"></span>
-<a name="l00069"></a>00069 <span class="comment">// Changing these parameters requires recompilation of the SDK</span>
-<a name="l00070"></a>00070 
-<a name="l00071"></a>00071 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00072"></a>00072 <span class="preprocessor"></span><span class="keyword">namespace </span>physx
-<a name="l00073"></a>00073 {
-<a name="l00074"></a>00074 <span class="preprocessor">#endif</span>
-<a name="l00075"></a>00075 <span class="preprocessor"></span>    <span class="keyword">class </span><a class="code" href="classPxCollection.html" title="Collection class for serialization.">PxCollection</a>;
-<a name="l00076"></a>00076     <span class="keyword">class </span><a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>;
-<a name="l00077"></a>00077 
-<a name="l00078"></a>00078     <span class="keyword">class </span><a class="code" href="classPxHeightField.html" title="A height field class.">PxHeightField</a>;
-<a name="l00079"></a>00079     <span class="keyword">class </span><a class="code" href="classPxHeightFieldDesc.html" title="Descriptor class for PxHeightField.">PxHeightFieldDesc</a>;
-<a name="l00080"></a>00080 
-<a name="l00081"></a>00081     <span class="keyword">class </span><a class="code" href="classPxTriangleMesh.html" title="A triangle mesh, also called a &amp;#39;polygon soup&amp;#39;.">PxTriangleMesh</a>;
-<a name="l00082"></a><a class="code" href="group__common.html#g19403877bf7ce42d7240e4e4c758c016">00082</a>     <span class="keyword">class </span><a class="code" href="classPxConvexMesh.html" title="A convex mesh.">PxConvexMesh</a>;
-<a name="l00083"></a>00083 
-<a name="l00084"></a>00084     <span class="keyword">typedef</span> <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> <a class="code" href="group__common.html#g19403877bf7ce42d7240e4e4c758c016">PxTriangleID</a>;
-<a name="l00085"></a><a class="code" href="group__common.html#gc816bc62a68a52f01bf21f963295e822">00085</a>     <span class="keyword">typedef</span> <a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a> <a class="code" href="group__common.html#gc816bc62a68a52f01bf21f963295e822">PxMaterialTableIndex</a>;
-<a name="l00086"></a>00086 
-<a name="l00087"></a>00087 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00088"></a>00088 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00089"></a>00089 <span class="preprocessor">#endif</span>
-<a name="l00090"></a>00090 <span class="preprocessor"></span>
-<a name="l00092"></a>00092 <span class="preprocessor">#endif</span>
+<a name="l00039"></a>00039 <span class="comment">/*Temporary disable support for VS2017 for windows platform, as we wait for compiler fix:</span>
+<a name="l00040"></a>00040 <span class="comment">https://developercommunity.visualstudio.com/content/problem/66047/possible-compiler-bug.html</span>
+<a name="l00041"></a>00041 <span class="comment">*/</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#if (PX_VC == 15) &amp;&amp; PX_WINDOWS</span>
+<a name="l00043"></a>00043 <span class="preprocessor"></span><span class="preprocessor">#error Visual studio 2017 is not supported because of a compiler bug, support will be enabled once a fix is out.</span>
+<a name="l00044"></a>00044 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span>
+<a name="l00046"></a>00046 <span class="comment">// define API function declaration (public API only needed because of extensions)</span>
+<a name="l00047"></a>00047 <span class="preprocessor">#if defined PX_PHYSX_STATIC_LIB || defined PX_PHYSX_CORE_STATIC_LIB</span>
+<a name="l00048"></a>00048 <span class="preprocessor"></span><span class="preprocessor">    #define PX_PHYSX_CORE_API</span>
+<a name="l00049"></a>00049 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span><span class="preprocessor">    #if PX_WINDOWS</span>
+<a name="l00051"></a>00051 <span class="preprocessor"></span><span class="preprocessor">        #if defined PX_PHYSX_CORE_EXPORTS</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span><span class="preprocessor">            #define PX_PHYSX_CORE_API __declspec(dllexport)</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span><span class="preprocessor">        #else</span>
+<a name="l00054"></a>00054 <span class="preprocessor"></span><span class="preprocessor">            #define PX_PHYSX_CORE_API __declspec(dllimport)</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span><span class="preprocessor">        #endif</span>
+<a name="l00056"></a>00056 <span class="preprocessor"></span><span class="preprocessor">    #elif PX_UNIX_FAMILY</span>
+<a name="l00057"></a>00057 <span class="preprocessor"></span><span class="preprocessor">        #define PX_PHYSX_CORE_API PX_UNIX_EXPORT</span>
+<a name="l00058"></a>00058 <span class="preprocessor"></span><span class="preprocessor">    #else</span>
+<a name="l00059"></a><a class="code" href="group__common.html#g4636d12a5a01930fa258136f3f93366f">00059</a> <span class="preprocessor"></span><span class="preprocessor">        #define PX_PHYSX_CORE_API</span>
+<a name="l00060"></a>00060 <span class="preprocessor"></span><span class="preprocessor">    #endif</span>
+<a name="l00061"></a>00061 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00062"></a>00062 <span class="preprocessor"></span>
+<a name="l00063"></a>00063 <span class="preprocessor">#if PX_SUPPORT_GPU_PHYSX</span>
+<a name="l00064"></a>00064 <span class="preprocessor"></span>
+<a name="l00065"></a>00065 <span class="comment">// define API function declaration</span>
+<a name="l00066"></a>00066 <span class="preprocessor">#if PX_WINDOWS </span>
+<a name="l00067"></a>00067 <span class="preprocessor"></span><span class="preprocessor">#if defined PX_PHYSX_GPU_EXPORTS</span>
+<a name="l00068"></a>00068 <span class="preprocessor"></span><span class="preprocessor">#define PX_PHYSX_GPU_API __declspec(dllexport)</span>
+<a name="l00069"></a>00069 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00070"></a>00070 <span class="preprocessor"></span><span class="preprocessor">#define PX_PHYSX_GPU_API __declspec(dllimport)</span>
+<a name="l00071"></a>00071 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00072"></a>00072 <span class="preprocessor"></span><span class="preprocessor">#elif PX_UNIX_FAMILY</span>
+<a name="l00073"></a>00073 <span class="preprocessor"></span><span class="preprocessor">#define PX_PHYSX_GPU_API PX_UNIX_EXPORT</span>
+<a name="l00074"></a>00074 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00075"></a>00075 <span class="preprocessor"></span><span class="preprocessor">#define PX_PHYSX_GPU_API</span>
+<a name="l00076"></a>00076 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00077"></a>00077 <span class="preprocessor"></span>
+<a name="l00078"></a>00078 <span class="preprocessor">#else // PX_SUPPORT_GPU_PHYSX</span>
+<a name="l00079"></a><a class="code" href="group__common.html#gbe7c1438b281afb1d13fdc127cc84e68">00079</a> <span class="preprocessor"></span><span class="preprocessor">#define PX_PHYSX_GPU_API</span>
+<a name="l00080"></a>00080 <span class="preprocessor"></span><span class="preprocessor">#endif // PX_SUPPORT_GPU_PHYSX</span>
+<a name="l00081"></a>00081 <span class="preprocessor"></span>
+<a name="l00082"></a>00082 <span class="preprocessor">#if PX_WINDOWS &amp;&amp; !defined(__CUDACC__)</span>
+<a name="l00083"></a>00083 <span class="preprocessor"></span><span class="preprocessor">    #if defined PX_PHYSX_COMMON_EXPORTS</span>
+<a name="l00084"></a>00084 <span class="preprocessor"></span><span class="preprocessor">        #define PX_PHYSX_COMMON_API __declspec(dllexport)</span>
+<a name="l00085"></a>00085 <span class="preprocessor"></span><span class="preprocessor">    #else</span>
+<a name="l00086"></a>00086 <span class="preprocessor"></span><span class="preprocessor">        #define PX_PHYSX_COMMON_API __declspec(dllimport)</span>
+<a name="l00087"></a>00087 <span class="preprocessor"></span><span class="preprocessor">    #endif</span>
+<a name="l00088"></a>00088 <span class="preprocessor"></span><span class="preprocessor">#elif PX_UNIX_FAMILY</span>
+<a name="l00089"></a>00089 <span class="preprocessor"></span><span class="preprocessor">    #define PX_PHYSX_COMMON_API PX_UNIX_EXPORT</span>
+<a name="l00090"></a>00090 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00091"></a><a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">00091</a> <span class="preprocessor"></span><span class="preprocessor">    #define PX_PHYSX_COMMON_API</span>
+<a name="l00092"></a>00092 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00093"></a>00093 <span class="preprocessor"></span>
+<a name="l00094"></a>00094 <span class="comment">// Changing these parameters requires recompilation of the SDK</span>
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00097"></a>00097 <span class="preprocessor"></span><span class="keyword">namespace </span>physx
+<a name="l00098"></a>00098 {
+<a name="l00099"></a>00099 <span class="preprocessor">#endif</span>
+<a name="l00100"></a>00100 <span class="preprocessor"></span>    <span class="keyword">class </span><a class="code" href="classPxCollection.html" title="Collection class for serialization.">PxCollection</a>;
+<a name="l00101"></a>00101     <span class="keyword">class </span><a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>;
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103     <span class="keyword">class </span><a class="code" href="classPxHeightField.html" title="A height field class.">PxHeightField</a>;
+<a name="l00104"></a>00104     <span class="keyword">class </span><a class="code" href="classPxHeightFieldDesc.html" title="Descriptor class for PxHeightField.">PxHeightFieldDesc</a>;
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106     <span class="keyword">class </span><a class="code" href="classPxTriangleMesh.html" title="A triangle mesh, also called a &amp;#39;polygon soup&amp;#39;.">PxTriangleMesh</a>;
+<a name="l00107"></a><a class="code" href="group__common.html#g19403877bf7ce42d7240e4e4c758c016">00107</a>     <span class="keyword">class </span><a class="code" href="classPxConvexMesh.html" title="A convex mesh.">PxConvexMesh</a>;
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109     <span class="keyword">typedef</span> <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> <a class="code" href="group__common.html#g19403877bf7ce42d7240e4e4c758c016">PxTriangleID</a>;
+<a name="l00110"></a><a class="code" href="group__common.html#gc816bc62a68a52f01bf21f963295e822">00110</a>     <span class="keyword">typedef</span> <a class="code" href="namespacephysx.html#9caf1cbcda071b6d2a9c069faa99da23">PxU16</a> <a class="code" href="group__common.html#gc816bc62a68a52f01bf21f963295e822">PxMaterialTableIndex</a>;
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00113"></a>00113 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00114"></a>00114 <span class="preprocessor">#endif</span>
+<a name="l00115"></a>00115 <span class="preprocessor"></span>
+<a name="l00117"></a>00117 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

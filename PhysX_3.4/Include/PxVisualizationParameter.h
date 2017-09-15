@@ -138,7 +138,7 @@ struct PxVisualizationParameter
 
 		@see PxBodyDesc.angularVelocity PxActor
 		*/
-		eBODY_JOINT_GROUPS,
+		eDEPRECATED_BODY_JOINT_GROUPS,
 
 	/* Contact visualisations */
 
@@ -272,10 +272,8 @@ struct PxVisualizationParameter
 		*/
 		ePARTICLE_SYSTEM_MAX_MOTION_DISTANCE,
 	
-	/* Visualization subscene (culling box) */
-
 		/**
-		\brief Debug visualization culling
+		\brief Visualize culling box
 		*/
 		eCULL_BOX,
 

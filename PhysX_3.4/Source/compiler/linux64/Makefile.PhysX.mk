@@ -146,7 +146,7 @@ PhysX_release_common_cflags    += -MMD
 PhysX_release_common_cflags    += $(addprefix -D, $(PhysX_release_defines))
 PhysX_release_common_cflags    += $(addprefix -I, $(PhysX_release_hpaths))
 PhysX_release_common_cflags  += -m64
-PhysX_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysX_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysX_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysX_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysX_release_common_cflags  += -Wno-missing-field-initializers
@@ -291,7 +291,7 @@ PhysX_debug_common_cflags    += -MMD
 PhysX_debug_common_cflags    += $(addprefix -D, $(PhysX_debug_defines))
 PhysX_debug_common_cflags    += $(addprefix -I, $(PhysX_debug_hpaths))
 PhysX_debug_common_cflags  += -m64
-PhysX_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysX_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysX_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysX_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysX_debug_common_cflags  += -Wno-missing-field-initializers
@@ -435,7 +435,7 @@ PhysX_checked_common_cflags    += -MMD
 PhysX_checked_common_cflags    += $(addprefix -D, $(PhysX_checked_defines))
 PhysX_checked_common_cflags    += $(addprefix -I, $(PhysX_checked_hpaths))
 PhysX_checked_common_cflags  += -m64
-PhysX_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysX_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysX_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysX_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysX_checked_common_cflags  += -Wno-missing-field-initializers
@@ -579,7 +579,7 @@ PhysX_profile_common_cflags    += -MMD
 PhysX_profile_common_cflags    += $(addprefix -D, $(PhysX_profile_defines))
 PhysX_profile_common_cflags    += $(addprefix -I, $(PhysX_profile_hpaths))
 PhysX_profile_common_cflags  += -m64
-PhysX_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysX_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysX_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysX_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysX_profile_common_cflags  += -Wno-missing-field-initializers

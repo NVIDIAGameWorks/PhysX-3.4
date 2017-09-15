@@ -122,7 +122,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonDEBUG_x64.lib;PxCudaContextManagerDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)DEBUG_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc14win64;../../../PhysX_3.4/Lib/vc14win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG_x64.dll.pdb</ProgramDatabaseFile>
@@ -163,7 +163,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3Common_x64.lib;PxCudaContextManager_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3Common_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc14win64;../../../PhysX_3.4/Lib/vc14win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)_x64.dll.pdb</ProgramDatabaseFile>
@@ -204,7 +204,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonPROFILE_x64.lib;PxCudaContextManagerPROFILE_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonPROFILE_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)PROFILE_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc14win64;../../../PhysX_3.4/Lib/vc14win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE_x64.dll.pdb</ProgramDatabaseFile>
@@ -245,7 +245,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
-      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonCHECKED_x64.lib;PxCudaContextManagerCHECKED_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonCHECKED_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)CHECKED_x64.dll</OutputFile>
       <AdditionalLibraryDirectories>../../../PxShared/lib/vc14win64;../../../PhysX_3.4/Lib/vc14win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED_x64.dll.pdb</ProgramDatabaseFile>

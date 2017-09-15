@@ -1,4 +1,6 @@
-NVIDIA APEX 1.4 SDK distribution
+NVIDIA APEX 1.4.1 SDK distribution
+
+Note: APEX SDK has been deprecated!
 
 Visual Studio based APEX projects:
 ----------------------------------

@@ -73,8 +73,8 @@
 #include "NpCloth.h"
 #endif
 
-#if PX_NX
-#include "nx/NpMiddlewareInfo.h"
+#if PX_SWITCH
+#include "switch/NpMiddlewareInfo.h"
 #endif
 
 using namespace physx;
@@ -233,7 +233,7 @@ NpPhysics* NpPhysics::createInstance(PxU32 version, PxFoundation& foundation, co
 {
 	PX_UNUSED(foundation);
 
-#if PX_NX
+#if PX_SWITCH
 	NpSetMiddlewareInfo();  // register middleware info such that PhysX usage can be tracked
 #endif
 	

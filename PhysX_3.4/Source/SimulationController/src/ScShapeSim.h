@@ -106,9 +106,10 @@ namespace Sc
 						void							onRestOffsetChange();
 						void							onFlagChange(PxShapeFlags oldFlags);
 						void							onResetFiltering();
-						void							onVolumeOrTransformChange(bool asPartOfActorTransformChange, bool forceBoundsUpdate = false);
+						void							onVolumeOrTransformChange(bool forceBoundsUpdate = false);
 						void							onMaterialChange();  // remove when material properties are gone from PxcNpWorkUnit
 						void							onContactOffsetChange();
+						void							markBoundsForUpdate(bool forceBoundsUpdate, bool isDynamic);
 
 						void							getAbsPoseAligned(PxTransform* PX_RESTRICT globalPose)	const;
 

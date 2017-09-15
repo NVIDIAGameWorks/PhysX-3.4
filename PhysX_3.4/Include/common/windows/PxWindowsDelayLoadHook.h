@@ -34,11 +34,6 @@
 #include "foundation/PxPreprocessor.h"
 #include "foundation/windows/PxWindowsFoundationDelayLoadHook.h"
 #include "common/PxPhysXCommonConfig.h"
-#if PX_SUPPORT_GPU_PHYSX
-#include "Pxg.h"
-#else
-#define PX_PHYSX_GPU_API
-#endif
 
 /** \addtogroup foundation
 @{

@@ -260,6 +260,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#gbbba9e3f699e63445326263daec187e8"><param name="Name" value="PX_MAKE_FOURCC"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4"><param name="Name" value="PX_PHYSX_COMMON_API"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#g4636d12a5a01930fa258136f3f93366f"><param name="Name" value="PX_PHYSX_CORE_API"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#gbe7c1438b281afb1d13fdc127cc84e68"><param name="Name" value="PX_PHYSX_GPU_API"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#g2fda99afe264006a8ef8a699aa1328aa"><param name="Name" value="PX_SERIAL_ALIGN"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#g8ca0e9fc5693e347b3ee5735fc637fc2"><param name="Name" value="PX_SERIAL_FILE_ALIGN"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#g70054743832670870a1ce9f619907c77"><param name="Name" value="PX_SERIAL_OBJECT_ID_INVALID"></OBJECT>
@@ -277,6 +278,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#g19403877bf7ce42d7240e4e4c758c016"><param name="Name" value="PxTriangleID"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#gc1fb4b256a5d900d394e89db170a2b79"><param name="Name" value="PxType"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBinaryConverter.html#c39cc433f7d1db69e1c17e401adec9cc"><param name="Name" value="compareMetaData"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#0cf59eda36c56e9e66bac0c2b5168094"><param name="Name" value="complete"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#bfacb597d8b72b1d86961dfdb8e768e3"><param name="Name" value="compressedContactSize"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxClothStretchConfig.html#ad66f56640cefd4edbf452767b6e1f19"><param name="Name" value="compressionLimit"></OBJECT>
@@ -385,8 +387,8 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#080866698f34876134941cf42949592b"><param name="Name" value="createBatchQuery"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#9014b476bfd9e3e9bc7ea755df232bfd"><param name="Name" value="createBinaryConverter"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#285849425521dd0344f55b4a7c0a834a"><param name="Name" value="createClient"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#73f5ca62e703a94f378e851b6b84f63c"><param name="Name" value="createCloth"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#c32634024422793b65190304c4631494"><param name="Name" value="createClothFabric"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#1aa15d80d32aa15a3fdcd9c26fb3f3eb"><param name="Name" value="createCloth"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#aff72c208eb0bb4faa418c1f258707d9"><param name="Name" value="createClothFabric"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCollectionExt.html#39dbd32faa242e01117cd4ecee3fd2e7"><param name="Name" value="createCollection"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#6c64dc9a55f7ae9ffc8c1802855134ed"><param name="Name" value="createCollectionFromBinary"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#e2eafca38332e6d7dff642641317e90a"><param name="Name" value="createCollectionFromXml"></OBJECT>
@@ -622,7 +624,6 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxQueryHitType.html#cab1ef408184995d169330ed689b79e360dc59a348d85c101747ed45d9b20750"><param name="Name" value="eBLOCK"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb100d326f5ea2be6379999dd3b0e80a0552"><param name="Name" value="eBODY_ANG_VELOCITY"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb103e5a40d8a90d56caa62e6c483e00c9cb"><param name="Name" value="eBODY_AXES"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10c532ebfdd815188068b9e7fc4a7de42e"><param name="Name" value="eBODY_JOINT_GROUPS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb109e57301b7b1ed3722334f04b9bb6f4bc"><param name="Name" value="eBODY_LIN_VELOCITY"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb108e73c99660d921ad7dc81069ff0b2a3c"><param name="Name" value="eBODY_MASS_AXES"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxControllerShapeType.html#46022b44cb41038a1b05bcaa6e043d03b43bc932646395ab414f8f4acd18f1e8"><param name="Name" value="eBOX"></OBJECT>
@@ -646,13 +647,10 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxControllerBehaviorFlag.html#a8d6dfaac2847892e8c5b76eb4d1d55bbdcc38448e6409720eb4cdf43a4f5466"><param name="Name" value="eCCT_USER_DEFINED_RIDE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b612c7c442cadd1e3474fc613944981c44"><param name="Name" value="eCHECK_ZERO_AREA_TRIANGLES"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMetaDataFlag.html#5125f2eba9d78234a2bc7a00b3c3654cd9aa10c12e5694495894ce759636071a"><param name="Name" value="eCLASS"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d797c35b252f095062fe0de0c9b93d1593"><param name="Name" value="eCLOTH"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConcreteType.html#d762aca1d4c8fffae41267fae4f1b8e83c846c92ae8929d5867e25ec039c8bde"><param name="Name" value="eCLOTH"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d797c35b252f095062fe0de0c9b93d1593"><param name="Name" value="PxActorType"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorTypeFlag.html#62171a3f7d2dfa4b4b87285afdf6bae4df554c42b0b2fa4096c47f51de72fabd"><param name="Name" value="PxActorTypeFlag"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConcreteType.html#d762aca1d4c8fffae41267fae4f1b8e83c846c92ae8929d5867e25ec039c8bde"><param name="Name" value="PxConcreteType"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterObjectType.html#6b94c22981119369d08ce8b13838a3cf8b5ad2155d1d501ecb296d608dc1c00d"><param name="Name" value="PxFilterObjectType"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#996a480bf74af73637d277c454dce87c443f84df0f0bff95fdb0cadd4a17f31a"><param name="Name" value="PxSimulationStatistics"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10a44556e3ea1ddb826289de5a277782a0"><param name="Name" value="eCLOTH_BENDING"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConcreteType.html#d762aca1d4c8fffae41267fae4f1b8e8ebe0dd8a545da3bc2ed3004ab72a37ec"><param name="Name" value="eCLOTH_FABRIC"></OBJECT>
@@ -723,6 +721,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxHitFlag.html#44c173f6ddf0522ffbd8fa3c585e6b64fbdec54374d753fed4682d855aac7270"><param name="Name" value="PxHitFlag"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxParticleReadDataFlag.html#e228980b8744bbaa5c1567a17183ae7149ad1d1a56e0f3068e360cb759c5a63b"><param name="Name" value="eDENSITY_BUFFER"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb1079945aa500514b2d2aa5589257fa765e"><param name="Name" value="eDEPRECATED_BODY_JOINT_GROUPS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb1071119a812dde7d16f1dc8ccdb738b614"><param name="Name" value="eDEPRECATED_COLLISION_PAIRS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c531d29a32a585c1463b30332ee8e328cad"><param name="Name" value="eDEPRECATED_TRIGGER_TRIGGER_REPORTS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxPairFlag.html#60e71a2948b030140f840766a3f7ac2fc41a9f8b9326480403c023ad20cdc2f1"><param name="Name" value="eDETECT_CCD_CONTACT"></OBJECT>
@@ -772,6 +771,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c5305d1e69880f10fb3de7d26c2e2e7eca3"><param name="Name" value="PxSceneFlag"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba859637775d7c189d9f499fdfda010f73fb95"><param name="Name" value="eENABLE_CCD_FRICTION"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596b2bb4cc4246807076a2103d72bd69e00"><param name="Name" value="eENABLE_CCD_MAX_CONTACT_IMPULSE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53fc106b84674b04718dd78ea4640daf86"><param name="Name" value="eENABLE_ENHANCED_DETERMINISM"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53fb55a7dd55b07e2ae234072e88d0b607"><param name="Name" value="eENABLE_GPU_DYNAMICS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c538537c3d1b706799fd9bdf6496dde1dbf"><param name="Name" value="eENABLE_KINEMATIC_PAIRS"></OBJECT>
@@ -1486,7 +1486,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g56b7f4f37ac451a47f3d7d661069aa49"><param name="Name" value="PX_NOINLINE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g8901e378c5ba8f305e8714d5758cd9dd"><param name="Name" value="PX_NORMALIZATION_EPSILON"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g65237bda8f886bb466e89d01a1ba0a77"><param name="Name" value="PX_NVTX"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gcac831050259f36f05bb5b58daa6d036"><param name="Name" value="PX_NX"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gace09d9150d8d87671f893afe548ebac"><param name="Name" value="PX_OFFSET_OF"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g2ac82f7e080e1411a86f98758a0f3875"><param name="Name" value="PX_OFFSET_OF_RT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g305a9ab26a10d521e58782103206edf5"><param name="Name" value="PX_OFFSETOF_BASE"></OBJECT>
@@ -1509,6 +1508,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g39f6354f5e10029a058e2141956ed9ef"><param name="Name" value="PX_SUPPORT_COMPUTE_PHYSX"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g58dd174408338f37c62dfe6ac1baec60"><param name="Name" value="PX_SUPPORT_EXTERN_TEMPLATE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g0a511de410e7de7a8625fb572f88bd89"><param name="Name" value="PX_SUPPORT_GPU_PHYSX"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g69c3fa9b2882d545ebdb965086853c62"><param name="Name" value="PX_SWITCH"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gc40d28c5e85426df7a98ff9bd597810c"><param name="Name" value="PX_UNIX_EXPORT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gd7d515be586be72c5c485c5624783a97"><param name="Name" value="PX_UNIX_FAMILY"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g3b618390d8743c532c4131cb931df43a"><param name="Name" value="PX_UNUSED"></OBJECT>
@@ -1746,11 +1746,11 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPvdSceneClient.html#e1b5736b5b44f33705a406411e3926d2"><param name="Name" value="getClientInternal"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCapsuleController.html#68225dcdb5577d623a0fa5250de40f0b"><param name="Name" value="getClimbingMode"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#8dc5895be663e3f8d221459f59a8b803"><param name="Name" value="getClothFabrics"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#b66ea589cfffdd5948771b885f2121ad"><param name="Name" value="getClothFabrics"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#d443004ddc575a974312ce9ad8104878"><param name="Name" value="getClothFlags"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#056a3f41426d1f4f756e8513751b591f"><param name="Name" value="getClothInterCollisionDistance"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#4abd140d61ad76c60ca0d38c0dd94336"><param name="Name" value="getClothInterCollisionNbIterations"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#547481cc48d38eb1d8f3fe151020a927"><param name="Name" value="getClothInterCollisionStiffness"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b31964586c71755fb261a879435655fb"><param name="Name" value="getClothInterCollisionDistance"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#605049c3cc13532d47803ba5303ce326"><param name="Name" value="getClothInterCollisionNbIterations"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#3f8880466c56bedbc2cd9f96f24e8331"><param name="Name" value="getClothInterCollisionStiffness"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleDriveSimData.html#20083db6949151eb109449cdbb341735"><param name="Name" value="getClutchData"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRigidBody.html#afdbdab1865112b15201aeabb23877b4"><param name="Name" value="getCMassLocalPose"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializationContext.html#acf1647853d5b3cede4763f667449bb1"><param name="Name" value="getCollection"></OBJECT>
@@ -1893,8 +1893,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxD6Joint.html#caebc6c005a26fbbba5faa65721e9269"><param name="Name" value="PxD6Joint"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRevoluteJoint.html#69f16a45c44381419b802ab2efc4a3c9"><param name="Name" value="PxRevoluteJoint"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactStreamIterator.html#d79b7ca12187d9e9b9488eb4adcc8340"><param name="Name" value="getDynamicFriction"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#70f975199ee66a0df4bf037cc8e10f3c"><param name="Name" value="getDynamicFriction"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#70f975199ee66a0df4bf037cc8e10f3c"><param name="Name" value="PxContactSet"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactStreamIterator.html#d79b7ca12187d9e9b9488eb4adcc8340"><param name="Name" value="PxContactStreamIterator"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMaterial.html#fc25f357ba1de24c8b98b22f94153d3d"><param name="Name" value="PxMaterial"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleBase.html#266449d2ac89ed540deeb7187ba59696"><param name="Name" value="PxParticleBase"></OBJECT>
@@ -2156,7 +2157,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#7db95116b2241e89d3bc17934d801979"><param name="Name" value="getNbBroadPhaseRemoves"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVolumeCache.html#cd8687904f29300ec7a27222f8db50bf"><param name="Name" value="getNbCachedShapes"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulationLink.html#fd3fed0c244cb37751aa035cf78c8e2b"><param name="Name" value="getNbChildren"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#66ab807ef19f4e229e6163db9f19df85"><param name="Name" value="getNbClothFabrics"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#5c0990eef79ed840ea0cc88d0f952111"><param name="Name" value="getNbClothFabrics"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#daea99e9df2d5628d7435e8a919306f1"><param name="Name" value="getNbCollisionCapsules"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#718741d139b994d7c4f2f842e5d9e9e3"><param name="Name" value="getNbCollisionConvexes"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#b56d769be770219f891c37ad2ddfc4ab"><param name="Name" value="getNbCollisionPlanes"></OBJECT>
@@ -2346,8 +2347,9 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxFoundation.html#99d8ace08bda782da561bc14c6e9075b"><param name="Name" value="getReportAllocationNames"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializationRegistry.html#40b8f7dfa706de614a013ed15c79dfdc"><param name="Name" value="getRepXSerializer"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactStreamIterator.html#25f719cc460541c095fa0b7101fe4a32"><param name="Name" value="getRestitution"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#643d2c1eb96b29b8119e11e04828c26e"><param name="Name" value="getRestitution"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#643d2c1eb96b29b8119e11e04828c26e"><param name="Name" value="PxContactSet"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactStreamIterator.html#25f719cc460541c095fa0b7101fe4a32"><param name="Name" value="PxContactStreamIterator"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMaterial.html#06db9f154df542598da209a31fdc123f"><param name="Name" value="PxMaterial"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleBase.html#f685d7f2c306a42d345fcde35a2bf6fa"><param name="Name" value="PxParticleBase"></OBJECT>
@@ -2435,8 +2437,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRigidDynamic.html#5f9d98c9bd3b9ab0be7ce1b3ec4a4574"><param name="Name" value="PxRigidDynamic"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxController.html#d694218683ad584f6120bc001c0d1616"><param name="Name" value="getState"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactStreamIterator.html#e61aa300ebb547085205073dd69454a2"><param name="Name" value="getStaticFriction"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#45700551793a60bff49adfb4775b5820"><param name="Name" value="getStaticFriction"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#45700551793a60bff49adfb4775b5820"><param name="Name" value="PxContactSet"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactStreamIterator.html#e61aa300ebb547085205073dd69454a2"><param name="Name" value="PxContactStreamIterator"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMaterial.html#b80c2e686ea428c58dbd020e067eaa70"><param name="Name" value="PxMaterial"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleBase.html#490ead77cd5a791537c209c5650a8d0c"><param name="Name" value="PxParticleBase"></OBJECT>
@@ -3020,6 +3023,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleDriveSimData.html#27092e53c3fc8e7427dfd98403b7cc79"><param name="Name" value="mAutoBox"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleDriveDynData.html#ba3ba5fed122b50456ff96a2464ca0cc"><param name="Name" value="mAutoBoxSwitchTime"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyData.html#a523e1704f34568a599f4744f0b6cbbc"><param name="Name" value="maxAngularVelocitySq"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#65bbe399965691dec83ba3fe1a5082ec"><param name="Name" value="maxBiasCoefficient"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyData.html#660b46913c44f1c050e2e1559c45ddd1"><param name="Name" value="maxContactImpulse"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyData.html#2e1756608c49188883e670d0318dcc06"><param name="Name" value="maxDepenetrationVelocity"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVec2.html#ee0ea896ec92dd625e989cbe3470ac0d"><param name="Name" value="maxElement"></OBJECT>
@@ -3043,6 +3047,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxControllerDesc.html#36e184a8b3c7a4ffbd1f2ab934d37ae1"><param name="Name" value="maxJumpHeight"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleAckermannGeometryData.html#a3665a214eb8b1188a1c8fdd66f7f74d"><param name="Name" value="mAxleSeparation"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyData.html#fe4e0a693288590b7ce8383bc3e2cd79"><param name="Name" value="maxLinearVelocitySq"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxConvexMeshGeometry.html#769be6bf3be1bd8a39ea0a3ee6b092b1"><param name="Name" value="maxMargin"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneLimits.html#f0a6bbbff2a3c1ce5cf80d2ef3666cf5"><param name="Name" value="maxNbActors"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneLimits.html#d44cb62b261514d8937077f75b40c5cc"><param name="Name" value="maxNbAggregates"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneLimits.html#d0eaee83c330232159c791093abc0f4c"><param name="Name" value="maxNbBodies"></OBJECT>
@@ -3837,7 +3842,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#gcacbeccf757e60dbf45089ef382681d9"><param name="Name" value="PxPairFlags"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#g5d8a1dc3627cf1442f40d91a5ec6b4e3"><param name="Name" value="PxRaycastQueryResult"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#g92144d0904f8a696f85737c576b88d9f"><param name="Name" value="PxRegisterArticulations"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#gb0b300b30efd81868ff51f9544e85b11"><param name="Name" value="PxRegisterCloth"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#ge2faa96309a4fb0cbfcd512d2431fc82"><param name="Name" value="PxRegisterCloth"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#ge3a84455caaa6a7de67513ea29a315e1"><param name="Name" value="PxRegisterHeightFields"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#g3a556a2d568cf1f36726d099bb21abd4"><param name="Name" value="PxRegisterLegacyHeightFields"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#g197726c3bfa1abc6fbe43875c2483b38"><param name="Name" value="PxRegisterParticles"></OBJECT>
@@ -4366,7 +4371,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterObjectType.html#6b94c22981119369d08ce8b13838a3cf9f616c2a37bb68bd02140f9578c992fb"><param name="Name" value="PxFilterObjectType"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7"><param name="Name" value="PxPreprocessor.h"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53eabf4ab99946ab299fbb858b6a8f53af"><param name="Name" value="PxSceneFlag"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#996a480bf74af73637d277c454dce87c941542fa629d7c3c16534c1b4226c73b"><param name="Name" value="PxSimulationStatistics"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#996a480bf74af73637d277c454dce87c1e1bd6604862aa41bb644ae0efa33d20"><param name="Name" value="PxSimulationStatistics"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g5be743320fae5abf91e51efebced816e"><param name="Name" value="PX_DLL_EXPORT"></OBJECT>
   <UL>
@@ -4657,11 +4662,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g65237bda8f886bb466e89d01a1ba0a77"><param name="Name" value="foundation"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g65237bda8f886bb466e89d01a1ba0a77"><param name="Name" value="PxPreprocessor.h"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gcac831050259f36f05bb5b58daa6d036"><param name="Name" value="PX_NX"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gcac831050259f36f05bb5b58daa6d036"><param name="Name" value="foundation"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gcac831050259f36f05bb5b58daa6d036"><param name="Name" value="PxPreprocessor.h"></OBJECT>
-  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gace09d9150d8d87671f893afe548ebac"><param name="Name" value="PX_OFFSET_OF"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gace09d9150d8d87671f893afe548ebac"><param name="Name" value="foundation"></OBJECT>
@@ -4722,6 +4722,11 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#g4636d12a5a01930fa258136f3f93366f"><param name="Name" value="common"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#g4636d12a5a01930fa258136f3f93366f"><param name="Name" value="PxPhysXCommonConfig.h"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#gbe7c1438b281afb1d13fdc127cc84e68"><param name="Name" value="PX_PHYSX_GPU_API"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#gbe7c1438b281afb1d13fdc127cc84e68"><param name="Name" value="common"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#gbe7c1438b281afb1d13fdc127cc84e68"><param name="Name" value="PxPhysXCommonConfig.h"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g9aad3b08e5e15565ff39638b753f4a92"><param name="Name" value="PX_POP_PACK"></OBJECT>
   <UL>
@@ -4838,6 +4843,11 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g0a511de410e7de7a8625fb572f88bd89"><param name="Name" value="PxPreprocessor.h"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="PxTaskDefine_8h.html#3f862c735ddbb6264f64107beaab63f6"><param name="Name" value="PX_SUPPORT_PXTASK_PROFILING"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g69c3fa9b2882d545ebdb965086853c62"><param name="Name" value="PX_SWITCH"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g69c3fa9b2882d545ebdb965086853c62"><param name="Name" value="foundation"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g69c3fa9b2882d545ebdb965086853c62"><param name="Name" value="PxPreprocessor.h"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gc40d28c5e85426df7a98ff9bd597810c"><param name="Name" value="PX_UNIX_EXPORT"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gc40d28c5e85426df7a98ff9bd597810c"><param name="Name" value="foundation"></OBJECT>
@@ -4988,14 +4998,12 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d76abed597089004f428276d4ef225db12"><param name="Name" value="eACTOR_COUNT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d7c576e27c63fe565d6a1711342f781b7d"><param name="Name" value="eACTOR_FORCE_DWORD"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d706f3dc5ed54f3a7bd6118e8906c93b89"><param name="Name" value="eARTICULATION_LINK"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d797c35b252f095062fe0de0c9b93d1593"><param name="Name" value="eCLOTH"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d781e9731829e3f092569e2c9b86484413"><param name="Name" value="eRIGID_DYNAMIC"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d7554a2b9b9c494e1e4b4f83600a5386e8"><param name="Name" value="eRIGID_STATIC"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorType.html#25c5a270f1f5c1955a00d7554f7688d782d47689f44e0a1dc844135e4b7f752a"><param name="Name" value="PX_DEPRECATED"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorTypeFlag.html"><param name="Name" value="PxActorTypeFlag"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorTypeFlag.html#62171a3f7d2dfa4b4b87285afdf6bae4df554c42b0b2fa4096c47f51de72fabd"><param name="Name" value="eCLOTH"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorTypeFlag.html#62171a3f7d2dfa4b4b87285afdf6bae4a24d95f1654290038bb3b1767ff5a1ad"><param name="Name" value="eRIGID_DYNAMIC"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorTypeFlag.html#62171a3f7d2dfa4b4b87285afdf6bae465c1babc829fb5bc437f90ecec14d7fc"><param name="Name" value="eRIGID_STATIC"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxActorTypeFlag.html#62171a3f7d2dfa4b4b87285afdf6bae493d8edbf915ba8791a8c5df5895e3e4f"><param name="Name" value="PX_DEPRECATED"></OBJECT>
@@ -5288,6 +5296,7 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBinaryConverter.html"><param name="Name" value="PxBinaryConverter"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBinaryConverter.html#c39cc433f7d1db69e1c17e401adec9cc"><param name="Name" value="compareMetaData"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBinaryConverter.html#9890d7f61fceb47d154e203291cd08fd"><param name="Name" value="convert"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBinaryConverter.html#76e9b36969e46ef131f22d2d95aa31cb"><param name="Name" value="PxBinaryConverter"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBinaryConverter.html#c45504933db13e78c7dd12e68fab304f"><param name="Name" value="release"></OBJECT>
@@ -6234,6 +6243,7 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html"><param name="Name" value="PxContactSet"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#70f975199ee66a0df4bf037cc8e10f3c"><param name="Name" value="getDynamicFriction"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#02f160a1a9135d6d7f1e5f77557ce63e"><param name="Name" value="getInternalFaceIndex0"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#6535e80819a6d2a5bbe38db6aa86684e"><param name="Name" value="getInternalFaceIndex1"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#107184e5d6bbd33e445ca52de23c4016"><param name="Name" value="getInvInertiaScale0"></OBJECT>
@@ -6244,11 +6254,14 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#225b2714ca66ddb6cdf6c8a00664464e"><param name="Name" value="getNormal"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#0aef84a136055ad90c1af8a53f2fe8a8"><param name="Name" value="getPatch"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#bf3a8b911e7d304ce1008b23bb575361"><param name="Name" value="getPoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#643d2c1eb96b29b8119e11e04828c26e"><param name="Name" value="getRestitution"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#08bf7523401a88b6481ae49bedc858f3"><param name="Name" value="getSeparation"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#45700551793a60bff49adfb4775b5820"><param name="Name" value="getStaticFriction"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#25ab720b769e29f0a40aeb6bae693591"><param name="Name" value="getTargetVelocity"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#930b0b6a5450e9b2e83634d6803f4045"><param name="Name" value="ignore"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#614a3d5bbdfe9fccce114e0ce64913a8"><param name="Name" value="mContacts"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#fcc7a677fe3cf662ebab5a49f5a454b9"><param name="Name" value="mCount"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#360344f51cce5d01c69701e3dcc3747b"><param name="Name" value="setDynamicFriction"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#e145d9eec7403316390478f401837dcf"><param name="Name" value="setInvInertiaScale0"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#74a22b5ae3140aba546b66415427a7d5"><param name="Name" value="setInvInertiaScale1"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#74648acc75bce20cfd555e76298b514f"><param name="Name" value="setInvMassScale0"></OBJECT>
@@ -6256,7 +6269,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#145d98e983e46057f0fa57903f671c06"><param name="Name" value="setMaxImpulse"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#fdc45b285e1aaedd29690571b2098daa"><param name="Name" value="setNormal"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#21cfe31aa14065c8b3ee6390c312e178"><param name="Name" value="setPoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#2c1f31f9201c804d6310ec0129cc0cea"><param name="Name" value="setRestitution"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#dd1b219393a21fdbb6e6db51400aa900"><param name="Name" value="setSeparation"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#8c585855a8936d762520b1d1471bf3fe"><param name="Name" value="setStaticFriction"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#2e374d99ff72fcf410a070ee3bf17abb"><param name="Name" value="setTargetVelocity"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#63434463f6bea994645e3dcbdc2cf2d0"><param name="Name" value="size"></OBJECT>
   </UL>
@@ -6570,6 +6585,7 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxConvexMeshGeometry.html#2fdc589d347de81e55c8b45b7c133feb"><param name="Name" value="convexMesh"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxConvexMeshGeometry.html#geb9f7427fef44fef543098cb347b59e6"><param name="Name" value="isValid"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxConvexMeshGeometry.html#769be6bf3be1bd8a39ea0a3ee6b092b1"><param name="Name" value="maxMargin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxConvexMeshGeometry.html#6b2561b421c602ca110e6870a3037d49"><param name="Name" value="meshFlags"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxConvexMeshGeometry.html#d2bed15287e31918b5ca0051f0604eeb"><param name="Name" value="paddingFromFlags"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxConvexMeshGeometry.html#1560beb69b5adf8d53d7dd13524438a1"><param name="Name" value="PxConvexMeshGeometry"></OBJECT>
@@ -8417,7 +8433,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysics_8h.html#g8039bfec65da68b2294a97175ddb2c66"><param name="Name" value="PxCreatePhysics"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysics_8h.html#g824f991be62d7c28eadf32316562408f"><param name="Name" value="PxGetPhysics"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysics_8h.html#g92144d0904f8a696f85737c576b88d9f"><param name="Name" value="PxRegisterArticulations"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysics_8h.html#gb0b300b30efd81868ff51f9544e85b11"><param name="Name" value="PxRegisterCloth"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysics_8h.html#ge2faa96309a4fb0cbfcd512d2431fc82"><param name="Name" value="PxRegisterCloth"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysics_8h.html#ge3a84455caaa6a7de67513ea29a315e1"><param name="Name" value="PxRegisterHeightFields"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysics_8h.html#g3a556a2d568cf1f36726d099bb21abd4"><param name="Name" value="PxRegisterLegacyHeightFields"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysics_8h.html#g197726c3bfa1abc6fbe43875c2483b38"><param name="Name" value="PxRegisterParticles"></OBJECT>
@@ -8427,8 +8443,8 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#4209ffb5ab43cd7d9c6a59e4139c1993"><param name="Name" value="createAggregate"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#a65bf245c40886f007b7cda86dee9f3f"><param name="Name" value="createArticulation"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#73f5ca62e703a94f378e851b6b84f63c"><param name="Name" value="createCloth"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#c32634024422793b65190304c4631494"><param name="Name" value="createClothFabric"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#1aa15d80d32aa15a3fdcd9c26fb3f3eb"><param name="Name" value="createCloth"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#aff72c208eb0bb4faa418c1f258707d9"><param name="Name" value="createClothFabric"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#1126f3f545ebe183be1753f62d1efc7d"><param name="Name" value="createConstraint"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#54fc5f8b0884977ccfd45ea829392a52"><param name="Name" value="createConvexMesh"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#1806546c22306e8d44b7ff7719fbcc99"><param name="Name" value="createHeightField"></OBJECT>
@@ -8441,12 +8457,12 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#6dcded7be00c17004432a04a78569db1"><param name="Name" value="createScene"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#bc564607f208cbc1944880172a3d62fe"><param name="Name" value="createShape"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#29dcbbe128cef11eaf4ce5696c216dfd"><param name="Name" value="createTriangleMesh"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#8dc5895be663e3f8d221459f59a8b803"><param name="Name" value="getClothFabrics"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#b66ea589cfffdd5948771b885f2121ad"><param name="Name" value="getClothFabrics"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#f842c37b9e11bf180465452e8dacfc06"><param name="Name" value="getConvexMeshes"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#1c2899065d7b3d9367a409b0207848cc"><param name="Name" value="getFoundation"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#d2470ec4f7a3b36664f92d08c3b42ba7"><param name="Name" value="getHeightFields"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#1a9cabf0c8c0f11d7eb7e948be2e32b0"><param name="Name" value="getMaterials"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#66ab807ef19f4e229e6163db9f19df85"><param name="Name" value="getNbClothFabrics"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#5c0990eef79ed840ea0cc88d0f952111"><param name="Name" value="getNbClothFabrics"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#372b961576ee45702d02618933e8db0d"><param name="Name" value="getNbConvexMeshes"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#92275b36165ce356aa217d17fbb3ac2c"><param name="Name" value="getNbHeightFields"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#051662877c0f3346ac7fa4f1bf4bcd95"><param name="Name" value="getNbMaterials"></OBJECT>
@@ -8482,6 +8498,7 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysXCommonConfig_8h.html#g87ae1d60bdf83754e2fe5065aab40ec4"><param name="Name" value="PX_PHYSX_COMMON_API"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysXCommonConfig_8h.html#g4636d12a5a01930fa258136f3f93366f"><param name="Name" value="PX_PHYSX_CORE_API"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysXCommonConfig_8h.html#gbe7c1438b281afb1d13fdc127cc84e68"><param name="Name" value="PX_PHYSX_GPU_API"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysXCommonConfig_8h.html#gc816bc62a68a52f01bf21f963295e822"><param name="Name" value="PxMaterialTableIndex"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPhysXCommonConfig_8h.html#g19403877bf7ce42d7240e4e4c758c016"><param name="Name" value="PxTriangleID"></OBJECT>
   </UL>
@@ -8580,7 +8597,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g2af6846d9d49e433af97059f0291eef1"><param name="Name" value="PX_NOCOPY"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g56b7f4f37ac451a47f3d7d661069aa49"><param name="Name" value="PX_NOINLINE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g65237bda8f886bb466e89d01a1ba0a77"><param name="Name" value="PX_NVTX"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#gcac831050259f36f05bb5b58daa6d036"><param name="Name" value="PX_NX"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#gace09d9150d8d87671f893afe548ebac"><param name="Name" value="PX_OFFSET_OF"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g2ac82f7e080e1411a86f98758a0f3875"><param name="Name" value="PX_OFFSET_OF_RT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g305a9ab26a10d521e58782103206edf5"><param name="Name" value="PX_OFFSETOF_BASE"></OBJECT>
@@ -8598,6 +8614,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g39f6354f5e10029a058e2141956ed9ef"><param name="Name" value="PX_SUPPORT_COMPUTE_PHYSX"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g58dd174408338f37c62dfe6ac1baec60"><param name="Name" value="PX_SUPPORT_EXTERN_TEMPLATE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g0a511de410e7de7a8625fb572f88bd89"><param name="Name" value="PX_SUPPORT_GPU_PHYSX"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g69c3fa9b2882d545ebdb965086853c62"><param name="Name" value="PX_SWITCH"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#gc40d28c5e85426df7a98ff9bd597810c"><param name="Name" value="PX_UNIX_EXPORT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#gd7d515be586be72c5c485c5624783a97"><param name="Name" value="PX_UNIX_FAMILY"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="PxPreprocessor_8h.html#g3b618390d8743c532c4131cb931df43a"><param name="Name" value="PX_UNUSED"></OBJECT>
@@ -8892,10 +8909,10 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#g92144d0904f8a696f85737c576b88d9f"><param name="Name" value="physics"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#g92144d0904f8a696f85737c576b88d9f"><param name="Name" value="PxPhysics.h"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#gb0b300b30efd81868ff51f9544e85b11"><param name="Name" value="PxRegisterCloth"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#ge2faa96309a4fb0cbfcd512d2431fc82"><param name="Name" value="PxRegisterCloth"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#gb0b300b30efd81868ff51f9544e85b11"><param name="Name" value="physics"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#gb0b300b30efd81868ff51f9544e85b11"><param name="Name" value="PxPhysics.h"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#ge2faa96309a4fb0cbfcd512d2431fc82"><param name="Name" value="physics"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#ge2faa96309a4fb0cbfcd512d2431fc82"><param name="Name" value="PxPhysics.h"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#ge3a84455caaa6a7de67513ea29a315e1"><param name="Name" value="PxRegisterHeightFields"></OBJECT>
   <UL>
@@ -9089,6 +9106,7 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596686cdd889652a435c19d8c663d809d9e"><param name="Name" value="eENABLE_CCD"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba859637775d7c189d9f499fdfda010f73fb95"><param name="Name" value="eENABLE_CCD_FRICTION"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596b2bb4cc4246807076a2103d72bd69e00"><param name="Name" value="eENABLE_CCD_MAX_CONTACT_IMPULSE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596c89b33b0290d667f6f2ae69298631d01"><param name="Name" value="eENABLE_POSE_INTEGRATION_PREVIEW"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596f13d6aa80b364fe2cef81a0039e37d45"><param name="Name" value="eENABLE_SPECULATIVE_CCD"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596bd76e6985e9db78efb7a66148ea4c212"><param name="Name" value="eKINEMATIC"></OBJECT>
@@ -9196,9 +9214,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#952ff4e7b46ff4d3396195e65cd494e6"><param name="Name" value="getCCDContactModifyCallback"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b0033036e31f91c68d520185ef6c1703"><param name="Name" value="getCCDMaxPasses"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#8259c90c79fb69ee62e9434eb35e0f37"><param name="Name" value="getClientBehaviorFlags"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#056a3f41426d1f4f756e8513751b591f"><param name="Name" value="getClothInterCollisionDistance"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#4abd140d61ad76c60ca0d38c0dd94336"><param name="Name" value="getClothInterCollisionNbIterations"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#547481cc48d38eb1d8f3fe151020a927"><param name="Name" value="getClothInterCollisionStiffness"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b31964586c71755fb261a879435655fb"><param name="Name" value="getClothInterCollisionDistance"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#605049c3cc13532d47803ba5303ce326"><param name="Name" value="getClothInterCollisionNbIterations"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#3f8880466c56bedbc2cd9f96f24e8331"><param name="Name" value="getClothInterCollisionStiffness"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#1e9919abdfb23495a84f47c5157a67b1"><param name="Name" value="getConstraints"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#1978693b355df49712d7e59c10c4115d"><param name="Name" value="getContactModifyCallback"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#c7b1dccad5d20304653f21c91b09258a"><param name="Name" value="getContactReportStreamBufferSize"></OBJECT>
@@ -9254,9 +9272,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#593d339e0fd64e47fa3b68016ce723ec"><param name="Name" value="setCCDContactModifyCallback"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#ed46505d6eac63a508c7a2d7e39cd5fb"><param name="Name" value="setCCDMaxPasses"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#6f61e48083f63f6fac343a3b1d8b2ddc"><param name="Name" value="setClientBehaviorFlags"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#3d80c2fa05e80048d1c3c300a91ba7e6"><param name="Name" value="setClothInterCollisionDistance"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#020b9247522ba3bc8f068a19f2001a69"><param name="Name" value="setClothInterCollisionNbIterations"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#80c93294ff48300abdadf0546a1aac52"><param name="Name" value="setClothInterCollisionStiffness"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b42513ab6ce4137698565ca8629eea1c"><param name="Name" value="setClothInterCollisionDistance"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#7197a1ce70671bfc81e6f3088920ac16"><param name="Name" value="setClothInterCollisionNbIterations"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#85444db1420db29be5c0b748197b4fed"><param name="Name" value="setClothInterCollisionStiffness"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#eec3367a4461c1ab2e552acdb8c0609e"><param name="Name" value="setContactModifyCallback"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b6d9e986e6af967d2bd60a63a0b550c4"><param name="Name" value="setDominanceGroupPair"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#bf2322887ca4db2fdea0229a44e2892c"><param name="Name" value="setDynamicTreeRebuildRateHint"></OBJECT>
@@ -9306,6 +9324,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#9b0de35c38c43b8aeff6e6f29bf0db20"><param name="Name" value="gravity"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#g67b3ce67bea6cdb19619bed61f9e7641"><param name="Name" value="isValid"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#b996312333ef4fdf5f77fcc16b84923e"><param name="Name" value="limits"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#65bbe399965691dec83ba3fe1a5082ec"><param name="Name" value="maxBiasCoefficient"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#8791132cbe8cce32f051e5eaab774d35"><param name="Name" value="maxNbContactDataBlocks"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#625cdbae7d2149a9df472fb4f9c06f83"><param name="Name" value="nbContactDataBlocks"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#g8c083fd86a8c52ff269aa4dd3407127b"><param name="Name" value="physics"></OBJECT>
@@ -9314,6 +9333,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#ga7375184ba494172fa7677dae44bd9a8"><param name="Name" value="setToDefault"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#71a00536a56d40fe031de2ced1834941"><param name="Name" value="simulationEventCallback"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#26b321b928708c10a047b38ec9127797"><param name="Name" value="solverBatchSize"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#91b6c205bf684c0f41432a23c1323ee2"><param name="Name" value="solverOffsetSlop"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#00495fa3240d1087d38cf33eebc313a7"><param name="Name" value="staticStructure"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#63d40516cfbbe7d167d89e6fe55e3834"><param name="Name" value="userData"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#79e2c9c06f711272a48d7f07451117b7"><param name="Name" value="wakeCounterResetValue"></OBJECT>
@@ -9722,7 +9742,6 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#bfacb597d8b72b1d86961dfdb8e768e3"><param name="Name" value="compressedContactSize"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#56865c878c5d74dd30a7ab81e2728c3613b4e0a4ca71ad756078820ab928c1b3"><param name="Name" value="eCCD_PAIRS"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#996a480bf74af73637d277c454dce87c443f84df0f0bff95fdb0cadd4a17f31a"><param name="Name" value="eCLOTH"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#56865c878c5d74dd30a7ab81e2728c36366eae507d69961741d28c3b6c04d576"><param name="Name" value="eDISCRETE_CONTACT_PAIRS"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#56865c878c5d74dd30a7ab81e2728c36e1d23646a3bd6d7cfef7986a92afe270"><param name="Name" value="eMODIFIED_CONTACT_PAIRS"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#996a480bf74af73637d277c454dce87c72731d6b28d539f63127cbce5115c415"><param name="Name" value="eRIGID_BODY"></OBJECT>
@@ -9758,7 +9777,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#2e79aa5021d7d7bb2f817b144ccecd99"><param name="Name" value="particlesGpuMeshCacheSize"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#6795433e44469a4068262a7f62f345d2"><param name="Name" value="particlesGpuMeshCacheUsed"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#b56ac5aa68f31b68a0852c87817ff026"><param name="Name" value="peakConstraintMemory"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#996a480bf74af73637d277c454dce87c941542fa629d7c3c16534c1b4226c73b"><param name="Name" value="PX_DEPRECATED"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#996a480bf74af73637d277c454dce87c1e1bd6604862aa41bb644ae0efa33d20"><param name="Name" value="PX_DEPRECATED"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#910e1921a55acda66f5c22ee173eda32"><param name="Name" value="PxSimulationStatistics"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#a1e487295538b16ec29c359082d12976"><param name="Name" value="requiredContactConstraintMemory"></OBJECT>
   </UL>
@@ -11247,7 +11266,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb1071d96779e81c1ac240f4cdd8188c55ec"><param name="Name" value="eACTOR_AXES"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb100d326f5ea2be6379999dd3b0e80a0552"><param name="Name" value="eBODY_ANG_VELOCITY"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb103e5a40d8a90d56caa62e6c483e00c9cb"><param name="Name" value="eBODY_AXES"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10c532ebfdd815188068b9e7fc4a7de42e"><param name="Name" value="eBODY_JOINT_GROUPS"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb109e57301b7b1ed3722334f04b9bb6f4bc"><param name="Name" value="eBODY_LIN_VELOCITY"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb108e73c99660d921ad7dc81069ff0b2a3c"><param name="Name" value="eBODY_MASS_AXES"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10a44556e3ea1ddb826289de5a277782a0"><param name="Name" value="eCLOTH_BENDING"></OBJECT>
@@ -11268,6 +11286,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb102a3d188a70b93dee7585f995e8be2494"><param name="Name" value="eCONTACT_NORMAL"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10706ccc0cb4deca751588dcf1a4a9a361"><param name="Name" value="eCONTACT_POINT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10d79ee3e849c6acfb058f2768d61f1838"><param name="Name" value="eCULL_BOX"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb1079945aa500514b2d2aa5589257fa765e"><param name="Name" value="eDEPRECATED_BODY_JOINT_GROUPS"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb1071119a812dde7d16f1dc8ccdb738b614"><param name="Name" value="eDEPRECATED_COLLISION_PAIRS"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10cac9e863525b516ca84acf281515acd6"><param name="Name" value="eFORCE_DWORD"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb1053d370f2bafd9f9434013b3668ea41cf"><param name="Name" value="eJOINT_LIMITS"></OBJECT>
@@ -11661,9 +11680,9 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCapsuleController.html#256d6b281406c5bd1fa30dbc99e5a2df"><param name="Name" value="setClimbingMode"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#3d3ee58e3b3960efb9d1e22422806c9d"><param name="Name" value="setClothFlag"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#6bc462eec7ba57909611c047a40003b6"><param name="Name" value="setClothFlags"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#3d80c2fa05e80048d1c3c300a91ba7e6"><param name="Name" value="setClothInterCollisionDistance"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#020b9247522ba3bc8f068a19f2001a69"><param name="Name" value="setClothInterCollisionNbIterations"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#80c93294ff48300abdadf0546a1aac52"><param name="Name" value="setClothInterCollisionStiffness"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b42513ab6ce4137698565ca8629eea1c"><param name="Name" value="setClothInterCollisionDistance"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#7197a1ce70671bfc81e6f3088920ac16"><param name="Name" value="setClothInterCollisionNbIterations"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#85444db1420db29be5c0b748197b4fed"><param name="Name" value="setClothInterCollisionStiffness"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleDriveSimData.html#0edff168e18a4d5c923460cb0ee3fe8b"><param name="Name" value="setClutchData"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRigidBody.html#b152773926fe7b222d61e982c3cb6adf"><param name="Name" value="setCMassLocalPose"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#64d468f1f5bab0e2cfabcb02b9fe9f0b"><param name="Name" value="setCollisionMassScale"></OBJECT>
@@ -11733,8 +11752,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxD6Joint.html#f23b422a5ed89350c0f04664ae2351cc"><param name="Name" value="PxD6Joint"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRevoluteJoint.html#3b468f55536921dd3f505883df1aa661"><param name="Name" value="PxRevoluteJoint"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMaterial.html#971a4c6a385310c28aaeaa1f5ead78e9"><param name="Name" value="setDynamicFriction"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#360344f51cce5d01c69701e3dcc3747b"><param name="Name" value="setDynamicFriction"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#360344f51cce5d01c69701e3dcc3747b"><param name="Name" value="PxContactSet"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMaterial.html#971a4c6a385310c28aaeaa1f5ead78e9"><param name="Name" value="PxMaterial"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleBase.html#d95b342c529785ca7e126605804ccfbb"><param name="Name" value="PxParticleBase"></OBJECT>
   </UL>
@@ -11927,8 +11947,9 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCapsuleController.html#a568af92bc897e9242c063d50c71cfd2"><param name="Name" value="setRadius"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxFoundation.html#10a9bd2dc04b64b17a6bb624872b565d"><param name="Name" value="setReportAllocationNames"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBinaryConverter.html#ba26eda3b46071eca65fa38cabee2a09"><param name="Name" value="setReportMode"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMaterial.html#9038f690c180b962a7543734f44ec0f1"><param name="Name" value="setRestitution"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#2c1f31f9201c804d6310ec0129cc0cea"><param name="Name" value="setRestitution"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#2c1f31f9201c804d6310ec0129cc0cea"><param name="Name" value="PxContactSet"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMaterial.html#9038f690c180b962a7543734f44ec0f1"><param name="Name" value="PxMaterial"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleBase.html#7dc8dc59b5032d7e4ebd9d901df20a3d"><param name="Name" value="PxParticleBase"></OBJECT>
   </UL>
@@ -11987,8 +12008,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxArticulation.html#259748392f6223dc218d1e1ba8ee9944"><param name="Name" value="PxArticulation"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRigidDynamic.html#59fb22d9402497cffe1b5e54d9ecd62f"><param name="Name" value="PxRigidDynamic"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMaterial.html#0384706084d22fe2ec745bc81d54ef14"><param name="Name" value="setStaticFriction"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#8c585855a8936d762520b1d1471bf3fe"><param name="Name" value="setStaticFriction"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxContactSet.html#8c585855a8936d762520b1d1471bf3fe"><param name="Name" value="PxContactSet"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMaterial.html#0384706084d22fe2ec745bc81d54ef14"><param name="Name" value="PxMaterial"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxParticleBase.html#3fb596178c017ed1c536c152e4fba358"><param name="Name" value="PxParticleBase"></OBJECT>
   </UL>
@@ -12141,6 +12163,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxControllerDesc.html#adb1325a040c61b6cd29cfa94d24c180"><param name="Name" value="slopeLimit"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPx1DConstraint.html#6c9b5b544322e92ba2c072f159770cd4"><param name="Name" value="solveHint"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#26b321b928708c10a047b38ec9127797"><param name="Name" value="solverBatchSize"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#91b6c205bf684c0f41432a23c1323ee2"><param name="Name" value="solverOffsetSlop"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConstraintShaderTable.html#177a8411969e943559378c9311877d66"><param name="Name" value="solverPrep"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleCopyDynamicsMap.html#722820ae9c733991667bfb5c2956efe5"><param name="Name" value="sourceWheelIds"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxTolerancesScale.html#629358a15988697feaa85759d5c57e33"><param name="Name" value="speed"></OBJECT>

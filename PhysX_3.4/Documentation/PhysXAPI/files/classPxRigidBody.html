@@ -660,7 +660,7 @@ Returns whether a given type name matches with the type of this instance.
 
 <p>References <a class="el" href="PxRigidActor_8h-source.html#l00295">PxRigidActor::isKindOf()</a>.</p>
 
-<p>Referenced by <a class="el" href="PxRigidDynamic_8h-source.html#l00462">PxRigidDynamic::isKindOf()</a>, and <a class="el" href="PxArticulationLink_8h-source.html#l00113">PxArticulationLink::isKindOf()</a>.</p>
+<p>Referenced by <a class="el" href="PxRigidDynamic_8h-source.html#l00461">PxRigidDynamic::isKindOf()</a>, and <a class="el" href="PxArticulationLink_8h-source.html#l00113">PxArticulationLink::isKindOf()</a>.</p>
 
 </div>
 </div><p>
@@ -867,6 +867,7 @@ Values of 0 are not permitted for instances of <a class="el" href="classPxArticu
 <p>
 Sets a limit on the impulse that may be applied at a contact. The maximum impulse at a contact between two dynamic or kinematic bodies will be the minimum of the two limit values. For a collision between a static and a dynamic body, the impulse is limited by the value for the dynamic body. 
 <p>
+This value is not used in CCD unless <a class="el" href="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596b2bb4cc4246807076a2103d72bd69e00" title="Permit CCD to limit maxContactImpulse. This is useful for use-cases like a destruction...">PxRigidBodyFlag::eENABLE_CCD_MAX_CONTACT_IMPULSE</a> is raised on the body.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>maxImpulse</em>&nbsp;</td><td>the maximum contact impulse. <b>Range:</b> [0, PX_MAX_F32] <b>Default:</b> PX_MAX_F32</td></tr>

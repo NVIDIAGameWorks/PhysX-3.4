@@ -56,7 +56,7 @@
 #if PX_VC // we could use inttypes.h starting with VC12
 #define PX_PRIu64 "I64u"
 #else
-#if !PX_PS4 && !PX_APPLE_FAMILY
+#if !PX_PS4 && !PX_APPLE_FAMILY && !PX_SWITCH
 #define __STDC_FORMAT_MACROS
 #endif
 #include <inttypes.h>

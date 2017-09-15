@@ -76,7 +76,7 @@ SnippetVehicleMultiThreading_debug_common_cflags    += -MMD
 SnippetVehicleMultiThreading_debug_common_cflags    += $(addprefix -D, $(SnippetVehicleMultiThreading_debug_defines))
 SnippetVehicleMultiThreading_debug_common_cflags    += $(addprefix -I, $(SnippetVehicleMultiThreading_debug_hpaths))
 SnippetVehicleMultiThreading_debug_common_cflags  += -m32
-SnippetVehicleMultiThreading_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleMultiThreading_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleMultiThreading_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleMultiThreading_debug_common_cflags  += -Wno-uninitialized
 SnippetVehicleMultiThreading_debug_common_cflags  += -g3 -gdwarf-2
@@ -187,7 +187,7 @@ SnippetVehicleMultiThreading_checked_common_cflags    += -MMD
 SnippetVehicleMultiThreading_checked_common_cflags    += $(addprefix -D, $(SnippetVehicleMultiThreading_checked_defines))
 SnippetVehicleMultiThreading_checked_common_cflags    += $(addprefix -I, $(SnippetVehicleMultiThreading_checked_hpaths))
 SnippetVehicleMultiThreading_checked_common_cflags  += -m32
-SnippetVehicleMultiThreading_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleMultiThreading_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleMultiThreading_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleMultiThreading_checked_common_cflags  += -Wno-uninitialized
 SnippetVehicleMultiThreading_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -298,7 +298,7 @@ SnippetVehicleMultiThreading_profile_common_cflags    += -MMD
 SnippetVehicleMultiThreading_profile_common_cflags    += $(addprefix -D, $(SnippetVehicleMultiThreading_profile_defines))
 SnippetVehicleMultiThreading_profile_common_cflags    += $(addprefix -I, $(SnippetVehicleMultiThreading_profile_hpaths))
 SnippetVehicleMultiThreading_profile_common_cflags  += -m32
-SnippetVehicleMultiThreading_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleMultiThreading_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleMultiThreading_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleMultiThreading_profile_common_cflags  += -Wno-uninitialized
 SnippetVehicleMultiThreading_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -408,7 +408,7 @@ SnippetVehicleMultiThreading_release_common_cflags    += -MMD
 SnippetVehicleMultiThreading_release_common_cflags    += $(addprefix -D, $(SnippetVehicleMultiThreading_release_defines))
 SnippetVehicleMultiThreading_release_common_cflags    += $(addprefix -I, $(SnippetVehicleMultiThreading_release_hpaths))
 SnippetVehicleMultiThreading_release_common_cflags  += -m32
-SnippetVehicleMultiThreading_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleMultiThreading_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleMultiThreading_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleMultiThreading_release_common_cflags  += -Wno-uninitialized
 SnippetVehicleMultiThreading_release_common_cflags  += -O3 -fno-strict-aliasing

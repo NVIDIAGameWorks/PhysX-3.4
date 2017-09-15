@@ -107,7 +107,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxGetFilterObjectType"><param name="Local" value="group__physics.html#g479e145e0c33b0708ec9dd997480294a"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxGetPhysics"><param name="Local" value="group__physics.html#g824f991be62d7c28eadf32316562408f"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxRegisterArticulations"><param name="Local" value="group__physics.html#g92144d0904f8a696f85737c576b88d9f"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxRegisterCloth"><param name="Local" value="group__physics.html#gb0b300b30efd81868ff51f9544e85b11"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxRegisterCloth"><param name="Local" value="group__physics.html#ge2faa96309a4fb0cbfcd512d2431fc82"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxRegisterHeightFields"><param name="Local" value="group__physics.html#ge3a84455caaa6a7de67513ea29a315e1"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxRegisterLegacyHeightFields"><param name="Local" value="group__physics.html#g3a556a2d568cf1f36726d099bb21abd4"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxRegisterParticles"><param name="Local" value="group__physics.html#g197726c3bfa1abc6fbe43875c2483b38"><param name="ImageNumber" value="11"></OBJECT>
@@ -354,7 +354,6 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_NOINLINE"><param name="Local" value="group__foundation.html#g56b7f4f37ac451a47f3d7d661069aa49"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_NORMALIZATION_EPSILON"><param name="Local" value="group__foundation.html#g8901e378c5ba8f305e8714d5758cd9dd"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_NVTX"><param name="Local" value="group__foundation.html#g65237bda8f886bb466e89d01a1ba0a77"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_NX"><param name="Local" value="group__foundation.html#gcac831050259f36f05bb5b58daa6d036"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_OFFSET_OF"><param name="Local" value="group__foundation.html#gace09d9150d8d87671f893afe548ebac"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_OFFSET_OF_RT"><param name="Local" value="group__foundation.html#g2ac82f7e080e1411a86f98758a0f3875"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_OFFSETOF_BASE"><param name="Local" value="group__foundation.html#g305a9ab26a10d521e58782103206edf5"><param name="ImageNumber" value="11"></OBJECT>
@@ -377,6 +376,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_SUPPORT_COMPUTE_PHYSX"><param name="Local" value="group__foundation.html#g39f6354f5e10029a058e2141956ed9ef"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_SUPPORT_EXTERN_TEMPLATE"><param name="Local" value="group__foundation.html#g58dd174408338f37c62dfe6ac1baec60"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_SUPPORT_GPU_PHYSX"><param name="Local" value="group__foundation.html#g0a511de410e7de7a8625fb572f88bd89"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_SWITCH"><param name="Local" value="group__foundation.html#g69c3fa9b2882d545ebdb965086853c62"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_UNIX_EXPORT"><param name="Local" value="group__foundation.html#gc40d28c5e85426df7a98ff9bd597810c"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_UNIX_FAMILY"><param name="Local" value="group__foundation.html#gd7d515be586be72c5c485c5624783a97"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_VC"><param name="Local" value="group__foundation.html#gec15ff1639b763560ddaffc82936ff03"><param name="ImageNumber" value="11"></OBJECT>
@@ -673,6 +673,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_MAKE_FOURCC"><param name="Local" value="group__common.html#gbbba9e3f699e63445326263daec187e8"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_PHYSX_COMMON_API"><param name="Local" value="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_PHYSX_CORE_API"><param name="Local" value="group__common.html#g4636d12a5a01930fa258136f3f93366f"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_PHYSX_GPU_API"><param name="Local" value="group__common.html#gbe7c1438b281afb1d13fdc127cc84e68"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_SERIAL_ALIGN"><param name="Local" value="group__common.html#g2fda99afe264006a8ef8a699aa1328aa"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_SERIAL_FILE_ALIGN"><param name="Local" value="group__common.html#g8ca0e9fc5693e347b3ee5735fc637fc2"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PX_SERIAL_OBJECT_ID_INVALID"><param name="Local" value="group__common.html#g70054743832670870a1ce9f619907c77"><param name="ImageNumber" value="11"></OBJECT>

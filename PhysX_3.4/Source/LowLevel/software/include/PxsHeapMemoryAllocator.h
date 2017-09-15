@@ -31,8 +31,6 @@
 #ifndef PXS_HEAP_MEMORY_ALLOCATOR_H
 #define PXS_HEAP_MEMORY_ALLOCATOR_H
 
-
-#include "DyGpuAPI.h"
 #include "foundation/PxSimpleTypes.h"
 
 namespace physx

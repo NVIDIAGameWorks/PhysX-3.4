@@ -114,7 +114,7 @@ PhysXExtensions_debug_hpaths    += ./../../PhysX/src
 PhysXExtensions_debug_lpaths    := 
 PhysXExtensions_debug_lpaths    += ./../../../../PxShared/lib/linux64
 PhysXExtensions_debug_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_debug_defines   += PX_BUILD_NUMBER=22121302
+PhysXExtensions_debug_defines   += PX_BUILD_NUMBER=22845541
 PhysXExtensions_debug_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_debug_defines   += _DEBUG
 PhysXExtensions_debug_defines   += PX_DEBUG=1
@@ -127,7 +127,7 @@ PhysXExtensions_debug_common_cflags    += -MMD
 PhysXExtensions_debug_common_cflags    += $(addprefix -D, $(PhysXExtensions_debug_defines))
 PhysXExtensions_debug_common_cflags    += $(addprefix -I, $(PhysXExtensions_debug_hpaths))
 PhysXExtensions_debug_common_cflags  += -m64
-PhysXExtensions_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXExtensions_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXExtensions_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXExtensions_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXExtensions_debug_common_cflags  += -Wno-missing-field-initializers
@@ -231,7 +231,7 @@ PhysXExtensions_checked_hpaths    += ./../../PhysX/src
 PhysXExtensions_checked_lpaths    := 
 PhysXExtensions_checked_lpaths    += ./../../../../PxShared/lib/linux64
 PhysXExtensions_checked_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_checked_defines   += PX_BUILD_NUMBER=22121302
+PhysXExtensions_checked_defines   += PX_BUILD_NUMBER=22845541
 PhysXExtensions_checked_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_checked_defines   += NDEBUG
 PhysXExtensions_checked_defines   += PX_CHECKED=1
@@ -243,7 +243,7 @@ PhysXExtensions_checked_common_cflags    += -MMD
 PhysXExtensions_checked_common_cflags    += $(addprefix -D, $(PhysXExtensions_checked_defines))
 PhysXExtensions_checked_common_cflags    += $(addprefix -I, $(PhysXExtensions_checked_hpaths))
 PhysXExtensions_checked_common_cflags  += -m64
-PhysXExtensions_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXExtensions_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXExtensions_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXExtensions_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXExtensions_checked_common_cflags  += -Wno-missing-field-initializers
@@ -347,7 +347,7 @@ PhysXExtensions_profile_hpaths    += ./../../PhysX/src
 PhysXExtensions_profile_lpaths    := 
 PhysXExtensions_profile_lpaths    += ./../../../../PxShared/lib/linux64
 PhysXExtensions_profile_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_profile_defines   += PX_BUILD_NUMBER=22121302
+PhysXExtensions_profile_defines   += PX_BUILD_NUMBER=22845541
 PhysXExtensions_profile_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_profile_defines   += NDEBUG
 PhysXExtensions_profile_defines   += PX_PROFILE=1
@@ -359,7 +359,7 @@ PhysXExtensions_profile_common_cflags    += -MMD
 PhysXExtensions_profile_common_cflags    += $(addprefix -D, $(PhysXExtensions_profile_defines))
 PhysXExtensions_profile_common_cflags    += $(addprefix -I, $(PhysXExtensions_profile_hpaths))
 PhysXExtensions_profile_common_cflags  += -m64
-PhysXExtensions_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXExtensions_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXExtensions_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXExtensions_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXExtensions_profile_common_cflags  += -Wno-missing-field-initializers
@@ -463,7 +463,7 @@ PhysXExtensions_release_hpaths    += ./../../PhysX/src
 PhysXExtensions_release_lpaths    := 
 PhysXExtensions_release_lpaths    += ./../../../../PxShared/lib/linux64
 PhysXExtensions_release_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_release_defines   += PX_BUILD_NUMBER=22121302
+PhysXExtensions_release_defines   += PX_BUILD_NUMBER=22845541
 PhysXExtensions_release_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_release_defines   += NDEBUG
 PhysXExtensions_release_defines   += PX_SUPPORT_PVD=0
@@ -474,7 +474,7 @@ PhysXExtensions_release_common_cflags    += -MMD
 PhysXExtensions_release_common_cflags    += $(addprefix -D, $(PhysXExtensions_release_defines))
 PhysXExtensions_release_common_cflags    += $(addprefix -I, $(PhysXExtensions_release_hpaths))
 PhysXExtensions_release_common_cflags  += -m64
-PhysXExtensions_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXExtensions_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXExtensions_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXExtensions_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXExtensions_release_common_cflags  += -Wno-missing-field-initializers

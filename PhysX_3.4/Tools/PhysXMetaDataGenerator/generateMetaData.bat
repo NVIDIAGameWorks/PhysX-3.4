@@ -9,6 +9,8 @@ setlocal EnableDelayedExpansion
 ::
 :: see readme.txt
 
+cd %~dp0
+
 :: look for python in p4 location unless PYTHON is set
 if not defined PYTHON (
 	call :find_root_path %~p0 "tools\python\3.3" _RESULT

@@ -274,8 +274,8 @@ APEX_Legacy_debug_hpaths    += ./../../module/clothing/include/autogen
 APEX_Legacy_debug_lpaths    := 
 APEX_Legacy_debug_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Legacy_debug_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Legacy_debug_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Legacy_debug_lpaths    += ./../../../PxShared/lib/android16
+APEX_Legacy_debug_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Legacy_debug_defines   := $(APEX_Legacy_custom_defines)
 APEX_Legacy_debug_defines   += ANDROID
 APEX_Legacy_debug_defines   += GLES2
@@ -294,8 +294,8 @@ APEX_Legacy_debug_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Legacy_debug_defines   += PHYSX_PROFILE_SDK
 APEX_Legacy_debug_defines   += PX_NVTX=1
 APEX_Legacy_debug_libraries := 
-APEX_Legacy_debug_libraries += NvParameterizedDEBUG
 APEX_Legacy_debug_libraries += PxFoundationDEBUG
+APEX_Legacy_debug_libraries += NvParameterizedDEBUG
 APEX_Legacy_debug_libraries += PxTaskDEBUG
 APEX_Legacy_debug_libraries += PhysX3CommonDEBUG
 APEX_Legacy_debug_common_cflags	:= $(APEX_Legacy_custom_cflags)
@@ -335,7 +335,7 @@ postbuild_APEX_Legacy_debug: mainbuild_APEX_Legacy_debug
 mainbuild_APEX_Legacy_debug: prebuild_APEX_Legacy_debug $(APEX_Legacy_debug_bin)
 prebuild_APEX_Legacy_debug:
 
-$(APEX_Legacy_debug_bin): $(NvParameterized_debug_obj) $(PxTask_debug_obj) $(APEX_Legacy_debug_obj) build_NvParameterized_debug build_PxFoundation_debug build_PxTask_debug 
+$(APEX_Legacy_debug_bin): $(NvParameterized_debug_obj) $(PxTask_debug_obj) $(APEX_Legacy_debug_obj) build_PxFoundation_debug build_NvParameterized_debug build_PxTask_debug 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_LegacyDEBUG.a`
 	@$(AR) rcs $(APEX_Legacy_debug_bin) $(NvParameterized_debug_obj) $(PxTask_debug_obj) $(APEX_Legacy_debug_obj)
 	$(ECHO) building $@ complete!
@@ -432,8 +432,8 @@ APEX_Legacy_release_hpaths    += ./../../module/clothing/include/autogen
 APEX_Legacy_release_lpaths    := 
 APEX_Legacy_release_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Legacy_release_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Legacy_release_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Legacy_release_lpaths    += ./../../../PxShared/lib/android16
+APEX_Legacy_release_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Legacy_release_defines   := $(APEX_Legacy_custom_defines)
 APEX_Legacy_release_defines   += ANDROID
 APEX_Legacy_release_defines   += GLES2
@@ -447,8 +447,8 @@ APEX_Legacy_release_defines   += NV_PARAMETERIZED_HIDE_DESCRIPTIONS=1
 APEX_Legacy_release_defines   += NDEBUG
 APEX_Legacy_release_defines   += APEX_SHIPPING
 APEX_Legacy_release_libraries := 
-APEX_Legacy_release_libraries += NvParameterized
 APEX_Legacy_release_libraries += PxFoundation
+APEX_Legacy_release_libraries += NvParameterized
 APEX_Legacy_release_libraries += PxTask
 APEX_Legacy_release_libraries += PhysX3Common
 APEX_Legacy_release_common_cflags	:= $(APEX_Legacy_custom_cflags)
@@ -487,7 +487,7 @@ postbuild_APEX_Legacy_release: mainbuild_APEX_Legacy_release
 mainbuild_APEX_Legacy_release: prebuild_APEX_Legacy_release $(APEX_Legacy_release_bin)
 prebuild_APEX_Legacy_release:
 
-$(APEX_Legacy_release_bin): $(NvParameterized_release_obj) $(PxTask_release_obj) $(APEX_Legacy_release_obj) build_NvParameterized_release build_PxFoundation_release build_PxTask_release 
+$(APEX_Legacy_release_bin): $(NvParameterized_release_obj) $(PxTask_release_obj) $(APEX_Legacy_release_obj) build_PxFoundation_release build_NvParameterized_release build_PxTask_release 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_Legacy.a`
 	@$(AR) rcs $(APEX_Legacy_release_bin) $(NvParameterized_release_obj) $(PxTask_release_obj) $(APEX_Legacy_release_obj)
 	$(ECHO) building $@ complete!
@@ -584,8 +584,8 @@ APEX_Legacy_profile_hpaths    += ./../../module/clothing/include/autogen
 APEX_Legacy_profile_lpaths    := 
 APEX_Legacy_profile_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Legacy_profile_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Legacy_profile_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Legacy_profile_lpaths    += ./../../../PxShared/lib/android16
+APEX_Legacy_profile_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Legacy_profile_defines   := $(APEX_Legacy_custom_defines)
 APEX_Legacy_profile_defines   += ANDROID
 APEX_Legacy_profile_defines   += GLES2
@@ -602,8 +602,8 @@ APEX_Legacy_profile_defines   += PHYSX_PROFILE_SDK
 APEX_Legacy_profile_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Legacy_profile_defines   += PX_NVTX=1
 APEX_Legacy_profile_libraries := 
-APEX_Legacy_profile_libraries += NvParameterizedPROFILE
 APEX_Legacy_profile_libraries += PxFoundationPROFILE
+APEX_Legacy_profile_libraries += NvParameterizedPROFILE
 APEX_Legacy_profile_libraries += PxTaskPROFILE
 APEX_Legacy_profile_libraries += PhysX3CommonPROFILE
 APEX_Legacy_profile_common_cflags	:= $(APEX_Legacy_custom_cflags)
@@ -642,7 +642,7 @@ postbuild_APEX_Legacy_profile: mainbuild_APEX_Legacy_profile
 mainbuild_APEX_Legacy_profile: prebuild_APEX_Legacy_profile $(APEX_Legacy_profile_bin)
 prebuild_APEX_Legacy_profile:
 
-$(APEX_Legacy_profile_bin): $(NvParameterized_profile_obj) $(PxTask_profile_obj) $(APEX_Legacy_profile_obj) build_NvParameterized_profile build_PxFoundation_profile build_PxTask_profile 
+$(APEX_Legacy_profile_bin): $(NvParameterized_profile_obj) $(PxTask_profile_obj) $(APEX_Legacy_profile_obj) build_PxFoundation_profile build_NvParameterized_profile build_PxTask_profile 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_LegacyPROFILE.a`
 	@$(AR) rcs $(APEX_Legacy_profile_bin) $(NvParameterized_profile_obj) $(PxTask_profile_obj) $(APEX_Legacy_profile_obj)
 	$(ECHO) building $@ complete!
@@ -739,8 +739,8 @@ APEX_Legacy_checked_hpaths    += ./../../module/clothing/include/autogen
 APEX_Legacy_checked_lpaths    := 
 APEX_Legacy_checked_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Legacy_checked_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Legacy_checked_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Legacy_checked_lpaths    += ./../../../PxShared/lib/android16
+APEX_Legacy_checked_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Legacy_checked_defines   := $(APEX_Legacy_custom_defines)
 APEX_Legacy_checked_defines   += ANDROID
 APEX_Legacy_checked_defines   += GLES2
@@ -758,8 +758,8 @@ APEX_Legacy_checked_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Legacy_checked_defines   += PX_ENABLE_CHECKED_ASSERTS
 APEX_Legacy_checked_defines   += PX_NVTX=1
 APEX_Legacy_checked_libraries := 
-APEX_Legacy_checked_libraries += NvParameterizedCHECKED
 APEX_Legacy_checked_libraries += PxFoundationCHECKED
+APEX_Legacy_checked_libraries += NvParameterizedCHECKED
 APEX_Legacy_checked_libraries += PxTaskCHECKED
 APEX_Legacy_checked_libraries += PhysX3CommonCHECKED
 APEX_Legacy_checked_common_cflags	:= $(APEX_Legacy_custom_cflags)
@@ -799,7 +799,7 @@ postbuild_APEX_Legacy_checked: mainbuild_APEX_Legacy_checked
 mainbuild_APEX_Legacy_checked: prebuild_APEX_Legacy_checked $(APEX_Legacy_checked_bin)
 prebuild_APEX_Legacy_checked:
 
-$(APEX_Legacy_checked_bin): $(NvParameterized_checked_obj) $(PxTask_checked_obj) $(APEX_Legacy_checked_obj) build_NvParameterized_checked build_PxFoundation_checked build_PxTask_checked 
+$(APEX_Legacy_checked_bin): $(NvParameterized_checked_obj) $(PxTask_checked_obj) $(APEX_Legacy_checked_obj) build_PxFoundation_checked build_NvParameterized_checked build_PxTask_checked 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_LegacyCHECKED.a`
 	@$(AR) rcs $(APEX_Legacy_checked_bin) $(NvParameterized_checked_obj) $(PxTask_checked_obj) $(APEX_Legacy_checked_obj)
 	$(ECHO) building $@ complete!

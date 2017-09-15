@@ -3740,6 +3740,11 @@ void ClothingActorImpl::updateRenderProxy()
 	PX_PROFILE_ZONE("ClothingActorImpl::updateRenderProxy", GetInternalApexSDK()->getContextId());
 	PX_ASSERT(mGraphicalMeshes[mCurrentGraphicalLodId].renderProxy == NULL);
 
+	if (mGraphicalMeshes[mCurrentGraphicalLodId].renderProxy)
+	{
+		mGraphicalMeshes[mCurrentGraphicalLodId].renderProxy->release();
+	}
+
 	// get a new render proxy from the pool
 	RenderMeshAssetIntl* renderMeshAsset = mAsset->getGraphicalMesh(mCurrentGraphicalLodId);
 	ClothingRenderProxyImpl* renderProxy = mClothingScene->getRenderProxy(renderMeshAsset, mActorDesc->fallbackSkinning, mClothingSimulation != NULL,

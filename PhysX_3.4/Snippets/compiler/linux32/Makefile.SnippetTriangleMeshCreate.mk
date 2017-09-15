@@ -69,7 +69,7 @@ SnippetTriangleMeshCreate_debug_common_cflags    += -MMD
 SnippetTriangleMeshCreate_debug_common_cflags    += $(addprefix -D, $(SnippetTriangleMeshCreate_debug_defines))
 SnippetTriangleMeshCreate_debug_common_cflags    += $(addprefix -I, $(SnippetTriangleMeshCreate_debug_hpaths))
 SnippetTriangleMeshCreate_debug_common_cflags  += -m32
-SnippetTriangleMeshCreate_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetTriangleMeshCreate_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetTriangleMeshCreate_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetTriangleMeshCreate_debug_common_cflags  += -Wno-uninitialized
 SnippetTriangleMeshCreate_debug_common_cflags  += -g3 -gdwarf-2
@@ -180,7 +180,7 @@ SnippetTriangleMeshCreate_checked_common_cflags    += -MMD
 SnippetTriangleMeshCreate_checked_common_cflags    += $(addprefix -D, $(SnippetTriangleMeshCreate_checked_defines))
 SnippetTriangleMeshCreate_checked_common_cflags    += $(addprefix -I, $(SnippetTriangleMeshCreate_checked_hpaths))
 SnippetTriangleMeshCreate_checked_common_cflags  += -m32
-SnippetTriangleMeshCreate_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetTriangleMeshCreate_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetTriangleMeshCreate_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetTriangleMeshCreate_checked_common_cflags  += -Wno-uninitialized
 SnippetTriangleMeshCreate_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -291,7 +291,7 @@ SnippetTriangleMeshCreate_profile_common_cflags    += -MMD
 SnippetTriangleMeshCreate_profile_common_cflags    += $(addprefix -D, $(SnippetTriangleMeshCreate_profile_defines))
 SnippetTriangleMeshCreate_profile_common_cflags    += $(addprefix -I, $(SnippetTriangleMeshCreate_profile_hpaths))
 SnippetTriangleMeshCreate_profile_common_cflags  += -m32
-SnippetTriangleMeshCreate_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetTriangleMeshCreate_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetTriangleMeshCreate_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetTriangleMeshCreate_profile_common_cflags  += -Wno-uninitialized
 SnippetTriangleMeshCreate_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -401,7 +401,7 @@ SnippetTriangleMeshCreate_release_common_cflags    += -MMD
 SnippetTriangleMeshCreate_release_common_cflags    += $(addprefix -D, $(SnippetTriangleMeshCreate_release_defines))
 SnippetTriangleMeshCreate_release_common_cflags    += $(addprefix -I, $(SnippetTriangleMeshCreate_release_hpaths))
 SnippetTriangleMeshCreate_release_common_cflags  += -m32
-SnippetTriangleMeshCreate_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetTriangleMeshCreate_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetTriangleMeshCreate_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetTriangleMeshCreate_release_common_cflags  += -Wno-uninitialized
 SnippetTriangleMeshCreate_release_common_cflags  += -O3 -fno-strict-aliasing

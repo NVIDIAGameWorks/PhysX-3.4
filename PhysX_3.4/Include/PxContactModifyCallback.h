@@ -142,7 +142,15 @@ public:
 
 	@see PxModifiableContact.internalFaceIndex1
 	*/
-	PX_FORCE_INLINE		PxU32 getInternalFaceIndex1(PxU32 i)			{ PX_UNUSED(i); return PXC_CONTACT_NO_FACE_INDEX; }
+	PX_FORCE_INLINE		PxU32 getInternalFaceIndex1(PxU32 i)			
+	{
+		PxContactPatch* patch = getPatch();
+		if (patch->internalFlags & PxContactPatch::eHAS_FACE_INDICES)
+		{
+			return reinterpret_cast<PxU32*>(mContacts + mCount)[mCount + i];
+		}
+		return PXC_CONTACT_NO_FACE_INDEX;
+	}
 
 	/**
 	\brief Get the maximum impulse for a specific contact point in the set.
@@ -163,6 +171,65 @@ public:
 		PxContactPatch* patch = getPatch();
 		patch->internalFlags |= PxContactPatch::eHAS_MAX_IMPULSE;
 		mContacts[i].maxImpulse = s; 
+	}
+
+	/**
+	\brief Get the restitution coefficient for a specific contact point in the set.
+
+	@see PxModifiableContact.restitution
+	*/
+	PX_FORCE_INLINE		PxReal getRestitution(PxU32 i) const			{ return mContacts[i].restitution; }
+
+	/**
+	\brief Alter the restitution coefficient for a specific contact point in the set.
+
+	\note Valid ranges [0,1]
+
+	@see PxModifiableContact.restitution
+	*/
+	PX_FORCE_INLINE		void setRestitution(PxU32 i, PxReal r)		
+	{
+		PxContactPatch* patch = getPatch();
+		patch->internalFlags |= PxContactPatch::eREGENERATE_PATCHES;
+		mContacts[i].restitution = r; 
+	}
+
+	/**
+	\brief Get the static friction coefficient for a specific contact point in the set.
+
+	@see PxModifiableContact.staticFriction
+	*/
+	PX_FORCE_INLINE		PxReal getStaticFriction(PxU32 i) const { return mContacts[i].staticFriction; }
+
+	/**
+	\brief Alter the static friction coefficient for a specific contact point in the set.
+
+	@see PxModifiableContact.staticFriction
+	*/
+	PX_FORCE_INLINE		void setStaticFriction(PxU32 i, PxReal f) 
+	{ 
+		PxContactPatch* patch = getPatch();
+		patch->internalFlags |= PxContactPatch::eREGENERATE_PATCHES;
+		mContacts[i].staticFriction = f; 
+	}
+
+	/**
+	\brief Get the static friction coefficient for a specific contact point in the set.
+
+	@see PxModifiableContact.dynamicFriction
+	*/
+	PX_FORCE_INLINE		PxReal getDynamicFriction(PxU32 i) const { return mContacts[i].dynamicFriction; }
+
+	/**
+	\brief Alter the static dynamic coefficient for a specific contact point in the set.
+
+	@see PxModifiableContact.dynamic
+	*/
+	PX_FORCE_INLINE		void setDynamicFriction(PxU32 i, PxReal f) 
+	{
+		PxContactPatch* patch = getPatch();
+		patch->internalFlags |= PxContactPatch::eREGENERATE_PATCHES; 
+		mContacts[i].dynamicFriction = f; 
 	}
 
 	/**

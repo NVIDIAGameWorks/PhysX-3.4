@@ -69,7 +69,7 @@ SnippetSpatialIndex_debug_common_cflags    += -MMD
 SnippetSpatialIndex_debug_common_cflags    += $(addprefix -D, $(SnippetSpatialIndex_debug_defines))
 SnippetSpatialIndex_debug_common_cflags    += $(addprefix -I, $(SnippetSpatialIndex_debug_hpaths))
 SnippetSpatialIndex_debug_common_cflags  += -m64
-SnippetSpatialIndex_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSpatialIndex_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSpatialIndex_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSpatialIndex_debug_common_cflags  += -Wno-uninitialized
 SnippetSpatialIndex_debug_common_cflags  += -g3 -gdwarf-2
@@ -180,7 +180,7 @@ SnippetSpatialIndex_checked_common_cflags    += -MMD
 SnippetSpatialIndex_checked_common_cflags    += $(addprefix -D, $(SnippetSpatialIndex_checked_defines))
 SnippetSpatialIndex_checked_common_cflags    += $(addprefix -I, $(SnippetSpatialIndex_checked_hpaths))
 SnippetSpatialIndex_checked_common_cflags  += -m64
-SnippetSpatialIndex_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSpatialIndex_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSpatialIndex_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSpatialIndex_checked_common_cflags  += -Wno-uninitialized
 SnippetSpatialIndex_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -291,7 +291,7 @@ SnippetSpatialIndex_profile_common_cflags    += -MMD
 SnippetSpatialIndex_profile_common_cflags    += $(addprefix -D, $(SnippetSpatialIndex_profile_defines))
 SnippetSpatialIndex_profile_common_cflags    += $(addprefix -I, $(SnippetSpatialIndex_profile_hpaths))
 SnippetSpatialIndex_profile_common_cflags  += -m64
-SnippetSpatialIndex_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSpatialIndex_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSpatialIndex_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSpatialIndex_profile_common_cflags  += -Wno-uninitialized
 SnippetSpatialIndex_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -401,7 +401,7 @@ SnippetSpatialIndex_release_common_cflags    += -MMD
 SnippetSpatialIndex_release_common_cflags    += $(addprefix -D, $(SnippetSpatialIndex_release_defines))
 SnippetSpatialIndex_release_common_cflags    += $(addprefix -I, $(SnippetSpatialIndex_release_hpaths))
 SnippetSpatialIndex_release_common_cflags  += -m64
-SnippetSpatialIndex_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetSpatialIndex_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetSpatialIndex_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetSpatialIndex_release_common_cflags  += -Wno-uninitialized
 SnippetSpatialIndex_release_common_cflags  += -O3 -fno-strict-aliasing

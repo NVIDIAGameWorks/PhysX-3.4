@@ -172,7 +172,7 @@ void* UserPxAllocator::allocate(size_t size, const char* typeName, const char* f
 
 #if PX_WINDOWS_FAMILY
 	ret = ::_aligned_malloc(size, 16);
-#elif PX_ANDROID || PX_LINUX_FAMILY || PX_NX
+#elif PX_ANDROID || PX_LINUX_FAMILY || PX_SWITCH
 	/* Allocate size + (15 + sizeof(void*)) bytes and shift pointer further, write original address in the beginning of block.*/
 	/* Weirdly, memalign sometimes returns unaligned address */
 	//	ret = ::memalign(size, 16);
@@ -203,7 +203,7 @@ void UserPxAllocator::deallocate(void* memory)
 	{
 #if PX_WINDOWS_FAMILY
 		::_aligned_free(memory);
-#elif PX_ANDROID || PX_LINUX_FAMILY || PX_NX
+#elif PX_ANDROID || PX_LINUX_FAMILY || PX_SWITCH
 		// Looks scary, but all it does is getting original unaligned block address back from 4/8 bytes (depends on pointer size) prior to <memory> pointer and frees this memory 
 		void* originalPtr = (void*)(*(size_t*)((char*)memory - sizeof(void*)));
 		::free(originalPtr);

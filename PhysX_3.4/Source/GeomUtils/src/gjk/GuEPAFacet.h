@@ -42,6 +42,8 @@
 #define PX_EPA_FORCE_INLINE PX_FORCE_INLINE
 #endif
 
+#define EPA_DEBUG	0
+
 namespace physx
 {
 #define MaxEdges 32
@@ -103,8 +105,8 @@ namespace Gu
 		PX_FORCE_INLINE Ps::aos::FloatV getPlaneDist(const Ps::aos::Vec3VArg p, const Ps::aos::Vec3V* PX_RESTRICT aBuf, const Ps::aos::Vec3V* PX_RESTRICT bBuf) const; 
 
 		//check to see whether the triangle is a valid triangle, calculate plane normal and plane distance at the same time
-		PX_EPA_FORCE_INLINE Ps::aos::BoolV isValid2(const PxU32 i0, const PxU32 i1, const PxU32 i2, const Ps::aos::Vec3V* PX_RESTRICT aBuf, const Ps::aos::Vec3V* PX_RESTRICT bBuf, 
-		const Ps::aos::FloatVArg lower, const Ps::aos::FloatVArg upper);
+		Ps::aos::BoolV isValid2(const PxU32 i0, const PxU32 i1, const PxU32 i2, const Ps::aos::Vec3V* PX_RESTRICT aBuf, const Ps::aos::Vec3V* PX_RESTRICT bBuf, 
+		const Ps::aos::FloatVArg upper);
 
 		//return the absolute value for the plane distance from origin 
 		PX_FORCE_INLINE Ps::aos::FloatV getPlaneDist() const 
@@ -119,7 +121,7 @@ namespace Gu
 		}
 
 		//calculate the closest points for a shape pair
-		void getClosestPoint(const Ps::aos::Vec3V* PX_RESTRICT aBuf, const Ps::aos::Vec3V* PX_RESTRICT bBuf, Ps::aos::Vec3V& closestA, Ps::aos::Vec3V& closestB) const;
+		void getClosestPoint(const Ps::aos::Vec3V* PX_RESTRICT aBuf, const Ps::aos::Vec3V* PX_RESTRICT bBuf, Ps::aos::Vec3V& closestA, Ps::aos::Vec3V& closestB);
 		
 		//performs a flood fill over the boundary of the current polytope. 
 		void silhouette(const Ps::aos::Vec3VArg w, const Ps::aos::Vec3V* PX_RESTRICT aBuf, const Ps::aos::Vec3V* PX_RESTRICT bBuf, EdgeBuffer& edgeBuffer, EPAFacetManager& manager);
@@ -136,7 +138,11 @@ namespace Gu
 			EPAFacetManager& manager);
 
 		Ps::aos::Vec3V m_planeNormal;																										//16
-		PxF32 m_planeDist;																													//20
+		PxF32 m_planeDist;
+#if EPA_DEBUG
+		PxF32 m_lambda1;
+		PxF32 m_lambda2;
+#endif
 		
 		Facet* PX_RESTRICT m_adjFacets[3]; //the triangle adjacent to edge i in this triangle												//32
 		PxI8 m_adjEdges[3]; //the edge connected with the corresponding triangle															//35
@@ -234,10 +240,10 @@ namespace Gu
 	};
 
 	//ML: calculate MTD points for a shape pair
-	PX_FORCE_INLINE void Facet::getClosestPoint(const Ps::aos::Vec3V* PX_RESTRICT aBuf, const Ps::aos::Vec3V* PX_RESTRICT bBuf, Ps::aos::Vec3V& closestA, Ps::aos::Vec3V& closestB) const 
+	PX_FORCE_INLINE void Facet::getClosestPoint(const Ps::aos::Vec3V* PX_RESTRICT aBuf, const Ps::aos::Vec3V* PX_RESTRICT bBuf, Ps::aos::Vec3V& closestA, Ps::aos::Vec3V& closestB)
 	{
 		using namespace Ps::aos;
-		
+
 		const Vec3V pa0(aBuf[m_indices[0]]);
 		const Vec3V pa1(aBuf[m_indices[1]]);
 		const Vec3V pa2(aBuf[m_indices[2]]);
@@ -250,28 +256,34 @@ namespace Gu
 		const Vec3V p1 = V3Sub(pa1, pb1);
 		const Vec3V p2 = V3Sub(pa2, pb2);
 
-		const Vec3V v1 = V3Sub(p1, p0);
-		const Vec3V v2 = V3Sub(p2, p0);
+		const Vec3V v0 = V3Sub(p1, p0);
+		const Vec3V v1 = V3Sub(p2, p0);
 
-		const FloatV v1dv1 = V3Dot(v1, v1);
-		const FloatV v1dv2 = V3Dot(v1, v2);
-		const FloatV v2dv2 = V3Dot(v2, v2);
+		const Vec3V closestP = V3Scale(m_planeNormal, FLoad(m_planeDist));
+		const Vec3V v2 = V3Sub(closestP, p0);
+		//calculate barycentric coordinates
+		const FloatV d00 = V3Dot(v0, v0);
+		const FloatV d01 = V3Dot(v0, v1);
+		const FloatV d11 = V3Dot(v1, v1);
 
-		const FloatV p0dv1 = V3Dot(p0, v1); //V3Dot(V3Sub(p0, origin), v1);
-		const FloatV p0dv2 = V3Dot(p0, v2);
+		const FloatV d20 = V3Dot(v2, v0);
+		const FloatV d21 = V3Dot(v2, v1);
 
-		const FloatV det = FNegScaleSub(v1dv2, v1dv2, FMul(v1dv1, v2dv2));//FSub( FMul(v1dv1, v2dv2), FMul(v1dv2, v1dv2) ); // non-negative
+		const FloatV det = FNegScaleSub(d01, d01, FMul(d00, d11));//FSub( FMul(v1dv1, v2dv2), FMul(v1dv2, v1dv2) ); // non-negative
 		const FloatV recip = FSel(FIsGrtr(det, FEps()), FRecip(det), FZero());
 
-		const FloatV lambda1 = FMul(FNegScaleSub(p0dv1, v2dv2, FMul(p0dv2, v1dv2)), recip);
-		const FloatV lambda2 = FMul(FNegScaleSub(p0dv2, v1dv1, FMul(p0dv1, v1dv2)), recip);
+		const FloatV lambda1 = FMul(FNegScaleSub(d01, d21, FMul(d11, d20)), recip);
+		const FloatV lambda2 = FMul(FNegScaleSub(d01, d20, FMul(d00, d21)), recip);
+
+#if EPA_DEBUG
+		FStore(lambda1, &m_lambda1);
+		FStore(lambda2, &m_lambda2);
+#endif
 
 		const Vec3V a0 = V3Scale(V3Sub(pa1, pa0), lambda1);
 		const Vec3V a1 = V3Scale(V3Sub(pa2, pa0), lambda2);
-		const Vec3V b0 = V3Scale(V3Sub(pb1, pb0), lambda1);
-		const Vec3V b1 = V3Scale(V3Sub(pb2, pb0), lambda2);
 		closestA = V3Add(V3Add(a0, a1), pa0);
-		closestB = V3Add(V3Add(b0, b1), pb0);
+		closestB = V3Sub(closestA, closestP);
 	}
 
 	//ML: create adjacency informations for both facets

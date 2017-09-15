@@ -54,7 +54,7 @@ PxPvdSDK_debug_common_cflags    += -MMD
 PxPvdSDK_debug_common_cflags    += $(addprefix -D, $(PxPvdSDK_debug_defines))
 PxPvdSDK_debug_common_cflags    += $(addprefix -I, $(PxPvdSDK_debug_hpaths))
 PxPvdSDK_debug_common_cflags  += -m32
-PxPvdSDK_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxPvdSDK_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxPvdSDK_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxPvdSDK_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxPvdSDK_debug_common_cflags  += -Wno-missing-field-initializers
@@ -139,7 +139,7 @@ PxPvdSDK_release_common_cflags    += -MMD
 PxPvdSDK_release_common_cflags    += $(addprefix -D, $(PxPvdSDK_release_defines))
 PxPvdSDK_release_common_cflags    += $(addprefix -I, $(PxPvdSDK_release_hpaths))
 PxPvdSDK_release_common_cflags  += -m32
-PxPvdSDK_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxPvdSDK_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxPvdSDK_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxPvdSDK_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxPvdSDK_release_common_cflags  += -Wno-missing-field-initializers
@@ -225,7 +225,7 @@ PxPvdSDK_checked_common_cflags    += -MMD
 PxPvdSDK_checked_common_cflags    += $(addprefix -D, $(PxPvdSDK_checked_defines))
 PxPvdSDK_checked_common_cflags    += $(addprefix -I, $(PxPvdSDK_checked_hpaths))
 PxPvdSDK_checked_common_cflags  += -m32
-PxPvdSDK_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxPvdSDK_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxPvdSDK_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxPvdSDK_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxPvdSDK_checked_common_cflags  += -Wno-missing-field-initializers
@@ -311,7 +311,7 @@ PxPvdSDK_profile_common_cflags    += -MMD
 PxPvdSDK_profile_common_cflags    += $(addprefix -D, $(PxPvdSDK_profile_defines))
 PxPvdSDK_profile_common_cflags    += $(addprefix -I, $(PxPvdSDK_profile_hpaths))
 PxPvdSDK_profile_common_cflags  += -m32
-PxPvdSDK_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxPvdSDK_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxPvdSDK_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxPvdSDK_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxPvdSDK_profile_common_cflags  += -Wno-missing-field-initializers

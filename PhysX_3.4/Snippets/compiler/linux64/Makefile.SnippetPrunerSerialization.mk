@@ -69,7 +69,7 @@ SnippetPrunerSerialization_debug_common_cflags    += -MMD
 SnippetPrunerSerialization_debug_common_cflags    += $(addprefix -D, $(SnippetPrunerSerialization_debug_defines))
 SnippetPrunerSerialization_debug_common_cflags    += $(addprefix -I, $(SnippetPrunerSerialization_debug_hpaths))
 SnippetPrunerSerialization_debug_common_cflags  += -m64
-SnippetPrunerSerialization_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetPrunerSerialization_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetPrunerSerialization_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetPrunerSerialization_debug_common_cflags  += -Wno-uninitialized
 SnippetPrunerSerialization_debug_common_cflags  += -g3 -gdwarf-2
@@ -180,7 +180,7 @@ SnippetPrunerSerialization_checked_common_cflags    += -MMD
 SnippetPrunerSerialization_checked_common_cflags    += $(addprefix -D, $(SnippetPrunerSerialization_checked_defines))
 SnippetPrunerSerialization_checked_common_cflags    += $(addprefix -I, $(SnippetPrunerSerialization_checked_hpaths))
 SnippetPrunerSerialization_checked_common_cflags  += -m64
-SnippetPrunerSerialization_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetPrunerSerialization_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetPrunerSerialization_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetPrunerSerialization_checked_common_cflags  += -Wno-uninitialized
 SnippetPrunerSerialization_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -291,7 +291,7 @@ SnippetPrunerSerialization_profile_common_cflags    += -MMD
 SnippetPrunerSerialization_profile_common_cflags    += $(addprefix -D, $(SnippetPrunerSerialization_profile_defines))
 SnippetPrunerSerialization_profile_common_cflags    += $(addprefix -I, $(SnippetPrunerSerialization_profile_hpaths))
 SnippetPrunerSerialization_profile_common_cflags  += -m64
-SnippetPrunerSerialization_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetPrunerSerialization_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetPrunerSerialization_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetPrunerSerialization_profile_common_cflags  += -Wno-uninitialized
 SnippetPrunerSerialization_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -401,7 +401,7 @@ SnippetPrunerSerialization_release_common_cflags    += -MMD
 SnippetPrunerSerialization_release_common_cflags    += $(addprefix -D, $(SnippetPrunerSerialization_release_defines))
 SnippetPrunerSerialization_release_common_cflags    += $(addprefix -I, $(SnippetPrunerSerialization_release_hpaths))
 SnippetPrunerSerialization_release_common_cflags  += -m64
-SnippetPrunerSerialization_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetPrunerSerialization_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetPrunerSerialization_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetPrunerSerialization_release_common_cflags  += -Wno-uninitialized
 SnippetPrunerSerialization_release_common_cflags  += -O3 -fno-strict-aliasing

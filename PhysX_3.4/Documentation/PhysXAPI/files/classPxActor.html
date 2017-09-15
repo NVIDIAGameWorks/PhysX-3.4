@@ -249,7 +249,7 @@ Retrieves the aggregate the actor might be a part of.
 Retrieves the behavior bits of the actor. 
 <p>
 The behavior bits determine which types of events the actor will broadcast to foreign clients.<p>
-<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd><a class="el" href="structPxActorClientBehaviorFlag.html" title="Multiclient behavior bit flags for actors.">PxActorClientBehaviorFlag</a> feature has been deprecated in PhysX version 3.4</dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000005">Deprecated:</a></b></dt><dd><a class="el" href="structPxActorClientBehaviorFlag.html" title="Multiclient behavior bit flags for actors.">PxActorClientBehaviorFlag</a> feature has been deprecated in PhysX version 3.4</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxActorClientBehaviorFlag.html" title="Multiclient behavior bit flags for actors.">PxActorClientBehaviorFlag</a> <a class="el" href="classPxActor.html#d7b70236ed41524eda4c92636922d599" title="Sets the behavior bits of the actor.">setClientBehaviorFlags()</a> </dd></dl>
 
 </div>
@@ -426,7 +426,7 @@ Returns whether a given type name matches with the type of this instance.
 
 <p>References <a class="el" href="PxBase_8h-source.html#l00178">PxBase::isKindOf()</a>.</p>
 
-<p>Referenced by <a class="el" href="PxRigidActor_8h-source.html#l00295">PxRigidActor::isKindOf()</a>, <a class="el" href="PxParticleBase_8h-source.html#l00456">PxParticleBase::isKindOf()</a>, and <a class="el" href="PxCloth_8h-source.html#l00996">PxCloth::isKindOf()</a>.</p>
+<p>Referenced by <a class="el" href="PxRigidActor_8h-source.html#l00295">PxRigidActor::isKindOf()</a>, <a class="el" href="PxParticleBase_8h-source.html#l00456">PxParticleBase::isKindOf()</a>, and <a class="el" href="PxCloth_8h-source.html#l01001">PxCloth::isKindOf()</a>.</p>
 
 </div>
 </div><p>
@@ -542,7 +542,7 @@ See the list of flags <a class="el" href="structPxActorFlag.html" title="Flags w
 Sets the behavior bits of the actor. 
 <p>
 The behavior bits determine which types of events the actor will broadcast to foreign clients. The actor will always send notice for all possible events to its own owner client. By default it will not send any events to any other clients. If the user however raises a bit flag for any event type using this function, that event will then be sent also to any other clients which are programmed to listed to foreign actor events of that type.<p>
-<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000003">Deprecated:</a></b></dt><dd><a class="el" href="structPxActorClientBehaviorFlag.html" title="Multiclient behavior bit flags for actors.">PxActorClientBehaviorFlag</a> feature has been deprecated in PhysX version 3.4</dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd><a class="el" href="structPxActorClientBehaviorFlag.html" title="Multiclient behavior bit flags for actors.">PxActorClientBehaviorFlag</a> feature has been deprecated in PhysX version 3.4</dd></dl>
 <b>Default:</b> 0<p>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="PxClient_8h.html#cb0e5a85de6c250f2a54db46e3aa0a12" title="An ID to identify different clients for multiclient support.">PxClientID</a> <a class="el" href="structPxActorClientBehaviorFlag.html" title="Multiclient behavior bit flags for actors.">PxActorClientBehaviorFlag</a> <a class="el" href="classPxScene.html#6f61e48083f63f6fac343a3b1d8b2ddc" title="Sets behavior bits for a client.">PxScene::setClientBehaviorFlags()</a> </dd></dl>
 

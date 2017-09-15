@@ -70,7 +70,7 @@ SnippetHelloWorld_debug_common_cflags    += -MMD
 SnippetHelloWorld_debug_common_cflags    += $(addprefix -D, $(SnippetHelloWorld_debug_defines))
 SnippetHelloWorld_debug_common_cflags    += $(addprefix -I, $(SnippetHelloWorld_debug_hpaths))
 SnippetHelloWorld_debug_common_cflags  += -m32
-SnippetHelloWorld_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetHelloWorld_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetHelloWorld_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetHelloWorld_debug_common_cflags  += -Wno-uninitialized
 SnippetHelloWorld_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetHelloWorld_checked_common_cflags    += -MMD
 SnippetHelloWorld_checked_common_cflags    += $(addprefix -D, $(SnippetHelloWorld_checked_defines))
 SnippetHelloWorld_checked_common_cflags    += $(addprefix -I, $(SnippetHelloWorld_checked_hpaths))
 SnippetHelloWorld_checked_common_cflags  += -m32
-SnippetHelloWorld_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetHelloWorld_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetHelloWorld_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetHelloWorld_checked_common_cflags  += -Wno-uninitialized
 SnippetHelloWorld_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetHelloWorld_profile_common_cflags    += -MMD
 SnippetHelloWorld_profile_common_cflags    += $(addprefix -D, $(SnippetHelloWorld_profile_defines))
 SnippetHelloWorld_profile_common_cflags    += $(addprefix -I, $(SnippetHelloWorld_profile_hpaths))
 SnippetHelloWorld_profile_common_cflags  += -m32
-SnippetHelloWorld_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetHelloWorld_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetHelloWorld_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetHelloWorld_profile_common_cflags  += -Wno-uninitialized
 SnippetHelloWorld_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetHelloWorld_release_common_cflags    += -MMD
 SnippetHelloWorld_release_common_cflags    += $(addprefix -D, $(SnippetHelloWorld_release_defines))
 SnippetHelloWorld_release_common_cflags    += $(addprefix -I, $(SnippetHelloWorld_release_hpaths))
 SnippetHelloWorld_release_common_cflags  += -m32
-SnippetHelloWorld_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetHelloWorld_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetHelloWorld_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetHelloWorld_release_common_cflags  += -Wno-uninitialized
 SnippetHelloWorld_release_common_cflags  += -O3 -fno-strict-aliasing

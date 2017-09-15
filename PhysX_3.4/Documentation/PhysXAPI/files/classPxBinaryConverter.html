@@ -41,6 +41,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxBinaryConverter.html#475c6a6dc11b63b3570f2fc5d21b5c0e">setMetaData</a> (<a class="el" href="classPxInputStream.html">PxInputStream</a> &amp;srcMetaData, <a class="el" href="classPxInputStream.html">PxInputStream</a> &amp;dstMetaData)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setups source and target meta-data streams.  <a href="#475c6a6dc11b63b3570f2fc5d21b5c0e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxBinaryConverter.html#c39cc433f7d1db69e1c17e401adec9cc">compareMetaData</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Test utility function to compare two sets of meta data.  <a href="#c39cc433f7d1db69e1c17e401adec9cc"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxBinaryConverter.html#9890d7f61fceb47d154e203291cd08fd">convert</a> (<a class="el" href="classPxInputStream.html">PxInputStream</a> &amp;srcStream, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> srcSize, <a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;targetStream)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts binary stream from source platform to target platform.  <a href="#9890d7f61fceb47d154e203291cd08fd"></a><br></td></tr>
@@ -96,6 +99,29 @@ If you want to use multiple threads for batch conversions, please create one ins
 </div>
 </div><p>
 <hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="c39cc433f7d1db69e1c17e401adec9cc"></a><!-- doxytag: member="PxBinaryConverter::compareMetaData" ref="c39cc433f7d1db69e1c17e401adec9cc" args="() const =0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool PxBinaryConverter::compareMetaData           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Test utility function to compare two sets of meta data. 
+<p>
+The meta data needs to be set before calling the compareMetaData method. This method will issue <a class="el" href="structPxErrorCode.html#01157d5d2eca2cede61ecbbc32c7b2a3b822d9fb3b06cb1032cc65da86bef532" title="An informational message.">PxErrorCode::eDEBUG_INFO</a> messages if mismatches are encountered.<p>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>True if meta data is equivalend </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="9890d7f61fceb47d154e203291cd08fd"></a><!-- doxytag: member="PxBinaryConverter::convert" ref="9890d7f61fceb47d154e203291cd08fd" args="(PxInputStream &amp;srcStream, PxU32 srcSize, PxOutputStream &amp;targetStream)=0" -->
 <div class="memitem">
 <div class="memproto">

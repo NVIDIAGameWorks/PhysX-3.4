@@ -42,7 +42,7 @@
 
 // "exact"
 #define VRECIPQ recipq_newton<4>
-#if PX_NX
+#if PX_SWITCH
 // StabilizationTests.AveragePoint needs more precision to succeed.
 #define VRECIP recip_newton<5> 
 #else
@@ -52,9 +52,6 @@
 #define VRECIPSQRT rsqrt_newton<4>
 
 #define VECMATH_AOS_EPSILON (1e-3f)
-
-// Remove this define when all platforms use simd solver.
-#define PX_SUPPORT_SIMD
 
 //////////////////////////////////////////////////////////////////////
 //Test that Vec3V and FloatV are legal

@@ -136,12 +136,17 @@ NpScene::NpScene(const PxSceneDesc& desc) :
 	mHasSimulatedOnce		(false),
 	mBetweenFetchResults	(false)
 {
+	
 	mSceneExecution.setObject(this);
 	mSceneCollide.setObject(this);
 	mSceneAdvance.setObject(this);
 
 	mTaskManager = mScene.getScScene().getTaskManagerPtr();
 	mThreadReadWriteDepth = Ps::TlsAlloc();
+
+#if PX_SUPPORT_GPU_PHYSX
+	updatePhysXIndicator();
+#endif
 
 }
 
@@ -1555,6 +1560,16 @@ void NpScene::visualize()
 		}
 	}
 
+	if(getVisualizationParameter(PxVisualizationParameter::eCULL_BOX)!=0.0f)
+	{
+		const PxBounds3& cullbox = getScene().getVisualizationCullingBox();
+		if(!cullbox.isEmpty())
+		{
+			out << PxU32(PxDebugColor::eARGB_YELLOW);
+			out << Cm::DebugBox(cullbox);
+		}
+	}
+
 #if PX_SUPPORT_PVD
 	mScene.getScenePvdClient().visualize(mRenderBuffer);
 #endif
@@ -2625,7 +2640,7 @@ void NpScene::removeCloth(NpCloth& cloth)
 
 void NpScene::updatePhysXIndicator()
 {
-	Ps::IntBool isGpu = 0;
+	Ps::IntBool isGpu = mScene.getScScene().isUsingGpuRigidBodies();
 
 #if PX_USE_PARTICLE_SYSTEM_API
 	PxParticleBase*const* particleBaseList = mPxParticleBaseSet.getEntries();

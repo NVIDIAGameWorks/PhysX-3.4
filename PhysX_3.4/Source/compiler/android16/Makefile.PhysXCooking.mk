@@ -75,8 +75,8 @@ PhysXCooking_release_hpaths    += ./../../PhysXCooking/src/convex
 PhysXCooking_release_hpaths    += ./../../PhysXExtensions/src
 PhysXCooking_release_hpaths    += ./../../PhysXGpu/include
 PhysXCooking_release_lpaths    := 
-PhysXCooking_release_lpaths    += ./../../../Lib/android16
 PhysXCooking_release_lpaths    += ./../../../../PxShared/lib/android16
+PhysXCooking_release_lpaths    += ./../../../Lib/android16
 PhysXCooking_release_defines   := $(PhysXCooking_custom_defines)
 PhysXCooking_release_defines   += ANDROID
 PhysXCooking_release_defines   += GLES2
@@ -90,9 +90,9 @@ PhysXCooking_release_defines   += PX_COOKING
 PhysXCooking_release_defines   += NDEBUG
 PhysXCooking_release_defines   += PX_SUPPORT_PVD=0
 PhysXCooking_release_libraries := 
+PhysXCooking_release_libraries += PxFoundation
 PhysXCooking_release_libraries += PhysX3Common
 PhysXCooking_release_libraries += PhysX3Extensions
-PhysXCooking_release_libraries += PxFoundation
 PhysXCooking_release_common_cflags	:= $(PhysXCooking_custom_cflags)
 PhysXCooking_release_common_cflags    += -MMD
 PhysXCooking_release_common_cflags    += $(addprefix -D, $(PhysXCooking_release_defines))
@@ -134,7 +134,7 @@ postbuild_PhysXCooking_release: mainbuild_PhysXCooking_release
 mainbuild_PhysXCooking_release: prebuild_PhysXCooking_release $(PhysXCooking_release_bin)
 prebuild_PhysXCooking_release:
 
-$(PhysXCooking_release_bin): $(PhysXCooking_release_obj) build_PhysXCommon_release build_PhysXExtensions_release build_PxFoundation_release 
+$(PhysXCooking_release_bin): $(PhysXCooking_release_obj) build_PxFoundation_release build_PhysXCommon_release build_PhysXExtensions_release 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3Cooking.a`
 	@$(AR) rcs $(PhysXCooking_release_bin) $(PhysXCooking_release_obj)
 	$(ECHO) building $@ complete!
@@ -204,8 +204,8 @@ PhysXCooking_debug_hpaths    += ./../../PhysXCooking/src/convex
 PhysXCooking_debug_hpaths    += ./../../PhysXExtensions/src
 PhysXCooking_debug_hpaths    += ./../../PhysXGpu/include
 PhysXCooking_debug_lpaths    := 
-PhysXCooking_debug_lpaths    += ./../../../Lib/android16
 PhysXCooking_debug_lpaths    += ./../../../../PxShared/lib/android16
+PhysXCooking_debug_lpaths    += ./../../../Lib/android16
 PhysXCooking_debug_defines   := $(PhysXCooking_custom_defines)
 PhysXCooking_debug_defines   += ANDROID
 PhysXCooking_debug_defines   += GLES2
@@ -222,9 +222,9 @@ PhysXCooking_debug_defines   += PX_CHECKED=1
 PhysXCooking_debug_defines   += PX_SUPPORT_PVD=1
 PhysXCooking_debug_defines   += PX_NVTX=1
 PhysXCooking_debug_libraries := 
+PhysXCooking_debug_libraries += PxFoundationDEBUG
 PhysXCooking_debug_libraries += PhysX3CommonDEBUG
 PhysXCooking_debug_libraries += PhysX3ExtensionsDEBUG
-PhysXCooking_debug_libraries += PxFoundationDEBUG
 PhysXCooking_debug_common_cflags	:= $(PhysXCooking_custom_cflags)
 PhysXCooking_debug_common_cflags    += -MMD
 PhysXCooking_debug_common_cflags    += $(addprefix -D, $(PhysXCooking_debug_defines))
@@ -264,7 +264,7 @@ postbuild_PhysXCooking_debug: mainbuild_PhysXCooking_debug
 mainbuild_PhysXCooking_debug: prebuild_PhysXCooking_debug $(PhysXCooking_debug_bin)
 prebuild_PhysXCooking_debug:
 
-$(PhysXCooking_debug_bin): $(PhysXCooking_debug_obj) build_PhysXCommon_debug build_PhysXExtensions_debug build_PxFoundation_debug 
+$(PhysXCooking_debug_bin): $(PhysXCooking_debug_obj) build_PxFoundation_debug build_PhysXCommon_debug build_PhysXExtensions_debug 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3CookingDEBUG.a`
 	@$(AR) rcs $(PhysXCooking_debug_bin) $(PhysXCooking_debug_obj)
 	$(ECHO) building $@ complete!
@@ -334,8 +334,8 @@ PhysXCooking_checked_hpaths    += ./../../PhysXCooking/src/convex
 PhysXCooking_checked_hpaths    += ./../../PhysXExtensions/src
 PhysXCooking_checked_hpaths    += ./../../PhysXGpu/include
 PhysXCooking_checked_lpaths    := 
-PhysXCooking_checked_lpaths    += ./../../../Lib/android16
 PhysXCooking_checked_lpaths    += ./../../../../PxShared/lib/android16
+PhysXCooking_checked_lpaths    += ./../../../Lib/android16
 PhysXCooking_checked_defines   := $(PhysXCooking_custom_defines)
 PhysXCooking_checked_defines   += ANDROID
 PhysXCooking_checked_defines   += GLES2
@@ -351,9 +351,9 @@ PhysXCooking_checked_defines   += PX_CHECKED=1
 PhysXCooking_checked_defines   += PX_SUPPORT_PVD=1
 PhysXCooking_checked_defines   += PX_NVTX=1
 PhysXCooking_checked_libraries := 
+PhysXCooking_checked_libraries += PxFoundationCHECKED
 PhysXCooking_checked_libraries += PhysX3CommonCHECKED
 PhysXCooking_checked_libraries += PhysX3ExtensionsCHECKED
-PhysXCooking_checked_libraries += PxFoundationCHECKED
 PhysXCooking_checked_common_cflags	:= $(PhysXCooking_custom_cflags)
 PhysXCooking_checked_common_cflags    += -MMD
 PhysXCooking_checked_common_cflags    += $(addprefix -D, $(PhysXCooking_checked_defines))
@@ -395,7 +395,7 @@ postbuild_PhysXCooking_checked: mainbuild_PhysXCooking_checked
 mainbuild_PhysXCooking_checked: prebuild_PhysXCooking_checked $(PhysXCooking_checked_bin)
 prebuild_PhysXCooking_checked:
 
-$(PhysXCooking_checked_bin): $(PhysXCooking_checked_obj) build_PhysXCommon_checked build_PhysXExtensions_checked build_PxFoundation_checked 
+$(PhysXCooking_checked_bin): $(PhysXCooking_checked_obj) build_PxFoundation_checked build_PhysXCommon_checked build_PhysXExtensions_checked 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3CookingCHECKED.a`
 	@$(AR) rcs $(PhysXCooking_checked_bin) $(PhysXCooking_checked_obj)
 	$(ECHO) building $@ complete!
@@ -465,8 +465,8 @@ PhysXCooking_profile_hpaths    += ./../../PhysXCooking/src/convex
 PhysXCooking_profile_hpaths    += ./../../PhysXExtensions/src
 PhysXCooking_profile_hpaths    += ./../../PhysXGpu/include
 PhysXCooking_profile_lpaths    := 
-PhysXCooking_profile_lpaths    += ./../../../Lib/android16
 PhysXCooking_profile_lpaths    += ./../../../../PxShared/lib/android16
+PhysXCooking_profile_lpaths    += ./../../../Lib/android16
 PhysXCooking_profile_defines   := $(PhysXCooking_custom_defines)
 PhysXCooking_profile_defines   += ANDROID
 PhysXCooking_profile_defines   += GLES2
@@ -482,9 +482,9 @@ PhysXCooking_profile_defines   += PX_PROFILE=1
 PhysXCooking_profile_defines   += PX_SUPPORT_PVD=1
 PhysXCooking_profile_defines   += PX_NVTX=1
 PhysXCooking_profile_libraries := 
+PhysXCooking_profile_libraries += PxFoundationPROFILE
 PhysXCooking_profile_libraries += PhysX3CommonPROFILE
 PhysXCooking_profile_libraries += PhysX3ExtensionsPROFILE
-PhysXCooking_profile_libraries += PxFoundationPROFILE
 PhysXCooking_profile_common_cflags	:= $(PhysXCooking_custom_cflags)
 PhysXCooking_profile_common_cflags    += -MMD
 PhysXCooking_profile_common_cflags    += $(addprefix -D, $(PhysXCooking_profile_defines))
@@ -526,7 +526,7 @@ postbuild_PhysXCooking_profile: mainbuild_PhysXCooking_profile
 mainbuild_PhysXCooking_profile: prebuild_PhysXCooking_profile $(PhysXCooking_profile_bin)
 prebuild_PhysXCooking_profile:
 
-$(PhysXCooking_profile_bin): $(PhysXCooking_profile_obj) build_PhysXCommon_profile build_PhysXExtensions_profile build_PxFoundation_profile 
+$(PhysXCooking_profile_bin): $(PhysXCooking_profile_obj) build_PxFoundation_profile build_PhysXCommon_profile build_PhysXExtensions_profile 
 	mkdir -p `dirname ./../../../Lib/android16/libPhysX3CookingPROFILE.a`
 	@$(AR) rcs $(PhysXCooking_profile_bin) $(PhysXCooking_profile_obj)
 	$(ECHO) building $@ complete!

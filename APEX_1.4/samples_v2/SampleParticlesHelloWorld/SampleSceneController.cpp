@@ -60,18 +60,22 @@ SampleSceneController::~SampleSceneController()
 
 void SampleSceneController::onSampleStart()
 {
-	// setup camera
-	DirectX::XMVECTORF32 lookAtPt = { 0, 2, 0, 0 };
-	DirectX::XMVECTORF32 eyePt = { 0, 5, 10, 0 };
-	mCamera->SetViewParams(eyePt, lookAtPt);
-	mCamera->SetRotateButtons(false, false, true, false);
-	mCamera->SetEnablePositionMovement(true);
+	PX_ASSERT_WITH_MESSAGE(mApex.getModuleParticles(), "Particle dll can't be found or ApexFramework was built withoud particles support");
+	if (mApex.getModuleParticles())
+	{
+		// setup camera
+		DirectX::XMVECTORF32 lookAtPt = {0, 2, 0, 0};
+		DirectX::XMVECTORF32 eyePt = {0, 5, 10, 0};
+		mCamera->SetViewParams(eyePt, lookAtPt);
+		mCamera->SetRotateButtons(false, false, true, false);
+		mCamera->SetEnablePositionMovement(true);
 
-	// load effect package DB
-	loadEffectPackageDatabase();
+		// load effect package DB
+		loadEffectPackageDatabase();
 
-	// spawn actor
-	setCurrentAsset(0);
+		// spawn actor
+		setCurrentAsset(0);
+	}
 }
 
 void SampleSceneController::loadEffectPackageDatabase()
@@ -80,6 +84,10 @@ void SampleSceneController::loadEffectPackageDatabase()
 
 	ApexResourceCallback* resourceCallback = mApex.getResourceCallback();
 	ModuleParticles* moduleParticles = mApex.getModuleParticles();
+	if (moduleParticles == NULL)
+	{
+		return;
+	}
 
 	// Load the EffectPackage database
 	iface = resourceCallback->deserializeFromFile("EffectPackageEffectPackagesDatabase.apb");
@@ -137,16 +145,19 @@ void SampleSceneController::loadEffectPackageDatabase()
 
 void SampleSceneController::setCurrentAsset(int num)
 {
-	int assetsCount = getAssetsCount();
-	num = nvidia::PxClamp(num, 0, assetsCount - 1);
-
-	mCurrentAsset = num;
-	if (mActor != NULL)
+	if (mApex.getModuleParticles())
 	{
-		mApex.removeActor(mActor);
-		mActor = NULL;
+		int assetsCount = getAssetsCount();
+		num = nvidia::PxClamp(num, 0, assetsCount - 1);
+
+		mCurrentAsset = num;
+		if (mActor != NULL)
+		{
+			mApex.removeActor(mActor);
+			mActor = NULL;
+		}
+		mActor = mApex.spawnEffectPackageActor(ASSETS[num].model);
 	}
-	mActor = mApex.spawnEffectPackageActor(ASSETS[num].model);
 }
 
 void SampleSceneController::Animate(double dt)

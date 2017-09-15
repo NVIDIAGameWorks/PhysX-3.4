@@ -40,6 +40,7 @@
 #include "GuPCMContactGen.h"
 #include "GuContactBuffer.h"
 
+
 namespace physx
 {
 
@@ -52,7 +53,7 @@ namespace Gu
 static bool fullContactsGenerationConvexConvex(const ConvexHullV& convexHull0, Gu::ConvexHullV& convexHull1, const PsTransformV& transf0, const PsTransformV& transf1, 
 											   const bool idtScale0, const bool idtScale1, PersistentContact* manifoldContacts,  ContactBuffer& contactBuffer, 
 											   PersistentContactManifold& manifold, Vec3VArg normal, const Vec3VArg closestA, const Vec3VArg closestB,
-											   const FloatVArg contactDist, const bool doOverlapTest, Cm::RenderOutput* renderOutput, const FloatVArg toleranceScale)
+											   const FloatVArg contactDist, const bool doOverlapTest, Cm::RenderOutput* renderOutput, const PxReal toleranceScale)
 {
 	Gu::PolygonalData polyData0, polyData1;
 	getPCMConvexData(convexHull0, idtScale0, polyData0);
@@ -70,14 +71,14 @@ static bool fullContactsGenerationConvexConvex(const ConvexHullV& convexHull0, G
 
 	PxU32 numContacts = 0;
 
-	if(generateFullContactManifold(polyData0, polyData1, map0, map1, manifoldContacts, numContacts, contactDist, normal, closestA, closestB, convexHull0.getMargin(), 
-		convexHull1.getMargin(), doOverlapTest, renderOutput, toleranceScale))
+	if(generateFullContactManifold(polyData0, polyData1, map0, map1, manifoldContacts, numContacts, contactDist, normal, closestA, closestB, convexHull0.getMarginF(), 
+		convexHull1.getMarginF(), doOverlapTest, renderOutput, toleranceScale))
 	{
 		
 		if (numContacts > 0)
 		{
 			//reduce contacts
-			manifold.addBatchManifoldContacts(manifoldContacts, numContacts);
+			manifold.addBatchManifoldContacts(manifoldContacts, numContacts, toleranceScale);
 
 			const Vec3V worldNormal = manifold.getWorldNormal(transf1);
 
@@ -185,6 +186,7 @@ static bool addGJKEPAContacts(Gu::ShrunkConvexHullV& convexHull0, Gu::ShrunkConv
 
 			//Add contact to manifold
 			manifold.addManifoldPoint(localPointA, closestB, localNormalPen, replaceBreakingThreshold);
+
 		}
 		else
 		{
@@ -220,11 +222,12 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 	const Gu::ConvexHullData* hullData0 = shapeConvex0.hullData;
 	const Gu::ConvexHullData* hullData1 = shapeConvex1.hullData;
 
-	const FloatV convexMargin0 = Gu::CalculatePCMConvexMargin(hullData0, vScale0);
-	const FloatV convexMargin1 = Gu::CalculatePCMConvexMargin(hullData1, vScale1);
+	const PxReal toleranceLength = params.mToleranceLength;
+	const FloatV convexMargin0 = Gu::CalculatePCMConvexMargin(hullData0, vScale0, toleranceLength);
+	const FloatV convexMargin1 = Gu::CalculatePCMConvexMargin(hullData1, vScale1, toleranceLength);
 	
 	const PxU32 initialContacts = manifold.mNumContacts;
-	
+
 	const FloatV minMargin = FMin(convexMargin0, convexMargin1);
 	const FloatV projectBreakingThreshold = FMul(minMargin, FLoad(0.8f));
 	
@@ -233,12 +236,15 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 	//ML: after refreshContactPoints, we might lose some contacts
 	const bool bLostContacts = (manifold.mNumContacts != initialContacts);
 
-	if(bLostContacts || manifold.invalidate_BoxConvex(curRTrans, minMargin))
+	if(bLostContacts || manifold.invalidate_BoxConvex(curRTrans, minMargin) )
 	{
+
 		GjkStatus status = manifold.mNumContacts > 0 ? GJK_UNDEFINED : GJK_NON_INTERSECT;
 
 		const bool idtScale0 = shapeConvex0.scale.isIdentity();
 		const bool idtScale1 = shapeConvex1.scale.isIdentity();
+		const float maxMargin0 = shapeConvex0.maxMargin;
+		const float maxMargin1 = shapeConvex1.maxMargin;
 		const QuatV vQuat0 = QuatVLoadU(&shapeConvex0.scale.rotation.x);
 		const QuatV vQuat1 = QuatVLoadU(&shapeConvex1.scale.rotation.x);
 		const Vec3V zeroV = V3Zero();
@@ -246,7 +252,10 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 
 		Gu::ShrunkConvexHullV convexHull0(hullData0, V3LoadU(hullData0->mCenterOfMass), vScale0, vQuat0, idtScale0);
 		Gu::ShrunkConvexHullV convexHull1(hullData1, V3LoadU(hullData1->mCenterOfMass), vScale1, vQuat1, idtScale1);
-	
+
+		convexHull0.setMaxMargin(maxMargin0);
+		convexHull1.setMaxMargin(maxMargin1);
+
 		Vec3V closestA(zeroV), closestB(zeroV), normal(zeroV); // from a to b
 		FloatV penDep =  FZero();
 
@@ -266,7 +275,7 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 		if(status == GJK_DEGENERATE)
 		{
 			return fullContactsGenerationConvexConvex(convexHull0, convexHull1, transf0, transf1, idtScale0, idtScale1, manifoldContacts, contactBuffer, 
-				manifold, normal, closestA, closestB, contactDist, true, renderOutput, FLoad(params.mToleranceLength));
+				manifold, normal, closestA, closestB, contactDist, true, renderOutput, params.mToleranceLength);
 		}
 		else if(status == GJK_NON_INTERSECT)
 		{
@@ -281,6 +290,7 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 			const bool doOverlapTest = addGJKEPAContacts(convexHull0, convexHull1, aToB,
 				status, manifoldContacts, replaceBreakingThreshold, closestA, closestB, normal, penDep, manifold);
 			
+			//manifold.drawManifold(*renderOutput, transf0, transf1);
 			//ML: after we refresh the contacts(newContacts) and generate a GJK/EPA contacts(we will store that in the manifold), if the number of contacts is still less than the original contacts,
 			//which means we lose too mang contacts and we should regenerate all the contacts in the current configuration
 			//Also, we need to look at the existing contacts, if the existing contacts has very different normal than the GJK/EPA contacts,
@@ -289,7 +299,7 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 			if (fullContactGen  || doOverlapTest)
 			{
 				return fullContactsGenerationConvexConvex(convexHull0, convexHull1, transf0, transf1, idtScale0, idtScale1, manifoldContacts, contactBuffer, 
-					manifold, normal, closestA, closestB, contactDist, doOverlapTest, renderOutput, FLoad(params.mToleranceLength));
+					manifold, normal, closestA, closestB, contactDist, doOverlapTest, renderOutput, params.mToleranceLength);
 			}
 			else
 			{
@@ -316,7 +326,5 @@ bool pcmContactConvexConvex(GU_CONTACT_METHOD_ARGS)
 	return false;
 	
 }
-
-
 }
 }

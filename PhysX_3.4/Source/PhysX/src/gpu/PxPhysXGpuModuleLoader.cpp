@@ -35,6 +35,9 @@
 #include "PxGpu.h"
 
 #include "cudamanager/PxCudaContextManager.h"
+#if PX_WINDOWS
+#include "../../../Common/src/CmPhysXCommon.h"
+#endif
 
 #define STRINGIFY(x) #x
 #define GETSTRING(x) STRINGIFY(x)
@@ -130,6 +133,12 @@ namespace physx
 			g_PxCreateCudaContextManager_Func = (PxCreateCudaContextManager_FUNC*)GetProcAddress(s_library, "PxCreateCudaContextManager");
 			g_PxGetSuggestedCudaDeviceOrdinal_Func = (PxGetSuggestedCudaDeviceOrdinal_FUNC*)GetProcAddress(s_library, "PxGetSuggestedCudaDeviceOrdinal");
 		}
+
+		// Check for errors
+		if (s_library == NULL)
+			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "Failed to load PhysXGpu dll!");
+		if (g_PxCreatePhysXGpu_Func == NULL || g_PxCreateCudaContextManager_Func == NULL || g_PxGetSuggestedCudaDeviceOrdinal_Func == NULL)
+			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "PhysXGpu dll is incompatible with this version of PhysX!");
 	}
 
 #elif PX_LINUX

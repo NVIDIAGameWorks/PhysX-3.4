@@ -34,7 +34,7 @@ using namespace physx;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 SampleSceneController::SampleSceneController(CFirstPersonCamera* camera, ApexController& apex)
-	: mApex(apex), mCamera(camera)
+	: mApex(apex), mCamera(camera), mActor(NULL), mAsset(NULL)
 {
 }
 
@@ -44,19 +44,22 @@ SampleSceneController::~SampleSceneController()
 
 void SampleSceneController::onSampleStart()
 {
-	// setup camera
-	DirectX::XMVECTORF32 lookAtPt = { 0, 2, 0, 0 };
-	DirectX::XMVECTORF32 eyePt = { 0, 5, 10, 0 };
-	mCamera->SetViewParams(eyePt, lookAtPt);
-	mCamera->SetRotateButtons(false, false, true, false);
-	mCamera->SetEnablePositionMovement(true);
+	PX_ASSERT_WITH_MESSAGE(mApex.getModuleParticles(), "Particle dll can't be found or ApexFramework was built withoud particles support");
+	if (mApex.getModuleParticles())
+	{
+		// setup camera
+		DirectX::XMVECTORF32 lookAtPt = {0, 2, 0, 0};
+		DirectX::XMVECTORF32 eyePt = {0, 5, 10, 0};
+		mCamera->SetViewParams(eyePt, lookAtPt);
+		mCamera->SetRotateButtons(false, false, true, false);
+		mCamera->SetEnablePositionMovement(true);
 
-	// spawn mesh emitter
-	mAsset = (nvidia::apex::ImpactEmitterAsset *)mApex.getApexSDK()->getNamedResourceProvider()->getResource(IMPACT_EMITTER_AUTHORING_TYPE_NAME, "testImpactEmitter");
-	NvParameterized::Interface *defaultActorDesc = mAsset->getDefaultActorDesc();
-	NvParameterized::setParamTransform(*defaultActorDesc, "InitialPose", PxTransform(PxIdentity));
-	mActor = (ImpactEmitterActor *)mAsset->createApexActor(*defaultActorDesc, *(mApex.getApexScene()));
-
+		// spawn mesh emitter
+		mAsset = (nvidia::apex::ImpactEmitterAsset *)mApex.getApexSDK()->getNamedResourceProvider()->getResource(IMPACT_EMITTER_AUTHORING_TYPE_NAME, "testImpactEmitter");
+		NvParameterized::Interface *defaultActorDesc = mAsset->getDefaultActorDesc();
+		NvParameterized::setParamTransform(*defaultActorDesc, "InitialPose", PxTransform(PxIdentity));
+		mActor = (ImpactEmitterActor *)mAsset->createApexActor(*defaultActorDesc, *(mApex.getApexScene()));
+	}
 }
 
 
@@ -65,7 +68,7 @@ void SampleSceneController::fire(float mouseX, float mouseY)
 	PxVec3 eyePos, pickDir;
 	mApex.getEyePoseAndPickDir(mouseX, mouseY, eyePos, pickDir);
 
-	if (pickDir.normalize() <= 0)
+	if (mApex.getModuleParticles() == NULL || pickDir.normalize() <= 0)
 	{
 		return;
 	}
@@ -83,7 +86,10 @@ void SampleSceneController::fire(float mouseX, float mouseY)
 	
 	uint32_t surfType = mAsset->querySetID("meshParticleEvent");
 
-	mActor->registerImpact(rcBuffer.block.position, pickDir, rcBuffer.block.normal, surfType);
+	if (mActor)
+	{
+		mActor->registerImpact(rcBuffer.block.position, pickDir, rcBuffer.block.normal, surfType);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

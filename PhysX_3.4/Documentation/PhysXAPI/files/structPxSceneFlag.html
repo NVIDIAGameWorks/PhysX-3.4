@@ -146,7 +146,7 @@ By default contacts between kinematic bodies are suppressed (see <a class="el" h
 Enable GJK-based distance collision detection system. 
 <p>
 <dl class="note" compact><dt><b>Note:</b></dt><dd>This flag is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.</dd></dl>
-<b>Default:</b> false </td></tr>
+<b>Default:</b> true </td></tr>
 <tr><td valign="top"><em><a class="anchor" name="b4c347372b4433d34d983da780916c538644817a9a2916453433702614672565"></a><!-- doxytag: member="eDISABLE_CONTACT_REPORT_BUFFER_RESIZE" ref="b4c347372b4433d34d983da780916c538644817a9a2916453433702614672565" args="" -->eDISABLE_CONTACT_REPORT_BUFFER_RESIZE</em>&nbsp;</td><td>
 Disable contact report buffer resize. Once the contact buffer is full, the rest of the contact reports will not be buffered and sent. 
 <p>
@@ -183,7 +183,7 @@ Enable legacy behavior to get trigger reports for interactions between two trigg
 <p>
 By default PhysX does not report trigger interactions between two trigger shapes any longer. Raise this flag to still get the corresponding reports.<p>
 Note that this flag is not mutable and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.<p>
-<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000032">Deprecated:</a></b></dt><dd>This flag is deprecated and will be removed in PhysX 3.5.</dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000046">Deprecated:</a></b></dt><dd>This flag is deprecated and will be removed in PhysX 3.5.</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxSimulationEventCallback.html#768b2ee9fe28736da3fcdc6a0eae9733" title="This is called with the current trigger pair events.">PxSimulationEventCallback::onTrigger()</a></dd></dl>
 <b>Default:</b> false </td></tr>
 <tr><td valign="top"><em><a class="anchor" name="b4c347372b4433d34d983da780916c53a645ccb938b901ce501b50ce55c15886"></a><!-- doxytag: member="eEXCLUDE_KINEMATICS_FROM_ACTIVE_ACTORS" ref="b4c347372b4433d34d983da780916c53a645ccb938b901ce501b50ce55c15886" args="" -->eEXCLUDE_KINEMATICS_FROM_ACTIVE_ACTORS</em>&nbsp;</td><td>

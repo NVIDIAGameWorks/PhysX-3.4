@@ -50,7 +50,7 @@ namespace Gu
 
 static bool fullContactsGenerationCapsuleConvex(const CapsuleV& capsule, const ConvexHullV& convexHull,  const PsMatTransformV& aToB, const PsTransformV& transf0,const PsTransformV& transf1,
 								PersistentContact* manifoldContacts, ContactBuffer& contactBuffer, const bool idtScale, PersistentContactManifold& manifold, Vec3VArg normal, 
-								const Vec3VArg closest, const FloatVArg tolerance, const FloatVArg contactDist, const bool doOverlapTest, Cm::RenderOutput* renderOutput, const FloatVArg toleranceScale)
+								const Vec3VArg closest, const PxReal tolerance, const FloatVArg contactDist, const bool doOverlapTest, Cm::RenderOutput* renderOutput, const PxReal toleranceScale)
 {
 
 	PX_UNUSED(renderOutput);
@@ -122,8 +122,8 @@ bool pcmContactCapsuleConvex(GU_CONTACT_METHOD_ARGS)
 	const PsTransformV curRTrans(transf1.transformInv(transf0));
 	const PsMatTransformV aToB(curRTrans);
 	
-
-	const FloatV convexMargin = Gu::CalculatePCMConvexMargin(hullData, vScale);
+	const PxReal toleranceLength = params.mToleranceLength ;
+	const FloatV convexMargin = Gu::CalculatePCMConvexMargin(hullData, vScale, toleranceLength);
 	const FloatV capsuleMinMargin = Gu::CalculateCapsuleMinMargin(capsuleRadius);
 	const FloatV minMargin = FMin(convexMargin, capsuleMinMargin);
 	
@@ -150,7 +150,7 @@ bool pcmContactCapsuleConvex(GU_CONTACT_METHOD_ARGS)
 		manifold.setRelativeTransform(curRTrans);
 		const QuatV vQuat = QuatVLoadU(&shapeConvex.scale.rotation.x);  
 		ConvexHullV convexHull(hullData, V3LoadU(hullData->mCenterOfMass), vScale, vQuat, idtScale);
-		convexHull.setMargin(zero);
+		convexHull.setMargin(0.f);
 	
 		//transform capsule(a) into the local space of convexHull(b)
 		CapsuleV capsule(aToB.p, aToB.rotate(V3Scale(V3UnitX(), capsuleHalfHeight)), capsuleRadius);
@@ -181,7 +181,7 @@ bool pcmContactCapsuleConvex(GU_CONTACT_METHOD_ARGS)
 		else if(status == GJK_DEGENERATE)
 		{
 			return fullContactsGenerationCapsuleConvex(capsule, convexHull, aToB, transf0, transf1, manifoldContacts, contactBuffer, idtScale, manifold, normal, 
-				closestB, convexHull.getMargin(), contactDist, true, renderOutput, FLoad(params.mToleranceLength));
+				closestB, convexHull.getMarginF(), contactDist, true, renderOutput, params.mToleranceLength);
 		}
 		else 
 		{
@@ -242,7 +242,7 @@ bool pcmContactCapsuleConvex(GU_CONTACT_METHOD_ARGS)
 			if(initialContacts == 0 || bLostContacts || doOverlapTest)
 			{
 				return fullContactsGenerationCapsuleConvex(capsule, convexHull, aToB, transf0, transf1, manifoldContacts, contactBuffer, idtScale, manifold, normal, 
-					closestB, convexHull.getMargin(), contactDist, doOverlapTest, renderOutput, FLoad(params.mToleranceLength));
+					closestB, convexHull.getMarginF(), contactDist, doOverlapTest, renderOutput, params.mToleranceLength);
 			}
 			else
 			{

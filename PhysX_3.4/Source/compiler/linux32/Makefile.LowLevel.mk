@@ -92,7 +92,7 @@ LowLevel_debug_common_cflags    += -MMD
 LowLevel_debug_common_cflags    += $(addprefix -D, $(LowLevel_debug_defines))
 LowLevel_debug_common_cflags    += $(addprefix -I, $(LowLevel_debug_hpaths))
 LowLevel_debug_common_cflags  += -m32
-LowLevel_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevel_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevel_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevel_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevel_debug_common_cflags  += -Wno-missing-field-initializers
@@ -206,7 +206,7 @@ LowLevel_checked_common_cflags    += -MMD
 LowLevel_checked_common_cflags    += $(addprefix -D, $(LowLevel_checked_defines))
 LowLevel_checked_common_cflags    += $(addprefix -I, $(LowLevel_checked_hpaths))
 LowLevel_checked_common_cflags  += -m32
-LowLevel_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevel_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevel_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevel_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevel_checked_common_cflags  += -Wno-missing-field-initializers
@@ -320,7 +320,7 @@ LowLevel_profile_common_cflags    += -MMD
 LowLevel_profile_common_cflags    += $(addprefix -D, $(LowLevel_profile_defines))
 LowLevel_profile_common_cflags    += $(addprefix -I, $(LowLevel_profile_hpaths))
 LowLevel_profile_common_cflags  += -m32
-LowLevel_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevel_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevel_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevel_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevel_profile_common_cflags  += -Wno-missing-field-initializers
@@ -433,7 +433,7 @@ LowLevel_release_common_cflags    += -MMD
 LowLevel_release_common_cflags    += $(addprefix -D, $(LowLevel_release_defines))
 LowLevel_release_common_cflags    += $(addprefix -I, $(LowLevel_release_hpaths))
 LowLevel_release_common_cflags  += -m32
-LowLevel_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevel_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevel_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevel_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevel_release_common_cflags  += -Wno-missing-field-initializers

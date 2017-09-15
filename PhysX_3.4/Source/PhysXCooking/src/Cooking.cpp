@@ -219,6 +219,15 @@ bool Cooking::cookConvexMeshInternal(const PxConvexMeshDesc& desc_, ConvexMeshBu
 	{
 		PX_ASSERT(hullLib);
 
+		// clean up the indices information, it could have been set by accident
+		desc.flags &= ~PxConvexFlag::e16_BIT_INDICES;
+		desc.indices.count = 0;
+		desc.indices.data = NULL;
+		desc.indices.stride = 0;
+		desc.polygons.count = 0;
+		desc.polygons.data = NULL;
+		desc.polygons.stride = 0;
+
 		PxConvexMeshCookingResult::Enum res = hullLib->createConvexHull();
 		if (res == PxConvexMeshCookingResult::eSUCCESS || res == PxConvexMeshCookingResult::ePOLYGONS_LIMIT_REACHED)
 		{

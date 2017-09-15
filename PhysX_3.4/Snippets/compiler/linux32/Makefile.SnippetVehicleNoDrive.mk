@@ -77,7 +77,7 @@ SnippetVehicleNoDrive_debug_common_cflags    += -MMD
 SnippetVehicleNoDrive_debug_common_cflags    += $(addprefix -D, $(SnippetVehicleNoDrive_debug_defines))
 SnippetVehicleNoDrive_debug_common_cflags    += $(addprefix -I, $(SnippetVehicleNoDrive_debug_hpaths))
 SnippetVehicleNoDrive_debug_common_cflags  += -m32
-SnippetVehicleNoDrive_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleNoDrive_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleNoDrive_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleNoDrive_debug_common_cflags  += -Wno-uninitialized
 SnippetVehicleNoDrive_debug_common_cflags  += -g3 -gdwarf-2
@@ -188,7 +188,7 @@ SnippetVehicleNoDrive_checked_common_cflags    += -MMD
 SnippetVehicleNoDrive_checked_common_cflags    += $(addprefix -D, $(SnippetVehicleNoDrive_checked_defines))
 SnippetVehicleNoDrive_checked_common_cflags    += $(addprefix -I, $(SnippetVehicleNoDrive_checked_hpaths))
 SnippetVehicleNoDrive_checked_common_cflags  += -m32
-SnippetVehicleNoDrive_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleNoDrive_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleNoDrive_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleNoDrive_checked_common_cflags  += -Wno-uninitialized
 SnippetVehicleNoDrive_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -299,7 +299,7 @@ SnippetVehicleNoDrive_profile_common_cflags    += -MMD
 SnippetVehicleNoDrive_profile_common_cflags    += $(addprefix -D, $(SnippetVehicleNoDrive_profile_defines))
 SnippetVehicleNoDrive_profile_common_cflags    += $(addprefix -I, $(SnippetVehicleNoDrive_profile_hpaths))
 SnippetVehicleNoDrive_profile_common_cflags  += -m32
-SnippetVehicleNoDrive_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleNoDrive_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleNoDrive_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleNoDrive_profile_common_cflags  += -Wno-uninitialized
 SnippetVehicleNoDrive_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -409,7 +409,7 @@ SnippetVehicleNoDrive_release_common_cflags    += -MMD
 SnippetVehicleNoDrive_release_common_cflags    += $(addprefix -D, $(SnippetVehicleNoDrive_release_defines))
 SnippetVehicleNoDrive_release_common_cflags    += $(addprefix -I, $(SnippetVehicleNoDrive_release_hpaths))
 SnippetVehicleNoDrive_release_common_cflags  += -m32
-SnippetVehicleNoDrive_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetVehicleNoDrive_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetVehicleNoDrive_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetVehicleNoDrive_release_common_cflags  += -Wno-uninitialized
 SnippetVehicleNoDrive_release_common_cflags  += -O3 -fno-strict-aliasing

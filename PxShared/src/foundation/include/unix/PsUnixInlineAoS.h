@@ -34,9 +34,6 @@
 #error Vector intrinsics should not be included when using scalar implementation.
 #endif
 
-// Remove this define when all platforms use simd solver.
-#define PX_SUPPORT_SIMD
-
 #if PX_INTEL_FAMILY
 #include "sse2/PsUnixSse2InlineAoS.h"
 #elif PX_NEON

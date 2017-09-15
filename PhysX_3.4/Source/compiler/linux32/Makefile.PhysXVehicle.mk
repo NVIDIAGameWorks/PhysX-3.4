@@ -74,7 +74,7 @@ PhysXVehicle_debug_common_cflags    += -MMD
 PhysXVehicle_debug_common_cflags    += $(addprefix -D, $(PhysXVehicle_debug_defines))
 PhysXVehicle_debug_common_cflags    += $(addprefix -I, $(PhysXVehicle_debug_hpaths))
 PhysXVehicle_debug_common_cflags  += -m32
-PhysXVehicle_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXVehicle_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXVehicle_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXVehicle_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXVehicle_debug_common_cflags  += -Wno-missing-field-initializers
@@ -173,7 +173,7 @@ PhysXVehicle_checked_common_cflags    += -MMD
 PhysXVehicle_checked_common_cflags    += $(addprefix -D, $(PhysXVehicle_checked_defines))
 PhysXVehicle_checked_common_cflags    += $(addprefix -I, $(PhysXVehicle_checked_hpaths))
 PhysXVehicle_checked_common_cflags  += -m32
-PhysXVehicle_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXVehicle_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXVehicle_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXVehicle_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXVehicle_checked_common_cflags  += -Wno-missing-field-initializers
@@ -272,7 +272,7 @@ PhysXVehicle_profile_common_cflags    += -MMD
 PhysXVehicle_profile_common_cflags    += $(addprefix -D, $(PhysXVehicle_profile_defines))
 PhysXVehicle_profile_common_cflags    += $(addprefix -I, $(PhysXVehicle_profile_hpaths))
 PhysXVehicle_profile_common_cflags  += -m32
-PhysXVehicle_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXVehicle_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXVehicle_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXVehicle_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXVehicle_profile_common_cflags  += -Wno-missing-field-initializers
@@ -370,7 +370,7 @@ PhysXVehicle_release_common_cflags    += -MMD
 PhysXVehicle_release_common_cflags    += $(addprefix -D, $(PhysXVehicle_release_defines))
 PhysXVehicle_release_common_cflags    += $(addprefix -I, $(PhysXVehicle_release_hpaths))
 PhysXVehicle_release_common_cflags  += -m32
-PhysXVehicle_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXVehicle_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXVehicle_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXVehicle_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXVehicle_release_common_cflags  += -Wno-missing-field-initializers

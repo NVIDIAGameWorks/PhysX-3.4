@@ -101,7 +101,7 @@ if os.path.isdir(os.path.join(sdkRoot, "../PhysX_3.4")):
 	externalsRoot = os.path.join(sdkRoot, "../Externals")
 	pxSharedRoot = os.path.join(sdkRoot, "../PxShared")
 else:
-	externalsRoot = os.path.join(utils.find_root_path(scriptDir, "externals/clang"), "externals")
+	externalsRoot = os.path.join(utils.find_root_path(scriptDir, os.path.normpath("externals/clang")), "externals")
 	pxSharedRoot = os.path.join(utils.find_root_path(scriptDir, "PxShared"), os.path.normpath("PxShared/1.0/trunk"))
 
 print("testmode:", args.test)
@@ -143,24 +143,24 @@ includes += includeString(sdkRoot + '/Tools/PhysXMetaDataGenerator')
 
 print("platform:", platform.system())
 
-commonFlags = '-DNDEBUG -DPX_GENERATE_META_DATA -x c++-header -std=c++0x -w -nobuiltininc -fms-extensions '
+commonFlags = '-DNDEBUG -DPX_GENERATE_META_DATA -x c++-header -std=c++0x -w -Wno-c++11-narrowing -fms-extensions '
 
 if platform.system() == "Windows":
 	# stddef.h doesn't compile with VS10 and -std=c++0x
 	# for some reason -cc1 needs to go first in commonFlags
 	commonFlags = '-cc1 ' + commonFlags
 	platformFlags = '-DPX_VC=11 -D_WIN32 ' + ' -isystem"' + os.environ['VS110COMNTOOLS'] + '/../../VC/include"'
-	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/3.3.3/win32/bin/clang.exe'))
+	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/win32/bin/clang.exe'))
 	debugFile = open("temp/clangCommandLine_windows.txt", "a")
 	
 elif platform.system() == "Linux":
 	platformFlags = ''
-	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/3.3.3/linux32/bin/clang'))
+	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/linux32/bin/clang'))
 	debugFile = open("temp/clangCommandLine_linux.txt", "a")
 	
 elif platform.system() == "Darwin":
 	platformFlags = ' -isysroot' + get_osx_platform_path()
-	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/3.3.3/osx/bin/clang'))
+	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/osx/bin/clang'))
 	debugFile = open("temp/clangCommandLine_osx.txt", "a")
 	
 else:
@@ -177,7 +177,7 @@ if not os.path.isfile(clangExe):
 clangExe = '"' + clangExe + '"'
 	
 # required for execution of clang.exe
-os.environ["PWD"] = os.path.join(sdkRoot, os.path.normpath("Tools\PhysXMetaDataGenerator"))
+os.environ["PWD"] = os.path.join(sdkRoot, os.path.normpath("Tools/PhysXMetaDataGenerator"))
 
 ###############################
 # PxPhysicsWithExtensions     #

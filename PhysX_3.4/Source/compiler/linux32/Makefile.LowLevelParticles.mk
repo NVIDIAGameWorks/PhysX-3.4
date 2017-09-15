@@ -71,7 +71,7 @@ LowLevelParticles_debug_common_cflags    += -MMD
 LowLevelParticles_debug_common_cflags    += $(addprefix -D, $(LowLevelParticles_debug_defines))
 LowLevelParticles_debug_common_cflags    += $(addprefix -I, $(LowLevelParticles_debug_hpaths))
 LowLevelParticles_debug_common_cflags  += -m32
-LowLevelParticles_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevelParticles_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelParticles_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevelParticles_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevelParticles_debug_common_cflags  += -Wno-missing-field-initializers
@@ -169,7 +169,7 @@ LowLevelParticles_checked_common_cflags    += -MMD
 LowLevelParticles_checked_common_cflags    += $(addprefix -D, $(LowLevelParticles_checked_defines))
 LowLevelParticles_checked_common_cflags    += $(addprefix -I, $(LowLevelParticles_checked_hpaths))
 LowLevelParticles_checked_common_cflags  += -m32
-LowLevelParticles_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevelParticles_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelParticles_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevelParticles_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevelParticles_checked_common_cflags  += -Wno-missing-field-initializers
@@ -267,7 +267,7 @@ LowLevelParticles_profile_common_cflags    += -MMD
 LowLevelParticles_profile_common_cflags    += $(addprefix -D, $(LowLevelParticles_profile_defines))
 LowLevelParticles_profile_common_cflags    += $(addprefix -I, $(LowLevelParticles_profile_hpaths))
 LowLevelParticles_profile_common_cflags  += -m32
-LowLevelParticles_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevelParticles_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelParticles_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevelParticles_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevelParticles_profile_common_cflags  += -Wno-missing-field-initializers
@@ -364,7 +364,7 @@ LowLevelParticles_release_common_cflags    += -MMD
 LowLevelParticles_release_common_cflags    += $(addprefix -D, $(LowLevelParticles_release_defines))
 LowLevelParticles_release_common_cflags    += $(addprefix -I, $(LowLevelParticles_release_hpaths))
 LowLevelParticles_release_common_cflags  += -m32
-LowLevelParticles_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevelParticles_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelParticles_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevelParticles_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevelParticles_release_common_cflags  += -Wno-missing-field-initializers

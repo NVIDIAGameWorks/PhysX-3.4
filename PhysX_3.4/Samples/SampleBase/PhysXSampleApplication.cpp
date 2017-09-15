@@ -710,7 +710,6 @@ void PhysXSampleApplication::onRender()
 			for(PxU32 i=0;i<8;i++)
 				cameraBounds.include(frustumVerts[i]);
 			mScene->setVisualizationCullingBox(cameraBounds);
-			mScene->setVisualizationParameter(PxVisualizationParameter::eCULL_BOX, 1.0f);
 		}
 #endif
 		renderer->clearBuffers();

@@ -689,23 +689,26 @@ namespace physx
 			points1In0[i] = V3SetZ(points1In0[i], d);
 			iPolygonMin = V3Min(iPolygonMin, points1In0[i]);
 			iPolygonMax = V3Max(iPolygonMax, points1In0[i]);
-			if(FAllGrtr(rd, z))
-			{
-				points1In0Penetration[i] = true;
 
-				if(contains(points0In0, 3, points1In0[i], rPolygonMin, rPolygonMax))
+			bool penetrated = false;
+			
+			if (FAllGrtr(rd, z))
+			{
+				penetrated = true;
+
+				if (contains(points0In0, 3, points1In0[i], rPolygonMin, rPolygonMax))
 				{
 					inside++;
-					
+
 					//add this contact to the buffer
 					const FloatV t = V3Dot(contactNormal, V3Sub(triangle.verts[0], vert1));
-					const Vec3V projectPoint = V3ScaleAdd(contactNormal, t, vert1); 
+					const Vec3V projectPoint = V3ScaleAdd(contactNormal, t, vert1);
 					const Vec4V localNormalPen = V4SetW(Vec4V_From_Vec3V(contactNormal), FNeg(t));
 					numManifoldContacts = addMeshContacts(manifoldContacts, vert1, projectPoint, localNormalPen, triangleIndex, numManifoldContacts);
-					
+
 					//if the numContacts are more than GU_MESH_CONTACT_REDUCTION_THRESHOLD, we need to do contact reduction
 					const PxU32 numContacts = numManifoldContacts - previousContacts;
-					if(numContacts >= GU_MESH_CONTACT_REDUCTION_THRESHOLD)
+					if (numContacts >= GU_MESH_CONTACT_REDUCTION_THRESHOLD)
 					{
 						//a polygon has more than GU_MESH_CONTACT_REDUCTION_THRESHOLD(16) contacts with this triangle, we will reduce
 						//the contacts to GU_SINGLE_MANIFOLD_SINGLE_POLYGONE_CACHE_SIZE(4) points
@@ -714,7 +717,8 @@ namespace physx
 					}
 				}
 			}
-			
+
+			points1In0Penetration[i] = penetrated;
 		}
 
 

@@ -1012,9 +1012,3 @@ void Sc::BodySim::freezeTransforms(Cm::BitMapPinned* shapeChangedMap)
 	}
 }
 
-void Sc::BodySim::postShapeChange(bool /*asPartOfActorTransformChange*/)
-{
-	// shape geometry or transform changes can cause connectivity changes and thus a second island gen pass is needed.
-	/*if (!asPartOfActorTransformChange)
-		internalNotifySecondIslandGenPassNeeded();*/
-}

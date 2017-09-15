@@ -45,8 +45,9 @@ namespace physx
 /**
 \brief Describe type of phase in cloth fabric.
 \see PxClothFabric for an explanation of concepts on phase and set.
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 */
-struct PxClothFabricPhaseType
+struct PX_DEPRECATED PxClothFabricPhaseType
 {
 	enum Enum
 	{
@@ -62,8 +63,9 @@ struct PxClothFabricPhaseType
 /**
 \brief References a set of constraints that can be solved in parallel.
 \see PxClothFabric for an explanation of the concepts on phase and set.
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 */
-struct PxClothFabricPhase
+struct PX_DEPRECATED PxClothFabricPhase
 {
 	PxClothFabricPhase(PxClothFabricPhaseType::Enum type = 
 		PxClothFabricPhaseType::eINVALID, PxU32 index = 0);
@@ -88,8 +90,9 @@ PX_INLINE PxClothFabricPhase::PxClothFabricPhase(
 /**
 \brief References all the data required to create a fabric.
 \see PxPhysics.createClothFabric(), PxClothFabricCooker.getDescriptor()
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
 */
-class PxClothFabricDesc
+class PX_DEPRECATED PxClothFabricDesc
 {
 public:
 	/** \brief The number of particles needed when creating a PxCloth instance from the fabric. */
@@ -174,10 +177,12 @@ The tether anchor is the index of the other particle, and the tether length is t
 these two particles are allowed to be away from each other. A tether constraint is momentum conserving 
 if the anchor particle has infinite mass (zero inverse weight).
 
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
+
 @see The fabric structure can be created from a mesh using PxClothFabricCreate. Alternatively, the fabric data can 
 be saved into a stream (see PxClothFabricCooker.save()) and later created from the stream using PxPhysics.createClothFabric(PxInputStream&).
 */
-class PxClothFabric	: public PxBase
+class PX_DEPRECATED PxClothFabric	: public PxBase
 {
 public:
 	/**

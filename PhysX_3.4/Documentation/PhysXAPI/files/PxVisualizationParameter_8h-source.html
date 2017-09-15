@@ -89,7 +89,7 @@
 <a name="l00133"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb100d326f5ea2be6379999dd3b0e80a0552">00133</a>         eBODY_ANG_VELOCITY,
 <a name="l00134"></a>00134 
 <a name="l00135"></a>00135 
-<a name="l00141"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10c532ebfdd815188068b9e7fc4a7de42e">00141</a>         eBODY_JOINT_GROUPS,
+<a name="l00141"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb1079945aa500514b2d2aa5589257fa765e">00141</a>         eDEPRECATED_BODY_JOINT_GROUPS,
 <a name="l00142"></a>00142 
 <a name="l00143"></a>00143     <span class="comment">/* Contact visualisations */</span>
 <a name="l00144"></a>00144 
@@ -144,29 +144,27 @@
 <a name="l00269"></a>00269 
 <a name="l00273"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb103a49bd7965a0d4144478e00a2f2736d1">00273</a>         ePARTICLE_SYSTEM_MAX_MOTION_DISTANCE,
 <a name="l00274"></a>00274     
-<a name="l00275"></a>00275     <span class="comment">/* Visualization subscene (culling box) */</span>
-<a name="l00276"></a>00276 
-<a name="l00280"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10d79ee3e849c6acfb058f2768d61f1838">00280</a>         eCULL_BOX,
-<a name="l00281"></a>00281 
-<a name="l00285"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10a2b395e281392d1d25f755828485ebb9">00285</a>         eCLOTH_VERTICAL,    
-<a name="l00289"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10611212b6efbf30e46f0507646bbf83fb">00289</a>         eCLOTH_HORIZONTAL,  
-<a name="l00293"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10a44556e3ea1ddb826289de5a277782a0">00293</a>         eCLOTH_BENDING,     
-<a name="l00297"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10a840a68af2da4f6d67b9a00142c8a097">00297</a>         eCLOTH_SHEARING,    
-<a name="l00301"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb103b546470d8e2c612e3c4947dc60a0b6e">00301</a>         eCLOTH_VIRTUAL_PARTICLES,
-<a name="l00302"></a>00302 
-<a name="l00306"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10e388a13d5b1b741b469a6f0d594f7e84">00306</a>         eMBP_REGIONS,
-<a name="l00307"></a>00307 
-<a name="l00311"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb100c40daf35b0de6c839d05bd35c0cf5da">00311</a>         eNUM_VALUES,
-<a name="l00312"></a>00312 
-<a name="l00313"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10cac9e863525b516ca84acf281515acd6">00313</a>         eFORCE_DWORD = 0x7fffffff
-<a name="l00314"></a>00314     };
-<a name="l00315"></a>00315 };
-<a name="l00316"></a>00316 
-<a name="l00317"></a>00317 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00318"></a>00318 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00319"></a>00319 <span class="preprocessor">#endif</span>
-<a name="l00320"></a>00320 <span class="preprocessor"></span>
-<a name="l00322"></a>00322 <span class="preprocessor">#endif</span>
+<a name="l00278"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10d79ee3e849c6acfb058f2768d61f1838">00278</a>         eCULL_BOX,
+<a name="l00279"></a>00279 
+<a name="l00283"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10a2b395e281392d1d25f755828485ebb9">00283</a>         eCLOTH_VERTICAL,    
+<a name="l00287"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10611212b6efbf30e46f0507646bbf83fb">00287</a>         eCLOTH_HORIZONTAL,  
+<a name="l00291"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10a44556e3ea1ddb826289de5a277782a0">00291</a>         eCLOTH_BENDING,     
+<a name="l00295"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10a840a68af2da4f6d67b9a00142c8a097">00295</a>         eCLOTH_SHEARING,    
+<a name="l00299"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb103b546470d8e2c612e3c4947dc60a0b6e">00299</a>         eCLOTH_VIRTUAL_PARTICLES,
+<a name="l00300"></a>00300 
+<a name="l00304"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10e388a13d5b1b741b469a6f0d594f7e84">00304</a>         eMBP_REGIONS,
+<a name="l00305"></a>00305 
+<a name="l00309"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb100c40daf35b0de6c839d05bd35c0cf5da">00309</a>         eNUM_VALUES,
+<a name="l00310"></a>00310 
+<a name="l00311"></a><a class="code" href="structPxVisualizationParameter.html#dce8e8a77c144356b0968d2b9f79eb10cac9e863525b516ca84acf281515acd6">00311</a>         eFORCE_DWORD = 0x7fffffff
+<a name="l00312"></a>00312     };
+<a name="l00313"></a>00313 };
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00316"></a>00316 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00317"></a>00317 <span class="preprocessor">#endif</span>
+<a name="l00318"></a>00318 <span class="preprocessor"></span>
+<a name="l00320"></a>00320 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

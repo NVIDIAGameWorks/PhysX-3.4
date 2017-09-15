@@ -60,14 +60,14 @@ bool pcmContactPlaneConvex(GU_CONTACT_METHOD_ARGS)
 	
 	const Vec3V vScale = V3LoadU_SafeReadW(shapeConvex.scale.scale);	// PT: safe because 'rotation' follows 'scale' in PxMeshScale
 	const Gu::ConvexHullData* hullData = shapeConvex.hullData;
-	const FloatV convexMargin = Gu::CalculatePCMConvexMargin(hullData, vScale);
-	
 
+	const PxReal toleranceLength = params.mToleranceLength;
+	const FloatV convexMargin = Gu::CalculatePCMConvexMargin(hullData, vScale, toleranceLength);
+	
 	//in world space
 	const Vec3V planeNormal = V3Normalize(QuatGetBasisVector0(transf1.q));
 	const Vec3V negPlaneNormal = V3Neg(planeNormal);
 	
-
 	const FloatV contactDist = FLoad(params.mContactDistance);
 
 	//const FloatV replaceBreakingThreshold = FMul(convexMargin, FLoad(0.001f));
@@ -80,8 +80,6 @@ bool pcmContactPlaneConvex(GU_CONTACT_METHOD_ARGS)
 	const bool bLostContacts = (newContacts != initialContacts);//((initialContacts == 0) || (newContacts != initialContacts));
 
 	
-	PX_UNUSED(bLostContacts);
-	//if(bLostContacts || manifold.invalidate_BoxConvex(curTransf, convexMargin))
 	if(bLostContacts || manifold.invalidate_PrimitivesPlane(curTransf, convexMargin, FLoad(0.2f)))
 	{
 		const PsMatTransformV aToB(curTransf);
@@ -126,7 +124,7 @@ bool pcmContactPlaneConvex(GU_CONTACT_METHOD_ARGS)
 				if(numContacts >= Gu::ContactBuffer::MAX_CONTACTS)
 				{
 					//ML: number of contacts are more than MAX_CONTACTS, we need to force contact reduction
-					manifold.reduceBatchContacts(manifoldContacts, numContacts);
+					manifold.reduceBatchContacts(manifoldContacts, numContacts, toleranceLength);
 					numContacts = GU_MANIFOLD_CACHE_SIZE;
 					for(PxU32 j=0; j<GU_MANIFOLD_CACHE_SIZE; ++j)
 					{
@@ -137,7 +135,7 @@ bool pcmContactPlaneConvex(GU_CONTACT_METHOD_ARGS)
 		}
 
 		//reduce contacts
-		manifold.addBatchManifoldContacts(manifoldContacts, numContacts);
+		manifold.addBatchManifoldContacts(manifoldContacts, numContacts, toleranceLength);
 		manifold.addManifoldContactsToContactBuffer(contactBuffer, negPlaneNormal, transf1, contactDist);
 #if	PCM_LOW_LEVEL_DEBUG
 		manifold.drawManifold(*renderOutput, transf0, transf1);

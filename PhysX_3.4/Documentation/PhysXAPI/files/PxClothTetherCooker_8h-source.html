@@ -61,45 +61,45 @@
 <a name="l00041"></a>00041 <span class="preprocessor"></span>    
 <a name="l00042"></a>00042 <span class="keyword">struct </span>PxClothSimpleTetherCookerImpl;
 <a name="l00043"></a>00043 
-<a name="l00044"></a><a class="code" href="classPxClothSimpleTetherCooker.html">00044</a> <span class="keyword">class </span><a class="code" href="classPxClothSimpleTetherCooker.html">PxClothSimpleTetherCooker</a>
-<a name="l00045"></a>00045 {
-<a name="l00046"></a>00046 <span class="keyword">public</span>:
-<a name="l00056"></a>00056     <a class="code" href="classPxClothSimpleTetherCooker.html">PxClothSimpleTetherCooker</a>(<span class="keyword">const</span> <a class="code" href="classPxClothMeshDesc.html" title="Descriptor class for a cloth mesh.">PxClothMeshDesc</a> &amp;desc);
-<a name="l00057"></a>00057     ~<a class="code" href="classPxClothSimpleTetherCooker.html">PxClothSimpleTetherCooker</a>();
-<a name="l00058"></a>00058 
-<a name="l00064"></a>00064     <span class="keywordtype">void</span> getTetherData(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>* userTetherAnchors, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>* userTetherLengths) <span class="keyword">const</span>;
-<a name="l00065"></a>00065 
-<a name="l00066"></a>00066 <span class="keyword">private</span>:
-<a name="l00067"></a><a class="code" href="classPxClothSimpleTetherCooker.html#1a5c734b0e171d117f763656fe6e2b3a">00067</a>     PxClothSimpleTetherCookerImpl* mImpl;
+<a name="l00047"></a><a class="code" href="classPxClothSimpleTetherCooker.html">00047</a> <span class="keyword">class </span><a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="code" href="classPxClothSimpleTetherCooker.html">PxClothSimpleTetherCooker</a>
+<a name="l00048"></a>00048 {
+<a name="l00049"></a>00049 <span class="keyword">public</span>:
+<a name="l00059"></a>00059     <a class="code" href="classPxClothSimpleTetherCooker.html">PxClothSimpleTetherCooker</a>(<span class="keyword">const</span> <a class="code" href="classPxClothMeshDesc.html" title="Descriptor class for a cloth mesh.">PxClothMeshDesc</a> &amp;desc);
+<a name="l00060"></a>00060     ~<a class="code" href="classPxClothSimpleTetherCooker.html">PxClothSimpleTetherCooker</a>();
+<a name="l00061"></a>00061 
+<a name="l00067"></a>00067     <span class="keywordtype">void</span> getTetherData(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>* userTetherAnchors, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>* userTetherLengths) <span class="keyword">const</span>;
 <a name="l00068"></a>00068 
-<a name="l00069"></a>00069 };
-<a name="l00070"></a>00070 
+<a name="l00069"></a>00069 <span class="keyword">private</span>:
+<a name="l00070"></a><a class="code" href="classPxClothSimpleTetherCooker.html#1a5c734b0e171d117f763656fe6e2b3a">00070</a>     PxClothSimpleTetherCookerImpl* mImpl;
 <a name="l00071"></a>00071 
-<a name="l00072"></a>00072 <span class="keyword">struct </span>PxClothGeodesicTetherCookerImpl;
+<a name="l00072"></a>00072 };
 <a name="l00073"></a>00073 
-<a name="l00074"></a><a class="code" href="classPxClothGeodesicTetherCooker.html">00074</a> <span class="keyword">class </span><a class="code" href="classPxClothGeodesicTetherCooker.html">PxClothGeodesicTetherCooker</a>
-<a name="l00075"></a>00075 {
-<a name="l00076"></a>00076 <span class="keyword">public</span>:
-<a name="l00090"></a>00090     <a class="code" href="classPxClothGeodesicTetherCooker.html">PxClothGeodesicTetherCooker</a>(<span class="keyword">const</span> <a class="code" href="classPxClothMeshDesc.html" title="Descriptor class for a cloth mesh.">PxClothMeshDesc</a> &amp;desc);
-<a name="l00091"></a>00091     ~<a class="code" href="classPxClothGeodesicTetherCooker.html">PxClothGeodesicTetherCooker</a>();
-<a name="l00092"></a>00092 
-<a name="l00098"></a>00098     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> getCookerStatus() <span class="keyword">const</span>;
-<a name="l00099"></a>00099 
-<a name="l00106"></a>00106     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> getNbTethersPerParticle() <span class="keyword">const</span>;
-<a name="l00107"></a>00107 
-<a name="l00114"></a>00114     <span class="keywordtype">void</span> getTetherData(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>* userTetherAnchors, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>* userTetherLengths) <span class="keyword">const</span>;
-<a name="l00115"></a>00115 
-<a name="l00116"></a>00116 <span class="keyword">private</span>:
-<a name="l00117"></a><a class="code" href="classPxClothGeodesicTetherCooker.html#1b2e78b91a4e9ccab30cd8da05527811">00117</a>     PxClothGeodesicTetherCookerImpl* mImpl;
-<a name="l00118"></a>00118 
-<a name="l00119"></a>00119 };
-<a name="l00120"></a>00120 
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 <span class="keyword">struct </span>PxClothGeodesicTetherCookerImpl;
+<a name="l00076"></a>00076 
+<a name="l00080"></a><a class="code" href="classPxClothGeodesicTetherCooker.html">00080</a> <span class="keyword">class </span><a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="code" href="classPxClothGeodesicTetherCooker.html">PxClothGeodesicTetherCooker</a>
+<a name="l00081"></a>00081 {
+<a name="l00082"></a>00082 <span class="keyword">public</span>:
+<a name="l00096"></a>00096     <a class="code" href="classPxClothGeodesicTetherCooker.html">PxClothGeodesicTetherCooker</a>(<span class="keyword">const</span> <a class="code" href="classPxClothMeshDesc.html" title="Descriptor class for a cloth mesh.">PxClothMeshDesc</a> &amp;desc);
+<a name="l00097"></a>00097     ~<a class="code" href="classPxClothGeodesicTetherCooker.html">PxClothGeodesicTetherCooker</a>();
+<a name="l00098"></a>00098 
+<a name="l00104"></a>00104     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> getCookerStatus() <span class="keyword">const</span>;
+<a name="l00105"></a>00105 
+<a name="l00112"></a>00112     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> getNbTethersPerParticle() <span class="keyword">const</span>;
+<a name="l00113"></a>00113 
+<a name="l00120"></a>00120     <span class="keywordtype">void</span> getTetherData(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>* userTetherAnchors, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>* userTetherLengths) <span class="keyword">const</span>;
 <a name="l00121"></a>00121 
-<a name="l00122"></a>00122 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00123"></a>00123 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00124"></a>00124 <span class="preprocessor">#endif</span>
-<a name="l00125"></a>00125 <span class="preprocessor"></span>
-<a name="l00126"></a>00126 <span class="preprocessor">#endif // PX_PHYSICS_EXTENSIONS_CLOTH_TETHER_COOKER_H</span>
+<a name="l00122"></a>00122 <span class="keyword">private</span>:
+<a name="l00123"></a><a class="code" href="classPxClothGeodesicTetherCooker.html#1b2e78b91a4e9ccab30cd8da05527811">00123</a>     PxClothGeodesicTetherCookerImpl* mImpl;
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 };
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00129"></a>00129 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00130"></a>00130 <span class="preprocessor">#endif</span>
+<a name="l00131"></a>00131 <span class="preprocessor"></span>
+<a name="l00132"></a>00132 <span class="preprocessor">#endif // PX_PHYSICS_EXTENSIONS_CLOTH_TETHER_COOKER_H</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

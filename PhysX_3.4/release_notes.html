@@ -2,7 +2,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>Release Notes - NVIDIA PhysX SDK 3.4.0.22121272</title>
+<title>Release Notes - NVIDIA PhysX SDK 3.4.0.22387197</title>
 <style type="text/css">
 	body
 	{
@@ -30,6 +30,117 @@
 
 <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+<h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.1</h1>
+<h2 style="TEXT-ALIGN: center">September 2017</h2>
+
+	<h2>Changes and Resolved Issues</h2>
+	<blockquote>
+
+	<i>Note: Platform specific issues and changes can be found in the readme file of the corresponding platform.</i>
+
+	</blockquote>
+
+	<h3>General</h3>
+	<ul>
+		<li>Deprecated:</li>
+		<ul>
+			<li>The PhysX cloth feature has been deprecated.</li>
+		</ul>
+        <li>Changed:</li>
+        <ul>
+            <li>The meaning of PxVisualizationParameter::eCULL_BOX has changed. It is now used to visualize the current culling box, while it was previously used to enable or disable the feature. Please simply use PxScene::setVisualizationCullingBox() to enable the feature from now on.</li>
+            <li>PxVisualizationParameter::eBODY_JOINT_GROUPS has been deprecated.</li>
+            <li>Performance of setCMassLocalPose function has been improved.</li>
+        </ul>
+		<li>Added:</li>
+		<ul>
+			<li>PhysXGpu: Added warnings for the case when the dynamic gpu library fails to load.</li>
+		</ul>
+	</ul>	
+	
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>A potential crash when calling detachShape has been fixed.</li>
+            <li>Fixed assert that fired if application switched a body from dynamic to kinematic, then queried kinematic target without setting one. This assert only fired if the modifications overlapped simulation so were buffered.</li>
+            <li>PxArticulation::getStabilizationThreshold() and PxArticulation::setStabilizationThreshold() were accessing the sleep threshold instead of the stabilization threshold. This has been fixed.</li>
+        </ul>
+        <li>Changed:</li>
+        <ul>
+            <li>Improved convex vs mesh contact generation when using GPU rigid bodies. Requires the mesh to be recooked.</li>
+            <li>Improved convex vs convex contact generation when using GPU rigid bodies.</li>
+            <li>Reduced memory footprint of GPU triangle meshes significantly. Requires the mesh to be recooked.</li>
+        </ul>
+        <li>Added:</li>
+        <ul>
+            <li>Support for modifying friction and restitution coefficients has been added to contact modification. </li>
+            <li>Added PxRigidBodyFlag::eENABLE_CCD_MAX_CONTACT_IMPULSE to enable maxContactImpulse member of PxRigidBody to be used in CCD. This is disabled by default. It is useful in some circumstances, e.g. shooting a small ball through a plate glass window and triggering it to break, but it can also result in behavioral artefacts so it is disabled by default.</li>
+            <li>Added PxSceneDesc::solverOffsetSlop. This is defaulted to a value of 0. A positive, non-zero value defines a tolerance used in the solver below which a contacts' offset from the COM of the body is negligible and therefore snapped to zero. This clamping occurs in a space tangential to the contact or friction direction. This is aimed at pool or golf simulations, where small numerical imprecision in either contact points or normals can lead to balls curving slightly when there are relatively high angular velocities involved.</li>
+            <li>Added PxConvexMeshGeometry::maxMargin. This allows the application to tune the maximum amount by which PCM collision detection will shrink convex shapes in contact generation. This shrinking approach leads to some noticeable clipping around edges and vertices, but should not lead to clipping with face collisions. By default, the mesh is shrunk by an amount that is automatically computed based on the shape's properties. This allows you to limit by how much the shape will be shrunk. If the maxMargin is set to 0, then the original shape will be used for collision detection. </li>
+        </ul>
+
+	</ul>
+
+	<h3>Scene queries</h3>
+	<ul>
+		<li>Fixed:</li>
+		<ul>
+			<li>A rare invalid memory read that could lead to incorrect sweep results in case of an initial overlap has been fixed.</li>
+		</ul>
+	</ul>
+
+	<h3>Serialization</h3>
+	<ul>
+		<li>Fixed:</li>
+		<ul>
+			<li>Binary serialization didn't preserve PxConstraintFlags, e.g. projection flags.</li>
+			<li>Xml serialization failed if a shape referencing a PxTriangleMesh was added to another (dependent) collection.</li>
+		</ul>
+	</ul>
+
+	
+<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<br>
+<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.0.22387197</h1>
+<h2 style="TEXT-ALIGN: center">June 2017</h2>
+
+	<h2>Changes and Resolved Issues</h2>
+	<blockquote>
+
+	<i>Note: Platform specific issues and changes can be found in the readme file of the corresponding platform.</i>
+
+	</blockquote>
+
+	<h3>Cooking</h3>
+	<ul>
+		<li>Fixed:</li>
+		<ul>
+			<li>Fixed issue when PxConvexFlag::e16_BIT_INDICES was used together with PxConvexFlag::eCOMPUTE_CONVEX.</li>
+			<li>Fixed issue in convex hull cooking when postHullMerge was not executed.</li>
+            <li>Fixed crash in CCD when using bodies with 0 mass.</li>
+		</ul>
+	</ul>
+
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fixed behavioral differences when comparing the results of a given scene to the results when simulating a subset of the islands in that scene. In order for this case to be deterministic, it is necessary to raise PxSceneFlag::eENABLE_ENHANCED_DETERMINISM. </li>
+        </ul>
+
+        <li>Added:</li>
+		<ul>
+            <li>Introduced maxBiasCoefficient in PxSceneDesc to be able to limit the coefficient used to scale error to produce the bias used in the constraint solver to correct geometric error. The default value is PX_MAX_F32 and, therefore, a value of 1/dt will be used. This value can be useful to reduce/remove jitter in scenes with variable or very small time-steps.</i>
+        </ul>
+    </ul>
+
+<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<br>
+<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
 <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.0.22121272</h1>
 <h2 style="TEXT-ALIGN: center">May</h2>
 
@@ -45,6 +156,8 @@
         <li>Fixed:</li>
         <ul>
             <li>Fixed a bug in convex vs convex PCM contact gen code. There were cases in which full contact gen should have been triggered but was not. </li>
+            <li>Fixed a jittering bug on both GPU/CPU codepath in PCM contact gen code. This is due to the contact recycling condition not considering the toleranceLength. </li>
+            <li>Fixed a bug causing simulation to behave incorrectly when greater than 65536 bodies were simulated.</li>
         </ul>
     </ul>
 
@@ -80,6 +193,14 @@
 	<i>Note: Platform specific issues and changes can be found in the readme file of the corresponding platform.</i>
 
 	</blockquote>
+
+    <h3>General</h3>
+    <ul>
+        <li>Added:</li>
+        <ul>
+            <li>PxConvexMeshGeometry::maxMargin has been added. This will let the application limit how much the shape is shrunk in GJK when using by PCM contact gen</li>
+        </ul>
+    </ul>
 
     <h3>Rigid Bodies</h3>
     <ul>
@@ -121,6 +242,31 @@
 <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.0.21821222</h1>
 <h2 style="TEXT-ALIGN: center">March 2017</h2>
 
+	<h2>Supported Platforms</h2>
+	<blockquote>
+		<h3>Runtime</h3>
+		<ul>
+		<li>Apple iOS</li>
+		<li>Apple Mac OS X</li>
+		<li>Google Android ARM (version 2.2 or later required for SDK, 2.3 or later required for snippets)</li>
+		<li>Linux (tested on Ubuntu)</li>
+		<li>Microsoft Windows XP or later (NVIDIA Driver version R304 or later is required for GPU acceleration)</li>
+		<li>Microsoft XBox One</li>
+		<li>Nintendo Switch</li>
+		<li>Sony Playstation 4</li>
+		</ul>
+		<h3>Development</h3>
+		<ul>
+				<li>Microsoft Windows XP or later</li>
+				<li>Microsoft Visual Studio 2012, 2013, 2015</li>
+				<li>Xcode 8.2</li>
+		</ul>
+	</blockquote>
+	<h2>Known Issues</h2>
+	<blockquote>
+	<ul>
+	</ul>
+	</blockquote>
 	<h2>Changes and Resolved Issues</h2>
 	<blockquote>
 
@@ -173,6 +319,7 @@
 		<li>Linux (tested on Ubuntu)</li>
 		<li>Microsoft Windows XP or later (NVIDIA Driver version R304 or later is required for GPU acceleration)</li>
 		<li>Microsoft XBox One</li>
+		<li>Nintendo Switch</li>
 		<li>Sony Playstation 4</li>
 		</ul>
 		<h3>Development</h3>
@@ -368,6 +515,7 @@
             <li>Fixed a bug in CCD that could lead to a hang in the simulation.</li>
             <li>Fixed a bug in PCM mesh edge-edge check for the parallel case. </li>
             <li>Fixed a bug in CCD where contact modify callbacks could be called when the CCD did not detect a contact.</li>
+            <li>Fixed a bug with applying external force/torque to a body in buffered insertion stage.</li>
 		</ul>
 	</ul>
 

@@ -482,10 +482,11 @@ PX_CALL_CONV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 PX_CALL_CONV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__physics.html#g6adbba7aad2d451e684110269dddd720">PxRegisterUnifiedHeightFields</a> (physx::PxPhysics &amp;physics)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enables the usage of the unified heightfield feature.  <a href="#g6adbba7aad2d451e684110269dddd720"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_C_EXPORT PX_PHYSX_CORE_API <br class="typebreak">
-void PX_CALL_CONV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__physics.html#gb0b300b30efd81868ff51f9544e85b11">PxRegisterCloth</a> (physx::PxPhysics &amp;physics)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_DEPRECATED PX_C_EXPORT <br class="typebreak">
+PX_PHYSX_CORE_API void <br class="typebreak">
+PX_CALL_CONV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__physics.html#ge2faa96309a4fb0cbfcd512d2431fc82">PxRegisterCloth</a> (physx::PxPhysics &amp;physics)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enables the usage of the cloth feature. This function is called automatically inside <a class="el" href="group__physics.html#g8039bfec65da68b2294a97175ddb2c66" title="Creates an instance of the physics SDK.">PxCreatePhysics()</a>. On resource constrained platforms, it is possible to call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> and then NOT call this function to save on code memory if your application does not use cloth. In this case the linker should strip out the relevant implementation code from the library. If you need to use cloth but not some other optional component, you shoud call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> followed by this call.  <a href="#gb0b300b30efd81868ff51f9544e85b11"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enables the usage of the cloth feature. This function is called automatically inside <a class="el" href="group__physics.html#g8039bfec65da68b2294a97175ddb2c66" title="Creates an instance of the physics SDK.">PxCreatePhysics()</a>. On resource constrained platforms, it is possible to call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> and then NOT call this function to save on code memory if your application does not use cloth. In this case the linker should strip out the relevant implementation code from the library. If you need to use cloth but not some other optional component, you shoud call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> followed by this call.  <a href="#ge2faa96309a4fb0cbfcd512d2431fc82"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_DEPRECATED PX_C_EXPORT <br class="typebreak">
 PX_PHYSX_CORE_API void <br class="typebreak">
 PX_CALL_CONV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__physics.html#g197726c3bfa1abc6fbe43875c2483b38">PxRegisterParticles</a> (physx::PxPhysics &amp;physics)</td></tr>
@@ -1837,7 +1838,7 @@ Returns true if the descriptor is valid.
 <p>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>true if the current settings are valid. </dd></dl>
 
-<p>References <a class="el" href="PxSceneDesc_8h-source.html#l00618">PxSceneDesc::bounceThresholdVelocity</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00644">PxSceneDesc::ccdMaxSeparation</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00770">PxSceneDesc::contactReportStreamBufferSize</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00658">PxSceneDesc::cpuDispatcher</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00698">PxSceneDesc::dynamicTreeRebuildRateHint</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00187">PxSceneFlag::eADAPTIVE_FORCE</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00072">PxPruningStructureType::eDYNAMIC_AABB_TREE</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00272">PxSceneFlag::eENABLE_STABILIZATION</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00073">PxPruningStructureType::eSTATIC_AABB_TREE</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00557">PxSceneDesc::filterShader</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00537">PxSceneDesc::filterShaderData</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00546">PxSceneDesc::filterShaderDataSize</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00651">PxSceneDesc::flags</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00633">PxSceneDesc::frictionOffsetThreshold</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00819">PxSceneDesc::gpuMaxNumPartitions</a>, <a class="el" href="PxBounds3_8h-source.html#l00467">PxBounds3::isValid()</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00436">PxSceneLimits::isValid()</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00595">PxSceneDesc::limits</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00755">PxSceneDesc::maxNbContactDataBlocks</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00735">PxSceneDesc::nbContactDataBlocks</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00806">PxSceneDesc::sanityBounds</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00674">PxSceneDesc::staticStructure</a>, and <a class="el" href="PxSceneDesc_8h-source.html#l00795">PxSceneDesc::wakeCounterResetValue</a>.</p>
+<p>References <a class="el" href="PxSceneDesc_8h-source.html#l00618">PxSceneDesc::bounceThresholdVelocity</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00644">PxSceneDesc::ccdMaxSeparation</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00798">PxSceneDesc::contactReportStreamBufferSize</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00668">PxSceneDesc::cpuDispatcher</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00708">PxSceneDesc::dynamicTreeRebuildRateHint</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00187">PxSceneFlag::eADAPTIVE_FORCE</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00072">PxPruningStructureType::eDYNAMIC_AABB_TREE</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00272">PxSceneFlag::eENABLE_STABILIZATION</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00073">PxPruningStructureType::eSTATIC_AABB_TREE</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00557">PxSceneDesc::filterShader</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00537">PxSceneDesc::filterShaderData</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00546">PxSceneDesc::filterShaderDataSize</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00661">PxSceneDesc::flags</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00633">PxSceneDesc::frictionOffsetThreshold</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00847">PxSceneDesc::gpuMaxNumPartitions</a>, <a class="el" href="PxBounds3_8h-source.html#l00467">PxBounds3::isValid()</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00436">PxSceneLimits::isValid()</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00595">PxSceneDesc::limits</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00765">PxSceneDesc::maxNbContactDataBlocks</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00745">PxSceneDesc::nbContactDataBlocks</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00834">PxSceneDesc::sanityBounds</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00684">PxSceneDesc::staticStructure</a>, and <a class="el" href="PxSceneDesc_8h-source.html#l00823">PxSceneDesc::wakeCounterResetValue</a>.</p>
 
 </div>
 </div><p>
@@ -1863,7 +1864,7 @@ Returns true if the descriptor is valid.
 
 <p>References <a class="el" href="PxSceneDesc_8h-source.html#l00397">PxSceneLimits::maxNbRegions</a>.</p>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00924">PxSceneDesc::isValid()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00954">PxSceneDesc::isValid()</a>.</p>
 
 </div>
 </div><p>
@@ -1992,7 +1993,7 @@ Creates an instance of this class. May not be a class member to avoid name mangl
 <dl class="return" compact><dt><b>Returns:</b></dt><dd><a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a> instance on success, NULL if operation failed</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>, <a class="el" href="classPxFoundation.html" title="Foundation SDK singleton class.">PxFoundation</a>, <a class="el" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a>, PxProfileZoneManager, <a class="el" href="classPxPvd.html" title="PxPvd is the top-level class for the PVD framework, and the main customer interface...">PxPvd</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxPhysics_8h-source.html#l00810">PxCreatePhysics()</a>.</p>
+<p>Referenced by <a class="el" href="PxPhysics_8h-source.html#l00822">PxCreatePhysics()</a>.</p>
 
 </div>
 </div><p>
@@ -2054,9 +2055,9 @@ Calling this will register all optional code modules (Articulations, HeightField
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd><a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a> instance on success, NULL if operation failed</dd></dl>
-<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>, <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics</a>, <a class="el" href="group__physics.html#g92144d0904f8a696f85737c576b88d9f" title="Enables the usage of the articulations feature. This function is called automatically...">PxRegisterArticulations</a>, <a class="el" href="group__physics.html#ge3a84455caaa6a7de67513ea29a315e1" title="Enables the usage of the heightfield feature.">PxRegisterHeightFields</a>, <a class="el" href="group__physics.html#gb0b300b30efd81868ff51f9544e85b11" title="Enables the usage of the cloth feature. This function is called automatically inside...">PxRegisterCloth</a>, <a class="el" href="group__physics.html#g197726c3bfa1abc6fbe43875c2483b38" title="Enables the usage of the particles feature. This function is called automatically...">PxRegisterParticles</a> </dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>, <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics</a>, <a class="el" href="group__physics.html#g92144d0904f8a696f85737c576b88d9f" title="Enables the usage of the articulations feature. This function is called automatically...">PxRegisterArticulations</a>, <a class="el" href="group__physics.html#ge3a84455caaa6a7de67513ea29a315e1" title="Enables the usage of the heightfield feature.">PxRegisterHeightFields</a>, <a class="el" href="group__physics.html#ge2faa96309a4fb0cbfcd512d2431fc82" title="Enables the usage of the cloth feature. This function is called automatically inside...">PxRegisterCloth</a>, <a class="el" href="group__physics.html#g197726c3bfa1abc6fbe43875c2483b38" title="Enables the usage of the particles feature. This function is called automatically...">PxRegisterParticles</a> </dd></dl>
 
-<p>References <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66">PxCreateBasePhysics()</a>, <a class="el" href="group__physics.html#g92144d0904f8a696f85737c576b88d9f">PxRegisterArticulations()</a>, <a class="el" href="group__physics.html#gb0b300b30efd81868ff51f9544e85b11">PxRegisterCloth()</a>, <a class="el" href="group__physics.html#ge3a84455caaa6a7de67513ea29a315e1">PxRegisterHeightFields()</a>, and <a class="el" href="group__physics.html#g197726c3bfa1abc6fbe43875c2483b38">PxRegisterParticles()</a>.</p>
+<p>References <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66">PxCreateBasePhysics()</a>, <a class="el" href="group__physics.html#g92144d0904f8a696f85737c576b88d9f">PxRegisterArticulations()</a>, <a class="el" href="group__physics.html#ge2faa96309a4fb0cbfcd512d2431fc82">PxRegisterCloth()</a>, <a class="el" href="group__physics.html#ge3a84455caaa6a7de67513ea29a315e1">PxRegisterHeightFields()</a>, and <a class="el" href="group__physics.html#g197726c3bfa1abc6fbe43875c2483b38">PxRegisterParticles()</a>.</p>
 
 </div>
 </div><p>
@@ -2078,7 +2079,7 @@ Calling this will register all optional code modules (Articulations, HeightField
 <p>
 Creates a spatial index. 
 <p>
-<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000039">Deprecated:</a></b></dt><dd>Spatial index feature has been deprecated in PhysX version 3.4</dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000054">Deprecated:</a></b></dt><dd>Spatial index feature has been deprecated in PhysX version 3.4</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxSpatialIndex.html" title="provides direct access to PhysX&#39; Spatial Query engine">PxSpatialIndex</a> </dd></dl>
 
 </div>
@@ -2221,16 +2222,16 @@ Before using this function the user must call <a class="el" href="group__physics
 Enables the usage of the articulations feature. This function is called automatically inside <a class="el" href="group__physics.html#g8039bfec65da68b2294a97175ddb2c66" title="Creates an instance of the physics SDK.">PxCreatePhysics()</a>. On resource constrained platforms, it is possible to call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> and then NOT call this function to save on code memory if your application does not use articulations. In this case the linker should strip out the relevant implementation code from the library. If you need to use articulations but not some other optional component, you shoud call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> followed by this call. 
 <p>
 
-<p>Referenced by <a class="el" href="PxPhysics_8h-source.html#l00810">PxCreatePhysics()</a>.</p>
+<p>Referenced by <a class="el" href="PxPhysics_8h-source.html#l00822">PxCreatePhysics()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="gb0b300b30efd81868ff51f9544e85b11"></a><!-- doxytag: member="PxPhysics.h::PxRegisterCloth" ref="gb0b300b30efd81868ff51f9544e85b11" args="(physx::PxPhysics &amp;physics)" -->
+<a class="anchor" name="ge2faa96309a4fb0cbfcd512d2431fc82"></a><!-- doxytag: member="PxPhysics.h::PxRegisterCloth" ref="ge2faa96309a4fb0cbfcd512d2431fc82" args="(physx::PxPhysics &amp;physics)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PX_C_EXPORT PX_PHYSX_CORE_API void PX_CALL_CONV PxRegisterCloth           </td>
+          <td class="memname">PX_DEPRECATED PX_C_EXPORT PX_PHYSX_CORE_API void PX_CALL_CONV PxRegisterCloth           </td>
           <td>(</td>
           <td class="paramtype">physx::PxPhysics &amp;&nbsp;</td>
           <td class="paramname"> <em>physics</em>          </td>
@@ -2244,8 +2245,9 @@ Enables the usage of the articulations feature. This function is called automati
 <p>
 Enables the usage of the cloth feature. This function is called automatically inside <a class="el" href="group__physics.html#g8039bfec65da68b2294a97175ddb2c66" title="Creates an instance of the physics SDK.">PxCreatePhysics()</a>. On resource constrained platforms, it is possible to call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> and then NOT call this function to save on code memory if your application does not use cloth. In this case the linker should strip out the relevant implementation code from the library. If you need to use cloth but not some other optional component, you shoud call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> followed by this call. 
 <p>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000017">Deprecated:</a></b></dt><dd>The PhysX cloth feature has been deprecated in PhysX version 3.4.1 </dd></dl>
 
-<p>Referenced by <a class="el" href="PxPhysics_8h-source.html#l00810">PxCreatePhysics()</a>.</p>
+<p>Referenced by <a class="el" href="PxPhysics_8h-source.html#l00822">PxCreatePhysics()</a>.</p>
 
 </div>
 </div><p>
@@ -2272,7 +2274,7 @@ This call will link the default 'unified' implementation of heightfields which i
 On resource constrained platforms, it is possible to call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> and then NOT call this function to save on code memory if your application does not use heightfields. In this case the linker should strip out the relevant implementation code from the library. If you need to use heightfield but not some other optional component, you shoud call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> followed by this call.<p>
 You must call this function at a time where no <a class="el" href="classPxScene.html" title="A scene is a collection of bodies, particle systems and constraints which can interact...">PxScene</a> instance exists, typically before calling <a class="el" href="classPxPhysics.html#6dcded7be00c17004432a04a78569db1" title="Creates a scene.">PxPhysics::createScene()</a>. This is to prevent a change to the heightfield implementation code at runtime which would have undefined results.<p>
 Calling <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> and then attempting to create a heightfield shape without first calling <a class="el" href="group__physics.html#ge3a84455caaa6a7de67513ea29a315e1" title="Enables the usage of the heightfield feature.">PxRegisterHeightFields()</a>, <a class="el" href="group__physics.html#g6adbba7aad2d451e684110269dddd720" title="Enables the usage of the unified heightfield feature.">PxRegisterUnifiedHeightFields()</a> or <a class="el" href="group__physics.html#g3a556a2d568cf1f36726d099bb21abd4" title="Enables the usage of the legacy heightfield feature.">PxRegisterLegacyHeightFields()</a> will result in an error. 
-<p>Referenced by <a class="el" href="PxPhysics_8h-source.html#l00810">PxCreatePhysics()</a>, and <a class="el" href="PxPhysics_8h-source.html#l00730">PxRegisterUnifiedHeightFields()</a>.</p>
+<p>Referenced by <a class="el" href="PxPhysics_8h-source.html#l00822">PxCreatePhysics()</a>, and <a class="el" href="PxPhysics_8h-source.html#l00740">PxRegisterUnifiedHeightFields()</a>.</p>
 
 </div>
 </div><p>
@@ -2319,9 +2321,9 @@ Calling <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f6
 <p>
 Enables the usage of the particles feature. This function is called automatically inside <a class="el" href="group__physics.html#g8039bfec65da68b2294a97175ddb2c66" title="Creates an instance of the physics SDK.">PxCreatePhysics()</a>. (deprecated) On resource constrained platforms, it is possible to call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> and then NOT call this function to save on code memory if your application does not use particles. In this case the linker should strip out the relevant implementation code from the library. If you need to use particles but not some other optional component, you shoud call <a class="el" href="group__physics.html#gd63c429157f9c8c87fcd0ea2f9b79f66" title="Creates an instance of the physics SDK with minimal additional components registered...">PxCreateBasePhysics()</a> followed by this call. 
 <p>
-<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000016">Deprecated:</a></b></dt><dd>The PhysX particle feature has been deprecated in PhysX version 3.4 </dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000018">Deprecated:</a></b></dt><dd>The PhysX particle feature has been deprecated in PhysX version 3.4 </dd></dl>
 
-<p>Referenced by <a class="el" href="PxPhysics_8h-source.html#l00810">PxCreatePhysics()</a>.</p>
+<p>Referenced by <a class="el" href="PxPhysics_8h-source.html#l00822">PxCreatePhysics()</a>.</p>
 
 </div>
 </div><p>
@@ -2375,7 +2377,7 @@ constructor sets to default.
 </dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="group__physics.html#g8039bfec65da68b2294a97175ddb2c66" title="Creates an instance of the physics SDK.">PxCreatePhysics()</a> <a class="el" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a> <a class="el" href="classPxSceneDesc.html#bc7769532392c8e47ec4580677145e34" title="A contact with a relative velocity below this will not bounce. A typical value for...">bounceThresholdVelocity</a> <a class="el" href="classPxSceneDesc.html#f707e0c97624aaf6fa9ab2e82aadbecf" title="A threshold of contact separation distance used to decide if a contact point will...">frictionOffsetThreshold</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00919">PxSceneDesc::setToDefault()</a>.</p>
+<p>Referenced by <a class="el" href="PxSceneDesc_8h-source.html#l00949">PxSceneDesc::setToDefault()</a>.</p>
 
 </div>
 </div><p>
@@ -2428,7 +2430,7 @@ constructor sets to default
 </dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="group__physics.html#g8039bfec65da68b2294a97175ddb2c66" title="Creates an instance of the physics SDK.">PxCreatePhysics()</a> <a class="el" href="classPxTolerancesScale.html" title="Class to define the scale at which simulation runs. Most simulation tolerances are...">PxTolerancesScale</a> <a class="el" href="classPxSceneDesc.html#bc7769532392c8e47ec4580677145e34" title="A contact with a relative velocity below this will not bounce. A typical value for...">bounceThresholdVelocity</a> <a class="el" href="classPxSceneDesc.html#f707e0c97624aaf6fa9ab2e82aadbecf" title="A threshold of contact separation distance used to decide if a contact point will...">frictionOffsetThreshold</a> </dd></dl>
 
-<p>References <a class="el" href="PxSceneDesc_8h-source.html#l00874">PxSceneDesc::PxSceneDesc()</a>.</p>
+<p>References <a class="el" href="PxSceneDesc_8h-source.html#l00902">PxSceneDesc::PxSceneDesc()</a>.</p>
 
 </div>
 </div><p>

@@ -45,10 +45,12 @@ namespace physx
 /**
 \brief Descriptor class for a cloth mesh.
 
+\deprecated The PhysX cloth feature has been deprecated in PhysX version 3.4.1
+
 @see PxCooking.cookClothMesh()
 
 */
-class PxClothMeshDesc
+class PX_DEPRECATED PxClothMeshDesc
 {
 public:
 

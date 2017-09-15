@@ -660,6 +660,8 @@ namespace Sc
 
 		PX_FORCE_INLINE	PxU64						getContextId() const { return mContextId; }
 
+		PX_FORCE_INLINE bool						isUsingGpuRigidBodies() const { return mUseGpuRigidBodies;	}
+
 		//internal private methods:
 	private:
 					void						releaseConstraints(bool endOfScene);
@@ -1019,6 +1021,7 @@ namespace Sc
 					PxTaskManager*															mTaskManager;
 
 					bool																	mContactReportsNeedPostSolverVelocity;
+					bool																	mUseGpuRigidBodies;
 
 					SimulationStage::Enum													mSimulationStage;
 

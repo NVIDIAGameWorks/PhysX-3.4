@@ -62,8 +62,9 @@ namespace Gu {
 // 12: isLeaf is now the lowest bit in ptrs
 // 13: TA30159 removed deprecated convexEdgeThreshold and bumped version
 // 14: added midphase ID
+// 15: GPU data simplification
 
-#define PX_MESH_VERSION 14
+#define PX_MESH_VERSION 15
 
 // these flags are used to indicate/validate the contents of a cooked mesh file
 enum InternalMeshSerialFlag
@@ -107,11 +108,6 @@ enum InternalMeshSerialFlag
 
 		// TODO avoroshilov: adjacency info - duplicated, remove it and use 'mAdjacencies' and 'mExtraTrigData' see GuTriangleMesh.cpp:325
 		void *					mGRB_triAdjacencies;			//!< GRB: adjacency data, with BOUNDARY and NONCONVEX flags (flags replace adj indices where applicable) [uin4]
-		PxU32 *					mGRB_vertValency;				//!< GRB: number of adjacent vertices to a vertex
-		PxU32 *					mGRB_adjVertStart;				//!< GRB: offset for each vertex in the adjacency list
-		PxU32 *					mGRB_adjVertices;				//!< GRB: list of adjacent vertices
-
-		PxU32					mGRB_meshAdjVerticiesTotal;		//!< GRB: total number of indices in the 'mGRB_adjVertices'
 		PxU32*					mGRB_faceRemap;					//!< GRB: this remap the GPU triangle indices to CPU triangle indices
 
 		void*					mGRB_BV32Tree;
@@ -132,11 +128,6 @@ enum InternalMeshSerialFlag
 
 			mGRB_triIndices					(NULL),
 			mGRB_triAdjacencies				(NULL),
-			mGRB_vertValency				(NULL),
-			mGRB_adjVertStart				(NULL),
-			mGRB_adjVertices				(NULL),
-			
-			mGRB_meshAdjVerticiesTotal		(0),
 			mGRB_faceRemap					(NULL),
 			mGRB_BV32Tree					(NULL)
 			
@@ -163,12 +154,6 @@ enum InternalMeshSerialFlag
 				PX_FREE(mGRB_triIndices);
 			if (mGRB_triAdjacencies)
 				PX_DELETE_POD(mGRB_triAdjacencies);
-			if (mGRB_vertValency)
-				PX_DELETE_POD(mGRB_vertValency);
-			if (mGRB_adjVertStart)
-				PX_DELETE_POD(mGRB_adjVertStart);
-			if (mGRB_adjVertices)
-				PX_DELETE_POD(mGRB_adjVertices);
 
 			if (mGRB_faceRemap)
 				PX_DELETE_POD(mGRB_faceRemap);

@@ -126,7 +126,12 @@ struct PxRigidBodyFlag
 		/**
 		\brief Register a rigid body to dynamicly adjust contact offset based on velocity. This can be used to achieve a CCD effect.
 		*/
-		eENABLE_SPECULATIVE_CCD 			= (1 << 5)
+		eENABLE_SPECULATIVE_CCD 			= (1 << 5),
+
+		/**
+		\brief Permit CCD to limit maxContactImpulse. This is useful for use-cases like a destruction system but can cause visual artefacts so is not enabled by default.
+		*/
+		eENABLE_CCD_MAX_CONTACT_IMPULSE		= (1 << 6)
 	};
 };
 
@@ -531,6 +536,8 @@ public:
 	\brief Sets a limit on the impulse that may be applied at a contact. The maximum impulse at a contact between two dynamic or kinematic
 	bodies will be the minimum	of the two limit values. For a collision between a static and a dynamic body, the impulse is limited
 	by the value for the dynamic body.
+
+	This value is not used in CCD unless PxRigidBodyFlag::eENABLE_CCD_MAX_CONTACT_IMPULSE is raised on the body.
 
 	\param[in] maxImpulse the maximum contact impulse. <b>Range:</b> [0, PX_MAX_F32] <b>Default:</b> PX_MAX_F32
 

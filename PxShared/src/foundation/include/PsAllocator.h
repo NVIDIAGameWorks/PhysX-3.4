@@ -108,7 +108,7 @@
 #elif PX_XBOXONE
 #include <malloc.h>
 #define PxAlloca(x) alloca(x)
-#elif PX_NX
+#elif PX_SWITCH
 #include <malloc.h>
 #define PxAlloca(x) alloca(x)
 #endif

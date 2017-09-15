@@ -64,27 +64,27 @@
 <a name="l00048"></a>00048 
 <a name="l00049"></a>00049 <span class="keyword">struct </span>PxFabricCookerImpl;
 <a name="l00050"></a>00050 
-<a name="l00051"></a><a class="code" href="classPxClothFabricCooker.html">00051</a> <span class="keyword">class </span><a class="code" href="classPxClothFabricCooker.html">PxClothFabricCooker</a>
-<a name="l00052"></a>00052 {
-<a name="l00053"></a>00053 <span class="keyword">public</span>:
-<a name="l00063"></a>00063     <a class="code" href="classPxClothFabricCooker.html">PxClothFabricCooker</a>(<span class="keyword">const</span> <a class="code" href="classPxClothMeshDesc.html" title="Descriptor class for a cloth mesh.">PxClothMeshDesc</a>&amp; desc, <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; gravity, <span class="keywordtype">bool</span> useGeodesicTether = <span class="keyword">true</span>);
-<a name="l00064"></a>00064     ~<a class="code" href="classPxClothFabricCooker.html">PxClothFabricCooker</a>();
-<a name="l00065"></a>00065 
-<a name="l00067"></a>00067     <a class="code" href="classPxClothFabricDesc.html" title="References all the data required to create a fabric.">PxClothFabricDesc</a> getDescriptor() <span class="keyword">const</span>;
-<a name="l00069"></a>00069     <span class="keywordtype">void</span> save(<a class="code" href="classPxOutputStream.html" title="Output stream class for I/O.">PxOutputStream</a>&amp; stream, <span class="keywordtype">bool</span> platformMismatch) <span class="keyword">const</span>;
-<a name="l00070"></a>00070 
-<a name="l00071"></a>00071 <span class="keyword">private</span>:
-<a name="l00072"></a><a class="code" href="classPxClothFabricCooker.html#ce53b5654f9a13c07be3194913082530">00072</a>     PxFabricCookerImpl* mImpl;
-<a name="l00073"></a>00073 };
-<a name="l00074"></a>00074 
-<a name="l00085"></a>00085 <a class="code" href="classPxClothFabric.html" title="A cloth fabric is a structure that contains all the internal solver constraints of...">PxClothFabric</a>* <a class="code" href="group__extensions.html#gf39f6f4f4aa2bdadc81159d28a648c20" title="Cooks a triangle mesh to a PxClothFabric.">PxClothFabricCreate</a>(<a class="code" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>&amp; physics, 
-<a name="l00086"></a>00086     <span class="keyword">const</span> <a class="code" href="classPxClothMeshDesc.html" title="Descriptor class for a cloth mesh.">PxClothMeshDesc</a>&amp; desc, <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; gravity, <span class="keywordtype">bool</span> useGeodesicTether = <span class="keyword">true</span>);
-<a name="l00087"></a>00087 
-<a name="l00088"></a>00088 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00089"></a>00089 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00090"></a>00090 <span class="preprocessor">#endif</span>
-<a name="l00091"></a>00091 <span class="preprocessor"></span>
-<a name="l00093"></a>00093 <span class="preprocessor">#endif // PX_PHYSICS_EXTENSIONS_CLOTH_FABRIC_COOKER_H</span>
+<a name="l00054"></a><a class="code" href="classPxClothFabricCooker.html">00054</a> <span class="keyword">class </span><a class="code" href="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="code" href="classPxClothFabricCooker.html">PxClothFabricCooker</a>
+<a name="l00055"></a>00055 {
+<a name="l00056"></a>00056 <span class="keyword">public</span>:
+<a name="l00066"></a>00066     <a class="code" href="classPxClothFabricCooker.html">PxClothFabricCooker</a>(<span class="keyword">const</span> <a class="code" href="classPxClothMeshDesc.html" title="Descriptor class for a cloth mesh.">PxClothMeshDesc</a>&amp; desc, <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; gravity, <span class="keywordtype">bool</span> useGeodesicTether = <span class="keyword">true</span>);
+<a name="l00067"></a>00067     ~<a class="code" href="classPxClothFabricCooker.html">PxClothFabricCooker</a>();
+<a name="l00068"></a>00068 
+<a name="l00070"></a>00070     <a class="code" href="classPxClothFabricDesc.html" title="References all the data required to create a fabric.">PxClothFabricDesc</a> getDescriptor() <span class="keyword">const</span>;
+<a name="l00072"></a>00072     <span class="keywordtype">void</span> save(<a class="code" href="classPxOutputStream.html" title="Output stream class for I/O.">PxOutputStream</a>&amp; stream, <span class="keywordtype">bool</span> platformMismatch) <span class="keyword">const</span>;
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 <span class="keyword">private</span>:
+<a name="l00075"></a><a class="code" href="classPxClothFabricCooker.html#ce53b5654f9a13c07be3194913082530">00075</a>     PxFabricCookerImpl* mImpl;
+<a name="l00076"></a>00076 };
+<a name="l00077"></a>00077 
+<a name="l00088"></a>00088 <a class="code" href="classPxClothFabric.html" title="A cloth fabric is a structure that contains all the internal solver constraints of...">PxClothFabric</a>* <a class="code" href="group__extensions.html#gf39f6f4f4aa2bdadc81159d28a648c20" title="Cooks a triangle mesh to a PxClothFabric.">PxClothFabricCreate</a>(<a class="code" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>&amp; physics, 
+<a name="l00089"></a>00089     <span class="keyword">const</span> <a class="code" href="classPxClothMeshDesc.html" title="Descriptor class for a cloth mesh.">PxClothMeshDesc</a>&amp; desc, <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; gravity, <span class="keywordtype">bool</span> useGeodesicTether = <span class="keyword">true</span>);
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00092"></a>00092 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00093"></a>00093 <span class="preprocessor">#endif</span>
+<a name="l00094"></a>00094 <span class="preprocessor"></span>
+<a name="l00096"></a>00096 <span class="preprocessor">#endif // PX_PHYSICS_EXTENSIONS_CLOTH_FABRIC_COOKER_H</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

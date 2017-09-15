@@ -88,14 +88,25 @@ namespace Cct
 			// PT: customized version of "reserveContainerMemory"
 
 			const PxU32 maxNbEntries = Ps::Array<PxTriangle>::capacity();
-			// PT: allocate one more tri to make sure we can safely V4Load the last one...
 			const PxU32 realRequiredSize = Ps::Array<PxTriangle>::size() + nbTris;
+			// PT: allocate one more tri to make sure we can safely V4Load the last one...
 			const PxU32 requiredSize = realRequiredSize + 1;
 
 			if(requiredSize>maxNbEntries)
 			{
-				const PxU32 naturalGrowthSize = maxNbEntries ? maxNbEntries*2 : 2;
-				const PxU32 newSize = PxMax(requiredSize, naturalGrowthSize);
+				// PT: ok so the commented out growing policy was introduced by PX-837 but it produces
+				// large memory usage regressions (see PX-881) while not actually making things run
+				// faster. Our benchmarks show no performance difference, but up to +38% more memory
+				// used with this "standard" growing policy. So for now we just go back to the initial
+				// growing policy. It should be fine since PX-837 was not actually reported by a customer,
+				// it was just a concern that appeared while looking at the code. Ideally we'd use a pool
+				// with fixed-size slabs to get the best of both worlds but it would make iterating over
+				// triangles more complicated and would need more refactoring. So for now we don't bother,
+				// but we'll keep this note here for the next time this problem shows up.
+//				const PxU32 naturalGrowthSize = maxNbEntries ? maxNbEntries*2 : 2;
+//				const PxU32 newSize = PxMax(requiredSize, naturalGrowthSize);
+				const PxU32 newSize = requiredSize;
+
 				Ps::Array<PxTriangle>::reserve(newSize);
 			}
 

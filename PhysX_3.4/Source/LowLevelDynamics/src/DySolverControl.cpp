@@ -242,14 +242,13 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 
 	//0-(n-1) iterations
 	PxI32 normalIter = 0;
-	PxI32 frictionIter = 0;
 
 	for (PxU32 iteration = positionIterations; iteration > 0; iteration--)	//decreasing positive numbers == position iters
 	{
 		cache.doFriction = iteration<=3;
 
-		SolveBlockParallel<false>(constraintList, batchCount, normalIter * batchCount, batchCount, 
-			cache, contactIterator, iteration == 1 ? gVTableSolveConcludeBlock : gVTableSolveBlock, normalIter, frictionIter, normalIter);
+		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
+			cache, contactIterator, iteration == 1 ? gVTableSolveConcludeBlock : gVTableSolveBlock, normalIter);
 
 		++normalIter;
 	}
@@ -274,8 +273,8 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 	for(; iteration < velItersMinOne; ++iteration)
 	{	
 
-		SolveBlockParallel<false>(constraintList, batchCount, normalIter * batchCount, batchCount, 
-			cache, contactIterator, gVTableSolveBlock, normalIter, frictionIter, normalIter);
+		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
+			cache, contactIterator, gVTableSolveBlock, normalIter);
 		++normalIter;
 
 	}
@@ -291,8 +290,8 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 	for(; iteration < PxI32(velocityIterations); ++iteration)
 	{
 
-		SolveBlockParallel<false>(constraintList, batchCount, normalIter * batchCount, batchCount, 
-			cache, contactIterator, gVTableSolveWriteBackBlock, normalIter, frictionIter, normalIter);
+		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
+			cache, contactIterator, gVTableSolveWriteBackBlock, normalIter);
 		++normalIter;
 
 	}	
@@ -363,7 +362,6 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 
 	PxI32 maxNormalIndex = 0;
 	PxI32 normalIteration = 0;
-	PxI32 frictionIteration = 0;
 	PxU32 a = 0;
 	PxI32 targetConstraintIndex = 0;
 	for(PxU32 i = 0; i < 2; ++i)
@@ -382,8 +380,8 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 				while(index < maxNormalIndex)
 				{
 					const PxI32 remainder = PxMin(maxNormalIndex - index, endIndexCount);
-					SolveBlockParallel<false>(constraintList, remainder, index, batchCount, cache, contactIter, solveTable, 
-						normalIteration, frictionIteration, normalIteration);
+					SolveBlockParallel(constraintList, remainder, index, batchCount, cache, contactIter, solveTable, 
+						normalIteration);
 					index += remainder;
 					endIndexCount -= remainder;
 					nbSolved += remainder;
@@ -489,8 +487,8 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 			while(index < maxNormalIndex)
 			{
 				const PxI32 remainder = PxMin(maxNormalIndex - index, endIndexCount);
-				SolveBlockParallel<false>(constraintList, remainder, index, batchCount, cache, contactIter, gVTableSolveBlock, 
-					normalIteration, 0, normalIteration);
+				SolveBlockParallel(constraintList, remainder, index, batchCount, cache, contactIter, gVTableSolveBlock, 
+					normalIteration);
 				index += remainder;
 				endIndexCount -= remainder;
 				nbSolved += remainder;
@@ -532,8 +530,8 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 			{
 				const PxI32 remainder = PxMin(maxNormalIndex - index, endIndexCount);
 
-				SolveBlockParallel<false>(constraintList, remainder, index, batchCount, cache, contactIter, gVTableSolveWriteBackBlock, 
-					normalIteration, 0, normalIteration);
+				SolveBlockParallel(constraintList, remainder, index, batchCount, cache, contactIter, gVTableSolveWriteBackBlock, 
+					normalIteration);
 
 				index += remainder;
 				endIndexCount -= remainder;

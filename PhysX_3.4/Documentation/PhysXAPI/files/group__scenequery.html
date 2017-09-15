@@ -154,7 +154,7 @@ Custom filtering logic for batched query intersection candidates. If an intersec
 <li>If <a class="el" href="structPxQueryFlag.html#2124ff0cff0a021e01e6880a1bba431f98ce80be9551f124bd882bdb83dafb7e" title="Run the post-intersection-test filter (see PxQueryFilterCallback::postFilter()).">PxQueryFlag::ePOSTFILTER</a> is set, the postFilter shader is called for each intersection to determine the touch/block status. This overrides any touch/block status previously returned from the preFilter function for this shape.</li>
 </ul>
 Filtering shaders are not in order along the query direction, rather they are processed in the order in which candidate shapes for testing are found by PhysX' scene traversal algorithms.<p>
-<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000020">Deprecated:</a></b></dt><dd>The batched query feature has been deprecated in PhysX version 3.4</dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000027">Deprecated:</a></b></dt><dd>The batched query feature has been deprecated in PhysX version 3.4</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxBatchQueryDesc.html#1eae24bb23c561c4a656d7234d9d2e5e" title="The custom postFilter shader to use for filtering.">PxBatchQueryDesc.postFilterShader</a> <a class="el" href="classPxQueryFilterCallback.html#a93cf87c4ec4548afc8cc5476c719781" title="This filter callback is executed if the exact intersection test returned true and...">PxQueryFilterCallback.postFilter</a> <a class="el" href="group__scenequery.html#ga1264802560d96e1740850b2e1a9856b" title="Batched query pre-filter shader.">PxBatchQueryPreFilterShader</a> </dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -193,7 +193,7 @@ The preFilter shader may overwrite the copy of queryFlags it receives as an argu
 <li>If <a class="el" href="structPxQueryFlag.html#2124ff0cff0a021e01e6880a1bba431f8afbf3ede02abfeef2a9e8d38f0b9a78" title="Run the pre-intersection-test filter (see PxQueryFilterCallback::preFilter()).">PxQueryFlag::ePREFILTER</a> is not set, precise intersection testing is performed using the original query's filterData.flags.</li>
 </ul>
 Filtering calls are not guaranteed to be sorted along the ray or sweep direction.<p>
-<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000019">Deprecated:</a></b></dt><dd>The batched query feature has been deprecated in PhysX version 3.4</dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000026">Deprecated:</a></b></dt><dd>The batched query feature has been deprecated in PhysX version 3.4</dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxBatchQueryDesc.html#f116e4058958b7c747dfd008317764ba" title="The custom preFilter shader to use for filtering.">PxBatchQueryDesc.preFilterShader</a> <a class="el" href="classPxQueryFilterCallback.html#227beae6749182b04ae18728c1aecd26" title="This filter callback is executed before the exact intersection test if PxQueryFlag::ePREFILTER...">PxQueryFilterCallback.preFilter</a> <a class="el" href="group__scenequery.html#g043a6549307b8fd63c96f48edafddad0" title="Batched query post-filter shader.">PxBatchQueryPostFilterShader</a> </dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">

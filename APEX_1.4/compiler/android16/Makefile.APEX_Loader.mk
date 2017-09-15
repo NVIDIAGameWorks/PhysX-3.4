@@ -72,9 +72,9 @@ APEX_Loader_debug_hpaths    += ./../../include/destructible
 APEX_Loader_debug_lpaths    := 
 APEX_Loader_debug_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Loader_debug_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Loader_debug_lpaths    += ./../../lib/android16
-APEX_Loader_debug_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Loader_debug_lpaths    += ./../../../PxShared/lib/android16
+APEX_Loader_debug_lpaths    += ./../../NvParameterized/lib/android16
+APEX_Loader_debug_lpaths    += ./../../lib/android16
 APEX_Loader_debug_defines   := $(APEX_Loader_custom_defines)
 APEX_Loader_debug_defines   += ANDROID
 APEX_Loader_debug_defines   += GLES2
@@ -94,15 +94,15 @@ APEX_Loader_debug_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Loader_debug_defines   += PHYSX_PROFILE_SDK
 APEX_Loader_debug_defines   += PX_NVTX=1
 APEX_Loader_debug_libraries := 
-APEX_Loader_debug_libraries += APEX_ClothingDEBUG
-APEX_Loader_debug_libraries += APEX_DestructibleDEBUG
-APEX_Loader_debug_libraries += APEX_LegacyDEBUG
-APEX_Loader_debug_libraries += ApexCommonDEBUG
-APEX_Loader_debug_libraries += ApexFrameworkDEBUG
-APEX_Loader_debug_libraries += NvParameterizedDEBUG
-APEX_Loader_debug_libraries += PsFastXmlDEBUG
 APEX_Loader_debug_libraries += PxFoundationDEBUG
+APEX_Loader_debug_libraries += PsFastXmlDEBUG
+APEX_Loader_debug_libraries += NvParameterizedDEBUG
 APEX_Loader_debug_libraries += PxPvdSDKDEBUG
+APEX_Loader_debug_libraries += ApexFrameworkDEBUG
+APEX_Loader_debug_libraries += ApexCommonDEBUG
+APEX_Loader_debug_libraries += APEX_ClothingDEBUG
+APEX_Loader_debug_libraries += APEX_LegacyDEBUG
+APEX_Loader_debug_libraries += APEX_DestructibleDEBUG
 APEX_Loader_debug_libraries += PhysX3CommonDEBUG
 APEX_Loader_debug_common_cflags	:= $(APEX_Loader_custom_cflags)
 APEX_Loader_debug_common_cflags    += $(addprefix -D, $(APEX_Loader_debug_defines))
@@ -141,9 +141,9 @@ postbuild_APEX_Loader_debug: mainbuild_APEX_Loader_debug
 mainbuild_APEX_Loader_debug: prebuild_APEX_Loader_debug $(APEX_Loader_debug_bin)
 prebuild_APEX_Loader_debug:
 
-$(APEX_Loader_debug_bin): $(NvParameterized_debug_obj) $(PsFastXml_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Loader_debug_obj) build_APEX_Clothing_debug build_APEX_Destructible_debug build_APEX_Legacy_debug build_ApexCommon_debug build_ApexFramework_debug build_NvParameterized_debug build_PsFastXml_debug build_PxFoundation_debug build_PxPvdSDK_debug 
+$(APEX_Loader_debug_bin): $(PsFastXml_debug_obj) $(NvParameterized_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Loader_debug_obj) build_PxFoundation_debug build_PsFastXml_debug build_NvParameterized_debug build_PxPvdSDK_debug build_ApexFramework_debug build_ApexCommon_debug build_APEX_Clothing_debug build_APEX_Legacy_debug build_APEX_Destructible_debug 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_LoaderDEBUG.a`
-	@$(AR) rcs $(APEX_Loader_debug_bin) $(NvParameterized_debug_obj) $(PsFastXml_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Loader_debug_obj)
+	@$(AR) rcs $(APEX_Loader_debug_bin) $(PsFastXml_debug_obj) $(NvParameterized_debug_obj) $(PxPvdSDK_debug_obj) $(APEX_Loader_debug_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Loader_debug_DEPDIR = $(dir $(@))/$(*F)
@@ -229,9 +229,9 @@ APEX_Loader_release_hpaths    += ./../../include/destructible
 APEX_Loader_release_lpaths    := 
 APEX_Loader_release_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Loader_release_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Loader_release_lpaths    += ./../../lib/android16
-APEX_Loader_release_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Loader_release_lpaths    += ./../../../PxShared/lib/android16
+APEX_Loader_release_lpaths    += ./../../NvParameterized/lib/android16
+APEX_Loader_release_lpaths    += ./../../lib/android16
 APEX_Loader_release_defines   := $(APEX_Loader_custom_defines)
 APEX_Loader_release_defines   += ANDROID
 APEX_Loader_release_defines   += GLES2
@@ -246,15 +246,15 @@ APEX_Loader_release_defines   += ENABLE_TEST=0
 APEX_Loader_release_defines   += NDEBUG
 APEX_Loader_release_defines   += APEX_SHIPPING
 APEX_Loader_release_libraries := 
-APEX_Loader_release_libraries += APEX_Clothing
-APEX_Loader_release_libraries += APEX_Destructible
-APEX_Loader_release_libraries += APEX_Legacy
-APEX_Loader_release_libraries += ApexCommon
-APEX_Loader_release_libraries += ApexFramework
-APEX_Loader_release_libraries += NvParameterized
-APEX_Loader_release_libraries += PsFastXml
 APEX_Loader_release_libraries += PxFoundation
+APEX_Loader_release_libraries += PsFastXml
+APEX_Loader_release_libraries += NvParameterized
 APEX_Loader_release_libraries += PxPvdSDK
+APEX_Loader_release_libraries += ApexFramework
+APEX_Loader_release_libraries += ApexCommon
+APEX_Loader_release_libraries += APEX_Clothing
+APEX_Loader_release_libraries += APEX_Legacy
+APEX_Loader_release_libraries += APEX_Destructible
 APEX_Loader_release_libraries += PhysX3Common
 APEX_Loader_release_common_cflags	:= $(APEX_Loader_custom_cflags)
 APEX_Loader_release_common_cflags    += $(addprefix -D, $(APEX_Loader_release_defines))
@@ -292,9 +292,9 @@ postbuild_APEX_Loader_release: mainbuild_APEX_Loader_release
 mainbuild_APEX_Loader_release: prebuild_APEX_Loader_release $(APEX_Loader_release_bin)
 prebuild_APEX_Loader_release:
 
-$(APEX_Loader_release_bin): $(NvParameterized_release_obj) $(PsFastXml_release_obj) $(PxPvdSDK_release_obj) $(APEX_Loader_release_obj) build_APEX_Clothing_release build_APEX_Destructible_release build_APEX_Legacy_release build_ApexCommon_release build_ApexFramework_release build_NvParameterized_release build_PsFastXml_release build_PxFoundation_release build_PxPvdSDK_release 
+$(APEX_Loader_release_bin): $(PsFastXml_release_obj) $(NvParameterized_release_obj) $(PxPvdSDK_release_obj) $(APEX_Loader_release_obj) build_PxFoundation_release build_PsFastXml_release build_NvParameterized_release build_PxPvdSDK_release build_ApexFramework_release build_ApexCommon_release build_APEX_Clothing_release build_APEX_Legacy_release build_APEX_Destructible_release 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_Loader.a`
-	@$(AR) rcs $(APEX_Loader_release_bin) $(NvParameterized_release_obj) $(PsFastXml_release_obj) $(PxPvdSDK_release_obj) $(APEX_Loader_release_obj)
+	@$(AR) rcs $(APEX_Loader_release_bin) $(PsFastXml_release_obj) $(NvParameterized_release_obj) $(PxPvdSDK_release_obj) $(APEX_Loader_release_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Loader_release_DEPDIR = $(dir $(@))/$(*F)
@@ -380,9 +380,9 @@ APEX_Loader_profile_hpaths    += ./../../include/destructible
 APEX_Loader_profile_lpaths    := 
 APEX_Loader_profile_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Loader_profile_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Loader_profile_lpaths    += ./../../lib/android16
-APEX_Loader_profile_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Loader_profile_lpaths    += ./../../../PxShared/lib/android16
+APEX_Loader_profile_lpaths    += ./../../NvParameterized/lib/android16
+APEX_Loader_profile_lpaths    += ./../../lib/android16
 APEX_Loader_profile_defines   := $(APEX_Loader_custom_defines)
 APEX_Loader_profile_defines   += ANDROID
 APEX_Loader_profile_defines   += GLES2
@@ -400,15 +400,15 @@ APEX_Loader_profile_defines   += PHYSX_PROFILE_SDK
 APEX_Loader_profile_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Loader_profile_defines   += PX_NVTX=1
 APEX_Loader_profile_libraries := 
-APEX_Loader_profile_libraries += APEX_ClothingPROFILE
-APEX_Loader_profile_libraries += APEX_DestructiblePROFILE
-APEX_Loader_profile_libraries += APEX_LegacyPROFILE
-APEX_Loader_profile_libraries += ApexCommonPROFILE
-APEX_Loader_profile_libraries += ApexFrameworkPROFILE
-APEX_Loader_profile_libraries += NvParameterizedPROFILE
-APEX_Loader_profile_libraries += PsFastXmlPROFILE
 APEX_Loader_profile_libraries += PxFoundationPROFILE
+APEX_Loader_profile_libraries += PsFastXmlPROFILE
+APEX_Loader_profile_libraries += NvParameterizedPROFILE
 APEX_Loader_profile_libraries += PxPvdSDKPROFILE
+APEX_Loader_profile_libraries += ApexFrameworkPROFILE
+APEX_Loader_profile_libraries += ApexCommonPROFILE
+APEX_Loader_profile_libraries += APEX_ClothingPROFILE
+APEX_Loader_profile_libraries += APEX_LegacyPROFILE
+APEX_Loader_profile_libraries += APEX_DestructiblePROFILE
 APEX_Loader_profile_libraries += PhysX3CommonPROFILE
 APEX_Loader_profile_common_cflags	:= $(APEX_Loader_custom_cflags)
 APEX_Loader_profile_common_cflags    += $(addprefix -D, $(APEX_Loader_profile_defines))
@@ -446,9 +446,9 @@ postbuild_APEX_Loader_profile: mainbuild_APEX_Loader_profile
 mainbuild_APEX_Loader_profile: prebuild_APEX_Loader_profile $(APEX_Loader_profile_bin)
 prebuild_APEX_Loader_profile:
 
-$(APEX_Loader_profile_bin): $(NvParameterized_profile_obj) $(PsFastXml_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Loader_profile_obj) build_APEX_Clothing_profile build_APEX_Destructible_profile build_APEX_Legacy_profile build_ApexCommon_profile build_ApexFramework_profile build_NvParameterized_profile build_PsFastXml_profile build_PxFoundation_profile build_PxPvdSDK_profile 
+$(APEX_Loader_profile_bin): $(PsFastXml_profile_obj) $(NvParameterized_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Loader_profile_obj) build_PxFoundation_profile build_PsFastXml_profile build_NvParameterized_profile build_PxPvdSDK_profile build_ApexFramework_profile build_ApexCommon_profile build_APEX_Clothing_profile build_APEX_Legacy_profile build_APEX_Destructible_profile 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_LoaderPROFILE.a`
-	@$(AR) rcs $(APEX_Loader_profile_bin) $(NvParameterized_profile_obj) $(PsFastXml_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Loader_profile_obj)
+	@$(AR) rcs $(APEX_Loader_profile_bin) $(PsFastXml_profile_obj) $(NvParameterized_profile_obj) $(PxPvdSDK_profile_obj) $(APEX_Loader_profile_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Loader_profile_DEPDIR = $(dir $(@))/$(*F)
@@ -534,9 +534,9 @@ APEX_Loader_checked_hpaths    += ./../../include/destructible
 APEX_Loader_checked_lpaths    := 
 APEX_Loader_checked_lpaths    += ./../../../PxShared/lib/makeandroid16
 APEX_Loader_checked_lpaths    += ./../../../PhysX_3.4/Lib/android16
-APEX_Loader_checked_lpaths    += ./../../lib/android16
-APEX_Loader_checked_lpaths    += ./../../NvParameterized/lib/android16
 APEX_Loader_checked_lpaths    += ./../../../PxShared/lib/android16
+APEX_Loader_checked_lpaths    += ./../../NvParameterized/lib/android16
+APEX_Loader_checked_lpaths    += ./../../lib/android16
 APEX_Loader_checked_defines   := $(APEX_Loader_custom_defines)
 APEX_Loader_checked_defines   += ANDROID
 APEX_Loader_checked_defines   += GLES2
@@ -555,15 +555,15 @@ APEX_Loader_checked_defines   += PX_SUPPORT_VISUAL_DEBUGGER
 APEX_Loader_checked_defines   += PX_ENABLE_CHECKED_ASSERTS
 APEX_Loader_checked_defines   += PX_NVTX=1
 APEX_Loader_checked_libraries := 
-APEX_Loader_checked_libraries += APEX_ClothingCHECKED
-APEX_Loader_checked_libraries += APEX_DestructibleCHECKED
-APEX_Loader_checked_libraries += APEX_LegacyCHECKED
-APEX_Loader_checked_libraries += ApexCommonCHECKED
-APEX_Loader_checked_libraries += ApexFrameworkCHECKED
-APEX_Loader_checked_libraries += NvParameterizedCHECKED
-APEX_Loader_checked_libraries += PsFastXmlCHECKED
 APEX_Loader_checked_libraries += PxFoundationCHECKED
+APEX_Loader_checked_libraries += PsFastXmlCHECKED
+APEX_Loader_checked_libraries += NvParameterizedCHECKED
 APEX_Loader_checked_libraries += PxPvdSDKCHECKED
+APEX_Loader_checked_libraries += ApexFrameworkCHECKED
+APEX_Loader_checked_libraries += ApexCommonCHECKED
+APEX_Loader_checked_libraries += APEX_ClothingCHECKED
+APEX_Loader_checked_libraries += APEX_LegacyCHECKED
+APEX_Loader_checked_libraries += APEX_DestructibleCHECKED
 APEX_Loader_checked_libraries += PhysX3CommonCHECKED
 APEX_Loader_checked_common_cflags	:= $(APEX_Loader_custom_cflags)
 APEX_Loader_checked_common_cflags    += $(addprefix -D, $(APEX_Loader_checked_defines))
@@ -602,9 +602,9 @@ postbuild_APEX_Loader_checked: mainbuild_APEX_Loader_checked
 mainbuild_APEX_Loader_checked: prebuild_APEX_Loader_checked $(APEX_Loader_checked_bin)
 prebuild_APEX_Loader_checked:
 
-$(APEX_Loader_checked_bin): $(NvParameterized_checked_obj) $(PsFastXml_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Loader_checked_obj) build_APEX_Clothing_checked build_APEX_Destructible_checked build_APEX_Legacy_checked build_ApexCommon_checked build_ApexFramework_checked build_NvParameterized_checked build_PsFastXml_checked build_PxFoundation_checked build_PxPvdSDK_checked 
+$(APEX_Loader_checked_bin): $(PsFastXml_checked_obj) $(NvParameterized_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Loader_checked_obj) build_PxFoundation_checked build_PsFastXml_checked build_NvParameterized_checked build_PxPvdSDK_checked build_ApexFramework_checked build_ApexCommon_checked build_APEX_Clothing_checked build_APEX_Legacy_checked build_APEX_Destructible_checked 
 	mkdir -p `dirname ./../../lib/android16/libAPEX_LoaderCHECKED.a`
-	@$(AR) rcs $(APEX_Loader_checked_bin) $(NvParameterized_checked_obj) $(PsFastXml_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Loader_checked_obj)
+	@$(AR) rcs $(APEX_Loader_checked_bin) $(PsFastXml_checked_obj) $(NvParameterized_checked_obj) $(PxPvdSDK_checked_obj) $(APEX_Loader_checked_obj)
 	$(ECHO) building $@ complete!
 
 APEX_Loader_checked_DEPDIR = $(dir $(@))/$(*F)

@@ -70,7 +70,7 @@ SnippetJoint_debug_common_cflags    += -MMD
 SnippetJoint_debug_common_cflags    += $(addprefix -D, $(SnippetJoint_debug_defines))
 SnippetJoint_debug_common_cflags    += $(addprefix -I, $(SnippetJoint_debug_hpaths))
 SnippetJoint_debug_common_cflags  += -m32
-SnippetJoint_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetJoint_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetJoint_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetJoint_debug_common_cflags  += -Wno-uninitialized
 SnippetJoint_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetJoint_checked_common_cflags    += -MMD
 SnippetJoint_checked_common_cflags    += $(addprefix -D, $(SnippetJoint_checked_defines))
 SnippetJoint_checked_common_cflags    += $(addprefix -I, $(SnippetJoint_checked_hpaths))
 SnippetJoint_checked_common_cflags  += -m32
-SnippetJoint_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetJoint_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetJoint_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetJoint_checked_common_cflags  += -Wno-uninitialized
 SnippetJoint_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetJoint_profile_common_cflags    += -MMD
 SnippetJoint_profile_common_cflags    += $(addprefix -D, $(SnippetJoint_profile_defines))
 SnippetJoint_profile_common_cflags    += $(addprefix -I, $(SnippetJoint_profile_hpaths))
 SnippetJoint_profile_common_cflags  += -m32
-SnippetJoint_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetJoint_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetJoint_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetJoint_profile_common_cflags  += -Wno-uninitialized
 SnippetJoint_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetJoint_release_common_cflags    += -MMD
 SnippetJoint_release_common_cflags    += $(addprefix -D, $(SnippetJoint_release_defines))
 SnippetJoint_release_common_cflags    += $(addprefix -I, $(SnippetJoint_release_hpaths))
 SnippetJoint_release_common_cflags  += -m32
-SnippetJoint_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetJoint_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetJoint_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetJoint_release_common_cflags  += -Wno-uninitialized
 SnippetJoint_release_common_cflags  += -O3 -fno-strict-aliasing

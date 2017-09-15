@@ -645,7 +645,6 @@ void TriangleMeshBuilder::createGRBData()
 {
 
 	const PxU32 & numTris = mMeshData.mNbTriangles;
-	const PxU32 & numVerts = mMeshData.mNbVertices;
 
 	PX_ASSERT(!(mMeshData.mFlags & PxTriangleMeshFlag::e16_BIT_INDICES));
 
@@ -669,37 +668,6 @@ void TriangleMeshBuilder::createGRBData()
 	
 
 	PX_FREE(tempNormalsPerTri_prealloc);
-
-	mMeshData.mGRB_vertValency = PX_NEW(PxU32)[numVerts];
-	mMeshData.mGRB_adjVertStart = PX_NEW(PxU32)[numVerts];
-
-
-	Ps::Array<GrbTrimeshCookerHelper::SortedNeighbor>	pairsList;
-	Ps::Array<GrbTrimeshCookerHelper::SharpEdgeRange>	edgeRanges;
-
-	
-	mMeshData.mGRB_meshAdjVerticiesTotal = GrbTrimeshCookerHelper::buildVertexConnectionNew_p1(
-		pairsList,
-		edgeRanges,
-
-		reinterpret_cast<uint3*>(mMeshData.mGRB_triIndices),
-		reinterpret_cast<uint4 *>(mMeshData.mGRB_triAdjacencies),
-		numTris,
-		numVerts
-		);
-	
-
-
-	mMeshData.mGRB_adjVertices = PX_NEW(PxU32)[mMeshData.mGRB_meshAdjVerticiesTotal];
-	GrbTrimeshCookerHelper::buildVertexConnectionNew_p2(
-		mMeshData.mGRB_adjVertStart,
-		mMeshData.mGRB_vertValency,
-		mMeshData.mGRB_adjVertices,
-		pairsList,
-		edgeRanges,
-		numVerts
-		);
-
 
 }
 
@@ -954,8 +922,6 @@ bool TriangleMeshBuilder::save(PxOutputStream& stream, bool platformMismatch, co
 	// GRB write -----------------------------------------------------------------
 	if (params.buildGPUData)
 	{
-		writeDword(mMeshData.mGRB_meshAdjVerticiesTotal, platformMismatch, stream);
-
 		const PxU32* indices = reinterpret_cast<PxU32*>(mMeshData.mGRB_triIndices);
 		if (serialFlags & Gu::IMSF_8BIT_INDICES)
 		{
@@ -979,9 +945,6 @@ bool TriangleMeshBuilder::save(PxOutputStream& stream, bool platformMismatch, co
 		//writeIntBuffer(reinterpret_cast<PxU32 *>(mMeshData.mGRB_triIndices), mMeshData.mNbTriangles*4, platformMismatch, stream);
 
 		writeIntBuffer(reinterpret_cast<PxU32 *>(mMeshData.mGRB_triAdjacencies), mMeshData.mNbTriangles*4, platformMismatch, stream);
-		writeIntBuffer(mMeshData.mGRB_vertValency, mMeshData.mNbVertices, platformMismatch, stream);
-		writeIntBuffer(mMeshData.mGRB_adjVertStart, mMeshData.mNbVertices, platformMismatch, stream);
-		writeIntBuffer(mMeshData.mGRB_adjVertices, mMeshData.mGRB_meshAdjVerticiesTotal, platformMismatch, stream);
 		writeIntBuffer(mMeshData.mGRB_faceRemap, mMeshData.mNbTriangles, platformMismatch, stream);
 
 		//Export GPU midphase structure

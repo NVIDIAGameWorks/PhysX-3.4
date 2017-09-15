@@ -38,8 +38,8 @@
 #include "foundation/unix/PxUnixIntrinsics.h"
 #elif PX_XBOXONE
 #include "foundation/XboxOne/PxXboxOneIntrinsics.h"
-#elif PX_NX
-#include "foundation/nx/PxNXIntrinsics.h"
+#elif PX_SWITCH
+#include "foundation/switch/PxSwitchIntrinsics.h"
 #else
 #error "Platform not supported!"
 #endif

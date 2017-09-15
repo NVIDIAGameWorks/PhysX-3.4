@@ -69,9 +69,9 @@
 	PX_COMPILE_TIME_ASSERT(_MSC_FULL_VER >= 160040219);
 #	endif
 
-#	if _MSC_VER > 1900
-	#pragma message("Detected compiler newer than Visual Studio 2013, please update min version checking in ApexSDKImpl.cpp")
-	PX_COMPILE_TIME_ASSERT(_MSC_VER <= 1900);
+#	if _MSC_VER > 2000
+	#pragma message("Detected compiler newer than Visual Studio 2017, please update min version checking in ApexSDKImpl.cpp")
+	PX_COMPILE_TIME_ASSERT(_MSC_VER < 2000);
 #	endif
 #endif
 

@@ -443,51 +443,17 @@ Ps::IntBool Sc::ShapeSim::updateSweptBounds()
 	return isFastMoving;	
 }
 
-void Sc::ShapeSim::onVolumeOrTransformChange(bool asPartOfActorTransformChange, bool forceBoundsUpdate)
+void Sc::ShapeSim::markBoundsForUpdate(bool forceBoundsUpdate, bool isDynamic)
 {
+	PX_UNUSED(isDynamic);
+
 	Sc::Scene& scene = getScene();
-
-	Sc::BodySim* body = getBodySim();
-	const bool isDynamic = (body != NULL);
-	bool isAsleep;
-	if (body)
-	{
-		isAsleep = !body->isActive();
-		body->postShapeChange(asPartOfActorTransformChange);
-	}
-	else
-		isAsleep = true;
-
-	ElementSim::ElementInteractionIterator iter = getElemInteractions();
-	ElementSimInteraction* i = iter.getNext();
-	while(i)
-	{
-		if(i->getType() == InteractionType::eOVERLAP)
-		{
-			Sc::ShapeInteraction* si = static_cast<Sc::ShapeInteraction*>(i);
-			si->resetManagerCachedState();
-			
-			if (isAsleep)
-				si->onShapeChangeWhileSleeping(isDynamic);
-		}
-		else if (i->getType() == InteractionType::eTRIGGER)
-			(static_cast<Sc::TriggerInteraction*>(i))->forceProcessingThisFrame(scene);  // trigger pairs need to be checked next frame
-#if PX_USE_PARTICLE_SYSTEM_API
-		else if (i->getType() == InteractionType::ePARTICLE_BODY)
-			(static_cast<Sc::ParticleElementRbElementInteraction *>(i))->onRbShapeChange();
-#endif
-
-		i = iter.getNext();
-	}
-
 
 	const PxU32 elementID = getElementID();
 
-	if (forceBoundsUpdate)
-	{
+	if(forceBoundsUpdate)
 		updateCached(0, &scene.getAABBManager()->getChangedAABBMgActorHandleMap());
-	}
-	else if (isInBroadPhase())
+	else if(isInBroadPhase())
 		scene.getDirtyShapeSimMap().growAndSet(elementID);
 
 #if PX_USE_PARTICLE_SYSTEM_API
@@ -496,11 +462,70 @@ void Sc::ShapeSim::onVolumeOrTransformChange(bool asPartOfActorTransformChange, 
 	// extra function calls and additional work from getPxsRigidCore(), etc
 	Pt::Context* context = scene.getParticleContext();
 	if(context->getSceneGpuFast())
+		context->getSceneGpuFast()->onShapeChange(size_t(&mCore.getCore()), size_t(&getPxsRigidCore()), isDynamic);
+#endif
+#endif
+}
+
+static PX_FORCE_INLINE void updateInteraction(Sc::Scene& scene, Sc::Interaction* i, const bool isDynamic, const bool isAsleep)
+{
+	if(i->getType() == Sc::InteractionType::eOVERLAP)
 	{
-		context->getSceneGpuFast()->onShapeChange(size_t(&mCore.getCore()), size_t(&getPxsRigidCore()), (body != NULL));
+		Sc::ShapeInteraction* si = static_cast<Sc::ShapeInteraction*>(i);
+		si->resetManagerCachedState();
+			
+		if(isAsleep)
+			si->onShapeChangeWhileSleeping(isDynamic);
 	}
+	else if(i->getType() == Sc::InteractionType::eTRIGGER)
+		(static_cast<Sc::TriggerInteraction*>(i))->forceProcessingThisFrame(scene);  // trigger pairs need to be checked next frame
+#if PX_USE_PARTICLE_SYSTEM_API
+	else if(i->getType() == Sc::InteractionType::ePARTICLE_BODY)
+		(static_cast<Sc::ParticleElementRbElementInteraction *>(i))->onRbShapeChange();
 #endif
-#endif
+}
+
+void Sc::ShapeSim::onVolumeOrTransformChange(bool forceBoundsUpdate)
+{
+	Sc::Scene& scene = getScene();
+	Sc::BodySim* body = getBodySim();
+	const bool isDynamic = (body != NULL);
+	const bool isAsleep = body ? !body->isActive() : true;
+
+	ElementSim::ElementInteractionIterator iter = getElemInteractions();
+	ElementSimInteraction* i = iter.getNext();
+	while(i)
+	{
+		updateInteraction(scene, i, isDynamic, isAsleep);
+		i = iter.getNext();
+	}
+
+	markBoundsForUpdate(forceBoundsUpdate, isDynamic);
+}
+
+bool notifyActorInteractionsOfTransformChange(Sc::ActorSim& actor)
+{
+	bool isDynamic;
+	bool isAsleep;
+	if(actor.isDynamicRigid())
+	{
+		isDynamic = true;
+		isAsleep = !static_cast<Sc::BodySim&>(actor).isActive();
+	}
+	else
+	{
+		isDynamic = false;
+		isAsleep = true;
+	}
+
+	Sc::Scene& scene = actor.getScene();
+
+	PxU32 nbInteractions = actor.getActorInteractionCount();
+	Sc::Interaction** interactions = actor.getActorInteractions();
+	while(nbInteractions--)
+		updateInteraction(scene, *interactions++, isDynamic, isAsleep);
+
+	return isDynamic;
 }
 
 void Sc::ShapeSim::createSqBounds()

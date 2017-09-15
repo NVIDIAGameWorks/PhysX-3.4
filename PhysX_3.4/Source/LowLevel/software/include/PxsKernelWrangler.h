@@ -31,7 +31,6 @@
 #ifndef PXS_KERNEL_WRANGLER_H
 #define PXS_KERNEL_WRANGLER_H
 
-#include "DyGpuAPI.h"
 #include "foundation/PxSimpleTypes.h"
 
 namespace physx

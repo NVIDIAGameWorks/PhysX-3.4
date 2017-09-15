@@ -34,10 +34,9 @@
 // The source code for the generate was at one time checked into:
 // physx/PhysXMetaDataGenerator/llvm/tools/clang/lib/Frontend/PhysXMetaDataAction.cpp
 #include "PxMetaDataObjects.h"
-#include "PxPhysicsAPI.h"
 #include "PxMetaDataCppPrefix.h"
 using namespace physx;
-const PxTolerancesScale & getPxPhysics_TolerancesScale( const PxPhysics* inObj ) { return inObj->getTolerancesScale(); }
+const PxTolerancesScale getPxPhysics_TolerancesScale( const PxPhysics* inObj ) { return inObj->getTolerancesScale(); }
 PxU32 getPxPhysics_TriangleMeshes( const PxPhysics* inObj, PxTriangleMesh ** outBuffer, PxU32 inBufSize ) { return inObj->getTriangleMeshes( outBuffer, inBufSize ); }
 PxU32 getNbPxPhysics_TriangleMeshes( const PxPhysics* inObj ) { return inObj->getNbTriangleMeshes(  ); }
 PxTriangleMesh * createPxPhysics_TriangleMeshes( PxPhysics* inObj, PxInputStream & inCreateParam ){ return inObj->createTriangleMesh( inCreateParam ); }
@@ -862,17 +861,21 @@ inline PxMeshScale getPxConvexMeshGeometryScale( const PxConvexMeshGeometry* inO
 inline void setPxConvexMeshGeometryScale( PxConvexMeshGeometry* inOwner, PxMeshScale inData) { inOwner->scale = inData; }
 inline PxConvexMesh * getPxConvexMeshGeometryConvexMesh( const PxConvexMeshGeometry* inOwner ) { return inOwner->convexMesh; }
 inline void setPxConvexMeshGeometryConvexMesh( PxConvexMeshGeometry* inOwner, PxConvexMesh * inData) { inOwner->convexMesh = inData; }
+inline PxReal getPxConvexMeshGeometryMaxMargin( const PxConvexMeshGeometry* inOwner ) { return inOwner->maxMargin; }
+inline void setPxConvexMeshGeometryMaxMargin( PxConvexMeshGeometry* inOwner, PxReal inData) { inOwner->maxMargin = inData; }
 inline PxConvexMeshGeometryFlags getPxConvexMeshGeometryMeshFlags( const PxConvexMeshGeometry* inOwner ) { return inOwner->meshFlags; }
 inline void setPxConvexMeshGeometryMeshFlags( PxConvexMeshGeometry* inOwner, PxConvexMeshGeometryFlags inData) { inOwner->meshFlags = inData; }
 PX_PHYSX_CORE_API PxConvexMeshGeometryGeneratedInfo::PxConvexMeshGeometryGeneratedInfo()
 	: Scale( "Scale", setPxConvexMeshGeometryScale, getPxConvexMeshGeometryScale )
 	, ConvexMesh( "ConvexMesh", setPxConvexMeshGeometryConvexMesh, getPxConvexMeshGeometryConvexMesh )
+	, MaxMargin( "MaxMargin", setPxConvexMeshGeometryMaxMargin, getPxConvexMeshGeometryMaxMargin )
 	, MeshFlags( "MeshFlags", setPxConvexMeshGeometryMeshFlags, getPxConvexMeshGeometryMeshFlags )
 {}
 PX_PHYSX_CORE_API PxConvexMeshGeometryGeneratedValues::PxConvexMeshGeometryGeneratedValues( const PxConvexMeshGeometry* inSource )
 		:PxGeometryGeneratedValues( inSource )
 		,Scale( inSource->scale )
 		,ConvexMesh( inSource->convexMesh )
+		,MaxMargin( inSource->maxMargin )
 		,MeshFlags( inSource->meshFlags )
 {
 	PX_UNUSED(inSource);
@@ -1249,6 +1252,8 @@ inline PxReal getPxSceneDescFrictionOffsetThreshold( const PxSceneDesc* inOwner 
 inline void setPxSceneDescFrictionOffsetThreshold( PxSceneDesc* inOwner, PxReal inData) { inOwner->frictionOffsetThreshold = inData; }
 inline PxReal getPxSceneDescCcdMaxSeparation( const PxSceneDesc* inOwner ) { return inOwner->ccdMaxSeparation; }
 inline void setPxSceneDescCcdMaxSeparation( PxSceneDesc* inOwner, PxReal inData) { inOwner->ccdMaxSeparation = inData; }
+inline PxReal getPxSceneDescSolverOffsetSlop( const PxSceneDesc* inOwner ) { return inOwner->solverOffsetSlop; }
+inline void setPxSceneDescSolverOffsetSlop( PxSceneDesc* inOwner, PxReal inData) { inOwner->solverOffsetSlop = inData; }
 inline PxSceneFlags getPxSceneDescFlags( const PxSceneDesc* inOwner ) { return inOwner->flags; }
 inline void setPxSceneDescFlags( PxSceneDesc* inOwner, PxSceneFlags inData) { inOwner->flags = inData; }
 inline PxCpuDispatcher * getPxSceneDescCpuDispatcher( const PxSceneDesc* inOwner ) { return inOwner->cpuDispatcher; }
@@ -1269,6 +1274,8 @@ inline PxU32 getPxSceneDescNbContactDataBlocks( const PxSceneDesc* inOwner ) { r
 inline void setPxSceneDescNbContactDataBlocks( PxSceneDesc* inOwner, PxU32 inData) { inOwner->nbContactDataBlocks = inData; }
 inline PxU32 getPxSceneDescMaxNbContactDataBlocks( const PxSceneDesc* inOwner ) { return inOwner->maxNbContactDataBlocks; }
 inline void setPxSceneDescMaxNbContactDataBlocks( PxSceneDesc* inOwner, PxU32 inData) { inOwner->maxNbContactDataBlocks = inData; }
+inline PxReal getPxSceneDescMaxBiasCoefficient( const PxSceneDesc* inOwner ) { return inOwner->maxBiasCoefficient; }
+inline void setPxSceneDescMaxBiasCoefficient( PxSceneDesc* inOwner, PxReal inData) { inOwner->maxBiasCoefficient = inData; }
 inline PxU32 getPxSceneDescContactReportStreamBufferSize( const PxSceneDesc* inOwner ) { return inOwner->contactReportStreamBufferSize; }
 inline void setPxSceneDescContactReportStreamBufferSize( PxSceneDesc* inOwner, PxU32 inData) { inOwner->contactReportStreamBufferSize = inData; }
 inline PxU32 getPxSceneDescCcdMaxPasses( const PxSceneDesc* inOwner ) { return inOwner->ccdMaxPasses; }
@@ -1301,6 +1308,7 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedInfo::PxSceneDescGeneratedInfo()
 	, BounceThresholdVelocity( "BounceThresholdVelocity", setPxSceneDescBounceThresholdVelocity, getPxSceneDescBounceThresholdVelocity )
 	, FrictionOffsetThreshold( "FrictionOffsetThreshold", setPxSceneDescFrictionOffsetThreshold, getPxSceneDescFrictionOffsetThreshold )
 	, CcdMaxSeparation( "CcdMaxSeparation", setPxSceneDescCcdMaxSeparation, getPxSceneDescCcdMaxSeparation )
+	, SolverOffsetSlop( "SolverOffsetSlop", setPxSceneDescSolverOffsetSlop, getPxSceneDescSolverOffsetSlop )
 	, Flags( "Flags", setPxSceneDescFlags, getPxSceneDescFlags )
 	, CpuDispatcher( "CpuDispatcher", setPxSceneDescCpuDispatcher, getPxSceneDescCpuDispatcher )
 	, GpuDispatcher( "GpuDispatcher", setPxSceneDescGpuDispatcher, getPxSceneDescGpuDispatcher )
@@ -1311,6 +1319,7 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedInfo::PxSceneDescGeneratedInfo()
 	, SolverBatchSize( "SolverBatchSize", setPxSceneDescSolverBatchSize, getPxSceneDescSolverBatchSize )
 	, NbContactDataBlocks( "NbContactDataBlocks", setPxSceneDescNbContactDataBlocks, getPxSceneDescNbContactDataBlocks )
 	, MaxNbContactDataBlocks( "MaxNbContactDataBlocks", setPxSceneDescMaxNbContactDataBlocks, getPxSceneDescMaxNbContactDataBlocks )
+	, MaxBiasCoefficient( "MaxBiasCoefficient", setPxSceneDescMaxBiasCoefficient, getPxSceneDescMaxBiasCoefficient )
 	, ContactReportStreamBufferSize( "ContactReportStreamBufferSize", setPxSceneDescContactReportStreamBufferSize, getPxSceneDescContactReportStreamBufferSize )
 	, CcdMaxPasses( "CcdMaxPasses", setPxSceneDescCcdMaxPasses, getPxSceneDescCcdMaxPasses )
 	, WakeCounterResetValue( "WakeCounterResetValue", setPxSceneDescWakeCounterResetValue, getPxSceneDescWakeCounterResetValue )
@@ -1336,6 +1345,7 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedValues::PxSceneDescGeneratedValues( const 
 		,BounceThresholdVelocity( inSource->bounceThresholdVelocity )
 		,FrictionOffsetThreshold( inSource->frictionOffsetThreshold )
 		,CcdMaxSeparation( inSource->ccdMaxSeparation )
+		,SolverOffsetSlop( inSource->solverOffsetSlop )
 		,Flags( inSource->flags )
 		,CpuDispatcher( inSource->cpuDispatcher )
 		,GpuDispatcher( inSource->gpuDispatcher )
@@ -1346,6 +1356,7 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedValues::PxSceneDescGeneratedValues( const 
 		,SolverBatchSize( inSource->solverBatchSize )
 		,NbContactDataBlocks( inSource->nbContactDataBlocks )
 		,MaxNbContactDataBlocks( inSource->maxNbContactDataBlocks )
+		,MaxBiasCoefficient( inSource->maxBiasCoefficient )
 		,ContactReportStreamBufferSize( inSource->contactReportStreamBufferSize )
 		,CcdMaxPasses( inSource->ccdMaxPasses )
 		,WakeCounterResetValue( inSource->wakeCounterResetValue )

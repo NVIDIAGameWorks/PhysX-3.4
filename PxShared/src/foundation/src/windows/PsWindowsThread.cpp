@@ -104,10 +104,9 @@ DWORD WINAPI PxThreadStart(LPVOID arg)
 uint32_t gPhysicalCoreCount = 0;
 }
 
-static const uint32_t gSize = sizeof(_ThreadImpl);
-const uint32_t& ThreadImpl::getSize()
+uint32_t ThreadImpl::getSize()
 {
-	return gSize;
+	return sizeof(_ThreadImpl);
 }
 
 ThreadImpl::Id ThreadImpl::getId()

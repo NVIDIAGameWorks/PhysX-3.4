@@ -228,7 +228,6 @@ namespace Sc
 			return (getFlagsFast()&ktFlags) == ktFlags;
 		}
 
-						void					postShapeChange(bool asPartOfActorTransformChange);
 						void					createSqBounds();
 						void					destroySqBounds();
 						void					freezeTransforms(Cm::BitMapPinned* shapeChangedMap);

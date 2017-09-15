@@ -43,7 +43,9 @@
 <br>
 &nbsp;&nbsp;<a class="el" href="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596c89b33b0290d667f6f2ae69298631d01">eENABLE_POSE_INTEGRATION_PREVIEW</a> =  (1 &lt;&lt; 4), 
 <br>
-&nbsp;&nbsp;<a class="el" href="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596f13d6aa80b364fe2cef81a0039e37d45">eENABLE_SPECULATIVE_CCD</a> =  (1 &lt;&lt; 5)
+&nbsp;&nbsp;<a class="el" href="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596f13d6aa80b364fe2cef81a0039e37d45">eENABLE_SPECULATIVE_CCD</a> =  (1 &lt;&lt; 5), 
+<br>
+&nbsp;&nbsp;<a class="el" href="structPxRigidBodyFlag.html#5fd4878ae66a98c030a9d976e8ba8596b2bb4cc4246807076a2103d72bd69e00">eENABLE_CCD_MAX_CONTACT_IMPULSE</a> =  (1 &lt;&lt; 6)
 <br>
  }</td></tr>
 
@@ -106,6 +108,8 @@ Sometimes it might be advantageous to get access to the new pose of a rigid body
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" name="5fd4878ae66a98c030a9d976e8ba8596f13d6aa80b364fe2cef81a0039e37d45"></a><!-- doxytag: member="eENABLE_SPECULATIVE_CCD" ref="5fd4878ae66a98c030a9d976e8ba8596f13d6aa80b364fe2cef81a0039e37d45" args="" -->eENABLE_SPECULATIVE_CCD</em>&nbsp;</td><td>
 Register a rigid body to dynamicly adjust contact offset based on velocity. This can be used to achieve a CCD effect. </td></tr>
+<tr><td valign="top"><em><a class="anchor" name="5fd4878ae66a98c030a9d976e8ba8596b2bb4cc4246807076a2103d72bd69e00"></a><!-- doxytag: member="eENABLE_CCD_MAX_CONTACT_IMPULSE" ref="5fd4878ae66a98c030a9d976e8ba8596b2bb4cc4246807076a2103d72bd69e00" args="" -->eENABLE_CCD_MAX_CONTACT_IMPULSE</em>&nbsp;</td><td>
+Permit CCD to limit maxContactImpulse. This is useful for use-cases like a destruction system but can cause visual artefacts so is not enabled by default. </td></tr>
 </table>
 </dl>
 

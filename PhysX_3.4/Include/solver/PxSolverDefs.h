@@ -128,27 +128,24 @@ struct PxSolverConstraintDesc
 		Dy::FsData*			articulationB;	//!< Articulation pointer for body B
 	};
 	PxU16				linkIndexA;			//!< Link index defining which link in Articulation A this constraint affects. If not an articulation, must be NO_LINK
+	PxU16				linkIndexB;			//!< Link index defining which link in Articulation B this constraint affects. If not an articulation, must be NO_LINK.
 	union
 	{
 		PxU16				articulationALength;	//!< The total length of articulation A in multiples of 16 bytes
-		PxU16				bodyADataIndex;			//!< Body A's index into the SolverBodyData array
+		PxU32				bodyADataIndex;			//!< Body A's index into the SolverBodyData array
 	};
 
-	PxU16				linkIndexB;					//!< Link index defining which link in Articulation B this constraint affects. If not an articulation, must be NO_LINK.
 	union
 	{
 		PxU16				articulationBLength;	//!< The total lengh of articulation B in multiples of 16 bytes.
-		PxU16				bodyBDataIndex;			//!< Body B's index into the SolverBodyData array
+		PxU32				bodyBDataIndex;			//!< Body B's index into the SolverBodyData array
 	};
 
-
-	PxU8*					constraint;				//!< Pointer to the constraint rows to be solved
-	void*					writeBack;				//!< Pointer to the writeback structure results for this given constraint are to be written to
 	PxU16					writeBackLengthOver4;	//!< writeBackLength/4, max writeback length is 256K, allows PxSolverConstraintDesc to fit in 32 bytes
 	PxU16					constraintLengthOver16;	//!< constraintLength/16, max constraint length is 1MB, allows PxSolverConstraintDesc to fit in 32 bytes
 
-	PxU16					bodyASolverProgress;	//!< Required solver progress for this constraint
-	PxU16					bodyBSolverProgress;	//!< Required sovler progress for this constraint.
+	PxU8*					constraint;				//!< Pointer to the constraint rows to be solved
+	void*					writeBack;				//!< Pointer to the writeback structure results for this given constraint are to be written to
 };
 
 struct PxSolverConstraintPrepDescBase

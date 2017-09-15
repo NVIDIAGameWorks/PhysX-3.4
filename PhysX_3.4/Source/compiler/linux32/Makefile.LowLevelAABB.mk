@@ -64,7 +64,7 @@ LowLevelAABB_debug_common_cflags    += -MMD
 LowLevelAABB_debug_common_cflags    += $(addprefix -D, $(LowLevelAABB_debug_defines))
 LowLevelAABB_debug_common_cflags    += $(addprefix -I, $(LowLevelAABB_debug_hpaths))
 LowLevelAABB_debug_common_cflags  += -m32
-LowLevelAABB_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevelAABB_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelAABB_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevelAABB_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevelAABB_debug_common_cflags  += -Wno-missing-field-initializers
@@ -164,7 +164,7 @@ LowLevelAABB_checked_common_cflags    += -MMD
 LowLevelAABB_checked_common_cflags    += $(addprefix -D, $(LowLevelAABB_checked_defines))
 LowLevelAABB_checked_common_cflags    += $(addprefix -I, $(LowLevelAABB_checked_hpaths))
 LowLevelAABB_checked_common_cflags  += -m32
-LowLevelAABB_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevelAABB_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelAABB_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevelAABB_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevelAABB_checked_common_cflags  += -Wno-missing-field-initializers
@@ -264,7 +264,7 @@ LowLevelAABB_profile_common_cflags    += -MMD
 LowLevelAABB_profile_common_cflags    += $(addprefix -D, $(LowLevelAABB_profile_defines))
 LowLevelAABB_profile_common_cflags    += $(addprefix -I, $(LowLevelAABB_profile_hpaths))
 LowLevelAABB_profile_common_cflags  += -m32
-LowLevelAABB_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevelAABB_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelAABB_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevelAABB_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevelAABB_profile_common_cflags  += -Wno-missing-field-initializers
@@ -363,7 +363,7 @@ LowLevelAABB_release_common_cflags    += -MMD
 LowLevelAABB_release_common_cflags    += $(addprefix -D, $(LowLevelAABB_release_defines))
 LowLevelAABB_release_common_cflags    += $(addprefix -I, $(LowLevelAABB_release_hpaths))
 LowLevelAABB_release_common_cflags  += -m32
-LowLevelAABB_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+LowLevelAABB_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelAABB_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 LowLevelAABB_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 LowLevelAABB_release_common_cflags  += -Wno-missing-field-initializers

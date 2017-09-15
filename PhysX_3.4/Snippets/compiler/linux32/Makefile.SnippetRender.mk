@@ -41,7 +41,7 @@ SnippetRender_debug_common_cflags    += -MMD
 SnippetRender_debug_common_cflags    += $(addprefix -D, $(SnippetRender_debug_defines))
 SnippetRender_debug_common_cflags    += $(addprefix -I, $(SnippetRender_debug_hpaths))
 SnippetRender_debug_common_cflags  += -m32
-SnippetRender_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetRender_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetRender_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetRender_debug_common_cflags  += -Wno-uninitialized
 SnippetRender_debug_common_cflags  += -g3 -gdwarf-2
@@ -122,7 +122,7 @@ SnippetRender_checked_common_cflags    += -MMD
 SnippetRender_checked_common_cflags    += $(addprefix -D, $(SnippetRender_checked_defines))
 SnippetRender_checked_common_cflags    += $(addprefix -I, $(SnippetRender_checked_hpaths))
 SnippetRender_checked_common_cflags  += -m32
-SnippetRender_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetRender_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetRender_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetRender_checked_common_cflags  += -Wno-uninitialized
 SnippetRender_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -203,7 +203,7 @@ SnippetRender_profile_common_cflags    += -MMD
 SnippetRender_profile_common_cflags    += $(addprefix -D, $(SnippetRender_profile_defines))
 SnippetRender_profile_common_cflags    += $(addprefix -I, $(SnippetRender_profile_hpaths))
 SnippetRender_profile_common_cflags  += -m32
-SnippetRender_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetRender_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetRender_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetRender_profile_common_cflags  += -Wno-uninitialized
 SnippetRender_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -283,7 +283,7 @@ SnippetRender_release_common_cflags    += -MMD
 SnippetRender_release_common_cflags    += $(addprefix -D, $(SnippetRender_release_defines))
 SnippetRender_release_common_cflags    += $(addprefix -I, $(SnippetRender_release_hpaths))
 SnippetRender_release_common_cflags  += -m32
-SnippetRender_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetRender_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetRender_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetRender_release_common_cflags  += -Wno-uninitialized
 SnippetRender_release_common_cflags  += -O3 -fno-strict-aliasing

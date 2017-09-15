@@ -75,7 +75,7 @@ PhysXCharacterKinematic_debug_common_cflags    += -MMD
 PhysXCharacterKinematic_debug_common_cflags    += $(addprefix -D, $(PhysXCharacterKinematic_debug_defines))
 PhysXCharacterKinematic_debug_common_cflags    += $(addprefix -I, $(PhysXCharacterKinematic_debug_hpaths))
 PhysXCharacterKinematic_debug_common_cflags  += -m32
-PhysXCharacterKinematic_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXCharacterKinematic_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCharacterKinematic_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXCharacterKinematic_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXCharacterKinematic_debug_common_cflags  += -Wno-missing-field-initializers
@@ -183,7 +183,7 @@ PhysXCharacterKinematic_checked_common_cflags    += -MMD
 PhysXCharacterKinematic_checked_common_cflags    += $(addprefix -D, $(PhysXCharacterKinematic_checked_defines))
 PhysXCharacterKinematic_checked_common_cflags    += $(addprefix -I, $(PhysXCharacterKinematic_checked_hpaths))
 PhysXCharacterKinematic_checked_common_cflags  += -m32
-PhysXCharacterKinematic_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXCharacterKinematic_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCharacterKinematic_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXCharacterKinematic_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXCharacterKinematic_checked_common_cflags  += -Wno-missing-field-initializers
@@ -291,7 +291,7 @@ PhysXCharacterKinematic_profile_common_cflags    += -MMD
 PhysXCharacterKinematic_profile_common_cflags    += $(addprefix -D, $(PhysXCharacterKinematic_profile_defines))
 PhysXCharacterKinematic_profile_common_cflags    += $(addprefix -I, $(PhysXCharacterKinematic_profile_hpaths))
 PhysXCharacterKinematic_profile_common_cflags  += -m32
-PhysXCharacterKinematic_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXCharacterKinematic_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCharacterKinematic_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXCharacterKinematic_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXCharacterKinematic_profile_common_cflags  += -Wno-missing-field-initializers
@@ -398,7 +398,7 @@ PhysXCharacterKinematic_release_common_cflags    += -MMD
 PhysXCharacterKinematic_release_common_cflags    += $(addprefix -D, $(PhysXCharacterKinematic_release_defines))
 PhysXCharacterKinematic_release_common_cflags    += $(addprefix -I, $(PhysXCharacterKinematic_release_hpaths))
 PhysXCharacterKinematic_release_common_cflags  += -m32
-PhysXCharacterKinematic_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PhysXCharacterKinematic_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCharacterKinematic_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PhysXCharacterKinematic_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PhysXCharacterKinematic_release_common_cflags  += -Wno-missing-field-initializers

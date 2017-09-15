@@ -70,7 +70,7 @@ SnippetCustomProfiler_debug_common_cflags    += -MMD
 SnippetCustomProfiler_debug_common_cflags    += $(addprefix -D, $(SnippetCustomProfiler_debug_defines))
 SnippetCustomProfiler_debug_common_cflags    += $(addprefix -I, $(SnippetCustomProfiler_debug_hpaths))
 SnippetCustomProfiler_debug_common_cflags  += -m64
-SnippetCustomProfiler_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetCustomProfiler_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetCustomProfiler_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetCustomProfiler_debug_common_cflags  += -Wno-uninitialized
 SnippetCustomProfiler_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetCustomProfiler_checked_common_cflags    += -MMD
 SnippetCustomProfiler_checked_common_cflags    += $(addprefix -D, $(SnippetCustomProfiler_checked_defines))
 SnippetCustomProfiler_checked_common_cflags    += $(addprefix -I, $(SnippetCustomProfiler_checked_hpaths))
 SnippetCustomProfiler_checked_common_cflags  += -m64
-SnippetCustomProfiler_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetCustomProfiler_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetCustomProfiler_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetCustomProfiler_checked_common_cflags  += -Wno-uninitialized
 SnippetCustomProfiler_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetCustomProfiler_profile_common_cflags    += -MMD
 SnippetCustomProfiler_profile_common_cflags    += $(addprefix -D, $(SnippetCustomProfiler_profile_defines))
 SnippetCustomProfiler_profile_common_cflags    += $(addprefix -I, $(SnippetCustomProfiler_profile_hpaths))
 SnippetCustomProfiler_profile_common_cflags  += -m64
-SnippetCustomProfiler_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetCustomProfiler_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetCustomProfiler_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetCustomProfiler_profile_common_cflags  += -Wno-uninitialized
 SnippetCustomProfiler_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetCustomProfiler_release_common_cflags    += -MMD
 SnippetCustomProfiler_release_common_cflags    += $(addprefix -D, $(SnippetCustomProfiler_release_defines))
 SnippetCustomProfiler_release_common_cflags    += $(addprefix -I, $(SnippetCustomProfiler_release_hpaths))
 SnippetCustomProfiler_release_common_cflags  += -m64
-SnippetCustomProfiler_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetCustomProfiler_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetCustomProfiler_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetCustomProfiler_release_common_cflags  += -Wno-uninitialized
 SnippetCustomProfiler_release_common_cflags  += -O3 -fno-strict-aliasing

@@ -55,7 +55,7 @@ PxFoundation_debug_common_cflags    += -MMD
 PxFoundation_debug_common_cflags    += $(addprefix -D, $(PxFoundation_debug_defines))
 PxFoundation_debug_common_cflags    += $(addprefix -I, $(PxFoundation_debug_hpaths))
 PxFoundation_debug_common_cflags  += -m32
-PxFoundation_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxFoundation_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxFoundation_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxFoundation_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxFoundation_debug_common_cflags  += -Wno-missing-field-initializers
@@ -135,7 +135,7 @@ PxFoundation_release_common_cflags    += -MMD
 PxFoundation_release_common_cflags    += $(addprefix -D, $(PxFoundation_release_defines))
 PxFoundation_release_common_cflags    += $(addprefix -I, $(PxFoundation_release_hpaths))
 PxFoundation_release_common_cflags  += -m32
-PxFoundation_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxFoundation_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxFoundation_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxFoundation_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxFoundation_release_common_cflags  += -Wno-missing-field-initializers
@@ -216,7 +216,7 @@ PxFoundation_checked_common_cflags    += -MMD
 PxFoundation_checked_common_cflags    += $(addprefix -D, $(PxFoundation_checked_defines))
 PxFoundation_checked_common_cflags    += $(addprefix -I, $(PxFoundation_checked_hpaths))
 PxFoundation_checked_common_cflags  += -m32
-PxFoundation_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxFoundation_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxFoundation_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxFoundation_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxFoundation_checked_common_cflags  += -Wno-missing-field-initializers
@@ -297,7 +297,7 @@ PxFoundation_profile_common_cflags    += -MMD
 PxFoundation_profile_common_cflags    += $(addprefix -D, $(PxFoundation_profile_defines))
 PxFoundation_profile_common_cflags    += $(addprefix -I, $(PxFoundation_profile_hpaths))
 PxFoundation_profile_common_cflags  += -m32
-PxFoundation_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+PxFoundation_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxFoundation_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 PxFoundation_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 PxFoundation_profile_common_cflags  += -Wno-missing-field-initializers

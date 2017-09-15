@@ -70,7 +70,7 @@ SnippetMBP_debug_common_cflags    += -MMD
 SnippetMBP_debug_common_cflags    += $(addprefix -D, $(SnippetMBP_debug_defines))
 SnippetMBP_debug_common_cflags    += $(addprefix -I, $(SnippetMBP_debug_hpaths))
 SnippetMBP_debug_common_cflags  += -m64
-SnippetMBP_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetMBP_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetMBP_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetMBP_debug_common_cflags  += -Wno-uninitialized
 SnippetMBP_debug_common_cflags  += -g3 -gdwarf-2
@@ -181,7 +181,7 @@ SnippetMBP_checked_common_cflags    += -MMD
 SnippetMBP_checked_common_cflags    += $(addprefix -D, $(SnippetMBP_checked_defines))
 SnippetMBP_checked_common_cflags    += $(addprefix -I, $(SnippetMBP_checked_hpaths))
 SnippetMBP_checked_common_cflags  += -m64
-SnippetMBP_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetMBP_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetMBP_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetMBP_checked_common_cflags  += -Wno-uninitialized
 SnippetMBP_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -292,7 +292,7 @@ SnippetMBP_profile_common_cflags    += -MMD
 SnippetMBP_profile_common_cflags    += $(addprefix -D, $(SnippetMBP_profile_defines))
 SnippetMBP_profile_common_cflags    += $(addprefix -I, $(SnippetMBP_profile_hpaths))
 SnippetMBP_profile_common_cflags  += -m64
-SnippetMBP_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetMBP_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetMBP_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetMBP_profile_common_cflags  += -Wno-uninitialized
 SnippetMBP_profile_common_cflags  += -O3 -fno-strict-aliasing
@@ -402,7 +402,7 @@ SnippetMBP_release_common_cflags    += -MMD
 SnippetMBP_release_common_cflags    += $(addprefix -D, $(SnippetMBP_release_defines))
 SnippetMBP_release_common_cflags    += $(addprefix -I, $(SnippetMBP_release_hpaths))
 SnippetMBP_release_common_cflags  += -m64
-SnippetMBP_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SnippetMBP_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetMBP_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SnippetMBP_release_common_cflags  += -Wno-uninitialized
 SnippetMBP_release_common_cflags  += -O3 -fno-strict-aliasing

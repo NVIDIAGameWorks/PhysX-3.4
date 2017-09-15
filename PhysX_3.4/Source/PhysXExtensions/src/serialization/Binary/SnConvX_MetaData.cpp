@@ -496,7 +496,7 @@ bool MetaData::load(PxInputStream& inputStream, MetaDataType type)
 			{
 				if(!mEntries[i].mName)
 				{
-							mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "Found class: %s\n", mEntries[i].mType);
+					mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "Found class: %s\n", mEntries[i].mType);
 					currentClass = addNewClass(mEntries[i].mType, mEntries[i].mSize);
 
 					if(mEntries[i].mFlags & PxMetaDataFlag::eVIRTUAL)
@@ -703,6 +703,126 @@ bool MetaData::load(PxInputStream& inputStream, MetaDataType type)
 	return true;
 }
 
+namespace
+{
+	//tool functions for MetaData::compare
+
+	bool str_equal(const char* src, const char* dst) 
+	{
+		if (src == dst)
+			return true;
+
+		if (src != NULL && dst != NULL)
+			return strcmp(src, dst) == 0;
+
+		return false;
+	}
+
+	const char* str_print(const char* str)
+	{
+		return str != NULL ? str : "(nullptr)";
+	}
+}
+
+#define COMPARE_METADATA_BOOL_MD(type, src, dst, field) if ((src).field != (dst).field) \
+	{ mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "%s::%s missmatch: src %s dst %s\n", #type, #field, (src).field?"true":"false", (dst).field?"true":"false"); isEquivalent = false; }
+#define COMPARE_METADATA_INT_MD(type, src, dst, field) if ((src).field != (dst).field) \
+	{ mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "%s::%s missmatch: src %d dst %d\n", #type, #field, (src).field, (dst).field); isEquivalent = false; }
+#define COMPARE_METADATA_STRING_MD(type, src, dst, field) \
+	if (!str_equal((src).field, (dst).field)) \
+	{ \
+		mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "%s::%s missmatch: src %s dst %s\n", #type, #field, str_print((src).field), str_print((dst).field)); \
+		isEquivalent = false; \
+	}
+
+bool MetaData::compare(const MetaData& dst) const
+{
+	bool isEquivalent = true;
+
+	//mType
+	COMPARE_METADATA_BOOL_MD(MetaData, *this, dst, mFlip)
+	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mVersion)
+	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mBinaryVersion)
+	//mBuildNumber
+	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mSizeOfPtr)
+	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mPlatformTag)
+	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mGaussMapLimit)
+	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mNbEntries)
+
+	//find classes missing in dst
+	for (PxU32 i = 0; i<mMetaClasses.size(); i++)
+	{
+		MetaClass* mcSrc = mMetaClasses[i];
+		MetaClass* mcDst = dst.getMetaClass(mcSrc->mClassName);
+
+		if (mcDst == NULL)
+		{
+			mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "dst is missing meta class %s", mcSrc->mClassName);
+		}
+	}
+
+	//find classes missing in src
+	for (PxU32 i = 0; i<dst.mMetaClasses.size(); i++)
+	{
+		MetaClass* mcDst = dst.mMetaClasses[i];
+		MetaClass* mcSrc = getMetaClass(mcDst->mClassName);
+
+		if (mcSrc == NULL)
+		{
+			mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "dst is missing meta class %s", mcSrc->mClassName);
+		}
+	}
+
+	//compare classes present in src and dst
+	for (PxU32 i = 0; i<mMetaClasses.size(); i++)
+	{
+		const char* className = mMetaClasses[i]->mClassName;
+		MetaClass* mcSrc = getMetaClass(className);
+		MetaClass* mcDst = dst.getMetaClass(className);
+		if (mcSrc != NULL && mcDst != NULL)
+		{
+			COMPARE_METADATA_INT_MD(MetaClass, *mcSrc, *mcDst, mCallback)
+			COMPARE_METADATA_INT_MD(MetaClass, *mcSrc, *mcDst, mMaster) //should be 0 for both anyway
+			COMPARE_METADATA_STRING_MD(MetaClass, *mcSrc, *mcDst, mClassName)
+			COMPARE_METADATA_INT_MD(MetaClass, *mcSrc, *mcDst, mSize)
+			COMPARE_METADATA_INT_MD(MetaClass, *mcSrc, *mcDst, mDepth)
+
+			COMPARE_METADATA_INT_MD(MetaClass, *mcSrc, *mcDst, mBaseClasses.size())
+			if (mcSrc->mBaseClasses.size() == mcDst->mBaseClasses.size())
+			{
+				for (PxU32 b = 0; b < mcSrc->mBaseClasses.size(); b++)
+				{
+					COMPARE_METADATA_STRING_MD(PxMetaDataEntry, mcSrc->mBaseClasses[b], mcDst->mBaseClasses[b], mName);
+				}
+			}
+
+			COMPARE_METADATA_INT_MD(MetaClass, *mcSrc, *mcDst, mFields.size())
+			if (mcSrc->mFields.size() == mcDst->mFields.size())
+			{
+				for (PxU32 f = 0; f < mcSrc->mFields.size(); f++)
+				{
+					PxMetaDataEntry srcMde = mcSrc->mFields[f];
+					PxMetaDataEntry dstMde = mcDst->mFields[f];
+
+					COMPARE_METADATA_STRING_MD(PxMetaDataEntry, srcMde, dstMde, mType)
+					COMPARE_METADATA_STRING_MD(PxMetaDataEntry, srcMde, dstMde, mName)
+					COMPARE_METADATA_INT_MD(PxMetaDataEntry, srcMde, dstMde, mOffset)
+					COMPARE_METADATA_INT_MD(PxMetaDataEntry, srcMde, dstMde, mSize)
+					COMPARE_METADATA_INT_MD(PxMetaDataEntry, srcMde, dstMde, mCount)
+					COMPARE_METADATA_INT_MD(PxMetaDataEntry, srcMde, dstMde, mOffsetSize)
+					COMPARE_METADATA_INT_MD(PxMetaDataEntry, srcMde, dstMde, mFlags)
+					COMPARE_METADATA_INT_MD(PxMetaDataEntry, srcMde, dstMde, mAlignment)
+				}
+			}
+		}
+	}
+	return isEquivalent;
+}
+
+#undef COMPARE_METADATA_BOOL_MD
+#undef COMPARE_METADATA_INT_MD
+#undef COMPARE_METADATA_STRING_MD
+
 ///////////////////////////////////////////////////////////////////////////////
 
 void ConvX::releaseMetaData()
@@ -837,5 +957,4 @@ PxU64 physx::Sn::peek(int size, const char* buffer, int flags)
 	PX_ASSERT(0);
 	return PxU64(-1);
 }
-
 

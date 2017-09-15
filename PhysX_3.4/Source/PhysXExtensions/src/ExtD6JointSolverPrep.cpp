@@ -68,7 +68,7 @@ namespace Ext
 		PxTransform cB2w = bB2w.transform(data.c2b[1]);
 
 		body0WorldOffset = cB2w.p-bA2w.p;
-		ConstraintHelper g(constraints, cB2w.p-bA2w.p, cB2w.p-bB2w.p);
+		ConstraintHelper g(constraints, cA2w.p-bA2w.p, cB2w.p-bB2w.p);
 
 		if(cA2w.q.dot(cB2w.q)<0)	// minimum dist quat (equiv to flipping cB2bB.q, which we don't use anywhere)
 			cB2w.q = -cB2w.q;

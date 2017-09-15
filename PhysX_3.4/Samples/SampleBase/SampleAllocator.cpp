@@ -165,7 +165,7 @@ PxSampleAllocator::~PxSampleAllocator()
 				continue;
 
 			const DebugBlock* DB = (const DebugBlock*)mMemBlockList[i];
-			sprintf(buffer, " Address 0x%p, %d bytes, allocated in: %s(%d):\n\n", DB+1, DB->mSize, DB->mFilename, DB->mLine);
+			sprintf(buffer, " Address 0x%p, %d bytes, allocated in: %s(%d):\n\n", (void*)(DB+1), DB->mSize, DB->mFilename, DB->mLine);
 			print(buffer);
 
 			NbLeaks++;

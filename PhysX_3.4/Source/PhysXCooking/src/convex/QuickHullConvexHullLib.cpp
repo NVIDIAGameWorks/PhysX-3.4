@@ -1407,7 +1407,7 @@ namespace local
 
 			if (dotP > maxdot_minang)
 			{
-				if (face.area > oppFace.area)
+				if (face.area >= oppFace.area)
 				{
 					// check if we can merge the 2 faces
 					merge = canMergeFaces(*hedge);
@@ -2383,7 +2383,7 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromQuickHull(PxConvexMeshDesc& d
 
 	// allocate out buffers
 	const PxU32 indicesBufferSize = sizeof(PxU32)*numIndices;
-	const PxU32 verticesBufferSize = sizeof(PxVec3)*mQuickHull->mNumVertices + 1;
+	const PxU32 verticesBufferSize = sizeof(PxVec3)*(mQuickHull->mNumVertices + 1);
 	const PxU32 facesBufferSize = sizeof(PxHullPolygon)*numFacesOut;
 	const PxU32 faceTranslationTableSize = sizeof(PxU16)*numFacesOut;
 	const PxU32 translationTableSize = sizeof(PxU32)*mQuickHull->mNumVertices;
@@ -2503,7 +2503,7 @@ void QuickHullConvexHullLib::fillConvexMeshDescFromCroppedHull(PxConvexMeshDesc&
 	const PxU32 numVertices = mCropedConvexHull->getVertices().size();
 	const PxU32 indicesBufferSize = sizeof(PxU32)*numIndices;
 	const PxU32 facesBufferSize = sizeof(PxHullPolygon)*numPolygons;
-	const PxU32 verticesBufferSize = sizeof(PxVec3)*numVertices + 1; // allocate additional vec3 for V4 safe load in VolumeInteration
+	const PxU32 verticesBufferSize = sizeof(PxVec3)*(numVertices + 1); // allocate additional vec3 for V4 safe load in VolumeInteration
 	const PxU32 bufferMemorySize = indicesBufferSize + verticesBufferSize + facesBufferSize;
 	mOutMemoryBuffer = reinterpret_cast<PxU8*>(PX_ALLOC_TEMP(bufferMemorySize, "ConvexMeshDesc"));
 

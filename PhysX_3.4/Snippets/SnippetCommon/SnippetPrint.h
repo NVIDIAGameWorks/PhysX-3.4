@@ -35,8 +35,8 @@
 #if PX_XBOXONE
 void OutputDebugPrint(const char*, ...);
 #define printf OutputDebugPrint
-#elif PX_NX
-#include "../SnippetCommon/nx/NXSnippetPrint.h"
+#elif PX_SWITCH
+#include "../SnippetCommon/Switch/SwitchSnippetPrint.h"
 #endif
 
 #endif // PHYSX_SNIPPET_PRINT_H

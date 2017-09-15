@@ -197,6 +197,8 @@ public:
 	virtual void unregisterPhysXIndicatorGpuClient(PhysXGpuIndicator* gpuIndicator) = 0;
 #endif
 
+	virtual bool isParticlesSupported() const = 0;
+
 	virtual ModuleIntl *getInternalModule(Module *module) = 0;
 	virtual Module *getModule(ModuleIntl *module) = 0;
 

@@ -44,21 +44,24 @@ SampleSceneController::~SampleSceneController()
 
 void SampleSceneController::onSampleStart()
 {
-	// setup camera
-	DirectX::XMVECTORF32 lookAtPt = { 0, 2, 0, 0 };
-	DirectX::XMVECTORF32 eyePt = { 0, 5, 10, 0 };
-	mCamera->SetViewParams(eyePt, lookAtPt);
-	mCamera->SetRotateButtons(false, false, true, false);
-	mCamera->SetEnablePositionMovement(true);
+	PX_ASSERT_WITH_MESSAGE(mApex.getModuleParticles(), "Particle dll can't be found or ApexFramework was built withoud particles support");
+	if (mApex.getModuleParticles())
+	{
+		// setup camera
+		DirectX::XMVECTORF32 lookAtPt = {0, 2, 0, 0};
+		DirectX::XMVECTORF32 eyePt = {0, 5, 10, 0};
+		mCamera->SetViewParams(eyePt, lookAtPt);
+		mCamera->SetRotateButtons(false, false, true, false);
+		mCamera->SetEnablePositionMovement(true);
 
-	// spawn mesh emitter
-	nvidia::apex::Asset *asset = (nvidia::apex::Asset *)mApex.getApexSDK()->getNamedResourceProvider()->getResource(EMITTER_AUTHORING_TYPE_NAME, "testMeshEmitter4ParticleIos");
-	NvParameterized::Interface *defaultActorDesc = asset->getDefaultActorDesc();
-	NvParameterized::setParamTransform(*defaultActorDesc, "InitialPose", PxTransform(PxIdentity));
-	EmitterActor *actor = (EmitterActor*)asset->createApexActor(*defaultActorDesc, *(mApex.getApexScene()));
+		// spawn mesh emitter
+		nvidia::apex::Asset *asset = (nvidia::apex::Asset *)mApex.getApexSDK()->getNamedResourceProvider()->getResource(EMITTER_AUTHORING_TYPE_NAME, "testMeshEmitter4ParticleIos");
+		NvParameterized::Interface *defaultActorDesc = asset->getDefaultActorDesc();
+		NvParameterized::setParamTransform(*defaultActorDesc, "InitialPose", PxTransform(PxIdentity));
+		EmitterActor *actor = (EmitterActor*)asset->createApexActor(*defaultActorDesc, *(mApex.getApexScene()));
 
-	actor->startEmit(true);
-
+		actor->startEmit(true);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

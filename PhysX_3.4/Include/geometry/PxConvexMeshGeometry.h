@@ -88,7 +88,8 @@ public:
 	PX_INLINE PxConvexMeshGeometry() :
 		PxGeometry	(PxGeometryType::eCONVEXMESH),
 		scale		(PxMeshScale(1.0f)),
-		convexMesh	(NULL)
+		convexMesh	(NULL),
+		maxMargin	(3.4e38f)
 	{}
 
 	/**
@@ -96,14 +97,17 @@ public:
 	\param[in] mesh		Mesh pointer. May be NULL, though this will not make the object valid for shape construction.
 	\param[in] scaling	Scale factor.
 	\param[in] flags	Mesh flags.
+	\param[in] margin	The maximum margin. Used to limit how much PCM shrinks the geometry by in collision detection.
 	\
 	*/
 	PX_INLINE PxConvexMeshGeometry(	PxConvexMesh* mesh, 
 									const PxMeshScale& scaling = PxMeshScale(),
-									PxConvexMeshGeometryFlags flags = PxConvexMeshGeometryFlags()) :
+									PxConvexMeshGeometryFlags flags = PxConvexMeshGeometryFlags(),
+									float margin = 3.4e38f) :
 		PxGeometry	(PxGeometryType::eCONVEXMESH),
 		scale		(scaling),
 		convexMesh	(mesh),
+		maxMargin	(margin),
 		meshFlags(flags)
 	{
 	}
@@ -123,6 +127,7 @@ public:
 public:
 	PxMeshScale					scale;				//!< The scaling transformation (from vertex space to shape space).
 	PxConvexMesh*				convexMesh;			//!< A reference to the convex mesh object.
+	PxReal						maxMargin;			//!< Max shrunk amount permitted by PCM contact gen
 	PxConvexMeshGeometryFlags	meshFlags;			//!< Mesh flags.
 	PxPadding<3>				paddingFromFlags;	//!< padding for mesh flags
 };
@@ -138,6 +143,9 @@ PX_INLINE bool PxConvexMeshGeometry::isValid() const
 		return false;
 	if(!convexMesh)
 		return false;
+	if (maxMargin < 0.0f)
+		return false;
+
 	return true;
 }
 

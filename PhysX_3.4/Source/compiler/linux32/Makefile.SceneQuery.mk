@@ -76,7 +76,7 @@ SceneQuery_debug_common_cflags    += -MMD
 SceneQuery_debug_common_cflags    += $(addprefix -D, $(SceneQuery_debug_defines))
 SceneQuery_debug_common_cflags    += $(addprefix -I, $(SceneQuery_debug_hpaths))
 SceneQuery_debug_common_cflags  += -m32
-SceneQuery_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SceneQuery_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SceneQuery_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SceneQuery_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 SceneQuery_debug_common_cflags  += -Wno-missing-field-initializers
@@ -185,7 +185,7 @@ SceneQuery_checked_common_cflags    += -MMD
 SceneQuery_checked_common_cflags    += $(addprefix -D, $(SceneQuery_checked_defines))
 SceneQuery_checked_common_cflags    += $(addprefix -I, $(SceneQuery_checked_hpaths))
 SceneQuery_checked_common_cflags  += -m32
-SceneQuery_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SceneQuery_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SceneQuery_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SceneQuery_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 SceneQuery_checked_common_cflags  += -Wno-missing-field-initializers
@@ -294,7 +294,7 @@ SceneQuery_profile_common_cflags    += -MMD
 SceneQuery_profile_common_cflags    += $(addprefix -D, $(SceneQuery_profile_defines))
 SceneQuery_profile_common_cflags    += $(addprefix -I, $(SceneQuery_profile_hpaths))
 SceneQuery_profile_common_cflags  += -m32
-SceneQuery_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SceneQuery_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SceneQuery_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SceneQuery_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 SceneQuery_profile_common_cflags  += -Wno-missing-field-initializers
@@ -402,7 +402,7 @@ SceneQuery_release_common_cflags    += -MMD
 SceneQuery_release_common_cflags    += $(addprefix -D, $(SceneQuery_release_defines))
 SceneQuery_release_common_cflags    += $(addprefix -I, $(SceneQuery_release_hpaths))
 SceneQuery_release_common_cflags  += -m32
-SceneQuery_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
+SceneQuery_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SceneQuery_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
 SceneQuery_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
 SceneQuery_release_common_cflags  += -Wno-missing-field-initializers

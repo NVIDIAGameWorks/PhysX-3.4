@@ -85,17 +85,42 @@ namespace physx { namespace Sn {
 	{
 		writeReference( writer, inCollection, inPropName, inDatatype );
 	}
-#ifdef REMOVED
+
 	inline void writeProperty( XmlWriter& writer, PxCollection& inCollection, MemoryBuffer& /*inBuffer*/, const char* inPropName, const PxTriangleMesh* inDatatype )
 	{
-		writeReference( writer, inCollection, inPropName, inDatatype );
+		if (inDatatype->getConcreteType() == PxConcreteType::eTRIANGLE_MESH_BVH33)
+		{
+			const PxBVH33TriangleMesh* dataType = inDatatype->is<PxBVH33TriangleMesh>();
+			writeReference(writer, inCollection, inPropName, dataType);
+		}
+		else if (inDatatype->getConcreteType() == PxConcreteType::eTRIANGLE_MESH_BVH34)
+		{
+			const PxBVH34TriangleMesh* dataType = inDatatype->is<PxBVH34TriangleMesh>();
+			writeReference(writer, inCollection, inPropName, dataType);
+		}
+		else
+		{
+			PX_ASSERT(0);
+		}
 	}
 	
 	inline void writeProperty( XmlWriter& writer, PxCollection& inCollection, MemoryBuffer& /*inBuffer*/, const char* inPropName, PxTriangleMesh* inDatatype )
 	{
-		writeReference( writer, inCollection, inPropName, inDatatype );
+		if (inDatatype->getConcreteType() == PxConcreteType::eTRIANGLE_MESH_BVH33)
+		{
+			PxBVH33TriangleMesh* dataType = inDatatype->is<PxBVH33TriangleMesh>();
+			writeReference(writer, inCollection, inPropName, dataType);
+		}
+		else if (inDatatype->getConcreteType() == PxConcreteType::eTRIANGLE_MESH_BVH34)
+		{
+			PxBVH34TriangleMesh* dataType = inDatatype->is<PxBVH34TriangleMesh>();
+			writeReference(writer, inCollection, inPropName, dataType);
+		}
+		else
+		{
+			PX_ASSERT(0);
+		}
 	}
-#endif
 
 	inline void writeProperty( XmlWriter& writer, PxCollection& inCollection, MemoryBuffer& /*inBuffer*/, const char* inPropName, const PxBVH33TriangleMesh* inDatatype )
 	{
@@ -219,7 +244,7 @@ namespace physx { namespace Sn {
 							, PxU32 inObjPerLine, PxStrideIterator<const TDataType>& inData, TAccessOperator inAccessOperator
 							, PxU32 inBufSize, const char* inPropName, PxU32 /*inStride*/, TWriteOperator inOperator )
 	{
-#if PX_NX
+#if PX_SWITCH
 		const auto *dat = &inData[0];
 		if (inBufSize && dat != NULL)
 #else
@@ -245,7 +270,7 @@ namespace physx { namespace Sn {
 							, PxU32 inObjPerLine, PxStrideIterator<const TDataType>& inData, TAccessOperator /*inAccessOperator*/
 							, PxU32 inBufSize, const char* inPropName, const PxU32ToName* inTable)
 	{
-#if PX_NX
+#if PX_SWITCH
 		const auto *dat = &inData[0];
 		if (inBufSize && dat != NULL)
 #else

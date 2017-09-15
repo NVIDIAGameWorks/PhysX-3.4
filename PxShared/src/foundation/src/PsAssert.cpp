@@ -34,8 +34,8 @@
 
 #if PX_WINDOWS_FAMILY
 #include <crtdbg.h>
-#elif PX_NX
-#include "nx/PsNXAbort.h"
+#elif PX_SWITCH
+#include "switch/PsSwitchAbort.h"
 #endif
 
 namespace
@@ -63,7 +63,7 @@ class DefaultAssertHandler : public physx::PxAssertHandler
 		__debugbreak();
 #elif PX_WINDOWS_FAMILY&& PX_CHECKED
 		__debugbreak();
-#elif PX_NX
+#elif PX_SWITCH
 		abort(buffer);
 #else
 		abort();

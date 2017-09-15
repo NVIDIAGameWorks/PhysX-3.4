@@ -147,11 +147,9 @@ SListEntry* SListImpl::flush()
 	return result;
 }
 
-static const uint32_t gSize = sizeof(SListDetail);
-
-const uint32_t& SListImpl::getSize()
+uint32_t SListImpl::getSize()
 {
-	return gSize;
+	return sizeof(SListDetail);
 }
 
 } // namespace shdfnd

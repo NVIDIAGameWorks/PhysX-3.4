@@ -69,8 +69,8 @@ const char* sBinaryPlatformNames[SN_NUM_BINARY_PLATFORMS] =
 	"ios",
 	"ios64",
 	"xboxone",
-	"nx32",
-	"nx64"
+	"switch32",
+	"switch64"
 };
 
 #define SN_NUM_BINARY_COMPATIBLE_VERSIONS 1
@@ -111,9 +111,9 @@ PxU32 getBinaryPlatformTag()
 	return sBinaryPlatformTags[9];
 #elif PX_XBOXONE
 	return sBinaryPlatformTags[10];
-#elif PX_NX && !PX_A64
+#elif PX_SWITCH && !PX_A64
 	return sBinaryPlatformTags[11];
-#elif PX_NX && PX_A64
+#elif PX_SWITCH && PX_A64
 	return sBinaryPlatformTags[12];
 #else
 	#error Unknown binary platform

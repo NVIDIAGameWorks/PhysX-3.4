@@ -34,9 +34,6 @@
 #error Vector intrinsics should not be included when using scalar implementation.
 #endif
 
-// Remove this define when all platforms use simd solver.
-#define PX_SUPPORT_SIMD
-
 #ifdef __SSE4_2__
 #include "smmintrin.h"
 #endif
