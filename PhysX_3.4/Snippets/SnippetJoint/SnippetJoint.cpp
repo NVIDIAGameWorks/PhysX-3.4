@@ -86,6 +86,7 @@ PxJoint* createBreakableFixed(PxRigidActor* a0, const PxTransform& t0, PxRigidAc
 	PxFixedJoint* j = PxFixedJointCreate(*gPhysics, a0, t0, a1, t1);
 	j->setBreakForce(1000, 100000);	
 	j->setConstraintFlag(PxConstraintFlag::eDRIVE_LIMITS_ARE_FORCES, true);
+	j->setConstraintFlag(PxConstraintFlag::eDISABLE_PREPROCESSING, true);
 	return j;
 }
 

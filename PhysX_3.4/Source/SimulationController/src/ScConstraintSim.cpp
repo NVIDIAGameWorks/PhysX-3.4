@@ -482,23 +482,29 @@ PX_INLINE Sc::BodySim* Sc::ConstraintSim::getConstraintGroupBody()
 
 void Sc::ConstraintSim::visualize(PxRenderBuffer& output)
 {
-	if (!(getCore().getFlags() & PxConstraintFlag::eVISUALIZATION))
+	if(!(getCore().getFlags() & PxConstraintFlag::eVISUALIZATION))
 		return;
 
 	PxsRigidBody* b0 = mLowLevelConstraint.body0;
 	PxsRigidBody* b1 = mLowLevelConstraint.body1;
 	
-	const PxTransform& t0 = b0 ? b0->getPose() : PxTransform(PxIdentity);
-	const PxTransform& t1 = b1 ? b1->getPose() : PxTransform(PxIdentity);
+	const PxTransform idt(PxIdentity);
+	const PxTransform& t0 = b0 ? b0->getPose() : idt;
+	const PxTransform& t1 = b1 ? b1->getPose() : idt;
 
-	PxReal frameScale = mScene.getVisualizationScale() * mScene.getVisualizationParameter(PxVisualizationParameter::eJOINT_LOCAL_FRAMES);
-	PxReal limitScale = mScene.getVisualizationScale() * mScene.getVisualizationParameter(PxVisualizationParameter::eJOINT_LIMITS);
+	const PxReal frameScale = mScene.getVisualizationScale() * mScene.getVisualizationParameter(PxVisualizationParameter::eJOINT_LOCAL_FRAMES);
+	const PxReal limitScale = mScene.getVisualizationScale() * mScene.getVisualizationParameter(PxVisualizationParameter::eJOINT_LIMITS);
 
-	Cm::RenderOutput renderOut( static_cast<Cm::RenderBuffer &>( output ) );
-	Cm::ConstraintImmediateVisualizer viz( frameScale, limitScale, renderOut );
+	Cm::RenderOutput renderOut(static_cast<Cm::RenderBuffer &>(output));
+	Cm::ConstraintImmediateVisualizer viz(frameScale, limitScale, renderOut);
 
-	mCore.getVisualize()(viz, mLowLevelConstraint.constantBlock, t0, t1,
-		PxConstraintVisualizationFlag::eLOCAL_FRAMES | PxConstraintVisualizationFlag::eLIMITS);
+	PxU32 flags = 0;
+	if(frameScale!=0.0f)
+		flags |= PxConstraintVisualizationFlag::eLOCAL_FRAMES;
+	if(limitScale!=0.0f)
+		flags |= PxConstraintVisualizationFlag::eLIMITS;
+
+	mCore.getVisualize()(viz, mLowLevelConstraint.constantBlock, t0, t1, flags);
 }
 
 

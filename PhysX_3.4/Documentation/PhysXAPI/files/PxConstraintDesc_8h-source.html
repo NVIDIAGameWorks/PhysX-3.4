@@ -199,59 +199,61 @@
 <a name="l00265"></a>00265     <span class="keyword">virtual</span> <span class="keywordtype">void</span> visualizeLimitCone( <span class="keyword">const</span> <a class="code" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector">PxTransform</a>&amp; t, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> ySwing, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> zSwing, <span class="keywordtype">bool</span> active) = 0;
 <a name="l00266"></a>00266 
 <a name="l00267"></a>00267     <span class="keyword">virtual</span> <span class="keywordtype">void</span> visualizeDoubleCone( <span class="keyword">const</span> <a class="code" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector">PxTransform</a>&amp; t, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> angle, <span class="keywordtype">bool</span> active) = 0;
-<a name="l00268"></a>00268 };
-<a name="l00269"></a>00269 
-<a name="l00282"></a><a class="code" href="group__physics.html#gcb8cd04ba92e7016abe9e14053e22373">00282</a> <span class="keyword">typedef</span> void (*<a class="code" href="group__physics.html#gcb8cd04ba92e7016abe9e14053e22373">PxConstraintVisualize</a>)( <a class="code" href="classPxConstraintVisualizer.html">PxConstraintVisualizer</a>&amp; visualizer,
-<a name="l00283"></a>00283                                       <span class="keyword">const</span> <span class="keywordtype">void</span>* constantBlock,
-<a name="l00284"></a>00284                                       <span class="keyword">const</span> <a class="code" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector">PxTransform</a>&amp; body0Transform,
-<a name="l00285"></a>00285                                       <span class="keyword">const</span> <a class="code" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector">PxTransform</a>&amp; body1Transform,
-<a name="l00286"></a>00286                                       <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> flags );
-<a name="l00287"></a>00287 
-<a name="l00288"></a>00288 
-<a name="l00289"></a><a class="code" href="structPxPvdUpdateType.html">00289</a> <span class="keyword">struct </span><a class="code" href="structPxPvdUpdateType.html">PxPvdUpdateType</a>
-<a name="l00290"></a>00290 {
-<a name="l00291"></a><a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e">00291</a>     <span class="keyword">enum</span> <a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e">Enum</a>
-<a name="l00292"></a>00292     {
-<a name="l00293"></a><a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e0eecad415d479a0d09a5fb95cd746e0b">00293</a>         CREATE_INSTANCE,
-<a name="l00294"></a><a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821ef20c7f1d72fa509cffbdd5b10c96f0f7">00294</a>         RELEASE_INSTANCE,
-<a name="l00295"></a><a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e350ca0e808fcd0443ac8f13d7fb46c79">00295</a>         UPDATE_ALL_PROPERTIES,
-<a name="l00296"></a><a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e773108482e1b98ff5517a5f3f020f5a4">00296</a>         UPDATE_SIM_PROPERTIES
-<a name="l00297"></a>00297     };
-<a name="l00298"></a>00298 };
-<a name="l00299"></a>00299 
-<a name="l00310"></a><a class="code" href="classPxConstraintConnector.html">00310</a> <span class="keyword">class </span><a class="code" href="classPxConstraintConnector.html" title="This class connects a custom constraint to the SDK.">PxConstraintConnector</a>
-<a name="l00311"></a>00311 {
-<a name="l00312"></a>00312 <span class="keyword">public</span>:
-<a name="l00318"></a>00318     <span class="keyword">virtual</span> <span class="keywordtype">void</span>*           prepareData()                                                   = 0;
-<a name="l00319"></a>00319 
-<a name="l00324"></a>00324     <span class="keyword">virtual</span> <span class="keywordtype">bool</span>            updatePvdProperties(physx::pvdsdk::PvdDataStream&amp; pvdConnection,
-<a name="l00325"></a>00325                                                 <span class="keyword">const</span> <a class="code" href="classPxConstraint.html" title="A plugin class for implementing constraints.">PxConstraint</a>* c,
-<a name="l00326"></a>00326                                                 <a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e">PxPvdUpdateType::Enum</a> updateType) <span class="keyword">const</span>     = 0;
-<a name="l00327"></a>00327 
-<a name="l00340"></a>00340     <span class="keyword">virtual</span> <span class="keywordtype">void</span>            onConstraintRelease()                                           = 0;
-<a name="l00341"></a>00341 
-<a name="l00349"></a>00349     <span class="keyword">virtual</span> <span class="keywordtype">void</span>            onComShift(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> actor)                                         = 0;
-<a name="l00350"></a>00350 
-<a name="l00363"></a>00363     <span class="keyword">virtual</span> <span class="keywordtype">void</span>            onOriginShift(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; shift)                              = 0;
-<a name="l00364"></a>00364 
-<a name="l00377"></a>00377     <span class="keyword">virtual</span> <span class="keywordtype">void</span>*           getExternalReference(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>&amp; typeID)                             = 0;
-<a name="l00378"></a>00378 
-<a name="l00379"></a>00379 
-<a name="l00386"></a>00386     <span class="keyword">virtual</span> <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>* getSerializable()                                               = 0;
-<a name="l00387"></a>00387 
-<a name="l00391"></a>00391     <span class="keyword">virtual</span> <a class="code" href="group__physics.html#g538ba0a5410c612bc666bb10d44bcb7a">PxConstraintSolverPrep</a> getPrep() <span class="keyword">const</span>                                  = 0;
-<a name="l00392"></a>00392 
-<a name="l00396"></a>00396     <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">void</span>* getConstantBlock() <span class="keyword">const</span>                                    = 0;
-<a name="l00397"></a>00397 
-<a name="l00398"></a>00398 
-<a name="l00402"></a><a class="code" href="classPxConstraintConnector.html#71f8ff017c14b26c81b06be700f015f1">00402</a>     <span class="keyword">virtual</span> <a class="code" href="classPxConstraintConnector.html#71f8ff017c14b26c81b06be700f015f1" title="virtual destructor">~PxConstraintConnector</a>() {}
-<a name="l00403"></a>00403 };
-<a name="l00404"></a>00404 
-<a name="l00405"></a>00405 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00406"></a>00406 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00407"></a>00407 <span class="preprocessor">#endif</span>
-<a name="l00408"></a>00408 <span class="preprocessor"></span>
-<a name="l00410"></a>00410 <span class="preprocessor">#endif</span>
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269     <span class="keyword">virtual</span> <span class="keywordtype">void</span> visualizeLine(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; p0, <span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; p1, <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> color) = 0;
+<a name="l00270"></a>00270 };
+<a name="l00271"></a>00271 
+<a name="l00284"></a><a class="code" href="group__physics.html#gcb8cd04ba92e7016abe9e14053e22373">00284</a> <span class="keyword">typedef</span> void (*<a class="code" href="group__physics.html#gcb8cd04ba92e7016abe9e14053e22373">PxConstraintVisualize</a>)( <a class="code" href="classPxConstraintVisualizer.html">PxConstraintVisualizer</a>&amp; visualizer,
+<a name="l00285"></a>00285                                       <span class="keyword">const</span> <span class="keywordtype">void</span>* constantBlock,
+<a name="l00286"></a>00286                                       <span class="keyword">const</span> <a class="code" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector">PxTransform</a>&amp; body0Transform,
+<a name="l00287"></a>00287                                       <span class="keyword">const</span> <a class="code" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector">PxTransform</a>&amp; body1Transform,
+<a name="l00288"></a>00288                                       <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> flags );
+<a name="l00289"></a>00289 
+<a name="l00290"></a>00290 
+<a name="l00291"></a><a class="code" href="structPxPvdUpdateType.html">00291</a> <span class="keyword">struct </span><a class="code" href="structPxPvdUpdateType.html">PxPvdUpdateType</a>
+<a name="l00292"></a>00292 {
+<a name="l00293"></a><a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e">00293</a>     <span class="keyword">enum</span> <a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e">Enum</a>
+<a name="l00294"></a>00294     {
+<a name="l00295"></a><a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e0eecad415d479a0d09a5fb95cd746e0b">00295</a>         CREATE_INSTANCE,
+<a name="l00296"></a><a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821ef20c7f1d72fa509cffbdd5b10c96f0f7">00296</a>         RELEASE_INSTANCE,
+<a name="l00297"></a><a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e350ca0e808fcd0443ac8f13d7fb46c79">00297</a>         UPDATE_ALL_PROPERTIES,
+<a name="l00298"></a><a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e773108482e1b98ff5517a5f3f020f5a4">00298</a>         UPDATE_SIM_PROPERTIES
+<a name="l00299"></a>00299     };
+<a name="l00300"></a>00300 };
+<a name="l00301"></a>00301 
+<a name="l00312"></a><a class="code" href="classPxConstraintConnector.html">00312</a> <span class="keyword">class </span><a class="code" href="classPxConstraintConnector.html" title="This class connects a custom constraint to the SDK.">PxConstraintConnector</a>
+<a name="l00313"></a>00313 {
+<a name="l00314"></a>00314 <span class="keyword">public</span>:
+<a name="l00320"></a>00320     <span class="keyword">virtual</span> <span class="keywordtype">void</span>*           prepareData()                                                   = 0;
+<a name="l00321"></a>00321 
+<a name="l00326"></a>00326     <span class="keyword">virtual</span> <span class="keywordtype">bool</span>            updatePvdProperties(physx::pvdsdk::PvdDataStream&amp; pvdConnection,
+<a name="l00327"></a>00327                                                 <span class="keyword">const</span> <a class="code" href="classPxConstraint.html" title="A plugin class for implementing constraints.">PxConstraint</a>* c,
+<a name="l00328"></a>00328                                                 <a class="code" href="structPxPvdUpdateType.html#534206ee246bcbd046d6eb314ebf821e">PxPvdUpdateType::Enum</a> updateType) <span class="keyword">const</span>     = 0;
+<a name="l00329"></a>00329 
+<a name="l00342"></a>00342     <span class="keyword">virtual</span> <span class="keywordtype">void</span>            onConstraintRelease()                                           = 0;
+<a name="l00343"></a>00343 
+<a name="l00351"></a>00351     <span class="keyword">virtual</span> <span class="keywordtype">void</span>            onComShift(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> actor)                                         = 0;
+<a name="l00352"></a>00352 
+<a name="l00365"></a>00365     <span class="keyword">virtual</span> <span class="keywordtype">void</span>            onOriginShift(<span class="keyword">const</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>&amp; shift)                              = 0;
+<a name="l00366"></a>00366 
+<a name="l00379"></a>00379     <span class="keyword">virtual</span> <span class="keywordtype">void</span>*           getExternalReference(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>&amp; typeID)                             = 0;
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381 
+<a name="l00388"></a>00388     <span class="keyword">virtual</span> <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>* getSerializable()                                               = 0;
+<a name="l00389"></a>00389 
+<a name="l00393"></a>00393     <span class="keyword">virtual</span> <a class="code" href="group__physics.html#g538ba0a5410c612bc666bb10d44bcb7a">PxConstraintSolverPrep</a> getPrep() <span class="keyword">const</span>                                  = 0;
+<a name="l00394"></a>00394 
+<a name="l00398"></a>00398     <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">void</span>* getConstantBlock() <span class="keyword">const</span>                                    = 0;
+<a name="l00399"></a>00399 
+<a name="l00400"></a>00400 
+<a name="l00404"></a><a class="code" href="classPxConstraintConnector.html#71f8ff017c14b26c81b06be700f015f1">00404</a>     <span class="keyword">virtual</span> <a class="code" href="classPxConstraintConnector.html#71f8ff017c14b26c81b06be700f015f1" title="virtual destructor">~PxConstraintConnector</a>() {}
+<a name="l00405"></a>00405 };
+<a name="l00406"></a>00406 
+<a name="l00407"></a>00407 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00408"></a>00408 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00409"></a>00409 <span class="preprocessor">#endif</span>
+<a name="l00410"></a>00410 <span class="preprocessor"></span>
+<a name="l00412"></a>00412 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

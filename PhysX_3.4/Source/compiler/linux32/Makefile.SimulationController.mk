@@ -123,7 +123,7 @@ SimulationController_debug_common_cflags    += $(addprefix -I, $(SimulationContr
 SimulationController_debug_common_cflags  += -m32
 SimulationController_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SimulationController_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SimulationController_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SimulationController_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SimulationController_debug_common_cflags  += -Wno-missing-field-initializers
 SimulationController_debug_common_cflags  += -g3 -gdwarf-2
 SimulationController_debug_cflags	:= $(SimulationController_debug_common_cflags)
@@ -244,7 +244,7 @@ SimulationController_checked_common_cflags    += $(addprefix -I, $(SimulationCon
 SimulationController_checked_common_cflags  += -m32
 SimulationController_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SimulationController_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SimulationController_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SimulationController_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SimulationController_checked_common_cflags  += -Wno-missing-field-initializers
 SimulationController_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 SimulationController_checked_cflags	:= $(SimulationController_checked_common_cflags)
@@ -365,7 +365,7 @@ SimulationController_profile_common_cflags    += $(addprefix -I, $(SimulationCon
 SimulationController_profile_common_cflags  += -m32
 SimulationController_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SimulationController_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SimulationController_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SimulationController_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SimulationController_profile_common_cflags  += -Wno-missing-field-initializers
 SimulationController_profile_common_cflags  += -O3 -fno-strict-aliasing
 SimulationController_profile_cflags	:= $(SimulationController_profile_common_cflags)
@@ -485,7 +485,7 @@ SimulationController_release_common_cflags    += $(addprefix -I, $(SimulationCon
 SimulationController_release_common_cflags  += -m32
 SimulationController_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SimulationController_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SimulationController_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SimulationController_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SimulationController_release_common_cflags  += -Wno-missing-field-initializers
 SimulationController_release_common_cflags  += -O3 -fno-strict-aliasing
 SimulationController_release_cflags	:= $(SimulationController_release_common_cflags)

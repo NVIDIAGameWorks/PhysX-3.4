@@ -33,12 +33,18 @@
 
 #include "ExtJoint.h"
 #include "PxD6Joint.h"
+#include "PsMathUtils.h"
 
 namespace physx
 {
 struct PxD6JointGeneratedValues;
 namespace Ext
 {
+	PX_FORCE_INLINE	PxReal tanHalfFromSin(PxReal sin)
+	{
+		return Ps::tanHalf(sin, PxSqrt(1.0f - sin*sin));
+	}
+
 	struct D6JointData : public JointData
 	{
 	//= ATTENTION! =====================================================================================

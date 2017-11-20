@@ -68,7 +68,7 @@ namespace Ext
 		PxTransform cB2w = bB2w.transform(data.c2b[1]);
 
 		body0WorldOffset = cB2w.p-bA2w.p;
-		ConstraintHelper g(constraints, cA2w.p-bA2w.p, cB2w.p-bB2w.p);
+		ConstraintHelper g(constraints, cB2w.p-bA2w.p, cB2w.p-bB2w.p);
 
 		if(cA2w.q.dot(cB2w.q)<0)	// minimum dist quat (equiv to flipping cB2bB.q, which we don't use anywhere)
 			cB2w.q = -cB2w.q;
@@ -147,7 +147,8 @@ namespace Ext
 
 			if(limited & SWING1_FLAG && limited & SWING2_FLAG)
 			{
-				Cm::ConeLimitHelper coneHelper(data.tqSwingZ, data.tqSwingY, data.tqSwingPad);
+				const PxReal pad = data.swingLimit.isSoft() ? 0.0f : data.tqSwingPad;
+				Cm::ConeLimitHelper coneHelper(data.tqSwingZ, data.tqSwingY, pad);
 
 				PxVec3 axis;
 				PxReal error;
@@ -163,26 +164,16 @@ namespace Ext
 				if(limited & SWING1_FLAG)
 				{
 					if(locked & SWING2_FLAG)
-					{
 						g.quarterAnglePair(Ps::tanHalf(swing.y, swing.w), -data.tqSwingY, data.tqSwingY, tqPad, aY, limit);
-					}
 					else
-					{
-						PxReal dot=-aZ.dot(bX);
-						g.halfAnglePair(Ps::tanHalf(dot, 1-dot*dot), -data.thSwingY, data.thSwingY, thPad, aZ.cross(bX), limit);
-					}
+						g.halfAnglePair(tanHalfFromSin(-aZ.dot(bX)), -data.thSwingY, data.thSwingY, thPad, aZ.cross(bX), limit);
 				}
 				if(limited & SWING2_FLAG)
 				{
 					if(locked & SWING1_FLAG)
-					{
 						g.quarterAnglePair(Ps::tanHalf(swing.z, swing.w), -data.tqSwingZ, data.tqSwingZ, tqPad, aZ, limit);
-					}
 					else
-					{
-						PxReal dot=aY.dot(bX);
-						g.halfAnglePair(Ps::tanHalf(dot, 1-dot*dot), -data.thSwingZ, data.thSwingZ, thPad, -aY.cross(bX), limit);
-					}
+						g.halfAnglePair(tanHalfFromSin(aY.dot(bX)), -data.thSwingZ, data.thSwingZ, thPad, -aY.cross(bX), limit);
 				}
 			}
 

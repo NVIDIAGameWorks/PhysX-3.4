@@ -201,7 +201,7 @@ PhysXCommon_release_common_cflags    += $(addprefix -I, $(PhysXCommon_release_hp
 PhysXCommon_release_common_cflags  += -m32
 PhysXCommon_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCommon_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCommon_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCommon_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCommon_release_common_cflags  += -Wno-missing-field-initializers
 PhysXCommon_release_common_cflags  += -O3 -fno-strict-aliasing
 PhysXCommon_release_cflags	:= $(PhysXCommon_release_common_cflags)
@@ -311,7 +311,7 @@ PhysXCommon_debug_common_cflags    += $(addprefix -I, $(PhysXCommon_debug_hpaths
 PhysXCommon_debug_common_cflags  += -m32
 PhysXCommon_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCommon_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCommon_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCommon_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCommon_debug_common_cflags  += -Wno-missing-field-initializers
 PhysXCommon_debug_common_cflags  += -g3 -gdwarf-2
 PhysXCommon_debug_cflags	:= $(PhysXCommon_debug_common_cflags)
@@ -420,7 +420,7 @@ PhysXCommon_checked_common_cflags    += $(addprefix -I, $(PhysXCommon_checked_hp
 PhysXCommon_checked_common_cflags  += -m32
 PhysXCommon_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCommon_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCommon_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCommon_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCommon_checked_common_cflags  += -Wno-missing-field-initializers
 PhysXCommon_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PhysXCommon_checked_cflags	:= $(PhysXCommon_checked_common_cflags)
@@ -529,7 +529,7 @@ PhysXCommon_profile_common_cflags    += $(addprefix -I, $(PhysXCommon_profile_hp
 PhysXCommon_profile_common_cflags  += -m32
 PhysXCommon_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCommon_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCommon_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCommon_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCommon_profile_common_cflags  += -Wno-missing-field-initializers
 PhysXCommon_profile_common_cflags  += -O3 -fno-strict-aliasing
 PhysXCommon_profile_cflags	:= $(PhysXCommon_profile_common_cflags)

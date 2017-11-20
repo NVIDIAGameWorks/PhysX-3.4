@@ -128,7 +128,7 @@ void SphericalJointVisualize(PxConstraintVisualizer& viz,
 							 const void* constantBlock,
 							 const PxTransform& body0Transform,
 							 const PxTransform& body1Transform,
-							 PxU32 /*flags*/)
+							 PxU32 flags)
 {
 	using namespace joint;
 	const SphericalJointData& data = *reinterpret_cast<const SphericalJointData*>(constantBlock);
@@ -136,10 +136,10 @@ void SphericalJointVisualize(PxConstraintVisualizer& viz,
 	PxTransform cA2w = body0Transform * data.c2b[0];
 	PxTransform cB2w = body1Transform * data.c2b[1];
 
-	viz.visualizeJointFrames(cA2w, cB2w);
+	if(flags & PxConstraintVisualizationFlag::eLOCAL_FRAMES)
+		viz.visualizeJointFrames(cA2w, cB2w);
 
-
-	if(data.jointFlags & PxSphericalJointFlag::eLIMIT_ENABLED)
+	if((flags & PxConstraintVisualizationFlag::eLIMITS) && (data.jointFlags & PxSphericalJointFlag::eLIMIT_ENABLED))
 	{
 		if(cA2w.q.dot(cB2w.q)<0)
 			cB2w.q = -cB2w.q;
@@ -149,7 +149,8 @@ void SphericalJointVisualize(PxConstraintVisualizer& viz,
 		Ps::separateSwingTwist(cB2cA.q,swing,twist);
 
 		PxVec3 tanQSwing = PxVec3(0, Ps::tanHalf(swing.z,swing.w), -Ps::tanHalf(swing.y,swing.w));
-		Cm::ConeLimitHelper coneHelper(data.tanQZLimit, data.tanQYLimit, data.tanQPad);
+		const PxReal pad = data.limit.isSoft() ? 0.0f : data.tanQPad;
+		Cm::ConeLimitHelper coneHelper(data.tanQZLimit, data.tanQYLimit, pad);
 		viz.visualizeLimitCone(cA2w, data.tanQZLimit, data.tanQYLimit, 
 			!coneHelper.contains(tanQSwing));
 	}

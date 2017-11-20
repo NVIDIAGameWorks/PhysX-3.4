@@ -51,7 +51,7 @@ physx::shdfnd::FPUGuard::FPUGuard()
 	mControlWords[0] = _mm_getcsr();
 	// set default (disable exceptions: _MM_MASK_MASK) and FTZ (_MM_FLUSH_ZERO_ON), DAZ (_MM_DENORMALS_ZERO_ON: (1<<6))
 	_mm_setcsr(_MM_MASK_MASK | _MM_FLUSH_ZERO_ON | (1 << 6));
-#elif defined(__EMSCRIPTEN__)
+#elif PX_EMSCRIPTEN
 // not supported
 #else
 	PX_COMPILE_TIME_ASSERT(sizeof(fenv_t) <= sizeof(mControlWords));
@@ -80,7 +80,7 @@ physx::shdfnd::FPUGuard::~FPUGuard()
 	// restore control word and clear exception flags
 	// (setting exception state flags cause exceptions on the first following fp operation)
 	_mm_setcsr(mControlWords[0] & ~_MM_EXCEPT_MASK);
-#elif defined(__EMSCRIPTEN__)
+#elif PX_EMSCRIPTEN
 // not supported
 #else
 	fesetenv(reinterpret_cast<fenv_t*>(mControlWords));
@@ -89,7 +89,7 @@ physx::shdfnd::FPUGuard::~FPUGuard()
 
 PX_FOUNDATION_API void physx::shdfnd::enableFPExceptions()
 {
-#if PX_LINUX && !defined(__EMSCRIPTEN__)
+#if PX_LINUX && !PX_EMSCRIPTEN
 	feclearexcept(FE_ALL_EXCEPT);
 	feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #elif PX_OSX
@@ -106,7 +106,7 @@ PX_FOUNDATION_API void physx::shdfnd::enableFPExceptions()
 
 PX_FOUNDATION_API void physx::shdfnd::disableFPExceptions()
 {
-#if PX_LINUX && !defined(__EMSCRIPTEN__)
+#if PX_LINUX && !PX_EMSCRIPTEN
 	fedisableexcept(FE_ALL_EXCEPT);
 #elif PX_OSX
 	// clear any pending exceptions

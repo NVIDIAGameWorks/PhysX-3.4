@@ -89,6 +89,8 @@ bool createContactPatches(CorrelationBuffer& fb, const Gu::ContactPoint* cb, PxU
 		initContactPatch(fb.contactPatches[contactPatchCount++], Ps::to16(0), contacts[0].restitution, 
 			contacts[0].staticFriction, contacts[0].dynamicFriction, PxU8(contacts[0].materialFlags));
 
+		PxBounds3 bounds(contacts[0].point, contacts[0].point);
+
 		PxU32 patchIndex = 0;
 
 		for (PxU32 i = 1; i<contactCount; i++)
@@ -101,6 +103,7 @@ bool createContactPatches(CorrelationBuffer& fb, const Gu::ContactPoint* cb, PxU
 				&& curContact.restitution == preContact.restitution
 				&& curContact.normal.dot(preContact.normal)>=normalTolerance)
 			{
+				bounds.include(curContact.point);
 				count++;
 			}
 			else
@@ -110,14 +113,20 @@ bool createContactPatches(CorrelationBuffer& fb, const Gu::ContactPoint* cb, PxU
 				patchIndex = i;
 				currentPatchData->count = count;
 				count = 1;
+				currentPatchData->patchBounds = bounds;
 				currentPatchData = fb.contactPatches + contactPatchCount;
 
 				initContactPatch(fb.contactPatches[contactPatchCount++], Ps::to16(i), curContact.restitution,
 					curContact.staticFriction, curContact.dynamicFriction, PxU8(curContact.materialFlags));
+
+				
+				bounds = PxBounds3(curContact.point, curContact.point);
 			}
 		}
 		if(count!=1)
 			currentPatchData->count = count;
+
+		currentPatchData->patchBounds = bounds;
 	}
 	fb.contactPatchCount = contactPatchCount;
 	return true;
@@ -155,11 +164,13 @@ bool correlatePatches(CorrelationBuffer& fb,
 			fb.frictionPatchWorldNormal[j] = patchNormal;
 			fb.frictionPatchContactCounts[frictionPatchCount] = c.count;
 			fb.contactID[frictionPatchCount][0] = 0xffff;
+			fb.patchBounds[frictionPatchCount] = c.patchBounds;
 			fb.contactID[frictionPatchCount++][1] = 0xffff;
 			c.next = CorrelationBuffer::LIST_END;
 		}
 		else
 		{
+			fb.patchBounds[j].include(c.patchBounds);
 			fb.frictionPatchContactCounts[j] += c.count;
 			c.next = Ps::to16(fb.correlationListHeads[j]);
 		}
@@ -187,8 +198,18 @@ void growPatches(CorrelationBuffer& fb,
 	{
 		FrictionPatch& fp = fb.frictionPatches[i];
 
-		if(fp.anchorCount==2 || fb.correlationListHeads[i]==CorrelationBuffer::LIST_END)
-			continue;
+		if (fp.anchorCount == 2 || fb.correlationListHeads[i] == CorrelationBuffer::LIST_END)
+		{
+			const PxReal frictionPatchDiagonalSq = fb.patchBounds[i].getDimensions().magnitudeSquared();
+			const PxReal anchorSqDistance = (fp.body0Anchors[0] - fp.body0Anchors[1]).magnitudeSquared();
+
+			//If the squared distance between the anchors is more than a quarter of the patch diagonal, we can keep, 
+			//otherwise the anchors are potentially clustered around a corner so force a rebuild of the patch
+			if(fb.frictionPatchContactCounts[i] == 0 || (anchorSqDistance * 4.f) >= frictionPatchDiagonalSq)
+				continue;
+
+			fp.anchorCount = 0;
+		}
 
 		PxVec3 worldAnchors[2];
 		PxU16 anchorCount = 0;

@@ -493,9 +493,6 @@ PX_FORCE_INLINE void normalToTangents(const PxVec3& normal, PxVec3& tangent0, Px
 	tangent1 = normal.cross(tangent0);
 }
 
-// todo: what is this function doing?
-PX_FOUNDATION_API PxQuat computeQuatFromNormal(const PxVec3& n);
-
 /**
 \brief computes a oriented bounding box around the scaled basis.
 \param basis Input = skewed basis, Output = (normalized) orthogonal basis.

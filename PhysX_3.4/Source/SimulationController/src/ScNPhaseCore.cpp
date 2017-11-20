@@ -523,9 +523,6 @@ ElementSimInteraction* Sc::NPhaseCore::onOverlapRemovedStage1(ElementSim* volume
 
 void Sc::NPhaseCore::onOverlapRemoved(ElementSim* volume0, ElementSim* volume1, const PxU32 ccdPass, void* elemSim, PxsContactManagerOutputIterator& outputs, bool useAdaptiveForce)
 {
-	PX_UNUSED(elemSim);
-	// PT: ordering them here is again useless, as "findInteraction" will reorder according to counts...
-
 	ElementSim* elementHi = volume1;
 	ElementSim* elementLo = volume0;
 	// No actor internal interactions
@@ -1490,14 +1487,23 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::convert(ElementSimInteraction* pair, 
 	ElementSim& elementA = pair->getElement0();
 	ElementSim& elementB = pair->getElement1();
 
-	ElementSimInteraction* result = NULL;
-
 	// Wake up the actors of the pair
 	if ((pair->getActor0().getActorType() == PxActorType::eRIGID_DYNAMIC) && !(static_cast<BodySim&>(pair->getActor0()).isActive()))
 		static_cast<BodySim&>(pair->getActor0()).internalWakeUp();
 	if ((pair->getActor1().getActorType() == PxActorType::eRIGID_DYNAMIC) && !(static_cast<BodySim&>(pair->getActor1()).isActive()))
 		static_cast<BodySim&>(pair->getActor1()).internalWakeUp();
 
+	// Since the FilterPair struct might have been re-used in the newly created interaction, we need to clear
+	// the filter pair marker of the old interaction to avoid that the FilterPair gets deleted by the releaseElementPair()
+	// call that follows.
+	pair->clearInteractionFlag(InteractionFlag::eIS_FILTER_PAIR);
+
+	// PT: we need to unregister the old interaction *before* creating the new one, because Sc::NPhaseCore::registerInteraction will use
+	// ElementSim pointers which are the same for both.
+	unregisterInteraction(pair);
+	releaseElementPair(pair, PairReleaseFlag::eWAKE_ON_LOST_TOUCH | PairReleaseFlag::eBP_VOLUME_REMOVED, 0, removeFromDirtyList, outputs, useAdaptiveForce);
+
+	ElementSimInteraction* result = NULL;
 	switch (newType)
 	{
 		case InteractionType::eINVALID:
@@ -1542,16 +1548,6 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::convert(ElementSimInteraction* pair, 
 		mFilterPairManager->setPair(filterInfo.filterPairIndex, result, FilterPair::ELEMENT_ELEMENT);
 		result->setFilterPairIndex(filterInfo.filterPairIndex);
 	}
-
-	if (pair->readInteractionFlag(InteractionFlag::eIS_FILTER_PAIR))
-		pair->clearInteractionFlag(InteractionFlag::eIS_FILTER_PAIR);
-	// Since the FilterPair struct might have been re-used in the newly created interaction, we need to clear
-	// the filter pair marker of the old interaction to avoid that the FilterPair gets deleted by the releaseElementPair()
-	// call that follows.
-
-	unregisterInteraction(pair);
-
-	releaseElementPair(pair, PairReleaseFlag::eWAKE_ON_LOST_TOUCH | PairReleaseFlag::eBP_VOLUME_REMOVED, 0, removeFromDirtyList, outputs, useAdaptiveForce);
 
 	return result;
 }

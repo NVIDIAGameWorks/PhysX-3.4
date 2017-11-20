@@ -31,6 +31,7 @@
 #include "GuPCMContactConvexCommon.h"
 #include "GuConvexEdgeFlags.h"
 #include "GuBarycentricCoordinates.h"
+#include "PsSort.h"
 
 namespace physx
 {
@@ -101,13 +102,13 @@ void PCMConvexVsMeshContactGeneration::generateLastContacts()
 {
 	using namespace Ps::aos;
 	// Process delayed contacts
-	PxU32 nbEntries = mDeferredContacts.size();
+	PxU32 nbEntries = mDeferredContacts->size();
 
 	if(nbEntries)
 	{
 		nbEntries /= sizeof(PCMDeferredPolyData)/sizeof(PxU32);
 
-		const PCMDeferredPolyData* PX_RESTRICT cd = reinterpret_cast<const PCMDeferredPolyData*>(mDeferredContacts.begin());
+		const PCMDeferredPolyData* PX_RESTRICT cd = reinterpret_cast<const PCMDeferredPolyData*>(mDeferredContacts->begin());
 		for(PxU32 i=0;i<nbEntries;i++)
 		{
 			const PCMDeferredPolyData& currentContact = cd[i];  
@@ -409,10 +410,12 @@ static Ps::aos::FloatV pcmDistancePointTriangleSquared(	const Ps::aos::Vec3VArg 
 														const Ps::aos::Vec3VArg c,
 														const PxU8 triFlags,
 														Ps::aos::Vec3V& closestP,
-														bool& generateContact)
+														bool& generateContact, 
+														bool& faceContact)
 {
 	using namespace Ps::aos;
 
+	faceContact = false;
 	const FloatV zero = FZero();
 	const Vec3V ab = V3Sub(b, a);
 	const Vec3V ac = V3Sub(c, a);
@@ -535,6 +538,7 @@ static Ps::aos::FloatV pcmDistancePointTriangleSquared(	const Ps::aos::Vec3VArg 
 	}
 
 	generateContact = true;
+	faceContact = true;
 
 	//P must project inside face region. Compute Q using Barycentric coordinates
 	const FloatV nn = V3Dot(n, n);
@@ -552,7 +556,6 @@ bool Gu::PCMSphereVsMeshContactGeneration::processTriangle(const PxVec3* verts, 
 	using namespace Ps::aos;
 
 	const FloatV zero = FZero();
-	const Vec3V zeroV = V3Zero();
 
 	const Vec3V v0 = V3LoadU(verts[0]);
 	const Vec3V v1 = V3LoadU(verts[1]);
@@ -570,74 +573,158 @@ bool Gu::PCMSphereVsMeshContactGeneration::processTriangle(const PxVec3* verts, 
 	if(FAllGrtr(zero, dist0))
 		return false;
 
-
 	const FloatV tolerance = FLoad(0.996);//around 5 degree
 	//FloatV u, v;
 	Vec3V closestP;
-	//mShereCenter will be in the local space of the triangle mesh
-	//const FloatV sqDist = Gu::distancePointTriangleSquared(mSphereCenter, v0, v1, v2, u, v, closestP);
+	//mSphereCenter will be in the local space of the triangle mesh
 	bool generateContact = false;
-	const FloatV sqDist = pcmDistancePointTriangleSquared(mSphereCenter, v0, v1, v2, triFlags, closestP, generateContact);
-
-	//sphere center is on the triangle surface, we take triangle normal as the patchNormal. Otherwise, we need to calculate the patchNormal
-	Vec3V patchNormal = n;
-	if(FAllGrtr(sqDist, FEps() ))
-		patchNormal = V3Normalize(V3Sub(mSphereCenter, closestP));
-
-	const FloatV cosTheta = V3Dot(patchNormal, n);
+	bool faceContact = false;
+	FloatV sqDist = pcmDistancePointTriangleSquared(mSphereCenter, v0, v1, v2, triFlags, closestP, generateContact, faceContact);
 	
-	//sphere overlap with triangles
-	if(FAllGrtr(mSqInflatedSphereRadius, sqDist) && (generateContact || FAllGrtr(cosTheta, tolerance)))
+	 //sphere overlap with triangles
+	if (FAllGrtr(mSqInflatedSphereRadius, sqDist))
 	{
-		const FloatV dist = FSqrt(sqDist);
-	
-		PX_ASSERT(mNumContactPatch <PCM_MAX_CONTACTPATCH_SIZE);
 
-		bool foundPatch = false;
-		if(mNumContactPatch > 0)
+		//sphere center is on the triangle surface, we take triangle normal as the patchNormal. Otherwise, we need to calculate the patchNormal
+		Vec3V patchNormal = n;
+		if (!faceContact)
+			patchNormal = V3Normalize(V3Sub(mSphereCenter, closestP));
+
+		const FloatV cosTheta = V3Dot(patchNormal, n);
+
+		//two normal less than 5 degree, generate contacts
+		if (FAllGrtr(cosTheta, tolerance))
 		{
-			if(FAllGrtr(V3Dot(mContactPatch[mNumContactPatch-1].mPatchNormal, patchNormal), mAcceptanceEpsilon))
-			{
-				PCMContactPatch& patch = mContactPatch[mNumContactPatch-1];
+			const FloatV dist = FSqrt(sqDist);
 
-				PX_ASSERT((patch.mEndIndex - patch.mStartIndex) == 1);
-				
-				if(FAllGrtr(patch.mPatchMaxPen, dist))
-				{
-					//overwrite the old contact
-					mManifoldContacts[patch.mStartIndex].mLocalPointA = zeroV;//in sphere's space
-					mManifoldContacts[patch.mStartIndex].mLocalPointB = closestP;
-					mManifoldContacts[patch.mStartIndex].mLocalNormalPen = V4SetW(Vec4V_From_Vec3V(patchNormal), dist);
-					mManifoldContacts[patch.mStartIndex].mFaceIndex = triangleIndex;
-					patch.mPatchMaxPen = dist;
-				}
-				
-				foundPatch = true;
-			}
+			mEdgeCache.addData(CachedEdge(vertInds[0], vertInds[1]));
+			mEdgeCache.addData(CachedEdge(vertInds[1], vertInds[2]));
+			mEdgeCache.addData(CachedEdge(vertInds[2], vertInds[0]));
+
+			addToPatch(closestP, patchNormal, dist, triangleIndex);
 		}
-		if(!foundPatch)
+		else
 		{
-			mManifoldContacts[mNumContacts].mLocalPointA = zeroV;//in sphere's space
-			mManifoldContacts[mNumContacts].mLocalPointB = closestP;
-			mManifoldContacts[mNumContacts].mLocalNormalPen = V4SetW(Vec4V_From_Vec3V(patchNormal), dist);
-			mManifoldContacts[mNumContacts++].mFaceIndex = triangleIndex;
+			//ML : defer the contacts generation
+			const PxU32 nb = sizeof(PCMDeferredPolyData) / sizeof(PxU32);
+			PxU32 newSize = nb + mDeferredContacts->size();
+			mDeferredContacts->reserve(newSize);
+			PCMDeferredPolyData* PX_RESTRICT data = reinterpret_cast<PCMDeferredPolyData*>(mDeferredContacts->end());
+			mDeferredContacts->forceSize_Unsafe(newSize);
+
+			SortedTriangle sortedTriangle;
+			sortedTriangle.mSquareDist = sqDist;
+			sortedTriangle.mIndex = mSortedTriangle.size();
+			mSortedTriangle.pushBack(sortedTriangle);
+
+			data->mTriangleIndex = triangleIndex;
+			data->mFeatureIndex = 0;
+			data->triFlags = PxU8(generateContact);
+			data->mInds[0] = vertInds[0];
+			data->mInds[1] = vertInds[1];
+			data->mInds[2] = vertInds[2];
+			V3StoreU(closestP, data->mVerts[0]);
+			V3StoreU(patchNormal, data->mVerts[1]);
+			V3StoreU(V3Splat(sqDist), data->mVerts[2]);
 			
-			mContactPatch[mNumContactPatch].mStartIndex = mNumContacts - 1;
-			mContactPatch[mNumContactPatch].mEndIndex = mNumContacts;
-			mContactPatch[mNumContactPatch].mPatchMaxPen = dist;
-			mContactPatch[mNumContactPatch++].mPatchNormal = patchNormal;
 		}
-
-		PX_ASSERT(mNumContactPatch <PCM_MAX_CONTACTPATCH_SIZE);
-
-		if(mNumContacts >= 16)
-		{
-			PX_ASSERT(mNumContacts <= 64);
-			processContacts(GU_SPHERE_MANIFOLD_CACHE_SIZE);
-		}
-		
 	}
 	return true;
+}
+
+void Gu::PCMSphereVsMeshContactGeneration::addToPatch(const Ps::aos::Vec3VArg contactP, const Ps::aos::Vec3VArg patchNormal, const Ps::aos::FloatV dist,
+	const PxU32 triangleIndex)
+{
+	using namespace Ps::aos;
+
+	PX_ASSERT(mNumContactPatch < PCM_MAX_CONTACTPATCH_SIZE);
+
+	const Vec3V sphereCenter = V3Zero(); // in sphere local space
+
+	bool foundPatch = false;
+	if (mNumContactPatch > 0)
+	{
+		if (FAllGrtr(V3Dot(mContactPatch[mNumContactPatch - 1].mPatchNormal, patchNormal), mAcceptanceEpsilon))
+		{
+			PCMContactPatch& patch = mContactPatch[mNumContactPatch - 1];
+
+			PX_ASSERT((patch.mEndIndex - patch.mStartIndex) == 1);
+
+			if (FAllGrtr(patch.mPatchMaxPen, dist))
+			{
+				//overwrite the old contact
+				mManifoldContacts[patch.mStartIndex].mLocalPointA = sphereCenter;//in sphere's space
+				mManifoldContacts[patch.mStartIndex].mLocalPointB = contactP;
+				mManifoldContacts[patch.mStartIndex].mLocalNormalPen = V4SetW(Vec4V_From_Vec3V(patchNormal), dist);
+				mManifoldContacts[patch.mStartIndex].mFaceIndex = triangleIndex;
+				patch.mPatchMaxPen = dist;
+			}
+
+			foundPatch = true;
+		}
+	}
+	if (!foundPatch)
+	{
+		mManifoldContacts[mNumContacts].mLocalPointA = sphereCenter;//in sphere's space
+		mManifoldContacts[mNumContacts].mLocalPointB = contactP;
+		mManifoldContacts[mNumContacts].mLocalNormalPen = V4SetW(Vec4V_From_Vec3V(patchNormal), dist);
+		mManifoldContacts[mNumContacts++].mFaceIndex = triangleIndex;
+
+		mContactPatch[mNumContactPatch].mStartIndex = mNumContacts - 1;
+		mContactPatch[mNumContactPatch].mEndIndex = mNumContacts;
+		mContactPatch[mNumContactPatch].mPatchMaxPen = dist;
+		mContactPatch[mNumContactPatch++].mPatchNormal = patchNormal;
+	}
+
+	PX_ASSERT(mNumContactPatch < PCM_MAX_CONTACTPATCH_SIZE);
+
+	if (mNumContacts >= 16)
+	{
+		PX_ASSERT(mNumContacts <= 64);
+		processContacts(GU_SPHERE_MANIFOLD_CACHE_SIZE);
+	}
+}
+
+void Gu::PCMSphereVsMeshContactGeneration::generateLastContacts()
+{
+	using namespace Ps::aos;
+	// Process delayed contacts
+	PxU32 nbSortedTriangle = mSortedTriangle.size();
+
+	if (nbSortedTriangle)
+	{
+		Ps::sort(mSortedTriangle.begin(), mSortedTriangle.size(), Ps::Less<SortedTriangle>());
+
+		const PCMDeferredPolyData* PX_RESTRICT cd = reinterpret_cast<const PCMDeferredPolyData*>(mDeferredContacts->begin());
+		
+		for (PxU32 i = 0; i < nbSortedTriangle; ++i)
+		{
+			const PCMDeferredPolyData& currentContact = cd[mSortedTriangle[i].mIndex];
+			const PxU32 ref0 = currentContact.mInds[0];
+			const PxU32 ref1 = currentContact.mInds[1];
+			const PxU32 ref2 = currentContact.mInds[2];
+
+			PxU8 generateContacts = currentContact.triFlags;
+
+			//if addData sucessful, which means mEdgeCache doesn't have the edge
+		    const bool noEdge01 = mEdgeCache.addData(CachedEdge(ref0, ref1));
+			const bool noEdge12 = mEdgeCache.addData(CachedEdge(ref1, ref2));
+			const bool noEdge20 = mEdgeCache.addData(CachedEdge(ref2, ref0));
+		
+			const bool needsProcessing = (noEdge01 && noEdge12 && noEdge20 && generateContacts);
+
+			if (needsProcessing)
+			{
+				//we store the contact, patch normal and sq distance in the vertex memory in PCMDeferredPolyData
+				const Vec3V contactP = V3LoadU(currentContact.mVerts[0]);
+				const Vec3V patchNormal = V3LoadU(currentContact.mVerts[1]);
+				const FloatV sqDist = FLoad(currentContact.mVerts[2].x);
+				const FloatV dist = FSqrt(sqDist);
+				addToPatch(contactP, patchNormal, dist, currentContact.mTriangleIndex);
+			}
+			
+		}
+	}
 }
 
 

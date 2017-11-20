@@ -158,7 +158,7 @@ PX_FORCE_INLINE void* memSet(void* dest, int32_t c, uint32_t count)
 /*!
 Copies \c count bytes from \c src to \c dst. User memMove if regions overlap.
 */
-PX_FORCE_INLINE void* memCopy(void* PX_RESTRICT dest, const void* PX_RESTRICT src, uint32_t count)
+PX_FORCE_INLINE void* memCopy(void* dest, const void* src, uint32_t count)
 {
 	return memcpy(dest, src, count);
 }

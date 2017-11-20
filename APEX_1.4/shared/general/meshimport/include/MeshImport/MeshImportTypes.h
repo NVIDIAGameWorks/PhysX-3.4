@@ -79,7 +79,7 @@ namespace mimp
 /**
 Platform define
 */
-#if defined(_M_IX86) || defined(__EMSCRIPTEN__)
+#if defined(_M_IX86) || PX_EMSCRIPTEN
 #define MI_X86
 #define MI_WINDOWS
 #elif defined(_M_X64)

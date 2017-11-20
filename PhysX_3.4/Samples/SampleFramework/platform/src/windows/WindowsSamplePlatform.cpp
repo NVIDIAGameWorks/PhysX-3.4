@@ -193,7 +193,7 @@ static INT_PTR CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		case WM_CLOSE:
 			if(window)
 			{
-				window->close();
+				((WindowsPlatform*)window->getPlatform())->getWindowsSampleUserInput().onKeyDown(VK_ESCAPE, 65537);
 			}
 			break;
 
@@ -250,7 +250,7 @@ static INT_PTR CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				if(window)
 				{
-					window->close();
+					((WindowsPlatform*)window->getPlatform())->getWindowsSampleUserInput().onKeyDown(VK_ESCAPE, 65537);
 					break;
 				}
 			}

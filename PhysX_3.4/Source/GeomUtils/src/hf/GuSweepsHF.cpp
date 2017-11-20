@@ -129,6 +129,7 @@ public:
 		mPose							(pose),
 		mDistance						(distance)
 	{
+		mSweepHit.faceIndex = 0xFFFFffff;
 	}
 
 	virtual PxAgain onEvent(PxU32 nb, PxU32* indices)
@@ -327,6 +328,7 @@ public:
 			{
 				const bool hasContacts = computeConvex_HeightFieldMTD(hfGeom,  pose, convexGeom, convexPose, inflation, mIsDoubleSided, GuHfQueryFlags::eWORLD_SPACE, sweepHit);
 
+				sweepHit.faceIndex = mSweepHit.faceIndex;
 				sweepHit.flags = PxHitFlag::eDISTANCE | PxHitFlag::eNORMAL | PxHitFlag::eFACE_INDEX;
 				if(!hasContacts)
 				{
@@ -424,6 +426,7 @@ public:
 		mInflation						(inflation)
 	{
 		mMinToi = FMax();
+		mSweepHit.faceIndex = 0xFFFFffff;
 	}
 
 	virtual PxAgain onEvent(PxU32 nb, PxU32* indices)

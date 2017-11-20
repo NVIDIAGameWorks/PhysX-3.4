@@ -40,7 +40,7 @@ PxTask_debug_common_cflags    += $(addprefix -I, $(PxTask_debug_hpaths))
 PxTask_debug_common_cflags  += -m64
 PxTask_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxTask_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PxTask_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PxTask_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PxTask_debug_common_cflags  += -Wno-missing-field-initializers
 PxTask_debug_common_cflags  += -g3 -gdwarf-2
 PxTask_debug_cflags	:= $(PxTask_debug_common_cflags)
@@ -119,7 +119,7 @@ PxTask_release_common_cflags    += $(addprefix -I, $(PxTask_release_hpaths))
 PxTask_release_common_cflags  += -m64
 PxTask_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxTask_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PxTask_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PxTask_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PxTask_release_common_cflags  += -Wno-missing-field-initializers
 PxTask_release_common_cflags  += -O3 -fno-strict-aliasing
 PxTask_release_cflags	:= $(PxTask_release_common_cflags)
@@ -199,7 +199,7 @@ PxTask_checked_common_cflags    += $(addprefix -I, $(PxTask_checked_hpaths))
 PxTask_checked_common_cflags  += -m64
 PxTask_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxTask_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PxTask_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PxTask_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PxTask_checked_common_cflags  += -Wno-missing-field-initializers
 PxTask_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PxTask_checked_cflags	:= $(PxTask_checked_common_cflags)
@@ -279,7 +279,7 @@ PxTask_profile_common_cflags    += $(addprefix -I, $(PxTask_profile_hpaths))
 PxTask_profile_common_cflags  += -m64
 PxTask_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PxTask_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PxTask_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PxTask_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PxTask_profile_common_cflags  += -Wno-missing-field-initializers
 PxTask_profile_common_cflags  += -O3 -fno-strict-aliasing
 PxTask_profile_cflags	:= $(PxTask_profile_common_cflags)

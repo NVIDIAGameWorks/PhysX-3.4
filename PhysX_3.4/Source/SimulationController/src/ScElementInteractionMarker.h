@@ -32,6 +32,7 @@
 #define PX_COLLISION_ELEMENT_INTERACTION_MARKER
 
 #include "ScElementSimInteraction.h"
+#include "ScNPhaseCore.h"
 
 namespace physx
 {
@@ -62,6 +63,7 @@ PX_INLINE Sc::ElementInteractionMarker::ElementInteractionMarker(ElementSim& ele
 		PX_UNUSED(active);
 		PX_ASSERT(!active);
 		getScene().registerInteraction(this, false);
+		getScene().getNPhaseCore()->registerInteraction(this);
 	}
 }
 

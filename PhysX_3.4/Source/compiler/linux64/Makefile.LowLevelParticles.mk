@@ -75,7 +75,7 @@ LowLevelParticles_debug_common_cflags    += $(addprefix -I, $(LowLevelParticles_
 LowLevelParticles_debug_common_cflags  += -m64
 LowLevelParticles_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelParticles_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelParticles_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelParticles_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelParticles_debug_common_cflags  += -Wno-missing-field-initializers
 LowLevelParticles_debug_common_cflags  += -g3 -gdwarf-2
 LowLevelParticles_debug_cflags	:= $(LowLevelParticles_debug_common_cflags)
@@ -174,7 +174,7 @@ LowLevelParticles_checked_common_cflags    += $(addprefix -I, $(LowLevelParticle
 LowLevelParticles_checked_common_cflags  += -m64
 LowLevelParticles_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelParticles_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelParticles_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelParticles_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelParticles_checked_common_cflags  += -Wno-missing-field-initializers
 LowLevelParticles_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 LowLevelParticles_checked_cflags	:= $(LowLevelParticles_checked_common_cflags)
@@ -273,7 +273,7 @@ LowLevelParticles_profile_common_cflags    += $(addprefix -I, $(LowLevelParticle
 LowLevelParticles_profile_common_cflags  += -m64
 LowLevelParticles_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelParticles_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelParticles_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelParticles_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelParticles_profile_common_cflags  += -Wno-missing-field-initializers
 LowLevelParticles_profile_common_cflags  += -O3 -fno-strict-aliasing
 LowLevelParticles_profile_cflags	:= $(LowLevelParticles_profile_common_cflags)
@@ -371,7 +371,7 @@ LowLevelParticles_release_common_cflags    += $(addprefix -I, $(LowLevelParticle
 LowLevelParticles_release_common_cflags  += -m64
 LowLevelParticles_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelParticles_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelParticles_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelParticles_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelParticles_release_common_cflags  += -Wno-missing-field-initializers
 LowLevelParticles_release_common_cflags  += -O3 -fno-strict-aliasing
 LowLevelParticles_release_cflags	:= $(LowLevelParticles_release_common_cflags)
