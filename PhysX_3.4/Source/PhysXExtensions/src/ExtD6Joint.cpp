@@ -343,11 +343,6 @@ This used to be in angular locked:
 
 namespace
 {
-PxReal tanHalfFromSin(PxReal sin)
-{
-	return Ps::tanHalf(sin, 1 - sin*sin);
-}
-
 PxQuat truncate(const PxQuat& qIn, PxReal minCosHalfTol, bool& truncated)
 {
 	PxQuat q = qIn.w >= 0 ? qIn : -qIn;
@@ -440,7 +435,7 @@ void D6JointVisualize(PxConstraintVisualizer &viz,
  				      const void* constantBlock,
 					  const PxTransform& body0Transform,
 					  const PxTransform& body1Transform,
-					  PxU32 /*flags*/)
+					  PxU32 flags)
 {
 	using namespace joint;
 
@@ -459,57 +454,78 @@ void D6JointVisualize(PxConstraintVisualizer &viz,
 	PxTransform cA2w = body0Transform * data.c2b[0];
 	PxTransform cB2w = body1Transform * data.c2b[1];
 
-	viz.visualizeJointFrames(cA2w, cB2w);
+	if(flags & PxConstraintVisualizationFlag::eLOCAL_FRAMES)
+		viz.visualizeJointFrames(cA2w, cB2w);
 
-	if(cA2w.q.dot(cB2w.q)<0)
-		cB2w.q = -cB2w.q;
-
-	PxTransform cB2cA = cA2w.transformInv(cB2w);	
-
-	PxQuat swing, twist;
-	Ps::separateSwingTwist(cB2cA.q,swing,twist);
-
-	PxMat33 cA2w_m(cA2w.q), cB2w_m(cB2w.q);
-	PxVec3 bX = cB2w_m[0], aY = cA2w_m[1], aZ = cA2w_m[2];
-
-	if(data.limited&TWIST_FLAG)
+	if(flags & PxConstraintVisualizationFlag::eLIMITS)
 	{
-		PxReal tqPhi = Ps::tanHalf(twist.x, twist.w);		// always support (-pi, +pi)
-		viz.visualizeAngularLimit(cA2w, data.twistLimit.lower, data.twistLimit.upper, 
-			PxAbs(tqPhi) > data.tqTwistHigh + data.tqSwingPad);
-	}
+		if(cA2w.q.dot(cB2w.q)<0)
+			cB2w.q = -cB2w.q;
 
-	bool swing1Limited = (data.limited & SWING1_FLAG)!=0, swing2Limited = (data.limited & SWING2_FLAG)!=0;
+		PxTransform cB2cA = cA2w.transformInv(cB2w);	
 
-	if(swing1Limited && swing2Limited)
-	{
-		PxVec3 tanQSwing = PxVec3(0, Ps::tanHalf(swing.z,swing.w), -Ps::tanHalf(swing.y,swing.w));
-		Cm::ConeLimitHelper coneHelper(data.tqSwingZ, data.tqSwingY, data.tqSwingPad);
-		viz.visualizeLimitCone(cA2w, data.tqSwingZ, data.tqSwingY, 
-			!coneHelper.contains(tanQSwing));
-	}
-	else if(swing1Limited ^ swing2Limited)
-	{
-		PxTransform yToX = PxTransform(PxVec3(0), PxQuat(-PxPi/2, PxVec3(0,0,1.f)));
-		PxTransform zToX = PxTransform(PxVec3(0), PxQuat(PxPi/2, PxVec3(0,1.f,0)));
+		PxQuat swing, twist;
+		Ps::separateSwingTwist(cB2cA.q,swing,twist);
 
-		if(swing1Limited)
+		PxMat33 cA2w_m(cA2w.q), cB2w_m(cB2w.q);
+		PxVec3 bX = cB2w_m[0], aY = cA2w_m[1], aZ = cA2w_m[2];
+
+		if(data.limited&TWIST_FLAG)
 		{
-			if(data.locked & SWING2_FLAG)
-				viz.visualizeAngularLimit(cA2w * yToX, -data.swingLimit.yAngle, data.swingLimit.yAngle, 
-					PxAbs(Ps::tanHalf(swing.y, swing.w)) > data.tqSwingY - data.tqSwingPad);
-			else
-				viz.visualizeDoubleCone(cA2w * zToX, data.swingLimit.yAngle, 
-					PxAbs(tanHalfFromSin(aZ.dot(bX)))> data.thSwingY - data.thSwingPad);
+			PxReal tqPhi = Ps::tanHalf(twist.x, twist.w);		// always support (-pi, +pi)
+
+			// PT: TODO: refactor with similar code in revolute joint
+			PxReal quarterAngle = tqPhi;
+			PxReal lower = data.tqTwistLow;
+			PxReal upper = data.tqTwistHigh;
+			PxReal pad = data.tqTwistPad;
+
+			if(data.twistLimit.isSoft())
+				pad = 0.0f;
+
+			bool active = false;
+			PX_ASSERT(lower<upper);
+			if(quarterAngle < lower+pad)
+				active = true;
+			if(quarterAngle > upper-pad)
+				active = true;
+
+			viz.visualizeAngularLimit(cA2w, data.twistLimit.lower, data.twistLimit.upper, active);
 		}
-		else 
+
+		bool swing1Limited = (data.limited & SWING1_FLAG)!=0, swing2Limited = (data.limited & SWING2_FLAG)!=0;
+
+		if(swing1Limited && swing2Limited)
 		{
-			if(data.locked & SWING1_FLAG)
-				viz.visualizeAngularLimit(cA2w * zToX, -data.swingLimit.zAngle, data.swingLimit.zAngle,
-					PxAbs(Ps::tanHalf(swing.z, swing.w)) > data.tqSwingZ - data.tqSwingPad);
-			else
-				viz.visualizeDoubleCone(cA2w * yToX, data.swingLimit.zAngle,  
-					PxAbs(tanHalfFromSin(aY.dot(bX)))> data.thSwingZ - data.thSwingPad);
+			PxVec3 tanQSwing = PxVec3(0, Ps::tanHalf(swing.z,swing.w), -Ps::tanHalf(swing.y,swing.w));
+			const PxReal pad = data.swingLimit.isSoft() ? 0.0f : data.tqSwingPad;
+			Cm::ConeLimitHelper coneHelper(data.tqSwingZ, data.tqSwingY, pad);
+			viz.visualizeLimitCone(cA2w, data.tqSwingZ, data.tqSwingY, 
+				!coneHelper.contains(tanQSwing));
+		}
+		else if(swing1Limited ^ swing2Limited)
+		{
+			PxTransform yToX = PxTransform(PxVec3(0), PxQuat(-PxPi/2, PxVec3(0,0,1.f)));
+			PxTransform zToX = PxTransform(PxVec3(0), PxQuat(PxPi/2, PxVec3(0,1.f,0)));
+
+			if(swing1Limited)
+			{
+				if(data.locked & SWING2_FLAG)
+					viz.visualizeAngularLimit(cA2w * yToX, -data.swingLimit.yAngle, data.swingLimit.yAngle, 
+						PxAbs(Ps::tanHalf(swing.y, swing.w)) > data.tqSwingY - data.tqSwingPad);
+				else
+					viz.visualizeDoubleCone(cA2w * zToX, data.swingLimit.yAngle, 
+						PxAbs(tanHalfFromSin(aZ.dot(bX)))> data.thSwingY - data.thSwingPad);
+			}
+			else 
+			{
+				if(data.locked & SWING1_FLAG)
+					viz.visualizeAngularLimit(cA2w * zToX, -data.swingLimit.zAngle, data.swingLimit.zAngle,
+						PxAbs(Ps::tanHalf(swing.z, swing.w)) > data.tqSwingZ - data.tqSwingPad);
+				else
+					viz.visualizeDoubleCone(cA2w * yToX, data.swingLimit.zAngle,  
+						PxAbs(tanHalfFromSin(aY.dot(bX)))> data.thSwingZ - data.thSwingPad);
+			}
 		}
 	}
 }

@@ -35,9 +35,12 @@
 #include "PxGpu.h"
 
 #include "cudamanager/PxCudaContextManager.h"
-#if PX_WINDOWS
-#include "../../../Common/src/CmPhysXCommon.h"
-#endif
+
+namespace physx
+{
+	// alias shared foundation to something usable
+	namespace Ps = shdfnd;
+}
 
 #define STRINGIFY(x) #x
 #define GETSTRING(x) STRINGIFY(x)
@@ -165,6 +168,12 @@ namespace physx
 			*reinterpret_cast<void**>(&g_PxCreateCudaContextManager_Func) = dlsym(s_library, "PxCreateCudaContextManager");
 			*reinterpret_cast<void**>(&g_PxGetSuggestedCudaDeviceOrdinal_Func) = dlsym(s_library, "PxGetSuggestedCudaDeviceOrdinal");
 		}
+
+		// Check for errors
+		if (s_library == NULL)
+			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "Failed to load PhysXGpu so!");
+		if (g_PxCreatePhysXGpu_Func == NULL || g_PxCreateCudaContextManager_Func == NULL || g_PxGetSuggestedCudaDeviceOrdinal_Func == NULL)
+			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "PhysXGpu so is incompatible with this version of PhysX!");
 	}
 
 #endif // PX_LINUX

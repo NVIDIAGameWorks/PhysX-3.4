@@ -38,6 +38,7 @@
 #include "foundation/PxTransform.h"
 #include "DyFrictionPatch.h"
 #include "GuContactBuffer.h"
+#include "foundation/PxBounds3.h"
 
 namespace physx
 {
@@ -60,13 +61,15 @@ struct CorrelationBuffer
 		PxU8 flags;
 		PxU8 count;
 		PxReal staticFriction, dynamicFriction, restitution;
+		PxBounds3 patchBounds;
 	};
 
 	// we can have as many contact patches as contacts, unfortunately
 	ContactPatchData	contactPatches[Gu::ContactBuffer::MAX_CONTACTS];
 
 	FrictionPatch	PX_ALIGN(16, frictionPatches[MAX_FRICTION_PATCHES]);
-	PxVec3				PX_ALIGN(16, frictionPatchWorldNormal[MAX_FRICTION_PATCHES]);
+	PxVec3			PX_ALIGN(16, frictionPatchWorldNormal[MAX_FRICTION_PATCHES]);
+	PxBounds3		patchBounds[MAX_FRICTION_PATCHES];
 
 	PxU32				frictionPatchContactCounts[MAX_FRICTION_PATCHES];
 	PxU32				correlationListHeads[MAX_FRICTION_PATCHES+1];

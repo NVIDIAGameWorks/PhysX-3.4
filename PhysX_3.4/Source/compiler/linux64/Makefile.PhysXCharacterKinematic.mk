@@ -77,7 +77,7 @@ PhysXCharacterKinematic_debug_common_cflags    += $(addprefix -I, $(PhysXCharact
 PhysXCharacterKinematic_debug_common_cflags  += -m64
 PhysXCharacterKinematic_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCharacterKinematic_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCharacterKinematic_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCharacterKinematic_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCharacterKinematic_debug_common_cflags  += -Wno-missing-field-initializers
 PhysXCharacterKinematic_debug_common_cflags  += -g3 -gdwarf-2
 PhysXCharacterKinematic_debug_cflags	:= $(PhysXCharacterKinematic_debug_common_cflags)
@@ -185,7 +185,7 @@ PhysXCharacterKinematic_checked_common_cflags    += $(addprefix -I, $(PhysXChara
 PhysXCharacterKinematic_checked_common_cflags  += -m64
 PhysXCharacterKinematic_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCharacterKinematic_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCharacterKinematic_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCharacterKinematic_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCharacterKinematic_checked_common_cflags  += -Wno-missing-field-initializers
 PhysXCharacterKinematic_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PhysXCharacterKinematic_checked_cflags	:= $(PhysXCharacterKinematic_checked_common_cflags)
@@ -293,7 +293,7 @@ PhysXCharacterKinematic_profile_common_cflags    += $(addprefix -I, $(PhysXChara
 PhysXCharacterKinematic_profile_common_cflags  += -m64
 PhysXCharacterKinematic_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCharacterKinematic_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCharacterKinematic_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCharacterKinematic_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCharacterKinematic_profile_common_cflags  += -Wno-missing-field-initializers
 PhysXCharacterKinematic_profile_common_cflags  += -O3 -fno-strict-aliasing
 PhysXCharacterKinematic_profile_cflags	:= $(PhysXCharacterKinematic_profile_common_cflags)
@@ -400,7 +400,7 @@ PhysXCharacterKinematic_release_common_cflags    += $(addprefix -I, $(PhysXChara
 PhysXCharacterKinematic_release_common_cflags  += -m64
 PhysXCharacterKinematic_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCharacterKinematic_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCharacterKinematic_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCharacterKinematic_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCharacterKinematic_release_common_cflags  += -Wno-missing-field-initializers
 PhysXCharacterKinematic_release_common_cflags  += -O3 -fno-strict-aliasing
 PhysXCharacterKinematic_release_cflags	:= $(PhysXCharacterKinematic_release_common_cflags)

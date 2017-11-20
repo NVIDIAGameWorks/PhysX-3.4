@@ -118,6 +118,7 @@ inline bool getFrictionPatches(CorrelationBuffer& c,
 							//Rotate the contact normal into world space
 							c.frictionPatchWorldNormal[c.frictionPatchCount] = bodyFrame0.rotate(patch.body0Normal);
 							c.frictionPatchContactCounts[c.frictionPatchCount] = 0;
+							c.patchBounds[c.frictionPatchCount].setEmpty();
 							c.correlationListHeads[c.frictionPatchCount] = CorrelationBuffer::LIST_END;
 							PxMemCopy(&c.frictionPatches[c.frictionPatchCount++], &patch, sizeof(FrictionPatch));
 						}

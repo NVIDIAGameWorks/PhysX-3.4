@@ -66,13 +66,13 @@ namespace Ext
 			Ps::separateSwingTwist(cA2w.q.getConjugate() * cB2w.q, swing, twist);
 			PX_ASSERT(PxAbs(swing.x)<1e-6f);
 
-			Cm::ConeLimitHelper coneHelper(data.tanQZLimit, data.tanQYLimit, data.tanQPad);
+			const PxReal pad = data.limit.isSoft() ? 0.0f : data.tanQPad;
+			Cm::ConeLimitHelper coneHelper(data.tanQZLimit, data.tanQYLimit, pad);
 
 			PxVec3 axis;
 			PxReal error;
 			if(coneHelper.getLimit(swing, axis, error))
 				ch.angularLimit(cA2w.rotate(axis),error,data.limit);
-
 		}
 
 		ch.prepareLockedAxes(cA2w.q, cB2w.q, cA2w.transformInv(cB2w.p), 7, 0);

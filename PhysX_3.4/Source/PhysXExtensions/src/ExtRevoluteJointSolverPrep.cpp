@@ -61,7 +61,7 @@ namespace Ext
 			cB2w.q = -cB2w.q;
 
 		body0WorldOffset = cB2w.p-bA2w.p;
-		Ext::joint::ConstraintHelper ch(constraints, cA2w.p - bA2w.p, cB2w.p - bB2w.p);
+		Ext::joint::ConstraintHelper ch(constraints, cB2w.p - bA2w.p, cB2w.p - bB2w.p);
 
 		ch.prepareLockedAxes(cA2w.q, cB2w.q, cA2w.transformInv(cB2w.p), 7, PxU32(limitIsLocked ? 7 : 6));
 
@@ -98,10 +98,13 @@ namespace Ext
 
 		if(limitEnabled)
 		{
-			PxQuat cB2cAq = cA2w.q.getConjugate() * cB2w.q;
-			PxQuat twist(cB2cAq.x,0,0,cB2cAq.w);
+			// PT: rotation part of "const PxTransform cB2cA = cA2w.transformInv(cB2w);"
+			const PxQuat cB2cAq = cA2w.q.getConjugate() * cB2w.q;
 
+			// PT: twist part of "Ps::separateSwingTwist(cB2cAq,swing,twist)" (more or less)
+			PxQuat twist(cB2cAq.x,0,0,cB2cAq.w);
 			PxReal magnitude = twist.normalize();
+
 			PxReal tqPhi = physx::intrinsics::fsel(magnitude - 1e-6f, twist.x / (1.0f + twist.w), 0.f);
 
 			ch.quarterAnglePair(tqPhi, data.tqLow, data.tqHigh, data.tqPad, axis, limit);

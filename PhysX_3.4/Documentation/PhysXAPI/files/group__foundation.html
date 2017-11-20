@@ -480,9 +480,9 @@ PX_FORCE_INLINE float&nbsp;</td><td class="memItemRight" valign="bottom"><a clas
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g3b7937d1226ad04a370386837b538fe5">PxMemSet</a> (void *dest, PxI32 c, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> count)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the bytes of the provided buffer to the specified value.  <a href="#g3b7937d1226ad04a370386837b538fe5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g7c7b1457c85506999cd4b11ade180221">PxMemCopy</a> (void *PX_RESTRICT dest, const void *PX_RESTRICT src, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> count)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g939562c42c614caac1aaba467f77d510">PxMemCopy</a> (void *dest, const void *src, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> count)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Copies the bytes of one memory block to another. The memory blocks must not overlap.  <a href="#g7c7b1457c85506999cd4b11ade180221"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Copies the bytes of one memory block to another. The memory blocks must not overlap.  <a href="#g939562c42c614caac1aaba467f77d510"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_FORCE_INLINE void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g6c2e80e9cab7b72710ac62e537ad60df">PxMemMove</a> (void *dest, const void *src, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> count)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Copies the bytes of one memory block to another. The memory blocks can overlap.  <a href="#g6c2e80e9cab7b72710ac62e537ad60df"></a><br></td></tr>
@@ -4822,20 +4822,20 @@ The return value is the greater of the two specified values.
 
 </div>
 </div><p>
-<a class="anchor" name="g7c7b1457c85506999cd4b11ade180221"></a><!-- doxytag: member="PxMemory.h::PxMemCopy" ref="g7c7b1457c85506999cd4b11ade180221" args="(void *PX_RESTRICT dest, const void *PX_RESTRICT src, PxU32 count)" -->
+<a class="anchor" name="g939562c42c614caac1aaba467f77d510"></a><!-- doxytag: member="PxMemory.h::PxMemCopy" ref="g939562c42c614caac1aaba467f77d510" args="(void *dest, const void *src, PxU32 count)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">PX_FORCE_INLINE void* PxMemCopy           </td>
           <td>(</td>
-          <td class="paramtype">void *PX_RESTRICT&nbsp;</td>
+          <td class="paramtype">void *&nbsp;</td>
           <td class="paramname"> <em>dest</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const void *PX_RESTRICT&nbsp;</td>
+          <td class="paramtype">const void *&nbsp;</td>
           <td class="paramname"> <em>src</em>, </td>
         </tr>
         <tr>
@@ -4904,7 +4904,7 @@ Copies the bytes of one memory block to another. The memory blocks must not over
 <p>
 Copies the bytes of one memory block to another. The memory blocks can overlap. 
 <p>
-<dl class="note" compact><dt><b>Note:</b></dt><dd>Use <a class="el" href="group__foundation.html#g7c7b1457c85506999cd4b11ade180221" title="Copies the bytes of one memory block to another. The memory blocks must not overlap...">PxMemCopy</a> if memory blocks do not overlap.</dd></dl>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>Use <a class="el" href="group__foundation.html#g939562c42c614caac1aaba467f77d510" title="Copies the bytes of one memory block to another. The memory blocks must not overlap...">PxMemCopy</a> if memory blocks do not overlap.</dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>dest</em>&nbsp;</td><td>Pointer to block of memory to copy to. </td></tr>

@@ -27,19 +27,16 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_COMMON_VISUALIZATION
 #define PX_PHYSICS_COMMON_VISUALIZATION
 
 #include "foundation/PxTransform.h"
 #include "CmPhysXCommon.h"
 #include "PxConstraintDesc.h"
+#include "CmRenderOutput.h"
 
 namespace physx
 {
-
-class RenderOutput;
-
 namespace Cm
 {
 	PX_PHYSX_COMMON_API void visualizeJointFrames(RenderOutput& out,
@@ -61,7 +58,6 @@ namespace Cm
 							   PxReal upper,
 							   bool active);
 
-
 	PX_PHYSX_COMMON_API void visualizeLimitCone(RenderOutput& out,
 							PxReal scale,
 							const PxTransform& t,
@@ -75,7 +71,6 @@ namespace Cm
 							 PxReal angle,
 							 bool active);
 	
-
 	struct ConstraintImmediateVisualizer : public PxConstraintVisualizer
 	{
 		PxF32			mFrameScale;
@@ -88,7 +83,6 @@ namespace Cm
 		ConstraintImmediateVisualizer( PxF32 _frameScale, PxF32 _limitScale, RenderOutput& _output )
 			: mFrameScale( _frameScale )
 			, mLimitScale( _limitScale )
-			//, mCmOutput(static_cast<RenderBuffer &>(_output))
 			, mCmOutput( _output )
 		{
 		}
@@ -116,6 +110,12 @@ namespace Cm
 		virtual void visualizeDoubleCone( const PxTransform& t, PxReal angle, bool active)
 		{
 			Cm::visualizeDoubleCone( mCmOutput, mLimitScale, t, angle, active );
+		}
+
+		virtual void visualizeLine( const PxVec3& p0, const PxVec3& p1, PxU32 color)
+		{
+			mCmOutput << color;
+			mCmOutput.outputSegment(p0, p1);
 		}
 	};
 }

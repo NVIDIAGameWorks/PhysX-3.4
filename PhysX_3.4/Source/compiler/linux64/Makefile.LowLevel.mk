@@ -95,7 +95,7 @@ LowLevel_debug_common_cflags    += $(addprefix -I, $(LowLevel_debug_hpaths))
 LowLevel_debug_common_cflags  += -m64
 LowLevel_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevel_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevel_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevel_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevel_debug_common_cflags  += -Wno-missing-field-initializers
 LowLevel_debug_common_cflags  += -g3 -gdwarf-2
 LowLevel_debug_cflags	:= $(LowLevel_debug_common_cflags)
@@ -210,7 +210,7 @@ LowLevel_checked_common_cflags    += $(addprefix -I, $(LowLevel_checked_hpaths))
 LowLevel_checked_common_cflags  += -m64
 LowLevel_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevel_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevel_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevel_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevel_checked_common_cflags  += -Wno-missing-field-initializers
 LowLevel_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 LowLevel_checked_cflags	:= $(LowLevel_checked_common_cflags)
@@ -325,7 +325,7 @@ LowLevel_profile_common_cflags    += $(addprefix -I, $(LowLevel_profile_hpaths))
 LowLevel_profile_common_cflags  += -m64
 LowLevel_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevel_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevel_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevel_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevel_profile_common_cflags  += -Wno-missing-field-initializers
 LowLevel_profile_common_cflags  += -O3 -fno-strict-aliasing
 LowLevel_profile_cflags	:= $(LowLevel_profile_common_cflags)
@@ -439,7 +439,7 @@ LowLevel_release_common_cflags    += $(addprefix -I, $(LowLevel_release_hpaths))
 LowLevel_release_common_cflags  += -m64
 LowLevel_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevel_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevel_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevel_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevel_release_common_cflags  += -Wno-missing-field-initializers
 LowLevel_release_common_cflags  += -O3 -fno-strict-aliasing
 LowLevel_release_cflags	:= $(LowLevel_release_common_cflags)

@@ -202,16 +202,12 @@ namespace Ext
 			mPxConstraint->markDirty();
 		}
 
-		PxTransform			getBodyPose(const PxRigidActor* actor) const
+		static	PxTransform	getGlobalPose(const PxRigidActor* actor)
 		{
 			if(!actor)
 				return PxTransform(PxIdentity);
-			else if(actor->is<PxRigidStatic>())
-				return actor->getGlobalPose();
-			else
-				return actor->getGlobalPose() * static_cast<const PxRigidBody*>(actor)->getCMassLocalPose();
+			return actor->getGlobalPose();
 		}
-
 
 		void getActorVelocity(const PxRigidActor* actor, PxVec3& linear, PxVec3& angular) const
 		{
@@ -230,8 +226,8 @@ namespace Ext
 		{
 			PxRigidActor* actor0, * actor1;
 			mPxConstraint->getActors(actor0, actor1);
-			PxTransform t0 = getBodyPose(actor0) * mLocalPose[0],
-						t1 = getBodyPose(actor1) * mLocalPose[1];
+			const PxTransform t0 = getGlobalPose(actor0) * mLocalPose[0];
+			const PxTransform t1 = getGlobalPose(actor1) * mLocalPose[1];
 			return t0.transformInv(t1);
 		}
 

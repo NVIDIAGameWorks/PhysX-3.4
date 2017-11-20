@@ -123,20 +123,21 @@ void PrismaticJointVisualize(PxConstraintVisualizer& viz,
 							 const void* constantBlock,
 							 const PxTransform& body0Transform,
 							 const PxTransform& body1Transform,
-							 PxU32 /*flags*/)
+							 PxU32 flags)
 {
 	const PrismaticJointData& data = *reinterpret_cast<const PrismaticJointData*>(constantBlock);
 
 	const PxTransform& t0 = body0Transform * data.c2b[0];
 	const PxTransform& t1 = body1Transform * data.c2b[1];
 
-	viz.visualizeJointFrames(t0, t1);
+	if(flags & PxConstraintVisualizationFlag::eLOCAL_FRAMES)
+		viz.visualizeJointFrames(t0, t1);
 
-	PxVec3 axis = t0.rotate(PxVec3(1.f,0,0));
-	PxReal ordinate = axis.dot(t0.transformInv(t1.p)-t0.p);
-
-	if(data.jointFlags & PxPrismaticJointFlag::eLIMIT_ENABLED)
+	if((flags & PxConstraintVisualizationFlag::eLIMITS) && (data.jointFlags & PxPrismaticJointFlag::eLIMIT_ENABLED))
 	{
+		const PxVec3 bOriginInA = t0.transformInv(t1.p);
+		const PxReal ordinate = bOriginInA.x;
+
 		viz.visualizeLinearLimit(t0, t1, data.limit.lower, ordinate < data.limit.lower + data.limit.contactDistance);
 		viz.visualizeLinearLimit(t0, t1, data.limit.upper, ordinate > data.limit.upper - data.limit.contactDistance);
 	}

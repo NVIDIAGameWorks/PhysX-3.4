@@ -62,20 +62,20 @@ public:
 	PCMConvexVsMeshContactGeneration		mGeneration;
 
 	PCMConvexVsHeightfieldContactGenerationCallback(
-		const Ps::aos::FloatVArg				contactDistance,
-		const Ps::aos::FloatVArg				replaceBreakingThreshold,
-		const Gu::PolygonalData&				polyData,
-		SupportLocal*							polyMap,
-		const Cm::FastVertex2ShapeScaling&		convexScaling,
-		bool									idtConvexScale,
-		const PsTransformV&						convexTransform, 
-		const PsTransformV&						heightfieldTransform,
-		const PxTransform&						heightfieldTransform1,
-		Gu::MultiplePersistentContactManifold&	multiManifold,
-		Gu::ContactBuffer&						contactBuffer,
-		Gu::HeightFieldUtil&					hfUtil,
-		Ps::InlineArray<PxU32,LOCAL_CONTACTS_SIZE>&	delayedContacts,
-		Cm::RenderOutput*						renderOutput = NULL
+		const Ps::aos::FloatVArg					contactDistance,
+		const Ps::aos::FloatVArg					replaceBreakingThreshold,
+		const Gu::PolygonalData&					polyData,
+		SupportLocal*								polyMap,
+		const Cm::FastVertex2ShapeScaling&			convexScaling,
+		bool										idtConvexScale,
+		const PsTransformV&							convexTransform, 
+		const PsTransformV&							heightfieldTransform,
+		const PxTransform&							heightfieldTransform1,
+		Gu::MultiplePersistentContactManifold&		multiManifold,
+		Gu::ContactBuffer&							contactBuffer,
+		Gu::HeightFieldUtil&						hfUtil,
+		Ps::InlineArray<PxU32,LOCAL_CONTACTS_SIZE>*	delayedContacts,
+		Cm::RenderOutput*							renderOutput = NULL
 		
 	) :
 		PCMHeightfieldContactGenerationCallback< PCMConvexVsHeightfieldContactGenerationCallback >(hfUtil, heightfieldTransform1),
@@ -155,7 +155,7 @@ bool Gu::PCMContactConvexHeightfield(
 			multiManifold,
 			contactBuffer,
 			hfUtil,
-			delayedContacts,
+			&delayedContacts,
 			renderOutput
 		);
 

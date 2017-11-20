@@ -59,7 +59,7 @@ namespace Ext
 		PxVec3 bOriginInA = cA2w.transformInv(cB2w.p);
 
 		body0WorldOffset = cB2w.p-bA2w.p;
-		joint::ConstraintHelper ch(constraints,cA2w.p-bA2w.p, cB2w.p-bB2w.p);
+		joint::ConstraintHelper ch(constraints,cB2w.p-bA2w.p, cB2w.p-bB2w.p);
 		ch.prepareLockedAxes(cA2w.q, cB2w.q, bOriginInA, limitIsLocked ? 7ul : 6ul, 7ul);
 
 		if(limitEnabled && !limitIsLocked)

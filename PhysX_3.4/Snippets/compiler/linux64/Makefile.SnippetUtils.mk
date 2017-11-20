@@ -47,7 +47,7 @@ SnippetUtils_debug_common_cflags    += $(addprefix -I, $(SnippetUtils_debug_hpat
 SnippetUtils_debug_common_cflags  += -m64
 SnippetUtils_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetUtils_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SnippetUtils_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SnippetUtils_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SnippetUtils_debug_common_cflags  += -Wno-missing-field-initializers
 SnippetUtils_debug_common_cflags  += -g3 -gdwarf-2
 SnippetUtils_debug_cflags	:= $(SnippetUtils_debug_common_cflags)
@@ -134,7 +134,7 @@ SnippetUtils_checked_common_cflags    += $(addprefix -I, $(SnippetUtils_checked_
 SnippetUtils_checked_common_cflags  += -m64
 SnippetUtils_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetUtils_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SnippetUtils_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SnippetUtils_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SnippetUtils_checked_common_cflags  += -Wno-missing-field-initializers
 SnippetUtils_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 SnippetUtils_checked_cflags	:= $(SnippetUtils_checked_common_cflags)
@@ -221,7 +221,7 @@ SnippetUtils_profile_common_cflags    += $(addprefix -I, $(SnippetUtils_profile_
 SnippetUtils_profile_common_cflags  += -m64
 SnippetUtils_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetUtils_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SnippetUtils_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SnippetUtils_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SnippetUtils_profile_common_cflags  += -Wno-missing-field-initializers
 SnippetUtils_profile_common_cflags  += -O3 -fno-strict-aliasing
 SnippetUtils_profile_cflags	:= $(SnippetUtils_profile_common_cflags)
@@ -307,7 +307,7 @@ SnippetUtils_release_common_cflags    += $(addprefix -I, $(SnippetUtils_release_
 SnippetUtils_release_common_cflags  += -m64
 SnippetUtils_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SnippetUtils_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SnippetUtils_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SnippetUtils_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SnippetUtils_release_common_cflags  += -Wno-missing-field-initializers
 SnippetUtils_release_common_cflags  += -O3 -fno-strict-aliasing
 SnippetUtils_release_cflags	:= $(SnippetUtils_release_common_cflags)

@@ -1202,7 +1202,7 @@ namespace local
 		// vertex limit has been reached. We did not stopped the iteration, since we
 		// will use the produced hull to compute OBB from it and use the planes
 		// to slice the initial OBB
-		if (numVerts >= mConvexDesc.vertexLimit)
+		if (numVerts > mConvexDesc.vertexLimit)
 		{
 			return QuickHullResult::eVERTEX_LIMIT_REACHED;
 		}

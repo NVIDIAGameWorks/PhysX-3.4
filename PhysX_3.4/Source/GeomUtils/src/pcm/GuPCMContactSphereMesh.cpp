@@ -41,12 +41,15 @@
 #include "GuPCMContactMeshCallback.h"
 #include "GuBox.h"
 
+
 using namespace physx;
 using namespace Gu;
 using namespace physx::shdfnd::aos;
 
+
 namespace physx
 {
+
 
 struct PCMSphereVsMeshContactGenerationCallback : PCMMeshContactGenerationCallback< PCMSphereVsMeshContactGenerationCallback >
 {
@@ -56,21 +59,22 @@ public:
 	
 
 	PCMSphereVsMeshContactGenerationCallback(
-		const Ps::aos::Vec3VArg		sphereCenter,
-		const Ps::aos::FloatVArg	sphereRadius,
-		const Ps::aos::FloatVArg	contactDist,
-		const Ps::aos::FloatVArg	replaceBreakingThreshold,
-		const PsTransformV& sphereTransform,
-		const PsTransformV& meshTransform,
-		MultiplePersistentContactManifold& multiManifold,
-		ContactBuffer& contactBuffer,
-		const PxU8*		extraTriData,
-		const Cm::FastVertex2ShapeScaling& meshScaling,
-		bool idtMeshScale,
-		Cm::RenderOutput* renderOutput = NULL
+		const Ps::aos::Vec3VArg							sphereCenter,
+		const Ps::aos::FloatVArg						sphereRadius,
+		const Ps::aos::FloatVArg						contactDist,
+		const Ps::aos::FloatVArg						replaceBreakingThreshold,
+		const PsTransformV&								sphereTransform,
+		const PsTransformV&								meshTransform,
+		MultiplePersistentContactManifold&				multiManifold,
+		ContactBuffer&									contactBuffer,
+		const PxU8*										extraTriData,
+		const Cm::FastVertex2ShapeScaling&				meshScaling,
+		bool											idtMeshScale,
+		Ps::InlineArray<PxU32, LOCAL_CONTACTS_SIZE>*	deferredContacts,
+		Cm::RenderOutput*								renderOutput = NULL
 	) :
 		PCMMeshContactGenerationCallback<PCMSphereVsMeshContactGenerationCallback>(meshScaling, extraTriData, idtMeshScale), 
-		mGeneration(sphereCenter, sphereRadius, contactDist, replaceBreakingThreshold, sphereTransform, meshTransform, multiManifold, contactBuffer, renderOutput)
+		mGeneration(sphereCenter, sphereRadius, contactDist, replaceBreakingThreshold, sphereTransform, meshTransform, multiManifold, contactBuffer, deferredContacts, renderOutput)
 	{
 	}
 
@@ -93,8 +97,6 @@ bool Gu::pcmContactSphereMesh(GU_CONTACT_METHOD_ARGS)
 	MultiplePersistentContactManifold& multiManifold = cache.getMultipleManifold();
 	const PxSphereGeometry& shapeSphere = shape0.get<const PxSphereGeometry>();
 	const PxTriangleMeshGeometryLL& shapeMesh = shape1.get<const PxTriangleMeshGeometryLL>();
-
-	//gRenderOutPut = cache.mRenderOutput;
 
 	const QuatV q0 = QuatVLoadA(&transform0.q.x);
 	const Vec3V p0 = V3LoadA(&transform0.p.x);
@@ -128,6 +130,8 @@ bool Gu::pcmContactSphereMesh(GU_CONTACT_METHOD_ARGS)
 		multiManifold.mNumManifolds = 0;
 		multiManifold.setRelativeTransform(curTransform); 
 
+		Ps::InlineArray<PxU32, LOCAL_CONTACTS_SIZE> delayedContacts;
+
 		const PxU8* PX_RESTRICT extraData = meshData->getExtraTrigData();
 		// mesh scale is not baked into cached verts
 		PCMSphereVsMeshContactGenerationCallback callback(
@@ -141,7 +145,9 @@ bool Gu::pcmContactSphereMesh(GU_CONTACT_METHOD_ARGS)
 			contactBuffer,
 			extraData,
 			meshScaling,
-			idtMeshScale);
+			idtMeshScale,
+			&delayedContacts,
+			renderOutput);
 
 		PxVec3 obbCenter = sphereCenterShape1Space;
 		PxVec3 obbExtents = PxVec3(inflatedRadius);
@@ -154,6 +160,7 @@ bool Gu::pcmContactSphereMesh(GU_CONTACT_METHOD_ARGS)
 
 		callback.flushCache();
 
+		callback.mGeneration.generateLastContacts();
 		callback.mGeneration.processContacts(GU_SPHERE_MANIFOLD_CACHE_SIZE, false);
 	}
 	else

@@ -254,9 +254,16 @@ namespace Ext
 				if(lin)
 				{
 					PxMat33 axes(qA);
-					if(lin&1) linear(axes[0], -cB2cAp[0], PxConstraintSolveHint::eEQUALITY, current++);
-					if(lin&2) linear(axes[1], -cB2cAp[1], PxConstraintSolveHint::eEQUALITY, current++);
-					if(lin&4) linear(axes[2], -cB2cAp[2], PxConstraintSolveHint::eEQUALITY, current++);
+
+					PxVec3 error(0.f);
+
+					if(lin&1) error -= axes[0]*cB2cAp[0];
+					if(lin&2) error -= axes[1]*cB2cAp[1];
+					if(lin&4) error -= axes[2]*cB2cAp[2];
+
+					if(lin&1) linear(axes[0], -cB2cAp[0], PxConstraintSolveHint::eEQUALITY, current++, error);
+					if(lin&2) linear(axes[1], -cB2cAp[1], PxConstraintSolveHint::eEQUALITY, current++, error);
+					if(lin&4) linear(axes[2], -cB2cAp[2], PxConstraintSolveHint::eEQUALITY, current++, error);
 				}
 
 				for(Px1DConstraint* front = mCurrent; front < current; front++)
@@ -300,10 +307,11 @@ namespace Ext
 				return c;
 			}
 
-			PX_FORCE_INLINE Px1DConstraint* linear(const PxVec3& axis, PxReal posErr, PxConstraintSolveHint::Enum hint, Px1DConstraint* c)
+			PX_FORCE_INLINE Px1DConstraint* linear(const PxVec3& axis, PxReal posErr, PxConstraintSolveHint::Enum hint, Px1DConstraint* c,
+				const PxVec3& errorVec)
 			{
 				c->solveHint		= PxU16(hint);
-				c->linear0 = axis;					c->angular0	= mRa.cross(axis);
+				c->linear0 = axis;					c->angular0	= (mRa + errorVec).cross(axis);
 				c->linear1 = axis;					c->angular1 = mRb.cross(axis);
 				PX_ASSERT(c->linear0.isFinite());
 				PX_ASSERT(c->linear1.isFinite());

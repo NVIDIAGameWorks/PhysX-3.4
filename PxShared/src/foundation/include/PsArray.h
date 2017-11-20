@@ -35,17 +35,6 @@
 #include "PsAllocator.h"
 #include "PsBasicTemplates.h"
 
-#if PX_LIBCPP
-#include <type_traits>
-#else
-#include <tr1/type_traits>
-#endif
-
-#if PX_VC == 9 || PX_VC == 10
-#pragma warning(push)
-#pragma warning(disable : 4347) // behavior change: 'function template' is called instead of 'function'
-#endif
-
 namespace physx
 {
 namespace shdfnd
@@ -156,15 +145,6 @@ class Array : protected Alloc
 	PX_INLINE Array& operator=(const Array& t) // Needs to be declared, see comment at copy-constructor
 	{
 		return operator=<Alloc>(t);
-	}
-
-	PX_FORCE_INLINE static bool isArrayOfPOD()
-	{
-#if PX_LIBCPP
-		return std::is_trivially_copyable<T>::value;
-#else
-		return std::tr1::is_pod<T>::value;
-#endif
 	}
 
 	/*!
@@ -338,14 +318,7 @@ class Array : protected Alloc
 		PX_ASSERT(mSize);
 		T t = mData[mSize - 1];
 
-		if(!isArrayOfPOD())
-		{
-			mData[--mSize].~T();
-		}
-		else
-		{
-			--mSize;
-		}
+		mData[--mSize].~T();
 
 		return t;
 	}
@@ -379,10 +352,7 @@ class Array : protected Alloc
 		PX_ASSERT(i < mSize);
 		mData[i] = mData[--mSize];
 
-		if(!isArrayOfPOD())
-		{
-			mData[mSize].~T();
-		}
+		mData[mSize].~T();
 	}
 
 	PX_INLINE void replaceWithLast(Iterator i)
@@ -424,24 +394,14 @@ class Array : protected Alloc
 	{
 		PX_ASSERT(i < mSize);
 
-		if(isArrayOfPOD())
-		{
-			if(i + 1 != mSize)
-			{
-				physx::intrinsics::memMove(mData + i, mData + i + 1, (mSize - i - 1) * sizeof(T));
-			}
-		}
-		else
-		{
-			T* it = mData + i;
+		T* it = mData + i;
+		it->~T();
+		while (++i < mSize)
+		{								
+			new (it) T(mData[i]);
+			++it;
 			it->~T();
-			while (++i < mSize)
-			{								
-				new (it) T(mData[i]);
-				++it;
-				it->~T();
-			} 
-		}
+		} 
 		--mSize;
 	}
 
@@ -460,31 +420,19 @@ class Array : protected Alloc
 		PX_ASSERT(begin < mSize);
 		PX_ASSERT((begin + count) <= mSize);
 
-		if(!isArrayOfPOD())
-		{
-			for(uint32_t i = 0; i < count; i++)
-			{
-				mData[begin + i].~T(); // call the destructor on the ones being removed first.
-			}
-		}
+		for(uint32_t i = 0; i < count; i++)
+			mData[begin + i].~T(); // call the destructor on the ones being removed first.
 
 		T* dest = &mData[begin];                       // location we are copying the tail end objects to
 		T* src = &mData[begin + count];                // start of tail objects
 		uint32_t move_count = mSize - (begin + count); // compute remainder that needs to be copied down
 
-		if(isArrayOfPOD())
+		for(uint32_t i = 0; i < move_count; i++)
 		{
-			physx::intrinsics::memMove(dest, src, move_count * sizeof(T));
-		}
-		else
-		{
-			for(uint32_t i = 0; i < move_count; i++)
-			{
-				new (dest) T(*src); // copy the old one to the new location
-				src->~T();          // call the destructor on the old location
-				dest++;
-				src++;
-			}
+			new (dest) T(*src); // copy the old one to the new location
+			src->~T();          // call the destructor on the old location
+			dest++;
+			src++;
 		}
 		mSize -= count;
 	}
@@ -624,29 +572,10 @@ definition for serialized classes is complete in checked builds.
 		Alloc::deallocate(mem);
 	}
 
-	static PX_INLINE bool isZeroInit(const T& object)
-	{
-		if (!isArrayOfPOD())
-			return false;
-		char ZeroBuffOnStack[sizeof(object)] = {};
-		// bgaldrikian - casting to void* to avoid compiler error:
-		// error : first operand of this 'memcmp' call is a pointer to dynamic class [...]; vtable pointer will be compared [-Werror,-Wdynamic-class-memaccess]
-		// even though POD check prevents memcmp from being used on a dynamic class
-		return memcmp(reinterpret_cast<const void*>(&object), ZeroBuffOnStack, sizeof(object)) == 0;
-	}
-
 	static PX_INLINE void create(T* first, T* last, const T& a)
 	{
-		if(isZeroInit(a))
-		{
-			if(last > first)
-				physx::intrinsics::memZero(first, uint32_t((last - first) * sizeof(T)));
-		}
-		else
-		{
-			for(; first < last; ++first)
-				::new (first) T(a);
-		}
+		for(; first < last; ++first)
+			::new (first) T(a);
 	}
 
 	static PX_INLINE void copy(T* first, T* last, const T* src)
@@ -654,24 +583,14 @@ definition for serialized classes is complete in checked builds.
 		if(last <= first)
 			return;
 
-		if(isArrayOfPOD())
-		{
-			physx::intrinsics::memCopy(first, src, uint32_t((last - first) * sizeof(T)));
-		}
-		else
-		{
-			for(; first < last; ++first, ++src)
-				::new (first) T(*src);
-		}
+		for(; first < last; ++first, ++src)
+			::new (first) T(*src);
 	}
 
 	static PX_INLINE void destroy(T* first, T* last)
 	{
-		if(!isArrayOfPOD())
-		{
-			for(; first < last; ++first)
-				first->~T();
-		}
+		for(; first < last; ++first)
+			first->~T();
 	}
 
 	/*!
@@ -798,9 +717,5 @@ PX_INLINE void swap(Array<T, Alloc>& x, Array<T, Alloc>& y)
 
 } // namespace shdfnd
 } // namespace physx
-
-#if PX_VC == 9 || PX_VC == 10
-#pragma warning(pop)
-#endif
 
 #endif // #ifndef PSFOUNDATION_PSARRAY_H

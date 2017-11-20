@@ -59,20 +59,22 @@ public:
 	PCMCapsuleVsMeshContactGeneration		mGeneration;
 
 	PCMCapsuleVsMeshContactGenerationCallback(
-		const CapsuleV&				capsule,
-		const Ps::aos::FloatVArg	contactDist,
-		const Ps::aos::FloatVArg	replaceBreakingThreshold,
-		const PsTransformV&			sphereTransform,
-		const PsTransformV&			meshTransform,
-		MultiplePersistentContactManifold& multiManifold,
-		ContactBuffer&				contactBuffer,
-		const PxU8*					extraTriData,
-		const Cm::FastVertex2ShapeScaling& meshScaling,
-		bool						idtMeshScale,
-		Cm::RenderOutput*			renderOutput = NULL
+		const CapsuleV&									capsule,
+		const Ps::aos::FloatVArg						contactDist,
+		const Ps::aos::FloatVArg						replaceBreakingThreshold,
+		const PsTransformV&								sphereTransform,
+		const PsTransformV&								meshTransform,
+		MultiplePersistentContactManifold&				multiManifold,
+		ContactBuffer&									contactBuffer,
+		const PxU8*										extraTriData,
+		const Cm::FastVertex2ShapeScaling&				meshScaling,
+		bool											idtMeshScale,
+		Ps::InlineArray<PxU32, LOCAL_CONTACTS_SIZE>*	deferredContacts,
+		Cm::RenderOutput*								renderOutput = NULL
 	) :
 		PCMMeshContactGenerationCallback<PCMCapsuleVsMeshContactGenerationCallback>(meshScaling, extraTriData, idtMeshScale),
-		mGeneration(capsule, contactDist, replaceBreakingThreshold, sphereTransform, meshTransform, multiManifold, contactBuffer, renderOutput)
+		mGeneration(capsule, contactDist, replaceBreakingThreshold, sphereTransform, meshTransform, multiManifold, contactBuffer, 
+			deferredContacts, renderOutput)
 	{
 	}
 
@@ -150,6 +152,7 @@ bool Gu::pcmContactCapsuleMesh(GU_CONTACT_METHOD_ARGS)
 			extraData,
 			meshScaling,
 			idtMeshScale,
+			NULL,
 			renderOutput);
 
 		//bound the capsule in shape space by an OBB:
@@ -163,7 +166,7 @@ bool Gu::pcmContactCapsuleMesh(GU_CONTACT_METHOD_ARGS)
 		Midphase::intersectOBB(meshData, queryBox, callback, true);
 
 		callback.flushCache();
-
+	
 		callback.mGeneration.processContacts(GU_CAPSULE_MANIFOLD_CACHE_SIZE, false);
 	}
 	else

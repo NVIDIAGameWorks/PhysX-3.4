@@ -49,6 +49,20 @@
 using namespace physx;
 using namespace Gu;
 
+// PT: TODO: refactor with GuMTD.cpp versions
+static PX_FORCE_INLINE PxF32 manualNormalize(PxVec3& mtd, const PxVec3& normal, PxReal lenSq)
+{
+	const PxF32 len = PxSqrt(lenSq);
+
+	// We do a *manual* normalization to check for singularity condition
+	if(lenSq < 1e-6f)
+		mtd = PxVec3(1.0f, 0.0f, 0.0f);			// PT: zero normal => pick up random one
+	else
+		mtd = normal * 1.0f / len;
+
+	return len;
+}
+
 static PX_FORCE_INLINE void getScaledTriangle(const PxTriangleMeshGeometry& triGeom, const Cm::Matrix34& vertex2worldSkew, bool flipsNormal, PxTriangle& triangle, PxTriangleID triangleIndex)
 {
 	TriangleMesh* tm = static_cast<TriangleMesh*>(triGeom.triangleMesh);
@@ -1087,8 +1101,7 @@ bool physx::Gu::computeSphere_SphereMTD(const Sphere& sphere0, const Sphere& sph
 	const PxReal d2 = delta.magnitudeSquared();
 	const PxReal radiusSum = sphere0.radius + sphere1.radius;
 
-	const PxReal d = PxSqrt(d2);
-	hit.normal = delta / d;
+	const PxReal d = manualNormalize(hit.normal, delta, d2);
 	hit.distance = d - radiusSum ;
 	hit.position = sphere0.center + hit.normal * sphere0.radius;
 	return true;
@@ -1105,8 +1118,7 @@ bool physx::Gu::computeSphere_CapsuleMTD( const Sphere& sphere, const Capsule& c
 	const PxVec3 normal = capsule.getPointAt(u) -  sphere.center;
 	
 	const PxReal lenSq = normal.magnitudeSquared();
-	const PxF32 d = PxSqrt(lenSq);
-	hit.normal = normal / d;
+	const PxF32 d = manualNormalize(hit.normal, normal, lenSq);
 	hit.distance = d - radiusSum;
 	hit.position = sphere.center + hit.normal * sphere.radius;
 	return true;
@@ -1115,8 +1127,6 @@ bool physx::Gu::computeSphere_CapsuleMTD( const Sphere& sphere, const Capsule& c
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool physx::Gu::computeCapsule_CapsuleMTD(const Capsule& capsule0, const Capsule& capsule1, PxSweepHit& hit)
 {
-	using namespace Ps::aos;
-
 	PxReal s,t;
 	distanceSegmentSegmentSquared(capsule0, capsule1, &s, &t);
 
@@ -1127,8 +1137,7 @@ bool physx::Gu::computeCapsule_CapsuleMTD(const Capsule& capsule0, const Capsule
 
 	const PxVec3 normal = pointAtCapsule0 - pointAtCapsule1;
 	const PxReal lenSq = normal.magnitudeSquared();
-	const PxF32 len = PxSqrt(lenSq);
-	hit.normal = normal / len;
+	const PxF32 len = manualNormalize(hit.normal, normal, lenSq);
 	hit.distance = len - radiusSum;
 	hit.position = pointAtCapsule1 + hit.normal * capsule1.radius;
 	return true;

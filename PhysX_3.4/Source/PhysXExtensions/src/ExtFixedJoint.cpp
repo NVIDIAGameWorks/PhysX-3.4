@@ -93,14 +93,17 @@ void FixedJointVisualize(PxConstraintVisualizer& viz,
 						 const void* constantBlock,
 						 const PxTransform& body0Transform,
 						 const PxTransform& body1Transform,
-						 PxU32 /*flags*/)
+						 PxU32 flags)
 {
-	const FixedJointData& data = *reinterpret_cast<const FixedJointData*>(constantBlock);
+	if(flags & PxConstraintVisualizationFlag::eLOCAL_FRAMES)
+	{
+		const FixedJointData& data = *reinterpret_cast<const FixedJointData*>(constantBlock);
 
-	const PxTransform& t0 = body0Transform * data.c2b[0];
-	const PxTransform& t1 = body1Transform * data.c2b[1];
+		const PxTransform& t0 = body0Transform * data.c2b[0];
+		const PxTransform& t1 = body1Transform * data.c2b[1];
 
-	viz.visualizeJointFrames(t0, t1);
+		viz.visualizeJointFrames(t0, t1);
+	}
 }
 
 

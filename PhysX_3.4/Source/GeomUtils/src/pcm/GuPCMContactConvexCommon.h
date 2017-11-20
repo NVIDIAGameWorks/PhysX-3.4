@@ -44,27 +44,32 @@ namespace physx
 namespace Gu
 {
 
+#define MAX_CACHE_SIZE	128
+
 class PCMMeshContactGeneration
 {
 	PX_NOCOPY(PCMMeshContactGeneration)
 public:
-	PCMContactPatch							mContactPatch[PCM_MAX_CONTACTPATCH_SIZE];
-	PCMContactPatch*						mContactPatchPtr[PCM_MAX_CONTACTPATCH_SIZE];
-	const Ps::aos::FloatV					mContactDist;
-	const Ps::aos::FloatV					mReplaceBreakingThreshold;
-	const Ps::aos::PsTransformV&			mConvexTransform;
-	const Ps::aos::PsTransformV&			mMeshTransform;
-	Gu::MultiplePersistentContactManifold&	mMultiManifold;
-	Gu::ContactBuffer&						mContactBuffer;
+	PCMContactPatch										mContactPatch[PCM_MAX_CONTACTPATCH_SIZE];
+	PCMContactPatch*									mContactPatchPtr[PCM_MAX_CONTACTPATCH_SIZE];
+	const Ps::aos::FloatV								mContactDist;
+	const Ps::aos::FloatV								mReplaceBreakingThreshold;
+	const Ps::aos::PsTransformV&						mConvexTransform;
+	const Ps::aos::PsTransformV&						mMeshTransform;
+	Gu::MultiplePersistentContactManifold&				mMultiManifold;
+	Gu::ContactBuffer&									mContactBuffer;
 
-	Ps::aos::FloatV							mAcceptanceEpsilon;
-	Ps::aos::FloatV							mSqReplaceBreakingThreshold;
-	Ps::aos::PsMatTransformV				mMeshToConvex;
-	Gu::MeshPersistentContact*				mManifoldContacts;
-	PxU32									mNumContacts;
-	PxU32									mNumContactPatch;
-	PxU32									mNumCalls;
-	Cm::RenderOutput*						mRenderOutput;
+	Ps::aos::FloatV										mAcceptanceEpsilon;
+	Ps::aos::FloatV										mSqReplaceBreakingThreshold;
+	Ps::aos::PsMatTransformV							mMeshToConvex;
+	Gu::MeshPersistentContact*							mManifoldContacts;
+	PxU32												mNumContacts;
+	PxU32												mNumContactPatch;
+	PxU32												mNumCalls;
+	Gu::CacheMap<Gu::CachedEdge, MAX_CACHE_SIZE>		mEdgeCache;
+	Ps::InlineArray<PxU32, LOCAL_CONTACTS_SIZE>*		mDeferredContacts;
+	Cm::RenderOutput*									mRenderOutput;
+	
 
 	PCMMeshContactGeneration(
 		const Ps::aos::FloatVArg	contactDist,
@@ -73,6 +78,7 @@ public:
 		const Ps::aos::PsTransformV& meshTransform,
 		Gu::MultiplePersistentContactManifold& multiManifold,
 		Gu::ContactBuffer& contactBuffer,
+		Ps::InlineArray<PxU32, LOCAL_CONTACTS_SIZE>* deferredContacts,
 		Cm::RenderOutput*  renderOutput
 
 	) :
@@ -82,6 +88,7 @@ public:
 		mMeshTransform(meshTransform),
 		mMultiManifold(multiManifold),
 		mContactBuffer(contactBuffer),
+		mDeferredContacts(deferredContacts),
 		mRenderOutput(renderOutput)
 		
 	{
@@ -257,8 +264,6 @@ public:
 	PxU8	triFlags;			//57
 };
 
-#define MAX_CACHE_SIZE	128
-
 #if PX_VC 
     #pragma warning(push)
 	#pragma warning( disable : 4324 ) // Padding was added at the end of a structure because of a __declspec(align) value.
@@ -269,36 +274,33 @@ class PCMConvexVsMeshContactGeneration : public PCMMeshContactGeneration
 	PCMConvexVsMeshContactGeneration &operator=(PCMConvexVsMeshContactGeneration  &);
 
 public:
+	Gu::CacheMap<Gu::CachedVertex, MAX_CACHE_SIZE>		mVertexCache;
+	Ps::aos::Vec3V										mHullCenterMesh;
 
-	Gu::CacheMap<Gu::CachedEdge, MAX_CACHE_SIZE>	mEdgeCache;
-	Gu::CacheMap<Gu::CachedVertex, MAX_CACHE_SIZE>	mVertexCache;
-	Ps::aos::Vec3V									mHullCenterMesh;
-
-	Ps::InlineArray<PxU32,LOCAL_CONTACTS_SIZE>&		mDeferredContacts;
-	const Gu::PolygonalData&						mPolyData;
-	SupportLocal*									mPolyMap;
-	const Cm::FastVertex2ShapeScaling&				mConvexScaling;  
-	bool											mIdtConvexScale;
-	Cm::RenderOutput*								mRenderOutput;
+	const Gu::PolygonalData&							mPolyData;
+	SupportLocal*										mPolyMap;
+	const Cm::FastVertex2ShapeScaling&					mConvexScaling;  
+	bool												mIdtConvexScale;
+	Cm::RenderOutput*									mRenderOutput;
 	
 				
 	PCMConvexVsMeshContactGeneration(
-		const Ps::aos::FloatVArg				contactDistance,
-		const Ps::aos::FloatVArg				replaceBreakingThreshold,
-		const Ps::aos::PsTransformV&			convexTransform, 
-		const Ps::aos::PsTransformV&			meshTransform,
-		Gu::MultiplePersistentContactManifold&	multiManifold,
-		Gu::ContactBuffer&						contactBuffer,
+		const Ps::aos::FloatVArg						contactDistance,
+		const Ps::aos::FloatVArg						replaceBreakingThreshold,
+		const Ps::aos::PsTransformV&					convexTransform, 
+		const Ps::aos::PsTransformV&					meshTransform,
+		Gu::MultiplePersistentContactManifold&			multiManifold,
+		Gu::ContactBuffer&								contactBuffer,
 
-		const Gu::PolygonalData&				polyData,
-		SupportLocal*							polyMap,
-		Ps::InlineArray<PxU32,LOCAL_CONTACTS_SIZE>&	 delayedContacts,
-		const Cm::FastVertex2ShapeScaling&		convexScaling,
-		bool									idtConvexScale,
-		Cm::RenderOutput*						renderOutput
+		const Gu::PolygonalData&						polyData,
+		SupportLocal*									polyMap,
+		Ps::InlineArray<PxU32,LOCAL_CONTACTS_SIZE>*		delayedContacts,
+		const Cm::FastVertex2ShapeScaling&				convexScaling,
+		bool											idtConvexScale,
+		Cm::RenderOutput*								renderOutput
 		
-	) : PCMMeshContactGeneration(contactDistance, replaceBreakingThreshold, convexTransform, meshTransform, multiManifold, contactBuffer, renderOutput),
-		mDeferredContacts(delayedContacts),
+	) : PCMMeshContactGeneration(contactDistance, replaceBreakingThreshold, convexTransform, meshTransform, multiManifold, contactBuffer, 
+		delayedContacts, renderOutput),
 		mPolyData(polyData),
 		mPolyMap(polyMap),
 		mConvexScaling(convexScaling),
@@ -334,26 +336,39 @@ public:
      #pragma warning(pop) 
 #endif
 
+struct SortedTriangle
+{
+	Ps::aos::FloatV		mSquareDist;
+	PxU32				mIndex;
+
+	PX_FORCE_INLINE bool operator < (const SortedTriangle& data) const
+	{
+		return Ps::aos::FAllGrtrOrEq(mSquareDist, data.mSquareDist) ==0;
+	}
+};
+
 class PCMSphereVsMeshContactGeneration : public PCMMeshContactGeneration
 {
 public:
-	Ps::aos::Vec3V	mSphereCenter;
-	Ps::aos::FloatV mSphereRadius;
-	Ps::aos::FloatV	mSqInflatedSphereRadius;
+	Ps::aos::Vec3V									mSphereCenter;
+	Ps::aos::FloatV									mSphereRadius;
+	Ps::aos::FloatV									mSqInflatedSphereRadius;
+	Ps::InlineArray<SortedTriangle, 64>				mSortedTriangle;
 
-				
 	PCMSphereVsMeshContactGeneration(
-		const Ps::aos::Vec3VArg		sphereCenter,
-		const Ps::aos::FloatVArg	sphereRadius,
-		const Ps::aos::FloatVArg	contactDist,
-		const Ps::aos::FloatVArg	replaceBreakingThreshold,
-		const Ps::aos::PsTransformV& sphereTransform,
-		const Ps::aos::PsTransformV& meshTransform,
-		Gu::MultiplePersistentContactManifold& multiManifold,
-		Gu::ContactBuffer&			contactBuffer,
+		const Ps::aos::Vec3VArg							sphereCenter,
+		const Ps::aos::FloatVArg						sphereRadius,
+		const Ps::aos::FloatVArg						contactDist,
+		const Ps::aos::FloatVArg						replaceBreakingThreshold,
+		const Ps::aos::PsTransformV&					sphereTransform,
+		const Ps::aos::PsTransformV&					meshTransform,
+		MultiplePersistentContactManifold&				multiManifold,
+		ContactBuffer&									contactBuffer,
+		Ps::InlineArray<PxU32, LOCAL_CONTACTS_SIZE>*	deferredContacts,
 		Cm::RenderOutput*			renderOutput = NULL
 
-	) : PCMMeshContactGeneration(contactDist, replaceBreakingThreshold, sphereTransform, meshTransform, multiManifold, contactBuffer, renderOutput),
+	) : PCMMeshContactGeneration(contactDist, replaceBreakingThreshold, sphereTransform, meshTransform, multiManifold, 
+		contactBuffer, deferredContacts, renderOutput),
 		mSphereCenter(sphereCenter),
 		mSphereRadius(sphereRadius)
 	{
@@ -362,8 +377,10 @@ public:
 		mSqInflatedSphereRadius = FMul(inflatedSphereRadius, inflatedSphereRadius);
 	}
 
-
 	bool processTriangle(const PxVec3* verts, PxU32 triangleIndex, PxU8 triFlags, const PxU32* vertInds);
+	void generateLastContacts();
+	void addToPatch(const Ps::aos::Vec3VArg contactP, const Ps::aos::Vec3VArg patchNormal, 
+		const Ps::aos::FloatV pen, const PxU32 triangleIndex);
 };
 
 class PCMCapsuleVsMeshContactGeneration : public PCMMeshContactGeneration
@@ -376,16 +393,18 @@ public:
 
 				
 	PCMCapsuleVsMeshContactGeneration( 
-		const CapsuleV&				capsule,
-		const Ps::aos::FloatVArg	contactDist,
-		const Ps::aos::FloatVArg	replaceBreakingThreshold,
-		const Ps::aos::PsTransformV& sphereTransform,
-		const Ps::aos::PsTransformV& meshTransform,
-		Gu::MultiplePersistentContactManifold& multiManifold,
-		Gu::ContactBuffer& contactBuffer,
-		Cm::RenderOutput*			renderOutput = NULL
+		const CapsuleV&									capsule,
+		const Ps::aos::FloatVArg						contactDist,
+		const Ps::aos::FloatVArg						replaceBreakingThreshold,
+		const Ps::aos::PsTransformV&					sphereTransform,
+		const Ps::aos::PsTransformV&					meshTransform,
+		Gu::MultiplePersistentContactManifold&			multiManifold,
+		Gu::ContactBuffer&								contactBuffer,
+		Ps::InlineArray<PxU32, LOCAL_CONTACTS_SIZE>*	deferredContacts,
+		Cm::RenderOutput*								renderOutput = NULL
 
-	) : PCMMeshContactGeneration(contactDist, replaceBreakingThreshold, sphereTransform, meshTransform, multiManifold, contactBuffer, renderOutput),
+	) : PCMMeshContactGeneration(contactDist, replaceBreakingThreshold, sphereTransform, meshTransform, multiManifold, contactBuffer, 
+		deferredContacts, renderOutput),
 		mCapsule(capsule)
 	{
 		using namespace Ps::aos;

@@ -264,6 +264,12 @@ namespace
 			{
 				mRenderer.visualizeDoubleCone(t, PxF32(angle), active);
 			}
+
+			virtual void visualizeLine( const PxVec3& p0, const PxVec3& p1, PxU32 color)
+			{
+				const PvdDebugLine line(p0, p1, color);
+				mRenderer.drawLines(&line, 1);
+			}
 		};
 	}
 

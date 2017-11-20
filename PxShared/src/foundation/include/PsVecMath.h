@@ -48,7 +48,7 @@
 
 // enable/disable SIMD
 #if !defined(PX_SIMD_DISABLED)
-#if PX_INTEL_FAMILY && (!defined(__EMSCRIPTEN__) || defined(__SSE2__))
+#if PX_INTEL_FAMILY && (!PX_EMSCRIPTEN || defined(__SSE2__))
 #define COMPILE_VECTOR_INTRINSICS 1
 #elif PX_ANDROID&& PX_NEON
 #define COMPILE_VECTOR_INTRINSICS 1

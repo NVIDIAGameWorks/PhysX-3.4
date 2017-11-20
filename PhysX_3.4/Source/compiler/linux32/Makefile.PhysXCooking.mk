@@ -94,7 +94,7 @@ PhysXCooking_release_common_cflags    += $(addprefix -I, $(PhysXCooking_release_
 PhysXCooking_release_common_cflags  += -m32
 PhysXCooking_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCooking_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCooking_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCooking_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCooking_release_common_cflags  += -Wno-missing-field-initializers
 PhysXCooking_release_common_cflags  += -O3 -fno-strict-aliasing
 PhysXCooking_release_cflags	:= $(PhysXCooking_release_common_cflags)
@@ -213,7 +213,7 @@ PhysXCooking_debug_common_cflags    += $(addprefix -I, $(PhysXCooking_debug_hpat
 PhysXCooking_debug_common_cflags  += -m32
 PhysXCooking_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCooking_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCooking_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCooking_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCooking_debug_common_cflags  += -Wno-missing-field-initializers
 PhysXCooking_debug_common_cflags  += -g3 -gdwarf-2
 PhysXCooking_debug_cflags	:= $(PhysXCooking_debug_common_cflags)
@@ -331,7 +331,7 @@ PhysXCooking_checked_common_cflags    += $(addprefix -I, $(PhysXCooking_checked_
 PhysXCooking_checked_common_cflags  += -m32
 PhysXCooking_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCooking_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCooking_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCooking_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCooking_checked_common_cflags  += -Wno-missing-field-initializers
 PhysXCooking_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PhysXCooking_checked_cflags	:= $(PhysXCooking_checked_common_cflags)
@@ -449,7 +449,7 @@ PhysXCooking_profile_common_cflags    += $(addprefix -I, $(PhysXCooking_profile_
 PhysXCooking_profile_common_cflags  += -m32
 PhysXCooking_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PhysXCooking_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PhysXCooking_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PhysXCooking_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PhysXCooking_profile_common_cflags  += -Wno-missing-field-initializers
 PhysXCooking_profile_common_cflags  += -O3 -fno-strict-aliasing
 PhysXCooking_profile_cflags	:= $(PhysXCooking_profile_common_cflags)

@@ -265,17 +265,19 @@ public:
 	virtual void visualizeLimitCone( const PxTransform& t, PxReal ySwing, PxReal zSwing, bool active) = 0;
 
 	virtual void visualizeDoubleCone( const PxTransform& t, PxReal angle, bool active) = 0;
+
+	virtual void visualizeLine(const PxVec3& p0, const PxVec3& p1, PxU32 color) = 0;
 };
 
 /** solver constraint visualization function
 
 This function is called by the constraint post-solver framework to visualize the constraint
 
-\param[out] visualizer the render buffer to render to
-\param[in] constantBlock the constant data block
-\param[in] body0Transform The center of mass frame of the first constrained body (the identity if the actor is static, or a NULL pointer was provided for it)
-\param[in] body1Transform The center of mass frame of the second constrained body (the identity if the actor is static, or a NULL pointer was provided for it)
-\param[in] flags the visualization flags
+\param[out] visualizer		The render buffer to render to
+\param[in] constantBlock	The constant data block
+\param[in] body0Transform	The center of mass frame of the first constrained body (the identity if the actor is static, or a NULL pointer was provided for it)
+\param[in] body1Transform	The center of mass frame of the second constrained body (the identity if the actor is static, or a NULL pointer was provided for it)
+\param[in] flags			The visualization flags (PxConstraintVisualizationFlag)
 
 @see PxRenderBuffer 
 */

@@ -261,9 +261,7 @@ bool ConvexMeshBuilder::loadConvexHull(const PxConvexMeshDesc& desc, ConvexHullL
 			while (dest < pastLastDest)
 			{
 				const PxU16 * trig16 = reinterpret_cast<const PxU16*>(source);
-				*dest++ = trig16[0];
-				*dest++ = trig16[1];
-				*dest++ = trig16[2];
+				*dest++ = *trig16;
 				source += desc.indices.stride;
 			}
 		}

@@ -66,7 +66,7 @@ LowLevelAABB_debug_common_cflags    += $(addprefix -I, $(LowLevelAABB_debug_hpat
 LowLevelAABB_debug_common_cflags  += -m32
 LowLevelAABB_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelAABB_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelAABB_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelAABB_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelAABB_debug_common_cflags  += -Wno-missing-field-initializers
 LowLevelAABB_debug_common_cflags  += -g3 -gdwarf-2
 LowLevelAABB_debug_cflags	:= $(LowLevelAABB_debug_common_cflags)
@@ -166,7 +166,7 @@ LowLevelAABB_checked_common_cflags    += $(addprefix -I, $(LowLevelAABB_checked_
 LowLevelAABB_checked_common_cflags  += -m32
 LowLevelAABB_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelAABB_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelAABB_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelAABB_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelAABB_checked_common_cflags  += -Wno-missing-field-initializers
 LowLevelAABB_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 LowLevelAABB_checked_cflags	:= $(LowLevelAABB_checked_common_cflags)
@@ -266,7 +266,7 @@ LowLevelAABB_profile_common_cflags    += $(addprefix -I, $(LowLevelAABB_profile_
 LowLevelAABB_profile_common_cflags  += -m32
 LowLevelAABB_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelAABB_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelAABB_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelAABB_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelAABB_profile_common_cflags  += -Wno-missing-field-initializers
 LowLevelAABB_profile_common_cflags  += -O3 -fno-strict-aliasing
 LowLevelAABB_profile_cflags	:= $(LowLevelAABB_profile_common_cflags)
@@ -365,7 +365,7 @@ LowLevelAABB_release_common_cflags    += $(addprefix -I, $(LowLevelAABB_release_
 LowLevelAABB_release_common_cflags  += -m32
 LowLevelAABB_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelAABB_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelAABB_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelAABB_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelAABB_release_common_cflags  += -Wno-missing-field-initializers
 LowLevelAABB_release_common_cflags  += -O3 -fno-strict-aliasing
 LowLevelAABB_release_cflags	:= $(LowLevelAABB_release_common_cflags)

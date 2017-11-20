@@ -78,7 +78,7 @@ SceneQuery_debug_common_cflags    += $(addprefix -I, $(SceneQuery_debug_hpaths))
 SceneQuery_debug_common_cflags  += -m64
 SceneQuery_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SceneQuery_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SceneQuery_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SceneQuery_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SceneQuery_debug_common_cflags  += -Wno-missing-field-initializers
 SceneQuery_debug_common_cflags  += -g3 -gdwarf-2
 SceneQuery_debug_cflags	:= $(SceneQuery_debug_common_cflags)
@@ -187,7 +187,7 @@ SceneQuery_checked_common_cflags    += $(addprefix -I, $(SceneQuery_checked_hpat
 SceneQuery_checked_common_cflags  += -m64
 SceneQuery_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SceneQuery_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SceneQuery_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SceneQuery_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SceneQuery_checked_common_cflags  += -Wno-missing-field-initializers
 SceneQuery_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 SceneQuery_checked_cflags	:= $(SceneQuery_checked_common_cflags)
@@ -296,7 +296,7 @@ SceneQuery_profile_common_cflags    += $(addprefix -I, $(SceneQuery_profile_hpat
 SceneQuery_profile_common_cflags  += -m64
 SceneQuery_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SceneQuery_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SceneQuery_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SceneQuery_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SceneQuery_profile_common_cflags  += -Wno-missing-field-initializers
 SceneQuery_profile_common_cflags  += -O3 -fno-strict-aliasing
 SceneQuery_profile_cflags	:= $(SceneQuery_profile_common_cflags)
@@ -404,7 +404,7 @@ SceneQuery_release_common_cflags    += $(addprefix -I, $(SceneQuery_release_hpat
 SceneQuery_release_common_cflags  += -m64
 SceneQuery_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 SceneQuery_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-SceneQuery_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+SceneQuery_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 SceneQuery_release_common_cflags  += -Wno-missing-field-initializers
 SceneQuery_release_common_cflags  += -O3 -fno-strict-aliasing
 SceneQuery_release_cflags	:= $(SceneQuery_release_common_cflags)

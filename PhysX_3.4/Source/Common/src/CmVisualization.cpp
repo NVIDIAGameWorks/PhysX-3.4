@@ -62,7 +62,7 @@ void Cm::visualizeLinearLimit(RenderOutput& out,
 	PxTransform r(t0.p+value*t0.q.getBasisVector0(), t0.q*PxQuat(PxPi/2,PxVec3(0,1.f,0)));
 	out << (active ? PxDebugColor::eARGB_RED : PxDebugColor::eARGB_GREY);
 	out << PxTransform(PxIdentity);
-	out << Cm::DebugArrow(t0.p,r.p);
+	out << Cm::DebugArrow(t0.p,r.p-t0.p);
 
 	out << r << Cm::DebugCircle(20, scale*0.3f);
 }
@@ -132,7 +132,7 @@ void Cm::visualizeDoubleCone(Cm::RenderOutput& out,
 
 	out << t << (active ? PxDebugColor::eARGB_RED : PxDebugColor::eARGB_GREY);	
 
-	const PxReal height = PxSin(angle);//, radius = cos(angle);
+	const PxReal height = PxTan(angle);
 
 	const PxU32 LINES = 32;
 

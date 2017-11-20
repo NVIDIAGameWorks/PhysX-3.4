@@ -30,7 +30,7 @@
 #include "foundation/PxSimpleTypes.h"
 #include "PsCpu.h"
 
-#if PX_X86 && !defined(__EMSCRIPTEN__)
+#if PX_X86 && !PX_EMSCRIPTEN
 #define cpuid(op, reg)                                                                                                 \
 	__asm__ __volatile__("pushl %%ebx      \n\t" /* save %ebx */                                                       \
 	                     "cpuid            \n\t"                                                                       \

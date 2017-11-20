@@ -148,12 +148,35 @@ void DistanceJoint::setDistanceJointFlag(PxDistanceJointFlag::Enum flag, bool va
 
 namespace
 {
-void DistanceJointVisualize(PxConstraintVisualizer& /*viz*/,
-							const void* /*constantBlock*/,
-							const PxTransform& /*body0Transform*/,
-							const PxTransform& /*body1Transform*/,
-							PxU32 /*flags*/)
+static void DistanceJointVisualize(PxConstraintVisualizer& viz, const void* constantBlock, const PxTransform& body0Transform, const PxTransform& body1Transform, PxU32 flags)
 {
+	const DistanceJointData& data = *reinterpret_cast<const DistanceJointData*>(constantBlock);
+
+	const PxTransform cA2w = body0Transform.transform(data.c2b[0]);
+	const PxTransform cB2w = body1Transform.transform(data.c2b[1]);
+
+	if(flags & PxConstraintVisualizationFlag::eLOCAL_FRAMES)
+		viz.visualizeJointFrames(cA2w, cB2w);
+
+	// PT: we consider the following is part of the joint's "limits" since that's the only available flag we have
+	if(flags & PxConstraintVisualizationFlag::eLIMITS)
+	{
+		const bool enforceMax = (data.jointFlags & PxDistanceJointFlag::eMAX_DISTANCE_ENABLED);
+		const bool enforceMin = (data.jointFlags & PxDistanceJointFlag::eMIN_DISTANCE_ENABLED);
+		if(!enforceMin && !enforceMax)
+			return;
+
+		PxVec3 dir = cB2w.p - cA2w.p;
+		const float currentDist = dir.normalize();
+
+		PxU32 color = 0x00ff00;
+		if(enforceMax && currentDist>data.maxDistance)
+			color = 0xff0000;
+		if(enforceMin && currentDist<data.minDistance)
+			color = 0x0000ff;
+
+		viz.visualizeLine(cA2w.p, cB2w.p, color);
+	}
 }
 
 void DistanceJointProject(const void* /*constantBlock*/,

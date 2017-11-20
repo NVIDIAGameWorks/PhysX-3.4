@@ -103,8 +103,8 @@ Sc::ShapeInteraction::ShapeInteraction(ShapeSim& s1, ShapeSim& s2, ActorPair* aP
 		mEdgeIndex = simpleIslandManager->addContactManager(NULL, indexA, indexB, this);
 
 		bool active = registerInActors(contactManager);
+		scene.getNPhaseCore()->registerInteraction(this);
 		scene.registerInteraction(this, active);  // this will call onActivate() on the interaction
-
 	}
 	else
 	{

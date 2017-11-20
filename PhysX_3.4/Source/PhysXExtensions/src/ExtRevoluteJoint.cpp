@@ -82,7 +82,7 @@ PxReal RevoluteJoint::getAngle() const
 
 PxReal RevoluteJoint::getVelocity() const
 {
-	return getRelativeAngularVelocity().x;
+	return getRelativeAngularVelocity().magnitude();
 }
 
 
@@ -94,7 +94,7 @@ PxJointAngularLimitPair RevoluteJoint::getLimit()	const
 
 void RevoluteJoint::setLimit(const PxJointAngularLimitPair& limit)
 { 
-	PX_CHECK_AND_RETURN(limit.isValid(), "PxRevoluteJoint::setTwistLimit: limit invalid");
+	PX_CHECK_AND_RETURN(limit.isValid(), "PxRevoluteJoint::setLimit: limit invalid");
 	PX_CHECK_AND_RETURN(limit.lower>-PxPi && limit.upper<PxPi , "PxRevoluteJoint::twist limit must be strictly -*PI and PI");
 	PX_CHECK_AND_RETURN(limit.upper - limit.lower < PxTwoPi, "PxRevoluteJoint::twist limit range must be strictly less than 2*PI");
 	data().limit = limit; 
@@ -226,17 +226,42 @@ void RevoluteJointVisualize(PxConstraintVisualizer& viz,
 		 					const void* constantBlock,
 							const PxTransform& body0Transform,
 							const PxTransform& body1Transform,
-							PxU32 /*flags*/)
+							PxU32 flags)
 {
 	const RevoluteJointData& data = *reinterpret_cast<const RevoluteJointData*>(constantBlock);
 
 	const PxTransform& t0 = body0Transform * data.c2b[0];
 	const PxTransform& t1 = body1Transform * data.c2b[1];
 
-	viz.visualizeJointFrames(t0, t1);
+	if(flags & PxConstraintVisualizationFlag::eLOCAL_FRAMES)
+		viz.visualizeJointFrames(t0, t1);
 
-	if(data.jointFlags & PxRevoluteJointFlag::eLIMIT_ENABLED)
-		viz.visualizeAngularLimit(t0, data.limit.lower, data.limit.upper, false);
+	if((flags & PxConstraintVisualizationFlag::eLIMITS) && (data.jointFlags & PxRevoluteJointFlag::eLIMIT_ENABLED))
+	{
+		// PT: TODO: refactor this with the solver prep code
+		PxQuat cB2cAq = t0.q.getConjugate() * t1.q;
+		PxQuat twist(cB2cAq.x,0,0,cB2cAq.w);
+
+		PxReal magnitude = twist.normalize();
+		PxReal tqPhi = physx::intrinsics::fsel(magnitude - 1e-6f, twist.x / (1.0f + twist.w), 0.f);
+
+		PxReal quarterAngle = tqPhi;
+		PxReal lower = data.tqLow;
+		PxReal upper = data.tqHigh;
+		PxReal pad = data.tqPad;
+
+		if(data.limit.isSoft())
+			pad = 0;
+
+		bool active = false;
+		PX_ASSERT(lower<upper);
+		if(quarterAngle < lower+pad)
+			active = true;
+		if(quarterAngle > upper-pad)
+			active = true;
+
+		viz.visualizeAngularLimit(t0, data.limit.lower, data.limit.upper, active);
+	}
 }
 }
 

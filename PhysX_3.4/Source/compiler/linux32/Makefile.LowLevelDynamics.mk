@@ -87,7 +87,7 @@ LowLevelDynamics_debug_common_cflags    += $(addprefix -I, $(LowLevelDynamics_de
 LowLevelDynamics_debug_common_cflags  += -m32
 LowLevelDynamics_debug_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelDynamics_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelDynamics_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelDynamics_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelDynamics_debug_common_cflags  += -Wno-missing-field-initializers
 LowLevelDynamics_debug_common_cflags  += -g3 -gdwarf-2
 LowLevelDynamics_debug_cflags	:= $(LowLevelDynamics_debug_common_cflags)
@@ -191,7 +191,7 @@ LowLevelDynamics_checked_common_cflags    += $(addprefix -I, $(LowLevelDynamics_
 LowLevelDynamics_checked_common_cflags  += -m32
 LowLevelDynamics_checked_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelDynamics_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelDynamics_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelDynamics_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelDynamics_checked_common_cflags  += -Wno-missing-field-initializers
 LowLevelDynamics_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 LowLevelDynamics_checked_cflags	:= $(LowLevelDynamics_checked_common_cflags)
@@ -295,7 +295,7 @@ LowLevelDynamics_profile_common_cflags    += $(addprefix -I, $(LowLevelDynamics_
 LowLevelDynamics_profile_common_cflags  += -m32
 LowLevelDynamics_profile_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelDynamics_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelDynamics_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelDynamics_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelDynamics_profile_common_cflags  += -Wno-missing-field-initializers
 LowLevelDynamics_profile_common_cflags  += -O3 -fno-strict-aliasing
 LowLevelDynamics_profile_cflags	:= $(LowLevelDynamics_profile_common_cflags)
@@ -398,7 +398,7 @@ LowLevelDynamics_release_common_cflags    += $(addprefix -I, $(LowLevelDynamics_
 LowLevelDynamics_release_common_cflags  += -m32
 LowLevelDynamics_release_common_cflags  += -Werror -m32 -fPIC -msse2 -mfpmath=sse -malign-double -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 LowLevelDynamics_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-LowLevelDynamics_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+LowLevelDynamics_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 LowLevelDynamics_release_common_cflags  += -Wno-missing-field-initializers
 LowLevelDynamics_release_common_cflags  += -O3 -fno-strict-aliasing
 LowLevelDynamics_release_cflags	:= $(LowLevelDynamics_release_common_cflags)

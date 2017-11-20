@@ -56,21 +56,23 @@ public:
 	PCMCapsuleVsMeshContactGeneration		mGeneration;
 
 	PCMCapsuleVsHeightfieldContactGenerationCallback(
-		const Gu::CapsuleV&			capsule,
-		const Ps::aos::FloatVArg	contactDistance,
-		const Ps::aos::FloatVArg	replaceBreakingThreshold,
+		const Gu::CapsuleV&								capsule,
+		const Ps::aos::FloatVArg						contactDistance,
+		const Ps::aos::FloatVArg						replaceBreakingThreshold,
 	
-		const PsTransformV& capsuleTransform, 
-		const PsTransformV& heightfieldTransform,
-		const PxTransform&	heightfieldTransform1,
-		Gu::MultiplePersistentContactManifold& multiManifold,
-		Gu::ContactBuffer& contactBuffer,
+		const PsTransformV&								capsuleTransform, 
+		const PsTransformV&								heightfieldTransform,
+		const PxTransform&								heightfieldTransform1,
+		Gu::MultiplePersistentContactManifold&			multiManifold,
+		Gu::ContactBuffer&								contactBuffer,
+		Ps::InlineArray<PxU32, LOCAL_CONTACTS_SIZE>*	deferredContacts,
 		Gu::HeightFieldUtil& hfUtil 
 		
 		
 	) :
 		PCMHeightfieldContactGenerationCallback<PCMCapsuleVsHeightfieldContactGenerationCallback>(hfUtil, heightfieldTransform1),
-		mGeneration(capsule, contactDistance, replaceBreakingThreshold, capsuleTransform, heightfieldTransform, multiManifold, contactBuffer)
+		mGeneration(capsule, contactDistance, replaceBreakingThreshold, capsuleTransform, heightfieldTransform, multiManifold, 
+			contactBuffer, deferredContacts)
 	{
 	}
 
@@ -119,7 +121,6 @@ bool Gu::pcmContactCapsuleHeightField(GU_CONTACT_METHOD_ARGS)
 		const PxVec3 capsuleDirInMesh = transform1.rotateInv(tmp);
 		const Gu::CapsuleV capsule(V3LoadU(capsuleCenterInMesh), V3LoadU(capsuleDirInMesh), capsuleRadius);
 
-
 		PCMCapsuleVsHeightfieldContactGenerationCallback callback(
 			capsule,
 			contactDist,
@@ -129,6 +130,7 @@ bool Gu::pcmContactCapsuleHeightField(GU_CONTACT_METHOD_ARGS)
 			transform1,
 			multiManifold,
 			contactBuffer,
+			NULL,
 			hfUtil
 		);
 

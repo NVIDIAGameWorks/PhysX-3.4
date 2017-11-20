@@ -41,7 +41,7 @@ PsFastXml_debug_common_cflags    += $(addprefix -I, $(PsFastXml_debug_hpaths))
 PsFastXml_debug_common_cflags  += -m64
 PsFastXml_debug_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PsFastXml_debug_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PsFastXml_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PsFastXml_debug_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PsFastXml_debug_common_cflags  += -Wno-missing-field-initializers
 PsFastXml_debug_common_cflags  += -g3 -gdwarf-2
 PsFastXml_debug_cflags	:= $(PsFastXml_debug_common_cflags)
@@ -121,7 +121,7 @@ PsFastXml_release_common_cflags    += $(addprefix -I, $(PsFastXml_release_hpaths
 PsFastXml_release_common_cflags  += -m64
 PsFastXml_release_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PsFastXml_release_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PsFastXml_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PsFastXml_release_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PsFastXml_release_common_cflags  += -Wno-missing-field-initializers
 PsFastXml_release_common_cflags  += -O3 -fno-strict-aliasing
 PsFastXml_release_cflags	:= $(PsFastXml_release_common_cflags)
@@ -202,7 +202,7 @@ PsFastXml_checked_common_cflags    += $(addprefix -I, $(PsFastXml_checked_hpaths
 PsFastXml_checked_common_cflags  += -m64
 PsFastXml_checked_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PsFastXml_checked_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PsFastXml_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PsFastXml_checked_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PsFastXml_checked_common_cflags  += -Wno-missing-field-initializers
 PsFastXml_checked_common_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PsFastXml_checked_cflags	:= $(PsFastXml_checked_common_cflags)
@@ -283,7 +283,7 @@ PsFastXml_profile_common_cflags    += $(addprefix -I, $(PsFastXml_profile_hpaths
 PsFastXml_profile_common_cflags  += -m64
 PsFastXml_profile_common_cflags  += -Werror -m64 -fPIC -msse2 -mfpmath=sse -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden
 PsFastXml_profile_common_cflags  += -Wall -Wextra -Wstrict-aliasing=2 -fdiagnostics-show-option
-PsFastXml_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized
+PsFastXml_profile_common_cflags  += -Wno-invalid-offsetof -Wno-uninitialized -Wno-implicit-fallthrough
 PsFastXml_profile_common_cflags  += -Wno-missing-field-initializers
 PsFastXml_profile_common_cflags  += -O3 -fno-strict-aliasing
 PsFastXml_profile_cflags	:= $(PsFastXml_profile_common_cflags)

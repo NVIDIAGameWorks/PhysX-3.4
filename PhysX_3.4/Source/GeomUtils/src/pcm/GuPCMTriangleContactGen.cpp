@@ -1154,10 +1154,10 @@ namespace physx
 					{
 						//ML : defer the contacts generation
 						const PxU32 nb = sizeof(PCMDeferredPolyData)/sizeof(PxU32);
-						PxU32 newSize = nb + mDeferredContacts.size();
-	                    mDeferredContacts.reserve(newSize);
-						PCMDeferredPolyData* PX_RESTRICT data = reinterpret_cast<PCMDeferredPolyData*>(mDeferredContacts.end());
-	                    mDeferredContacts.forceSize_Unsafe(newSize);
+						PxU32 newSize = nb + mDeferredContacts->size();
+	                    mDeferredContacts->reserve(newSize);
+						PCMDeferredPolyData* PX_RESTRICT data = reinterpret_cast<PCMDeferredPolyData*>(mDeferredContacts->end());
+	                    mDeferredContacts->forceSize_Unsafe(newSize);
 
 						data->mTriangleIndex = triangleIndex;
 						data->mFeatureIndex = feature1;
