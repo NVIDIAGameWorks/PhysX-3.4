@@ -458,7 +458,7 @@ PxReal SweepAnyShapeMesh(GU_SWEEP_METHOD_ARGS)
 	PxVec3 unitDir = relTr;
 	PxReal length = unitDir.normalize();
 
-	PxMat33 matRot(lastTm0.q);
+	PxMat33 matRot(PxIdentity);
 
 
 	//1) Compute the swept bounds
@@ -655,7 +655,7 @@ PxReal SweepEstimateAnyShapeMesh(GU_SWEEP_ESTIMATE_ARGS)
 	PxVec3 unitDir = relTr;
 	PxReal length = unitDir.normalize();
 
-	PxMat33 matRot(lastTr0.q);
+	PxMat33 matRot(PxIdentity);
 
 	//1) Compute the swept bounds
 	Box sweptBox;
