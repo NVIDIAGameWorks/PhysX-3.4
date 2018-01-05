@@ -36,11 +36,11 @@
 
 #include "foundation/Px.h"
 
-/*Temporary disable support for VS2017 for windows platform, as we wait for compiler fix:
+/*Disable support for VS2017 prior version 15.5.1 for windows platform, because of a compiler bug:
 https://developercommunity.visualstudio.com/content/problem/66047/possible-compiler-bug.html
 */
-#if (PX_VC == 15) && PX_WINDOWS
-#error Visual studio 2017 is not supported because of a compiler bug, support will be enabled once a fix is out.
+#if (PX_VC == 15) && PX_WINDOWS && (_MSC_FULL_VER < 191225830)
+#error Visual studio 2017 prior to 15.5.1 is not supported because of a compiler bug.
 #endif
 
 // define API function declaration (public API only needed because of extensions)

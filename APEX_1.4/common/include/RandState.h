@@ -103,13 +103,22 @@ struct PRNGInfo
 // For CUDA PRNG: device part
 #ifdef __CUDACC__
 //*
+#if __CUDA_ARCH__ >= 300
+#define RAND_SCAN_OP(ofs) \
+	{ \
+		unsigned int a = aData[scanIdx], c = cData[scanIdx]; \
+		unsigned int aOfs = __shfl_up(a, ofs), cOfs = __shfl_up(c, ofs); \
+		if (idxInWarp >= ofs) { a = a * aOfs; c = c * aOfs + cOfs; } \
+		aData[scanIdx] = a; cData[scanIdx] = c; \
+	}
+#else
 #define RAND_SCAN_OP(ofs) \
 	{ \
 		unsigned int a = aData[scanIdx], c = cData[scanIdx]; \
 		unsigned int aOfs = aData[scanIdx - ofs], cOfs = cData[scanIdx - ofs]; \
-		aData[scanIdx] = a * aOfs; \
-		cData[scanIdx] = c * aOfs + cOfs; \
+		aData[scanIdx] = a * aOfs; cData[scanIdx] = c * aOfs + cOfs; \
 	}
+#endif
 /*/
 //THIS CODE CRASH ON CUDA 5.0.35
 #define RAND_SCAN_OP(ofs) \
@@ -120,7 +129,7 @@ struct PRNGInfo
 		aData[scanIdx] = val.a; cData[scanIdx] = val.c; \
 	}
 //*/
-PX_INLINE __device__ void randScanWarp(unsigned int scanIdx, volatile unsigned int* aData, volatile unsigned int* cData)
+PX_INLINE __device__ void randScanWarp(unsigned int scanIdx, volatile unsigned int* aData, volatile unsigned int* cData, unsigned int idxInWarp)
 {
 	RAND_SCAN_OP(1);
 	RAND_SCAN_OP(2);
@@ -146,7 +155,7 @@ PX_INLINE __device__ nvidia::LCG_PRNG randScanBlock(nvidia::LCG_PRNG val, volati
 	aData[scanIdx] = val.a;
 	cData[scanIdx] = val.c;
 
-	randScanWarp(scanIdx, aData, cData);
+	randScanWarp(scanIdx, aData, cData, idxInWarp);
 
 	//read value
 	val.a = aData[scanIdx]; 
@@ -164,7 +173,7 @@ PX_INLINE __device__ nvidia::LCG_PRNG randScanBlock(nvidia::LCG_PRNG val, volati
 
 	if (warpIdx == 0)
 	{
-		randScanWarp(scanIdx, aData, cData);
+		randScanWarp(scanIdx, aData, cData, idxInWarp);
 	}
 	__syncthreads();
 

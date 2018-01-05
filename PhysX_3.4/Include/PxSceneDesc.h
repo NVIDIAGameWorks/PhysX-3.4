@@ -319,7 +319,7 @@ struct PxSceneFlag
 
 		@see PxScene::flushSceneQueryUpdates()
 
-		<b>Default:</b> true
+		<b>Default:</b> false
 		*/
 
 		eSUPPRESS_EAGER_SCENE_QUERY_REFIT = (1 << 18),

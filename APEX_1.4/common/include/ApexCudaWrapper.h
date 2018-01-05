@@ -56,25 +56,29 @@ struct ApexKernelConfig
 	uint32_t fixedSharedMemDWords;
 	uint32_t sharedMemDWordsPerWarp;
 	DimBlock blockDim;
-	uint32_t minWarpsPerBlock;
 	uint32_t maxGridSize;
+	uint32_t maxGridSizeMul;
+	uint32_t maxGridSizeDiv;
 
-	ApexKernelConfig() { fixedSharedMemDWords = sharedMemDWordsPerWarp = 0; blockDim = DimBlock(0, 0, 0); minWarpsPerBlock = 1; maxGridSize = MAX_BOUND_BLOCKS; }
-	ApexKernelConfig(uint32_t fixedSharedMemDWords, uint32_t sharedMemDWordsPerWarp, int fixedWarpsPerBlock = 0, uint32_t minWarpsPerBlock = 1, uint32_t maxGridSize = MAX_BOUND_BLOCKS)
+	ApexKernelConfig() { fixedSharedMemDWords = sharedMemDWordsPerWarp = 0; blockDim = DimBlock(0, 0, 0); maxGridSize = maxGridSizeMul = 0; maxGridSizeDiv = 1; }
+	ApexKernelConfig(uint32_t fixedSharedMemDWords, uint32_t sharedMemDWordsPerWarp, int fixedWarpsPerBlock = 0, uint32_t maxGridSize = 0, uint32_t maxGridSizeMul = 0, uint32_t maxGridSizeDiv = 1)
 	{
 		this->fixedSharedMemDWords = fixedSharedMemDWords;
 		this->sharedMemDWordsPerWarp = sharedMemDWordsPerWarp;
 		this->blockDim = DimBlock(fixedWarpsPerBlock * WARP_SIZE);
-		this->minWarpsPerBlock = minWarpsPerBlock;
 		this->maxGridSize = maxGridSize;
+		this->maxGridSizeMul = maxGridSizeMul;
+		this->maxGridSizeDiv = maxGridSizeDiv;
+		//final maxGridSize = min(SMcount, maxGridSize [if (maxGridSize != 0)], maxBlockSize * maxGridSizeMul / maxGridSizeDiv [if (maxGridSizeMul != 0)])
 	}
 	ApexKernelConfig(uint32_t fixedSharedMemDWords, uint32_t sharedMemDWordsPerWarp, const DimBlock& blockDim)
 	{
 		this->fixedSharedMemDWords = fixedSharedMemDWords;
 		this->sharedMemDWordsPerWarp = sharedMemDWordsPerWarp;
 		this->blockDim = blockDim;
-		this->minWarpsPerBlock = 1;
-		this->maxGridSize = MAX_BOUND_BLOCKS;
+		this->maxGridSize = 0;
+		this->maxGridSizeMul = 0;
+		this->maxGridSizeDiv = 1;
 	}
 };
 

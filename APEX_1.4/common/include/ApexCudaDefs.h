@@ -33,10 +33,8 @@ const unsigned int WARP_SIZE = (1U << LOG2_WARP_SIZE);
 const unsigned int MAX_WARPS_PER_BLOCK = 32;
 const unsigned int MAX_THREADS_PER_BLOCK = (MAX_WARPS_PER_BLOCK << LOG2_WARP_SIZE);
 
-const unsigned int MAX_BOUND_BLOCKS = 64;
-
 //uncomment this line to force bound kernels to use defined number of CTAs
-//#define APEX_CUDA_FORCED_BLOCKS 60
+//#define APEX_CUDA_FORCED_BLOCKS 80
 
 
 namespace nvidia

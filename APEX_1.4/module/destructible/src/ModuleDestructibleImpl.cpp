@@ -711,12 +711,12 @@ template<typename T> uint32_t SyncParams::getSize() const
 	return sizeof(T);
 }
 
-template uint32_t SyncParams::getSize<DamageEventHeader>		() const;
-template uint32_t SyncParams::getSize<DamageEventUnit>		() const;
-template uint32_t SyncParams::getSize<FractureEventHeader>	() const;
-template uint32_t SyncParams::getSize<FractureEventUnit>		() const;
-template uint32_t SyncParams::getSize<ChunkTransformHeader>	() const;
-template uint32_t SyncParams::getSize<ChunkTransformUnit>		() const;
+template uint32_t ModuleDestructibleImpl::SyncParams::getSize<DamageEventHeader>		() const;
+template uint32_t ModuleDestructibleImpl::SyncParams::getSize<DamageEventUnit>		() const;
+template uint32_t ModuleDestructibleImpl::SyncParams::getSize<FractureEventHeader>	() const;
+template uint32_t ModuleDestructibleImpl::SyncParams::getSize<FractureEventUnit>		() const;
+template uint32_t ModuleDestructibleImpl::SyncParams::getSize<ChunkTransformHeader>	() const;
+template uint32_t ModuleDestructibleImpl::SyncParams::getSize<ChunkTransformUnit>		() const;
 
 const SyncParams & ModuleDestructibleImpl::getSyncParams() const
 {

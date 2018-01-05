@@ -107,7 +107,7 @@ const unsigned int APEX_CUDA_SINGLE_BLOCK_LAUNCH = 0xFFFFFFFF;
 	extern "C" __global__ void APEX_CUDA_NAME(kernelName)(int* _extMem, uint16_t _kernelEnum, uint32_t _threadCountX, uint32_t _threadCountY, uint32_t _threadCountZ, uint32_t _blockCountY, __APEX_CUDA_FUNC_ARGS(argseq) );
 
 #define APEX_CUDA_BOUND_KERNEL(kernelWarps, kernelName, argseq) \
-	extern "C" __global__ void APEX_CUDA_NAME(kernelName)(int* _extMem, uint16_t _kernelEnum, uint32_t _threadCount, __APEX_CUDA_FUNC_ARGS(argseq) );
+	extern "C" __global__ void APEX_CUDA_NAME(kernelName)(int* _extMem, uint16_t _kernelEnum, uint32_t _threadCount, uint32_t _maxGridSize, __APEX_CUDA_FUNC_ARGS(argseq) );
 
 #define APEX_CUDA_SYNC_KERNEL(kernelWarps, kernelName, argseq) \
 	extern "C" __global__ void APEX_CUDA_NAME(kernelName)(int* _extMem, uint16_t _kernelEnum, __APEX_CUDA_FUNC_ARGS(argseq) );
@@ -219,7 +219,7 @@ const unsigned int APEX_CUDA_SINGLE_BLOCK_LAUNCH = 0xFFFFFFFF;
 			outDynamicShared = fixedSharedMem + sharedMemPerWarp * outWarpsPerBlock; \
 			PX_ASSERT(fid.mStaticSharedSize + outDynamicShared <= devTraits.mMaxSharedMemPerBlock); \
 			PX_ASSERT(outWarpsPerBlock * WARP_SIZE <= fid.mMaxThreadsPerBlock); \
-			PX_ASSERT(outWarpsPerBlock >= kernelConfig.minWarpsPerBlock); \
+			PX_ASSERT(outWarpsPerBlock > 0); \
 		} \
 		virtual void init( PxCudaContextManager* ctx, int funcInstIndex ) \
 		{ \
@@ -230,6 +230,7 @@ const unsigned int APEX_CUDA_SINGLE_BLOCK_LAUNCH = 0xFFFFFFFF;
 			 
 
 #define __APEX_CUDA_KERNEL_WARPS_END(name, argseq) \
+			PX_ASSERT(mMaxBlocksPerGrid > 0); \
 		} \
 	private: \
 		uint32_t mMaxBlocksPerGrid; \
@@ -257,6 +258,7 @@ const unsigned int APEX_CUDA_SINGLE_BLOCK_LAUNCH = 0xFFFFFFFF;
 			launch1(fid, params, stream); \
 			if (mCTContext)	mCTContext->setBoundKernel(_threadCount); \
 			setParam(params, _threadCount); \
+			if (mMaxBlocksPerGrid != UINT_MAX) setParam(params, mMaxBlocksPerGrid); \
 			launch2(fid, DimBlock(threadsPerBlock), dynamicShared, params, stream, DimGrid(blocksPerGrid), __APEX_CUDA_FUNC_$ARG_NAMES(argseq) ); \
 			return blocksPerGrid; \
 		} \
@@ -268,12 +270,14 @@ const unsigned int APEX_CUDA_SINGLE_BLOCK_LAUNCH = 0xFFFFFFFF;
 		} \
 		uint32_t operator() ( const ApexKernelConfig& kernelConfig, CUstream stream, unsigned int _threadCount, __APEX_CUDA_FUNC_$ARGS(argseq) ) \
 		{ \
+			PX_ASSERT(kernelConfig.maxGridSizeMul == 0); \
 			const FuncInstData& fid = getFuncInstData(); \
 			uint32_t warpsPerBlock; \
 			uint32_t dynamicShared; \
 			evalLaunchParams(kernelConfig, fid, warpsPerBlock, dynamicShared); \
 			return launch(fid, warpsPerBlock, dynamicShared, stream, _threadCount, __APEX_CUDA_FUNC_$ARG_NAMES(argseq) ); \
 		} \
+		uint32_t getMaxGridSize() const { return mMaxBlocksPerGrid; } \
 	} APEX_CUDA_OBJ_NAME(name); \
 
 
@@ -294,12 +298,23 @@ const unsigned int APEX_CUDA_SINGLE_BLOCK_LAUNCH = 0xFFFFFFFF;
 			uint32_t dynamicSharedSize = mManager->getDeviceTraits().mMaxSharedMemPerBlock - fid.mStaticSharedSize; \
 			launch2(fid, DimBlock(fid.mWarpsPerBlock * WARP_SIZE), dynamicSharedSize, params, stream, DimGrid(mBlocksPerGrid), __APEX_CUDA_FUNC_$ARG_NAMES(argseq) ); \
 		} \
+		uint32_t getMaxGridSize() const { return mBlocksPerGrid; } \
 	} APEX_CUDA_OBJ_NAME(name); \
 
 
 #define APEX_CUDA_BOUND_KERNEL(config, name, argseq) \
 	__APEX_CUDA_KERNEL_START(mManager->getDeviceTraits().mBlocksPerSM, config, name, argseq) \
-			mMaxBlocksPerGrid = PxMin(mManager->getDeviceTraits().mMaxBlocksPerGrid, kernelConfig.maxGridSize); \
+			mMaxBlocksPerGrid = mManager->getDeviceTraits().mMaxBlocksPerGrid; \
+			if (kernelConfig.maxGridSize != 0) \
+			{ \
+				mMaxBlocksPerGrid = PxMin(mMaxBlocksPerGrid, kernelConfig.maxGridSize); \
+			} \
+			if (kernelConfig.maxGridSizeMul != 0) \
+			{ \
+				const unsigned int maxGridSizeFromBlockDim = (fid.mWarpsPerBlock * WARP_SIZE * kernelConfig.maxGridSizeMul) / kernelConfig.maxGridSizeDiv; \
+				PX_ASSERT(maxGridSizeFromBlockDim > 0); \
+				mMaxBlocksPerGrid = PxMin(mMaxBlocksPerGrid, maxGridSizeFromBlockDim); \
+			} \
 	__APEX_CUDA_KERNEL_WARPS_END(name, argseq) \
 
 
