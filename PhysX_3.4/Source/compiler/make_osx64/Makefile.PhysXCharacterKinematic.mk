@@ -75,7 +75,7 @@ PhysXCharacterKinematic_debug_common_cflags    += $(addprefix -D, $(PhysXCharact
 PhysXCharacterKinematic_debug_common_cflags    += $(addprefix -I, $(PhysXCharacterKinematic_debug_hpaths))
 PhysXCharacterKinematic_debug_cflags	:= $(PhysXCharacterKinematic_debug_common_cflags)
 PhysXCharacterKinematic_debug_cflags  += -arch x86_64
-PhysXCharacterKinematic_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCharacterKinematic_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PhysXCharacterKinematic_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXCharacterKinematic_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCharacterKinematic_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -83,7 +83,7 @@ PhysXCharacterKinematic_debug_cflags  += -Wno-c++11-extensions
 PhysXCharacterKinematic_debug_cflags  += -g3 -gdwarf-2 -O0
 PhysXCharacterKinematic_debug_cppflags	:= $(PhysXCharacterKinematic_debug_common_cflags)
 PhysXCharacterKinematic_debug_cppflags  += -arch x86_64
-PhysXCharacterKinematic_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCharacterKinematic_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PhysXCharacterKinematic_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXCharacterKinematic_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCharacterKinematic_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -187,7 +187,7 @@ PhysXCharacterKinematic_checked_common_cflags    += $(addprefix -D, $(PhysXChara
 PhysXCharacterKinematic_checked_common_cflags    += $(addprefix -I, $(PhysXCharacterKinematic_checked_hpaths))
 PhysXCharacterKinematic_checked_cflags	:= $(PhysXCharacterKinematic_checked_common_cflags)
 PhysXCharacterKinematic_checked_cflags  += -arch x86_64
-PhysXCharacterKinematic_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCharacterKinematic_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PhysXCharacterKinematic_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXCharacterKinematic_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCharacterKinematic_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -195,7 +195,7 @@ PhysXCharacterKinematic_checked_cflags  += -Wno-c++11-extensions
 PhysXCharacterKinematic_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PhysXCharacterKinematic_checked_cppflags	:= $(PhysXCharacterKinematic_checked_common_cflags)
 PhysXCharacterKinematic_checked_cppflags  += -arch x86_64
-PhysXCharacterKinematic_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCharacterKinematic_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PhysXCharacterKinematic_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXCharacterKinematic_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCharacterKinematic_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -299,7 +299,7 @@ PhysXCharacterKinematic_profile_common_cflags    += $(addprefix -D, $(PhysXChara
 PhysXCharacterKinematic_profile_common_cflags    += $(addprefix -I, $(PhysXCharacterKinematic_profile_hpaths))
 PhysXCharacterKinematic_profile_cflags	:= $(PhysXCharacterKinematic_profile_common_cflags)
 PhysXCharacterKinematic_profile_cflags  += -arch x86_64
-PhysXCharacterKinematic_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCharacterKinematic_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PhysXCharacterKinematic_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXCharacterKinematic_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCharacterKinematic_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -307,7 +307,7 @@ PhysXCharacterKinematic_profile_cflags  += -Wno-c++11-extensions
 PhysXCharacterKinematic_profile_cflags  += -O3 -fno-strict-aliasing
 PhysXCharacterKinematic_profile_cppflags	:= $(PhysXCharacterKinematic_profile_common_cflags)
 PhysXCharacterKinematic_profile_cppflags  += -arch x86_64
-PhysXCharacterKinematic_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCharacterKinematic_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PhysXCharacterKinematic_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXCharacterKinematic_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCharacterKinematic_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -410,7 +410,7 @@ PhysXCharacterKinematic_release_common_cflags    += $(addprefix -D, $(PhysXChara
 PhysXCharacterKinematic_release_common_cflags    += $(addprefix -I, $(PhysXCharacterKinematic_release_hpaths))
 PhysXCharacterKinematic_release_cflags	:= $(PhysXCharacterKinematic_release_common_cflags)
 PhysXCharacterKinematic_release_cflags  += -arch x86_64
-PhysXCharacterKinematic_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCharacterKinematic_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PhysXCharacterKinematic_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXCharacterKinematic_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCharacterKinematic_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -418,7 +418,7 @@ PhysXCharacterKinematic_release_cflags  += -Wno-c++11-extensions
 PhysXCharacterKinematic_release_cflags  += -O3 -fno-strict-aliasing
 PhysXCharacterKinematic_release_cppflags	:= $(PhysXCharacterKinematic_release_common_cflags)
 PhysXCharacterKinematic_release_cppflags  += -arch x86_64
-PhysXCharacterKinematic_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCharacterKinematic_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PhysXCharacterKinematic_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 PhysXCharacterKinematic_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCharacterKinematic_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof

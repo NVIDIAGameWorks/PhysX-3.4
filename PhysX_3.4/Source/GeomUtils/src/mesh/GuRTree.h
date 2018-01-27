@@ -138,8 +138,7 @@ namespace Gu {
 		~RTree() { release(); }
 
 		PX_INLINE void release();
-		bool save(PxOutputStream& stream) const; // always saves as big endian
-		bool load(PxInputStream& stream, PxU32 meshVersion); // converts to proper endian at load time
+		bool load(PxInputStream& stream, PxU32 meshVersion, bool mismatch);
 
 		////////////////////////////////////////////////////////////////////////////
 		// QUERIES
@@ -215,8 +214,6 @@ namespace Gu {
 		PxU32			mTotalPages;
 		PxU32			mFlags; enum { USER_ALLOCATED = 0x1, IS_EDGE_SET = 0x2 };
 		RTreePage*		mPages;
-
-		static PxU32	mVersion;
 
 	protected:
 		typedef PxU32 NodeHandle;

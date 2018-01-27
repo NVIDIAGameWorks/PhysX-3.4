@@ -43,9 +43,6 @@
 
 namespace physx
 {
-
-#define RTREE_COOK_VERSION 1
-
 namespace Gu {
 	
 // 1: support stackless collision trees for non-recursive collision queries

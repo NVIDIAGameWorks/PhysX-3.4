@@ -62,7 +62,7 @@ namespace nvidia
 namespace apex
 {
 
-#if defined(_USRDLL) || PX_OSX
+#if defined(_USRDLL) || PX_OSX || (PX_LINUX && APEX_LINUX_SHARED_LIBRARIES)
 
 /* Modules don't have to link against the framework, they keep their own */
 ApexSDKIntl* gApexSdk = 0;
@@ -106,7 +106,7 @@ APEX_API Module*  CALL_CONV createModule(
 	return (Module*) impl;
 }
 
-#else // !defined(_USRDLL) && !PX_OSX
+#else // !defined(_USRDLL) && !PX_OSX && (!PX_LINUX || !APEX_LINUX_SHARED_LIBRARIES)
 
 /* Statically linking entry function */
 void instantiateModuleClothing()
@@ -116,7 +116,7 @@ void instantiateModuleClothing()
 	clothing::ModuleClothingImpl* impl = PX_NEW(clothing::ModuleClothingImpl)(sdk);
 	sdk->registerExternalModule((Module*) impl, (ModuleIntl*) impl);
 }
-#endif  // !defined(_USRDLL) && !PX_OSX
+#endif  // !defined(_USRDLL) && !PX_OSX && (!PX_LINUX || !APEX_LINUX_SHARED_LIBRARIES)
 }
 
 namespace clothing

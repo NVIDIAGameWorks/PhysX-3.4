@@ -75,7 +75,7 @@ const PxCookingParams& Cooking::getParams() const
 bool Cooking::platformMismatch() const
 {
 	// Get current endianness (the one for the platform where cooking is performed)
-	PxI8 currentEndian = Ps::littleEndian();
+	const PxI8 currentEndian = Ps::littleEndian();
 
 	bool mismatch = true;
 	switch(mParams.targetPlatform)

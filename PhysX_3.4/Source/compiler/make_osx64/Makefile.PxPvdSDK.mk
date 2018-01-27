@@ -56,14 +56,14 @@ PxPvdSDK_debug_common_cflags    += $(addprefix -D, $(PxPvdSDK_debug_defines))
 PxPvdSDK_debug_common_cflags    += $(addprefix -I, $(PxPvdSDK_debug_hpaths))
 PxPvdSDK_debug_cflags	:= $(PxPvdSDK_debug_common_cflags)
 PxPvdSDK_debug_cflags  += -arch x86_64
-PxPvdSDK_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxPvdSDK_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxPvdSDK_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxPvdSDK_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxPvdSDK_debug_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxPvdSDK_debug_cflags  += -g3 -gdwarf-2 -O0
 PxPvdSDK_debug_cppflags	:= $(PxPvdSDK_debug_common_cflags)
 PxPvdSDK_debug_cppflags  += -arch x86_64
-PxPvdSDK_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxPvdSDK_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxPvdSDK_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxPvdSDK_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxPvdSDK_debug_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -145,14 +145,14 @@ PxPvdSDK_release_common_cflags    += $(addprefix -D, $(PxPvdSDK_release_defines)
 PxPvdSDK_release_common_cflags    += $(addprefix -I, $(PxPvdSDK_release_hpaths))
 PxPvdSDK_release_cflags	:= $(PxPvdSDK_release_common_cflags)
 PxPvdSDK_release_cflags  += -arch x86_64
-PxPvdSDK_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxPvdSDK_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxPvdSDK_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxPvdSDK_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxPvdSDK_release_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxPvdSDK_release_cflags  += -O3 -fno-strict-aliasing
 PxPvdSDK_release_cppflags	:= $(PxPvdSDK_release_common_cflags)
 PxPvdSDK_release_cppflags  += -arch x86_64
-PxPvdSDK_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxPvdSDK_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxPvdSDK_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxPvdSDK_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxPvdSDK_release_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -235,14 +235,14 @@ PxPvdSDK_checked_common_cflags    += $(addprefix -D, $(PxPvdSDK_checked_defines)
 PxPvdSDK_checked_common_cflags    += $(addprefix -I, $(PxPvdSDK_checked_hpaths))
 PxPvdSDK_checked_cflags	:= $(PxPvdSDK_checked_common_cflags)
 PxPvdSDK_checked_cflags  += -arch x86_64
-PxPvdSDK_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxPvdSDK_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxPvdSDK_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxPvdSDK_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxPvdSDK_checked_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxPvdSDK_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PxPvdSDK_checked_cppflags	:= $(PxPvdSDK_checked_common_cflags)
 PxPvdSDK_checked_cppflags  += -arch x86_64
-PxPvdSDK_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxPvdSDK_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxPvdSDK_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxPvdSDK_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxPvdSDK_checked_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -325,14 +325,14 @@ PxPvdSDK_profile_common_cflags    += $(addprefix -D, $(PxPvdSDK_profile_defines)
 PxPvdSDK_profile_common_cflags    += $(addprefix -I, $(PxPvdSDK_profile_hpaths))
 PxPvdSDK_profile_cflags	:= $(PxPvdSDK_profile_common_cflags)
 PxPvdSDK_profile_cflags  += -arch x86_64
-PxPvdSDK_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxPvdSDK_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxPvdSDK_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxPvdSDK_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxPvdSDK_profile_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxPvdSDK_profile_cflags  += -O3 -fno-strict-aliasing
 PxPvdSDK_profile_cppflags	:= $(PxPvdSDK_profile_common_cflags)
 PxPvdSDK_profile_cppflags  += -arch x86_64
-PxPvdSDK_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxPvdSDK_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxPvdSDK_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxPvdSDK_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxPvdSDK_profile_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof

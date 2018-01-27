@@ -84,7 +84,7 @@ void SqBoundsManager::removeShape(ShapeSim& shape)
 	mBoundsIndices.popBack();
 }
 
-void SqBoundsManager::syncBounds(SqBoundsSync& sync, SqRefFinder& finder, const PxBounds3* bounds, PxU64 contextID)
+void SqBoundsManager::syncBounds(SqBoundsSync& sync, SqRefFinder& finder, const PxBounds3* bounds, PxU64 contextID, const Cm::BitMap& dirtyShapeSimMap)
 {
 	PX_PROFILE_ZONE("Sim.sceneQuerySyncBounds", contextID);
 	PX_UNUSED(contextID);
@@ -109,5 +109,5 @@ void SqBoundsManager::syncBounds(SqBoundsSync& sync, SqRefFinder& finder, const 
 	}
 	mRefless.clear();
 
-	sync.sync(mRefs.begin(), mBoundsIndices.begin(), bounds, mShapes.size());
+	sync.sync(mRefs.begin(), mBoundsIndices.begin(), bounds, mShapes.size(), dirtyShapeSimMap);
 }

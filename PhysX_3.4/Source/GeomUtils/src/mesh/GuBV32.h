@@ -117,7 +117,7 @@ namespace physx
 			PX_PHYSX_COMMON_API				BV32Tree(SourceMesh* meshInterface, const PxBounds3& localBounds);
 			PX_PHYSX_COMMON_API				~BV32Tree();
 
-			bool			load(PxInputStream& stream, PxU32 meshVersion); // converts to proper endian at load time
+			bool			load(PxInputStream& stream, bool mismatch);
 
 			void			calculateLeafNode(BV32Data& node);
 			void			createSOAformatNode(BV32DataPacked& packedData, const BV32Data& node, const PxU32 childOffset, PxU32& currentIndex, PxU32& nbPackedNodes);

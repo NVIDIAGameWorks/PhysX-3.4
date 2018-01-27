@@ -57,14 +57,14 @@ PxFoundation_debug_common_cflags    += $(addprefix -D, $(PxFoundation_debug_defi
 PxFoundation_debug_common_cflags    += $(addprefix -I, $(PxFoundation_debug_hpaths))
 PxFoundation_debug_cflags	:= $(PxFoundation_debug_common_cflags)
 PxFoundation_debug_cflags  += -arch i386
-PxFoundation_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxFoundation_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxFoundation_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_debug_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_debug_cflags  += -g3 -gdwarf-2 -O0
 PxFoundation_debug_cppflags	:= $(PxFoundation_debug_common_cflags)
 PxFoundation_debug_cppflags  += -arch i386
-PxFoundation_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxFoundation_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxFoundation_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_debug_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -141,14 +141,14 @@ PxFoundation_release_common_cflags    += $(addprefix -D, $(PxFoundation_release_
 PxFoundation_release_common_cflags    += $(addprefix -I, $(PxFoundation_release_hpaths))
 PxFoundation_release_cflags	:= $(PxFoundation_release_common_cflags)
 PxFoundation_release_cflags  += -arch i386
-PxFoundation_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxFoundation_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxFoundation_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_release_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_release_cflags  += -O3 -fno-strict-aliasing
 PxFoundation_release_cppflags	:= $(PxFoundation_release_common_cflags)
 PxFoundation_release_cppflags  += -arch i386
-PxFoundation_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxFoundation_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxFoundation_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_release_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -226,14 +226,14 @@ PxFoundation_checked_common_cflags    += $(addprefix -D, $(PxFoundation_checked_
 PxFoundation_checked_common_cflags    += $(addprefix -I, $(PxFoundation_checked_hpaths))
 PxFoundation_checked_cflags	:= $(PxFoundation_checked_common_cflags)
 PxFoundation_checked_cflags  += -arch i386
-PxFoundation_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxFoundation_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxFoundation_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_checked_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PxFoundation_checked_cppflags	:= $(PxFoundation_checked_common_cflags)
 PxFoundation_checked_cppflags  += -arch i386
-PxFoundation_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxFoundation_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxFoundation_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_checked_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -311,14 +311,14 @@ PxFoundation_profile_common_cflags    += $(addprefix -D, $(PxFoundation_profile_
 PxFoundation_profile_common_cflags    += $(addprefix -I, $(PxFoundation_profile_hpaths))
 PxFoundation_profile_cflags	:= $(PxFoundation_profile_common_cflags)
 PxFoundation_profile_cflags  += -arch i386
-PxFoundation_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxFoundation_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxFoundation_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_profile_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_profile_cflags  += -O3 -fno-strict-aliasing
 PxFoundation_profile_cppflags	:= $(PxFoundation_profile_common_cflags)
 PxFoundation_profile_cppflags  += -arch i386
-PxFoundation_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxFoundation_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
 PxFoundation_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_profile_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof

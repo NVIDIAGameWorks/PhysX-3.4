@@ -361,10 +361,7 @@ bool Gu::ConvexMesh::load(PxInputStream& stream)
 */
 
 // TEST_INTERNAL_OBJECTS
-	mHullData.mInternal.mRadius		= readFloat(mismatch, stream);
-	mHullData.mInternal.mExtents[0]	= readFloat(mismatch, stream);
-	mHullData.mInternal.mExtents[1]	= readFloat(mismatch, stream);
-	mHullData.mInternal.mExtents[2]	= readFloat(mismatch, stream);
+	readFloatBuffer(&mHullData.mInternal.mRadius, 4, mismatch, stream);
 
 	PX_ASSERT(PxVec3(mHullData.mInternal.mExtents[0], mHullData.mInternal.mExtents[1], mHullData.mInternal.mExtents[2]).isFinite());
 	PX_ASSERT(mHullData.mInternal.mExtents[0] != 0.0f);

@@ -35,7 +35,7 @@ namespace nvidia
 namespace apex
 {
 
-#if defined(_USRDLL) || PX_OSX
+#if defined(_USRDLL) || PX_OSX || (PX_LINUX && APEX_LINUX_SHARED_LIBRARIES)
 
 /* Modules don't have to link against the framework, they keep their own */
 ApexSDKIntl* gApexSdk = 0;

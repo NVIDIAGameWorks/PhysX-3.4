@@ -83,6 +83,10 @@
 #include <dlfcn.h>
 #endif
 
+#if PX_LINUX && APEX_LINUX_SHARED_LIBRARIES
+#include <dlfcn.h>
+#endif
+
 #if PX_X86
 #define PTR_TO_UINT64(x) ((uint64_t)(uint32_t)(x))
 #else
@@ -114,7 +118,7 @@ namespace apex
 
 extern ApexSDKImpl* gApexSdk;
 
-#if defined(_USRDLL) || PX_OSX
+#if defined(_USRDLL) || PX_OSX || (PX_LINUX && APEX_LINUX_SHARED_LIBRARIES)
 typedef Module* (NxCreateModule_FUNC)(ApexSDKIntl*, ModuleIntl**, uint32_t, uint32_t, ApexCreateError*);
 #else
 /* When modules are statically linked, the user must instantiate modules manually before they can be
@@ -793,7 +797,7 @@ Module* ApexSDKImpl::createModule(const char* name, ApexCreateError* err)
 	Module* newModule = NULL;
 	ModuleIntl* newIModule = NULL;
 
-#if defined(_USRDLL) || PX_OSX
+#if defined(_USRDLL) || PX_OSX || (PX_LINUX && APEX_LINUX_SHARED_LIBRARIES)
 	/* Dynamically linked module libraries */
 
 #if defined(WIN32)
@@ -892,6 +896,55 @@ Module* ApexSDKImpl::createModule(const char* name, ApexCreateError* err)
 			                             APEX_SDK_VERSION,
 			                             PX_PHYSICS_VERSION,
 			                             err);
+		}
+	}
+#elif (PX_LINUX && APEX_LINUX_SHARED_LIBRARIES)
+	ApexSimpleString soName = ApexSimpleString("libAPEX_") + ApexSimpleString(name);
+
+#if _DEBUG
+	// Request DEBUG so unless the user has explicitly asked for it
+	const size_t nameLen = strlen(name);
+	if (nameLen <= 5 || nvidia::strcmp(name + nameLen - 5, "DEBUG"))
+	{
+		soName += ApexSimpleString("DEBUG");
+	}
+#elif PX_CHECKED
+	soName += ApexSimpleString("CHECKED");
+#elif defined(PHYSX_PROFILE_SDK)
+	soName += ApexSimpleString("PROFILE");
+#endif
+	soName += mCustomDllNamePostfix;
+
+	soName += ApexSimpleString(".so");
+
+	ApexSimpleString soPath = mDllLoadPath + soName;
+
+	void* library = NULL;
+	{
+		// Check if so is already loaded
+		library = dlopen(soPath.c_str(), RTLD_NOLOAD | RTLD_LAZY | RTLD_LOCAL);
+		if (!library)
+		{
+			// Not loaded yet, so try to open it
+			library = dlopen(soPath.c_str(), RTLD_LAZY | RTLD_LOCAL);
+		}
+		if (!library)
+		{
+			// Still not loaded yet, so lets just try the soName
+			library = dlopen(soName.c_str(), RTLD_LAZY | RTLD_LOCAL);
+		}
+	}
+
+	if (library)
+	{
+		NxCreateModule_FUNC* createModuleFunc = (NxCreateModule_FUNC*)dlsym(library, "createModule");
+		if (createModuleFunc)
+		{
+			newModule = createModuleFunc((ApexSDKIntl*) this,
+				&newIModule,
+				APEX_SDK_VERSION,
+				PX_PHYSICS_VERSION,
+				err);
 		}
 	}
 #else

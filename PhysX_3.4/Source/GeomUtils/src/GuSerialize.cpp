@@ -365,16 +365,9 @@ void Gu::ReadIndices(PxU16 maxIndex, PxU32 nbIndices, PxU16* indices, PxInputStr
 		stream.read(tmp, nbIndices*sizeof(PxU8));
 		for(PxU32 i=0;i<nbIndices;i++)
 			indices[i] = tmp[i];
-//		for(PxU32 i=0;i<nbIndices;i++)
-//			indices[i] = stream.ReadByte();
 	}
 	else
 	{
-		PxU16* tmp = reinterpret_cast<PxU16*>(PxAlloca(nbIndices*sizeof(PxU16)));
-		readWordBuffer(tmp, nbIndices, platformMismatch, stream);
-		for(PxU32 i=0;i<nbIndices;i++)
-			indices[i] = tmp[i];
-//		for(PxU32 i=0;i<nbIndices;i++)
-//			indices[i] = ReadWord(platformMismatch, stream);
+		readWordBuffer(indices, nbIndices, platformMismatch, stream);
 	}
 }

@@ -21,7 +21,7 @@ namespace nvidia
 namespace apex
 {
 
-#if defined(_USRDLL) || PX_OSX
+#if defined(_USRDLL) || PX_OSX || (PX_LINUX && APEX_LINUX_SHARED_LIBRARIES)
 ApexSDKIntl* gApexSdk = 0;
 ApexSDK* GetApexSDK()
 {
@@ -122,7 +122,7 @@ private:
 };
 
 }
-#if defined(_USRDLL) || PX_OSX
+#if defined(_USRDLL) || PX_OSX || (PX_LINUX && APEX_LINUX_SHARED_LIBRARIES)
 
 APEX_API Module*  CALL_CONV createModule(
     ApexSDKIntl* inSdk,

@@ -62,7 +62,7 @@ LowLevelCloth_debug_common_cflags    += $(addprefix -D, $(LowLevelCloth_debug_de
 LowLevelCloth_debug_common_cflags    += $(addprefix -I, $(LowLevelCloth_debug_hpaths))
 LowLevelCloth_debug_cflags	:= $(LowLevelCloth_debug_common_cflags)
 LowLevelCloth_debug_cflags  += -arch i386
-LowLevelCloth_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelCloth_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 LowLevelCloth_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelCloth_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelCloth_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -70,7 +70,7 @@ LowLevelCloth_debug_cflags  += -Wno-c++11-extensions
 LowLevelCloth_debug_cflags  += -g3 -gdwarf-2 -O0
 LowLevelCloth_debug_cppflags	:= $(LowLevelCloth_debug_common_cflags)
 LowLevelCloth_debug_cppflags  += -arch i386
-LowLevelCloth_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelCloth_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 LowLevelCloth_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelCloth_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelCloth_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -158,7 +158,7 @@ LowLevelCloth_checked_common_cflags    += $(addprefix -D, $(LowLevelCloth_checke
 LowLevelCloth_checked_common_cflags    += $(addprefix -I, $(LowLevelCloth_checked_hpaths))
 LowLevelCloth_checked_cflags	:= $(LowLevelCloth_checked_common_cflags)
 LowLevelCloth_checked_cflags  += -arch i386
-LowLevelCloth_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelCloth_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 LowLevelCloth_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelCloth_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelCloth_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -166,7 +166,7 @@ LowLevelCloth_checked_cflags  += -Wno-c++11-extensions
 LowLevelCloth_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 LowLevelCloth_checked_cppflags	:= $(LowLevelCloth_checked_common_cflags)
 LowLevelCloth_checked_cppflags  += -arch i386
-LowLevelCloth_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelCloth_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 LowLevelCloth_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelCloth_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelCloth_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -254,7 +254,7 @@ LowLevelCloth_profile_common_cflags    += $(addprefix -D, $(LowLevelCloth_profil
 LowLevelCloth_profile_common_cflags    += $(addprefix -I, $(LowLevelCloth_profile_hpaths))
 LowLevelCloth_profile_cflags	:= $(LowLevelCloth_profile_common_cflags)
 LowLevelCloth_profile_cflags  += -arch i386
-LowLevelCloth_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelCloth_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 LowLevelCloth_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelCloth_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelCloth_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -262,7 +262,7 @@ LowLevelCloth_profile_cflags  += -Wno-c++11-extensions
 LowLevelCloth_profile_cflags  += -O3 -fno-strict-aliasing
 LowLevelCloth_profile_cppflags	:= $(LowLevelCloth_profile_common_cflags)
 LowLevelCloth_profile_cppflags  += -arch i386
-LowLevelCloth_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelCloth_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 LowLevelCloth_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelCloth_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelCloth_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -349,7 +349,7 @@ LowLevelCloth_release_common_cflags    += $(addprefix -D, $(LowLevelCloth_releas
 LowLevelCloth_release_common_cflags    += $(addprefix -I, $(LowLevelCloth_release_hpaths))
 LowLevelCloth_release_cflags	:= $(LowLevelCloth_release_common_cflags)
 LowLevelCloth_release_cflags  += -arch i386
-LowLevelCloth_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelCloth_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 LowLevelCloth_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelCloth_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelCloth_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
@@ -357,7 +357,7 @@ LowLevelCloth_release_cflags  += -Wno-c++11-extensions
 LowLevelCloth_release_cflags  += -O3 -fno-strict-aliasing
 LowLevelCloth_release_cppflags	:= $(LowLevelCloth_release_common_cflags)
 LowLevelCloth_release_cppflags  += -arch i386
-LowLevelCloth_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelCloth_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 LowLevelCloth_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
 LowLevelCloth_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelCloth_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof

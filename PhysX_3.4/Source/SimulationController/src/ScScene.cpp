@@ -3662,7 +3662,7 @@ void Sc::Scene::postReportsCleanup()
 
 void Sc::Scene::syncSceneQueryBounds(SqBoundsSync& sync, SqRefFinder& finder)
 {
-	mSqBoundsManager->syncBounds(sync, finder, mBoundsArray->begin(), getContextId());
+	mSqBoundsManager->syncBounds(sync, finder, mBoundsArray->begin(), getContextId(), mDirtyShapeSimMap);
 }
 
 // Let the particle systems do some preparations before doing the "real" stuff.

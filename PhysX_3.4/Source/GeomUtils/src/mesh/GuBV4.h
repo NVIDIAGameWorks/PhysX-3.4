@@ -226,7 +226,7 @@ namespace Gu
 		PX_PHYSX_COMMON_API				BV4Tree(SourceMesh* meshInterface, const PxBounds3& localBounds);
 		PX_PHYSX_COMMON_API				~BV4Tree();
 
-						bool			load(PxInputStream& stream, PxU32 meshVersion); // converts to proper endian at load time
+						bool			load(PxInputStream& stream, bool mismatch);
 
 						void			reset();
 						void			operator = (BV4Tree& v);

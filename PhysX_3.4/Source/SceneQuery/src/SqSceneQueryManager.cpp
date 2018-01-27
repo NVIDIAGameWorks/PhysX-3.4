@@ -490,11 +490,35 @@ void SceneQueryManager::shiftOrigin(const PxVec3& shift)
 		mPrunerExt[i].pruner()->shiftOrigin(shift);
 }
 
-void DynamicBoundsSync::sync(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* bounds, PxU32 count)
+void DynamicBoundsSync::sync(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* bounds, PxU32 count, const Cm::BitMap& dirtyShapeSimMap)
 {
-	mPruner->updateObjectsAndInflateBounds(handles, indices, bounds, count);
+	if(!count)
+		return;
 
-	if(count)
-		(*mTimestamp)++;
+	PxU32 startIndex = 0;
+	PxU32 numIndices = count;
+
+	// if shape sim map is not empty, parse the indices and skip update for the dirty one
+	if(dirtyShapeSimMap.count())
+	{
+		numIndices = 0;
+
+		for(PxU32 i=0; i<count; i++)
+		{
+			if(dirtyShapeSimMap.test(indices[i]))
+			{
+				mPruner->updateObjectsAndInflateBounds(handles + startIndex, indices + startIndex, bounds, numIndices);
+				numIndices = 0;
+				startIndex = i + 1;
+			}
+			else
+				numIndices++;
+		}
+		// PT: we fallback to the next line on purpose - no "else"
+	}
+
+	mPruner->updateObjectsAndInflateBounds(handles + startIndex, indices + startIndex, bounds, numIndices);
+
+	(*mTimestamp)++;
 }
 

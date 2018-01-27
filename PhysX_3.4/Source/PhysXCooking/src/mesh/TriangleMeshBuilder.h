@@ -51,7 +51,7 @@ namespace physx
 		// Called by base code when midphase structure should be built
 		virtual	void						createMidPhaseStructure()								= 0;
 		// Called by base code when midphase structure should be saved
-		virtual	void						saveMidPhaseStructure(PxOutputStream& stream)	const	= 0;
+		virtual	void						saveMidPhaseStructure(PxOutputStream& stream, bool mismatch)	const	= 0;
 		// Called by base code when mesh index format has changed and the change should be reflected in midphase structure
 		virtual	void						onMeshIndexFormatChange()								{}
 
@@ -64,13 +64,13 @@ namespace physx
 				void						createGRBMidPhaseAndData(const PxU32 originalTriangleCount);
 				void						createGRBData();
 
-				bool						loadFromDesc(const PxTriangleMeshDesc&, PxTriangleMeshCookingResult::Enum* condition ,bool validate = false);
+				bool						loadFromDesc(const PxTriangleMeshDesc&, PxTriangleMeshCookingResult::Enum* condition, bool validate = false);
 				bool						save(PxOutputStream& stream, bool platformMismatch, const PxCookingParams& params) const;
 				void						checkMeshIndicesSize();
 	PX_FORCE_INLINE	Gu::TriangleMeshData&	getMeshData()	{ return mMeshData;	}
 	protected:
 				void						computeLocalBounds();
-				bool						importMesh(const PxTriangleMeshDesc& desc, const PxCookingParams& params, PxTriangleMeshCookingResult::Enum* condition ,bool validate = false);
+				bool						importMesh(const PxTriangleMeshDesc& desc, const PxCookingParams& params, PxTriangleMeshCookingResult::Enum* condition, bool validate = false);
 
 				TriangleMeshBuilder& operator=(const TriangleMeshBuilder&);
 				Gu::EdgeListBuilder*		edgeList;
@@ -87,9 +87,9 @@ namespace physx
 											RTreeTriangleMeshBuilder(const PxCookingParams& params);
 		virtual								~RTreeTriangleMeshBuilder();
 
-		virtual	PxMeshMidPhase::Enum		getMidphaseID()									const	{ return PxMeshMidPhase::eBVH33;	}
+		virtual	PxMeshMidPhase::Enum		getMidphaseID()	const	{ return PxMeshMidPhase::eBVH33;	}
 		virtual	void						createMidPhaseStructure();
-		virtual	void						saveMidPhaseStructure(PxOutputStream& stream)	const;
+		virtual	void						saveMidPhaseStructure(PxOutputStream& stream, bool mismatch)	const;
 
 				Gu::RTreeTriangleData		mData;
 	};
@@ -100,19 +100,19 @@ namespace physx
 											BV4TriangleMeshBuilder(const PxCookingParams& params);
 		virtual								~BV4TriangleMeshBuilder();
 
-		virtual	PxMeshMidPhase::Enum		getMidphaseID()									const	{ return PxMeshMidPhase::eBVH34;	}
+		virtual	PxMeshMidPhase::Enum		getMidphaseID()	const	{ return PxMeshMidPhase::eBVH34;	}
 		virtual	void						createMidPhaseStructure();
-		virtual	void						saveMidPhaseStructure(PxOutputStream& stream)	const;
+		virtual	void						saveMidPhaseStructure(PxOutputStream& stream, bool mismatch)	const;
 		virtual	void						onMeshIndexFormatChange();
 
-		Gu::BV4TriangleData			mData;
+		Gu::BV4TriangleData					mData;
 	};
 
 	class BV32TriangleMeshBuilder
 	{
 	public:
-		static	void createMidPhaseStructure(const PxCookingParams& params, Gu::TriangleMeshData& meshData, Gu::BV32Tree& bv32Tree);
-		static	void saveMidPhaseStructure(Gu::BV32Tree* tree, PxOutputStream& stream);
+		static	void						createMidPhaseStructure(const PxCookingParams& params, Gu::TriangleMeshData& meshData, Gu::BV32Tree& bv32Tree);
+		static	void						saveMidPhaseStructure(Gu::BV32Tree* tree, PxOutputStream& stream, bool mismatch);
 	};
 
 }

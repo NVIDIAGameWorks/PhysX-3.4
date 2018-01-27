@@ -120,10 +120,6 @@ void SocketImpl::setBlockingInternal(SOCKET socket, bool blocking)
 	ioctlsocket(socket, FIONBIO, (u_long*)&mode);
 }
 
-#ifdef PX_VC11
-#pragma warning(push)
-#pragma warning(disable : 4548) // for FD_SET on vc11 only
-#endif
 bool SocketImpl::connect(const char* host, uint16_t port, uint32_t timeout)
 {
 	if(!mSocketLayerIntialized)
@@ -185,9 +181,6 @@ bool SocketImpl::connect(const char* host, uint16_t port, uint32_t timeout)
 	mHost = host;
 	return true;
 }
-#ifdef PX_VC11
-#pragma warning(pop)
-#endif
 
 bool SocketImpl::listen(uint16_t port)
 {

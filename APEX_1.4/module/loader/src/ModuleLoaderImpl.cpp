@@ -24,13 +24,13 @@ namespace nvidia
 namespace apex
 {
 
-#if !defined(_USRDLL) && !PX_OSX
+#if !defined(_USRDLL) && !PX_OSX && (!PX_LINUX || !APEX_LINUX_SHARED_LIBRARIES)
 #	define INSTANTIATE_MODULE(instFunc) do { instFunc(); } while(0)
 #else
 #	define INSTANTIATE_MODULE(instFunc)
 #endif
 
-#if defined(_USRDLL) || PX_OSX
+#if defined(_USRDLL) || PX_OSX || (PX_LINUX && APEX_LINUX_SHARED_LIBRARIES)
 
 ApexSDKIntl* gApexSdk = 0;
 ApexSDK* GetApexSDK()

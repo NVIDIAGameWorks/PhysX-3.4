@@ -205,10 +205,17 @@ void BV4Tree::importExtraData(PxDeserializationContext& context)
 }
 //~PX_SERIALIZATION
 
-bool BV4Tree::load(PxInputStream& stream, PxU32 meshVersion)
+#ifdef GU_BV4_QUANTIZED_TREE
+	static const PxU32 BVDataPackedNb = sizeof(BVDataPacked)/sizeof(PxU16);
+	PX_COMPILE_TIME_ASSERT(BVDataPackedNb * sizeof(PxU16) == sizeof(BVDataPacked));
+#else
+	static const PxU32 BVDataPackedNb = sizeof(BVDataPacked)/sizeof(float);
+	PX_COMPILE_TIME_ASSERT(BVDataPackedNb * sizeof(float) == sizeof(BVDataPacked));
+#endif
+
+bool BV4Tree::load(PxInputStream& stream, bool mismatch_)
 {
 	PX_ASSERT(!mUserAllocated);
-	PX_UNUSED(meshVersion);
 
 	release();
 
@@ -217,25 +224,19 @@ bool BV4Tree::load(PxInputStream& stream, PxU32 meshVersion)
 	if(a!='B' || b!='V' || c!='4' || d!=' ')
 		return false;
 
-	const PxU32 version = 1;
-	const bool mismatch = (shdfnd::littleEndian() == 1);
-	if(readDword(mismatch, stream) != version)
+	bool mismatch;
+	PxU32 fileVersion;
+	if(!readBigEndianVersionNumber(stream, mismatch_, fileVersion, mismatch))
 		return false;
 
-	mLocalBounds.mCenter.x = readFloat(mismatch, stream);
-	mLocalBounds.mCenter.y = readFloat(mismatch, stream);
-	mLocalBounds.mCenter.z = readFloat(mismatch, stream);
+	readFloatBuffer(&mLocalBounds.mCenter.x, 3, mismatch, stream);
 	mLocalBounds.mExtentsMagnitude = readFloat(mismatch, stream);
 
 	mInitData = readDword(mismatch, stream);
 
 #ifdef GU_BV4_QUANTIZED_TREE
-	mCenterOrMinCoeff.x = readFloat(mismatch, stream);
-	mCenterOrMinCoeff.y = readFloat(mismatch, stream);
-	mCenterOrMinCoeff.z = readFloat(mismatch, stream);
-	mExtentsOrMaxCoeff.x = readFloat(mismatch, stream);
-	mExtentsOrMaxCoeff.y = readFloat(mismatch, stream);
-	mExtentsOrMaxCoeff.z = readFloat(mismatch, stream);
+	readFloatBuffer(&mCenterOrMinCoeff.x, 3, mismatch, stream);
+	readFloatBuffer(&mExtentsOrMaxCoeff.x, 3, mismatch, stream);
 #endif
 	const PxU32 nbNodes = readDword(mismatch, stream);
 	mNbNodes = nbNodes;
@@ -250,15 +251,47 @@ bool BV4Tree::load(PxInputStream& stream, PxU32 meshVersion)
 		mNodes = nodes;
 		Cm::markSerializedMem(nodes, sizeof(BVDataPacked)*nbNodes);
 
-		for(PxU32 i=0;i<nbNodes;i++)
+		if(1)
 		{
-			BVDataPacked& node = nodes[i];
 #ifdef GU_BV4_QUANTIZED_TREE
-			readWordBuffer(&node.mAABB.mData[0].mExtents, 6, mismatch, stream);
+			readWordBuffer(&nodes[0].mAABB.mData[0].mExtents, BVDataPackedNb * nbNodes, false, stream);
 #else
-			readFloatBuffer(&node.mAABB.mCenter.x, 6, mismatch, stream);
+			readFloatBuffer(&nodes[0].mAABB.mCenter.x, BVDataPackedNb * nbNodes, false, stream);
 #endif
-			node.mData = readDword(mismatch, stream);
+			if(mismatch)
+			{
+				for(PxU32 i=0;i<nbNodes;i++)
+				{
+					BVDataPacked& node = nodes[i];
+					for(PxU32 j=0;j<3;j++)
+					{
+#ifdef GU_BV4_QUANTIZED_TREE
+						flip(node.mAABB.mData[j].mExtents);
+						flip(node.mAABB.mData[j].mCenter);
+#else
+						flip(node.mAABB.mExtents[j]);
+						flip(node.mAABB.mCenter[j]);
+#endif
+					}
+					flip(node.mData);
+				}
+			}
+
+
+		}
+		else
+		{
+			// PT: initial slower code is like this:
+			for(PxU32 i=0;i<nbNodes;i++)
+			{
+				BVDataPacked& node = nodes[i];
+#ifdef GU_BV4_QUANTIZED_TREE
+				readWordBuffer(&node.mAABB.mData[0].mExtents, 6, mismatch, stream);
+#else
+				readFloatBuffer(&node.mAABB.mCenter.x, 6, mismatch, stream);
+#endif
+				node.mData = readDword(mismatch, stream);
+			}
 		}
 	}
 	else mNodes = NULL;

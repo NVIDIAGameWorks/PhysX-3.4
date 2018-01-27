@@ -117,7 +117,7 @@ namespace Sq
 
 	struct DynamicBoundsSync : public Sc::SqBoundsSync
 	{
-		virtual void sync(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* bounds, PxU32 count);
+		virtual void sync(const PrunerHandle* handles, const PxU32* indices, const PxBounds3* bounds, PxU32 count, const Cm::BitMap& dirtyShapeSimMap);
 		Pruner*	mPruner;
 		PxU32*	mTimestamp;
 	};

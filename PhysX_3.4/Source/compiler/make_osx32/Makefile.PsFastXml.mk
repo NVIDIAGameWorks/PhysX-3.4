@@ -43,11 +43,11 @@ PsFastXml_debug_common_cflags    += $(addprefix -D, $(PsFastXml_debug_defines))
 PsFastXml_debug_common_cflags    += $(addprefix -I, $(PsFastXml_debug_hpaths))
 PsFastXml_debug_cflags	:= $(PsFastXml_debug_common_cflags)
 PsFastXml_debug_cflags  += -arch i386
-PsFastXml_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PsFastXml_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PsFastXml_debug_cflags  += -g3 -gdwarf-2 -O0
 PsFastXml_debug_cppflags	:= $(PsFastXml_debug_common_cflags)
 PsFastXml_debug_cppflags  += -arch i386
-PsFastXml_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PsFastXml_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PsFastXml_debug_cppflags  += -g3 -gdwarf-2 -O0
 PsFastXml_debug_lflags    := $(PsFastXml_custom_lflags)
 PsFastXml_debug_lflags    += $(addprefix -L, $(PsFastXml_debug_lpaths))
@@ -123,11 +123,11 @@ PsFastXml_release_common_cflags    += $(addprefix -D, $(PsFastXml_release_define
 PsFastXml_release_common_cflags    += $(addprefix -I, $(PsFastXml_release_hpaths))
 PsFastXml_release_cflags	:= $(PsFastXml_release_common_cflags)
 PsFastXml_release_cflags  += -arch i386
-PsFastXml_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PsFastXml_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PsFastXml_release_cflags  += -O3 -fno-strict-aliasing
 PsFastXml_release_cppflags	:= $(PsFastXml_release_common_cflags)
 PsFastXml_release_cppflags  += -arch i386
-PsFastXml_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PsFastXml_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PsFastXml_release_cppflags  += -O3 -fno-strict-aliasing
 PsFastXml_release_lflags    := $(PsFastXml_custom_lflags)
 PsFastXml_release_lflags    += $(addprefix -L, $(PsFastXml_release_lpaths))
@@ -204,11 +204,11 @@ PsFastXml_checked_common_cflags    += $(addprefix -D, $(PsFastXml_checked_define
 PsFastXml_checked_common_cflags    += $(addprefix -I, $(PsFastXml_checked_hpaths))
 PsFastXml_checked_cflags	:= $(PsFastXml_checked_common_cflags)
 PsFastXml_checked_cflags  += -arch i386
-PsFastXml_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PsFastXml_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PsFastXml_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PsFastXml_checked_cppflags	:= $(PsFastXml_checked_common_cflags)
 PsFastXml_checked_cppflags  += -arch i386
-PsFastXml_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PsFastXml_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PsFastXml_checked_cppflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PsFastXml_checked_lflags    := $(PsFastXml_custom_lflags)
 PsFastXml_checked_lflags    += $(addprefix -L, $(PsFastXml_checked_lpaths))
@@ -285,11 +285,11 @@ PsFastXml_profile_common_cflags    += $(addprefix -D, $(PsFastXml_profile_define
 PsFastXml_profile_common_cflags    += $(addprefix -I, $(PsFastXml_profile_hpaths))
 PsFastXml_profile_cflags	:= $(PsFastXml_profile_common_cflags)
 PsFastXml_profile_cflags  += -arch i386
-PsFastXml_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PsFastXml_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PsFastXml_profile_cflags  += -O3 -fno-strict-aliasing
 PsFastXml_profile_cppflags	:= $(PsFastXml_profile_common_cflags)
 PsFastXml_profile_cppflags  += -arch i386
-PsFastXml_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PsFastXml_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PsFastXml_profile_cppflags  += -O3 -fno-strict-aliasing
 PsFastXml_profile_lflags    := $(PsFastXml_custom_lflags)
 PsFastXml_profile_lflags    += $(addprefix -L, $(PsFastXml_profile_lpaths))

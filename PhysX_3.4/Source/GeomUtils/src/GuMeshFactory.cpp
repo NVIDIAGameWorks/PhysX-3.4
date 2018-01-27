@@ -322,7 +322,7 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 	// PT: TODO better
 	if(midphaseID==PxMeshMidPhase::eBVH33)
 	{
-		if(!static_cast<RTreeTriangleData*>(data)->mRTree.load(stream, version))
+		if(!static_cast<RTreeTriangleData*>(data)->mRTree.load(stream, version, mismatch))
 		{
 			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "RTree binary image load error.");
 			PX_DELETE(data);
@@ -332,7 +332,7 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 	else if(midphaseID==PxMeshMidPhase::eBVH34)
 	{
 		BV4TriangleData* bv4data = static_cast<BV4TriangleData*>(data);
-		if(!bv4data->mBV4Tree.load(stream, version))
+		if(!bv4data->mBV4Tree.load(stream, mismatch))
 		{
 			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "BV4 binary image load error.");
 			PX_DELETE(data);
@@ -350,13 +350,8 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 	else PX_ASSERT(0);
 
 	// Import local bounds
-	data->mGeomEpsilon		= readFloat(mismatch, stream);
-	data->mAABB.minimum.x	= readFloat(mismatch, stream);
-	data->mAABB.minimum.y	= readFloat(mismatch, stream);
-	data->mAABB.minimum.z	= readFloat(mismatch, stream);
-	data->mAABB.maximum.x	= readFloat(mismatch, stream);
-	data->mAABB.maximum.y	= readFloat(mismatch, stream);
-	data->mAABB.maximum.z	= readFloat(mismatch, stream);
+	data->mGeomEpsilon = readFloat(mismatch, stream);
+	readFloatBuffer(&data->mAABB.minimum.x, 6, mismatch, stream);
 
 	PxU32 nb = readDword(mismatch, stream);
 	if(nb)
@@ -483,7 +478,7 @@ static TriangleMeshData* loadMeshData(PxInputStream& stream)
 		//read BV32
 		data->mGRB_BV32Tree = PX_NEW(BV32Tree);
 		BV32Tree* bv32Tree = static_cast<BV32Tree*>(data->mGRB_BV32Tree);
-		if (!bv32Tree->load(stream, version))
+		if (!bv32Tree->load(stream, mismatch))
 		{
 			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "BV32 binary image load error.");
 			PX_DELETE(data);

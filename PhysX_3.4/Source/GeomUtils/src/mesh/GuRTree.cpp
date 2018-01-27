@@ -59,41 +59,7 @@ namespace physx
 namespace Gu {
 
 /////////////////////////////////////////////////////////////////////////
-PxU32 RTree::mVersion = 1;
-
-bool RTree::save(PxOutputStream& stream) const
-{
-	// save the RTree root structure followed immediately by RTreePage pages to an output stream
-	bool mismatch = (Ps::littleEndian() == 1);
-	writeChunk('R', 'T', 'R', 'E', stream);
-	writeDword(mVersion, mismatch, stream);
-	writeFloatBuffer(&mBoundsMin.x, 4, mismatch, stream);
-	writeFloatBuffer(&mBoundsMax.x, 4, mismatch, stream);
-	writeFloatBuffer(&mInvDiagonal.x, 4, mismatch, stream);
-	writeFloatBuffer(&mDiagonalScaler.x, 4, mismatch, stream);
-	writeDword(mPageSize, mismatch, stream);
-	writeDword(mNumRootPages, mismatch, stream);
-	writeDword(mNumLevels, mismatch, stream);
-	writeDword(mTotalNodes, mismatch, stream);
-	writeDword(mTotalPages, mismatch, stream);
-	PxU32 unused = 0; // backwards compatibility
-	writeDword(unused, mismatch, stream);
-	for (PxU32 j = 0; j < mTotalPages; j++)
-	{
-		writeFloatBuffer(mPages[j].minx, RTREE_N, mismatch, stream);
-		writeFloatBuffer(mPages[j].miny, RTREE_N, mismatch, stream);
-		writeFloatBuffer(mPages[j].minz, RTREE_N, mismatch, stream);
-		writeFloatBuffer(mPages[j].maxx, RTREE_N, mismatch, stream);
-		writeFloatBuffer(mPages[j].maxy, RTREE_N, mismatch, stream);
-		writeFloatBuffer(mPages[j].maxz, RTREE_N, mismatch, stream);
-		WriteDwordBuffer(mPages[j].ptrs, RTREE_N, mismatch, stream);
-	}
-
-	return true;
-}
-
-/////////////////////////////////////////////////////////////////////////
-bool RTree::load(PxInputStream& stream, PxU32 meshVersion)
+bool RTree::load(PxInputStream& stream, PxU32 meshVersion, bool mismatch_)	// PT: 'meshVersion' is the PX_MESH_VERSION from cooked file
 {
 	PX_UNUSED(meshVersion);
 
@@ -104,8 +70,9 @@ bool RTree::load(PxInputStream& stream, PxU32 meshVersion)
 	if(a!='R' || b!='T' || c!='R' || d!='E')
 		return false;
 
-	bool mismatch = (Ps::littleEndian() == 1);
-	if(readDword(mismatch, stream) != mVersion)
+	bool mismatch;
+	PxU32 fileVersion;
+	if(!readBigEndianVersionNumber(stream, mismatch_, fileVersion, mismatch))
 		return false;
 
 	readFloatBuffer(&mBoundsMin.x, 4, mismatch, stream);
@@ -118,10 +85,9 @@ bool RTree::load(PxInputStream& stream, PxU32 meshVersion)
 	mTotalNodes = readDword(mismatch, stream);
 	mTotalPages = readDword(mismatch, stream);
 	PxU32 unused = readDword(mismatch, stream); PX_UNUSED(unused); // backwards compatibility
-	mPages = static_cast<RTreePage*>(
-		Ps::AlignedAllocator<128>().allocate(sizeof(RTreePage)*mTotalPages, __FILE__, __LINE__));
+	mPages = static_cast<RTreePage*>(Ps::AlignedAllocator<128>().allocate(sizeof(RTreePage)*mTotalPages, __FILE__, __LINE__));
 	Cm::markSerializedMem(mPages, sizeof(RTreePage)*mTotalPages);
-	for (PxU32 j = 0; j < mTotalPages; j++)
+	for(PxU32 j=0; j<mTotalPages; j++)
 	{
 		readFloatBuffer(mPages[j].minx, RTREE_N, mismatch, stream);
 		readFloatBuffer(mPages[j].miny, RTREE_N, mismatch, stream);
@@ -131,7 +97,6 @@ bool RTree::load(PxInputStream& stream, PxU32 meshVersion)
 		readFloatBuffer(mPages[j].maxz, RTREE_N, mismatch, stream);
 		ReadDwordBuffer(mPages[j].ptrs, RTREE_N, mismatch, stream);
 	}
-
 	return true;
 }
 

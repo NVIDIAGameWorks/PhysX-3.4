@@ -359,19 +359,19 @@ struct SubSortSAH
 			xOrder(xOrder_), yOrder(yOrder_), zOrder(zOrder_),
 			xRanks(xRanks_), yRanks(yRanks_), zRanks(zRanks_), nbTotalBounds(numBounds)
 	{
-		metricL = new PxF32[numBounds];
-		metricR = new PxF32[numBounds];
-		tempPermute = new PxU32[numBounds*2+1];
-		tempRanks = new PxU32[numBounds];
+		metricL = reinterpret_cast<PxF32*>(PX_ALLOC(sizeof(PxF32)*numBounds, PX_DEBUG_EXP("metricL")));
+		metricR = reinterpret_cast<PxF32*>(PX_ALLOC(sizeof(PxF32)*numBounds, PX_DEBUG_EXP("metricR")));
+		tempPermute = reinterpret_cast<PxU32*>(PX_ALLOC(sizeof(PxU32)*(numBounds*2+1), PX_DEBUG_EXP("tempPermute")));
+		tempRanks = reinterpret_cast<PxU32*>(PX_ALLOC(sizeof(PxU32)*numBounds, PX_DEBUG_EXP("tempRanks")));
 		iTradeOff = PxMin<PxU32>( PxU32(PxMax<PxReal>(0.0f, sizePerfTradeOff01)*NTRADEOFF), NTRADEOFF-1 );
 	}
 
 	~SubSortSAH() // release temporarily used memory
 	{
-		delete [] metricL; metricL = NULL;
-		delete [] metricR; metricR = NULL;
-		delete [] tempPermute; tempPermute = NULL;
-		delete [] tempRanks; tempRanks = NULL;
+		PX_FREE_AND_RESET(metricL);
+		PX_FREE_AND_RESET(metricR);
+		PX_FREE_AND_RESET(tempPermute);
+		PX_FREE_AND_RESET(tempRanks);
 	}
 
 	////////////////////////////////////////////////////////////////////

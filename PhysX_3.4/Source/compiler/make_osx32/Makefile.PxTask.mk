@@ -42,11 +42,11 @@ PxTask_debug_common_cflags    += $(addprefix -D, $(PxTask_debug_defines))
 PxTask_debug_common_cflags    += $(addprefix -I, $(PxTask_debug_hpaths))
 PxTask_debug_cflags	:= $(PxTask_debug_common_cflags)
 PxTask_debug_cflags  += -arch i386
-PxTask_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_debug_cflags  += -g3 -gdwarf-2 -O0
 PxTask_debug_cppflags	:= $(PxTask_debug_common_cflags)
 PxTask_debug_cppflags  += -arch i386
-PxTask_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_debug_cppflags  += -g3 -gdwarf-2 -O0
 PxTask_debug_lflags    := $(PxTask_custom_lflags)
 PxTask_debug_lflags    += $(addprefix -L, $(PxTask_debug_lpaths))
@@ -121,11 +121,11 @@ PxTask_release_common_cflags    += $(addprefix -D, $(PxTask_release_defines))
 PxTask_release_common_cflags    += $(addprefix -I, $(PxTask_release_hpaths))
 PxTask_release_cflags	:= $(PxTask_release_common_cflags)
 PxTask_release_cflags  += -arch i386
-PxTask_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_release_cflags  += -O3 -fno-strict-aliasing
 PxTask_release_cppflags	:= $(PxTask_release_common_cflags)
 PxTask_release_cppflags  += -arch i386
-PxTask_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_release_cppflags  += -O3 -fno-strict-aliasing
 PxTask_release_lflags    := $(PxTask_custom_lflags)
 PxTask_release_lflags    += $(addprefix -L, $(PxTask_release_lpaths))
@@ -201,11 +201,11 @@ PxTask_checked_common_cflags    += $(addprefix -D, $(PxTask_checked_defines))
 PxTask_checked_common_cflags    += $(addprefix -I, $(PxTask_checked_hpaths))
 PxTask_checked_cflags	:= $(PxTask_checked_common_cflags)
 PxTask_checked_cflags  += -arch i386
-PxTask_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PxTask_checked_cppflags	:= $(PxTask_checked_common_cflags)
 PxTask_checked_cppflags  += -arch i386
-PxTask_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_checked_cppflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PxTask_checked_lflags    := $(PxTask_custom_lflags)
 PxTask_checked_lflags    += $(addprefix -L, $(PxTask_checked_lpaths))
@@ -281,11 +281,11 @@ PxTask_profile_common_cflags    += $(addprefix -D, $(PxTask_profile_defines))
 PxTask_profile_common_cflags    += $(addprefix -I, $(PxTask_profile_hpaths))
 PxTask_profile_cflags	:= $(PxTask_profile_common_cflags)
 PxTask_profile_cflags  += -arch i386
-PxTask_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_profile_cflags  += -O3 -fno-strict-aliasing
 PxTask_profile_cppflags	:= $(PxTask_profile_common_cflags)
 PxTask_profile_cppflags  += -arch i386
-PxTask_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -ffast-math -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_profile_cppflags  += -O3 -fno-strict-aliasing
 PxTask_profile_lflags    := $(PxTask_custom_lflags)
 PxTask_profile_lflags    += $(addprefix -L, $(PxTask_profile_lpaths))

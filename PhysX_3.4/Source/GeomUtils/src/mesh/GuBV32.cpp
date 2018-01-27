@@ -114,10 +114,9 @@ void BV32Tree::importExtraData(PxDeserializationContext& context)
 }
 //~PX_SERIALIZATION
 
-bool BV32Tree::load(PxInputStream& stream, PxU32 meshVersion)
+bool BV32Tree::load(PxInputStream& stream, bool mismatch_)
 {
 	PX_ASSERT(!mUserAllocated);
-	PX_UNUSED(meshVersion);
 
 	release();
 
@@ -126,9 +125,9 @@ bool BV32Tree::load(PxInputStream& stream, PxU32 meshVersion)
 	if (a != 'B' || b != 'V' || c != '3' || d != '2')
 		return false;
 
-	const PxU32 version = 1;
-	const bool mismatch = (shdfnd::littleEndian() == 1);
-	if (readDword(mismatch, stream) != version)
+	bool mismatch;
+	PxU32 fileVersion;
+	if(!readBigEndianVersionNumber(stream, mismatch_, fileVersion, mismatch))
 		return false;
 
 	mLocalBounds.mCenter.x = readFloat(mismatch, stream);

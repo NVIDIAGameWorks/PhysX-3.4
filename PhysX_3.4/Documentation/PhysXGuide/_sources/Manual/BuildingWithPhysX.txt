@@ -3,7 +3,7 @@
 --------------------
 Building with PhysX
 --------------------
-On Windows, PhysX requires either Visual Studio 2010 or Visual Studio 2012.
+On Windows, PhysX requires Visual Studio 2013 or later versions.
 
 ===============================
 Build Settings

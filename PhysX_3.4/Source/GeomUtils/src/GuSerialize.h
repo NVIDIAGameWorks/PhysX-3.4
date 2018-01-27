@@ -34,6 +34,7 @@
 #include "foundation/PxIO.h"
 #include "CmPhysXCommon.h"
 #include "PxPhysXCommonConfig.h"
+#include "PsUtilities.h"
 
 namespace physx
 {
@@ -134,6 +135,47 @@ PX_PHYSX_COMMON_API PxU16 	computeMaxIndex(const PxU16* indices, PxU32 nbIndices
 PX_PHYSX_COMMON_API void 	storeIndices(PxU32 maxIndex, PxU32 nbIndices, const PxU32* indices, PxOutputStream& stream, bool platformMismatch);
 PX_PHYSX_COMMON_API void 	readIndices(PxU32 maxIndex, PxU32 nbIndices, PxU32* indices, PxInputStream& stream, bool platformMismatch);
 
+	// PT: see PX-1163
+	PX_FORCE_INLINE bool readBigEndianVersionNumber(PxInputStream& stream, bool mismatch_, PxU32& fileVersion, bool& mismatch)
+	{
+		// PT: allright this is going to be subtle:
+		// - in version 1 the data was always saved in big-endian format
+		// - *including the version number*!
+		// - so we cannot just read the version "as usual" using the passed mismatch param
+
+		// PT: mismatch value for version 1
+		mismatch = (shdfnd::littleEndian() == 1);
+
+		const PxU32 rawFileVersion = readDword(false, stream);
+		if(rawFileVersion==1)
+		{
+			// PT: this is a version-1 file with no flip
+			fileVersion = 1;
+			PX_ASSERT(!mismatch);
+		}
+		else
+		{
+			PxU32 fileVersionFlipped = rawFileVersion;
+			flip(fileVersionFlipped);
+			if(fileVersionFlipped==1)
+			{
+				// PT: this is a version-1 file with flip
+				fileVersion = 1;
+				PX_ASSERT(mismatch);
+			}
+			else
+			{
+				// PT: this is at least version 2 so we can process it "as usual"
+				mismatch = mismatch_;
+				fileVersion = mismatch_ ? fileVersionFlipped : rawFileVersion;
+			}
+		}
+
+		PX_ASSERT(fileVersion<=2);
+		if(fileVersion>2)
+			return false;
+		return true;
+	}
 
 // PT: TODO: copied from IceSerialize.h, still needs to be refactored/cleaned up.
 namespace Gu

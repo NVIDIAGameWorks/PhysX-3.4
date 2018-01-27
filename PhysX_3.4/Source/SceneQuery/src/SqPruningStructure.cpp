@@ -124,7 +124,7 @@ void PruningStructure::release()
 }
 
 template <typename ActorType>
-static void getShapeBounds(PxRigidActor* actor, bool dynamic, PxBounds3& bounds, PxU32& numShapes)
+static void getShapeBounds(PxRigidActor* actor, bool dynamic, PxBounds3* bounds, PxU32& numShapes)
 {
 	PruningIndex::Enum treeStructure = dynamic ? PruningIndex::eDYNAMIC : PruningIndex::eSTATIC;
 	ActorType& a = *static_cast<ActorType*>(actor);
@@ -137,7 +137,8 @@ static void getShapeBounds(PxRigidActor* actor, bool dynamic, PxBounds3& bounds,
 			const Scb::Shape& scbShape = shape->getScbShape();
 			const Scb::Actor& scbActor = a.getScbActorFast();
 
-			(gComputeBoundsTable[treeStructure])(bounds, scbShape, scbActor);
+			(gComputeBoundsTable[treeStructure])(*bounds, scbShape, scbActor);
+			bounds++;
 			numShapes++;
 		}
 	}
@@ -235,12 +236,12 @@ bool PruningStructure::build(PxRigidActor*const* actors, PxU32 nbActors)
 		if (type == PxConcreteType::eRIGID_STATIC)
 		{
 			getShapeBounds<NpRigidStatic>(actors[actorsDone], false, 
-				bounds[PruningIndex::eSTATIC][numShapes[PruningIndex::eSTATIC]], numShapes[PruningIndex::eSTATIC]);
+				&bounds[PruningIndex::eSTATIC][numShapes[PruningIndex::eSTATIC]], numShapes[PruningIndex::eSTATIC]);
 		}
 		else if (type == PxConcreteType::eRIGID_DYNAMIC)
 		{
 			getShapeBounds<NpRigidDynamic>(actors[actorsDone], true, 
-				bounds[PruningIndex::eDYNAMIC][numShapes[PruningIndex::eDYNAMIC]], numShapes[PruningIndex::eDYNAMIC]);
+				&bounds[PruningIndex::eDYNAMIC][numShapes[PruningIndex::eDYNAMIC]], numShapes[PruningIndex::eDYNAMIC]);
 		}
 	}
 	

@@ -35,11 +35,10 @@
 #include "PsArray.h"
 #include "PsUserAllocated.h"
 #include "PsHashSet.h"
-//#include "SqPruner.h"
+#include "CmBitMap.h"
 
 namespace physx
 {
-
 namespace Sq
 {
 typedef PxU32 PrunerHandle;	// PT: we should get this from SqPruner.h but it cannot be included from here
@@ -59,7 +58,7 @@ public:
 
 	void							addShape(ShapeSim& shape);
 	void							removeShape(ShapeSim& shape);
-	void							syncBounds(SqBoundsSync& sync, SqRefFinder& finder, const PxBounds3* bounds, PxU64 contextID);	
+	void							syncBounds(SqBoundsSync& sync, SqRefFinder& finder, const PxBounds3* bounds, PxU64 contextID, const Cm::BitMap& dirtyShapeSimMap);
 
 private:
 

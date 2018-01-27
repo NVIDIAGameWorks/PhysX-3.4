@@ -897,8 +897,7 @@ bool TriangleMeshBuilder::save(PxOutputStream& stream, bool platformMismatch, co
 		writeIntBuffer(mMeshData.mAdjacencies, mMeshData.mNbTriangles*3, platformMismatch, stream);
 
 	// Export midphase structure
-	saveMidPhaseStructure(stream);
-
+	saveMidPhaseStructure(stream, platformMismatch);
 
 	// Export local bounds
 	writeFloat(mMeshData.mGeomEpsilon, platformMismatch, stream);
@@ -949,7 +948,7 @@ bool TriangleMeshBuilder::save(PxOutputStream& stream, bool platformMismatch, co
 
 		//Export GPU midphase structure
 		BV32Tree* bv32Tree = reinterpret_cast<BV32Tree*>(mMeshData.mGRB_BV32Tree);
-		BV32TriangleMeshBuilder::saveMidPhaseStructure(bv32Tree, stream);
+		BV32TriangleMeshBuilder::saveMidPhaseStructure(bv32Tree, stream, platformMismatch);
 	}
 
 	// End of GRB write ----------------------------------------------------------
@@ -1216,13 +1215,17 @@ void BV4TriangleMeshBuilder::createMidPhaseStructure()
 	mData.mMeshInterface.releaseRemap();
 }
 
-void BV4TriangleMeshBuilder::saveMidPhaseStructure(PxOutputStream& stream) const
+void BV4TriangleMeshBuilder::saveMidPhaseStructure(PxOutputStream& stream, bool mismatch) const
 {
-	const PxU32 version = 1;
+	// PT: in version 1 we defined "mismatch" as:
+	// const bool mismatch = (littleEndian() == 1);
+	// i.e. the data was *always* saved to file in big-endian format no matter what.
+	// In version>1 we now do the same as for other structures in the SDK: the data is
+	// exported either as little or big-endian depending on the passed parameter.
+	const PxU32 bv4StructureVersion = 2;
 
-	const bool mismatch = (littleEndian() == 1);
 	writeChunk('B', 'V', '4', ' ', stream);
-	writeDword(version, mismatch, stream);
+	writeDword(bv4StructureVersion, mismatch, stream);
 
 	writeFloat(mData.mBV4Tree.mLocalBounds.mCenter.x, mismatch, stream);
 	writeFloat(mData.mBV4Tree.mLocalBounds.mCenter.y, mismatch, stream);
@@ -1290,16 +1293,19 @@ void BV32TriangleMeshBuilder::createMidPhaseStructure(const PxCookingParams& par
 	}
 	
 	meshInterface.releaseRemap();
-
 }
 
-void BV32TriangleMeshBuilder::saveMidPhaseStructure(Gu::BV32Tree* bv32Tree, PxOutputStream& stream)
+void BV32TriangleMeshBuilder::saveMidPhaseStructure(Gu::BV32Tree* bv32Tree, PxOutputStream& stream, bool mismatch)
 {
-	const PxU32 version = 1;
+	// PT: in version 1 we defined "mismatch" as:
+	// const bool mismatch = (littleEndian() == 1);
+	// i.e. the data was *always* saved to file in big-endian format no matter what.
+	// In version>1 we now do the same as for other structures in the SDK: the data is
+	// exported either as little or big-endian depending on the passed parameter.
+	const PxU32 bv32StructureVersion = 2;
 
-	const bool mismatch = (littleEndian() == 1);
 	writeChunk('B', 'V', '3', '2', stream);
-	writeDword(version, mismatch, stream);
+	writeDword(bv32StructureVersion, mismatch, stream);
 
 	writeFloat(bv32Tree->mLocalBounds.mCenter.x, mismatch, stream);
 	writeFloat(bv32Tree->mLocalBounds.mCenter.y, mismatch, stream);
@@ -1319,8 +1325,7 @@ void BV32TriangleMeshBuilder::saveMidPhaseStructure(Gu::BV32Tree* bv32Tree, PxOu
 		writeDword(node.mNbNodes, mismatch, stream);
 		WriteDwordBuffer(node.mData, node.mNbNodes, mismatch, stream);
 		writeFloatBuffer(&node.mCenter[0].x, nbElements, mismatch, stream);
-		writeFloatBuffer(&node.mExtents[0].x, nbElements, mismatch, stream);
-		
+		writeFloatBuffer(&node.mExtents[0].x, nbElements, mismatch, stream);	
 	}
 }
 
@@ -1377,12 +1382,20 @@ void RTreeTriangleMeshBuilder::createMidPhaseStructure()
 	remapTopology(resultPermute.begin());
 }
 
-static void saveRTreeData(PxOutputStream& stream, const RTree& d)
+void RTreeTriangleMeshBuilder::saveMidPhaseStructure(PxOutputStream& stream, bool mismatch) const
 {
+	// PT: in version 1 we defined "mismatch" as:
+	// const bool mismatch = (littleEndian() == 1);
+	// i.e. the data was *always* saved to file in big-endian format no matter what.
+	// In version>1 we now do the same as for other structures in the SDK: the data is
+	// exported either as little or big-endian depending on the passed parameter.
+	const PxU32 rtreeStructureVersion = 2;
+
 	// save the RTree root structure followed immediately by RTreePage pages to an output stream
-	const bool mismatch = (littleEndian() == 1);
 	writeChunk('R', 'T', 'R', 'E', stream);
-	writeDword(RTREE_COOK_VERSION, mismatch, stream);
+
+	writeDword(rtreeStructureVersion, mismatch, stream);
+	const RTree& d = mData.mRTree;
 	writeFloatBuffer(&d.mBoundsMin.x, 4, mismatch, stream);
 	writeFloatBuffer(&d.mBoundsMax.x, 4, mismatch, stream);
 	writeFloatBuffer(&d.mInvDiagonal.x, 4, mismatch, stream);
@@ -1403,12 +1416,6 @@ static void saveRTreeData(PxOutputStream& stream, const RTree& d)
 		writeFloatBuffer(d.mPages[j].maxz, RTREE_N, mismatch, stream);
 		WriteDwordBuffer(d.mPages[j].ptrs, RTREE_N, mismatch, stream);
 	}
-}
-
-void RTreeTriangleMeshBuilder::saveMidPhaseStructure(PxOutputStream& stream) const
-{
-	// Export RTree
-	saveRTreeData(stream, mData.mRTree);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

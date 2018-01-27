@@ -76,6 +76,10 @@
 #define APEX_UE4 0
 #endif
 
+/// Enables Linux shared library
+#ifndef APEX_LINUX_SHARED_LIBRARIES
+#define APEX_LINUX_SHARED_LIBRARIES 0
+#endif
 
 #define APEX_DEFAULT_NO_INTEROP_IMPLEMENTATION 1
 
