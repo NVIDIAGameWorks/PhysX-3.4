@@ -2975,20 +2975,17 @@ void NpScene::lockRead(const char* /*file*/, PxU32 /*line*/)
 	localCounts.readLockDepth++;
 	TlsSet(mThreadReadWriteDepth, PxUnionCast<void*>(localCounts));
 
-	// if we are the current writer then do nothing (allow reading from threads with write ownership)
-	if (mCurrentWriter == Thread::getId())
-		return;
-
 	// only lock on first read
+	// if we are the current writer then increment the reader count but don't actually lock (allow reading from threads with write ownership)
 	if (localCounts.readLockDepth == 1)
-		mRWLock.lockReader();
+		mRWLock.lockReader(mCurrentWriter != Thread::getId());
 }
 
 void NpScene::unlockRead()
 {
 	// increment this threads read depth
 	ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
-	if (localCounts.readLockDepth < 1)
+	if(localCounts.readLockDepth < 1)
 	{
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxScene::unlockRead() called without matching call to PxScene::lockRead(), behaviour will be undefined.");
 		return;
@@ -2996,12 +2993,8 @@ void NpScene::unlockRead()
 	localCounts.readLockDepth--;
 	TlsSet(mThreadReadWriteDepth, PxUnionCast<void*>(localCounts));
 
-	// if we are the current writer then do nothing (allow reading from threads with write ownership)
-	if (mCurrentWriter == Thread::getId())
-		return;
-
 	// only unlock on last read
-	if (localCounts.readLockDepth == 0)
+	if(localCounts.readLockDepth == 0)
 		mRWLock.unlockReader();
 }
 

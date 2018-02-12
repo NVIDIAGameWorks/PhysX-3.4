@@ -281,6 +281,7 @@ public:
 	SupportLocal*										mPolyMap;
 	const Cm::FastVertex2ShapeScaling&					mConvexScaling;  
 	bool												mIdtConvexScale;
+	bool												mSilhouetteEdgesAreActive;
 	Cm::RenderOutput*									mRenderOutput;
 	
 				
@@ -297,6 +298,7 @@ public:
 		Ps::InlineArray<PxU32,LOCAL_CONTACTS_SIZE>*		delayedContacts,
 		const Cm::FastVertex2ShapeScaling&				convexScaling,
 		bool											idtConvexScale,
+		bool											silhouetteEdgesAreActive,
 		Cm::RenderOutput*								renderOutput
 		
 	) : PCMMeshContactGeneration(contactDistance, replaceBreakingThreshold, convexTransform, meshTransform, multiManifold, contactBuffer, 
@@ -305,7 +307,9 @@ public:
 		mPolyMap(polyMap),
 		mConvexScaling(convexScaling),
 		mIdtConvexScale(idtConvexScale),
+		mSilhouetteEdgesAreActive(silhouetteEdgesAreActive),
 		mRenderOutput(renderOutput)
+		
 	{
 		using namespace Ps::aos;
 	

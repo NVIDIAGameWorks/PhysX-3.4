@@ -487,6 +487,12 @@ PxU32 raycast_heightField(GU_RAY_FUNC_PARAMS)
 	PxBounds3 hfLocalBounds;
 	hfUtil.computeLocalBounds(hfLocalBounds);
 
+	// PT: inflate the bounds like we do in the scene-tree (see PX-1179)
+	const PxVec3 center = hfLocalBounds.getCenter();
+	const PxVec3 extents = hfLocalBounds.getExtents() * 1.01f;	//SQ_PRUNER_INFLATION;
+	hfLocalBounds.minimum = center - extents;
+	hfLocalBounds.maximum = center + extents;
+
 	PxVec3 localImpact;
 	PxReal t;	// closest intersection, t==0 hit inside
 	PxU32 rval = rayAABBIntersect2(hfLocalBounds.minimum, hfLocalBounds.maximum, localRayOrig, localRayDir, localImpact, t);

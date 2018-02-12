@@ -32,6 +32,7 @@
 #include "GuPCMContactConvexCommon.h"
 #include "GuVecTriangle.h"
 #include "GuBarycentricCoordinates.h"
+#include "GuConvexEdgeFlags.h"
 
 #if	PCM_LOW_LEVEL_DEBUG
 #include "PxRenderBuffer.h"
@@ -1153,23 +1154,28 @@ namespace physx
 					else
 					{
 						//ML : defer the contacts generation
-						const PxU32 nb = sizeof(PCMDeferredPolyData)/sizeof(PxU32);
-						PxU32 newSize = nb + mDeferredContacts->size();
-	                    mDeferredContacts->reserve(newSize);
-						PCMDeferredPolyData* PX_RESTRICT data = reinterpret_cast<PCMDeferredPolyData*>(mDeferredContacts->end());
-	                    mDeferredContacts->forceSize_Unsafe(newSize);
 
-						data->mTriangleIndex = triangleIndex;
-						data->mFeatureIndex = feature1;
-						data->triFlags = triFlags;  
-						data->mInds[0] = triIndices[0];
-						data->mInds[1] = triIndices[1];
-						data->mInds[2] = triIndices[2];
-						V3StoreU(localTriangle.verts[0], data->mVerts[0]);
-						V3StoreU(localTriangle.verts[1], data->mVerts[1]);
-						V3StoreU(localTriangle.verts[2], data->mVerts[2]);
+						if (mSilhouetteEdgesAreActive ||
+							!(triFlags & (ETD_SILHOUETTE_EDGE_01 | ETD_SILHOUETTE_EDGE_12 | ETD_SILHOUETTE_EDGE_20)))
+						{
+							const PxU32 nb = sizeof(PCMDeferredPolyData) / sizeof(PxU32);
+							PxU32 newSize = nb + mDeferredContacts->size();
+							mDeferredContacts->reserve(newSize);
+							PCMDeferredPolyData* PX_RESTRICT data = reinterpret_cast<PCMDeferredPolyData*>(mDeferredContacts->end());
+							mDeferredContacts->forceSize_Unsafe(newSize);
+
+							data->mTriangleIndex = triangleIndex;
+							data->mFeatureIndex = feature1;
+							data->triFlags = triFlags;
+							data->mInds[0] = triIndices[0];
+							data->mInds[1] = triIndices[1];
+							data->mInds[2] = triIndices[2];
+							V3StoreU(localTriangle.verts[0], data->mVerts[0]);
+							V3StoreU(localTriangle.verts[1], data->mVerts[1]);
+							V3StoreU(localTriangle.verts[2], data->mVerts[2]);
+						}
+
 						return true;
-
 					}
 				}
 				else

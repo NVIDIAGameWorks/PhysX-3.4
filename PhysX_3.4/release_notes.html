@@ -30,6 +30,35 @@
 
     <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+    <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.1.23576764</h1>
+    <h2 style="TEXT-ALIGN: center">February 2018</h2>
+
+    <h3>General</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>PhysX sometimes froze in a spinlock after certain sequences of read & write locks. This has been fixed.</li>
+        </ul>
+    </ul>
+	
+    <h3>Scene queries</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Raycasts against heightfields were sometimes missing hits for vertical rays were located exactly at the heightfield's boundaries. This has been fixed.</li>
+        </ul>
+    </ul>
+	
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Avoid edge-face collisions on boundary edges when eNO_BOUNDARY_EDGES flag is raised on heightfield when using PCM and unified HF collision.</li>
+        </ul>
+    </ul>
+
+    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.1.23472123</h1>
     <h2 style="TEXT-ALIGN: center">January 2018</h2>
 

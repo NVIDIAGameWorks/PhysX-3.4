@@ -437,7 +437,7 @@ void SampleLargeWorld::onTickPreRender(PxF32 dtime)
 	}
 	
 #if ENABLE_PROGRESS_BAR
-	mBGLoader->mLoaderStatusLock.lockReader();
+	mBGLoader->mLoaderStatusLock.lockReader(true);
 	mProgressBarRatio = mBGLoader->mQueryProgress;
 	mDiskIOTime = mBGLoader->mDiskIOTime;
 	mPhysxStreaming = mBGLoader->mPhyXStreamTime;

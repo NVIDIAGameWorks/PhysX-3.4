@@ -129,13 +129,15 @@ ReadWriteLock::~ReadWriteLock()
 	PX_FREE(mImpl);
 }
 
-void ReadWriteLock::lockReader()
+void ReadWriteLock::lockReader(bool takeLock)
 {
-	mImpl->mutex.lock();
+	if(takeLock)
+		mImpl->mutex.lock();
 
 	InterlockedIncrement(&mImpl->readerCount);
 
-	mImpl->mutex.unlock();
+	if(takeLock)
+		mImpl->mutex.unlock();
 }
 
 void ReadWriteLock::lockWriter()
@@ -143,8 +145,7 @@ void ReadWriteLock::lockWriter()
 	mImpl->mutex.lock();
 
 	// spin lock until no readers
-	while(mImpl->readerCount)
-		;
+	while(mImpl->readerCount);
 }
 
 void ReadWriteLock::unlockReader()

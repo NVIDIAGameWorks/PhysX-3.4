@@ -163,7 +163,8 @@ class PX_FOUNDATION_API ReadWriteLock
 	ReadWriteLock();
 	~ReadWriteLock();
 
-	void lockReader();
+	// "takeLock" can only be false if the thread already holds the mutex, e.g. if it already acquired the write lock
+	void lockReader(bool takeLock=true);
 	void lockWriter();
 
 	void unlockReader();
@@ -173,10 +174,17 @@ class PX_FOUNDATION_API ReadWriteLock
 	class ReadWriteLockImpl* mImpl;
 };
 
+typedef MutexT<> Mutex;
+
+
+
+
+// PT: the following classes aren't used in PhysX but might still be used in APEX.
+
 class ScopedReadLock
 {
 	PX_NOCOPY(ScopedReadLock)
-  public:
+public:
 	PX_INLINE ScopedReadLock(ReadWriteLock& lock) : mLock(lock)
 	{
 		mLock.lockReader();
@@ -186,14 +194,14 @@ class ScopedReadLock
 		mLock.unlockReader();
 	}
 
-  private:
+private:
 	ReadWriteLock& mLock;
 };
 
 class ScopedWriteLock
 {
 	PX_NOCOPY(ScopedWriteLock)
-  public:
+public:
 	PX_INLINE ScopedWriteLock(ReadWriteLock& lock) : mLock(lock)
 	{
 		mLock.lockWriter();
@@ -203,22 +211,20 @@ class ScopedWriteLock
 		mLock.unlockWriter();
 	}
 
-  private:
+private:
 	ReadWriteLock& mLock;
 };
 
-typedef MutexT<> Mutex;
-
 /*
- * Use this type of lock for mutex behaviour that must operate on SPU and PPU
- * On non-PS3 platforms, it is implemented using Mutex
- */
+* Use this type of lock for mutex behaviour that must operate on SPU and PPU
+* On non-PS3 platforms, it is implemented using Mutex
+*/
 class AtomicLock
 {
 	Mutex mMutex;
 	PX_NOCOPY(AtomicLock)
 
-  public:
+public:
 	AtomicLock()
 	{
 	}
@@ -245,7 +251,7 @@ class AtomicLockCopy
 {
 	AtomicLock* pLock;
 
-  public:
+public:
 	AtomicLockCopy() : pLock(NULL)
 	{
 	}
@@ -277,7 +283,7 @@ class AtomicRwLock
 	ReadWriteLock m_Lock;
 	PX_NOCOPY(AtomicRwLock)
 
-  public:
+public:
 	AtomicRwLock()
 	{
 	}
@@ -320,9 +326,17 @@ class ScopedAtomicLock
 	}
 
 	PX_NOCOPY(ScopedAtomicLock)
-  private:
+private:
 	AtomicLock& mLock;
 };
+
+
+
+
+
+
+
+
 
 } // namespace shdfnd
 } // namespace physx

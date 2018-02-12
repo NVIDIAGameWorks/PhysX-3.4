@@ -61,24 +61,26 @@ public:
 	PCMConvexVsMeshContactGenerationCallback(
 		const Ps::aos::FloatVArg					contactDistance,
 		const Ps::aos::FloatVArg					replaceBreakingThreshold,
-		const PsTransformV&							convexTransform, 
+		const PsTransformV&							convexTransform,
 		const PsTransformV&							meshTransform,
 		MultiplePersistentContactManifold&			multiManifold,
 		ContactBuffer&								contactBuffer,
 		const PolygonalData&						polyData,
 		SupportLocal*								polyMap,
-		Ps::InlineArray<PxU32,LOCAL_CONTACTS_SIZE>*	delayedContacts,
+		Ps::InlineArray<PxU32, LOCAL_CONTACTS_SIZE>* delayedContacts,
 		const Cm::FastVertex2ShapeScaling&			convexScaling,
 		bool										idtConvexScale,
 		const Cm::FastVertex2ShapeScaling&			meshScaling,
 		const PxU8*									extraTriData,
 		bool										idtMeshScale,
+		bool										silhouetteEdgesAreActive,
 		const BoxPadded&							box,
 		Cm::RenderOutput*							renderOutput = NULL
 		
 	) :
 		PCMMeshContactGenerationCallback<PCMConvexVsMeshContactGenerationCallback>(meshScaling, extraTriData, idtMeshScale),
-		mGeneration(contactDistance, replaceBreakingThreshold, convexTransform, meshTransform, multiManifold, contactBuffer, polyData, polyMap, delayedContacts, convexScaling, idtConvexScale, renderOutput),
+		mGeneration(contactDistance, replaceBreakingThreshold, convexTransform, meshTransform, multiManifold, contactBuffer, polyData, polyMap, 
+			delayedContacts, convexScaling, idtConvexScale, silhouetteEdgesAreActive, renderOutput),
 		mBox(box)
 	{
 	}
@@ -143,7 +145,7 @@ bool Gu::PCMContactConvexMesh(const PolygonalData& polyData, SupportLocal* polyM
 		const PxU8* PX_RESTRICT extraData = meshData->getExtraTrigData();
 		PCMConvexVsMeshContactGenerationCallback blockCallback(
 			contactDist, replaceBreakingThreshold, convexTransform, meshTransform, multiManifold, contactBuffer,
-			polyData, polyMap, &delayedContacts, convexScaling, idtConvexScale, meshScaling, extraData, idtMeshScale, 
+			polyData, polyMap, &delayedContacts, convexScaling, idtConvexScale, meshScaling, extraData, idtMeshScale, true, 
 			hullOBB, renderOutput);
 
 		Midphase::intersectOBB(meshData, hullOBB, blockCallback, true);

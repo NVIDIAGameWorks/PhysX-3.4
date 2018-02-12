@@ -370,8 +370,6 @@
 		</ClInclude>
 		<ClInclude Include="..\..\Common\src\CmRadixSortBuffered.h">
 		</ClInclude>
-		<ClInclude Include="..\..\Common\src\CmReaderWriterLock.h">
-		</ClInclude>
 		<ClInclude Include="..\..\Common\src\CmRefCountable.h">
 		</ClInclude>
 		<ClInclude Include="..\..\Common\src\CmRenderBuffer.h">

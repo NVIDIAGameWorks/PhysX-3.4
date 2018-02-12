@@ -75,12 +75,13 @@ public:
 		Gu::ContactBuffer&							contactBuffer,
 		Gu::HeightFieldUtil&						hfUtil,
 		Ps::InlineArray<PxU32,LOCAL_CONTACTS_SIZE>*	delayedContacts,
+		bool										silhouetteEdgesAreActive,
 		Cm::RenderOutput*							renderOutput = NULL
 		
 	) :
 		PCMHeightfieldContactGenerationCallback< PCMConvexVsHeightfieldContactGenerationCallback >(hfUtil, heightfieldTransform1),
 		mGeneration(contactDistance, replaceBreakingThreshold, convexTransform, heightfieldTransform,  multiManifold,
-			contactBuffer, polyData, polyMap, delayedContacts, convexScaling, idtConvexScale, renderOutput)
+			contactBuffer, polyData, polyMap, delayedContacts, convexScaling, idtConvexScale, silhouetteEdgesAreActive, renderOutput)
 	{
 	}
 
@@ -156,6 +157,7 @@ bool Gu::PCMContactConvexHeightfield(
 			contactBuffer,
 			hfUtil,
 			&delayedContacts,
+			!(hf.getFlags() & PxHeightFieldFlag::eNO_BOUNDARY_EDGES),
 			renderOutput
 		);
 

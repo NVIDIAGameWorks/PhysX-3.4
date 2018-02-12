@@ -111,11 +111,12 @@ struct PCMHeightfieldContactGenerationCallback : Gu::EntityReport<PxU32>
 public:
 	const Gu::HeightFieldUtil&	mHfUtil;
 	const PxTransform&			mHeightfieldTransform;
+	bool						mBoundaryCollisions;
 
 	PCMHeightfieldContactGenerationCallback(const Gu::HeightFieldUtil& hfUtil, const PxTransform& heightfieldTransform)	:
 		mHfUtil(hfUtil), mHeightfieldTransform(heightfieldTransform)
 	{
-
+		mBoundaryCollisions = !(hfUtil.getHeightField().getFlags() & PxHeightFieldFlag::eNO_BOUNDARY_EDGES);
 	}
 
 	// PT: TODO: refactor/unify with similar code in other places
@@ -153,7 +154,7 @@ public:
 				for(PxU32 a = 0; a < 3; ++a)
 				{
 
-					if(adjInds[a] != 0xFFFFFFFF)
+					if (adjInds[a] != 0xFFFFFFFF)
 					{
 						PxTriangle adjTri;
 						PxU32 inds[3];
@@ -161,7 +162,7 @@ public:
 						//We now compare the triangles to see if this edge is active
 
 						PX_ASSERT(inds[0] == vertIndices[a] || inds[1] == vertIndices[a] || inds[2] == vertIndices[a]);
-						PX_ASSERT(inds[0] == vertIndices[(a+1)%3] || inds[1] == vertIndices[(a+1)%3] || inds[2] == vertIndices[(a+1)%3]);
+						PX_ASSERT(inds[0] == vertIndices[(a + 1) % 3] || inds[1] == vertIndices[(a + 1) % 3] || inds[2] == vertIndices[(a + 1) % 3]);
 
 
 						PxVec3 adjNormal;
@@ -169,20 +170,22 @@ public:
 						PxU32 otherIndex = nextInd[a];
 						PxF32 projD = adjNormal.dot(currentTriangle.verts[otherIndex] - adjTri.verts[0]);
 
-						if(projD < 0.f)
+						if (projD < 0.f)
 						{
 							adjNormal.normalize();
 
 							PxF32 proj = adjNormal.dot(normal);
 
-							if(proj < 0.997f)
+							if (proj < 0.997f)
 							{
-								triFlags |= (1 << (a+3));
+								triFlags |= (1 << (a + 3));
 							}
 						}
 					}
+					else if (mBoundaryCollisions)
+						triFlags |= (1 << (a + 3)); //Mark as boudary active edge
 					else
-						triFlags |= (1 << (a+3));
+						triFlags |= (1 << a); //Mark as silhouette edge
 				}
 
 				cache.addTriangle(currentTriangle.verts, vertIndices, triangleIndex, triFlags);
