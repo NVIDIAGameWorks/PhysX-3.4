@@ -872,7 +872,7 @@ PxU32 NpFactory::getShapes(PxShape** userBuffer, PxU32 bufferSize, PxU32 startIn
 {
 	if(mShapeTracking.size()<startIndex)
 		return 0;
-	PxU32 count = PxMax(bufferSize, mShapeTracking.size()-startIndex);
+	PxU32 count = PxMin(bufferSize, mShapeTracking.size()-startIndex);
 	PxShape*const *shapes = mShapeTracking.getEntries();
 	for(PxU32 i=0;i<count;i++)
 		userBuffer[i] = shapes[startIndex+i];
