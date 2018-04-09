@@ -138,7 +138,7 @@ void PxcDisplayContactCacheStats();
 class ScAfterIntegrationTask :  public Cm::Task
 {
 public:
-	static const PxU32 MaxTasks = 256;
+	static const PxU32 MaxShapesPerTasks = 512;
 private:
 	const IG::NodeIndex* const	mIndices;
 	const PxU32					mNumBodies;
@@ -164,17 +164,17 @@ public:
 	{		
 		const PxU32 rigidBodyOffset = Sc::BodySim::getRigidBodyOffset();
 
-		Sc::BodySim* bpUpdates[MaxTasks];
-		Sc::BodySim* ccdBodies[MaxTasks];
-		Sc::BodySim* activateBodies[MaxTasks];
-		Sc::BodySim* deactivateBodies[MaxTasks];
+		Sc::BodySim* bpUpdates[MaxShapesPerTasks];
+		Sc::BodySim* ccdBodies[MaxShapesPerTasks];
+		Sc::BodySim* activateBodies[MaxShapesPerTasks];
+		Sc::BodySim* deactivateBodies[MaxShapesPerTasks];
 		PxU32 nbBpUpdates = 0, nbCcdBodies = 0;
 
 		IG::SimpleIslandManager& manager = *mScene.getSimpleIslandManager();
 		const IG::IslandSim& islandSim = manager.getAccurateIslandSim();
 		Bp::BoundsArray& boundsArray = mScene.getBoundsArray();
 
-		Sc::BodySim* frozen[MaxTasks], * unfrozen[MaxTasks];
+		Sc::BodySim* frozen[MaxShapesPerTasks], * unfrozen[MaxShapesPerTasks];
 		PxU32 nbFrozen = 0, nbUnfrozen = 0;
 		PxU32 nbActivated = 0, nbDeactivated = 0;
 
@@ -305,7 +305,7 @@ public:
 
 		Cm::FlushPool& flushPool = contextLL->getTaskPool();
 
-		const PxU32 MaxBodiesPerTask = ScAfterIntegrationTask::MaxTasks;
+		const PxU32 MaxShapesPerTask = ScAfterIntegrationTask::MaxShapesPerTasks;
 
 		PxsTransformCache& cache = contextLL->getTransformCache();
 
@@ -315,11 +315,32 @@ public:
 
 		const IG::NodeIndex*const nodeIndices = islandSim.getActiveNodes(IG::Node::eRIGID_BODY_TYPE);
 
+		const PxU32 rigidBodyOffset = Sc::BodySim::getRigidBodyOffset();
+
 		if(1)
 		{
-			for(PxU32 i = 0; i < numBodies; i+=MaxBodiesPerTask)
+			PxU32 nbShapes = 0;
+			PxU32 startIdx = 0;
+			for(PxU32 i = 0; i < numBodies; i++)//i+=MaxBodiesPerTask)
 			{
-				ScAfterIntegrationTask* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(ScAfterIntegrationTask)), ScAfterIntegrationTask(nodeIndices+i, PxMin(numBodies - i, MaxBodiesPerTask), 
+				if (nbShapes >= MaxShapesPerTask)
+				{
+					ScAfterIntegrationTask* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(ScAfterIntegrationTask)), ScAfterIntegrationTask(nodeIndices + startIdx, i - startIdx,
+						contextLL, dynamicContext, cache, *mScene));
+					task->setContinuation(continuation);
+					task->removeReference();
+					startIdx = i;
+					nbShapes = 0;
+				}
+
+				PxsRigidBody* rigid = islandSim.getRigidBody(nodeIndices[i]);
+				Sc::BodySim* bodySim = reinterpret_cast<Sc::BodySim*>(reinterpret_cast<PxU8*>(rigid) - rigidBodyOffset);
+				nbShapes += PxMax(1u, bodySim->getNbShapes()); //Always add at least 1 shape in, even if the body has zero shapes because there is still some per-body overhead
+			}
+
+			if (nbShapes)
+			{
+				ScAfterIntegrationTask* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(ScAfterIntegrationTask)), ScAfterIntegrationTask(nodeIndices + startIdx, numBodies - startIdx,
 					contextLL, dynamicContext, cache, *mScene));
 				task->setContinuation(continuation);
 				task->removeReference();
@@ -341,8 +362,8 @@ public:
 			}
 
 			// PT: we need to respect that limit even with a single thread, because of hardcoded buffer limits in ScAfterIntegrationTask.
-			if(nbPerTask>MaxBodiesPerTask)
-				nbPerTask = MaxBodiesPerTask;
+			if(nbPerTask>MaxShapesPerTask)
+				nbPerTask = MaxShapesPerTask;
 
 			PxU32 start = 0;
 			while(numBodies)
@@ -2286,6 +2307,8 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 
 	const size_t bodyOffset = PX_OFFSET_OF_RT(Sc::BodySim, getLowLevelBody());
 
+	Cm::BitMapPinned& changedMap = mAABBManager->getChangedAABBMgActorHandleMap();
+
 	bool hasContactDistanceChanged = mHasContactDistanceChanged;
 	while ((index = speculativeCCDIter.getNext()) != Cm::BitMap::Iterator::DONE)
 	{
@@ -2295,6 +2318,13 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 		{
 			hasContactDistanceChanged = true;
 			ccdTask->mBodySims[ccdTask->mNbBodies++] = bodySim;
+
+			Sc::ShapeIterator iterator(*bodySim);
+			Sc::ShapeSim* shapeSim = NULL;
+			while ((shapeSim = iterator.getNext()) != NULL)
+			{
+				changedMap.growAndSet(shapeSim->getElementID());
+			}
 
 			if (ccdTask->mNbBodies == SpeculativeCCDContactDistanceUpdateTask::MaxBodies)
 			{
@@ -2332,8 +2362,6 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 	
 	//Process dirty shapeSims...
 	Cm::BitMap::Iterator dirtyShapeIter(mDirtyShapeSimMap);
-
-	Cm::BitMapPinned& changedMap = mAABBManager->getChangedAABBMgActorHandleMap();
 
 	PxsTransformCache& cache = mLLContext->getTransformCache();
 	Bp::BoundsArray& boundsArray = mAABBManager->getBoundsArray();
@@ -2877,7 +2905,7 @@ void Sc::Scene::processLostContacts(PxBaseTask* continuation)
 			ElementSim* volume0 = reinterpret_cast<ElementSim*>(p->mUserData0);
 			ElementSim* volume1 = reinterpret_cast<ElementSim*>(p->mUserData1);
 			Sc::ElementSimInteraction* interaction = mNPhaseCore->onOverlapRemovedStage1(volume0, volume1);
-			p->mUserData = interaction;
+			p->mPairUserData = interaction;
 			p++;
 		}
 	}
@@ -2898,9 +2926,9 @@ void Sc::Scene::lostTouchReports(PxBaseTask*)
 			const Bp::AABBOverlap* PX_RESTRICT p = aabbMgr->getDestroyedOverlaps(Bp::VolumeBuckets::eSHAPE, destroyedOverlapCount);
 			while (destroyedOverlapCount--)
 			{
-				if (p->mUserData)
+				if (p->mPairUserData)
 				{
-					Sc::ElementSimInteraction* elemInteraction = reinterpret_cast<Sc::ElementSimInteraction*>(p->mUserData);
+					Sc::ElementSimInteraction* elemInteraction = reinterpret_cast<Sc::ElementSimInteraction*>(p->mPairUserData);
 					if (elemInteraction->getType() == Sc::InteractionType::eOVERLAP)
 						mNPhaseCore->lostTouchReports(static_cast<Sc::ShapeInteraction*>(elemInteraction), PxU32(PairReleaseFlag::eWAKE_ON_LOST_TOUCH), 0, outputs, useAdaptiveForce);
 				}
@@ -2922,9 +2950,9 @@ void Sc::Scene::unregisterInteractions(PxBaseTask*)
 			const Bp::AABBOverlap* PX_RESTRICT p = aabbMgr->getDestroyedOverlaps(Bp::VolumeBuckets::eSHAPE, destroyedOverlapCount);
 			while (destroyedOverlapCount--)
 			{
-				if (p->mUserData)
+				if (p->mPairUserData)
 				{
-					Sc::ElementSimInteraction* elemInteraction = reinterpret_cast<Sc::ElementSimInteraction*>(p->mUserData);
+					Sc::ElementSimInteraction* elemInteraction = reinterpret_cast<Sc::ElementSimInteraction*>(p->mPairUserData);
 					if (elemInteraction->getType() == Sc::InteractionType::eOVERLAP || elemInteraction->getType() == Sc::InteractionType::eMARKER)
 					{
 						unregisterInteraction(elemInteraction);
@@ -2951,9 +2979,9 @@ void Sc::Scene::destroyManagers(PxBaseTask*)
 		const Bp::AABBOverlap* PX_RESTRICT p = aabbMgr->getDestroyedOverlaps(Bp::VolumeBuckets::eSHAPE, destroyedOverlapCount);
 		while (destroyedOverlapCount--)
 		{
-			if (p->mUserData)
+			if (p->mPairUserData)
 			{
-				Sc::ElementSimInteraction* elemInteraction = reinterpret_cast<Sc::ElementSimInteraction*>(p->mUserData);
+				Sc::ElementSimInteraction* elemInteraction = reinterpret_cast<Sc::ElementSimInteraction*>(p->mPairUserData);
 				if (elemInteraction->getType() == Sc::InteractionType::eOVERLAP)
 				{
 					Sc::ShapeInteraction* si = static_cast<Sc::ShapeInteraction*>(elemInteraction);
@@ -2986,7 +3014,7 @@ void Sc::Scene::processLostContacts2(PxBaseTask* continuation)
 			Bp::AABBOverlap* PX_RESTRICT p = aabbMgr->getDestroyedOverlaps(Bp::VolumeBuckets::eSHAPE, destroyedOverlapCount);
 			while (destroyedOverlapCount--)
 			{
-				Sc::ElementSimInteraction* pair = reinterpret_cast<Sc::ElementSimInteraction*>(p->mUserData);
+				Sc::ElementSimInteraction* pair = reinterpret_cast<Sc::ElementSimInteraction*>(p->mPairUserData);
 				if (pair)
 				{
 					if (pair->getType() == InteractionType::eOVERLAP)
@@ -3021,7 +3049,7 @@ void Sc::Scene::processLostContacts3(PxBaseTask* /*continuation*/)
 				ElementSim* volume0 = reinterpret_cast<ElementSim*>(p->mUserData0);
 				ElementSim* volume1 = reinterpret_cast<ElementSim*>(p->mUserData1);
 
-				mNPhaseCore->onOverlapRemoved(volume0, volume1, false, p->mUserData, outputs, useAdaptiveForce);
+				mNPhaseCore->onOverlapRemoved(volume0, volume1, false, p->mPairUserData, outputs, useAdaptiveForce);
 				p++;
 			}
 		}
@@ -3337,7 +3365,47 @@ void Sc::Scene::integrateKinematicPose()
 	}
 }
 
-void Sc::Scene::updateKinematicCached()
+class KinematicUpdateCachedTask : public Cm::Task
+{
+private:
+	KinematicUpdateCachedTask& operator = (const KinematicUpdateCachedTask&);
+
+	Sc::BodyCore*const* mKinematics;
+	PxU32				mNbKinematics;
+	PxsTransformCache&	mTransformCache;
+	Bp::BoundsArray&	mBoundsArray;
+
+
+public:
+	KinematicUpdateCachedTask(Sc::BodyCore*const* kinematics, PxU32 nbKinematics, PxU64 contextId,
+		PxsTransformCache& transformCache, Bp::BoundsArray& boundsArray) :
+		Cm::Task(contextId),
+		mKinematics(kinematics), mNbKinematics(nbKinematics),
+		mTransformCache(transformCache), mBoundsArray(boundsArray)
+	{
+	}
+
+	virtual void runInternal()
+	{
+		for (PxU32 i = 0; i < mNbKinematics; ++i)
+		{
+			mKinematics[i]->getSim()->updateCached(mTransformCache, mBoundsArray);
+		}
+	}
+
+	virtual const char* getName() const
+	{
+		return "ScScene.KinematicUpdateCachedTask";
+	}
+
+public:
+	static const PxU32 NbShapesPerTask = 512;  // just a guideline, will not match exactly most of the time
+
+private:
+};
+
+
+void Sc::Scene::updateKinematicCached(PxBaseTask* continuation)
 {
 	PX_PROFILE_ZONE("Sim.integrateKinematicPose", getContextId());
 
@@ -3346,9 +3414,16 @@ void Sc::Scene::updateKinematicCached()
 	BodyCore*const* kineEnd = kinematics + nbKinematics;
 	BodyCore*const* kinePrefetch = kinematics + 16;
 
-	for(PxU32 i = 0; i < nbKinematics; ++i)
+	PxU32 nbShapes = 0;
+	PxU32 startIndex = 0;
+
+	PxsTransformCache& transformCache = getLowLevelContext()->getTransformCache();
+	Bp::BoundsArray& boundsArray = getAABBManager()->getBoundsArray();
+
+
+	for (PxU32 i = 0; i < nbKinematics; ++i)
 	{
-		if(kinePrefetch < kineEnd)
+		if (kinePrefetch < kineEnd)
 		{
 			Ps::prefetch(*kinePrefetch, 1024);
 			kinePrefetch++;
@@ -3359,9 +3434,43 @@ void Sc::Scene::updateKinematicCached()
 		PX_ASSERT(sim->isKinematic());
 		PX_ASSERT(sim->isActive());
 
+		nbShapes += sim->getNbShapes();
+
+		if (nbShapes >= KinematicUpdateCachedTask::NbShapesPerTask)
+		{
+			KinematicUpdateCachedTask* task = PX_PLACEMENT_NEW(mTaskPool.allocate(sizeof(KinematicUpdateCachedTask)), KinematicUpdateCachedTask)
+				(kinematics + startIndex, (i + 1) - startIndex, mContextId, transformCache, boundsArray);
+			task->setContinuation(continuation);
+			task->removeReference();
+			startIndex = i + 1;
+			nbShapes = 0;
+		}
+	}
+
+	if (nbShapes)
+	{
+		KinematicUpdateCachedTask* task = PX_PLACEMENT_NEW(mTaskPool.allocate(sizeof(KinematicUpdateCachedTask)), KinematicUpdateCachedTask)
+			(kinematics + startIndex, nbKinematics - startIndex, mContextId, transformCache, boundsArray);
+		task->setContinuation(continuation);
+		task->removeReference();
+	}
+
+
+	for (PxU32 i = 0; i < nbKinematics; ++i)
+	{
+		BodyCore* b = kinematics[i];
+		BodySim* bodySim = b->getSim();
 		Cm::BitMapPinned& changedAABBMgrActorHandles = mAABBManager->getChangedAABBMgActorHandleMap();
-		sim->updateCached(&changedAABBMgrActorHandles);
-		mSimulationController->addDynamic(&sim->getLowLevelBody(), sim->getNodeIndex().index());
+		if (!(bodySim->getInternalFlag() & PxsRigidBody::eFROZEN))
+		{
+			Sc::ShapeSim* sim;
+			for (Sc::ShapeIterator iterator(*bodySim); (sim = iterator.getNext()) != NULL;)
+			{
+				if(sim->isInBroadPhase())
+					changedAABBMgrActorHandles.growAndSet(sim->getElementID());
+			}
+		}
+		mSimulationController->addDynamic(&bodySim->getLowLevelBody(), bodySim->getNodeIndex().index());
 	}
 }
 
@@ -4051,7 +4160,7 @@ void Sc::Scene::afterIntegration(PxBaseTask* continuation)
 			}
 		}
 
-		updateKinematicCached();
+		updateKinematicCached(continuation);
 
 		mLLContext->getLock().unlock();
 	}
@@ -6171,7 +6280,6 @@ public:
 	Sc::NPhaseCore* mNPhaseCore;
 	const Bp::AABBOverlap* PX_RESTRICT mPairs;
 
-	Bp::BroadPhasePair* mBpPairs;
 	PxU32 mNbToProcess;
 
 	PxU32 mKeepMap[MaxPairs/32];
@@ -6183,11 +6291,10 @@ public:
 	PxU32 mNbToSuppress;
 	PxU32 mNbToCallback;
 
-	OverlapFilterTask(PxU64 contextID, Sc::NPhaseCore* nPhaseCore, PxFilterInfo* fInfo, const Bp::AABBOverlap* PX_RESTRICT pairs, Bp::BroadPhasePair* bpPairs, const PxU32 nbToProcess) :
+	OverlapFilterTask(PxU64 contextID, Sc::NPhaseCore* nPhaseCore, PxFilterInfo* fInfo, const Bp::AABBOverlap* PX_RESTRICT pairs, const PxU32 nbToProcess) :
 		Cm::Task		(contextID),
 		mNPhaseCore		(nPhaseCore),
 		mPairs			(pairs),
-		mBpPairs		(bpPairs),
 		mNbToProcess	(nbToProcess),
 		mFinfo			(fInfo),
 		mNbToKeep		(0),
@@ -6206,11 +6313,7 @@ public:
 			Sc::ElementSim* e0 = reinterpret_cast<Sc::ElementSim*>(pair.mUserData0);
 			Sc::ElementSim* e1 = reinterpret_cast<Sc::ElementSim*>(pair.mUserData1);
 
-			Bp::BroadPhasePair* thisPair = NULL;
-			if(pair.mPairHandle != BP_INVALID_BP_HANDLE && mBpPairs != NULL)
-				thisPair = &mBpPairs[pair.mPairHandle];
-
-			const PxFilterInfo finfo = mNPhaseCore->onOverlapFilter(e0, e1, thisPair);
+			const PxFilterInfo finfo = mNPhaseCore->onOverlapFilter(e0, e1);
 
 			mFinfo[a] = finfo;
 
@@ -6245,12 +6348,10 @@ public:
 	PxsContactManager** mContactManagers;
 	Sc::ShapeInteraction** mShapeInteractions;
 	Sc::ElementInteractionMarker** mInteractionMarkers;
-	Bp::BroadPhasePair* mBpPairs;
 	PxU32 mNbToProcess;
 
-
 	OnOverlapCreatedTask(PxU64 contextID, Sc::NPhaseCore* nPhaseCore, const Bp::AABBOverlap* PX_RESTRICT pairs, const PxFilterInfo* fInfo, PxsContactManager** contactManagers, Sc::ShapeInteraction** shapeInteractions, Sc::ElementInteractionMarker** interactionMarkers,
-		Bp::BroadPhasePair* bpPairs, PxU32 nbToProcess) :
+		PxU32 nbToProcess) :
 		Cm::Task			(contextID),
 		mNPhaseCore			(nPhaseCore),
 		mPairs				(pairs),
@@ -6258,7 +6359,6 @@ public:
 		mContactManagers	(contactManagers),
 		mShapeInteractions	(shapeInteractions),
 		mInteractionMarkers	(interactionMarkers),
-		mBpPairs			(bpPairs),
 		mNbToProcess		(nbToProcess)
 	{
 	}
@@ -6275,14 +6375,7 @@ public:
 			Sc::ShapeSim* s0 = reinterpret_cast<Sc::ShapeSim*>(pair.mUserData1);
 			Sc::ShapeSim* s1 = reinterpret_cast<Sc::ShapeSim*>(pair.mUserData0);
 				
-			Bp::BroadPhasePair* thisPair = NULL;
-			if(pair.mPairHandle != BP_INVALID_BP_HANDLE && mBpPairs != NULL)
-				thisPair = &mBpPairs[pair.mPairHandle];
-
 			Sc::ElementSimInteraction* interaction = mNPhaseCore->createRbElementInteraction(mFinfo[a], *s0, *s1, *currentCm, *currentSI, *currentEI, 0);
-
-			if(thisPair)
-				thisPair->mUserData = interaction;
 
 			if(interaction)
 			{
@@ -6379,12 +6472,10 @@ void Sc::Scene::preallocateContactManagers(PxBaseTask* continuation)
 	Sc::ShapeInteraction** shapeInter = mPreallocatedShapeInteractions.begin();
 	Sc::ElementInteractionMarker** markerIter = mPreallocatedInteractionMarkers.begin();
 
-	Bp::BroadPhasePair* bpPairs = mAABBManager->getBroadPhase()->getBroadPhasePairs();
-
 	Cm::FlushPool& flushPool = mLLContext->getTaskPool();
 
 	OnOverlapCreatedTask* createTask = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(OnOverlapCreatedTask)), OnOverlapCreatedTask)(getContextId(), mNPhaseCore, p,
-			fInfo, cms, shapeInter, markerIter, bpPairs, 0);
+			fInfo, cms, shapeInter, markerIter, 0);
 
 	PxU32 batchSize = 0;
 	PxU32 suppressedStartIdx = 0;
@@ -6437,7 +6528,7 @@ void Sc::Scene::preallocateContactManagers(PxBaseTask* continuation)
 		
 
 			createTask = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(OnOverlapCreatedTask)), OnOverlapCreatedTask)(getContextId(), mNPhaseCore, p + createdOverlapCount,
-				fInfo + createdOverlapCount, cms + createdStartIdx, shapeInter + createdStartIdx, markerIter + suppressedStartIdx, bpPairs, 0);
+				fInfo + createdOverlapCount, cms + createdStartIdx, shapeInter + createdStartIdx, markerIter + suppressedStartIdx, 0);
 
 			batchSize = 0;
 		}
@@ -6470,7 +6561,6 @@ void Sc::Scene::finishBroadPhase(PxU32 ccdPass, PxBaseTask* continuation)
 	PX_PROFILE_ZONE("Sc::Scene::finishBroadPhase", getContextId());
 
 	Bp::SimpleAABBManager* aabbMgr = mAABBManager;
-	Bp::BroadPhasePair* bpPairs = aabbMgr->getBroadPhase()->getBroadPhasePairs();
 
 	{
 		PX_PROFILE_ZONE("Sim.processNewOverlaps", getContextId());
@@ -6488,7 +6578,7 @@ void Sc::Scene::finishBroadPhase(PxU32 ccdPass, PxBaseTask* continuation)
 
 
 				mLLContext->getSimStats().mNbNewPairs += createdOverlapCount;
-				mNPhaseCore->onOverlapCreated(p, createdOverlapCount, ccdPass, bpPairs);
+				mNPhaseCore->onOverlapCreated(p, createdOverlapCount, ccdPass);
 			}
 		}
 
@@ -6522,7 +6612,7 @@ void Sc::Scene::finishBroadPhase(PxU32 ccdPass, PxBaseTask* continuation)
 			{
 				PxU32 nbToProcess = PxMin(createdOverlapCount - a, nbPairsPerTask);
 				OverlapFilterTask* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(OverlapFilterTask)), OverlapFilterTask)(getContextId(), mNPhaseCore, mFilterInfo.begin() + a, 
-					p + a, bpPairs, nbToProcess);
+					p + a, nbToProcess);
 
 				task->setContinuation(&mPreallocateContactManagers);
 				task->removeReference();
@@ -6539,7 +6629,6 @@ void Sc::Scene::finishBroadPhaseStage2(const PxU32 ccdPass)
 	PX_PROFILE_ZONE("Sc::Scene::finishBroadPhase2", getContextId());
 
 	Bp::SimpleAABBManager* aabbMgr = mAABBManager;
-	//Bp::BroadPhasePair* bpPairs = aabbMgr->getBroadPhase()->getBroadPhasePairs();
 
 	for (PxU32 i = 0; i < Bp::VolumeBuckets::eCOUNT; ++i)
 	{
@@ -6572,7 +6661,7 @@ void Sc::Scene::finishBroadPhaseStage2(const PxU32 ccdPass)
 
 				//First, we have to get the interaction pointer...
 				Sc::ElementSimInteraction* interaction = mNPhaseCore->onOverlapRemovedStage1(volume0, volume1);
-				p->mUserData = interaction;
+				p->mPairUserData = interaction;
 				if (interaction)
 				{
 					if (interaction->getType() == Sc::InteractionType::eOVERLAP || interaction->getType() == Sc::InteractionType::eMARKER)
@@ -6606,7 +6695,7 @@ void Sc::Scene::finishBroadPhaseStage2(const PxU32 ccdPass)
 				ElementSim* volume0 = reinterpret_cast<ElementSim*>(p->mUserData0);
 				ElementSim* volume1 = reinterpret_cast<ElementSim*>(p->mUserData1);
 
-				p->mUserData = NULL;
+				p->mPairUserData = NULL;
 
 				//KS - this is a bit ugly. 
 				mNPhaseCore->onOverlapRemoved(volume0, volume1, ccdPass, NULL, outputs, useAdaptiveForce);

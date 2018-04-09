@@ -1042,7 +1042,7 @@ void PhysXSample::onInit()
 	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;
 	//sceneDesc.flags |= PxSceneFlag::eADAPTIVE_FORCE;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_ACTIVETRANSFORMS;
-	sceneDesc.flags |= PxSceneFlag::eSUPPRESS_EAGER_SCENE_QUERY_REFIT;
+	sceneDesc.sceneQueryUpdateMode = PxSceneQueryUpdateMode::eBUILD_ENABLED_COMMIT_DISABLED;
 	//sceneDesc.flags |= PxSceneFlag::eDISABLE_CONTACT_CACHE;
 	sceneDesc.broadPhaseType =  PxBroadPhaseType::eGPU;
 	sceneDesc.gpuMaxNumPartitions = 8;

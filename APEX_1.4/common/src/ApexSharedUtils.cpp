@@ -2452,10 +2452,10 @@ static void _arrayVec3ToVec4(const PxVec3* src, physx::aos::Vec4V* dst, PxU32 nu
 	const PxU32 num4 = num >> 2;
 	for (PxU32 i = 0; i < num4; i++, dst += 3, src += 4)
 	{
-		Vec3V v0 = V3LoadU(&src[0].x);
-		Vec3V v1 = V3LoadU(&src[1].x);
-		Vec3V v2 = V3LoadU(&src[2].x);
-		Vec3V v3 = V3LoadU(&src[3].x);
+		Vec4V v0 = Vec4V_From_Vec3V(V3LoadU(&src[0].x));
+		Vec4V v1 = Vec4V_From_Vec3V(V3LoadU(&src[1].x));
+		Vec4V v2 = Vec4V_From_Vec3V(V3LoadU(&src[2].x));
+		Vec4V v3 = Vec4V_From_Vec3V(V3LoadU(&src[3].x));
 		// Transpose
 		V4Transpose(v0, v1, v2, v3);
 		// Save 
@@ -2466,9 +2466,9 @@ static void _arrayVec3ToVec4(const PxVec3* src, physx::aos::Vec4V* dst, PxU32 nu
 	const PxU32 remain = num & 3;
 	if (remain)
 	{
-		Vec3V work[4];
+		Vec4V work[4];
 		PxU32 i = 0;
-		for (; i < remain; i++) work[i] = V3LoadU(&src[i].x);
+		for (; i < remain; i++) work[i] = Vec4V_From_Vec3V(V3LoadU(&src[i].x));
 		for (; i < 4; i++) work[i] = work[remain - 1];
 		V4Transpose(work[0], work[1], work[2], work[3]);
 		dst[0] = work[0];
@@ -2490,10 +2490,10 @@ static void _arrayVec3ToVec4(const PxVec3* src, const physx::aos::Vec3V& scale, 
 	const PxU32 num4 = num >> 2;
 	for (PxU32 i = 0; i < num4; i++, dst += 3, src += 4)
 	{
-		Vec3V v0 = V3Mul(scale, V3LoadU(&src[0].x));
-		Vec3V v1 = V3Mul(scale, V3LoadU(&src[1].x));
-		Vec3V v2 = V3Mul(scale, V3LoadU(&src[2].x));
-		Vec3V v3 = V3Mul(scale, V3LoadU(&src[3].x));
+		Vec4V v0 = Vec4V_From_Vec3V(V3Mul(scale, V3LoadU(&src[0].x)));
+		Vec4V v1 = Vec4V_From_Vec3V(V3Mul(scale, V3LoadU(&src[1].x)));
+		Vec4V v2 = Vec4V_From_Vec3V(V3Mul(scale, V3LoadU(&src[2].x)));
+		Vec4V v3 = Vec4V_From_Vec3V(V3Mul(scale, V3LoadU(&src[3].x)));
 		// Transpose
 		V4Transpose(v0, v1, v2, v3);
 		// Save 
@@ -2504,9 +2504,9 @@ static void _arrayVec3ToVec4(const PxVec3* src, const physx::aos::Vec3V& scale, 
 	const PxU32 remain = num & 3;
 	if (remain)
 	{
-		Vec3V work[4];
+		Vec4V work[4];
 		PxU32 i = 0;
-		for (; i < remain; i++) work[i] = V3Mul(scale, V3LoadU(&src[i].x));
+		for (; i < remain; i++) work[i] = Vec4V_From_Vec3V(V3Mul(scale, V3LoadU(&src[i].x)));
 		for (; i < 4; i++) work[i] = work[remain - 1];
 		V4Transpose(work[0], work[1], work[2], work[3]);
 		dst[0] = work[0];

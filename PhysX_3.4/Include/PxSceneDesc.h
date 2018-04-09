@@ -76,6 +76,35 @@ struct PxPruningStructureType
 	};
 };
 
+/**
+\brief Scene query update mode
+
+When PxScene::fetchResults is called it does scene query related work, with this enum it is possible to 
+set what work is done during the fetchResults. 
+
+FetchResults will sync changed bounds during simulation and update the scene query bounds in pruners, this work is mandatory.
+
+eCOMMIT_ENABLED_BUILD_ENABLED does allow to execute the new AABB tree build step during fetchResults, additionally the pruner commit is
+called where any changes are applied. During commit PhysX refits the dynamic scene query tree and if a new tree was built and 
+the build finished the tree is swapped with current AABB tree. 
+
+eCOMMIT_DISABLED_BUILD_ENABLED does allow to execute the new AABB tree build step during fetchResults. Pruner commit is not called,
+this means that refit will then occur during the first scene query following fetchResults, or may be forced by the method PxScene::flushSceneQueryUpdates().
+
+eCOMMIT_DISABLED_BUILD_DISABLED no further scene query work is executed. The scene queries update needs to be called manually, see PxScene::sceneQueriesUpdate.
+It is recommended to call PxScene::sceneQueriesUpdate right after fetchResults as the pruning structures are not updated. 
+
+*/
+struct PxSceneQueryUpdateMode
+{
+	enum Enum
+	{
+		eBUILD_ENABLED_COMMIT_ENABLED,		//!< Both scene query build and commit are executed.
+		eBUILD_ENABLED_COMMIT_DISABLED,		//!< Scene query build only is executed.
+		eBUILD_DISABLED_COMMIT_DISABLED		//!< No work is done, no update of scene queries
+	};
+};
+
 
 /**
 \brief Enum for selecting the friction algorithm used for simulation.
@@ -317,12 +346,16 @@ struct PxSceneFlag
 		creation suppresses this behavior. Refit will then occur during the first scene query following fetchResults,
 		or may be forced by the method PxScene::flushSceneQueryUpdates()
 
+		\note Deprecated, will be replaced with an enum in next releases.
+		\note This flag will be ignored if PxSceneDesc::sceneQueryUpdateMode is set.
+		\note This flag is not used anymore, please use PxSceneQueryUpdateMode::Enum instead
+
 		@see PxScene::flushSceneQueryUpdates()
 
 		<b>Default:</b> false
 		*/
 
-		eSUPPRESS_EAGER_SCENE_QUERY_REFIT = (1 << 18),
+		eSUPPRESS_EAGER_SCENE_QUERY_REFIT PX_DEPRECATED = (1 << 18),
 
 		/*\brief Enables the GPU dynamics pipeline
 
@@ -708,6 +741,15 @@ public:
 	PxU32					dynamicTreeRebuildRateHint;
 
 	/**
+	\brief Defines the scene query update mode.
+
+	\note Setting a value other than the default will result in ignoring the deprecated PxSceneFlag::eSUPPRESS_EAGER_SCENE_QUERY_REFIT
+
+	<b>Default:</b> PxSceneQueryUpdateMode::eBUILD_ENABLED_COMMIT_ENABLED
+	*/
+	PxSceneQueryUpdateMode::Enum sceneQueryUpdateMode;
+
+	/**
 	\brief Will be copied to PxScene::userData.
 
 	<b>Default:</b> NULL
@@ -926,6 +968,7 @@ PX_INLINE PxSceneDesc::PxSceneDesc(const PxTolerancesScale& scale):
 	staticStructure						(PxPruningStructureType::eDYNAMIC_AABB_TREE),
 	dynamicStructure					(PxPruningStructureType::eDYNAMIC_AABB_TREE),
 	dynamicTreeRebuildRateHint			(100),
+	sceneQueryUpdateMode				(PxSceneQueryUpdateMode::eBUILD_ENABLED_COMMIT_ENABLED),
 
 	userData							(NULL),
 

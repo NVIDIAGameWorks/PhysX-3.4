@@ -30,6 +30,56 @@
 
     <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+    <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.1.23879214</h1>
+    <h2 style="TEXT-ALIGN: center">April 2018</h2>
+
+    <h3>General</h3>
+    <ul>
+        <li>Added:</li>
+        <ul>
+            <li>Added snippet for deformable meshes, added section in the guide for them.</li>
+        </ul>
+    </ul>
+
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>PxTriangleMesh::refitBVH() was crashing with PxMeshPreprocessingFlag::eDISABLE_ACTIVE_EDGES_PRECOMPUTE. This has been fixed.</li>
+            <li>SQ-only shapes contained in aggregates could result in crashes or memory corruption when removed from the aggregate. This has been fixed.</li>
+            <li>Assert no longer fired if a dynamic body contacting a static is converted to kinematic with kinematic-static pairs enabled.</li>
+            <li>Assert reporting broad phase as being "inconsistent" could fire when using speculative CCD when sleeping objects were activated.</li>
+        </ul>
+    </ul>
+
+    <h3>Cooking</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Convex hull cooking could have produced hulls with vertices too far from convex hull planes, this has been fixed.</li>
+        </ul>
+        <li>Changed:</li>
+        <ul>
+            <li>PxCooking::createTriangleMesh does now take additional output parameter PxTriangleMeshCookingResult::Enum.</li>
+            <li>PxCooking::createConvexMesh does now take additional output parameter PxConvexMeshCookingResult::Enum.</li>
+        </ul>
+    </ul>
+
+    <h3>Scene query</h3>
+    <ul>
+        <li>Changed:</li>
+        <ul>
+            <li>PxSceneFlag::eSUPPRESS_EAGER_SCENE_QUERY_REFIT has been marked as deprecated. Was replaced with PxSceneQueryUpdateMode enum, if this new enum is set the flag gets ignored.</li>
+        </ul>
+        <li>Added:</li>
+        <ul>
+            <li>PxSceneQueryUpdateMode was added to control work done during fetchResults.</li>
+            <li>PxScene::sceneQueriesUpdate, PxScene::checkQueries and PxScene::fetchQueries were added to run separate scene query update, see manual for more details.</li>
+        </ul>
+    </ul>
+
+    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.1.23584284</h1>
     <h2 style="TEXT-ALIGN: center">February 2018</h2>
 
@@ -40,7 +90,7 @@
             <li>PhysX sometimes froze in a spinlock after certain sequences of read & write locks. This has been fixed.</li>
         </ul>
     </ul>
-	
+
     <h3>Scene queries</h3>
     <ul>
         <li>Fixed:</li>
@@ -48,7 +98,7 @@
             <li>Raycasts against heightfields were sometimes missing hits for vertical rays were located exactly at the heightfield's boundaries. This has been fixed.</li>
         </ul>
     </ul>
-	
+
     <h3>Rigid Bodies</h3>
     <ul>
         <li>Fixed:</li>
@@ -68,7 +118,7 @@
         <ul>
             <li>Visual Studio 2017 15.5.1 and newer is now supported. Samples are currently not supported with Visual Studio 2017.</li>
         </ul>
-		
+
 		<li>Removed:</li>
         <ul>
             <li>Visual Studio 2012 support is discontinued.</li>
@@ -82,7 +132,7 @@
             <li>Cooked mesh structures contained a mix of little-endian and big-endian data (the midphase structures were always saved as big-endian). This made loading of cooked files slower than necessary. This has been fixed.</li>
         </ul>
     </ul>
-	
+
     <h3>Scene queries</h3>
     <ul>
         <li>Fixed:</li>
@@ -91,7 +141,7 @@
             <li>Pruning structure failed to build when actor had more shapes. This has been fixed.</li>
         </ul>
     </ul>
-	
+
     <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.1.23173160</h1>
@@ -182,6 +232,7 @@
             <li>Fixed assert that fired if application switched a body from dynamic to kinematic, then queried kinematic target without setting one. This assert only fired if the modifications overlapped simulation so were buffered.</li>
             <li>PxArticulation::getStabilizationThreshold() and PxArticulation::setStabilizationThreshold() were accessing the sleep threshold instead of the stabilization threshold. This has been fixed.</li>
             <li>Fixed an internal edge bug in PCM sphere vs mesh code</li>
+            <li>Make sure sphere vs sphere and sphere vs box in PCM contact gen generate contacts consistently on the second body when the sphere center is contained in the other shape</li>
         </ul>
         <li>Changed:</li>
         <ul>

@@ -55,8 +55,8 @@ bool GuContactSphereHeightFieldShared(GU_CONTACT_METHOD_ARGS, bool isCapsule)
 	const PxSphereGeometry& shapeSphere = shape0.get<const PxSphereGeometry>();
 	const PxHeightFieldGeometryLL& hfGeom = shape1.get<const PxHeightFieldGeometryLL>();
 
-	const Gu::HeightField& hf = *static_cast<Gu::HeightField*>(hfGeom.heightField);
-	const Gu::HeightFieldUtil hfUtil(hfGeom, hf);
+	const Gu::HeightFieldUtil hfUtil(hfGeom);
+	const Gu::HeightField& hf = hfUtil.getHeightField();
 
 	const PxReal radius = shapeSphere.radius;
 	const PxReal eps = PxReal(0.1) * radius;

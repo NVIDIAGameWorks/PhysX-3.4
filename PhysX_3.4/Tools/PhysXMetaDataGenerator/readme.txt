@@ -15,8 +15,11 @@ and install the latest python version from here:
 and make sure to add python to your windows PATH (option in python installer)
 
 The generateMetaData.py tests for meta data files being writable. If not, p4 commands are 
-used to open the files for edit before the update. If p4 is not available (or not configured), 
+used to open the files for edit before the update. If p4 is not available (or not configured for cmd line usage, see https://www.perforce.com/perforce/r15.1/manuals/p4guide/chapter.configuration.html: "Using config files"), 
 the files need to be made writable manually.
+
+Requirements:
+Windows: Visual Studio 2015
 
 Testing:
 generateMetaData.py -test runs the meta data generation in test mode. This mode checks that the current

@@ -119,6 +119,7 @@ public:
 
 		const VehicleConstraintData* data = static_cast<const VehicleConstraintData*>(constantBlock);
 		PxU32 numActive=0;
+		const PxQuat bodyRotation = bodyAToWorld.q * data->mCMassRotation.getConjugate();
 
 		//Susp limit constraints.
 		for(PxU32 i=0;i<4;i++)
@@ -126,8 +127,8 @@ public:
 			if(data->mSuspLimitData.mActiveFlags[i])
 			{
 				Px1DConstraint& p=constraints[numActive];
-				p.linear0=bodyAToWorld.q.rotate(data->mSuspLimitData.mDirs[i]);
-				p.angular0=bodyAToWorld.q.rotate(data->mSuspLimitData.mCMOffsets[i].cross(data->mSuspLimitData.mDirs[i]));
+				p.linear0 = bodyRotation.rotate(data->mSuspLimitData.mDirs[i]);
+				p.angular0 = bodyRotation.rotate(data->mSuspLimitData.mCMOffsets[i].cross(data->mSuspLimitData.mDirs[i]));
 				p.geometricError=data->mSuspLimitData.mErrors[i];
 				p.linear1=PxVec3(0);
 				p.angular1=PxVec3(0);
@@ -212,6 +213,7 @@ public:
 		SuspLimitConstraintData mSuspLimitData;
 		StickyTireConstraintData mStickyTireForwardData;
 		StickyTireConstraintData mStickyTireSideData;
+		PxQuat mCMassRotation;
 	};
 	VehicleConstraintData mData;
 

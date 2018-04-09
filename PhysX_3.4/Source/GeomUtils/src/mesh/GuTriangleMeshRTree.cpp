@@ -135,9 +135,12 @@ PxBounds3 Gu::RTreeTriangleMesh::refitBVH()
 	if ((mRTree.mFlags & RTree::IS_EDGE_SET) == 0)
 	{
 		mRTree.mFlags |= RTree::IS_EDGE_SET;
-		const PxU32 nbTris = getNbTriangles();
-		for (PxU32 i = 0; i < nbTris; i++)
-			mExtraTrigData[i] |= (Gu::ETD_CONVEX_EDGE_01 | Gu::ETD_CONVEX_EDGE_12 | Gu::ETD_CONVEX_EDGE_20);
+		if(mExtraTrigData)
+		{
+			const PxU32 nbTris = getNbTriangles();
+			for (PxU32 i = 0; i < nbTris; i++)
+				mExtraTrigData[i] |= ETD_CONVEX_EDGE_ALL;
+		}
 	}
 
 	mAABB = meshBounds;

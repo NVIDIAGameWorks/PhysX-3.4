@@ -66,10 +66,6 @@ PvdUserRenderer* PvdMemClient::getUserRender()
 	return NULL;
 }
 
-void PvdMemClient::setObjectRegistrar(ObjectRegistrar*)
-{
-}
-
 bool PvdMemClient::isConnected() const
 {
 	return mIsConnected;

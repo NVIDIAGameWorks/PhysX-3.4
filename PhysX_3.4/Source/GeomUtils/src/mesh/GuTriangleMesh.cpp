@@ -214,16 +214,16 @@ void Gu::TriangleMesh::release()
 }
 
 #if PX_ENABLE_DYNAMIC_MESH_RTREE
-PxVec3 * Gu::TriangleMesh::getVerticesForModification()
+PxVec3* Gu::TriangleMesh::getVerticesForModification()
 {
-	Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxTriangleMesh::getVerticesForModification() is only supported for meshes with PxMeshMidPhase::eBVHDynamic.");
+	Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxTriangleMesh::getVerticesForModification() is only supported for meshes with PxMeshMidPhase::eBVH33.");
 
 	return NULL;
 }
 
 PxBounds3 Gu::TriangleMesh::refitBVH()
 {
-	Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxTriangleMesh::refitBVH() is only supported for meshes with PxMeshMidPhase::eBVHDynamic.");
+	Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxTriangleMesh::refitBVH() is only supported for meshes with PxMeshMidPhase::eBVH33.");
 
 	return PxBounds3(mAABB.getMin(), mAABB.getMax());
 }

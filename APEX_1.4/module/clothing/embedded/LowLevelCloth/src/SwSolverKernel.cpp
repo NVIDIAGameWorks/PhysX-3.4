@@ -82,6 +82,7 @@ const uint32_t sAvxSupport = getAvxSupport(); // 0: no AVX, 1: AVX, 2: AVX+FMA
 #endif
 
 using namespace nvidia;
+using namespace cloth;
 
 namespace
 {

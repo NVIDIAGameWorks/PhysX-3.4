@@ -115,10 +115,9 @@ bool pcmContactSphereBox(GU_CONTACT_METHOD_ARGS)
 			const FloatV dist = FNeg(FSel(con0, z, FSel(con1, x, y)));
 
 			//separation so far is just the embedding of the center point; we still have to push out all of the radius.
-			const Vec3V point = sphereOrigin;
 			const Vec3V normal = transf1.rotate(locNorm);
 			const FloatV penetration = FSub(dist, radius);
-
+			const Vec3V point = V3Sub(sphereOrigin, V3Scale(normal, dist));
 
 			Gu::ContactPoint& contact = contactBuffer.contacts[contactBuffer.count++];
 			V4StoreA(Vec4V_From_Vec3V(normal), &contact.normal.x);

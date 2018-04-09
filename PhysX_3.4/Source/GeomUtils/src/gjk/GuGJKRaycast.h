@@ -128,10 +128,9 @@ namespace Gu
 			support = V3Sub(supportA, supportB);
 			const Vec3V w = V3Neg(support);
 			const FloatV vw = FSub(V3Dot(vNorm, w), inflationPlusEps);
-			const FloatV vr = V3Dot(vNorm, r);
 			if(FAllGrtr(vw, zero))
 			{
-	
+				const FloatV vr = V3Dot(vNorm, r);
 				if(FAllGrtrOrEq(vr, zero))
 				{
 					return false;

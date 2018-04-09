@@ -160,8 +160,8 @@ bool legacyContactConvexHeightfield(GU_CONTACT_METHOD_ARGS)
 
 	PX_ASSERT(contactBuffer.count==0);
 
-	const Gu::HeightField& hf = *static_cast<Gu::HeightField*>(hfGeom.heightField);
-	const Gu::HeightFieldUtil hfUtil(hfGeom, hf);
+	const Gu::HeightFieldTraceUtil hfUtil(hfGeom);
+	const Gu::HeightField& hf = hfUtil.getHeightField();
 
 	const bool isConvexScaleIdentity = shapeConvex.scale.isIdentity();
 	Cm::FastVertex2ShapeScaling convexScaling;	// PT: TODO: remove default ctor

@@ -27,15 +27,35 @@ if not defined PYTHON (
 	)
 )
 
-if defined PYTHON (
-	echo using: %PYTHON%
-	%PYTHON% generateMetaData.py %1
-) else (
-	echo no python found, please set PYTHON environment variable to python.exe path, or make sure python.exe is in PATH.
+if not defined PYTHON (
+	goto no_python
 )
+
+echo using: %PYTHON%
+
+:: visual studio 2015 is required for the meta data generation
+:: run vcvarsall.bat to get visual studio developer console environment variables
+if not defined VS140COMNTOOLS (
+	goto no_vs140
+)
+		
+echo calling: %VS140COMNTOOLS%..\..\VC\vcvarsall.bat
+call "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
+%PYTHON% generateMetaData.py %1	
 
 endlocal
 exit /b 0
+
+:no_python
+echo no python found, please set PYTHON environment variable to python.exe path, or make sure python.exe is in PATH.
+endlocal
+exit /b 1
+
+:no_vs140
+echo echo make sure vs 2015 is installed.
+endlocal
+exit /b 1
+
 
 :: **************************************************************************
 :: functions

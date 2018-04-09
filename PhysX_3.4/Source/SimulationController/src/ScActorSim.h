@@ -79,6 +79,8 @@ namespace Sc
 		PX_FORCE_INLINE	ElementSim*			getElements_()						{ return mFirstElement;		}
 		PX_FORCE_INLINE	const ElementSim*	getElements_()				const	{ return mFirstElement;		}
 
+		PX_FORCE_INLINE PxU32				getNbElements()				const	{ return mNumElements; }
+
 		// Get the type ID of the actor
 		PX_FORCE_INLINE	PxActorType::Enum	getActorType()				const	{ return mCore.getActorCoreType();	}
 
@@ -113,6 +115,7 @@ namespace Sc
 											mInteractions;
 
 						ElementSim*			mFirstElement;
+						PxU32				mNumElements;
 
 						Scene&				mScene;
 

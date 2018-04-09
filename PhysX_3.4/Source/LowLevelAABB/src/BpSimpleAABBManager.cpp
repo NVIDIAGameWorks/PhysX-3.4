@@ -2110,14 +2110,14 @@ void SimpleAABBManager::finalizeUpdate(PxU32 numCpuTasks, PxcScratchAllocator* s
 		narrowPhaseUnlockTask->removeReference();
 }
 
-static PX_FORCE_INLINE void createOverlap(Ps::Array<AABBOverlap>* overlaps, const Ps::Array<VolumeData>& volumeData, PxU32 id0, PxU32 id1, ActorHandle handle)
+static PX_FORCE_INLINE void createOverlap(Ps::Array<AABBOverlap>* overlaps, const Ps::Array<VolumeData>& volumeData, PxU32 id0, PxU32 id1/*, ActorHandle handle*/)
 {
 //	overlaps.pushBack(AABBOverlap(volumeData[id0].userData, volumeData[id1].userData, handle));
 	const PxU8 volumeType = PxMax(volumeData[id0].getVolumeType(), volumeData[id1].getVolumeType());
-	overlaps[volumeType].pushBack(AABBOverlap(reinterpret_cast<void*>(size_t(id0)), reinterpret_cast<void*>(size_t(id1)), handle));
+	overlaps[volumeType].pushBack(AABBOverlap(reinterpret_cast<void*>(size_t(id0)), reinterpret_cast<void*>(size_t(id1))/*, handle*/));
 }
 
-static PX_FORCE_INLINE void deleteOverlap(Ps::Array<AABBOverlap>* overlaps, const Ps::Array<VolumeData>& volumeData, PxU32 id0, PxU32 id1, ActorHandle handle)
+static PX_FORCE_INLINE void deleteOverlap(Ps::Array<AABBOverlap>* overlaps, const Ps::Array<VolumeData>& volumeData, PxU32 id0, PxU32 id1/*, ActorHandle handle*/)
 {
 //	PX_ASSERT(volumeData[id0].userData);
 //	PX_ASSERT(volumeData[id1].userData);
@@ -2125,7 +2125,7 @@ static PX_FORCE_INLINE void deleteOverlap(Ps::Array<AABBOverlap>* overlaps, cons
 	{
 		const PxU8 volumeType = PxMax(volumeData[id0].getVolumeType(), volumeData[id1].getVolumeType());
 //		overlaps.pushBack(AABBOverlap(volumeData[id0].userData, volumeData[id1].userData, handle));
-		overlaps[volumeType].pushBack(AABBOverlap(reinterpret_cast<void*>(size_t(id0)), reinterpret_cast<void*>(size_t(id1)), handle));
+		overlaps[volumeType].pushBack(AABBOverlap(reinterpret_cast<void*>(size_t(id0)), reinterpret_cast<void*>(size_t(id1))/*, handle*/));
 	}
 }
 
@@ -2136,7 +2136,7 @@ void PersistentPairs::outputDeletedOverlaps(Ps::Array<AABBOverlap>* overlaps, co
 	for(PxU32 i=0;i<nbActivePairs;i++)
 	{
 		const MBP_Pair& p = mPM.mActivePairs[i];
-		deleteOverlap(overlaps, volumeData, p.getId0(), p.getId1(), BP_INVALID_BP_HANDLE);
+		deleteOverlap(overlaps, volumeData, p.getId0(), p.getId1()/*, BP_INVALID_BP_HANDLE*/);
 	}
 #else
 	const PxU32 size = mCurrentPairs[mCurrentPairArray].size();
@@ -2224,7 +2224,7 @@ PX_FORCE_INLINE void PersistentPairs::updatePairs(	PxU32 timestamp, const PxBoun
 
 		if(p.isNew())
 		{
-			createOverlap(createdOverlaps, volumeData, id0, id1, BP_INVALID_BP_HANDLE);
+			createOverlap(createdOverlaps, volumeData, id0, id1/*, BP_INVALID_BP_HANDLE*/);
 
 			p.clearNew();
 			p.clearUpdated();
@@ -2238,7 +2238,7 @@ PX_FORCE_INLINE void PersistentPairs::updatePairs(	PxU32 timestamp, const PxBoun
 		}
 		else
 		{
-			deleteOverlap(destroyedOverlaps, volumeData, id0, id1, BP_INVALID_BP_HANDLE);
+			deleteOverlap(destroyedOverlaps, volumeData, id0, id1/*, BP_INVALID_BP_HANDLE*/);
 
 			const PxU32 hashValue = hash(id0, id1) & mPM.mMask;
 			mPM.removePair(id0, id1, hashValue, i);
@@ -2299,7 +2299,7 @@ void SimpleAABBManager::updatePairs(PersistentPairs& p)
 	p.updatePairs(mTimestamp, mBoundsArray.begin(), mContactDistance.begin(), mGroups.begin(), mVolumeData, mCreatedOverlaps, mDestroyedOverlaps);
 }
 
-void SimpleAABBManager::processBPCreatedPair(const BroadPhasePairReport& pair)
+void SimpleAABBManager::processBPCreatedPair(const BroadPhasePair& pair)
 {
 	PX_ASSERT(!mVolumeData[pair.mVolA].isAggregated());
 	PX_ASSERT(!mVolumeData[pair.mVolB].isAggregated());
@@ -2308,7 +2308,7 @@ void SimpleAABBManager::processBPCreatedPair(const BroadPhasePairReport& pair)
 
 	if(isSingleActorA && isSingleActorB)
 	{
-		createOverlap(mCreatedOverlaps, mVolumeData, pair.mVolA, pair.mVolB, pair.mHandle);	// PT: regular actor-actor pair
+		createOverlap(mCreatedOverlaps, mVolumeData, pair.mVolA, pair.mVolB/*, pair.mHandle*/);	// PT: regular actor-actor pair
 		return;
 	}
 
@@ -2342,7 +2342,7 @@ void SimpleAABBManager::processBPCreatedPair(const BroadPhasePairReport& pair)
 #endif
 }
 
-void SimpleAABBManager::processBPDeletedPair(const BroadPhasePairReport& pair)
+void SimpleAABBManager::processBPDeletedPair(const BroadPhasePair& pair)
 {
 	PX_ASSERT(!mVolumeData[pair.mVolA].isAggregated());
 	PX_ASSERT(!mVolumeData[pair.mVolB].isAggregated());
@@ -2351,7 +2351,7 @@ void SimpleAABBManager::processBPDeletedPair(const BroadPhasePairReport& pair)
 
 	if(isSingleActorA && isSingleActorB)
 	{
-		deleteOverlap(mDestroyedOverlaps, mVolumeData, pair.mVolA, pair.mVolB, pair.mHandle);	// PT: regular actor-actor pair
+		deleteOverlap(mDestroyedOverlaps, mVolumeData, pair.mVolA, pair.mVolB/*, pair.mHandle*/);	// PT: regular actor-actor pair
 		return;
 	}
 
@@ -2388,16 +2388,16 @@ void SimpleAABBManager::processBPDeletedPair(const BroadPhasePairReport& pair)
 
 struct CreatedPairHandler
 {
-	static PX_FORCE_INLINE void processPair(SimpleAABBManager& manager, const BroadPhasePairReport& pair) { manager.processBPCreatedPair(pair); }
+	static PX_FORCE_INLINE void processPair(SimpleAABBManager& manager, const BroadPhasePair& pair) { manager.processBPCreatedPair(pair); }
 };
 
 struct DeletedPairHandler
 {
-	static PX_FORCE_INLINE void processPair(SimpleAABBManager& manager, const BroadPhasePairReport& pair) { manager.processBPDeletedPair(pair); }
+	static PX_FORCE_INLINE void processPair(SimpleAABBManager& manager, const BroadPhasePair& pair) { manager.processBPDeletedPair(pair); }
 };
 
 template<class FunctionT>
-static void processBPPairs(PxU32 nbPairs, const BroadPhasePairReport* pairs, SimpleAABBManager& manager)
+static void processBPPairs(PxU32 nbPairs, const BroadPhasePair* pairs, SimpleAABBManager& manager)
 {
 	// PT: TODO: figure out this ShapeHandle/BpHandle thing. Is it ok to use "BP_INVALID_BP_HANDLE" for a "ShapeHandle"?
 	ShapeHandle previousA = BP_INVALID_BP_HANDLE;

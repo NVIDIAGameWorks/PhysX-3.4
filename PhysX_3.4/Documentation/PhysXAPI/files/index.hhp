@@ -1085,6 +1085,8 @@ classPxSceneLimits.html
 classPxSceneLimits-members.html
 classPxSceneQueryExt.html
 classPxSceneQueryExt-members.html
+structPxSceneQueryUpdateMode.html
+structPxSceneQueryUpdateMode-members.html
 classPxSceneReadLock.html
 classPxSceneReadLock-members.html
 classPxSceneWriteLock.html

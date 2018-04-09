@@ -70,6 +70,8 @@ namespace Cm
 		//! Returns the number of eraly exits due to temporal coherence.
 		PX_FORCE_INLINE	PxU32			GetNbHits()			const	{ return mNbHits;		}
 
+		PX_FORCE_INLINE	void			invalidateRanks()			{ INVALIDATE_RANKS;		}
+
 						bool			SetBuffers(PxU32* ranks0, PxU32* ranks1, PxU32* histogram1024, PxU32** links256);
 		private:
 										RadixSort(const RadixSort& object);

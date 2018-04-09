@@ -859,18 +859,49 @@ void Sc::ShapeInteraction::updateState(const PxU8 externalDirtyFlags)
 	else if (readInteractionFlag(InteractionFlag::eIS_ACTIVE))  // only re-create the manager if the pair is active
 	{
 		PX_ASSERT(mManager);  // if the pair is active, there has to be a manager
-		PX_ASSERT(activeManagerAllowed());
 
-		// A) This is a newly created pair
-		//
-		// B) The contact notification or processing state has changed.
-		//    All existing managers need to be deleted and recreated with the correct flag set
-		//    These flags can only be set at creation in LL
-		//KS - added this code here because it is no longer done in destroyManager() - a side-effect of the parallelization of the interaction management code
-		if (mEdgeIndex != IG_INVALID_EDGE)
-			scene.getSimpleIslandManager()->clearEdgeRigidCM(mEdgeIndex);
-		destroyManager();
-		createManager(NULL);
+		if (dirtyFlags & InteractionDirtyFlag::eBODY_KINEMATIC)
+		{
+			//Kinematic->dynamic transition
+			//Kinematic->dynamic transition
+			const IG::IslandSim& islandSim = getScene().getSimpleIslandManager()->getSpeculativeIslandSim();
+
+			//
+			//check whether active in the speculative sim!
+			const BodySim* bodySim0 = getShape0().getBodySim();
+			const BodySim* bodySim1 = getShape1().getBodySim();
+
+			if (!islandSim.getNode(bodySim0->getNodeIndex()).isActiveOrActivating() &&
+				(bodySim1 == NULL || !islandSim.getNode(bodySim1->getNodeIndex()).isActiveOrActivating()))
+			{
+				onDeactivate(0);
+				scene.notifyInteractionDeactivated(this);
+			}
+			else
+			{
+				//Else we are allowed to be active, so recreate
+				if (mEdgeIndex != IG_INVALID_EDGE)
+					scene.getSimpleIslandManager()->clearEdgeRigidCM(mEdgeIndex);
+				destroyManager();
+				createManager(NULL);
+			}
+		}
+		else
+		{
+
+			PX_ASSERT(activeManagerAllowed());
+
+			// A) This is a newly created pair
+			//
+			// B) The contact notification or processing state has changed.
+			//    All existing managers need to be deleted and recreated with the correct flag set
+			//    These flags can only be set at creation in LL
+			//KS - added this code here because it is no longer done in destroyManager() - a side-effect of the parallelization of the interaction management code
+			if (mEdgeIndex != IG_INVALID_EDGE)
+				scene.getSimpleIslandManager()->clearEdgeRigidCM(mEdgeIndex);
+			destroyManager();
+			createManager(NULL);
+		}
 	}
 }
 

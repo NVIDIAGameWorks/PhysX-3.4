@@ -189,6 +189,8 @@ SceneQueryManager::SceneQueryManager(	Scb::Scene& scene, PxPruningStructureType:
 
 	mDynamicBoundsSync.mPruner = mPrunerExt[PruningIndex::eDYNAMIC].pruner();
 	mDynamicBoundsSync.mTimestamp = &mPrunerExt[PruningIndex::eDYNAMIC].mTimestamp;
+
+	mPrunerNeedsUpdating = false;
 }
 
 SceneQueryManager::~SceneQueryManager()
@@ -203,6 +205,7 @@ void SceneQueryManager::flushMemory()
 
 void SceneQueryManager::markForUpdate(PrunerData data)
 { 
+	mPrunerNeedsUpdating = true;
 	const PxU32 index = getPrunerIndex(data);
 	const PrunerHandle handle = getPrunerHandle(data);
 
@@ -217,6 +220,8 @@ void SceneQueryManager::preallocate(PxU32 staticShapes, PxU32 dynamicShapes)
 
 PrunerData SceneQueryManager::addPrunerShape(const NpShape& shape, const PxRigidActor& actor, bool dynamic, const PxBounds3* bounds, bool hasPrunerStructure)
 {
+	mPrunerNeedsUpdating = true;
+
 	PrunerPayload pp;
 	const Scb::Shape& scbShape = shape.getScbShape();
 	const Scb::Actor& scbActor = gOffsetTable.convertPxActor2Scb(actor);
@@ -249,6 +254,7 @@ const PrunerPayload& SceneQueryManager::getPayload(PrunerData data) const
 
 void SceneQueryManager::removePrunerShape(PrunerData data)
 {
+	mPrunerNeedsUpdating = true;
 	const PxU32 index = getPrunerIndex(data);
 	const PrunerHandle handle = getPrunerHandle(data);
 
@@ -334,110 +340,33 @@ void SceneQueryManager::validateSimUpdates()
 	}
 }
 
-void SceneQueryManager::processSimUpdates()
-{
-	PX_PROFILE_ZONE("Sim.updatePruningTrees", mScene.getContextId());
-
-	{
-		PX_PROFILE_ZONE("SceneQuery.processActiveShapes", mScene.getContextId());
-
-		// update all active objects
-		BodyCore*const* activeBodies = mScene.getScScene().getActiveBodiesArray();
-		PxU32 nbActiveBodies = mScene.getScScene().getNumActiveBodies();
-
-#define NB_BATCHED_OBJECTS	128
-		PrunerHandle batchedHandles[NB_BATCHED_OBJECTS];
-		PxU32 nbBatchedObjects = 0;
-		Pruner* pruner = mPrunerExt[PruningIndex::eDYNAMIC].pruner();
-
-		while(nbActiveBodies--)
-		{
-			// PT: TODO: don't put frozen objects in "active bodies" array? After all they
-			// are also not included in the 'active transforms' or 'active actors' arrays.
-			BodyCore* currentBody = *activeBodies++;
-			if(currentBody->isFrozen())
-				continue;
-
-			PxActorType::Enum type;
-			PxRigidBody* pxBody = static_cast<PxRigidBody*>(getPxActorFromBodyCore(currentBody, type));
-			PX_ASSERT(pxBody->getConcreteType()==PxConcreteType::eRIGID_DYNAMIC || pxBody->getConcreteType()==PxConcreteType::eARTICULATION_LINK);
-
-			NpShapeManager* shapeManager;
-			if(type==PxActorType::eRIGID_DYNAMIC)
-			{
-				NpRigidDynamic* rigidDynamic = static_cast<NpRigidDynamic*>(pxBody);
-				shapeManager = &rigidDynamic->getShapeManager();
-			}
-			else
-			{
-				NpArticulationLink* articulationLink = static_cast<NpArticulationLink*>(pxBody);
-				shapeManager = &articulationLink->getShapeManager();
-			}
-
-			const PxU32 nbShapes = shapeManager->getNbShapes();
-			for(PxU32 i=0; i<nbShapes; i++)
-			{
-				const PrunerData data = shapeManager->getPrunerData(i);
-				if(data!=SQ_INVALID_PRUNER_DATA)
-				{
-					// PT: index can't be zero here!
-					PX_ASSERT(getPrunerIndex(data)==PruningIndex::eDYNAMIC);
-
-					const PrunerHandle handle = getPrunerHandle(data);
-
-					if(!mPrunerExt[PruningIndex::eDYNAMIC].isDirty(handle))	// PT: if dirty, will be updated in "flushShapes"
-					{
-						batchedHandles[nbBatchedObjects] = handle;
-
-						PxBounds3* bounds;
-						const PrunerPayload& pp = pruner->getPayload(handle, bounds);
-						computeDynamicWorldAABB(*bounds, *(reinterpret_cast<Scb::Shape*>(pp.data[0])), *(reinterpret_cast<Scb::Actor*>(pp.data[1])));
-						nbBatchedObjects++;
-
-						if(nbBatchedObjects==NB_BATCHED_OBJECTS)
-						{
-							mPrunerExt[PruningIndex::eDYNAMIC].invalidateTimestamp();
-							pruner->updateObjectsAfterManualBoundsUpdates(batchedHandles, nbBatchedObjects);
-							nbBatchedObjects = 0;
-						}
-					}
-				}
-			}
-		}
-		if(nbBatchedObjects)
-		{
-			mPrunerExt[PruningIndex::eDYNAMIC].invalidateTimestamp();
-			pruner->updateObjectsAfterManualBoundsUpdates(batchedHandles, nbBatchedObjects);
-		}
-	}
-
-	// flush user modified objects
-	flushShapes();
-
-	for(PxU32 i=0;i<PruningIndex::eCOUNT;i++)
-	{
-		if(mPrunerExt[i].pruner() && mPrunerExt[i].type() == PxPruningStructureType::eDYNAMIC_AABB_TREE)
-			static_cast<AABBPruner*>(mPrunerExt[i].pruner())->buildStep();
-
-		mPrunerExt[i].pruner()->commit();
-	}
-}
-
-void SceneQueryManager::afterSync(bool commit)
+void SceneQueryManager::afterSync(PxSceneQueryUpdateMode::Enum updateMode)
 {
 	PX_PROFILE_ZONE("Sim.sceneQueryBuildStep", mScene.getContextId());
 
+	if(updateMode == PxSceneQueryUpdateMode::eBUILD_DISABLED_COMMIT_DISABLED)
+	{
+		mPrunerNeedsUpdating = true;
+		return;
+	}
+
 	// flush user modified objects
 	flushShapes();
 
-	for (PxU32 i = 0; i<2; i++)
-	{
-		if (mPrunerExt[i].pruner() && mPrunerExt[i].type() == PxPruningStructureType::eDYNAMIC_AABB_TREE)
-			static_cast<AABBPruner*>(mPrunerExt[i].pruner())->buildStep();
+	bool commit = updateMode == PxSceneQueryUpdateMode::eBUILD_ENABLED_COMMIT_ENABLED;
 
-		if (commit)
+	for(PxU32 i = 0; i<2; i++)
+	{
+		if(mPrunerExt[i].pruner() && mPrunerExt[i].type() == PxPruningStructureType::eDYNAMIC_AABB_TREE)
+			static_cast<AABBPruner*>(mPrunerExt[i].pruner())->buildStep(true);
+
+		if(commit)
 			mPrunerExt[i].pruner()->commit();
 	}
+
+	//If we didn't commit changes, then the next query must perform that operation so this bool must be set to true, otherwise there should be 
+	//no outstanding work required by queries at this time
+	mPrunerNeedsUpdating = !commit;
 }
 
 void SceneQueryManager::flushShapes()
@@ -454,17 +383,30 @@ void SceneQueryManager::flushUpdates()
 {
 	PX_PROFILE_ZONE("SceneQuery.flushUpdates", mScene.getContextId());
 
+	if (mPrunerNeedsUpdating)
+	{
 	// no need to take lock if manual sq update is enabled
 	// as flushUpdates will only be called from NpScene::flushQueryUpdates()
-	mSceneQueryLock.lock();
+		mSceneQueryLock.lock();
 
-	flushShapes();
+		//Check again because another thread may have already performed all pending updated (this secondary check might be unnecessary)
+		if (mPrunerNeedsUpdating)
+		{
 
-	for(PxU32 i=0;i<PruningIndex::eCOUNT;i++)
-		if(mPrunerExt[i].pruner())
-			mPrunerExt[i].pruner()->commit();
+			flushShapes();
 
-	mSceneQueryLock.unlock();
+			for (PxU32 i = 0; i < PruningIndex::eCOUNT; i++)
+				if (mPrunerExt[i].pruner())
+					mPrunerExt[i].pruner()->commit();
+
+			//KS - force memory writes to have completed before updating the volatile mPrunerNeedsUpdating member. This should ensure that, if another thread
+			//reads this value and finds it is false, that all the modifications we made to the pruner are visible in memory.
+			physx::shdfnd::memoryBarrier();
+
+			mPrunerNeedsUpdating = false;
+		}
+		mSceneQueryLock.unlock();
+	}
 }
 
 void SceneQueryManager::forceDynamicTreeRebuild(bool rebuildStaticStructure, bool rebuildDynamicStructure)
@@ -482,6 +424,30 @@ void SceneQueryManager::forceDynamicTreeRebuild(bool rebuildStaticStructure, boo
 			static_cast<AABBPruner*>(mPrunerExt[i].pruner())->commit();
 		}
 	}
+}
+
+void SceneQueryManager::sceneQueryBuildStep(PruningIndex::Enum index)
+{
+	PX_PROFILE_ZONE("SceneQuery.sceneQueryBuildStep", mScene.getContextId());
+
+	if (mPrunerExt[index].pruner() && mPrunerExt[index].type() == PxPruningStructureType::eDYNAMIC_AABB_TREE)
+	{
+		const bool buildFinished = static_cast<AABBPruner*>(mPrunerExt[index].pruner())->buildStep(false);
+		if(buildFinished)
+		{
+			mPrunerNeedsUpdating = true;
+		}
+	}
+}
+
+bool SceneQueryManager::prepareSceneQueriesUpdate(PruningIndex::Enum index)
+{
+	bool retVal = false;
+	if (mPrunerExt[index].pruner() && mPrunerExt[index].type() == PxPruningStructureType::eDYNAMIC_AABB_TREE)
+	{
+		retVal = static_cast<AABBPruner*>(mPrunerExt[index].pruner())->prepareBuild();
+	}
+	return retVal;
 }
 
 void SceneQueryManager::shiftOrigin(const PxVec3& shift)

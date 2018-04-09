@@ -40,6 +40,7 @@ typedef Scalar4f Simd4fType;
 #endif
 
 using namespace nvidia;
+using namespace cloth;
 
 cloth::SwSolver::SwSolver(nvidia::profile::PxProfileZone* profiler, PxTaskManager* taskMgr)
 : mProfiler(profiler)

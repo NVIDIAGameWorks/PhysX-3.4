@@ -99,12 +99,17 @@ NpSceneQueries::NpSceneQueries(const PxSceneDesc& desc) :
 	mSQManager				(mScene, desc.staticStructure, desc.dynamicStructure, desc.dynamicTreeRebuildRateHint, desc.limits),
 	mCachedRaycastFuncs		(Gu::getRaycastFuncTable()),
 	mCachedSweepFuncs		(Gu::getSweepFuncTable()),
-	mCachedOverlapFuncs		(Gu::getOverlapFuncTable())
+	mCachedOverlapFuncs		(Gu::getOverlapFuncTable()),
+	mSceneQueriesStaticPrunerUpdate		(getContextId(), 0, "NpSceneQueries.sceneQueriesStaticPrunerUpdate"),
+	mSceneQueriesDynamicPrunerUpdate(getContextId(), 0, "NpSceneQueries.sceneQueriesDynamicPrunerUpdate"),
+	mSceneQueryUpdateMode	(desc.sceneQueryUpdateMode)
 #if PX_SUPPORT_PVD
 	, mSingleSqCollector	(mScene, false),
 	mBatchedSqCollector		(mScene, true)
 #endif
 {
+	mSceneQueriesStaticPrunerUpdate.setObject(this);
+	mSceneQueriesDynamicPrunerUpdate.setObject(this);
 }
 
 NpScene::NpScene(const PxSceneDesc& desc) :
@@ -124,6 +129,7 @@ NpScene::NpScene(const PxSceneDesc& desc) :
 	mClientBehaviorFlags	(PX_DEBUG_EXP("sceneBehaviorFlags")),
 	mSceneCompletion		(getContextId(), mPhysicsDone),
 	mCollisionCompletion	(getContextId(), mCollisionDone),
+	mSceneQueriesCompletion	(getContextId(), mSceneQueriesDone),
 	mSceneExecution			(getContextId(), 0, "NpScene.execution"),
 	mSceneCollide			(getContextId(), 0, "NpScene.collide"),
 	mSceneAdvance			(getContextId(), 0, "NpScene.solve"),
@@ -133,6 +139,7 @@ NpScene::NpScene(const PxSceneDesc& desc) :
 	mConcurrentReadCount	(0),
 	mConcurrentErrorCount	(0),	
 	mCurrentWriter			(0),
+	mSceneQueriesUpdateRunning	(false),
 	mHasSimulatedOnce		(false),
 	mBetweenFetchResults	(false)
 {
@@ -2246,7 +2253,11 @@ void NpScene::fetchResultsPostContactCallbacks()
 	SqRefFinder sqRefFinder;
 	mScene.getScScene().syncSceneQueryBounds(mSQManager.getDynamicBoundsSync(), sqRefFinder);
 
-	mSQManager.afterSync(!(getFlagsFast()&PxSceneFlag::eSUPPRESS_EAGER_SCENE_QUERY_REFIT));
+	// A.B. temp check if eSUPPRESS_EAGER_SCENE_QUERY_REFIT was set and update mode not, then replicate the flag to the enum
+	PxSceneQueryUpdateMode::Enum updateMode = getSceneQueryUpdateModeFast();
+	if((getFlagsFast() & PxSceneFlag::eSUPPRESS_EAGER_SCENE_QUERY_REFIT) && updateMode == PxSceneQueryUpdateMode::eBUILD_ENABLED_COMMIT_ENABLED)
+		updateMode = PxSceneQueryUpdateMode::eBUILD_ENABLED_COMMIT_DISABLED;
+	mSQManager.afterSync(updateMode);
 
 #if PX_DEBUG && 0
 	mSQManager.validateSimUpdates();
@@ -2681,6 +2692,18 @@ void NpScene::releaseVolumeCache(NpVolumeCache* volumeCache)
 	bool found = mVolumeCaches.erase(volumeCache); PX_UNUSED(found);
 	PX_ASSERT_WITH_MESSAGE(found, "volume cache not found in releaseVolumeCache");
 	PX_DELETE(static_cast<NpVolumeCache*>(volumeCache));
+}
+
+void NpScene::setSceneQueryUpdateMode(PxSceneQueryUpdateMode::Enum updateMode)
+{
+	NP_WRITE_CHECK(this);
+	mSceneQueryUpdateMode = updateMode;
+}
+
+PxSceneQueryUpdateMode::Enum NpScene::getSceneQueryUpdateMode() const
+{
+	NP_READ_CHECK(this);
+	return mSceneQueryUpdateMode;
 }
 
 void NpScene::setDynamicTreeRebuildRateHint(PxU32 dynamicTreeRebuildRateHint)
@@ -3173,6 +3196,108 @@ PxPvdSceneClient* NpScene::getScenePvdClient()
 	return NULL;
 }
 #endif
+
+void NpScene::sceneQueriesUpdate(physx::PxBaseTask* completionTask, bool controlSimulation)
+{
+	PX_SIMD_GUARD;
+
+	bool runUpdateTasks[PruningIndex::eCOUNT] = {true, true};
+	{
+		// write guard must end before scene queries tasks kicks off worker threads
+		NP_WRITE_CHECK(this);
+
+		PX_PROFILE_START_CROSSTHREAD("Basic.sceneQueriesUpdate", getContextId());
+
+		if(mSceneQueriesUpdateRunning)
+		{
+			//fetchSceneQueries doesn't get called
+			Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxScene::fetchSceneQueries was not called!");
+			return;
+		}
+	
+		// flush scene queries updates
+		mSQManager.flushUpdates();
+
+		// prepare scene queries for build - copy bounds
+		runUpdateTasks[PruningIndex::eSTATIC] = mSQManager.prepareSceneQueriesUpdate(PruningIndex::eSTATIC);
+		runUpdateTasks[PruningIndex::eDYNAMIC] = mSQManager.prepareSceneQueriesUpdate(PruningIndex::eDYNAMIC);
+
+		mSceneQueriesUpdateRunning = true;
+	}
+
+	{
+		PX_PROFILE_ZONE("Sim.sceneQueriesTaskSetup", getContextId());
+
+		if (controlSimulation)
+		{
+			{
+				PX_PROFILE_ZONE("Sim.resetDependencies", getContextId());
+				// Only reset dependencies, etc if we own the TaskManager. Will be false
+				// when an NpScene is controlled by an APEX scene.
+				mTaskManager->resetDependencies();
+			}
+			mTaskManager->startSimulation();
+		}
+
+		mSceneQueriesCompletion.setContinuation(*mTaskManager, completionTask);
+		if(runUpdateTasks[PruningIndex::eSTATIC])
+			mSceneQueriesStaticPrunerUpdate.setContinuation(&mSceneQueriesCompletion);
+		if(runUpdateTasks[PruningIndex::eDYNAMIC])
+			mSceneQueriesDynamicPrunerUpdate.setContinuation(&mSceneQueriesCompletion);
+
+		mSceneQueriesCompletion.removeReference();
+		if(runUpdateTasks[PruningIndex::eSTATIC])
+			mSceneQueriesStaticPrunerUpdate.removeReference();
+		if(runUpdateTasks[PruningIndex::eDYNAMIC])
+			mSceneQueriesDynamicPrunerUpdate.removeReference();
+	}
+}
+
+bool NpScene::checkSceneQueriesInternal(bool block)
+{
+	PX_PROFILE_ZONE("Basic.checkSceneQueries", getContextId());
+	return mSceneQueriesDone.wait(block ? Ps::Sync::waitForever : 0);
+}
+
+bool NpScene::checkQueries(bool block)
+{
+	return checkSceneQueriesInternal(block);
+}
+
+bool NpScene::fetchQueries(bool block)
+{
+	if(!mSceneQueriesUpdateRunning)
+	{
+		//fetchSceneQueries doesn't get called
+		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, 
+			"PxScene::fetchQueries: fetchQueries() called illegally! It must be called after sceneQueriesUpdate()");
+		return false;
+	}
+
+	if(!checkSceneQueriesInternal(block))
+		return false;
+
+	{
+		PX_SIMD_GUARD;
+
+		NP_WRITE_CHECK(this);
+
+		// we use cross thread profile here, to show the event in cross thread view
+		// PT: TODO: why do we want to show it in the cross thread view?
+		PX_PROFILE_START_CROSSTHREAD("Basic.fetchQueries", getContextId());
+
+		// flush updates and commit if work is done
+		mSQManager.flushUpdates();
+	
+		PX_PROFILE_STOP_CROSSTHREAD("Basic.fetchQueries", getContextId());
+		PX_PROFILE_STOP_CROSSTHREAD("Basic.sceneQueriesUpdate", getContextId());
+
+		mSceneQueriesDone.reset();
+		mSceneQueriesUpdateRunning = false;
+	}
+	return true;
+}
+
 
 PxBatchQuery* NpScene::createBatchQuery(const PxBatchQueryDesc& desc)
 {

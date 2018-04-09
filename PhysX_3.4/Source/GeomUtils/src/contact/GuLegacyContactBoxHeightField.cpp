@@ -187,8 +187,8 @@ bool legacyContactBoxHeightfield(GU_CONTACT_METHOD_ARGS)
 	const PxBoxGeometry& shapeBox = shape0.get<const PxBoxGeometry>();
 	const PxHeightFieldGeometryLL& hfGeom = shape1.get<const PxHeightFieldGeometryLL>();
 
-	const Gu::HeightField& hf = *static_cast<Gu::HeightField*>(hfGeom.heightField);
-	const Gu::HeightFieldUtil hfUtil(hfGeom, hf);
+	const Gu::HeightFieldTraceUtil hfUtil(hfGeom);
+	const Gu::HeightField& hf = hfUtil.getHeightField();
 
 	PX_ASSERT(contactBuffer.count==0);
 

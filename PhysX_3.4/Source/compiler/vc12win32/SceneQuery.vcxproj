@@ -230,6 +230,8 @@
 		</ClCompile>
 		<ClCompile Include="..\..\SceneQuery\src\SqAABBTree.cpp">
 		</ClCompile>
+		<ClCompile Include="..\..\SceneQuery\src\SqAABBTreeBuild.cpp">
+		</ClCompile>
 		<ClCompile Include="..\..\SceneQuery\src\SqAABBTreeUpdateMap.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\SceneQuery\src\SqBounds.cpp">
@@ -237,6 +239,10 @@
 		<ClCompile Include="..\..\SceneQuery\src\SqBucketPruner.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\SceneQuery\src\SqExtendedBucketPruner.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SceneQuery\src\SqIncrementalAABBPrunerCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SceneQuery\src\SqIncrementalAABBTree.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\SceneQuery\src\SqMetaData.cpp">
 		</ClCompile>
@@ -250,6 +256,8 @@
 		</ClInclude>
 		<ClInclude Include="..\..\SceneQuery\src\SqAABBTree.h">
 		</ClInclude>
+		<ClInclude Include="..\..\SceneQuery\src\SqAABBTreeBuild.h">
+		</ClInclude>
 		<ClInclude Include="..\..\SceneQuery\src\SqAABBTreeQuery.h">
 		</ClInclude>
 		<ClInclude Include="..\..\SceneQuery\src\SqAABBTreeUpdateMap.h">
@@ -259,6 +267,10 @@
 		<ClInclude Include="..\..\SceneQuery\src\SqBucketPruner.h">
 		</ClInclude>
 		<ClInclude Include="..\..\SceneQuery\src\SqExtendedBucketPruner.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SceneQuery\src\SqIncrementalAABBPrunerCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SceneQuery\src\SqIncrementalAABBTree.h">
 		</ClInclude>
 		<ClInclude Include="..\..\SceneQuery\src\SqPrunerTestsSIMD.h">
 		</ClInclude>

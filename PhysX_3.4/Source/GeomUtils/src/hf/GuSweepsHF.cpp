@@ -56,7 +56,7 @@ class HeightFieldTraceSegmentSweepHelper
 {
 	PX_NOCOPY(HeightFieldTraceSegmentSweepHelper)
 public:
-	HeightFieldTraceSegmentSweepHelper(const HeightFieldUtil& hfUtil, const PxVec3& aabbExtentHfLocalSpace)
+	HeightFieldTraceSegmentSweepHelper(const HeightFieldTraceUtil& hfUtil, const PxVec3& aabbExtentHfLocalSpace)
 		: mHfUtil(hfUtil), mOverlapObjectExtent(aabbExtentHfLocalSpace)
 	{
 		mHfUtil.computeLocalBounds(mLocalBounds);
@@ -72,9 +72,9 @@ public:
 	}
 
 private:
-	const HeightFieldUtil&	mHfUtil;
-	const PxVec3&			mOverlapObjectExtent;
-	PxBounds3				mLocalBounds;
+	const HeightFieldTraceUtil&	mHfUtil;
+	const PxVec3&				mOverlapObjectExtent;
+	PxBounds3					mLocalBounds;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -237,7 +237,7 @@ bool sweepCapsule_HeightFieldGeom(GU_CAPSULE_SWEEP_FUNC_PARAMS)
 
 	const PxVec3 capsuleAABBExtents = capsuleBox.computeAABBExtent();
 
-	const HeightFieldUtil hfUtil(hfGeom);
+	const HeightFieldTraceUtil hfUtil(hfGeom);
     CapsuleTraceSegmentReport myReport(hfUtil, hitFlags, inflatedCapsule, unitDir, sweepHit, pose, distance);
 
 	sweepHit.distance = PX_MAX_F32;
@@ -385,7 +385,7 @@ bool sweepConvex_HeightFieldGeom(GU_CONVEX_SWEEP_FUNC_PARAMS)
 	PX_ASSERT(!convexMesh->getLocalBoundsFast().isEmpty());
 	const PxBounds3 hullAABBLocalSpace = convexMesh->getLocalBoundsFast().transformFast(convexScaling.getVertex2ShapeSkew());
 
-	const HeightFieldUtil hfUtil(hfGeom);
+	const HeightFieldTraceUtil hfUtil(hfGeom);
 	ConvexTraceSegmentReport entityReport(
 		hfUtil, convexMesh->getHull(), convexGeom.scale, convexPose, pose, -unitDir, distance, hitFlags, inflation);
 
@@ -589,7 +589,7 @@ bool sweepBox_HeightFieldGeom(GU_BOX_SWEEP_FUNC_PARAMS)
 
 	sweepHit.distance = PX_MAX_F32;
 
-	const HeightFieldUtil hfUtil(hfGeom);
+	const HeightFieldTraceUtil hfUtil(hfGeom);
 	BoxTraceSegmentReport myReport(hfUtil, hitFlags, WorldToBoxV, pose, boxV, localMotion, sweepHit, inflation);
 
 	// need hf local space stuff	

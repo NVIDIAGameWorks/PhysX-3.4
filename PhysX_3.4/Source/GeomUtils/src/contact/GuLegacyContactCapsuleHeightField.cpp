@@ -62,8 +62,8 @@ bool legacyContactCapsuleHeightfield(GU_CONTACT_METHOD_ARGS)
 	const PxCapsuleGeometry& shapeCapsule = shape0.get<const PxCapsuleGeometry>();
 	const PxHeightFieldGeometryLL& hfGeom = shape1.get<const PxHeightFieldGeometryLL>();
 
-	const HeightField& hf = *static_cast<HeightField*>(hfGeom.heightField);
-	const HeightFieldUtil hfUtil(hfGeom, hf);
+	const HeightFieldUtil hfUtil(hfGeom);
+	const Gu::HeightField& hf = hfUtil.getHeightField();
 
 	const PxReal radius = shapeCapsule.radius;
 	const PxReal inflatedRadius = shapeCapsule.radius + params.mContactDistance;

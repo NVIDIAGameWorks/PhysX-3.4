@@ -22,7 +22,7 @@
 #pragma warning(disable:4127)
 
 using namespace nvidia;
-using namespace nvidia;
+using namespace cloth;
 
 namespace
 {

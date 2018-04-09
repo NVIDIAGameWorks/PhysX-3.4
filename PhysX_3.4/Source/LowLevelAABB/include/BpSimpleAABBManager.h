@@ -67,7 +67,7 @@ namespace Bp
 	typedef PxU32 AggregateHandle;	// PT: currently an index in mAggregates array
 	typedef PxU32 ActorHandle;
 
-	struct BroadPhasePairReport;
+	struct BroadPhasePair;
 
 	struct VolumeBuckets
 	{
@@ -89,15 +89,16 @@ namespace Bp
 	struct AABBOverlap
 	{
 		PX_FORCE_INLINE AABBOverlap()	{}
-		PX_FORCE_INLINE AABBOverlap(void* userData0, void* userData1, ActorHandle pairHandle) : mUserData0(userData0), mUserData1(userData1), mPairHandle(pairHandle)	{}
+		PX_FORCE_INLINE AABBOverlap(void* userData0, void* userData1/*, ActorHandle pairHandle*/) : mUserData0(userData0), mUserData1(userData1)/*, mPairHandle(pairHandle)*/, mPairUserData(NULL)	{}
 
 		void*	mUserData0;
 		void*	mUserData1;
-		union
+/*		union
 		{
 			ActorHandle	mPairHandle;		//For created pairs, this is the index into the pair in the pair manager
-			void*		mUserData;			//For deleted pairs, this is the user data written by the application to the pair
-		};
+			void*		mPairUserData;		//For deleted pairs, this is the user data written by the application to the pair
+		};*/
+		void*	mPairUserData;		//For deleted pairs, this is the user data written by the application to the pair
 	};
 
 	/*
@@ -528,8 +529,8 @@ namespace Bp
 		void updatePairs(PersistentPairs& p);
 		void handleOriginShift();
 		public:
-		void processBPCreatedPair(const BroadPhasePairReport& pair);
-		void processBPDeletedPair(const BroadPhasePairReport& pair);
+		void processBPCreatedPair(const BroadPhasePair& pair);
+		void processBPDeletedPair(const BroadPhasePair& pair);
 //		bool checkID(ShapeHandle id);
 		friend class PersistentActorAggregatePair;
 		friend class PersistentAggregateAggregatePair;

@@ -2967,6 +2967,9 @@ void processSuspTireWheels
 	PxVec3* hitActorForces=outputData.hitActorForces;
 	PxVec3* hitActorForcePositions=outputData.hitActorForcePositions;
 
+	//Set the cmass rotation straight away (we might need this, we might not but we don't know that yet so just set it).
+	outputData.vehConstraintData.mCMassRotation = constData.vehActor->getCMassLocalPose().q;
+
 	//Compute all the hit data (counts, distances, planes, frictions, actors, shapes, materials etc etc).
 	//If we just did a raycast/sweep then we need to compute all this from the hit reports.
 	//If we are using cached raycast/sweep results then just copy the cached hit result data.
@@ -4945,6 +4948,7 @@ PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, P
 	PxVec3 carChassisAngVel;
 	{
 		carChassisCMLocalPose = vehActor->getCMassLocalPose();
+		carChassisCMLocalPose.q = PxQuat(PxIdentity);
 		origCarChassisTransform = vehActor->getGlobalPose().transform(carChassisCMLocalPose);
 		carChassisTransform = origCarChassisTransform;
 		const PxF32 chassisMass = vehActor->getMass();
@@ -5527,6 +5531,7 @@ void PxVehicleUpdate::updateDriveNW
 	PxVec3 carChassisAngVel;
 	{
 		carChassisCMLocalPose = vehActor->getCMassLocalPose();
+		carChassisCMLocalPose.q = PxQuat(PxIdentity);
 		origCarChassisTransform = vehActor->getGlobalPose().transform(carChassisCMLocalPose);
 		carChassisTransform = origCarChassisTransform;
 		const PxF32 chassisMass = vehActor->getMass();
@@ -6059,7 +6064,8 @@ void PxVehicleUpdate::updateTank
 	PxVec3 carChassisAngVel;
 	{
 		carChassisCMLocalPose = vehActor->getCMassLocalPose();
-		origCarChassisTransform = vehActor->getGlobalPose().transform(vehActor->getCMassLocalPose());
+		carChassisCMLocalPose.q = PxQuat(PxIdentity);
+		origCarChassisTransform = vehActor->getGlobalPose().transform(carChassisCMLocalPose);
 		carChassisTransform = origCarChassisTransform;
 		const PxF32 chassisMass = vehActor->getMass();
 		inverseChassisMass = 1.0f/chassisMass;
@@ -6515,6 +6521,7 @@ void PxVehicleUpdate::updateNoDrive
 	PxVec3 carChassisAngVel;
 	{
 		carChassisCMLocalPose = vehActor->getCMassLocalPose();
+		carChassisCMLocalPose.q = PxQuat(PxIdentity);
 		origCarChassisTransform = vehActor->getGlobalPose().transform(carChassisCMLocalPose);
 		carChassisTransform = origCarChassisTransform;
 		const PxF32 chassisMass = vehActor->getMass();
@@ -7241,7 +7248,9 @@ void PxVehicleWheels4SuspensionRaycasts
  PxRigidDynamic* vehActor)
 {
 	//Get the transform of the chassis.
-	PxTransform carChassisTrnsfm=vehActor->getGlobalPose().transform(vehActor->getCMassLocalPose());
+	PxTransform massXform = vehActor->getCMassLocalPose();
+	massXform.q = PxQuat(PxIdentity);
+	PxTransform carChassisTrnsfm = vehActor->getGlobalPose().transform(massXform);
 
 	//Add a raycast for each wheel.
 	for(PxU32 j=0;j<numActiveWheels;j++)

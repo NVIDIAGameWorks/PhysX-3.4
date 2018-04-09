@@ -32,8 +32,11 @@
 
 #include "SqTypedef.h"
 #include "SqBucketPruner.h"
+#include "SqIncrementalAABBPrunerCore.h"
 #include "SqAABBTreeUpdateMap.h"
 #include "PsHashMap.h"
+
+#define USE_INCREMENTAL_PRUNER 0
 
 namespace physx
 {
@@ -41,6 +44,12 @@ namespace Sq
 {
 	struct AABBPrunerMergeData;
 	class AABBTreeMergeData;
+
+#if USE_INCREMENTAL_PRUNER
+	typedef IncrementalAABBPrunerCore PrunerCore;
+#else
+	typedef BucketPrunerCore		PrunerCore;
+#endif
 
 	// Extended bucket pruner data, if an object belongs to the tree of trees, we need to
 	// remember node for the sub tree, the tree it belongs to and the main tree node
@@ -99,31 +108,39 @@ namespace Sq
 		void							release();
 
 		// add single object into a bucket pruner directly
-		PX_FORCE_INLINE bool			addObject(const PrunerPayload& object, const PxBounds3& worldAABB, PxU32 timeStamp)
+		PX_FORCE_INLINE bool			addObject(const PrunerPayload& object, const PxBounds3& worldAABB, PxU32 timeStamp, const PoolIndex poolIndex)
 		{
-			return mBucketCore.addObject(object, worldAABB, timeStamp);
+#if USE_INCREMENTAL_PRUNER
+			PX_UNUSED(worldAABB);
+			PX_UNUSED(object);
+			return mPrunerCore.addObject(poolIndex, timeStamp);
+#else
+			PX_UNUSED(poolIndex);
+			return mPrunerCore.addObject(object, worldAABB, timeStamp);
+#endif
 		}
 
 		// add AABB tree from pruning structure - adds new primitive into main AABB tree
 		void							addTree(const AABBTreeMergeData& mergeData, PxU32 timeStamp);
 
 		// update object
-		bool							updateObject(const PxBounds3& worldAABB, const PrunerPayload& object);
+		bool							updateObject(const PxBounds3& worldAABB, const PrunerPayload& object, const PoolIndex poolIndex);
 
 		// remove object, removed object is replaced in pruning pool by swapped object, indices needs to be updated
 		bool							removeObject(const PrunerPayload& object, PxU32 objectIndex, const PrunerPayload& swapObject,
 											PxU32 swapObjectIndex, PxU32& timeStamp);
 
-		// separate call for indices invalidation, object can be either in AABBPruner or Bucket pruner, but the swapped object can be 
-		// in the tree of trees
-		void							invalidateObject(const ExtendedBucketPrunerData& object, PxU32 objectIndex, const PrunerPayload& swapObject,
-			PxU32 swapObjectIndex);
 
-		// swap object index, the object index can be in bucket pruner or tree of trees
-		void							swapIndex(PxU32 objectIndex, const PrunerPayload& swapObject, PxU32 swapObjectIndex);
+		// swap object index, the object index can be in core pruner or tree of trees
+		void							swapIndex(PxU32 objectIndex, const PrunerPayload& swapObject, PxU32 swapObjectIndex, bool corePrunerIncluded = true);
 
 		// refit marked nodes in tree of trees
 		void							refitMarkedNodes(const PxBounds3* boxes);
+
+#if USE_INCREMENTAL_PRUNER
+		// notify timestampChange - swap trees in incremental pruner
+		void							timeStampChange()	 { mPrunerCore.timeStampChange(); }
+#endif
 
 
 		// look for objects marked with input timestamp everywhere in the structure, and remove them. This is the same
@@ -141,11 +158,17 @@ namespace Sq
 		// debug visualize
 		void							visualize(Cm::RenderOutput& out, PxU32 color) const;
 
-		PX_FORCE_INLINE	void			build()					{ mBucketCore.build();	}
+		PX_FORCE_INLINE	void			build()					{ mPrunerCore.build();	}
 
-		PX_FORCE_INLINE PxU32			getNbObjects()	const	{ return mBucketCore.getNbObjects() + mExtendedBucketPrunerMap.size(); }
+		PX_FORCE_INLINE PxU32			getNbObjects()	const	{ return mPrunerCore.getNbObjects() + mExtendedBucketPrunerMap.size(); }
 
 	private:
+
+		// separate call for indices invalidation, object can be either in AABBPruner or Bucket pruner, but the swapped object can be 
+		// in the tree of trees
+		void							invalidateObject(const ExtendedBucketPrunerData& object, PxU32 objectIndex, const PrunerPayload& swapObject,
+			PxU32 swapObjectIndex);
+
 		void							resize(PxU32 size);
 		void							buildMainAABBTree();
 		void							copyTree(AABBTree& destTree, const AABBPrunerMergeData& inputData);
@@ -156,7 +179,7 @@ namespace Sq
 		bool							checkValidity();
 #endif
 	private:
-				BucketPrunerCore		mBucketCore;					// Bucket pruner for single objects
+				PrunerCore				mPrunerCore;					// pruner for single objects
 				const PruningPool*		mPruningPool;					// Pruning pool from AABB pruner
 				ExtendedBucketPrunerMap	mExtendedBucketPrunerMap;		// Map holding objects from tree merge - objects in tree of trees
 				AABBTree*				mMainTree;						// Main tree holding merged trees

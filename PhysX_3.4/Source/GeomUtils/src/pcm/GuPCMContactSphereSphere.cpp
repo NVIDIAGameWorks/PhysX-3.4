@@ -62,19 +62,18 @@ bool pcmContactSphereSphere(GU_CONTACT_METHOD_ARGS)
 	if(FAllGrtr(FMul(inflatedSum, inflatedSum), distanceSq))
 	{
 		const FloatV eps	=  FLoad(0.00001f);
-		const FloatV nhalf	= FLoad(-0.5f);
-		const FloatV magn = FSqrt(distanceSq);
-		const BoolV bCon = FIsGrtrOrEq(eps, magn);
-		const Vec3V normal = V3Sel(bCon, V3UnitX(), V3ScaleInv(_delta, magn)); 
-		const FloatV scale = FMul(FSub(FAdd(r0, magn), r1), nhalf);
-		const Vec3V point = V3ScaleAdd(normal, scale, p0);
-		const FloatV dist =  FSub(magn, radiusSum);
+		const FloatV dist = FSqrt(distanceSq);
+		const BoolV bCon = FIsGrtrOrEq(eps, dist);
+		const Vec3V normal = V3Sel(bCon, V3UnitX(), V3ScaleInv(_delta, dist));
+
+		const Vec3V point = V3ScaleAdd(normal, r1, p1);
+		const FloatV pen = FSub(dist, radiusSum);
 		
 		PX_ASSERT(contactBuffer.count < ContactBuffer::MAX_CONTACTS);
 		Gu::ContactPoint& contact = contactBuffer.contacts[contactBuffer.count++];
 		V4StoreA(Vec4V_From_Vec3V(normal), &contact.normal.x);
 		V4StoreA(Vec4V_From_Vec3V(point), &contact.point.x);
-		FStore(dist, &contact.separation);
+		FStore(pen, &contact.separation);
 
 		contact.internalFaceIndex1 = PXC_CONTACT_NO_FACE_INDEX;
 

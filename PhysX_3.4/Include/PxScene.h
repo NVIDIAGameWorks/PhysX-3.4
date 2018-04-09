@@ -1419,6 +1419,67 @@ class PxScene
 	virtual void				forceDynamicTreeRebuild(bool rebuildStaticStructure, bool rebuildDynamicStructure)	= 0;
 
 	/**
+	\brief Sets scene query update mode	
+
+	\param[in] updateMode	Scene query update mode.
+
+	@see PxSceneQueryUpdateMode::Enum
+	*/
+	virtual void				setSceneQueryUpdateMode(PxSceneQueryUpdateMode::Enum updateMode) = 0;
+
+	/**
+	\brief Gets scene query update mode	
+
+	\return Current scene query update mode.
+
+	@see PxSceneQueryUpdateMode::Enum
+	*/
+	virtual PxSceneQueryUpdateMode::Enum getSceneQueryUpdateMode() const = 0;
+
+	/**
+	\brief Executes scene queries update tasks.
+	This function will refit dirty shapes within the pruner and will execute a task to build a new AABB tree, which is
+	build on a different thread. The new AABB tree is built based on the dynamic tree rebuild hint rate. Once
+	the new tree is ready it will be commited in next fetchQueries call, which must be called after.
+
+	\note If PxSceneQueryUpdateMode::eBUILD_DISABLED_COMMIT_DISABLED is used, it is required to update the scene queries
+	using this function.
+
+	\param[in] completionTask if non-NULL, this task will have its refcount incremented in sceneQueryUpdate(), then
+	decremented when the scene is ready to have fetchQueries called. So the task will not run until the
+	application also calls removeReference().
+	\param[in] controlSimulation if true, the scene controls its PxTaskManager simulation state. Leave
+    true unless the application is calling the PxTaskManager start/stopSimulation() methods itself.
+
+	@see PxSceneQueryUpdateMode::eBUILD_DISABLED_COMMIT_DISABLED
+	*/
+	virtual void				sceneQueriesUpdate(physx::PxBaseTask* completionTask = NULL, bool controlSimulation = true)	= 0;
+
+	/**
+	\brief This checks to see if the scene queries update has completed.
+
+	This does not cause the data available for reading to be updated with the results of the scene queries update, it is simply a status check.
+	The bool will allow it to either return immediately or block waiting for the condition to be met so that it can return true
+	
+	\param[in] block When set to true will block until the condition is met.
+	\return True if the results are available.
+
+	@see sceneQueriesUpdate() fetchResults()
+	*/
+	virtual	bool				checkQueries(bool block = false) = 0;
+
+	/**
+	This method must be called after sceneQueriesUpdate. It will wait for the scene queries update to finish. If the user makes an illegal scene queries update call, 
+	the SDK will issue an error	message.
+
+	If a new AABB tree build finished, then during fetchQueries the current tree within the pruning structure is swapped with the new tree. 
+
+	\param[in] block When set to true will block until the condition is met, which is tree built task must finish running.
+	*/
+
+	virtual	bool				fetchQueries(bool block = false)	= 0;	
+
+	/**
 	\brief Performs a raycast against objects in the scene, returns results in a PxRaycastBuffer object
 	or via a custom user callback implementation inheriting from PxRaycastCallback.
 

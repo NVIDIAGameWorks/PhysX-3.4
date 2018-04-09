@@ -593,9 +593,8 @@ bool Gu::contactSphereHeightfield(GU_CONTACT_METHOD_ARGS)
 
 	const PxSphereGeometry& shapeSphere = shape0.get<const PxSphereGeometry>();
 	const PxHeightFieldGeometryLL& shapeMesh = shape1.get<const PxHeightFieldGeometryLL>();
-	const HeightField& hf = *static_cast<HeightField*>(shapeMesh.heightField);
 
-	HeightFieldUtil hfUtil(shapeMesh, hf);
+	HeightFieldUtil hfUtil(shapeMesh);
 
 	const PxVec3 sphereCenterInMeshSpace = transform1.transformInv(transform0.p);
 	const PxReal inflatedRadius = shapeSphere.radius + params.mContactDistance;

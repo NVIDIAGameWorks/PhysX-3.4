@@ -109,10 +109,6 @@ PvdUserRenderer* PvdProfileZoneClient::getUserRender()
 	return NULL;
 }
 
-void PvdProfileZoneClient::setObjectRegistrar(ObjectRegistrar*)
-{
-}
-
 bool PvdProfileZoneClient::isConnected() const
 {
 	return mIsConnected;

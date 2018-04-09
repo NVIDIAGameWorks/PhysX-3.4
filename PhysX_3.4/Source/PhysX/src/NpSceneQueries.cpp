@@ -819,6 +819,20 @@ bool NpSceneQueries::multiQuery(
 	}
 }
 
+void NpSceneQueries::sceneQueriesStaticPrunerUpdate(PxBaseTask* )
+{
+	PX_PROFILE_ZONE("SceneQuery.sceneQueriesStaticPrunerUpdate", getContextId());
+	// run pruner build only, this will build the new tree only, no commit happens
+	mSQManager.sceneQueryBuildStep(PruningIndex::eSTATIC);
+}
+
+void NpSceneQueries::sceneQueriesDynamicPrunerUpdate(PxBaseTask*)
+{
+	PX_PROFILE_ZONE("SceneQuery.sceneQueriesDynamicPrunerUpdate", getContextId());
+	// run pruner build only, this will build the new tree only, no commit happens
+	mSQManager.sceneQueryBuildStep(PruningIndex::eDYNAMIC);
+}
+
 //explicit template instantiation
 template bool NpSceneQueries::multiQuery<PxRaycastHit>(const MultiQueryInput&, PxHitCallback<PxRaycastHit>&, PxHitFlags, const PxQueryCache*, const PxQueryFilterData&, PxQueryFilterCallback*, BatchQueryFilterData*) const; 
 template bool NpSceneQueries::multiQuery<PxOverlapHit>(const MultiQueryInput&, PxHitCallback<PxOverlapHit>&, PxHitFlags, const PxQueryCache*, const PxQueryFilterData&, PxQueryFilterCallback*, BatchQueryFilterData*) const;

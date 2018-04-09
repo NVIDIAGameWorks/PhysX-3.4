@@ -30,7 +30,7 @@ uint32_t findBitSet(uint32_t mask)
 
 inline Scalar4i intFloor(const Scalar4f& v)
 {
-	return Scalar4i(int(floor(v.f4[0])), int(floor(v.f4[1])), int(floor(v.f4[2])), int(floor(v.f4[3])));
+	return Scalar4i(int(PxFloor(v.f4[0])), int(PxFloor(v.f4[1])), int(PxFloor(v.f4[2])), int(PxFloor(v.f4[3])));
 }
 
 inline Scalar4i horizontalOr(Scalar4i mask)
@@ -50,7 +50,7 @@ struct Gather<Scalar4i>
 
 Gather<Scalar4i>::Gather(const Scalar4i& index)
 {
-	uint32_t mask = physx::cloth::SwCollision<Scalar4i>::sGridSize - 1;
+	uint32_t mask = cloth::SwCollision<Scalar4i>::sGridSize - 1;
 
 	mIndex.u4[0] = index.u4[0] & mask;
 	mIndex.u4[1] = index.u4[1] & mask;

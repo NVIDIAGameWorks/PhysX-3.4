@@ -44,10 +44,8 @@
 
 namespace physx
 {
-
 class GuMeshFactory;
 class PxHeightFieldDesc;
-
 }
 
 namespace physx
@@ -298,8 +296,6 @@ private:
 
 } // namespace Gu
 
-
-
 PX_INLINE PxVec3 Gu::HeightField::getVertex(PxU32 vertexIndex) const
 {
 	const PxU32 row    = vertexIndex / mData.columns;
@@ -372,7 +368,6 @@ PX_INLINE bool Gu::HeightField::isConvexVertex(PxU32 vertexIndex, PxU32 row, PxU
 	return true;
 }
 
-
 PX_INLINE bool Gu::HeightField::isValidEdge(PxU32 edgeIndex) const
 {
 	const PxU32 cell   = (edgeIndex / 3);
@@ -396,7 +391,6 @@ PX_INLINE bool Gu::HeightField::isValidEdge(PxU32 edgeIndex) const
 	}
 	return true;
 }
-
 
 PX_INLINE PxU32 Gu::HeightField::getEdgeTriangleIndices(PxU32 edgeIndex, PxU32 triangleIndices[2]) const
 {
@@ -498,7 +492,6 @@ PX_INLINE PxU32 Gu::HeightField::getEdgeTriangleIndices(PxU32 edgeIndex, PxU32 t
 	return count;
 }
 
-
 PX_INLINE void Gu::HeightField::getEdgeVertexIndices(PxU32 edgeIndex, PxU32& vertexIndex0, PxU32& vertexIndex1) const
 {
 	const PxU32 cell = edgeIndex / 3;
@@ -532,231 +525,6 @@ PX_INLINE void Gu::HeightField::getEdgeVertexIndices(PxU32 edgeIndex, PxU32& ver
 			break;
 	}
 }
-
-#ifdef REMOVED
-PX_INLINE bool Gu::HeightField::isConvexEdge(PxU32 edgeIndex) const
-{
-	const PxU32 cell = edgeIndex / 3;
-
-	const PxU32 row = cell / mData.columns;
-	if (row > mData.rows-2) return false;
-
-	const PxU32 column = cell % mData.columns;
-	if (column > mData.columns-2) return false;
-
-//	PxReal h0 = 0, h1 = 0, h2 = 0, h3 = 0;
-//	PxReal convexity = 0;
-	PxI32 h0 = 0, h1 = 0, h2 = 0, h3 = 0;
-	PxI32 convexity = 0;
-
-//	switch (edgeIndex % 3)
-	switch (edgeIndex - cell*3)
-	{
-		case 0:
-			if (row < 1) return false;
-/*			if(isZerothVertexShared(cell - mData.columns)) 
-			{
-				//      <------ COL  
-				//       +----+  0  R
-				//       |   /  /#  O
-				//       |  /  / #  W
-				//       | /  /  #  |
-				//       |/  /   #  |
-				//       +  +====1  |
-				//                  |
-				//                  |
-				//                  |
-				//                  |
-				//                  |
-				//                  |
-				//                  V
-				//      
-//				h0 = getHeight(cell - mData.columns);
-//				h1 = getHeight(cell);
-				h0 = getSample(cell - mData.columns).height;
-				h1 = getSample(cell).height;
-			}
-			else
-			{
-				//      <------ COL  
-				//       0  +----+  R
-				//       #\  \   |  O
-				//       # \  \  |  W
-				//       #  \  \ |  |
-				//       #   \  \|  |
-				//       1====+  +  |
-				//                  |
-				//                  |
-				//                  |
-				//                  |
-				//                  |
-				//                  |
-				//                  V
-				//      
-//				h0 = getHeight(cell - mData.columns + 1);
-//				h1 = getHeight(cell + 1);
-				h0 = getSample(cell - mData.columns + 1).height;
-				h1 = getSample(cell + 1).height;
-			}*/
-			const bool b0 = !isZerothVertexShared(cell - mData.columns);
-			h0 = getSample(cell - mData.columns + b0).height;
-			h1 = getSample(cell + b0).height;
-
-/*			if(isZerothVertexShared(cell)) 
-			{
-				//      <------ COL  
-				//                  R
-				//                  O
-				//                  W
-				//                  |
-				//                  |
-				//                  |
-				//       2====+  0  |
-				//       #   /  /|  |
-				//       #  /  / |  |
-				//       # /  /  |  |
-				//       #/  /   |  |
-				//       3  +----+  |
-				//                  V
-				//      
-//				h2 = getHeight(cell + 1);
-//				h3 = getHeight(cell + mData.columns + 1);
-				h2 = getSample(cell + 1).height;
-				h3 = getSample(cell + mData.columns + 1).height;
-			}
-			else
-			{
-				//      <------ COL  
-				//                  R
-				//                  O
-				//                  W
-				//                  |
-				//                  |
-				//                  |
-				//       +  +====2  |
-				//       |\  \   #  |
-				//       | \  \  #  |
-				//       |  \  \ #  |
-				//       |   \  \#  |
-				//       +----+  3  |
-				//                  V
-				//      
-//				h2 = getHeight(cell);
-//				h3 = getHeight(cell + mData.columns);
-				h2 = getSample(cell).height;
-				h3 = getSample(cell + mData.columns).height;
-			}*/
-			const bool b1 = isZerothVertexShared(cell);
-			h2 = getSample(cell + b1).height;
-			h3 = getSample(cell + mData.columns + b1).height;
-
-			//convex = (h3-h2) < (h1-h0);
-			convexity = (h1-h0) - (h3-h2);
-			break;
-		case 1:
-//			h0 = getHeight(cell);
-//			h1 = getHeight(cell + 1);
-//			h2 = getHeight(cell + mData.columns);
-//			h3 = getHeight(cell + mData.columns + 1);
-			h0 = getSample(cell).height;
-			h1 = getSample(cell + 1).height;
-			h2 = getSample(cell + mData.columns).height;
-			h3 = getSample(cell + mData.columns + 1).height;
-			if (isZerothVertexShared(cell))
-				//convex = (h0 + h3) > (h1 + h2);
-				convexity = (h0 + h3) - (h1 + h2);
-			else 
-				//convex = (h2 + h1) > (h0 + h3);
-				convexity = (h2 + h1) - (h0 + h3);
-			break;
-		case 2:
-			if (column < 1) return false;
-/*			if(isZerothVertexShared(cell-1)) 
-			{
-				//      <-------------- COL  
-				//                1====0  + R
-				//                +   /  /| O
-				//                +  /  / | W
-				//                + /  /  | |
-				//                +/  /   | |
-				//                +  +----+ V
-				//      
-//				h0 = getHeight(cell - 1);
-//				h1 = getHeight(cell);
-				h0 = getSample(cell - 1).height;
-				h1 = getSample(cell).height;
-			}
-			else
-			{
-				//      <-------------- COL  
-				//                +  +----+ R
-				//                +\  \   | O
-				//                + \  \  | W
-				//                +  \  \ | |
-				//                +   \  \| |
-				//                1====0  + V
-				//      
-//				h0 = getHeight(cell - 1 + mData.columns);
-//				h1 = getHeight(cell + mData.columns);
-				h0 = getSample(cell - 1 + mData.columns).height;
-				h1 = getSample(cell + mData.columns).height;
-			}*/
-			const PxU32 offset0 = isZerothVertexShared(cell-1) ? 0 : mData.columns;
-			h0 = getSample(cell - 1 + offset0).height;
-			h1 = getSample(cell + offset0).height;
-
-/*			if(isZerothVertexShared(cell)) 
-			{
-				//      <-------------- COL  
-				//       +----+  +          R
-				//       |   /  /+          O
-				//       |  /  / +          W
-				//       | /  /  +          |
-				//       |/  /   +          |
-				//       +  3====2          V
-				//      
-//				h2 = getHeight(cell + mData.columns);
-//				h3 = getHeight(cell + mData.columns + 1);
-				h2 = getSample(cell + mData.columns).height;
-				h3 = getSample(cell + mData.columns + 1).height;
-			}
-			else
-			{
-				//      <-------------- COL  
-				//       +  3====2          R
-				//       |\  \   +          O
-				//       | \  \  +          W
-				//       |  \  \ +          |
-				//       |   \  \+          |
-				//       +----+  +          V
-				//      
-//				h2 = getHeight(cell);
-//				h3 = getHeight(cell + 1);
-				h2 = getSample(cell).height;
-				h3 = getSample(cell + 1).height;
-			}*/
-			const PxU32 offset1 = isZerothVertexShared(cell) ? mData.columns : 0;
-			h2 = getSample(cell + offset1).height;
-			h3 = getSample(cell + offset1 + 1).height;
-
-			//convex = (h3-h2) < (h1-h0);
-			convexity = (h1-h0) - (h3-h2);
-			break;
-	}
-
-	const PxI32 threshold = PxI32(mData.convexEdgeThreshold);
-	if (mData.thickness <= 0)
-	{
-//		return convexity > mData.convexEdgeThreshold;
-		return convexity > threshold;
-	}
-	else
-	{
-//		return convexity < -mData.convexEdgeThreshold;
-		return convexity < -threshold;
-	}
-}
-#endif
 
 PX_INLINE bool Gu::HeightField::isConvexEdge(PxU32 edgeIndex, PxU32 cell, PxU32 row, PxU32 column) const
 {
@@ -987,34 +755,6 @@ PX_INLINE bool Gu::HeightField::isConvexEdge(PxU32 edgeIndex, PxU32 cell, PxU32 
 		return convexity < -threshold;
 	}
 }
-#ifdef REMOVED
-PX_INLINE void Gu::HeightField::computeCellCoordinates(PxReal x, PxReal z, PxU32& _row, PxU32& _column, PxReal& _fracX, PxReal& _fracZ) const
-{
-	x = physx::intrinsics::selectMax(x, 0.0f);
-	z = physx::intrinsics::selectMax(z, 0.0f);
-
-	PxU32 row = (PxU32)x;
-	PxReal fracX = x - PxReal(row);
-	if (row > mData.rows - 2) 
-	{
-		row = mData.rows - 2;
-		fracX = PxReal(1);
-	}
-
-	PxU32 column = (PxU32)z;
-	PxReal fracZ = z - PxReal(column);
-	if (column > mData.columns - 2) 
-	{
-		column = mData.columns - 2;
-		fracZ = PxReal(1);
-	}
-
-	_row = row;
-	_column = column;
-	_fracX = fracX;
-	_fracZ = fracZ;
-}
-#endif
 
 PX_INLINE bool Gu::HeightField::isValidTriangle(PxU32 triangleIndex) const
 {
@@ -1025,9 +765,6 @@ PX_INLINE bool Gu::HeightField::isValidTriangle(PxU32 triangleIndex) const
 	if (column >= (mData.columns - 1)) return false;
 	return true;
 }
-
-
-
 
 PX_INLINE void Gu::HeightField::getTriangleVertexIndices(PxU32 triangleIndex, PxU32& vertexIndex0, PxU32& vertexIndex1, PxU32& vertexIndex2) const
 {

@@ -118,7 +118,15 @@ bool AABBPruner::addObjects(PrunerHandle* results, const PxBounds3* bounds, cons
 		if(!hasPruningStructure)
 		{
 			for(PxU32 i=0;i<valid;i++)
-				mBucketPruner.addObject(payload[i], bounds[i], mTimeStamp);
+			{
+#if USE_INCREMENTAL_PRUNER
+				const PrunerHandle& handle = results[i];
+				const PoolIndex poolIndex = mPool.getIndex(handle);
+				mBucketPruner.addObject(payload[i], bounds[i], mTimeStamp, poolIndex);
+#else
+				mBucketPruner.addObject(payload[i], bounds[i], mTimeStamp, INVALID_NODE_ID);
+#endif
+			}
 		}
 	}
 	return valid==count;
@@ -146,7 +154,7 @@ void AABBPruner::updateObjectsAfterManualBoundsUpdates(const PrunerHandle* handl
 				mAABBTree->markNodeForRefit(treeNodeIndex);
 			else // otherwise it means it should be in the bucket pruner
 			{
-				bool found = mBucketPruner.updateObject(newBounds[poolIndex], payloads[poolIndex]);
+				bool found = mBucketPruner.updateObject(newBounds[poolIndex], payloads[poolIndex], poolIndex);
 				PX_UNUSED(found); PX_ASSERT(found);
 			}
 
@@ -183,7 +191,7 @@ void AABBPruner::updateObjectsAndInflateBounds(const PrunerHandle* handles, cons
 //				bool found = mBucketPruner.updateObject(newBounds[indices[i]], mPool.getPayload(handles[i]));
 				PX_ASSERT(&payloads[poolIndex]==&mPool.getPayload(handles[i]));
 				// PT: TODO: don't we need to read the pool's array here, to pass the inflated bounds?
-				bool found = mBucketPruner.updateObject(newBounds[indices[i]], payloads[poolIndex]);
+				bool found = mBucketPruner.updateObject(newBounds[indices[i]], payloads[poolIndex], poolIndex);
 				PX_UNUSED(found); PX_ASSERT(found);
 			}
 
@@ -268,12 +276,12 @@ PxAgain AABBPruner::overlap(const ShapeData& queryVolume, PrunerCallback& pcb) c
 				if(queryVolume.isOBB())
 				{	
 					const Gu::OBBAABBTest test(queryVolume.getPrunerWorldPos(), queryVolume.getPrunerWorldRot33(), queryVolume.getPrunerBoxGeomExtentsInflated());
-					again = AABBTreeOverlap<Gu::OBBAABBTest>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, test, pcb);
+					again = AABBTreeOverlap<Gu::OBBAABBTest, AABBTree, AABBTreeRuntimeNode>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, test, pcb);
 				}
 				else
 				{
 					const Gu::AABBAABBTest test(queryVolume.getPrunerInflatedWorldAABB());
-					again = AABBTreeOverlap<Gu::AABBAABBTest>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, test, pcb);
+					again = AABBTreeOverlap<Gu::AABBAABBTest, AABBTree, AABBTreeRuntimeNode>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, test, pcb);
 				}
 			}
 			break;
@@ -282,20 +290,20 @@ PxAgain AABBPruner::overlap(const ShapeData& queryVolume, PrunerCallback& pcb) c
 				const Gu::Capsule& capsule = queryVolume.getGuCapsule();
 				const Gu::CapsuleAABBTest test(	capsule.p1, queryVolume.getPrunerWorldRot33().column0,
 												queryVolume.getCapsuleHalfHeight()*2.0f, PxVec3(capsule.radius*SQ_PRUNER_INFLATION));
-				again = AABBTreeOverlap<Gu::CapsuleAABBTest>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, test, pcb);
+				again = AABBTreeOverlap<Gu::CapsuleAABBTest, AABBTree, AABBTreeRuntimeNode>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, test, pcb);
 			}
 			break;
 		case PxGeometryType::eSPHERE:
 			{
 				const Gu::Sphere& sphere = queryVolume.getGuSphere();
 				Gu::SphereAABBTest test(sphere.center, sphere.radius);
-				again = AABBTreeOverlap<Gu::SphereAABBTest>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, test, pcb);
+				again = AABBTreeOverlap<Gu::SphereAABBTest, AABBTree, AABBTreeRuntimeNode>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, test, pcb);
 			}
 			break;
 		case PxGeometryType::eCONVEXMESH:
 			{
 				const Gu::OBBAABBTest test(queryVolume.getPrunerWorldPos(), queryVolume.getPrunerWorldRot33(), queryVolume.getPrunerBoxGeomExtentsInflated());
-				again = AABBTreeOverlap<Gu::OBBAABBTest>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, test, pcb);			
+				again = AABBTreeOverlap<Gu::OBBAABBTest, AABBTree, AABBTreeRuntimeNode>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, test, pcb);			
 			}
 			break;
 		case PxGeometryType::ePLANE:
@@ -323,7 +331,7 @@ PxAgain AABBPruner::sweep(const ShapeData& queryVolume, const PxVec3& unitDir, P
 	{
 		const PxBounds3& aabb = queryVolume.getPrunerInflatedWorldAABB();
 		const PxVec3 extents = aabb.getExtents();
-		again = AABBTreeRaycast<true>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, aabb.getCenter(), unitDir, inOutDistance, extents, pcb);
+		again = AABBTreeRaycast<true, AABBTree, AABBTreeRuntimeNode>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, aabb.getCenter(), unitDir, inOutDistance, extents, pcb);
 	}
 
 	if(again && mIncrementalRebuild && mBucketPruner.getNbObjects())
@@ -339,7 +347,7 @@ PxAgain AABBPruner::raycast(const PxVec3& origin, const PxVec3& unitDir, PxReal&
 	PxAgain again = true;
 
 	if(mAABBTree)
-		again = AABBTreeRaycast<false>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, origin, unitDir, inOutDistance, PxVec3(0.0f), pcb);
+		again = AABBTreeRaycast<false, AABBTree, AABBTreeRuntimeNode>()(mPool.getObjects(), mPool.getCurrentWorldBoxes(), *mAABBTree, origin, unitDir, inOutDistance, PxVec3(0.0f), pcb);
 		
 	if(again && mIncrementalRebuild && mBucketPruner.getNbObjects())
 		again = mBucketPruner.raycast(origin, unitDir, inOutDistance, pcb);
@@ -376,7 +384,7 @@ void AABBPruner::commit()
 {
 	PX_PROFILE_ZONE("SceneQuery.prunerCommit", mContextID);
 
-	if(!mUncommittedChanges)
+	if(!mUncommittedChanges && (mProgress != BUILD_FINISHED))
 		// Q: seems like this is both for refit and finalization so is this is correct?
 		// i.e. in a situation when we started rebuilding a tree and didn't add anything since
 		// who is going to set mUncommittedChanges to true?
@@ -550,7 +558,7 @@ void AABBPruner::visualize(Cm::RenderOutput& out, PxU32 color) const
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool AABBPruner::buildStep()
+bool AABBPruner::buildStep(bool synchronousCall)
 {
 	PX_PROFILE_ZONE("SceneQuery.prunerBuildStep", mContextID);
 
@@ -559,36 +567,8 @@ bool AABBPruner::buildStep()
 	{
 		if(mProgress==BUILD_NOT_STARTED)
 		{
-			const PxU32 nbObjects = mPool.getNbActiveObjects();
-			if(!nbObjects)
-				return true;
-
-			PX_DELETE(mNewTree);
-			mNewTree = PX_NEW(AABBTree);
-
-			mNbCachedBoxes = nbObjects;
-			// PT: we always allocate one extra box, to make sure we can safely use V4 loads on the array
-			mCachedBoxes = reinterpret_cast<PxBounds3*>(PX_ALLOC(sizeof(PxBounds3)*(nbObjects+1), "PxBound3"));
-
-			PxMemCopy(mCachedBoxes, mPool.getCurrentWorldBoxes(), nbObjects*sizeof(PxBounds3));
-
-			// PT: objects currently in the bucket pruner will be in the new tree. They are marked with the
-			// current timestamp (mTimeStamp). However more objects can get added while we compute the new tree,
-			// and those ones will not be part of it. These new objects will be marked with the new timestamp
-			// value (mTimeStamp+1), and we can use these different values to remove the proper objects from
-			// the bucket pruner (when switching to the new tree).
-			mTimeStamp++;
-			mBuilder.reset();
-			mBuilder.mNbPrimitives	= mNbCachedBoxes;
-			mBuilder.mAABBArray		= mCachedBoxes;
-			mBuilder.mLimit			= NB_OBJECTS_PER_NODE;
-
-			mBuildStats.reset();
-
-			// start recording modifications to the tree made during rebuild to reapply (fix the new tree) eventually
-			PX_ASSERT(mNewTreeFixups.size()==0);
-
-			mProgress = BUILD_INIT;
+			if(!synchronousCall || !prepareBuild())
+				return false;
 		}
 		else if(mProgress==BUILD_INIT)
 		{
@@ -684,16 +664,66 @@ bool AABBPruner::buildStep()
 		// This is required to be set because commit handles both refit and a portion of build finalization (why?)
 		// This is overly conservative also only necessary in case there were no updates at all to the tree since the last tree swap
 		// It also overly conservative in a sense that it could be set only if mProgress was just set to BUILD_FINISHED
+		// If run asynchronously from a different thread, we touched just the new AABB build phase, we should not mark the main tree as dirty
+		if(synchronousCall)
 		mUncommittedChanges = true;
 
 		return mProgress==BUILD_FINISHED;
 	}
 
-	return true;
+	return false;
 }
 
+bool AABBPruner::prepareBuild()
+{
+	PX_PROFILE_ZONE("SceneQuery.prepareBuild", mContextID);
 
+	PX_ASSERT(mIncrementalRebuild);
+	if(mNeedsNewTree)
+	{
+		if(mProgress==BUILD_NOT_STARTED)
+		{
+			const PxU32 nbObjects = mPool.getNbActiveObjects();
+			if(!nbObjects)
+				return false;
 
+			PX_DELETE(mNewTree);
+			mNewTree = PX_NEW(AABBTree);
+
+			mNbCachedBoxes = nbObjects;
+			// PT: we always allocate one extra box, to make sure we can safely use V4 loads on the array
+			mCachedBoxes = reinterpret_cast<PxBounds3*>(PX_ALLOC(sizeof(PxBounds3)*(nbObjects+1), "PxBound3"));
+
+			PxMemCopy(mCachedBoxes, mPool.getCurrentWorldBoxes(), nbObjects*sizeof(PxBounds3));
+
+			// PT: objects currently in the bucket pruner will be in the new tree. They are marked with the
+			// current timestamp (mTimeStamp). However more objects can get added while we compute the new tree,
+			// and those ones will not be part of it. These new objects will be marked with the new timestamp
+			// value (mTimeStamp+1), and we can use these different values to remove the proper objects from
+			// the bucket pruner (when switching to the new tree).
+			mTimeStamp++;
+#if USE_INCREMENTAL_PRUNER
+			// notify the incremental pruner to swap trees
+			mBucketPruner.timeStampChange();
+#endif
+			mBuilder.reset();
+			mBuilder.mNbPrimitives	= mNbCachedBoxes;
+			mBuilder.mAABBArray		= mCachedBoxes;
+			mBuilder.mLimit			= NB_OBJECTS_PER_NODE;
+
+			mBuildStats.reset();
+
+			// start recording modifications to the tree made during rebuild to reapply (fix the new tree) eventually
+			PX_ASSERT(mNewTreeFixups.size()==0);
+
+			mProgress = BUILD_INIT;
+		}
+	}
+	else
+		return false;
+
+	return true;
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

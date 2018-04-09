@@ -180,37 +180,20 @@ BroadPhaseUpdateData::mCreated used by BroadPhase::update
 */
 struct BroadPhasePair
 {
-	BroadPhasePair(ShapeHandle volA, ShapeHandle volB, void* userData)
+	BroadPhasePair(ShapeHandle volA, ShapeHandle volB) :
+		mVolA		(PxMin(volA, volB)),
+		mVolB		(PxMax(volA, volB))
 	{
-		mVolA=PxMin(volA,volB);
-		mVolB=PxMax(volA,volB);
-		mUserData = userData;
 	}
-	BroadPhasePair()
-		: mVolA(BP_INVALID_BP_HANDLE),
-		  mVolB(BP_INVALID_BP_HANDLE),
-		  mUserData(NULL)
+	BroadPhasePair() :
+		mVolA		(BP_INVALID_BP_HANDLE),
+		mVolB		(BP_INVALID_BP_HANDLE)
 	{
 	}
 
 	ShapeHandle		mVolA;		// NB: mVolA < mVolB
 	ShapeHandle		mVolB;
-	void*			mUserData;
 };
-
-struct BroadPhasePairReport : public BroadPhasePair
-{
-	PxU32 mHandle;
-
-	BroadPhasePairReport(ShapeHandle volA, ShapeHandle volB, void* userData, PxU32 handle) : BroadPhasePair(volA, volB, userData),  mHandle(handle)
-	{
-	}
-
-	BroadPhasePairReport() : BroadPhasePair(), mHandle(BP_INVALID_BP_HANDLE)
-	{
-	}
-};
-
 
 class BroadPhase : public BroadPhaseBase
 {
@@ -288,7 +271,7 @@ public:
 	The rule that minima(maxima) are even(odd) (see BroadPhaseUpdateData) removes the ambiguity of touching bounds. 
 
 	*/
-	virtual	BroadPhasePairReport*			getCreatedPairs()					= 0;
+	virtual	BroadPhasePair*			getCreatedPairs()					= 0;
 
 	/**
 	\brief Return the number of deleted overlap pairs computed in the execution of update() that has just completed.
@@ -304,7 +287,7 @@ public:
 	It is impossible for the same pair to appear simultaneously in the list of created and deleted pairs.
 	The test for overlap is conservative throughout, meaning that deleted pairs do not include touching pairs.
 	*/
-	virtual	BroadPhasePairReport*			getDeletedPairs()					= 0;
+	virtual	BroadPhasePair*			getDeletedPairs()					= 0;
 
 	/**
 	\brief After the broadphase has completed its update() function and the created/deleted pairs have been queried

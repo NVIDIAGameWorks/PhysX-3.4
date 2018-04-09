@@ -117,11 +117,11 @@ void foo(const float* ptr)
 * __m128i are wrapped into structs. Arguments need to be passed by reference in this mode.
 * \see NV_SIMD_VECTORCALL, Simd4fArg */
 
-#if defined NV_SIMD_USE_NAMESPACE&& NV_SIMD_USE_NAMESPACE
+#ifndef NV_NO_SIMD_NAMESPACE
 #define NV_SIMD_NAMESPACE_BEGIN                                                                                        \
 	namespace nvidia                                                                                                   \
 	{                                                                                                                  \
-	namespace simd                                                                                                     \
+	namespace clothing                                                                                                    \
 	{
 #define NV_SIMD_NAMESPACE_END                                                                                          \
 	}                                                                                                                  \

@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #include "PsIntrinsics.h"
 #include "GuHeightFieldUtil.h"
 #include "GuSweepSharedTests.h"
@@ -63,11 +62,6 @@ PxU32 Gu::HeightFieldUtil::getFaceIndexAtShapePoint(PxReal x, PxReal z) const
 	return 0xffffffff;
 }
 
-PxU32 Gu::HeightFieldUtil::getFaceIndexAtTriangleIndex(PxU32 triangleIndex) const
-{
-	return (mHeightField->getTriangleMaterial(triangleIndex) != PxHeightFieldMaterial::eHOLE) ? triangleIndex : 0xffffffff;
-}
-
 PxU32 Gu::HeightFieldUtil::getFaceIndexAtShapePointNoTest(PxReal x, PxReal z) const
 {
 	PX_ASSERT(isShapePointOnHeightField(x, z));
@@ -80,104 +74,6 @@ PxU32 Gu::HeightFieldUtil::getFaceIndexAtShapePointNoTest2(PxU32 cell, PxReal fr
 {
 	const PxU32 triangleIndex = mHeightField->getTriangleIndex2(cell, fracX, fracZ);
 	return (mHeightField->getTriangleMaterial(triangleIndex) != PxHeightFieldMaterial::eHOLE) ? triangleIndex : 0xffffffff;
-}
-
-
-PxVec3 Gu::HeightFieldUtil::getSmoothNormalAtShapePoint(PxReal x, PxReal z) const
-{
-#ifdef PX_HEIGHTFIELD_DEBUG
-	PX_ASSERT(getFaceIndexAtShapePoint(x, z) != 0xffffffff);
-#endif
-	x *= mOneOverRowScale;
-	z *= mOneOverColumnScale;
-
-	PxReal fracX, fracZ;
-	const PxU32 cell = mHeightField->computeCellCoordinates(x, z, fracX, fracZ);
-
-	if (mHeightField->isZerothVertexShared(cell))
-	{
-		//    <----Z---+
-		//      +----+ | 
-		//      |   /| |
-		//      |  / | X
-		//      | /  | |
-		//      |/   | |
-		//      +----+ |
-		//             V
-		if (fracZ > fracX)
-		{
-			//    <----Z---+
-			//      1----0 | 
-			//      |   /  |
-			//      |  /   X
-			//      | /    |
-			//      |/     |
-			//      2      |
-			//             V
-			const PxVec3 n0 = getVertexNormal(cell);
-			const PxVec3 n1 = getVertexNormal(cell + 1);
-			const PxVec3 n2 = getVertexNormal(cell + mHeightField->getNbColumnsFast() + 1);
-			return n0 + fracZ*(n1-n0) + fracX*(n2-n1);
-		}
-		else
-		{
-			//    <----Z---+
-			//           0 | 
-			//          /| |
-			//         / | X
-			//        /  | |
-			//       /   | |
-			//      2----1 |
-			//             V
-			const PxVec3 n0 = getVertexNormal(cell);
-			const PxVec3 n1 = getVertexNormal(cell + mHeightField->getNbColumnsFast());
-			const PxVec3 n2 = getVertexNormal(cell + mHeightField->getNbColumnsFast() + 1);
-			return n0 + fracX*(n1-n0) + fracZ*(n2-n1);
-		}
-	}
-	else
-	{
-		//    <----Z---+
-		//      +----+ | 
-		//      |\   | |
-		//      | \  | X
-		//      |  \ | |
-		//      |   \| |
-		//      +----+ |
-		//             V
-		if (fracX + fracZ < 1)
-		{
-			//    <----Z---+
-			//      1----0 | 
-			//       \   | |
-			//        \  | X
-			//         \ | |
-			//          \| |
-			//           2 |
-			//             V
-			const PxVec3 n0 = getVertexNormal(cell);
-			const PxVec3 n1 = getVertexNormal(cell + 1);
-			const PxVec3 n2 = getVertexNormal(cell + mHeightField->getNbColumnsFast());
-			return n0 + fracZ*(n1-n0) + fracX*(n2-n0);
-		}
-		else
-		{
-			//    <----Z---+
-			//      2      | 
-			//      |\     |
-			//      | \    X
-			//      |  \   |
-			//      |   \  |
-			//      0----1 |
-			//             V
-			//
-			// Note that we need to flip fracX and fracZ since we are moving the origin
-			const PxVec3 n0 = getVertexNormal(cell + mHeightField->getNbColumnsFast() + 1);
-			const PxVec3 n1 = getVertexNormal(cell + mHeightField->getNbColumnsFast());
-			const PxVec3 n2 = getVertexNormal(cell + 1);
-			return n0 + (1-fracZ)*(n1-n0) + (1-fracX)*(n2 - n0);
-		}
-	}		
 }
 
 PxVec3 Gu::HeightFieldUtil::getVertexNormal(PxU32 vertexIndex, PxU32 row, PxU32 column) const
@@ -711,63 +607,6 @@ bool Gu::HeightFieldUtil::findProjectionOnTriangle(PxU32 triangleIndex, PxU32 ro
 	return false;
 }
 
-bool Gu::HeightFieldUtil::isCollisionEdge(PxU32 edgeIndex) const
-{
-#ifdef PX_HEIGHTFIELD_DEBUG
-	PX_ASSERT(mHeightField->isValidEdge(edgeIndex));
-#endif
-
-	// This code was simple, readable but slow
-	// return isBoundaryEdge(edgeIndex) || (mHeightField->isConvexEdge(edgeIndex) && isSolidEdge(edgeIndex));
-
-	PxU32 faceIndices[2];
-	const PxU32 count = mHeightField->getEdgeTriangleIndices(edgeIndex, faceIndices);
-	if (count > 1) 
-	{
-		PxMaterialTableIndex mat0 = mHeightField->getTriangleMaterial(faceIndices[0]);
-		PxMaterialTableIndex mat1 = mHeightField->getTriangleMaterial(faceIndices[1]);
-		if (mat0 == PxHeightFieldMaterial::eHOLE) return (mat1 != PxHeightFieldMaterial::eHOLE);
-		if (mat1 == PxHeightFieldMaterial::eHOLE) return (mat0 != PxHeightFieldMaterial::eHOLE);
-	} 
-	else 
-	{
-		if (mHeightField->getFlagsFast() & PxHeightFieldFlag::eNO_BOUNDARY_EDGES) return false;
-		PxMaterialTableIndex mat0 = mHeightField->getTriangleMaterial(faceIndices[0]);
-		return (mat0 != PxHeightFieldMaterial::eHOLE);
-	}
-
-	return mHeightField->isConvexEdge(edgeIndex);
-}
-
-bool Gu::HeightFieldUtil::isCollisionEdge(PxU32 edgeIndex, PxU32 count, const PxU32* PX_RESTRICT faceIndices, PxU32 cell, PxU32 row, PxU32 column) const
-{
-#ifdef PX_HEIGHTFIELD_DEBUG
-	PX_ASSERT(mHeightField->isValidEdge(edgeIndex));
-#endif
-
-	// This code was simple, readable but slow
-	// return isBoundaryEdge(edgeIndex) || (mHeightField->isConvexEdge(edgeIndex) && isSolidEdge(edgeIndex));
-
-//	PxU32 faceIndices[2];
-//	const PxU32 count = mHeightField->getEdgeTriangleIndices(edgeIndex, faceIndices);
-	if (count > 1) 
-	{
-		PxMaterialTableIndex mat0 = mHeightField->getTriangleMaterial(faceIndices[0]);
-		PxMaterialTableIndex mat1 = mHeightField->getTriangleMaterial(faceIndices[1]);
-		if (mat0 == PxHeightFieldMaterial::eHOLE) return (mat1 != PxHeightFieldMaterial::eHOLE);
-		if (mat1 == PxHeightFieldMaterial::eHOLE) return (mat0 != PxHeightFieldMaterial::eHOLE);
-	} 
-	else 
-	{
-		if (mHeightField->getFlagsFast() & PxHeightFieldFlag::eNO_BOUNDARY_EDGES) return false;
-		PxMaterialTableIndex mat0 = mHeightField->getTriangleMaterial(faceIndices[0]);
-		return (mat0 != PxHeightFieldMaterial::eHOLE);
-	}
-
-//	return mHeightField->isConvexEdge(edgeIndex);
-	return mHeightField->isConvexEdge(edgeIndex, cell, row, column);
-}
-
 void Gu::HeightFieldUtil::getEdge(PxU32 edgeIndex, PxU32 cell, PxU32 row, PxU32 column, PxVec3& origin, PxVec3& extent) const
 {
 #ifdef PX_HEIGHTFIELD_DEBUG		
@@ -1008,40 +847,3 @@ PxU32 Gu::HeightFieldUtil::getTriangle(const PxTransform& pose, PxTriangle& worl
 	}
 	return PxU32(mHeightField->getTriangleMaterial(triangleIndex) != PxHeightFieldMaterial::eHOLE);
 }
-
-
-bool Gu::HeightFieldUtil::isBoundaryEdge(PxU32 edgeIndex) const
-{
-#ifdef PX_HEIGHTFIELD_DEBUG
-	PX_ASSERT(mHeightField.isValidEdge(edgeIndex));
-#endif
-	PxU32 faceIndices[2];
-	const PxU32 count = mHeightField->getEdgeTriangleIndices(edgeIndex, faceIndices);
-	if (count > 1) 
-	{
-		const PxMaterialTableIndex mat0 = mHeightField->getTriangleMaterial(faceIndices[0]);
-		const PxMaterialTableIndex mat1 = mHeightField->getTriangleMaterial(faceIndices[1]);
-		if (mat0 == PxHeightFieldMaterial::eHOLE) return (mat1 != PxHeightFieldMaterial::eHOLE);
-		if (mat1 == PxHeightFieldMaterial::eHOLE) return (mat0 != PxHeightFieldMaterial::eHOLE);
-	}
-	else 
-	{
-		const PxMaterialTableIndex mat0 = mHeightField->getTriangleMaterial(faceIndices[0]);
-		return (mat0 != PxHeightFieldMaterial::eHOLE);
-	}
-	return false;
-}
-
-
-/*PxReal Gu::HeightFieldUtil::getHeightAtShapePoint(PxReal x, PxReal z) const
-{
-	return mHfGeom.heightScale * mHeightField->getHeightInternal(x * mOneOverRowScale, z * mOneOverColumnScale);
-}*/
-
-
-/*
-PxVec3 Gu::HeightFieldUtil::getNormalAtShapePoint(PxReal x, PxReal z) const
-{
-	return hf2shapen(mHeightField->getNormal_(x * mOneOverRowScale, z * mOneOverColumnScale));
-}
-*/

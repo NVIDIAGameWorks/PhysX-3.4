@@ -187,6 +187,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxQueryCache"><param name="Local" value="structPxQueryCache.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxScene"><param name="Local" value="classPxScene.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxPruningStructureType"><param name="Local" value="structPxPruningStructureType.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneQueryUpdateMode"><param name="Local" value="structPxSceneQueryUpdateMode.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxFrictionType"><param name="Local" value="structPxFrictionType.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneFlag"><param name="Local" value="structPxSceneFlag.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneLimits"><param name="Local" value="classPxSceneLimits.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -1400,6 +1401,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneFlag"><param name="Local" value="structPxSceneFlag.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneLimits"><param name="Local" value="classPxSceneLimits.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneQueryExt"><param name="Local" value="classPxSceneQueryExt.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneQueryUpdateMode"><param name="Local" value="structPxSceneQueryUpdateMode.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneReadLock"><param name="Local" value="classPxSceneReadLock.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneWriteLock"><param name="Local" value="classPxSceneWriteLock.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSerialization"><param name="Local" value="classPxSerialization.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -1887,6 +1889,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneFlag"><param name="Local" value="structPxSceneFlag.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneLimits"><param name="Local" value="classPxSceneLimits.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneQueryExt"><param name="Local" value="classPxSceneQueryExt.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneQueryUpdateMode"><param name="Local" value="structPxSceneQueryUpdateMode.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneReadLock"><param name="Local" value="classPxSceneReadLock.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSceneWriteLock"><param name="Local" value="classPxSceneWriteLock.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSerialization"><param name="Local" value="classPxSerialization.html"><param name="ImageNumber" value="11"></OBJECT>

@@ -38,6 +38,7 @@ using namespace physx;
 
 Sc::ActorSim::ActorSim(Scene& scene, ActorCore& core) :
 	mFirstElement					(NULL),
+	mNumElements					(0),
 	mScene							(scene),
 	mCore							(core)
 {
@@ -69,6 +70,7 @@ void Sc::ActorSim::onElementAttach(ElementSim& element)
 {
 	element.mNextInActor = mFirstElement;
 	mFirstElement = &element;
+	mNumElements++;
 }
 
 void Sc::ActorSim::onElementDetach(ElementSim& element)
@@ -84,7 +86,9 @@ void Sc::ActorSim::onElementDetach(ElementSim& element)
 				previousElem->mNextInActor = currentElem->mNextInActor;
 			else
 				mFirstElement = currentElem->mNextInActor;
+			mNumElements--;
 			return;
+			
 		}
 		previousElem = currentElem;
 		currentElem = currentElem->mNextInActor;

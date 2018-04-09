@@ -148,13 +148,15 @@ namespace Sq
 						
 						void							flushUpdates();
 						void							forceDynamicTreeRebuild(bool rebuildStaticStructure, bool rebuildDynamicStructure);
+						void							sceneQueryBuildStep(PruningIndex::Enum index);
 
 						DynamicBoundsSync&				getDynamicBoundsSync()					{ return mDynamicBoundsSync; }
 
+						bool							prepareSceneQueriesUpdate(PruningIndex::Enum index);
+
 		// Force a rebuild of the aabb/loose octree etc to allow raycasting on multiple threads.
-						void							processSimUpdates();
 						void							validateSimUpdates();
-						void							afterSync(bool commit);
+						void							afterSync(PxSceneQueryUpdateMode::Enum updateMode);
 						void							shiftOrigin(const PxVec3& shift);
 
 						void							flushMemory();
@@ -170,7 +172,10 @@ namespace Sq
 
 						DynamicBoundsSync				mDynamicBoundsSync;
 
+						volatile bool					mPrunerNeedsUpdating;
+
 						void							flushShapes();
+
 	};
 
 	///////////////////////////////////////////////////////////////////////////////

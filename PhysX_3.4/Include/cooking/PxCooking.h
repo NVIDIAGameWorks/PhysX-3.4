@@ -488,11 +488,12 @@ public:
 
 	\param[in] desc The triangle mesh descriptor to read the mesh from.
 	\param[in] insertionCallback The insertion interface from PxPhysics.
+	\param[out] condition Result from triangle mesh cooking.
 	\return PxTriangleMesh pointer on success.	
 
 	@see cookTriangleMesh() setParams() PxPhysics.createTriangleMesh() PxPhysicsInsertionCallback
 	*/
-	virtual PxTriangleMesh*    createTriangleMesh(const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback) const = 0;
+	virtual PxTriangleMesh*    createTriangleMesh(const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback, PxTriangleMeshCookingResult::Enum* condition = NULL) const = 0;
 
 	/**
 	\brief Verifies if the triangle mesh is valid. Prints an error message for each inconsistency found.
@@ -544,11 +545,12 @@ public:
 
 	\param[in] desc The convex mesh descriptor to read the mesh from.
 	\param[in] insertionCallback The insertion interface from PxPhysics.
+	\param[out] condition Result from convex mesh cooking.
 	\return PxConvexMesh pointer on success	
 
 	@see cookConvexMesh() setParams() PxPhysicsInsertionCallback
 	*/
-	virtual PxConvexMesh*    createConvexMesh(const PxConvexMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback) const = 0;
+	virtual PxConvexMesh*    createConvexMesh(const PxConvexMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback, PxConvexMeshCookingResult::Enum* condition = NULL) const = 0;
 
 	/**
 	\brief Verifies if the convex mesh is valid. Prints an error message for each inconsistency found.

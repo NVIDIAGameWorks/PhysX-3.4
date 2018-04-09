@@ -117,7 +117,7 @@ PxDefaultPvdSocketTransportCreate(const char* host, int port, unsigned int timeo
 
 /**
 	\brief Create a default file transport.
-	\param name full path filename used save captured pvd data.	
+	\param name full path filename used save captured pvd data, or NULL for a fake/test file transport.
 */
 PX_PVDSDK_API PxPvdTransport* PX_CALL_CONV PxDefaultPvdFileTransportCreate(const char* name);
 

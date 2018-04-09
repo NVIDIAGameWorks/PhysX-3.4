@@ -54,22 +54,22 @@ namespace physx
 
 		//////////////////////////////////////////////////////////////////////////
 
-		template<typename Test>
+		template<typename Test, typename Tree, typename Node>
 		class AABBTreeOverlap
 		{
 		public:
-			bool operator()(const PrunerPayload* objects, const PxBounds3* boxes, const AABBTree& tree, const Test& test, PrunerCallback& visitor)
+			bool operator()(const PrunerPayload* objects, const PxBounds3* boxes, const Tree& tree, const Test& test, PrunerCallback& visitor)
 			{
 				using namespace Cm;
 
-				const AABBTreeRuntimeNode* stack[RAW_TRAVERSAL_STACK_SIZE];
-				const AABBTreeRuntimeNode* const nodeBase = tree.getNodes();
+				const Node* stack[RAW_TRAVERSAL_STACK_SIZE];
+				const Node* const nodeBase = tree.getNodes();
 				stack[0] = nodeBase;
 				PxU32 stackIndex = 1;
 
 				while (stackIndex > 0)
 				{
-					const AABBTreeRuntimeNode* node = stack[--stackIndex];
+					const Node* node = stack[--stackIndex];
 					Vec3V center, extents;
 					node->getAABBCenterExtentsV(&center, &extents);
 					while (test(center, extents))
@@ -107,7 +107,7 @@ namespace physx
 							break;
 						}
 
-						const AABBTreeRuntimeNode* children = node->getPos(nodeBase);
+						const Node* children = node->getPos(nodeBase);
 
 						node = children;
 						stack[stackIndex++] = children + 1;
@@ -121,9 +121,9 @@ namespace physx
 
 		//////////////////////////////////////////////////////////////////////////
 
-		template <bool tInflate> // use inflate=true for sweeps, inflate=false for raycasts
-		static PX_FORCE_INLINE bool doLeafTest(const AABBTreeRuntimeNode* node, Gu::RayAABBTest& test, PxReal& md, PxReal oldMaxDist,
-			const PrunerPayload* objects, const PxBounds3* boxes, const AABBTree& tree,
+		template <bool tInflate, typename Tree, typename Node> // use inflate=true for sweeps, inflate=false for raycasts
+		static PX_FORCE_INLINE bool doLeafTest(const Node* node, Gu::RayAABBTest& test, PxReal& md, PxReal oldMaxDist,
+			const PrunerPayload* objects, const PxBounds3* boxes, const Tree& tree,
 			PxReal& maxDist, PrunerCallback& pcb)
 		{
 			PxU32 nbPrims = node->getNbPrimitives();
@@ -158,12 +158,12 @@ namespace physx
 
 		//////////////////////////////////////////////////////////////////////////
 
-		template <bool tInflate> // use inflate=true for sweeps, inflate=false for raycasts
+		template <bool tInflate, typename Tree, typename Node> // use inflate=true for sweeps, inflate=false for raycasts
 		class AABBTreeRaycast
 		{
 		public:
 			bool operator()(
-				const PrunerPayload* objects, const PxBounds3* boxes, const AABBTree& tree,
+				const PrunerPayload* objects, const PxBounds3* boxes, const Tree& tree,
 				const PxVec3& origin, const PxVec3& unitDir, PxReal& maxDist, const PxVec3& inflation,
 				PrunerCallback& pcb)
 			{
@@ -173,15 +173,15 @@ namespace physx
 				// So we initialize the test with values multiplied by 2 as well, to get correct results
 				Gu::RayAABBTest test(origin*2.0f, unitDir*2.0f, maxDist, inflation*2.0f);
 
-				const AABBTreeRuntimeNode* stack[RAW_TRAVERSAL_STACK_SIZE]; // stack always contains PPU addresses
-				const AABBTreeRuntimeNode* const nodeBase = tree.getNodes();
+				const Node* stack[RAW_TRAVERSAL_STACK_SIZE]; // stack always contains PPU addresses
+				const Node* const nodeBase = tree.getNodes();
 				stack[0] = nodeBase;
 				PxU32 stackIndex = 1;
 
 				PxReal oldMaxDist;
 				while (stackIndex--)
 				{
-					const AABBTreeRuntimeNode* node = stack[stackIndex];
+					const Node* node = stack[stackIndex];
 					Vec3V center, extents;
 					node->getAABBCenterExtentsV2(&center, &extents);
 					if (test.check<tInflate>(center, extents))	// TODO: try timestamp ray shortening to skip this
@@ -189,7 +189,7 @@ namespace physx
 						PxReal md = maxDist; // has to be before the goto below to avoid compile error
 						while (!node->isLeaf())
 						{
-							const AABBTreeRuntimeNode* children = node->getPos(nodeBase);
+							const Node* children = node->getPos(nodeBase);
 
 							Vec3V c0, e0;
 							children[0].getAABBCenterExtentsV2(&c0, &e0);
@@ -217,7 +217,7 @@ namespace physx
 
 						oldMaxDist = maxDist; // we copy since maxDist can be updated in the callback and md<maxDist test below can fail
 
-						if (!doLeafTest<tInflate>(node, test, md, oldMaxDist,
+						if (!doLeafTest<tInflate, Tree, Node>(node, test, md, oldMaxDist,
 							objects, boxes, tree,
 							maxDist,
 							pcb))

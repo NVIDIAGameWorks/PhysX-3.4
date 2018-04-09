@@ -464,6 +464,42 @@ These calls must be made before and scenes have been created, otherwise warnings
 
 If PxCreatePhysics(...) is called, this will automatically call PxRegisterHeightFields(...) to register the default, unified heightfield collision approach. If PxCreateBasePhysics(...) is called, no heightfield contact generation is registered by default. If heightfields are used, the application must call the appropriate heightfield registration function.
 
+
+=================================
+Deformable meshes
+=================================
+
+PhysX supports deformable meshes, i.e. meshes whose vertices move over time (while the topology, i.e. the triangle indices, remains fixed).
+
+Deformable meshes are only supported with the *PxMeshMidPhase::eBVH33* data structure. Because the mesh vertices are going to be updated, the mapping between the user-defined vertices and PhysX' internal vertices must also be preserved. That is, PhysX should not reorder vertices during cooking. So all cooking operations that could reorder vertices should be disabled, and it is the user's responsability to make sure that the passed vertices are correct w.r.t. disabled operations. For example the mesh cleaning phase should be disabled::
+
+    cookingParams.midphaseDesc.setToDefault(PxMeshMidPhase::eBVH33);
+	cookingParams.meshPreprocessParams	= PxMeshPreprocessingFlag::eDISABLE_CLEAN_MESH;
+
+It is possible to mix eBVH33 and eBVH34 meshes in the same scene, so the default cooking parameters can still be used for non-deformable / static meshes.
+
+To modify the vertices, use the *PxTriangleMesh::getVerticesForModification()* and *PxTriangleMesh::refitBVH()* functions before simulating the scene::
+
+	// get vertex array
+	PxVec3* verts = mesh->getVerticesForModification();
+	
+	// update the vertices here
+	...
+	
+	// tell PhysX to update the mesh structure
+	PxBounds3 newBounds = mesh->refitBVH();
+
+Then use *PxScene::resetFiltering()* for the corresponding mesh actor, to tell the broadphase its bounds have been modified::
+
+	scene->resetFiltering(*actor);
+
+When the mesh deforms and moves away from the objects resting on it, said meshes can bounce and jitter slightly on the mesh. Using a slightly negative rest offset for the mesh shape can help reduce this effect::
+
+	PxShape* shape;
+	mesh->getShapes(&shape, 1);
+	shape->setRestOffset(-0.5f);   // something negative, value depends on your game's scale
+
+This will let objects "sink" a bit into the dynamic mesh. That way contacts are not immediately lost and the motion remains smooth. Please refer to the deformable mesh snippet in the SDK for more details.
     		
 =================================
 Mesh Scaling

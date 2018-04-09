@@ -880,16 +880,13 @@ PX_PHYSX_CORE_API PxConvexMeshGeometryGeneratedValues::PxConvexMeshGeometryGener
 {
 	PX_UNUSED(inSource);
 }
-_Bool getPxSphereGeometry_IsValid( const PxSphereGeometry* inObj ) { return inObj->isValid(); }
 inline PxReal getPxSphereGeometryRadius( const PxSphereGeometry* inOwner ) { return inOwner->radius; }
 inline void setPxSphereGeometryRadius( PxSphereGeometry* inOwner, PxReal inData) { inOwner->radius = inData; }
 PX_PHYSX_CORE_API PxSphereGeometryGeneratedInfo::PxSphereGeometryGeneratedInfo()
-	: IsValid( "IsValid", getPxSphereGeometry_IsValid)
-	, Radius( "Radius", setPxSphereGeometryRadius, getPxSphereGeometryRadius )
+	: Radius( "Radius", setPxSphereGeometryRadius, getPxSphereGeometryRadius )
 {}
 PX_PHYSX_CORE_API PxSphereGeometryGeneratedValues::PxSphereGeometryGeneratedValues( const PxSphereGeometry* inSource )
 		:PxGeometryGeneratedValues( inSource )
-		,IsValid( getPxSphereGeometry_IsValid( inSource ) )
 		,Radius( inSource->radius )
 {
 	PX_UNUSED(inSource);
@@ -947,7 +944,6 @@ PX_PHYSX_CORE_API PxHeightFieldGeometryGeneratedValues::PxHeightFieldGeometryGen
 {
 	PX_UNUSED(inSource);
 }
-_Bool getPxHeightFieldDesc_IsValid( const PxHeightFieldDesc* inObj ) { return inObj->isValid(); }
 inline PxU32 getPxHeightFieldDescNbRows( const PxHeightFieldDesc* inOwner ) { return inOwner->nbRows; }
 inline void setPxHeightFieldDescNbRows( PxHeightFieldDesc* inOwner, PxU32 inData) { inOwner->nbRows = inData; }
 inline PxU32 getPxHeightFieldDescNbColumns( const PxHeightFieldDesc* inOwner ) { return inOwner->nbColumns; }
@@ -963,8 +959,7 @@ inline void setPxHeightFieldDescConvexEdgeThreshold( PxHeightFieldDesc* inOwner,
 inline PxHeightFieldFlags getPxHeightFieldDescFlags( const PxHeightFieldDesc* inOwner ) { return inOwner->flags; }
 inline void setPxHeightFieldDescFlags( PxHeightFieldDesc* inOwner, PxHeightFieldFlags inData) { inOwner->flags = inData; }
 PX_PHYSX_CORE_API PxHeightFieldDescGeneratedInfo::PxHeightFieldDescGeneratedInfo()
-	: IsValid( "IsValid", getPxHeightFieldDesc_IsValid)
-	, NbRows( "NbRows", setPxHeightFieldDescNbRows, getPxHeightFieldDescNbRows )
+	: NbRows( "NbRows", setPxHeightFieldDescNbRows, getPxHeightFieldDescNbRows )
 	, NbColumns( "NbColumns", setPxHeightFieldDescNbColumns, getPxHeightFieldDescNbColumns )
 	, Format( "Format", setPxHeightFieldDescFormat, getPxHeightFieldDescFormat )
 	, Samples( "Samples", setPxHeightFieldDescSamples, getPxHeightFieldDescSamples )
@@ -973,8 +968,7 @@ PX_PHYSX_CORE_API PxHeightFieldDescGeneratedInfo::PxHeightFieldDescGeneratedInfo
 	, Flags( "Flags", setPxHeightFieldDescFlags, getPxHeightFieldDescFlags )
 {}
 PX_PHYSX_CORE_API PxHeightFieldDescGeneratedValues::PxHeightFieldDescGeneratedValues( const PxHeightFieldDesc* inSource )
-		:IsValid( getPxHeightFieldDesc_IsValid( inSource ) )
-		,NbRows( inSource->nbRows )
+		:NbRows( inSource->nbRows )
 		,NbColumns( inSource->nbColumns )
 		,Format( inSource->format )
 		,Samples( inSource->samples )
@@ -1026,6 +1020,8 @@ PxPruningStructureType::Enum getPxScene_StaticStructure( const PxScene* inObj ) 
 PxPruningStructureType::Enum getPxScene_DynamicStructure( const PxScene* inObj ) { return inObj->getDynamicStructure(); }
 void setPxScene_DynamicTreeRebuildRateHint( PxScene* inObj, PxU32 inArg){ inObj->setDynamicTreeRebuildRateHint( inArg ); }
 PxU32 getPxScene_DynamicTreeRebuildRateHint( const PxScene* inObj ) { return inObj->getDynamicTreeRebuildRateHint(); }
+void setPxScene_SceneQueryUpdateMode( PxScene* inObj, PxSceneQueryUpdateMode::Enum inArg){ inObj->setSceneQueryUpdateMode( inArg ); }
+PxSceneQueryUpdateMode::Enum getPxScene_SceneQueryUpdateMode( const PxScene* inObj ) { return inObj->getSceneQueryUpdateMode(); }
 PxU32 getPxScene_SceneQueryStaticTimestamp( const PxScene* inObj ) { return inObj->getSceneQueryStaticTimestamp(); }
 PxBroadPhaseType::Enum getPxScene_BroadPhaseType( const PxScene* inObj ) { return inObj->getBroadPhaseType(); }
 PxU32 getPxScene_BroadPhaseRegions( const PxScene* inObj, PxBroadPhaseRegionInfo* outBuffer, PxU32 inBufSize ) { return inObj->getBroadPhaseRegions( outBuffer, inBufSize ); }
@@ -1066,6 +1062,7 @@ PX_PHYSX_CORE_API PxSceneGeneratedInfo::PxSceneGeneratedInfo()
 	, StaticStructure( "StaticStructure", getPxScene_StaticStructure)
 	, DynamicStructure( "DynamicStructure", getPxScene_DynamicStructure)
 	, DynamicTreeRebuildRateHint( "DynamicTreeRebuildRateHint", setPxScene_DynamicTreeRebuildRateHint, getPxScene_DynamicTreeRebuildRateHint)
+	, SceneQueryUpdateMode( "SceneQueryUpdateMode", setPxScene_SceneQueryUpdateMode, getPxScene_SceneQueryUpdateMode)
 	, SceneQueryStaticTimestamp( "SceneQueryStaticTimestamp", getPxScene_SceneQueryStaticTimestamp)
 	, BroadPhaseType( "BroadPhaseType", getPxScene_BroadPhaseType)
 	, BroadPhaseRegions( "BroadPhaseRegions", getPxScene_BroadPhaseRegions, getNbPxScene_BroadPhaseRegions )
@@ -1100,6 +1097,7 @@ PX_PHYSX_CORE_API PxSceneGeneratedValues::PxSceneGeneratedValues( const PxScene*
 		,StaticStructure( getPxScene_StaticStructure( inSource ) )
 		,DynamicStructure( getPxScene_DynamicStructure( inSource ) )
 		,DynamicTreeRebuildRateHint( getPxScene_DynamicTreeRebuildRateHint( inSource ) )
+		,SceneQueryUpdateMode( getPxScene_SceneQueryUpdateMode( inSource ) )
 		,SceneQueryStaticTimestamp( getPxScene_SceneQueryStaticTimestamp( inSource ) )
 		,BroadPhaseType( getPxScene_BroadPhaseType( inSource ) )
 		,TaskManager( getPxScene_TaskManager( inSource ) )
@@ -1221,7 +1219,6 @@ PX_PHYSX_CORE_API PxgDynamicsMemoryConfigGeneratedValues::PxgDynamicsMemoryConfi
 	PX_UNUSED(inSource);
 }
 void setPxSceneDesc_ToDefault( PxSceneDesc* inObj, const PxTolerancesScale & inArg){ inObj->setToDefault( inArg ); }
-_Bool getPxSceneDesc_IsValid( const PxSceneDesc* inObj ) { return inObj->isValid(); }
 inline PxVec3 getPxSceneDescGravity( const PxSceneDesc* inOwner ) { return inOwner->gravity; }
 inline void setPxSceneDescGravity( PxSceneDesc* inOwner, PxVec3 inData) { inOwner->gravity = inData; }
 inline PxSimulationEventCallback * getPxSceneDescSimulationEventCallback( const PxSceneDesc* inOwner ) { return inOwner->simulationEventCallback; }
@@ -1266,6 +1263,8 @@ inline PxPruningStructureType::Enum getPxSceneDescDynamicStructure( const PxScen
 inline void setPxSceneDescDynamicStructure( PxSceneDesc* inOwner, PxPruningStructureType::Enum inData) { inOwner->dynamicStructure = inData; }
 inline PxU32 getPxSceneDescDynamicTreeRebuildRateHint( const PxSceneDesc* inOwner ) { return inOwner->dynamicTreeRebuildRateHint; }
 inline void setPxSceneDescDynamicTreeRebuildRateHint( PxSceneDesc* inOwner, PxU32 inData) { inOwner->dynamicTreeRebuildRateHint = inData; }
+inline PxSceneQueryUpdateMode::Enum getPxSceneDescSceneQueryUpdateMode( const PxSceneDesc* inOwner ) { return inOwner->sceneQueryUpdateMode; }
+inline void setPxSceneDescSceneQueryUpdateMode( PxSceneDesc* inOwner, PxSceneQueryUpdateMode::Enum inData) { inOwner->sceneQueryUpdateMode = inData; }
 inline void * getPxSceneDescUserData( const PxSceneDesc* inOwner ) { return inOwner->userData; }
 inline void setPxSceneDescUserData( PxSceneDesc* inOwner, void * inData) { inOwner->userData = inData; }
 inline PxU32 getPxSceneDescSolverBatchSize( const PxSceneDesc* inOwner ) { return inOwner->solverBatchSize; }
@@ -1292,7 +1291,6 @@ inline PxU32 getPxSceneDescGpuComputeVersion( const PxSceneDesc* inOwner ) { ret
 inline void setPxSceneDescGpuComputeVersion( PxSceneDesc* inOwner, PxU32 inData) { inOwner->gpuComputeVersion = inData; }
 PX_PHYSX_CORE_API PxSceneDescGeneratedInfo::PxSceneDescGeneratedInfo()
 	: ToDefault( "ToDefault", setPxSceneDesc_ToDefault)
-	, IsValid( "IsValid", getPxSceneDesc_IsValid)
 	, Gravity( "Gravity", setPxSceneDescGravity, getPxSceneDescGravity )
 	, SimulationEventCallback( "SimulationEventCallback", setPxSceneDescSimulationEventCallback, getPxSceneDescSimulationEventCallback )
 	, ContactModifyCallback( "ContactModifyCallback", setPxSceneDescContactModifyCallback, getPxSceneDescContactModifyCallback )
@@ -1315,6 +1313,7 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedInfo::PxSceneDescGeneratedInfo()
 	, StaticStructure( "StaticStructure", setPxSceneDescStaticStructure, getPxSceneDescStaticStructure )
 	, DynamicStructure( "DynamicStructure", setPxSceneDescDynamicStructure, getPxSceneDescDynamicStructure )
 	, DynamicTreeRebuildRateHint( "DynamicTreeRebuildRateHint", setPxSceneDescDynamicTreeRebuildRateHint, getPxSceneDescDynamicTreeRebuildRateHint )
+	, SceneQueryUpdateMode( "SceneQueryUpdateMode", setPxSceneDescSceneQueryUpdateMode, getPxSceneDescSceneQueryUpdateMode )
 	, UserData( "UserData", setPxSceneDescUserData, getPxSceneDescUserData )
 	, SolverBatchSize( "SolverBatchSize", setPxSceneDescSolverBatchSize, getPxSceneDescSolverBatchSize )
 	, NbContactDataBlocks( "NbContactDataBlocks", setPxSceneDescNbContactDataBlocks, getPxSceneDescNbContactDataBlocks )
@@ -1329,8 +1328,7 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedInfo::PxSceneDescGeneratedInfo()
 	, GpuComputeVersion( "GpuComputeVersion", setPxSceneDescGpuComputeVersion, getPxSceneDescGpuComputeVersion )
 {}
 PX_PHYSX_CORE_API PxSceneDescGeneratedValues::PxSceneDescGeneratedValues( const PxSceneDesc* inSource )
-		:IsValid( getPxSceneDesc_IsValid( inSource ) )
-		,Gravity( inSource->gravity )
+		:Gravity( inSource->gravity )
 		,SimulationEventCallback( inSource->simulationEventCallback )
 		,ContactModifyCallback( inSource->contactModifyCallback )
 		,CcdContactModifyCallback( inSource->ccdContactModifyCallback )
@@ -1352,6 +1350,7 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedValues::PxSceneDescGeneratedValues( const 
 		,StaticStructure( inSource->staticStructure )
 		,DynamicStructure( inSource->dynamicStructure )
 		,DynamicTreeRebuildRateHint( inSource->dynamicTreeRebuildRateHint )
+		,SceneQueryUpdateMode( inSource->sceneQueryUpdateMode )
 		,UserData( inSource->userData )
 		,SolverBatchSize( inSource->solverBatchSize )
 		,NbContactDataBlocks( inSource->nbContactDataBlocks )

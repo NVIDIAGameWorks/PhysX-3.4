@@ -614,8 +614,7 @@ bool Gu::contactCapsuleHeightfield(GU_CONTACT_METHOD_ARGS)
 
 	// We must be in local space to use the cache
 
-	const HeightField& hf = *static_cast<HeightField*>(shapeMesh.heightField);
-	HeightFieldUtil hfUtil(shapeMesh, hf);
+	HeightFieldUtil hfUtil(shapeMesh);
 
 	CapsuleHeightfieldContactGenerationCallback callback(
 		contactBuffer, transform1, hfUtil, meshCapsule, inflatedRadius, params.mContactDistance, shapeCapsule.radius);

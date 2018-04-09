@@ -171,9 +171,9 @@ namespace Sc
 		NPhaseCore(Scene& scene, const PxSceneDesc& desc);
 		~NPhaseCore();
 
-		void onOverlapCreated(const Bp::AABBOverlap* PX_RESTRICT pairs, PxU32 pairCount, const PxU32 ccdPass, Bp::BroadPhasePair* bpPairs);
-		Sc::Interaction* onOverlapCreated(ElementSim* volume0, ElementSim* volume1, const PxU32 ccdPass, Bp::BroadPhasePair* bpPairs);
-		PxFilterInfo onOverlapFilter(ElementSim* volume0, ElementSim* volume1, Bp::BroadPhasePair* pair);
+		void onOverlapCreated(const Bp::AABBOverlap* PX_RESTRICT pairs, PxU32 pairCount, const PxU32 ccdPass);
+		Sc::Interaction* onOverlapCreated(ElementSim* volume0, ElementSim* volume1, const PxU32 ccdPass);
+		PxFilterInfo onOverlapFilter(ElementSim* volume0, ElementSim* volume1);
 
 
 		ElementSimInteraction* onOverlapRemovedStage1(ElementSim* volume0, ElementSim* volume1);

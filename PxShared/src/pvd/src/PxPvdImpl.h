@@ -206,7 +206,6 @@ class PvdImpl : public PsPvd, public shdfnd::UserAllocated
 	PxPvdInstrumentationFlags			mFlags;
 	bool								mIsConnected;
 	bool								mIsNVTXSupportEnabled;
-	uint32_t							mNVTXContext;
 	uint64_t							mNextStreamId;
 	physx::profile::PxProfileZoneManager*mProfileZoneManager;
 	PvdProfileZoneClient*				mProfileClient;

@@ -147,7 +147,8 @@ namespace Sq
 		// IncrementalPruner
 		virtual			void					purge();		// gets rid of internal accel struct
 		virtual			void					setRebuildRateHint(PxU32 nbStepsForRebuild);	// Besides the actual rebuild steps, 3 additional steps are needed.
-		virtual			bool					buildStep();	// returns true if finished
+		virtual			bool					buildStep(bool synchronousCall = true);	// returns true if finished
+		virtual			bool					prepareBuild();	// returns true if new tree is needed
 		//~IncrementalPruner
 
 		// direct access for test code

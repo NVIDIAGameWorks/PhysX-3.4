@@ -109,9 +109,7 @@ bool Gu::pcmContactCapsuleHeightField(GU_CONTACT_METHOD_ARGS)
 		multiManifold.mNumManifolds = 0;
 		multiManifold.setRelativeTransform(curTransform); 
 
-		const Gu::HeightField& hf = *static_cast<Gu::HeightField*>(shapeHeight.heightField);
-
-		Gu::HeightFieldUtil hfUtil(shapeHeight, hf);
+		Gu::HeightFieldUtil hfUtil(shapeHeight);
 
 		const PxVec3 tmp = getCapsuleHalfHeightVector(transform0, shapeCapsule);
 

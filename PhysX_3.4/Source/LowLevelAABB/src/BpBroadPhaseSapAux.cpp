@@ -486,8 +486,8 @@ void ComputeCreatedDeletedPairsLists
 (const BpHandle* PX_RESTRICT boxGroups, 
  const BpHandle* PX_RESTRICT dataArray, const PxU32 dataArraySize,
  PxcScratchAllocator* scratchAllocator,
- BroadPhasePairReport*& createdPairsList, PxU32& numCreatedPairs, PxU32& maxNumCreatedPairs,
- BroadPhasePairReport*& deletedPairsList, PxU32& numDeletedPairs, PxU32& maxNumDeletedPairs,
+ BroadPhasePair*& createdPairsList, PxU32& numCreatedPairs, PxU32& maxNumCreatedPairs,
+ BroadPhasePair*& deletedPairsList, PxU32& numDeletedPairs, PxU32& maxNumDeletedPairs,
  PxU32& numActualDeletedPairs,
  SapPairManager& pairManager)
 {
@@ -510,8 +510,8 @@ void ComputeCreatedDeletedPairsLists
 				// No need to call "ClearInArray" in this case, since the pair will get removed anyway
 				if(numDeletedPairs==maxNumDeletedPairs)
 				{
-					BroadPhasePairReport* newDeletedPairsList = reinterpret_cast<BroadPhasePairReport*>(scratchAllocator->alloc(sizeof(BroadPhasePairReport)*2*maxNumDeletedPairs, true));
-					PxMemCopy(newDeletedPairsList, deletedPairsList, sizeof(BroadPhasePairReport)*maxNumDeletedPairs);
+					BroadPhasePair* newDeletedPairsList = reinterpret_cast<BroadPhasePair*>(scratchAllocator->alloc(sizeof(BroadPhasePair)*2*maxNumDeletedPairs, true));
+					PxMemCopy(newDeletedPairsList, deletedPairsList, sizeof(BroadPhasePair)*maxNumDeletedPairs);
 					scratchAllocator->free(deletedPairsList);
 					deletedPairsList = newDeletedPairsList;
 					maxNumDeletedPairs = 2*maxNumDeletedPairs;
@@ -519,8 +519,7 @@ void ComputeCreatedDeletedPairsLists
 
 				PX_ASSERT(numDeletedPairs<maxNumDeletedPairs);
 				//PX_ASSERT((uintptr_t)UP->mUserData != 0xcdcdcdcd);
-				deletedPairsList[numDeletedPairs]=BroadPhasePairReport(UP->mVolA,UP->mVolB, UP->mUserData, ID);
-				numDeletedPairs++;
+				deletedPairsList[numDeletedPairs++] = BroadPhasePair(UP->mVolA,UP->mVolB/*, ID*/);
 			}
 		}
 		else
@@ -535,16 +534,15 @@ void ComputeCreatedDeletedPairsLists
 				{
 					if(numCreatedPairs==maxNumCreatedPairs)
 					{
-						BroadPhasePairReport* newCreatedPairsList = reinterpret_cast<BroadPhasePairReport*>(scratchAllocator->alloc(sizeof(BroadPhasePairReport)*2*maxNumCreatedPairs, true));
-						PxMemCopy(newCreatedPairsList, createdPairsList, sizeof(BroadPhasePairReport)*maxNumCreatedPairs);
+						BroadPhasePair* newCreatedPairsList = reinterpret_cast<BroadPhasePair*>(scratchAllocator->alloc(sizeof(BroadPhasePair)*2*maxNumCreatedPairs, true));
+						PxMemCopy(newCreatedPairsList, createdPairsList, sizeof(BroadPhasePair)*maxNumCreatedPairs);
 						scratchAllocator->free(createdPairsList);
 						createdPairsList = newCreatedPairsList;
 						maxNumCreatedPairs = 2*maxNumCreatedPairs;
 					}
 
 					PX_ASSERT(numCreatedPairs<maxNumCreatedPairs);
-					createdPairsList[numCreatedPairs]=BroadPhasePairReport(UP->mVolA,UP->mVolB, UP->mUserData, ID);
-					numCreatedPairs++;
+					createdPairsList[numCreatedPairs++] = BroadPhasePair(UP->mVolA,UP->mVolB/*, ID*/);
 				}
 				pairManager.ClearNew(UP);
 			}
@@ -565,16 +563,15 @@ void ComputeCreatedDeletedPairsLists
 
 			if(numActualDeletedPairs==maxNumDeletedPairs)
 			{
-				BroadPhasePairReport* newDeletedPairsList = reinterpret_cast<BroadPhasePairReport*>(scratchAllocator->alloc(sizeof(BroadPhasePairReport)*2*maxNumDeletedPairs, true));
-				PxMemCopy(newDeletedPairsList, deletedPairsList, sizeof(BroadPhasePairReport)*maxNumDeletedPairs);
+				BroadPhasePair* newDeletedPairsList = reinterpret_cast<BroadPhasePair*>(scratchAllocator->alloc(sizeof(BroadPhasePair)*2*maxNumDeletedPairs, true));
+				PxMemCopy(newDeletedPairsList, deletedPairsList, sizeof(BroadPhasePair)*maxNumDeletedPairs);
 				scratchAllocator->free(deletedPairsList);
 				deletedPairsList = newDeletedPairsList;
 				maxNumDeletedPairs = 2*maxNumDeletedPairs;
 			}
 
 			PX_ASSERT(numActualDeletedPairs<=maxNumDeletedPairs);
-			deletedPairsList[numActualDeletedPairs]=BroadPhasePairReport(UP->mVolA,UP->mVolB, NULL, ID); //KS - should we even get here????
-			numActualDeletedPairs++;
+			deletedPairsList[numActualDeletedPairs++] = BroadPhasePair(UP->mVolA,UP->mVolB/*, ID*/); //KS - should we even get here????
 		}
 	}
 
@@ -610,7 +607,7 @@ void ComputeCreatedDeletedPairsLists
 #endif
 }
 
-void DeletePairsLists(const PxU32 numActualDeletedPairs, BroadPhasePairReport* deletedPairsList, SapPairManager& pairManager)
+void DeletePairsLists(const PxU32 numActualDeletedPairs, BroadPhasePair* deletedPairsList, SapPairManager& pairManager)
 {
 	// #### try batch removal here
 	for(PxU32 i=0;i<numActualDeletedPairs;i++)
@@ -626,248 +623,309 @@ void DeletePairsLists(const PxU32 numActualDeletedPairs, BroadPhasePairReport* d
 	}
 }
 
-#include "BpBroadPhase.h"
-PX_COMPILE_TIME_ASSERT(FilterGroup::eSTATICS==0);
-void ComputeSortedLists
-(Cm::BitMap* PX_RESTRICT bitmap, 
- const PxU32 insertAABBStart, const PxU32 insertAABBEnd, const BpHandle* PX_RESTRICT createdAABBs,
- SapBox1D** PX_RESTRICT asapBoxes, const BpHandle* PX_RESTRICT asapBoxGroupIds, 
- BpHandle* PX_RESTRICT asapEndPointDatas, const PxU32 numSortedEndPoints, 
- const Gu::Axes& axes,
- BpHandle* PX_RESTRICT newBoxIndicesSorted, PxU32& newBoxIndicesCount, BpHandle* PX_RESTRICT oldBoxIndicesSorted, PxU32& oldBoxIndicesCount,
- bool& allNewBoxesStatics, bool& allOldBoxesStatics)
+//#define PRINT_STATS
+#ifdef PRINT_STATS
+	#include <stdio.h>
+	static PxU32 gNbIter = 0;
+	static PxU32 gNbTests = 0;
+	static  PxU32 gNbPairs = 0;
+	#define	START_STATS				gNbIter = gNbTests = gNbPairs = 0;
+	#define	INCREASE_STATS_NB_ITER	gNbIter++;
+	#define	INCREASE_STATS_NB_TESTS	gNbTests++;
+	#define	INCREASE_STATS_NB_PAIRS	gNbPairs++;
+	#define	DUMP_STATS				printf("%d %d %d\n", gNbIter, gNbTests, gNbPairs);
+#else
+	#define	START_STATS
+	#define	INCREASE_STATS_NB_ITER
+	#define	INCREASE_STATS_NB_TESTS
+	#define	INCREASE_STATS_NB_PAIRS
+	#define	DUMP_STATS
+#endif
+
+void DataArray::Resize(PxcScratchAllocator* scratchAllocator)
 {
-	const PxU32 axis0=axes.mAxis0;
-	const PxU32 axis1=axes.mAxis1;
-	const PxU32 axis2=axes.mAxis2;
-
-	//Set the bitmap for new box ids and compute the aabb (of the sorted handles/indices and not of the values) that bounds all new boxes.
-	
-	PxU32 globalAABBMinX=PX_MAX_U32;
-	PxU32 globalAABBMinY=PX_MAX_U32;
-	PxU32 globalAABBMinZ=PX_MAX_U32;
-	PxU32 globalAABBMaxX=0;
-	PxU32 globalAABBMaxY=0;
-	PxU32 globalAABBMaxZ=0;
-	
-	for(PxU32 i=insertAABBStart;i<insertAABBEnd;i++)
-	{
-		const PxU32 boxId=createdAABBs[i];
-		bitmap->set(boxId);
-
-		globalAABBMinX = PxMin(globalAABBMinX, PxU32(asapBoxes[axis0][boxId].mMinMax[0]));
-		globalAABBMinY = PxMin(globalAABBMinY, PxU32(asapBoxes[axis1][boxId].mMinMax[0]));
-		globalAABBMinZ = PxMin(globalAABBMinZ, PxU32(asapBoxes[axis2][boxId].mMinMax[0]));
-		globalAABBMaxX = PxMax(globalAABBMaxX, PxU32(asapBoxes[axis0][boxId].mMinMax[1]));
-		globalAABBMaxY = PxMax(globalAABBMaxY, PxU32(asapBoxes[axis1][boxId].mMinMax[1]));
-		globalAABBMaxZ = PxMax(globalAABBMaxZ, PxU32(asapBoxes[axis2][boxId].mMinMax[1]));
-	}
-
-	PxU32 oldStaticCount=0;
-	PxU32 newStaticCount=0;
-
-	//Assign the sorted end pts to the appropriate arrays.
-	for(PxU32 i=1;i<numSortedEndPoints-1;i++)
-	{
-		//Make sure we haven't encountered a sentinel - 
-		//they should only be at each end of the array.
-		PX_ASSERT(!isSentinel(asapEndPointDatas[i]));
-		PX_ASSERT(!isSentinel(asapEndPointDatas[i]));
-		PX_ASSERT(!isSentinel(asapEndPointDatas[i]));
-
-		if(!isMax(asapEndPointDatas[i]))
-		{
-			const BpHandle boxId=BpHandle(getOwner(asapEndPointDatas[i]));
-			if(!bitmap->test(boxId))
-			{
-				if(Intersect3D(
-					globalAABBMinX, globalAABBMaxX, globalAABBMinY, globalAABBMaxY, globalAABBMinZ, globalAABBMaxZ,
-					asapBoxes[axis0][boxId].mMinMax[0],asapBoxes[axis0][boxId].mMinMax[1],asapBoxes[axis1][boxId].mMinMax[0],asapBoxes[axis1][boxId].mMinMax[1],asapBoxes[axis2][boxId].mMinMax[0],asapBoxes[axis2][boxId].mMinMax[1]))
-				{
-					oldBoxIndicesSorted[oldBoxIndicesCount]=boxId;
-					oldBoxIndicesCount++;
-					oldStaticCount+=asapBoxGroupIds[boxId];
-				}
-			}
-			else 
-			{
-				newBoxIndicesSorted[newBoxIndicesCount]=boxId;
-				newBoxIndicesCount++;
-				newStaticCount+=asapBoxGroupIds[boxId];
-			}
-		}
-	}
-
-	allOldBoxesStatics = oldStaticCount ? false : true;
-	allNewBoxesStatics = newStaticCount ? false : true;
-
-	//Make sure that we've found the correct number of boxes.
-	PX_ASSERT(newBoxIndicesCount==(insertAABBEnd-insertAABBStart));
-	PX_ASSERT(oldBoxIndicesCount<=((numSortedEndPoints-NUM_SENTINELS)/2));
+	BpHandle* newDataArray = reinterpret_cast<BpHandle*>(scratchAllocator->alloc(sizeof(BpHandle)*mCapacity*2, true));
+	PxMemCopy(newDataArray, mData, mCapacity*sizeof(BpHandle));
+	scratchAllocator->free(mData);
+	mData = newDataArray;
+	mCapacity *= 2;
 }
 
-void performBoxPruningNewNew
-(const Gu::Axes& axes,
- const BpHandle* PX_RESTRICT newBoxIndicesSorted, const PxU32 newBoxIndicesCount, const bool allNewBoxesStatics,
- BpHandle* PX_RESTRICT minPosList0,
- SapBox1D** PX_RESTRICT asapBoxes, const BpHandle* PX_RESTRICT asapBoxGroupIds, 
- PxcScratchAllocator* scratchAllocator,
- SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity)
+static PX_FORCE_INLINE int intersect2D(const BoxYZ& a, const BoxYZ& b)
 {
-	// Checkings
-	if(!newBoxIndicesCount)	return;
+	const bool b0 = b.mMaxY < a.mMinY;
+	const bool b1 = a.mMaxY < b.mMinY;
+	const bool b2 = b.mMaxZ < a.mMinZ;
+	const bool b3 = a.mMaxZ < b.mMinZ;
+//	const bool b4 = b0 || b1 || b2 || b3;
+	const bool b4 = b0 | b1 | b2 | b3;
+	return !b4;
+}
 
-	// Catch axes
-	const PxU32 Axis0 = axes.mAxis0;
-	const PxU32 Axis1 = axes.mAxis1;
-	const PxU32 Axis2 = axes.mAxis2;
+void addPair(const BpHandle id0, const BpHandle id1, PxcScratchAllocator* scratchAllocator, SapPairManager& pairManager, DataArray& dataArray)
+{
+	const BroadPhasePair* UP = reinterpret_cast<const BroadPhasePair*>(pairManager.AddPair(id0, id1, SapPairManager::PAIR_UNKNOWN));
 
-	// 1) Build main list using the primary axis
-	for(PxU32 i=0;i<newBoxIndicesCount;i++)	
+	//If the hash table has reached its limit then we're unable to add a new pair.
+	if(NULL==UP)
+		return;
+
+	PX_ASSERT(UP);
+	if(pairManager.IsUnknown(UP))
 	{
-		const BpHandle boxId = newBoxIndicesSorted[i];
-		minPosList0[i] = asapBoxes[Axis0][boxId].mMinMax[0];
+		pairManager.ClearState(UP);
+		pairManager.SetInArray(UP);
+		dataArray.AddData(pairManager.GetPairIndex(UP), scratchAllocator);
+		pairManager.SetNew(UP);
+	}
+	pairManager.ClearRemoved(UP);
+}
+
+void removePair(BpHandle id0, BpHandle id1, PxcScratchAllocator* scratchAllocator, SapPairManager& pairManager, DataArray& dataArray)
+{
+	const BroadPhasePair* UP = reinterpret_cast<const BroadPhasePair*>(pairManager.FindPair(id0, id1));
+	if(UP)
+	{
+		if(!pairManager.IsInArray(UP))
+		{
+			pairManager.SetInArray(UP);
+			dataArray.AddData(pairManager.GetPairIndex(UP), scratchAllocator);
+		}
+		pairManager.SetRemoved(UP);
+	}
+}
+
+struct AddPairParams
+{
+	AddPairParams(const PxU32* remap0, const PxU32* remap1, PxcScratchAllocator* alloc, SapPairManager* pm, DataArray* da) :
+		mRemap0				(remap0),
+		mRemap1				(remap1),
+		mScratchAllocator	(alloc),
+		mPairManager		(pm),
+		mDataArray			(da)
+	{
 	}
 
-	if(allNewBoxesStatics) return;
+	const PxU32*			mRemap0;
+	const PxU32*			mRemap1;
+	PxcScratchAllocator*	mScratchAllocator;
+	SapPairManager*			mPairManager;
+	DataArray*				mDataArray;
+};
 
-	// 2) Prune the list
+static void addPair(const AddPairParams* PX_RESTRICT params, const BpHandle id0_, const BpHandle id1_)
+{
+	SapPairManager& pairManager = *params->mPairManager;
 
-	const PxU32 LastSortedIndex = newBoxIndicesCount;
-	PxU32 RunningIndex = 0;
-	PxU32 SortedIndex = 0;
+	const BroadPhasePair* UP = reinterpret_cast<const BroadPhasePair*>(pairManager.AddPair(params->mRemap0[id0_], params->mRemap1[id1_], SapPairManager::PAIR_UNKNOWN));
 
-	while(RunningIndex<LastSortedIndex && SortedIndex<LastSortedIndex)
+	//If the hash table has reached its limit then we're unable to add a new pair.
+	if(NULL==UP)
+		return;
+
+	PX_ASSERT(UP);
+	if(pairManager.IsUnknown(UP))
 	{
-		const PxU32 Index0 = SortedIndex++;
-		const BpHandle boxId0 = newBoxIndicesSorted[Index0];
-		const BpHandle Limit = asapBoxes[Axis0][boxId0].mMinMax[1];
+		pairManager.ClearState(UP);
+		pairManager.SetInArray(UP);
+		params->mDataArray->AddData(pairManager.GetPairIndex(UP), params->mScratchAllocator);
+		pairManager.SetNew(UP);
+	}
+	pairManager.ClearRemoved(UP);
+}
 
-		while(RunningIndex<LastSortedIndex && minPosList0[RunningIndex++]<minPosList0[Index0]);
+// PT: TODO: use SIMD
 
-		if(RunningIndex<LastSortedIndex)
+AuxData::AuxData(PxU32 nb, const SapBox1D*const* PX_RESTRICT boxes, const BpHandle* PX_RESTRICT indicesSorted, const BpHandle* PX_RESTRICT groupIds)
+{
+	// PT: TODO: use scratch allocator / etc
+	BoxX* PX_RESTRICT boxX			= reinterpret_cast<BoxX*>(PX_ALLOC(sizeof(BoxX)*(nb+1), PX_DEBUG_EXP("mBoxX")));
+	BoxYZ* PX_RESTRICT boxYZ		= reinterpret_cast<BoxYZ*>(PX_ALLOC(sizeof(BoxYZ)*nb, PX_DEBUG_EXP("mBoxYZ")));
+	BpHandle* PX_RESTRICT groups	= reinterpret_cast<BpHandle*>(PX_ALLOC(sizeof(BpHandle)*nb, PX_DEBUG_EXP("mGroups")));
+	PxU32* PX_RESTRICT remap		= reinterpret_cast<PxU32*>(PX_ALLOC(sizeof(PxU32)*nb, PX_DEBUG_EXP("mRemap")));
+
+	mBoxX = boxX;
+	mBoxYZ = boxYZ;
+	mGroups = groups;
+	mRemap = remap;
+	mNb = nb;
+
+	const PxU32 axis0 = 0;
+	const PxU32 axis1 = 2;
+	const PxU32 axis2 = 1;
+
+	const SapBox1D* PX_RESTRICT boxes0 = boxes[axis0];
+	const SapBox1D* PX_RESTRICT boxes1 = boxes[axis1];
+	const SapBox1D* PX_RESTRICT boxes2 = boxes[axis2];
+
+	for(PxU32 i=0;i<nb;i++)
+	{
+		const PxU32 boxID = indicesSorted[i];
+		groups[i] = groupIds[boxID];
+		remap[i] = boxID;
+
+		const SapBox1D& currentBoxX = boxes0[boxID];
+		boxX[i].mMinX = currentBoxX.mMinMax[0];
+		boxX[i].mMaxX = currentBoxX.mMinMax[1];
+
+		const SapBox1D& currentBoxY = boxes1[boxID];
+		boxYZ[i].mMinY = currentBoxY.mMinMax[0];
+		boxYZ[i].mMaxY = currentBoxY.mMinMax[1];
+
+		const SapBox1D& currentBoxZ = boxes2[boxID];
+		boxYZ[i].mMinZ = currentBoxZ.mMinMax[0];
+		boxYZ[i].mMaxZ = currentBoxZ.mMinMax[1];
+	}
+	boxX[nb].mMinX = 0xffffffff;
+}
+
+AuxData::~AuxData()
+{
+	PX_FREE(mRemap);
+	PX_FREE(mGroups);
+	PX_FREE(mBoxYZ);
+	PX_FREE(mBoxX);
+}
+
+void performBoxPruningNewNew(	const AuxData* PX_RESTRICT auxData, PxcScratchAllocator* scratchAllocator,
+								SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity)
+{
+	const PxU32 nb = auxData->mNb;
+	if(!nb)
+		return;
+
+	DataArray da(dataArray, dataArraySize, dataArrayCapacity);
+
+	START_STATS
+	{
+		BoxX* boxX = auxData->mBoxX;
+		BoxYZ* boxYZ = auxData->mBoxYZ;
+		BpHandle* groups = auxData->mGroups;
+		PxU32* remap = auxData->mRemap;
+
+		AddPairParams params(remap, remap, scratchAllocator, &pairManager, &da);
+
+		PxU32 runningIndex = 0;
+		PxU32 index0 = 0;
+
+		while(runningIndex<nb && index0<nb)
 		{
-			PxU32 RunningIndex2 = RunningIndex;
-
-			PxU32 Index1;
-			while(RunningIndex2<LastSortedIndex && minPosList0[Index1 = RunningIndex2++] <= Limit)
-			{
-				const BpHandle boxId1 = newBoxIndicesSorted[Index1];
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-				if(asapBoxGroupIds[boxId0]!=asapBoxGroupIds[boxId1])
+			const BpHandle group0 = groups[index0];
+#endif
+			const BoxX& boxX0 = boxX[index0];
+
+			const BpHandle minLimit = boxX0.mMinX;
+			while(boxX[runningIndex++].mMinX<minLimit);
+
+			const BpHandle maxLimit = boxX0.mMaxX;
+			PxU32 index1 = runningIndex;
+			while(boxX[index1].mMinX <= maxLimit)
+			{
+				INCREASE_STATS_NB_ITER
+#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
+				if(group0!=groups[index1])
 #endif
 				{
-					if(Intersect2D(
-						asapBoxes[Axis1][boxId0].mMinMax[0],asapBoxes[Axis1][boxId0].mMinMax[1],asapBoxes[Axis2][boxId0].mMinMax[0],asapBoxes[Axis2][boxId0].mMinMax[1],
-						asapBoxes[Axis1][boxId1].mMinMax[0],asapBoxes[Axis1][boxId1].mMinMax[1],asapBoxes[Axis2][boxId1].mMinMax[0],asapBoxes[Axis2][boxId1].mMinMax[1]))
+					INCREASE_STATS_NB_TESTS
+					if(intersect2D(boxYZ[index0], boxYZ[index1]))
+/*					__m128i b = _mm_loadu_si128(reinterpret_cast<const __m128i*>(&boxYZ[index0].mMinY));
+					b = _mm_shuffle_epi32(b, 78);
+					const __m128i a = _mm_loadu_si128(reinterpret_cast<const __m128i*>(&boxYZ[index1].mMinY));
+					const __m128i d = _mm_cmpgt_epi32(a, b);
+					const int mask = _mm_movemask_epi8(d);
+					if(mask==0x0000ff00)*/
 					{
-						AddPair(boxId0, boxId1, scratchAllocator, pairManager, dataArray, dataArraySize, dataArrayCapacity);
+						INCREASE_STATS_NB_PAIRS
+						addPair(&params, index0, index1);
 					}
 				}
+				index1++;
 			}
+			index0++;
 		}
+	}
+	DUMP_STATS
+
+	dataArray = da.mData;
+	dataArraySize = da.mSize;
+	dataArrayCapacity = da.mCapacity;
+}
+
+static void bipartitePruning(
+	const PxU32 nb0, const BoxX* PX_RESTRICT boxX0, const BoxYZ* PX_RESTRICT boxYZ0, const PxU32* PX_RESTRICT remap0, const BpHandle* PX_RESTRICT groups0,
+	const PxU32 nb1, const BoxX* PX_RESTRICT boxX1, const BoxYZ* PX_RESTRICT boxYZ1, const PxU32* PX_RESTRICT remap1, const BpHandle* PX_RESTRICT groups1,
+	PxcScratchAllocator* scratchAllocator, SapPairManager& pairManager, DataArray& dataArray
+	)
+{
+	AddPairParams params(remap0, remap1, scratchAllocator, &pairManager, &dataArray);
+
+	PxU32 runningIndex = 0;
+	PxU32 index0 = 0;
+
+	while(runningIndex<nb1 && index0<nb0)
+	{
+#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
+		const BpHandle group0 = groups0[index0];
+#endif
+
+		const BpHandle minLimit = boxX0[index0].mMinX;
+		while(boxX1[runningIndex].mMinX<minLimit)
+			runningIndex++;
+
+		const BpHandle maxLimit = boxX0[index0].mMaxX;
+		PxU32 index1 = runningIndex;
+		while(boxX1[index1].mMinX <= maxLimit)
+		{
+			INCREASE_STATS_NB_ITER
+#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
+			if(group0!=groups1[index1])
+#endif
+			{
+				INCREASE_STATS_NB_TESTS
+				if(intersect2D(boxYZ0[index0], boxYZ1[index1]))
+				{
+					INCREASE_STATS_NB_PAIRS
+					addPair(&params, index0, index1);
+				}
+			}
+			index1++;
+		}
+		index0++;
 	}
 }
 
-void performBoxPruningNewOld
-(const Gu::Axes& axes,
- const BpHandle* PX_RESTRICT newBoxIndicesSorted, const PxU32 newBoxIndicesCount, const BpHandle* PX_RESTRICT oldBoxIndicesSorted, const PxU32 oldBoxIndicesCount,
- BpHandle* PX_RESTRICT minPosListNew,  BpHandle* PX_RESTRICT minPosListOld,
- SapBox1D** PX_RESTRICT asapBoxes, const BpHandle* PX_RESTRICT asapBoxGroupIds,
- PxcScratchAllocator* scratchAllocator, 
- SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity)
+void performBoxPruningNewOld(	const AuxData* PX_RESTRICT auxData0, const AuxData* PX_RESTRICT auxData1, PxcScratchAllocator* scratchAllocator, 
+								SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity)
 {
-	// Checkings
-	if(!newBoxIndicesCount || !oldBoxIndicesCount)	return;
+	const PxU32 nb0 = auxData0->mNb;
+	const PxU32 nb1 = auxData1->mNb;
 
-	// Catch axes
-	const PxU32 Axis0 = axes.mAxis0;
-	const PxU32 Axis1 = axes.mAxis1;
-	const PxU32 Axis2 = axes.mAxis2;
+	if(!nb0 || !nb1)
+		return;
 
-	BpHandle* PX_RESTRICT minPosList0=minPosListNew;
-	BpHandle* PX_RESTRICT minPosList1=minPosListOld;
+	DataArray da(dataArray, dataArraySize, dataArrayCapacity);
 
-	// 1) Build main lists using the primary axis
-	for(PxU32 i=0;i<newBoxIndicesCount;i++)	
+	START_STATS
 	{
-		const BpHandle boxId=newBoxIndicesSorted[i];
-		minPosList0[i] = asapBoxes[Axis0][boxId].mMinMax[0];
+		BoxX* boxX0 = auxData0->mBoxX;
+		BoxYZ* boxYZ0 = auxData0->mBoxYZ;
+		BpHandle* groups0 = auxData0->mGroups;
+		PxU32* remap0 = auxData0->mRemap;
+
+		BoxX* boxX1 = auxData1->mBoxX;
+		BoxYZ* boxYZ1 = auxData1->mBoxYZ;
+		BpHandle* groups1 = auxData1->mGroups;
+		PxU32* remap1 = auxData1->mRemap;
+
+		bipartitePruning(nb0, boxX0, boxYZ0, remap0, groups0, nb1, boxX1, boxYZ1, remap1, groups1, scratchAllocator, pairManager, da);
+		bipartitePruning(nb1, boxX1, boxYZ1, remap1, groups1, nb0, boxX0, boxYZ0, remap0, groups0, scratchAllocator, pairManager, da);
 	}
-	for(PxU32 i=0;i<oldBoxIndicesCount;i++)	
-	{
-		const BpHandle boxId=oldBoxIndicesSorted[i];
-		minPosList1[i] = asapBoxes[Axis0][boxId].mMinMax[0];
-	}
+	DUMP_STATS
 
-	// 3) Prune the lists
-	const PxU32 LastSortedIndex0 = newBoxIndicesCount;
-	const PxU32 LastSortedIndex1 = oldBoxIndicesCount;
-	PxU32 RunningIndex0 = 0;
-	PxU32 RunningIndex1 = 0;
-	PxU32 SortedIndex1 = 0;
-	PxU32 SortedIndex0 = 0;
-
-
-	while(RunningIndex1<LastSortedIndex1 && SortedIndex0<LastSortedIndex0)
-	{
-		const PxU32 Index0 = SortedIndex0++;
-		const BpHandle boxId0 = newBoxIndicesSorted[Index0];
-		const BpHandle Limit = asapBoxes[Axis0][boxId0].mMinMax[1];//Box0.mMaxIndex[Axis0];
-
-		while(RunningIndex1<LastSortedIndex1 && minPosList1[RunningIndex1]<minPosList0[Index0])
-			RunningIndex1++;
-
-		PxU32 RunningIndex2_1 = RunningIndex1;
-
-		PxU32 Index1;
-		while(RunningIndex2_1<LastSortedIndex1 && minPosList1[Index1 = RunningIndex2_1++] <= Limit)
-		{
-			const BpHandle boxId1 = oldBoxIndicesSorted[Index1];
-#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-			if(asapBoxGroupIds[boxId0]!=asapBoxGroupIds[boxId1])
-#endif
-			{
-				if(Intersect2D(
-					asapBoxes[Axis1][boxId0].mMinMax[0],asapBoxes[Axis1][boxId0].mMinMax[1],asapBoxes[Axis2][boxId0].mMinMax[0],asapBoxes[Axis2][boxId0].mMinMax[1],
-					asapBoxes[Axis1][boxId1].mMinMax[0],asapBoxes[Axis1][boxId1].mMinMax[1],asapBoxes[Axis2][boxId1].mMinMax[0],asapBoxes[Axis2][boxId1].mMinMax[1]))
-				{
-					AddPair(boxId0, boxId1, scratchAllocator, pairManager, dataArray, dataArraySize, dataArrayCapacity);
-				}
-			}
-		}
-	}
-
-	////
-
-	while(RunningIndex0<LastSortedIndex0 && SortedIndex1<LastSortedIndex1)
-	{
-		const PxU32 Index0 = SortedIndex1++;
-		const BpHandle boxId0 = oldBoxIndicesSorted[Index0];
-		const BpHandle Limit = asapBoxes[Axis0][boxId0].mMinMax[1];
-
-		while(RunningIndex0<LastSortedIndex0 && minPosList0[RunningIndex0]<=minPosList1[Index0])
-			RunningIndex0++;
-
-		PxU32 RunningIndex2_0 = RunningIndex0;
-
-		PxU32 Index1;
-		while(RunningIndex2_0<LastSortedIndex0 && minPosList0[Index1 = RunningIndex2_0++] <= Limit)
-		{
-			const BpHandle boxId1 = newBoxIndicesSorted[Index1];
-#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-			if(asapBoxGroupIds[boxId0]!=asapBoxGroupIds[boxId1])
-#endif
-			{
-				if(Intersect2D(
-					asapBoxes[Axis1][boxId0].mMinMax[0],asapBoxes[Axis1][boxId0].mMinMax[1],asapBoxes[Axis2][boxId0].mMinMax[0],asapBoxes[Axis2][boxId0].mMinMax[1],
-					asapBoxes[Axis1][boxId1].mMinMax[0],asapBoxes[Axis1][boxId1].mMinMax[1],asapBoxes[Axis2][boxId1].mMinMax[0],asapBoxes[Axis2][boxId1].mMinMax[1]))
-				{
-					AddPair(boxId0, boxId1, scratchAllocator, pairManager, dataArray, dataArraySize, dataArrayCapacity);
-				}
-			}
-		}
-	}
+	dataArray = da.mData;
+	dataArraySize = da.mSize;
+	dataArrayCapacity = da.mCapacity;
 }
 
 } //namespace Bp

@@ -1449,53 +1449,79 @@ namespace local
 		PX_ALLOCA(edges, QuickHullHalfEdge, (face1.numEdges + face2.numEdges));
 		PxMemSet(edges, 0, (face1.numEdges + face2.numEdges)*sizeof(QuickHullHalfEdge));
 		QuickHullFace mergedFace;
-		mergedFace.edge = &edges[0];
+		mergedFace.edge =  &edges[0];
 
 		// copy the first face edges
 		PxU32 currentEdge = 0;
-		QuickHullHalfEdge* copyHe = he.next;
-		while (copyHe != &he)
+		const QuickHullHalfEdge* heTwin = NULL;
+		const QuickHullHalfEdge* heCopy = NULL;
+		const QuickHullHalfEdge* startEdge = (face1.edge != &he) ? face1.edge : face1.edge->next;
+ 		const QuickHullHalfEdge* copyHe = startEdge;
+		do
 		{
 			edges[currentEdge].face = &mergedFace;
 			edges[currentEdge].tail = copyHe->tail;
-			edges[currentEdge].next = &edges.mPointer[currentEdge + 1];
+			if(copyHe == &he)
+			{
+				heTwin = copyHe->twin;
+				heCopy = &edges[currentEdge];
+			}
+			const PxU32 nextIndex = (copyHe->next == startEdge) ? 0 : currentEdge + 1;
+			const PxU32 prevIndex = (currentEdge == 0) ? face1.numEdges - 1 : currentEdge - 1;
+			edges[currentEdge].next = &edges.mPointer[nextIndex];
+			edges[currentEdge].prev = &edges.mPointer[prevIndex];
 
 			currentEdge++;
 			copyHe = copyHe->next;
-		}
+		} while (copyHe != startEdge);
 
 		// copy the second face edges
-		copyHe = he.twin->next;
-		while (copyHe != he.twin)
+		copyHe = face2.edge;
+		do
 		{
 			edges[currentEdge].face = &mergedFace;
 			edges[currentEdge].tail = copyHe->tail;
-			edges[currentEdge].next = &edges.mPointer[currentEdge + 1];
+			if(heTwin == copyHe)
+				heTwin = &edges[currentEdge];
+			const PxU32 nextIndex = (copyHe->next == face2.edge) ? face1.numEdges : currentEdge + 1;
+			const PxU32 prevIndex = (currentEdge == face1.numEdges) ? face1.numEdges + face2.numEdges - 1 : currentEdge - 1;
+			edges[currentEdge].next = &edges.mPointer[nextIndex];
+			edges[currentEdge].prev = &edges.mPointer[prevIndex];
 
 			currentEdge++;
 			copyHe = copyHe->next;
-		}
-		edges[--currentEdge].next = &edges.mPointer[0];
+		} while (copyHe != face2.edge);
+
+		PX_ASSERT(heTwin);
+
+		QuickHullHalfEdge* hedgeAdjPrev = heCopy->prev;
+		QuickHullHalfEdge* hedgeAdjNext = heCopy->next;
+		QuickHullHalfEdge* hedgeOppPrev = heTwin->prev;
+		QuickHullHalfEdge* hedgeOppNext = heTwin->next;
+
+		hedgeOppPrev->next = hedgeAdjNext;
+		hedgeAdjNext->prev = hedgeOppPrev;
+
+		hedgeAdjPrev->next = hedgeOppNext;
+		hedgeOppNext->prev = hedgeAdjPrev;
 
 		// compute normal and centroid
 		mergedFace.computeNormalAndCentroid();
 
 		// test the vertex distance
-		float maxDist = mPlaneTolerance;
-		QuickHullHalfEdge* qhe = mergedFace.edge;
-		do
+		const float maxDist = mPlaneTolerance;
+		for(PxU32 iVerts=0; iVerts< mNumVertices; iVerts++)
 		{
-			const QuickHullVertex& vertex = qhe->tail;
+			const QuickHullVertex& vertex = mVerticesList[iVerts];
 			const float dist = mergedFace.distanceToPlane(vertex.point);
 			if (dist > maxDist)
 			{
 				return false;
 			}
-			qhe = qhe->next;
-		} while (qhe != mergedFace.edge);
+		}
 
 		// check the convexity
-		qhe = mergedFace.edge;
+		QuickHullHalfEdge* qhe = mergedFace.edge;
 		do
 		{
 			const QuickHullVertex& vertex = qhe->tail;
@@ -1525,10 +1551,10 @@ namespace local
 
 		QuickHullHalfEdge* hedgeOpp = he.twin;
 
-		QuickHullHalfEdge* hedgeAdjPrev = he.prev;
-		QuickHullHalfEdge* hedgeAdjNext = he.next;
-		QuickHullHalfEdge* hedgeOppPrev = hedgeOpp->prev;
-		QuickHullHalfEdge* hedgeOppNext = hedgeOpp->next;
+		hedgeAdjPrev = he.prev;
+		hedgeAdjNext = he.next;
+		hedgeOppPrev = hedgeOpp->prev;
+		hedgeOppNext = hedgeOpp->next;
 
 		// check if we are lining up with the face in adjPrev dir
 		while (hedgeAdjPrev->getOppositeFace() == oppFace)

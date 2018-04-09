@@ -45,7 +45,13 @@ using namespace Ps;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Constructor, preallocate trees, bounds
 ExtendedBucketPruner::ExtendedBucketPruner(const PruningPool* pool)
-	: mBucketCore(false), mPruningPool(pool), mMainTree(NULL), mBounds(NULL), mMergedTrees(NULL), 
+	: 
+#if USE_INCREMENTAL_PRUNER
+	mPrunerCore(pool),
+#else
+	mPrunerCore(false), 
+#endif
+	mPruningPool(pool), mMainTree(NULL), mBounds(NULL), mMergedTrees(NULL), 
 	mCurrentTreeIndex(0), mTreesDirty(false)
 {
 	// preallocated size for bounds, trees
@@ -92,7 +98,7 @@ ExtendedBucketPruner::~ExtendedBucketPruner()
 void ExtendedBucketPruner::release()
 {	
 	// release core bucket pruner
-	mBucketCore.release();
+	mPrunerCore.release();
 
 	mMainTreeUpdateMap.release();
 	mMergeTreeUpdateMap.release();
@@ -216,14 +222,20 @@ void ExtendedBucketPruner::resize(PxU32 size)
 
 //////////////////////////////////////////////////////////////////////////
 // Update object
-bool ExtendedBucketPruner::updateObject(const PxBounds3& worldAABB, const PrunerPayload& object)
+bool ExtendedBucketPruner::updateObject(const PxBounds3& worldAABB, const PrunerPayload& object, const PoolIndex poolIndex)
 {	
 	const ExtendedBucketPrunerMap::Entry* extendedPrunerEntry = mExtendedBucketPrunerMap.find(object);
 
 	// if object is not in tree of trees, it is in bucket pruner core
 	if(!extendedPrunerEntry)
 	{		
-		return mBucketCore.updateObject(worldAABB, object);
+#if USE_INCREMENTAL_PRUNER
+		PX_UNUSED(worldAABB);
+		return mPrunerCore.updateObject(poolIndex);
+#else
+		PX_UNUSED(poolIndex);
+		return mPrunerCore.updateObject(worldAABB, object);
+#endif 
 	}
 	else
 	{
@@ -352,8 +364,13 @@ bool ExtendedBucketPruner::removeObject(const PrunerPayload& object, PxU32 objec
 		// we need to call invalidateObjects, it might happen that the swapped object
 		// does belong to the extended bucket pruner, in that case the objects index
 		// needs to be swapped.
-		swapIndex(objectIndex, swapObject, swapObjectIndex);		
-		return mBucketCore.removeObject(object, timeStamp);
+		// do not call additional bucket pruner swap, that does happen during remove
+		swapIndex(objectIndex, swapObject, swapObjectIndex, false);
+#if USE_INCREMENTAL_PRUNER
+		return mPrunerCore.removeObject(objectIndex, swapObjectIndex, timeStamp);
+#else
+		return mPrunerCore.removeObject(object, timeStamp);
+#endif
 	}
 	else
 	{	
@@ -424,8 +441,9 @@ void ExtendedBucketPruner::invalidateObject(const ExtendedBucketPrunerData& data
 
 // Swap object index
 // if swapObject is in a merged tree its index needs to be swapped with objectIndex
-void ExtendedBucketPruner::swapIndex(PxU32 objectIndex, const PrunerPayload& swapObject, PxU32 swapObjectIndex)
+void ExtendedBucketPruner::swapIndex(PxU32 objectIndex, const PrunerPayload& swapObject, PxU32 swapObjectIndex, bool corePrunerIncluded)
 {
+	PX_UNUSED(corePrunerIncluded);
 	if (objectIndex == swapObjectIndex)
 		return;
 
@@ -463,6 +481,13 @@ void ExtendedBucketPruner::swapIndex(PxU32 objectIndex, const PrunerPayload& swa
 		PX_ASSERT(foundIt);
 		PX_UNUSED(foundIt);
 	}
+#if USE_INCREMENTAL_PRUNER
+	else
+	{
+		if(corePrunerIncluded)
+			mPrunerCore.swapIndex(objectIndex, swapObjectIndex);
+	}
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -470,7 +495,7 @@ void ExtendedBucketPruner::swapIndex(PxU32 objectIndex, const PrunerPayload& swa
 PxU32 ExtendedBucketPruner::removeMarkedObjects(PxU32 timeStamp)
 {
 	// remove objects from the core bucket pruner
-	PxU32 retVal = mBucketCore.removeMarkedObjects(timeStamp);
+	PxU32 retVal = mPrunerCore.removeMarkedObjects(timeStamp);
 
 	// nothing to be removed
 	if(!mCurrentTreeIndex)
@@ -591,7 +616,7 @@ void ExtendedBucketPruner::shiftOrigin(const PxVec3& shift)
 		mMergedTrees[i].mTree->shiftOrigin(shift);
 	}
 
-	mBucketCore.shiftOrigin(shift);
+	mPrunerCore.shiftOrigin(shift);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -611,7 +636,7 @@ struct MainTreeRaycastPrunerCallback: public PrunerCallback
 		// payload data match merged tree data MergedTree, we can cast it
 		const AABBTree* aabbTree = reinterpret_cast<const AABBTree*> (payload.data[0]);
 		// raycast the merged tree
-		return AABBTreeRaycast<tInflate>()(mPruningPool->getObjects(), mPruningPool->getCurrentWorldBoxes(), *aabbTree, mOrigin, mUnitDir, distance, mExtent, mPrunerCallback);
+		return AABBTreeRaycast<tInflate, AABBTree, AABBTreeRuntimeNode>()(mPruningPool->getObjects(), mPruningPool->getCurrentWorldBoxes(), *aabbTree, mOrigin, mUnitDir, distance, mExtent, mPrunerCallback);
 	}
 
 	PX_NOCOPY(MainTreeRaycastPrunerCallback)
@@ -631,8 +656,8 @@ PxAgain ExtendedBucketPruner::raycast(const PxVec3& origin, const PxVec3& unitDi
 	PxAgain again = true;	
 
 	// searc the bucket pruner first
-	if (mBucketCore.getNbObjects())
-		again = mBucketCore.raycast(origin, unitDir, inOutDistance, prunerCallback);
+	if (mPrunerCore.getNbObjects())
+		again = mPrunerCore.raycast(origin, unitDir, inOutDistance, prunerCallback);
 
 	if (again && mExtendedBucketPrunerMap.size())
 	{
@@ -640,7 +665,7 @@ PxAgain ExtendedBucketPruner::raycast(const PxVec3& origin, const PxVec3& unitDi
 		// main tree callback
 		MainTreeRaycastPrunerCallback<false> pcb(origin, unitDir, extent, prunerCallback, mPruningPool);
 		// traverse the main tree
-		again = AABBTreeRaycast<false>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, origin, unitDir, inOutDistance, extent, pcb);
+		again = AABBTreeRaycast<false, AABBTree, AABBTreeRuntimeNode>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, origin, unitDir, inOutDistance, extent, pcb);
 	}
 
 	return again;
@@ -661,7 +686,7 @@ struct MainTreeOverlapPrunerCallback : public PrunerCallback
 		// payload data match merged tree data MergedTree, we can cast it
 		const AABBTree* aabbTree = reinterpret_cast<const AABBTree*> (payload.data[0]);
 		// overlap the merged tree
-		return AABBTreeOverlap<Test>()(mPruningPool->getObjects(), mPruningPool->getCurrentWorldBoxes(), *aabbTree, mTest, mPrunerCallback);
+		return AABBTreeOverlap<Test, AABBTree, AABBTreeRuntimeNode>()(mPruningPool->getObjects(), mPruningPool->getCurrentWorldBoxes(), *aabbTree, mTest, mPrunerCallback);
 	}
 
 	PX_NOCOPY(MainTreeOverlapPrunerCallback)
@@ -679,8 +704,8 @@ PxAgain ExtendedBucketPruner::overlap(const Gu::ShapeData& queryVolume, PrunerCa
 	PxAgain again = true;
 
 	// core bucket pruner overlap
-	if (mBucketCore.getNbObjects())
-		again = mBucketCore.overlap(queryVolume, prunerCallback);
+	if (mPrunerCore.getNbObjects())
+		again = mPrunerCore.overlap(queryVolume, prunerCallback);
 
 	if(again && mExtendedBucketPrunerMap.size())
 	{
@@ -692,13 +717,13 @@ PxAgain ExtendedBucketPruner::overlap(const Gu::ShapeData& queryVolume, PrunerCa
 			{
 				const Gu::OBBAABBTest test(queryVolume.getPrunerWorldPos(), queryVolume.getPrunerWorldRot33(), queryVolume.getPrunerBoxGeomExtentsInflated());
 				MainTreeOverlapPrunerCallback<Gu::OBBAABBTest> pcb(test, prunerCallback, mPruningPool);
-				again = AABBTreeOverlap<Gu::OBBAABBTest>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, test, pcb);
+				again = AABBTreeOverlap<Gu::OBBAABBTest, AABBTree, AABBTreeRuntimeNode>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, test, pcb);
 			}
 			else
 			{
 				const Gu::AABBAABBTest test(queryVolume.getPrunerInflatedWorldAABB());
 				MainTreeOverlapPrunerCallback<Gu::AABBAABBTest> pcb(test, prunerCallback, mPruningPool);
-				again = AABBTreeOverlap<Gu::AABBAABBTest>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, test, pcb);				
+				again = AABBTreeOverlap<Gu::AABBAABBTest, AABBTree, AABBTreeRuntimeNode>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, test, pcb);				
 			}
 		}
 		break;
@@ -708,7 +733,7 @@ PxAgain ExtendedBucketPruner::overlap(const Gu::ShapeData& queryVolume, PrunerCa
 			const Gu::CapsuleAABBTest test(capsule.p1, queryVolume.getPrunerWorldRot33().column0,
 				queryVolume.getCapsuleHalfHeight()*2.0f, PxVec3(capsule.radius*SQ_PRUNER_INFLATION));
 			MainTreeOverlapPrunerCallback<Gu::CapsuleAABBTest> pcb(test, prunerCallback, mPruningPool);			
-			again = AABBTreeOverlap<Gu::CapsuleAABBTest>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, test, pcb);				
+			again = AABBTreeOverlap<Gu::CapsuleAABBTest, AABBTree, AABBTreeRuntimeNode>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, test, pcb);				
 		}
 		break;
 		case PxGeometryType::eSPHERE:
@@ -716,14 +741,14 @@ PxAgain ExtendedBucketPruner::overlap(const Gu::ShapeData& queryVolume, PrunerCa
 			const Gu::Sphere& sphere = queryVolume.getGuSphere();
 			Gu::SphereAABBTest test(sphere.center, sphere.radius);
 			MainTreeOverlapPrunerCallback<Gu::SphereAABBTest> pcb(test, prunerCallback, mPruningPool);
-			again = AABBTreeOverlap<Gu::SphereAABBTest>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, test, pcb);				
+			again = AABBTreeOverlap<Gu::SphereAABBTest, AABBTree, AABBTreeRuntimeNode>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, test, pcb);				
 		}
 		break;
 		case PxGeometryType::eCONVEXMESH:
 		{
 			const Gu::OBBAABBTest test(queryVolume.getPrunerWorldPos(), queryVolume.getPrunerWorldRot33(), queryVolume.getPrunerBoxGeomExtentsInflated());
 			MainTreeOverlapPrunerCallback<Gu::OBBAABBTest> pcb(test, prunerCallback, mPruningPool);			
-			again = AABBTreeOverlap<Gu::OBBAABBTest>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, test, pcb);				
+			again = AABBTreeOverlap<Gu::OBBAABBTest, AABBTree, AABBTreeRuntimeNode>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, test, pcb);				
 		}
 		break;
 		case PxGeometryType::ePLANE:
@@ -745,8 +770,8 @@ PxAgain ExtendedBucketPruner::sweep(const Gu::ShapeData& queryVolume, const PxVe
 	PxAgain again = true;
 
 	// core bucket pruner sweep
-	if (mBucketCore.getNbObjects())
-		again = mBucketCore.sweep(queryVolume, unitDir, inOutDistance, prunerCallback);
+	if (mPrunerCore.getNbObjects())
+		again = mPrunerCore.sweep(queryVolume, unitDir, inOutDistance, prunerCallback);
 
 	if(again && mExtendedBucketPrunerMap.size())
 	{
@@ -754,7 +779,7 @@ PxAgain ExtendedBucketPruner::sweep(const Gu::ShapeData& queryVolume, const PxVe
 		const PxVec3 extents = aabb.getExtents();
 		const PxVec3 center = aabb.getCenter();
 		MainTreeRaycastPrunerCallback<true> pcb(center, unitDir, extents, prunerCallback, mPruningPool);
-		again = AABBTreeRaycast<true>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, center, unitDir, inOutDistance, extents, pcb);
+		again = AABBTreeRaycast<true, AABBTree, AABBTreeRuntimeNode>()(reinterpret_cast<const PrunerPayload*>(mMergedTrees), mBounds, *mMainTree, center, unitDir, inOutDistance, extents, pcb);
 	}
 	return again;
 }
@@ -794,7 +819,7 @@ void ExtendedBucketPruner::visualize(Cm::RenderOutput& out, PxU32 color) const
 		visualizeTree(out, color, mMergedTrees[i].mTree);
 	}
 
-	mBucketCore.visualize(out, color);
+	mPrunerCore.visualize(out, color);
 }
 
 //////////////////////////////////////////////////////////////////////////

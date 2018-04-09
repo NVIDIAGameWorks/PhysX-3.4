@@ -94,13 +94,7 @@ PxConvexMesh* PxToolkit::createConvexMesh(PxPhysics& physics, PxCooking& cooking
 	convexDesc.points.stride	= sizeof(PxVec3);
 	convexDesc.points.data		= verts;
 	convexDesc.flags			= flags;
-
-	PxDefaultMemoryOutputStream buf;
-	if(!cooking.cookConvexMesh(convexDesc, buf))
-		return NULL;
-
-	PxDefaultMemoryInputData input(buf.getData(), buf.getSize());
-	return physics.createConvexMesh(input);
+	return cooking.createConvexMesh(convexDesc, physics.getPhysicsInsertionCallback());
 }
 
 PxConvexMesh* PxToolkit::createConvexMeshSafe(PxPhysics& physics, PxCooking& cooking, const PxVec3* verts, PxU32 vertCount, PxConvexFlags flags, PxU32 vLimit)

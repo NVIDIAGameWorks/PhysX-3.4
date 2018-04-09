@@ -237,6 +237,11 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 	virtual			void							setDynamicTreeRebuildRateHint(PxU32 dynamicTreeRebuildRateHint);
 	virtual			PxU32							getDynamicTreeRebuildRateHint() const;
 	virtual			void							forceDynamicTreeRebuild(bool rebuildStaticStructure, bool rebuildDynamicStructure);
+	virtual			void							sceneQueriesUpdate(physx::PxBaseTask* completionTask, bool controlSimulation);
+	virtual			bool							checkQueries(bool block);
+	virtual			bool							fetchQueries(bool block);
+	virtual			void							setSceneQueryUpdateMode(PxSceneQueryUpdateMode::Enum updateMode);
+	virtual			PxSceneQueryUpdateMode::Enum	getSceneQueryUpdateMode() const;
 
 	virtual			void							setSolverBatchSize(PxU32 solverBatchSize);
 	virtual			PxU32							getSolverBatchSize(void) const;
@@ -365,6 +370,7 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 private:
 					bool							checkResultsInternal(bool block);
 					bool							checkCollisionInternal(bool block);
+					bool							checkSceneQueriesInternal(bool block);
 					void							simulateOrCollide(PxReal elapsedTime, physx::PxBaseTask* completionTask, void* scratchBlock, PxU32 scratchBlockSize, bool controlSimulation, const char* invalidCallMsg, Sc::SimulationStage::Enum simStage);
 
 					void							addRigidStatic(NpRigidStatic& , bool hasPrunerStructure = false);
@@ -422,6 +428,7 @@ private:
 
 					Ps::Sync						mPhysicsDone;		// physics thread signals this when update ready
 					Ps::Sync						mCollisionDone;		// physics thread signals this when all collisions ready
+					Ps::Sync						mSceneQueriesDone;	// physics thread signals this when all scene queries update ready
 
 
 		//legacy timing settings:
@@ -469,6 +476,7 @@ private:
 					PxTaskManager*					mTaskManager;
 					SceneCompletion					mSceneCompletion;
 					SceneCompletion					mCollisionCompletion;
+					SceneCompletion					mSceneQueriesCompletion;
 					SceneExecution					mSceneExecution;
 					SceneCollide					mSceneCollide;
 					SceneAdvance					mSceneAdvance;
@@ -484,6 +492,8 @@ private:
 					PxU32							mThreadReadWriteDepth;
 					Ps::Thread::Id					mCurrentWriter;
 					Ps::ReadWriteLock				mRWLock;
+
+					bool							mSceneQueriesUpdateRunning;
 
 					bool							mHasSimulatedOnce;
 					bool							mBetweenFetchResults;

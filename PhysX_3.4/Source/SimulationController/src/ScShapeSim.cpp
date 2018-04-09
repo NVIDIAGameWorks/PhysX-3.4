@@ -185,7 +185,8 @@ void Sc::ShapeSim::removeFromBroadPhase(bool wakeOnLostTouch)
 
 void Sc::ShapeSim::reinsertBroadPhase()
 {
-	internalRemoveFromBroadPhase();
+	if(isInBroadPhase())
+		internalRemoveFromBroadPhase();
 //	internalAddToBroadPhase();
 
 	Sc::Scene& scene = getScene();

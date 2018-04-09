@@ -1381,9 +1381,7 @@ static bool contactHullHeightfield2(const PolygonalData& polyData0, const PxBoun
 {
 	//We need to create a callback that fills triangles from the HF
 
-	const HeightField& hf = *static_cast<HeightField*>(shape1.heightField);
-
-	HeightFieldUtil hfUtil(shape1, hf);
+	HeightFieldUtil hfUtil(shape1);
 
 	const Cm::Matrix34 world0(transform0);
 	const Cm::Matrix34 world1(transform1);

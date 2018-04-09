@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef BP_BROADPHASE_SAP_AUX_H
 #define BP_BROADPHASE_SAP_AUX_H
 
@@ -43,10 +42,8 @@
 
 namespace physx
 {
-
 namespace Bp
 {
-
 #define NUM_SENTINELS 2
 
 #define BP_SAP_USE_PREFETCH 1//prefetch in batchUpdate
@@ -79,11 +76,11 @@ PX_FORCE_INLINE	void setMaxSentinel(ValType& v, BpHandle& d)
 	d = BP_INVALID_BP_HANDLE;
 }
 
-PX_FORCE_INLINE	void setData(BpHandle& d, PxU32 owner_box_id, const bool is_max)
+PX_FORCE_INLINE	BpHandle setData(PxU32 owner_box_id, const bool is_max)
 {
-	//v=v;
-	d = BpHandle(owner_box_id<<1);
+	BpHandle d = BpHandle(owner_box_id<<1);
 	if(is_max)	d |= 1;
+	return d;
 }
 
 PX_FORCE_INLINE	bool isSentinel(const BpHandle& d)	
@@ -105,8 +102,8 @@ class SapBox1D
 {
 public:
 
-	PX_FORCE_INLINE					SapBox1D()	{}
-	PX_FORCE_INLINE					~SapBox1D()	{}
+	PX_FORCE_INLINE		SapBox1D()	{}
+	PX_FORCE_INLINE		~SapBox1D()	{}
 
 	BpHandle		mMinMax[2];//mMinMax[0]=min, mMinMax[1]=max
 };
@@ -114,20 +111,20 @@ public:
 class SapPairManager
 {
 public:
-	SapPairManager();
-	~SapPairManager();
+							SapPairManager();
+							~SapPairManager();
 
-	void						init(const PxU32 size);
-	void						release();
+	void					init(const PxU32 size);
+	void					release();
 
-	void						shrinkMemory();
+	void					shrinkMemory();
 
 	const BroadPhasePair*	AddPair		(BpHandle id0, BpHandle id1, const PxU8 state);
-	bool						RemovePair	(BpHandle id0, BpHandle id1);
-	bool						RemovePairs	(const Cm::BitMap& removedAABBs);
+	bool					RemovePair	(BpHandle id0, BpHandle id1);
+	bool					RemovePairs	(const Cm::BitMap& removedAABBs);
 	const BroadPhasePair*	FindPair	(BpHandle id0, BpHandle id1)	const;
 
-	PX_FORCE_INLINE	PxU32		GetPairIndex(const BroadPhasePair* PX_RESTRICT pair)	const
+	PX_FORCE_INLINE	PxU32	GetPairIndex(const BroadPhasePair* PX_RESTRICT pair)	const
 	{
 		return (PxU32((size_t(pair) - size_t(mActivePairs)))/sizeof(BroadPhasePair));
 	}
@@ -143,7 +140,7 @@ public:
 	PxU32				mActivePairsCapacity;
 	PxU32				mMask;
 
-	BroadPhasePair*	FindPair	(BpHandle id0, BpHandle id1, PxU32 hash_value) const;
+	BroadPhasePair*		FindPair	(BpHandle id0, BpHandle id1, PxU32 hash_value) const;
 	void				RemovePair	(BpHandle id0, BpHandle id1, PxU32 hash_value, PxU32 pair_index);
 	void				reallocPairs(const bool allocRequired);
 
@@ -207,185 +204,71 @@ public:
 	}
 };
 
-PX_FORCE_INLINE void AddData(const PxU32 data, PxcScratchAllocator* scratchAllocator, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity)
+struct DataArray
 {
-	if(dataArraySize==dataArrayCapacity)
+	DataArray(BpHandle* data, PxU32 size, PxU32 capacity) : mData(data), mSize(size), mCapacity(capacity)	{}
+
+	BpHandle*	mData;
+	PxU32		mSize;
+	PxU32		mCapacity;
+
+	PX_NOINLINE		void	Resize(PxcScratchAllocator* scratchAllocator);
+
+	PX_FORCE_INLINE	void	AddData(const PxU32 data, PxcScratchAllocator* scratchAllocator)
 	{
-		BpHandle* newDataArray = reinterpret_cast<BpHandle*>(scratchAllocator->alloc(sizeof(BpHandle)*dataArrayCapacity*2, true));
-		PxMemCopy(newDataArray, dataArray, dataArrayCapacity*sizeof(BpHandle));
-		scratchAllocator->free(dataArray);
-		dataArray = newDataArray;
-		dataArrayCapacity = dataArrayCapacity*2;
+		if(mSize==mCapacity)
+			Resize(scratchAllocator);
+
+		PX_ASSERT(mSize<mCapacity);
+		mData[mSize++] = BpHandle(data);
 	}
-	PX_UNUSED(scratchAllocator);
-	PX_UNUSED(dataArrayCapacity);
-	PX_ASSERT(dataArraySize<dataArrayCapacity);
-	dataArray[dataArraySize]=BpHandle(data);
-	dataArraySize++;
-}
+};
 
-PX_FORCE_INLINE	bool AddPair
-(const BpHandle id0, const BpHandle id1, 
- PxcScratchAllocator* scratchAllocator,
- SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity)
-{
-	const BroadPhasePair* UP = reinterpret_cast<const BroadPhasePair*>(pairManager.AddPair(id0, id1, SapPairManager::PAIR_UNKNOWN));
-
-	//If the hash table has reached its limit then we're unable to add a new pair.
-	if(NULL==UP)
-	{
-		return false;
-	}
-
-	PX_ASSERT(UP);
-	if(pairManager.IsUnknown(UP))
-	{
-		pairManager.ClearState(UP);
-		pairManager.SetInArray(UP);
-		AddData(pairManager.GetPairIndex(UP), scratchAllocator, dataArray, dataArraySize, dataArrayCapacity);
-		pairManager.SetNew(UP);
-	}
-	pairManager.ClearRemoved(UP);
-
-	return true;
-}
-
-PX_FORCE_INLINE	void RemovePair
-(BpHandle id0, BpHandle id1, 
- PxcScratchAllocator* scratchAllocator,
- SapPairManager& pairManager,  BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity)
-{
-	const BroadPhasePair* UP = reinterpret_cast<const BroadPhasePair*>(pairManager.FindPair(id0, id1));
-	if(UP)
-	{
-		if(!pairManager.IsInArray(UP))
-		{
-			pairManager.SetInArray(UP);
-			AddData(pairManager.GetPairIndex(UP), scratchAllocator, dataArray, dataArraySize, dataArrayCapacity);
-		}
-		pairManager.SetRemoved(UP);
-	}
-}
-
-PX_FORCE_INLINE void InsertEndPoints
-(const ValType* PX_RESTRICT newEndPointValues, const BpHandle* PX_RESTRICT newEndPointDatas, PxU32 numNewEndPoints,
- ValType* PX_RESTRICT endPointValues, BpHandle* PX_RESTRICT endPointDatas, const PxU32 numEndPoints, 
- SapBox1D* PX_RESTRICT boxes)
-{
-	ValType* const BaseEPValue = endPointValues;
-	BpHandle* const BaseEPData = endPointDatas;
-
-	const PxU32 OldSize = numEndPoints-NUM_SENTINELS;
-	const PxU32 NewSize = numEndPoints-NUM_SENTINELS+numNewEndPoints;
-
-	BaseEPValue[NewSize + 1] = BaseEPValue[OldSize + 1];
-	BaseEPData[NewSize + 1] = BaseEPData[OldSize + 1];
-
-	PxI32 WriteIdx = PxI32(NewSize);
-	PxU32 CurrInsIdx = 0;
-
-	//const SapValType* FirstValue = &BaseEPValue[0];
-	const BpHandle* FirstData = &BaseEPData[0];
-	const ValType* CurrentValue = &BaseEPValue[OldSize];
-	const BpHandle* CurrentData = &BaseEPData[OldSize];
-	while(CurrentData>=FirstData)
-	{
-		const ValType& SrcValue = *CurrentValue;
-		const BpHandle& SrcData = *CurrentData;
-		const ValType& InsValue = newEndPointValues[CurrInsIdx];
-		const BpHandle& InsData = newEndPointDatas[CurrInsIdx];
-
-		// We need to make sure we insert maxs before mins to handle exactly equal endpoints correctly
-		const bool ShouldInsert = isMax(InsData) ? (SrcValue <= InsValue) : (SrcValue < InsValue);
-
-		const ValType& MovedValue = ShouldInsert ? InsValue : SrcValue;
-		const BpHandle& MovedData = ShouldInsert ? InsData : SrcData;
-		BaseEPValue[WriteIdx] = MovedValue;
-		BaseEPData[WriteIdx] = MovedData;
-		boxes[getOwner(MovedData)].mMinMax[isMax(MovedData)] = BpHandle(WriteIdx--);
-
-		if(ShouldInsert)
-		{
-			CurrInsIdx++;
-			if(CurrInsIdx >= numNewEndPoints)
-				break;//we just inserted the last endpoint
-		}
-		else
-		{
-			CurrentValue--;
-			CurrentData--;
-		}
-	}
-}
+void addPair(const BpHandle id0, const BpHandle id1, PxcScratchAllocator* scratchAllocator, SapPairManager& pairManager, DataArray& dataArray);
+void removePair(BpHandle id0, BpHandle id1, PxcScratchAllocator* scratchAllocator, SapPairManager& pairManager, DataArray& dataArray);
 
 void ComputeCreatedDeletedPairsLists
 (const BpHandle* PX_RESTRICT boxGroups, 
  const BpHandle* PX_RESTRICT dataArray, const PxU32 dataArraySize,
  PxcScratchAllocator* scratchAllocator,
- BroadPhasePairReport* & createdPairsList, PxU32& numCreatedPairs, PxU32& maxNumCreatdPairs,
- BroadPhasePairReport* & deletedPairsList, PxU32& numDeletedPairs, PxU32& maxNumDeletedPairs,
+ BroadPhasePair* & createdPairsList, PxU32& numCreatedPairs, PxU32& maxNumCreatdPairs,
+ BroadPhasePair* & deletedPairsList, PxU32& numDeletedPairs, PxU32& maxNumDeletedPairs,
  PxU32&numActualDeletedPairs,
  SapPairManager& pairManager);
 
-void DeletePairsLists(const PxU32 numActualDeletedPairs, BroadPhasePairReport* deletedPairsList, SapPairManager& pairManager);
+void DeletePairsLists(const PxU32 numActualDeletedPairs, BroadPhasePair* deletedPairsList, SapPairManager& pairManager);
 
-void ComputeSortedLists
-(Cm::BitMap* PX_RESTRICT bitmap, 
- const PxU32 insertAABBStart, const PxU32 insertAABBEnd, const BpHandle* PX_RESTRICT createdAABBs,
- SapBox1D** PX_RESTRICT asapBoxes, const BpHandle* PX_RESTRICT asapBoxGroupIds, 
- BpHandle* PX_RESTRICT asapEndPointDatas, const PxU32 numSortedEndPoints, 
- const Gu::Axes& axes,
- BpHandle* PX_RESTRICT newBoxIndicesSorted, PxU32& newBoxIndicesCount, BpHandle* PX_RESTRICT oldBoxIndicesSorted, PxU32& oldBoxIndicesCount,
- bool& allNewBoxesStatics, bool& allOldBoxesStatics);
+	struct BoxX
+	{
+		PxU32	mMinX;
+		PxU32	mMaxX;
+	};
 
-void performBoxPruningNewNew
-(const Gu::Axes& axes,
- const BpHandle* PX_RESTRICT newBoxIndicesSorted, const PxU32 newBoxIndicesCount,  const bool allNewBoxesStatics,
- BpHandle* PX_RESTRICT minPosList0,
- SapBox1D** PX_RESTRICT asapBoxes, const BpHandle* PX_RESTRICT asapBoxGroupIds, 
- PxcScratchAllocator* scratchAllocator,
- SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity);
+	struct BoxYZ
+	{
+		PxU32	mMinY;
+		PxU32	mMinZ;
+		PxU32	mMaxY;
+		PxU32	mMaxZ;
+	};
 
-void performBoxPruningNewOld
-(const Gu::Axes& axes,
- const BpHandle* PX_RESTRICT newBoxIndicesSorted, const PxU32 newBoxIndicesCount, const BpHandle* PX_RESTRICT oldBoxIndicesSorted, const PxU32 oldBoxIndicesCount,
- BpHandle* PX_RESTRICT minPosListNew,  BpHandle* PX_RESTRICT minPosListOld,
- SapBox1D** PX_RESTRICT asapBoxes, const BpHandle* PX_RESTRICT asapBoxGroupIds,
- PxcScratchAllocator* scratchAllocator,
- SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity);
+	struct AuxData
+	{
+		AuxData(PxU32 nb, const SapBox1D*const* PX_RESTRICT boxes, const BpHandle* PX_RESTRICT indicesSorted, const BpHandle* PX_RESTRICT groupIds);
+		~AuxData();
 
-PX_FORCE_INLINE bool Intersect2D(SapBox1D** PX_RESTRICT c, SapBox1D** PX_RESTRICT b, const PxU32 axis1, const PxU32 axis2)
-{
-	return (b[axis1]->mMinMax[1] >= c[axis1]->mMinMax[0] && c[axis1]->mMinMax[1] >= b[axis1]->mMinMax[0] &&
-		    b[axis2]->mMinMax[1] >= c[axis2]->mMinMax[0] && c[axis2]->mMinMax[1] >= b[axis2]->mMinMax[0]);
-}
+		BoxX*		mBoxX;
+		BoxYZ*		mBoxYZ;
+		BpHandle*	mGroups;
+		PxU32*		mRemap;
+		PxU32		mNb;
+	};
 
-PX_FORCE_INLINE bool Intersect3D(SapBox1D** PX_RESTRICT c, SapBox1D** PX_RESTRICT b)
-{
-	return (b[0]->mMinMax[1] >= c[0]->mMinMax[0] && c[0]->mMinMax[1] >= b[0]->mMinMax[0] &&
-		    b[1]->mMinMax[1] >= c[1]->mMinMax[0] && c[1]->mMinMax[1] >= b[1]->mMinMax[0] &&
-			b[2]->mMinMax[1] >= c[2]->mMinMax[0] && c[2]->mMinMax[1] >= b[2]->mMinMax[0]);       
-}
+void performBoxPruningNewNew(	const AuxData* PX_RESTRICT auxData, PxcScratchAllocator* scratchAllocator,
+								SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity);
 
-PX_FORCE_INLINE bool Intersect1D_Min(const ValType aMin, const ValType /*aMax*/, SapBox1D* PX_RESTRICT b, const ValType* PX_RESTRICT endPointValues)
-{
-	const ValType& endPointValue=endPointValues[b->mMinMax[1]];
-	return (endPointValue >= aMin);
-}
-
-PX_FORCE_INLINE bool Intersect1D_Max(const ValType /*aMin*/, const ValType aMax, SapBox1D* PX_RESTRICT b, const ValType* PX_RESTRICT endPointValues)
-{
-	const ValType& endPointValue=endPointValues[b->mMinMax[0]];
-	return (endPointValue < aMax);
-}
-
-PX_FORCE_INLINE bool Intersect2D
-(const ValType bDir1Min, const ValType bDir1Max, const ValType bDir2Min, const ValType bDir2Max,
- const ValType cDir1Min, const ValType cDir1Max, const ValType cDir2Min, const ValType cDir2Max)
-{
-	return (bDir1Max >= cDir1Min && cDir1Max >= bDir1Min && 
-			bDir2Max >= cDir2Min && cDir2Max >= bDir2Min);        
-}
+void performBoxPruningNewOld(	const AuxData* PX_RESTRICT auxData0, const AuxData* PX_RESTRICT auxData1, PxcScratchAllocator* scratchAllocator,
+								SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity);
 
 PX_FORCE_INLINE bool Intersect2D_Handle
 (const BpHandle bDir1Min, const BpHandle bDir1Max, const BpHandle bDir2Min, const BpHandle bDir2Max,
@@ -393,15 +276,6 @@ PX_FORCE_INLINE bool Intersect2D_Handle
 {
 	return (bDir1Max > cDir1Min && cDir1Max > bDir1Min && 
 			bDir2Max > cDir2Min && cDir2Max > bDir2Min);        
-}
-
-PX_FORCE_INLINE bool Intersect3D
-(const ValType bDir1Min, const ValType bDir1Max, const ValType bDir2Min, const ValType bDir2Max, const ValType bDir3Min, const ValType bDir3Max,
- const ValType cDir1Min, const ValType cDir1Max, const ValType cDir2Min, const ValType cDir2Max, const ValType cDir3Min, const ValType cDir3Max)
-{
-	return (bDir1Max >= cDir1Min && cDir1Max >= bDir1Min && 
-			bDir2Max >= cDir2Min && cDir2Max >= bDir2Min &&
-			bDir3Max >= cDir3Min && cDir3Max >= bDir3Min);       
 }
 
 } //namespace Bp

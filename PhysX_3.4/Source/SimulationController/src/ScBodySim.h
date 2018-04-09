@@ -228,6 +228,8 @@ namespace Sc
 			return (getFlagsFast()&ktFlags) == ktFlags;
 		}
 
+		PX_FORCE_INLINE	PxU32					getNbShapes()									const	{ return this->mNumElements; }
+
 						void					createSqBounds();
 						void					destroySqBounds();
 						void					freezeTransforms(Cm::BitMapPinned* shapeChangedMap);

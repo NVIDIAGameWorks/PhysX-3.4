@@ -345,8 +345,7 @@ namespace Gu
 	{
 		PX_NOCOPY(OverlapHeightfieldTraceSegmentHelper)
 	public:
-		OverlapHeightfieldTraceSegmentHelper(const HeightFieldUtil& hfUtil)
-			: mHfUtil(hfUtil)
+		OverlapHeightfieldTraceSegmentHelper(const HeightFieldTraceUtil& hfUtil) : mHfUtil(hfUtil)
 		{
 			mHfUtil.computeLocalBounds(mLocalBounds);
 		}
@@ -357,14 +356,14 @@ namespace Gu
 		}
 
 	private:
-		const HeightFieldUtil&	mHfUtil;
-		PxBounds3				mLocalBounds;
+		const HeightFieldTraceUtil&	mHfUtil;
+		PxBounds3					mLocalBounds;
 	};
 
 } // namespace
 }
 
-static bool intersectHeightFieldBox(const HeightFieldUtil& hfUtil, const Box& boxInHfShape)
+static bool intersectHeightFieldBox(const HeightFieldTraceUtil& hfUtil, const Box& boxInHfShape)
 {
 	const HeightField& hf = hfUtil.getHeightField();
 
@@ -489,7 +488,7 @@ static Matrix34 multiplyInverseRTLeft(const Matrix34& left, const Matrix34& righ
 }
 
 static bool intersectHeightFieldConvex(
-	const HeightFieldUtil& hfUtil, const PxTransform& _hfAbsPose, const ConvexMesh& convexMesh,
+	const HeightFieldTraceUtil& hfUtil, const PxTransform& _hfAbsPose, const ConvexMesh& convexMesh,
 	const PxTransform& _convexAbsPose, const PxMeshScale& convexMeshScaling)
 {
 	const Matrix34 hfAbsPose34(_hfAbsPose);
@@ -699,7 +698,7 @@ bool Gu::checkOverlapAABB_heightFieldGeom(const PxGeometry& geom, const PxTransf
 		box.getExtents(),
 		invAbsPose.m);
 
-	HeightFieldUtil hfUtil(hfGeom);
+	HeightFieldTraceUtil hfUtil(hfGeom);
 	return intersectHeightFieldBox(hfUtil, boxInHfShape);
 }
 
@@ -747,7 +746,7 @@ bool GeomOverlapCallback_BoxHeightfield(GU_OVERLAP_FUNC_PARAMS)
 	Box box;
 	buildFrom(box, boxShape2HfShape.p, boxGeom.halfExtents, boxShape2HfShape.q);
 
-	HeightFieldUtil hfUtil(hfGeom);
+	HeightFieldTraceUtil hfUtil(hfGeom);
 	return intersectHeightFieldBox(hfUtil, box);
 }
 
@@ -763,6 +762,6 @@ bool GeomOverlapCallback_ConvexHeightfield(GU_OVERLAP_FUNC_PARAMS)
 
 	ConvexMesh* cm = static_cast<ConvexMesh*>(convexGeom.convexMesh);
 
-	HeightFieldUtil hfUtil(hfGeom);
+	HeightFieldTraceUtil hfUtil(hfGeom);
 	return intersectHeightFieldConvex(hfUtil, pose1, *cm, pose0, convexGeom.scale);
 }

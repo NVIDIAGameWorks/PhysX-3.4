@@ -112,11 +112,112 @@ void PvdDefaultFileTransport::release()
 	PX_DELETE(this);
 }
 
+
+
+
+class NullFileTransport : public physx::PxPvdTransport, public physx::shdfnd::UserAllocated
+{
+	PX_NOCOPY(NullFileTransport)
+  public:
+	NullFileTransport();
+	virtual ~NullFileTransport();
+
+	virtual bool connect();
+	virtual void disconnect();
+	virtual bool isConnected();
+
+	virtual bool write(const uint8_t* inBytes, uint32_t inLength);
+
+	virtual PxPvdTransport& lock();
+	virtual void unlock();
+
+	virtual void flush();
+
+	virtual uint64_t getWrittenDataSize();
+
+	virtual void release();
+
+  private:
+	bool mConnected;
+	uint64_t mWrittenData;
+	physx::shdfnd::Mutex mMutex;
+	bool mLocked; // for debug, remove it when finished
+};
+
+NullFileTransport::NullFileTransport() : mConnected(false), mWrittenData(0), mLocked(false)
+{
+}
+
+NullFileTransport::~NullFileTransport()
+{
+}
+
+bool NullFileTransport::connect()
+{
+	mConnected = true;
+	return true;
+}
+
+void NullFileTransport::disconnect()
+{
+	mConnected = false;
+}
+
+bool NullFileTransport::isConnected()
+{
+	return mConnected;
+}
+
+bool NullFileTransport::write(const uint8_t* /*inBytes*/, uint32_t inLength)
+{
+	PX_ASSERT(mLocked);
+	if(mConnected)
+	{
+		uint32_t len = inLength;
+		mWrittenData += len;
+		return len == inLength;
+	}
+	else
+		return false;
+}
+
+PxPvdTransport& NullFileTransport::lock()
+{
+	mMutex.lock();
+	PX_ASSERT(!mLocked);
+	mLocked = true;
+	return *this;
+}
+
+void NullFileTransport::unlock()
+{
+	PX_ASSERT(mLocked);
+	mLocked = false;
+	mMutex.unlock();
+}
+
+void NullFileTransport::flush()
+{
+}
+
+uint64_t NullFileTransport::getWrittenDataSize()
+{
+	return mWrittenData;
+}
+
+void NullFileTransport::release()
+{
+	PX_DELETE(this);
+}
+
 } // namespace pvdsdk
 
 PxPvdTransport* PxDefaultPvdFileTransportCreate(const char* name)
 {
-	return PX_NEW(pvdsdk::PvdDefaultFileTransport)(name);
+	if(name)
+		return PX_NEW(pvdsdk::PvdDefaultFileTransport)(name);
+	else
+		return PX_NEW(pvdsdk::NullFileTransport)();
 }
 
 } // namespace physx

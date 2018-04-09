@@ -496,6 +496,38 @@ The toolkit helper function PxToolkit::createConvexMeshSafe illustrates the most
 </div>
 </div>
 </div>
+<div class="section" id="deformable-meshes">
+<h2>Deformable meshes<a class="headerlink" href="#deformable-meshes" title="Permalink to this headline">¶</a></h2>
+<p>PhysX supports deformable meshes, i.e. meshes whose vertices move over time (while the topology, i.e. the triangle indices, remains fixed).</p>
+<p>Deformable meshes are only supported with the <em>PxMeshMidPhase::eBVH33</em> data structure. Because the mesh vertices are going to be updated, the mapping between the user-defined vertices and PhysX' internal vertices must also be preserved. That is, PhysX should not reorder vertices during cooking. So all cooking operations that could reorder vertices should be disabled, and it is the user's responsability to make sure that the passed vertices are correct w.r.t. disabled operations. For example the mesh cleaning phase should be disabled:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">cookingParams</span><span class="p">.</span><span class="n">midphaseDesc</span><span class="p">.</span><span class="n">setToDefault</span><span class="p">(</span><span class="n">PxMeshMidPhase</span><span class="o">::</span><span class="n">eBVH33</span><span class="p">);</span>
+    <span class="n">cookingParams</span><span class="p">.</span><span class="n">meshPreprocessParams</span>      <span class="o">=</span> <span class="n">PxMeshPreprocessingFlag</span><span class="o">::</span><span class="n">eDISABLE_CLEAN_MESH</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>It is possible to mix eBVH33 and eBVH34 meshes in the same scene, so the default cooking parameters can still be used for non-deformable / static meshes.</p>
+<p>To modify the vertices, use the <em>PxTriangleMesh::getVerticesForModification()</em> and <em>PxTriangleMesh::refitBVH()</em> functions before simulating the scene:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="c1">// get vertex array</span>
+<span class="n">PxVec3</span><span class="o">*</span> <span class="n">verts</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">-&gt;</span><span class="n">getVerticesForModification</span><span class="p">();</span>
+
+<span class="c1">// update the vertices here</span>
+<span class="p">...</span>
+
+<span class="c1">// tell PhysX to update the mesh structure</span>
+<span class="n">PxBounds3</span> <span class="n">newBounds</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">-&gt;</span><span class="n">refitBVH</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Then use <em>PxScene::resetFiltering()</em> for the corresponding mesh actor, to tell the broadphase its bounds have been modified:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">scene</span><span class="o">-&gt;</span><span class="n">resetFiltering</span><span class="p">(</span><span class="o">*</span><span class="n">actor</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>When the mesh deforms and moves away from the objects resting on it, said meshes can bounce and jitter slightly on the mesh. Using a slightly negative rest offset for the mesh shape can help reduce this effect:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxShape</span><span class="o">*</span> <span class="n">shape</span><span class="p">;</span>
+<span class="n">mesh</span><span class="o">-&gt;</span><span class="n">getShapes</span><span class="p">(</span><span class="o">&amp;</span><span class="n">shape</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">shape</span><span class="o">-&gt;</span><span class="n">setRestOffset</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5f</span><span class="p">);</span>   <span class="c1">// something negative, value depends on your game&#39;s scale</span>
+</pre></div>
+</div>
+<p>This will let objects &quot;sink&quot; a bit into the dynamic mesh. That way contacts are not immediately lost and the motion remains smooth. Please refer to the deformable mesh snippet in the SDK for more details.</p>
+</div>
 <div class="section" id="mesh-scaling">
 <h2>Mesh Scaling<a class="headerlink" href="#mesh-scaling" title="Permalink to this headline">¶</a></h2>
 <p>A shared PxTriangleMesh or PxConvexMesh may be stretched or compressed when it is instanced by a geometry. This allows multiple instancing of the same mesh with different scale factors applied.  Scaling is specified with the PxMeshScale class, which defines scale factors to be applied along 3 orthogonal axes. A factor greater than 1.0 results in stretching, while a factor less than 1.0 results in compression. The directions of the axes are governed by a quaternion, and specified in the local frame of the shape.</p>
@@ -763,6 +795,7 @@ The toolkit helper function PxToolkit::createConvexMeshSafe illustrates the most
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#deformable-meshes">Deformable meshes</a></li>
 <li><a class="reference internal" href="#mesh-scaling">Mesh Scaling</a></li>
 <li><a class="reference internal" href="#pxgeometryholder">PxGeometryHolder</a></li>
 <li><a class="reference internal" href="#vertex-and-face-data">Vertex and Face Data</a><ul>

@@ -44,6 +44,7 @@ static PropertyOverride gPropertyOverrides[] = {
 static DisabledPropertyEntry gDisabledProperties[] = {
 	DisabledPropertyEntry( "PxSceneLimits", "IsValid" ),
 	DisabledPropertyEntry( "PxSceneDesc", "TolerancesScale" ),
+	DisabledPropertyEntry( "PxSceneDesc", "IsValid" ),
 	DisabledPropertyEntry( "PxShape", "Actor" ),
 	DisabledPropertyEntry( "PxArticulationLink", "Articulation" ),
 	DisabledPropertyEntry( "PxRigidActor", "IsRigidActor" ),
@@ -68,6 +69,7 @@ static DisabledPropertyEntry gDisabledProperties[] = {
 	DisabledPropertyEntry( "PxMeshScale", "IsValidForTriangleMesh" ),
 	DisabledPropertyEntry( "PxMeshScale", "IsValidForConvexMesh" ),
 	DisabledPropertyEntry( "PxGeometry", "Type" ),
+	DisabledPropertyEntry( "PxSphereGeometry", "IsValid" ),
 	DisabledPropertyEntry( "PxBoxGeometry", "IsValid" ),
 	DisabledPropertyEntry( "PxPlaneGeometry", "IsValid" ),
 	DisabledPropertyEntry( "PxCapsuleGeometry", "IsValid" ),
@@ -95,6 +97,10 @@ static DisabledPropertyEntry gDisabledProperties[] = {
 	DisabledPropertyEntry( "PxJointAngularLimitPair", "IsValid" ),
 	DisabledPropertyEntry( "PxJointLimitCone", "IsValid" ),
 	DisabledPropertyEntry( "PxD6JointDrive", "IsValid" ),
+	// PT: added this for PVD-315. It's a mystery to me why we don't need to do that here for PxConvexMeshDesc. Maybe because the convex desc is in the cooking lib.
+	DisabledPropertyEntry( "PxHeightFieldDesc", "IsValid" ),
+//	DisabledPropertyEntry( "PxConstraint", "IsValid" ),
+//	DisabledPropertyEntry( "PxTolerancesScale", "IsValid" ),
 };
 
 //Append these properties to this type.

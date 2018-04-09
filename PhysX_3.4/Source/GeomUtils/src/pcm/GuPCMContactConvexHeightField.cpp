@@ -129,10 +129,8 @@ bool Gu::PCMContactConvexHeightfield(
 
 		const PxTransform t0to1 = transform1.transformInv(transform0);
 		
-		const Gu::HeightField& hf = *static_cast<Gu::HeightField*>(shapeHeightfield.heightField);
-		Gu::HeightFieldUtil hfUtil(shapeHeightfield, hf);
-
-		//Gu::HeightFieldUtil hfUtil(shapeHeightfield);
+		Gu::HeightFieldUtil hfUtil(shapeHeightfield);
+		const Gu::HeightField& hf = hfUtil.getHeightField();
 
 		////////////////////
 

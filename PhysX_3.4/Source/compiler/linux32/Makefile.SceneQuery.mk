@@ -3,10 +3,13 @@
 ProjectName = SceneQuery
 SceneQuery_cppfiles   += ./../../SceneQuery/src/SqAABBPruner.cpp
 SceneQuery_cppfiles   += ./../../SceneQuery/src/SqAABBTree.cpp
+SceneQuery_cppfiles   += ./../../SceneQuery/src/SqAABBTreeBuild.cpp
 SceneQuery_cppfiles   += ./../../SceneQuery/src/SqAABBTreeUpdateMap.cpp
 SceneQuery_cppfiles   += ./../../SceneQuery/src/SqBounds.cpp
 SceneQuery_cppfiles   += ./../../SceneQuery/src/SqBucketPruner.cpp
 SceneQuery_cppfiles   += ./../../SceneQuery/src/SqExtendedBucketPruner.cpp
+SceneQuery_cppfiles   += ./../../SceneQuery/src/SqIncrementalAABBPrunerCore.cpp
+SceneQuery_cppfiles   += ./../../SceneQuery/src/SqIncrementalAABBTree.cpp
 SceneQuery_cppfiles   += ./../../SceneQuery/src/SqMetaData.cpp
 SceneQuery_cppfiles   += ./../../SceneQuery/src/SqPruningPool.cpp
 SceneQuery_cppfiles   += ./../../SceneQuery/src/SqPruningStructure.cpp

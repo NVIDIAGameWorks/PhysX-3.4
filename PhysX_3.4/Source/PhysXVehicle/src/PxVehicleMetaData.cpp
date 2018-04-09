@@ -442,6 +442,7 @@ void PxVehicleConstraintShader::getBinaryMetaData(PxOutputStream& stream)
 	PX_DEF_BIN_METADATA_ITEM(stream,		VehicleConstraintData,		SuspLimitConstraintData,	mSuspLimitData,			0)
 	PX_DEF_BIN_METADATA_ITEM(stream,		VehicleConstraintData,		StickyTireConstraintData,	mStickyTireForwardData, 0)	
 	PX_DEF_BIN_METADATA_ITEM(stream,		VehicleConstraintData,		StickyTireConstraintData,	mStickyTireSideData,	0)
+	PX_DEF_BIN_METADATA_ITEM(stream,		VehicleConstraintData,		PxQuat,						mCMassRotation,			0)
 
 	//PxVehicleConstraintShader
 	PX_DEF_BIN_METADATA_VCLASS(stream,		PxVehicleConstraintShader)

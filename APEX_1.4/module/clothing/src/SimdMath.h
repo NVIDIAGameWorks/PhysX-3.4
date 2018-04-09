@@ -18,6 +18,9 @@
 
 namespace nvidia
 {
+
+using namespace clothing;
+
 	/** Normalization of the (a[0], a[1], a[2]) vector
 	*  @param a  input vector
 	*  @return normalized vector

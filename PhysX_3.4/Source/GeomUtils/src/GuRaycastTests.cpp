@@ -477,7 +477,7 @@ PxU32 raycast_heightField(GU_RAY_FUNC_PARAMS)
 	const bool isDoubleSided = hfGeom.heightFieldFlags.isSet(PxMeshGeometryFlag::eDOUBLE_SIDED);
 	const bool bothSides = isDoubleSided || (hitFlags & PxHitFlag::eMESH_BOTH_SIDES);
 
-	const HeightFieldUtil hfUtil(hfGeom);
+	const HeightFieldTraceUtil hfUtil(hfGeom);
 
 	PxVec3 normRayDir = localRayDir;
 	normRayDir.normalizeSafe(); // nothing will happen if length is < PX_NORMALIZATION_EPSILON

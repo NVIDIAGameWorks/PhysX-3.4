@@ -321,6 +321,8 @@ public:
 
 	PX_FORCE_INLINE bool isActive() const { return !!(mFlags & eACTIVE); }
 
+	PX_FORCE_INLINE bool isActiveOrActivating() const { return !!(mFlags & (eACTIVE | eACTIVATING)); }
+
 	PX_FORCE_INLINE bool isActivating() const { return !!(mFlags & eACTIVATING); }
 
 	PX_FORCE_INLINE bool isDeactivating() const { return !!(mFlags & eDEACTIVATING); }

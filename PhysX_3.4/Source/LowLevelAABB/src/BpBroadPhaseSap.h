@@ -121,9 +121,9 @@ public:
 	virtual void						fetchBroadPhaseResults(physx::PxBaseTask*) {}
 
 	virtual PxU32						getNbCreatedPairs()		const		{ return mCreatedPairsSize;		}
-	virtual BroadPhasePairReport*		getCreatedPairs()					{ return mCreatedPairsArray;	}
+	virtual BroadPhasePair*				getCreatedPairs()					{ return mCreatedPairsArray;	}
 	virtual PxU32						getNbDeletedPairs()		const		{ return mDeletedPairsSize;		}
-	virtual BroadPhasePairReport*		getDeletedPairs()					{ return mDeletedPairsArray;	}
+	virtual BroadPhasePair*				getDeletedPairs()					{ return mDeletedPairsArray;	}
 
 	virtual void						resizeBuffers();
 	virtual void						freeBuffers();
@@ -188,10 +188,10 @@ private:
 			SapPairManager				mPairs;
 
 	//Created and deleted overlap pairs reported back through api.
-			BroadPhasePairReport*		mCreatedPairsArray;
+			BroadPhasePair*				mCreatedPairsArray;
 			PxU32						mCreatedPairsSize;
 			PxU32						mCreatedPairsCapacity;
-			BroadPhasePairReport*		mDeletedPairsArray;
+			BroadPhasePair*				mDeletedPairsArray;
 			PxU32						mDeletedPairsSize;
 			PxU32						mDeletedPairsCapacity;
 			PxU32						mActualDeletedPairSize;
@@ -209,7 +209,8 @@ private:
 
 			void						batchUpdateFewUpdates(const PxU32 Axis, BroadPhasePair*& pairs, PxU32& pairsSize, PxU32& pairsCapacity);
 
-			void						performBoxPruning(const Gu::Axes axes);
+			void						ComputeSortedLists(	BpHandle* PX_RESTRICT newBoxIndicesSorted, PxU32& newBoxIndicesCount, BpHandle* PX_RESTRICT oldBoxIndicesSorted, PxU32& oldBoxIndicesCount,
+															bool& allNewBoxesStatics, bool& allOldBoxesStatics);
 
 			BroadPhaseBatchUpdateWorkTask mBatchUpdateTasks[3];
 

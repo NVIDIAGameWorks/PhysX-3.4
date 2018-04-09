@@ -38,10 +38,8 @@
 
 	class MBP;
 	
-
 namespace physx
 {
-
 namespace Bp
 {
 	class BPDefaultMemoryAllocator;
@@ -77,9 +75,9 @@ namespace Bp
 		virtual void						fetchBroadPhaseResults(physx::PxBaseTask*) {}
 
 		virtual	PxU32						getNbCreatedPairs()		const;
-		virtual BroadPhasePairReport*		getCreatedPairs();
+		virtual BroadPhasePair*				getCreatedPairs();
 		virtual PxU32						getNbDeletedPairs()		const;
-		virtual BroadPhasePairReport*		getDeletedPairs();
+		virtual BroadPhasePair*				getDeletedPairs();
 
 		virtual void						freeBuffers();
 
@@ -93,7 +91,6 @@ namespace Bp
 
 		virtual void						deletePairs(){}								//KS - TODO - implement this!!!
 
-		
 	//~BroadPhase
 
 				MBPUpdateWorkTask			mMBPUpdateWorkTask;
@@ -103,14 +100,18 @@ namespace Bp
 
 				MBP_Handle*					mMapping;
 				PxU32						mCapacity;
-				Ps::Array<BroadPhasePairReport>	mCreated;
-				Ps::Array<BroadPhasePairReport>	mDeleted;
+				Ps::Array<BroadPhasePair>	mCreated;
+				Ps::Array<BroadPhasePair>	mDeleted;
 
 				const BpHandle*				mGroups;	// ### why are those 'handles'?
 
 				void						setUpdateData(const BroadPhaseUpdateData& updateData);
-				void						update(physx::PxBaseTask* continuation);
-				void						postUpdate(physx::PxBaseTask* continuation);
+				void						addObjects(const BroadPhaseUpdateData& updateData);
+				void						removeObjects(const BroadPhaseUpdateData& updateData);
+				void						updateObjects(const BroadPhaseUpdateData& updateData);
+
+				void						update();
+				void						postUpdate();
 				void						allocateMappingArray(PxU32 newCapacity);
 	};
 

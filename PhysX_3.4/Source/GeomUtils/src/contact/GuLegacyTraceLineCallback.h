@@ -138,8 +138,7 @@ class GuContactHeightfieldTraceSegmentHelper
 {
 	PX_NOCOPY(GuContactHeightfieldTraceSegmentHelper)
 public:
-	GuContactHeightfieldTraceSegmentHelper(const HeightFieldUtil& hfUtil)
-		: mHfUtil(hfUtil)
+	GuContactHeightfieldTraceSegmentHelper(const HeightFieldTraceUtil& hfUtil) : mHfUtil(hfUtil)
 	{
 		mHfUtil.computeLocalBounds(mLocalBounds);
 	}
@@ -150,8 +149,8 @@ public:
 	}
 
 private:
-	const HeightFieldUtil&	mHfUtil;
-	PxBounds3				mLocalBounds;
+	const HeightFieldTraceUtil&	mHfUtil;
+	PxBounds3					mLocalBounds;
 };
 
 }//Gu

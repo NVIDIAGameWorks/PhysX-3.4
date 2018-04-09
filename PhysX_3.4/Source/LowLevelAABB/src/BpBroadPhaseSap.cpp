@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #include "foundation/PxProfiler.h"
 #include "foundation/PxMath.h"
 #include "CmPhysXCommon.h"
@@ -42,10 +41,8 @@
 
 namespace physx
 {
-
 namespace Bp
 {
-
 #define DEFAULT_DATA_ARRAY_CAPACITY 1024
 #define DEFAULT_CREATEDDELETED_PAIR_ARRAY_CAPACITY 64
 #define DEFAULT_CREATEDDELETED1AXIS_CAPACITY 8192
@@ -183,11 +180,11 @@ void BroadPhaseSap::resizeBuffers()
 {
 	const PxU32 defaultPairsCapacity = mDefaultPairsCapacity;
 
-	mCreatedPairsArray = reinterpret_cast<BroadPhasePairReport*>(mScratchAllocator->alloc(sizeof(BroadPhasePairReport)*defaultPairsCapacity, true));
+	mCreatedPairsArray = reinterpret_cast<BroadPhasePair*>(mScratchAllocator->alloc(sizeof(BroadPhasePair)*defaultPairsCapacity, true));
 	mCreatedPairsCapacity = defaultPairsCapacity;
 	mCreatedPairsSize = 0;
 
-	mDeletedPairsArray = reinterpret_cast<BroadPhasePairReport*>(mScratchAllocator->alloc(sizeof(BroadPhasePairReport)*defaultPairsCapacity, true));
+	mDeletedPairsArray = reinterpret_cast<BroadPhasePair*>(mScratchAllocator->alloc(sizeof(BroadPhasePair)*defaultPairsCapacity, true));
 	mDeletedPairsCapacity = defaultPairsCapacity;
 	mDeletedPairsSize = 0;
 
@@ -625,6 +622,8 @@ void BroadPhaseSap::postUpdate(PxBaseTask* /*continuation*/)
 {
 	PX_PROFILE_ZONE("BroadPhase.SapPostUpdate", mContextID);
 
+	DataArray da(mData, mDataSize, mDataCapacity);
+
 	for(PxU32 i=0;i<3;i++)
 	{
 		const PxU32 numPairs=mBatchUpdateTasks[i].getPairsSize();
@@ -635,15 +634,15 @@ void BroadPhaseSap::postUpdate(PxBaseTask* /*continuation*/)
 			const BpHandle volA=pair.mVolA;
 			const BpHandle volB=pair.mVolB;
 			if(volA > volB)
-			{
-				AddPair(volA, volB, mScratchAllocator, mPairs, mData, mDataSize, mDataCapacity);
-			}
+				addPair(volA, volB, mScratchAllocator, mPairs, da);
 			else
-			{
-				RemovePair(volA, volB, mScratchAllocator, mPairs, mData, mDataSize, mDataCapacity);
-			}
+				removePair(volA, volB, mScratchAllocator, mPairs, da);
 		}
 	}
+
+	mData = da.mData;
+	mDataSize = da.mSize;
+	mDataCapacity = da.mCapacity;
 
 	batchCreate();
 
@@ -675,10 +674,8 @@ void BroadPhaseBatchUpdateWorkTask::runInternal()
 	mSap->batchUpdate(mAxis, mPairs, mPairsSize, mPairsCapacity);
 }
 
-void BroadPhaseSap::update(PxBaseTask* continuation)
+void BroadPhaseSap::update(PxBaseTask* /*continuation*/)
 {
-	PX_UNUSED(continuation);
-
 	PX_PROFILE_ZONE("BroadPhase.SapUpdate", mContextID);
 
 	batchRemove();
@@ -693,12 +690,172 @@ void BroadPhaseSap::update(PxBaseTask* continuation)
 	mBatchUpdateTasks[2].runInternal();
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+static PX_FORCE_INLINE void InsertEndPoints(const ValType* PX_RESTRICT newEndPointValues, const BpHandle* PX_RESTRICT newEndPointDatas, PxU32 numNewEndPoints,
+											ValType* PX_RESTRICT endPointValues, BpHandle* PX_RESTRICT endPointDatas, const PxU32 numEndPoints, SapBox1D* PX_RESTRICT boxes)
+{
+	ValType* const BaseEPValue = endPointValues;
+	BpHandle* const BaseEPData = endPointDatas;
+
+	const PxU32 OldSize = numEndPoints-NUM_SENTINELS;
+	const PxU32 NewSize = numEndPoints-NUM_SENTINELS+numNewEndPoints;
+
+	BaseEPValue[NewSize + 1] = BaseEPValue[OldSize + 1];
+	BaseEPData[NewSize + 1] = BaseEPData[OldSize + 1];
+
+	PxI32 WriteIdx = PxI32(NewSize);
+	PxU32 CurrInsIdx = 0;
+
+	//const SapValType* FirstValue = &BaseEPValue[0];
+	const BpHandle* FirstData = &BaseEPData[0];
+	const ValType* CurrentValue = &BaseEPValue[OldSize];
+	const BpHandle* CurrentData = &BaseEPData[OldSize];
+	while(CurrentData>=FirstData)
+	{
+		const ValType& SrcValue = *CurrentValue;
+		const BpHandle& SrcData = *CurrentData;
+		const ValType& InsValue = newEndPointValues[CurrInsIdx];
+		const BpHandle& InsData = newEndPointDatas[CurrInsIdx];
+
+		// We need to make sure we insert maxs before mins to handle exactly equal endpoints correctly
+		const bool ShouldInsert = isMax(InsData) ? (SrcValue <= InsValue) : (SrcValue < InsValue);
+
+		const ValType& MovedValue = ShouldInsert ? InsValue : SrcValue;
+		const BpHandle& MovedData = ShouldInsert ? InsData : SrcData;
+		BaseEPValue[WriteIdx] = MovedValue;
+		BaseEPData[WriteIdx] = MovedData;
+		boxes[getOwner(MovedData)].mMinMax[isMax(MovedData)] = BpHandle(WriteIdx--);
+
+		if(ShouldInsert)
+		{
+			CurrInsIdx++;
+			if(CurrInsIdx >= numNewEndPoints)
+				break;//we just inserted the last endpoint
+		}
+		else
+		{
+			CurrentValue--;
+			CurrentData--;
+		}
+	}
+}
+
+static PX_FORCE_INLINE bool Intersect3D(const ValType bDir1Min, const ValType bDir1Max, const ValType bDir2Min, const ValType bDir2Max, const ValType bDir3Min, const ValType bDir3Max,
+										const ValType cDir1Min, const ValType cDir1Max, const ValType cDir2Min, const ValType cDir2Max, const ValType cDir3Min, const ValType cDir3Max)
+{
+	return (bDir1Max >= cDir1Min && cDir1Max >= bDir1Min && 
+			bDir2Max >= cDir2Min && cDir2Max >= bDir2Min &&
+			bDir3Max >= cDir3Min && cDir3Max >= bDir3Min);       
+}
+
+PX_COMPILE_TIME_ASSERT(FilterGroup::eSTATICS==0);
+void BroadPhaseSap::ComputeSortedLists(	BpHandle* PX_RESTRICT newBoxIndicesSorted, PxU32& newBoxIndicesCount, BpHandle* PX_RESTRICT oldBoxIndicesSorted, PxU32& oldBoxIndicesCount,
+										bool& allNewBoxesStatics, bool& allOldBoxesStatics)
+{
+	//To help us gather the two lists of sorted boxes we are going to use a bitmap and our knowledge of the indices of the new boxes
+	const PxU32 bitmapWordCount = ((mBoxesCapacity*2 + 31) & ~31)/32;
+	Cm::TmpMem<PxU32, 8> bitMapMem(bitmapWordCount);
+	PxU32* bitMapWords = bitMapMem.getBase();
+	PxMemSet(bitMapWords, 0, sizeof(PxU32)*bitmapWordCount);
+	Cm::BitMap bitmap;
+	bitmap.setWords(bitMapWords, bitmapWordCount);
+
+	const PxU32 axis0 = 0;
+	const PxU32 axis1 = 2;
+	const PxU32 axis2 = 1;
+
+	const PxU32 insertAABBStart = 0;
+	const PxU32 insertAABBEnd = mCreatedSize;
+	const BpHandle* PX_RESTRICT createdAABBs = mCreated;
+	SapBox1D** PX_RESTRICT asapBoxes = mBoxEndPts;
+	const BpHandle* PX_RESTRICT asapBoxGroupIds = mBoxGroups;
+	BpHandle* PX_RESTRICT asapEndPointDatas = mEndPointDatas[axis0];
+	const PxU32 numSortedEndPoints = mBoxesSize*2 + NUM_SENTINELS;
+
+	//Set the bitmap for new box ids and compute the aabb (of the sorted handles/indices and not of the values) that bounds all new boxes.
+	
+	PxU32 globalAABBMinX = PX_MAX_U32;
+	PxU32 globalAABBMinY = PX_MAX_U32;
+	PxU32 globalAABBMinZ = PX_MAX_U32;
+	PxU32 globalAABBMaxX = 0;
+	PxU32 globalAABBMaxY = 0;
+	PxU32 globalAABBMaxZ = 0;
+	
+	// PT: TODO: compute the global bounds from the initial data, more cache/SIMD-friendly
+	// => maybe doesn't work, we're dealing with indices here not actual float values IIRC
+	for(PxU32 i=insertAABBStart;i<insertAABBEnd;i++)
+	{
+		const PxU32 boxId = createdAABBs[i];
+		bitmap.set(boxId);
+
+		globalAABBMinX = PxMin(globalAABBMinX, PxU32(asapBoxes[axis0][boxId].mMinMax[0]));
+		globalAABBMaxX = PxMax(globalAABBMaxX, PxU32(asapBoxes[axis0][boxId].mMinMax[1]));
+		globalAABBMinY = PxMin(globalAABBMinY, PxU32(asapBoxes[axis1][boxId].mMinMax[0]));
+		globalAABBMaxY = PxMax(globalAABBMaxY, PxU32(asapBoxes[axis1][boxId].mMinMax[1]));
+		globalAABBMinZ = PxMin(globalAABBMinZ, PxU32(asapBoxes[axis2][boxId].mMinMax[0]));
+		globalAABBMaxZ = PxMax(globalAABBMaxZ, PxU32(asapBoxes[axis2][boxId].mMinMax[1]));
+	}
+
+	PxU32 oldStaticCount=0;
+	PxU32 newStaticCount=0;
+
+	//Assign the sorted end pts to the appropriate arrays.
+	// PT: TODO: we could just do this loop before inserting the new endpts, i.e. no need for a bitmap etc
+	// => but we need to insert the pts first to have valid mMinMax data in the above loop.
+	// => but why do we iterate over endpoints and then skip the mins? Why not iterate directly over boxes?  ====> probably to get sorted results
+	// => we could then just use the regular bounds data etc
+	for(PxU32 i=1;i<numSortedEndPoints-1;i++)
+	{
+		//Make sure we haven't encountered a sentinel - 
+		//they should only be at each end of the array.
+		PX_ASSERT(!isSentinel(asapEndPointDatas[i]));
+		PX_ASSERT(!isSentinel(asapEndPointDatas[i]));
+		PX_ASSERT(!isSentinel(asapEndPointDatas[i]));
+
+		if(!isMax(asapEndPointDatas[i]))
+		{
+			const BpHandle boxId = BpHandle(getOwner(asapEndPointDatas[i]));
+			if(!bitmap.test(boxId))
+			{
+				if(Intersect3D(
+					globalAABBMinX, globalAABBMaxX, globalAABBMinY, globalAABBMaxY, globalAABBMinZ, globalAABBMaxZ,
+					asapBoxes[axis0][boxId].mMinMax[0],
+					asapBoxes[axis0][boxId].mMinMax[1],
+					asapBoxes[axis1][boxId].mMinMax[0],
+					asapBoxes[axis1][boxId].mMinMax[1],
+					asapBoxes[axis2][boxId].mMinMax[0],
+					asapBoxes[axis2][boxId].mMinMax[1]))
+				{
+					oldBoxIndicesSorted[oldBoxIndicesCount++] = boxId;
+					oldStaticCount += asapBoxGroupIds[boxId];	// (*)
+				}
+			}
+			else 
+			{
+				newBoxIndicesSorted[newBoxIndicesCount++] = boxId;
+				newStaticCount += asapBoxGroupIds[boxId];	// (*)
+			}
+			// (*) PT: warning, this will break if we put kinematics in the same group as statics to disable collisions!
+		}
+	}
+
+	allOldBoxesStatics = oldStaticCount ? false : true;
+	allNewBoxesStatics = newStaticCount ? false : true;
+
+	//Make sure that we've found the correct number of boxes.
+	PX_ASSERT(newBoxIndicesCount==(insertAABBEnd-insertAABBStart));
+	PX_ASSERT(oldBoxIndicesCount<=((numSortedEndPoints-NUM_SENTINELS)/2));
+}
+
 void BroadPhaseSap::batchCreate()
 {
-	if(!mCreatedSize)	return;	// Early-exit if no object has been created
+	if(!mCreatedSize)
+		return;	// Early-exit if no object has been created
 
+	{
 	//Number of newly-created boxes (still to be sorted) and number of old boxes (already sorted).
-	const PxU32 numNewBoxes=mCreatedSize;
+	const PxU32 numNewBoxes = mCreatedSize;
 	//const PxU32 numOldBoxes = mBoxesSize - mCreatedSize;
 
 	//Array of newly-created box indices.
@@ -712,13 +869,10 @@ void BroadPhaseSap::batchCreate()
 		const PxU32 numEndPoints = numNewBoxes*2;
 
 		Cm::TmpMem<ValType, 32> nepsv(numEndPoints), bv(numEndPoints);
-		Cm::TmpMem<BpHandle, 32> nepsd(numEndPoints), bd(numEndPoints);
-
 		ValType* newEPSortedValues = nepsv.getBase();
-		BpHandle* newEPSortedDatas = nepsd.getBase();
 		ValType* bufferValues = bv.getBase();
-		BpHandle* bufferDatas = bd.getBase();
 
+		// PT: TODO: use the scratch allocator
 		Cm::RadixSortBuffered RS;
 
 		for(PxU32 Axis=0;Axis<3;Axis++)
@@ -729,32 +883,28 @@ void BroadPhaseSap::batchCreate()
 				PX_ASSERT(mBoxEndPts[Axis][boxIndex].mMinMax[0]==BP_INVALID_BP_HANDLE || mBoxEndPts[Axis][boxIndex].mMinMax[0]==PX_REMOVED_BP_HANDLE);
 				PX_ASSERT(mBoxEndPts[Axis][boxIndex].mMinMax[1]==BP_INVALID_BP_HANDLE || mBoxEndPts[Axis][boxIndex].mMinMax[1]==PX_REMOVED_BP_HANDLE);
 
-				//				const ValType minValue = minMax[boxIndex].getMin(Axis);
-				//				const ValType maxValue = minMax[boxIndex].getMax(Axis);
-
-				const ValType minValue = encodeMin(minMax[boxIndex], Axis, mContactDistance[boxIndex]);
-				const ValType maxValue = encodeMax(minMax[boxIndex], Axis, mContactDistance[boxIndex]);
-
-				newEPSortedValues[i*2+0]=minValue;
-				setData(newEPSortedDatas[i*2+0],boxIndex, false);
-				newEPSortedValues[i*2+1]=maxValue;
-				setData(newEPSortedDatas[i*2+1], boxIndex, true);
+//				const ValType minValue = minMax[boxIndex].getMin(Axis);
+//				const ValType maxValue = minMax[boxIndex].getMax(Axis);
+				const PxReal contactDistance = mContactDistance[boxIndex];
+				newEPSortedValues[i*2+0] = encodeMin(minMax[boxIndex], Axis, contactDistance);
+				newEPSortedValues[i*2+1] = encodeMax(minMax[boxIndex], Axis, contactDistance);
 			}
 
 			// Sort endpoints backwards
+			BpHandle* bufferDatas;
 			{
-				PxU32* keys = reinterpret_cast<PxU32*>(bufferValues);
+				RS.invalidateRanks();	// PT: there's no coherence between axes
+				const PxU32* Sorted = RS.Sort(newEPSortedValues, numEndPoints, Cm::RADIX_UNSIGNED).GetRanks();
+				bufferDatas = RS.GetRecyclable();
+
+				// PT: TODO: with two passes here we could reuse the "newEPSortedValues" buffer and drop "bufferValues"
 				for(PxU32 i=0;i<numEndPoints;i++)
 				{
-					keys[i] = newEPSortedValues[i];
-				}
-
-				const PxU32* Sorted = RS.Sort(keys, numEndPoints, Cm::RADIX_UNSIGNED).GetRanks();
-
-				for(PxU32 i=0;i<numEndPoints;i++)
-				{
-					bufferValues[i] = newEPSortedValues[Sorted[numEndPoints-1-i]];
-					bufferDatas[i] = newEPSortedDatas[Sorted[numEndPoints-1-i]];
+					const PxU32 sortedIndex = Sorted[numEndPoints-1-i];
+					bufferValues[i] = newEPSortedValues[sortedIndex];
+					// PT: compute buffer data on-the-fly, store in recyclable buffer
+					const PxU32 boxIndex = PxU32(created[sortedIndex>>1]);
+					bufferDatas[i] = setData(boxIndex, (sortedIndex&1)!=0);
 				}
 			}
 
@@ -783,18 +933,14 @@ void BroadPhaseSap::batchCreate()
 		}
 	}
 #endif
+	}
 
-	//Axes used to compute overlaps involving newly-created boxes.
-	const Gu::Axes axes(Gu::AXES_XYZ);
-	performBoxPruning(axes);
-}
-
-void BroadPhaseSap::performBoxPruning(const Gu::Axes axes)
-{
-	const PxU32 axis0=axes.mAxis0;
+	// Perform box-pruning
+	{
+	// PT: TODO: use the scratch allocator in Cm::TmpMem
 
 	//Number of newly-created boxes (still to be sorted) and number of old boxes (already sorted).
-	const PxU32 numNewBoxes=mCreatedSize;
+	const PxU32 numNewBoxes = mCreatedSize;
 	const PxU32 numOldBoxes = mBoxesSize - mCreatedSize;
 
 	//Gather two list of sorted boxes along the preferred axis direction: 
@@ -803,57 +949,39 @@ void BroadPhaseSap::performBoxPruning(const Gu::Axes axes)
 	//all new boxes.
 	Cm::TmpMem<BpHandle, 8> oldBoxesIndicesSortedMem(numOldBoxes);
 	Cm::TmpMem<BpHandle, 8> newBoxesIndicesSortedMem(numNewBoxes);
-	BpHandle* oldBoxesIndicesSorted=oldBoxesIndicesSortedMem.getBase();
-	BpHandle* newBoxesIndicesSorted=newBoxesIndicesSortedMem.getBase();
-	PxU32 oldBoxCount=0;
-	PxU32 newBoxCount=0;
+	BpHandle* oldBoxesIndicesSorted = oldBoxesIndicesSortedMem.getBase();
+	BpHandle* newBoxesIndicesSorted = newBoxesIndicesSortedMem.getBase();
+	PxU32 oldBoxCount = 0;
+	PxU32 newBoxCount = 0;
 
-	//To help us gather the two lists of sorted boxes we are going to use 
-	//a bitmap and our knowledge of the indices of the new boxes
-	const PxU32 bitmapWordCount = ((mBoxesCapacity*2 + 31) & ~31)/32;
-	Cm::TmpMem<PxU32, 8> bitMapMem(bitmapWordCount);
-	PxU32* bitMapWords=bitMapMem.getBase();
-	PxMemSet(bitMapWords, 0, sizeof(PxU32)*bitmapWordCount);
-	Cm::BitMap bitmap;
-	bitmap.setWords(bitMapWords, bitmapWordCount);
-
+	bool allNewBoxesStatics = false;
+	bool allOldBoxesStatics = false;
+	// PT: TODO: separate static/dynamic to speed things up, compute "minPosList" etc at the same time
+	// PT: TODO: isn't "newBoxesIndicesSorted" the same as what we already computed in batchCreate() ?
 	//Ready to gather the two lists now.
-	bool allNewBoxesStatics=false;
-	bool allOldBoxesStatics=false;
-	ComputeSortedLists
-		(&bitmap,
-		 0, mCreatedSize, mCreated,
-		 mBoxEndPts, mBoxGroups, 
-		 mEndPointDatas[axis0], mBoxesSize*2 + NUM_SENTINELS,
-		 axes,
-		 newBoxesIndicesSorted, newBoxCount, oldBoxesIndicesSorted, oldBoxCount, allNewBoxesStatics, allOldBoxesStatics);
-
+	ComputeSortedLists(/*globalMin, globalMax,*/ newBoxesIndicesSorted, newBoxCount, oldBoxesIndicesSorted, oldBoxCount, allNewBoxesStatics, allOldBoxesStatics);
 
 	//Intersect new boxes with new boxes and new boxes with existing boxes.
 	if(!allNewBoxesStatics || !allOldBoxesStatics)
 	{
-		Cm::TmpMem<BpHandle, 8> minPosListNewMem(numNewBoxes+1);
-		BpHandle* minPosListNew=minPosListNewMem.getBase();
-		performBoxPruningNewNew
-			(axes,
-			 newBoxesIndicesSorted, newBoxCount, allNewBoxesStatics,
-			 minPosListNew, mBoxEndPts, mBoxGroups,
-			 mScratchAllocator,
-			 mPairs, mData, mDataSize, mDataCapacity);
+		const AuxData data0(newBoxCount, mBoxEndPts, newBoxesIndicesSorted, mBoxGroups);
+
+		if(!allNewBoxesStatics)
+		{
+			performBoxPruningNewNew(&data0, mScratchAllocator, mPairs, mData, mDataSize, mDataCapacity);
+		}
 
 		// the old boxes are not the first ones in the array
 		if(numOldBoxes)
 		{
-			Cm::TmpMem<BpHandle, 8> minPosListOldMem(numOldBoxes);
-			BpHandle* minPosListOld=minPosListOldMem.getBase();
-			performBoxPruningNewOld
-				(axes,
-				 newBoxesIndicesSorted, newBoxCount, oldBoxesIndicesSorted, oldBoxCount,
-				 minPosListNew, minPosListOld,
-				 mBoxEndPts, mBoxGroups,
-				 mScratchAllocator, 
-				 mPairs, mData, mDataSize, mDataCapacity);
+			if(oldBoxCount)
+			{
+				const AuxData data1(oldBoxCount, mBoxEndPts, oldBoxesIndicesSorted, mBoxGroups);
+
+				performBoxPruningNewOld(&data0, &data1, mScratchAllocator, mPairs, mData, mDataSize, mDataCapacity);
+			}
 		}
+	}
 	}
 }
 
@@ -955,18 +1083,6 @@ void BroadPhaseSap::batchRemove()
 	mBoxesSize=currBoxesSize;
 	mBoxesSize-=mRemovedSize;
 	mBoxesSizePrev=mBoxesSize-mCreatedSize;
-}
-
-PX_FORCE_INLINE bool intersect2D(	const SapBox1D*const* PX_RESTRICT c,
-									const SapBox1D*const* PX_RESTRICT boxEndPts,
-									PxU32 ownerId,
-									const PxU32 axis1, const PxU32 axis2)
-{
-	const SapBox1D* PX_RESTRICT b1 = boxEndPts[axis1] + ownerId;
-	const SapBox1D* PX_RESTRICT b2 = boxEndPts[axis2] + ownerId;
-
-	return (b1->mMinMax[1] >= c[axis1]->mMinMax[0] && c[axis1]->mMinMax[1] >= b1->mMinMax[0] &&
-			b2->mMinMax[1] >= c[axis2]->mMinMax[0] && c[axis2]->mMinMax[1] >= b2->mMinMax[0]);
 }
 
 static BroadPhasePair* resizeBroadPhasePairArray(const PxU32 oldMaxNb, const PxU32 newMaxNb, PxcScratchAllocator* scratchAllocator, BroadPhasePair* elements)
@@ -1773,306 +1889,6 @@ bool BroadPhaseSap::isSelfConsistent() const
 	return true;
 }
 #endif
-
-
-
-/*
-
-PX_FORCE_INLINE bool intersect1D_Max(	const SAP_AABB& a,
-									 const SapBox1D*const* PX_RESTRICT boxEndPts,
-									 PxU32 ownerId,
-									 const BPValType* const endPointValues, PxU32 axis)
-{
-	const SapBox1D* PX_RESTRICT b = boxEndPts[axis] + ownerId;
-
-	const BPValType& endPointValue = endPointValues[b->mMinMax[0]];
-	return (endPointValue < a.GetMax(axis));
-}
-
-PX_FORCE_INLINE bool intersect1D_Min(	const SAP_AABB& a,
-									 const SapBox1D*const* PX_RESTRICT boxEndPts,
-									 PxU32 ownerId,
-									 const BPValType* PX_RESTRICT endPointValues,
-									 PxU32 axis)
-{
-	const SapBox1D* PX_RESTRICT b = boxEndPts[axis] + ownerId;
-
-	const BPValType& endPointValue = endPointValues[b->mMinMax[1]];
-	return (endPointValue >= a.GetMin(axis));
-}
-
-void PxsBroadPhaseContextSap::batchUpdate()
-{
-	for(PxU32 i=0;i<mUpdatedSize;i++)
-	{
-		const PxU32 handle = mUpdated[i];
-		PX_ASSERT(handle!=BP_INVALID_BP_HANDLE);
-		PX_ASSERT(mBoxEndPts[0][handle].mMinMax[0]!=BP_INVALID_BP_HANDLE);
-
-		SapBox1D* Object[3] = {&mBoxEndPts[0][handle], &mBoxEndPts[1][handle], &mBoxEndPts[2][handle]};
-
-		PX_ASSERT(mBoxEndPts[0][handle].mMinMax[0]!=BP_INVALID_BP_HANDLE);
-		PX_ASSERT(mBoxEndPts[0][handle].mMinMax[1]!=BP_INVALID_BP_HANDLE);
-		PX_ASSERT(mBoxEndPts[1][handle].mMinMax[0]!=BP_INVALID_BP_HANDLE);
-		PX_ASSERT(mBoxEndPts[1][handle].mMinMax[1]!=BP_INVALID_BP_HANDLE);
-		PX_ASSERT(mBoxEndPts[2][handle].mMinMax[0]!=BP_INVALID_BP_HANDLE);
-		PX_ASSERT(mBoxEndPts[2][handle].mMinMax[1]!=BP_INVALID_BP_HANDLE);
-
-		IntegerAABB box;
-		box.mMinX = mBoxBoundsMinMaxX[2*handle+0];
-		box.mMaxX = mBoxBoundsMinMaxX[2*handle+1];
-		box.mMinY = mBoxBoundsMinMaxY[2*handle+0];
-		box.mMaxY = mBoxBoundsMinMaxY[2*handle+1];
-		box.mMinZ = mBoxBoundsMinMaxZ[2*handle+0];
-		box.mMaxZ = mBoxBoundsMinMaxZ[2*handle+1];
-
-		//	PxU32 Axis=0;
-		for(PxU32 Axis=0;Axis<3;Axis++)
-		{
-			const SapBox1D* Object_Axis = &mBoxEndPts[Axis][handle];
-
-			const PxU32 Axis1 = (1  << Axis) & 3;
-			const PxU32 Axis2 = (1  << Axis1) & 3;
-
-			BPValType* const BaseEPValue = mEndPointValues[Axis];
-			PxBpHandle* const BaseEPData = mEndPointDatas[Axis];
-
-			// Update min
-			{
-				const PxBpHandle MinMaxIndex = Object_Axis->mMinMax[0];
-				BPValType* CurrentMinValue = BaseEPValue + MinMaxIndex;
-				PxBpHandle* CurrentMinData = BaseEPData + MinMaxIndex;
-				PX_ASSERT(!isMax(*CurrentMinData));
-
-				const BPValType Limit = box.GetMin(Axis);
-				if(Limit < *CurrentMinValue)
-				{
-					*CurrentMinValue = Limit;
-
-					// Min is moving left:
-					BPValType SavedValue = *CurrentMinValue;
-					PxBpHandle SavedData = *CurrentMinData;
-					PxU32 EPIndex = PxU32(size_t(CurrentMinData) - size_t(BaseEPData))/sizeof(PxBpHandle);
-					const PxU32 SavedIndex = EPIndex;
-
-					CurrentMinData--;
-					CurrentMinValue--;
-					while(*CurrentMinValue > Limit)
-					{
-#if BP_SAP_USE_PREFETCH
-						Ps::prefetchLine(CurrentMinValue-1);
-						Ps::prefetchLine(CurrentMinData-1);
-#endif
-						const PxU32 ownerId = getOwner(*CurrentMinData);
-						SapBox1D* id1box = mBoxEndPts[Axis] + ownerId;
-
-						const PxU32 IsMax = isMax(*CurrentMinData);
-						if(IsMax)
-						{
-							// Our min passed a max => start overlap
-							if(
-#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-								(mBoxGroups[handle]!=mBoxGroups[ownerId]) && 
-#endif								
-								intersect2D(Object, mBoxEndPts, ownerId, Axis1, Axis2) &&
-								intersect1D_Max(box, mBoxEndPts, ownerId, BaseEPValue, Axis) &&
-								Object_Axis != id1box)
-							{
-								AddPair(handle, getOwner(*CurrentMinData), mPairs, mData, mDataSize, mDataCapacity);
-							}
-						}
-
-						id1box->mMinMax[IsMax] = EPIndex--;
-						*(CurrentMinValue+1) = *CurrentMinValue;
-						*(CurrentMinData+1) = *CurrentMinData;
-
-						CurrentMinValue--;
-						CurrentMinData--;
-					}
-
-					if(SavedIndex!=EPIndex)
-					{
-						mBoxEndPts[Axis][getOwner(SavedData)].mMinMax[isMax(SavedData)] = EPIndex;
-						BaseEPValue[EPIndex] = SavedValue;
-						BaseEPData[EPIndex] = SavedData;
-					}
-				}
-				else if(Limit > *CurrentMinValue)
-				{
-					*CurrentMinValue = Limit;
-
-					// Min is moving right:
-					BPValType SavedValue = *CurrentMinValue;
-					PxBpHandle SavedData = *CurrentMinData;
-
-					PxU32 EPIndex = PxU32(size_t(CurrentMinData) - size_t(BaseEPData))/sizeof(PxBpHandle);
-					const PxU32 SavedIndex = EPIndex;
-
-					CurrentMinValue++;
-					CurrentMinData++;
-					while(Limit > (*CurrentMinValue))
-					{
-#if BP_SAP_USE_PREFETCH
-						Ps::prefetchLine(CurrentMinValue+1);
-						Ps::prefetchLine(CurrentMinData+1);
-#endif
-						const PxU32 ownerId = getOwner(*CurrentMinData);
-						SapBox1D* id1box = mBoxEndPts[Axis] + ownerId;
-
-						const PxU32 IsMax = isMax(*CurrentMinData);
-						if(IsMax)
-						{
-							// Our min passed a max => stop overlap
-							if(
-#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-								(mBoxGroups[handle]!=mBoxGroups[ownerId]) && 
-#endif								
-#if BP_SAP_USE_OVERLAP_TEST_ON_REMOVES
-								intersect2D(Object, mBoxEndPts, ownerId, Axis1, Axis2) &&
-#endif
-								Object_Axis != id1box)
-							{
-								RemovePair(handle, getOwner(*CurrentMinData), mPairs, mData, mDataSize, mDataCapacity);
-							}
-						}
-
-						id1box->mMinMax[IsMax] = EPIndex++;
-						*(CurrentMinValue-1) = *CurrentMinValue;
-						*(CurrentMinData-1) = *CurrentMinData;
-
-						CurrentMinValue++;
-						CurrentMinData++;
-					}
-
-					if(SavedIndex!=EPIndex)
-					{
-						mBoxEndPts[Axis][getOwner(SavedData)].mMinMax[isMax(SavedData)] = EPIndex;
-						BaseEPValue[EPIndex] = SavedValue;
-						BaseEPData[EPIndex] = SavedData;
-					}
-				}
-			}
-
-			// Update max
-			{
-				const PxBpHandle MinMaxIndex = Object_Axis->mMinMax[1];
-				BPValType* CurrentMaxValue = BaseEPValue + MinMaxIndex;
-				PxBpHandle* CurrentMaxData = BaseEPData + MinMaxIndex;
-				PX_ASSERT(isMax(*CurrentMaxData));
-
-				const BPValType Limit = box.GetMax(Axis);
-				if(Limit > *CurrentMaxValue)
-				{
-					*CurrentMaxValue = Limit;
-
-					// Max is moving right:
-					BPValType SavedValue = *CurrentMaxValue;
-					PxBpHandle SavedData = *CurrentMaxData;
-
-					PxU32 EPIndex = PxU32(size_t(CurrentMaxData) - size_t(BaseEPData))/sizeof(PxBpHandle);
-					const PxU32 SavedIndex = EPIndex;
-
-					CurrentMaxValue++;
-					CurrentMaxData++;
-					while((*CurrentMaxValue) < Limit)
-					{
-#if BP_SAP_USE_PREFETCH
-						Ps::prefetchLine(CurrentMaxValue+1);
-						Ps::prefetchLine(CurrentMaxData+1);
-#endif
-						const PxU32 ownerId = getOwner(*CurrentMaxData);
-						SapBox1D* id1box = mBoxEndPts[Axis] + ownerId;
-
-						const PxU32 IsMax = isMax(*CurrentMaxData);
-						if(!IsMax)
-						{
-							// Our max passed a min => start overlap
-							if(
-#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-								(mBoxGroups[handle]!=mBoxGroups[ownerId]) && 
-#endif								
-								intersect2D(Object, mBoxEndPts, ownerId, Axis1, Axis2) &&
-								intersect1D_Min(box, mBoxEndPts, ownerId, BaseEPValue, Axis) &&
-								Object_Axis != id1box)
-							{
-								AddPair(handle, getOwner(*CurrentMaxData), mPairs, mData, mDataSize, mDataCapacity);
-							}
-						}
-
-						id1box->mMinMax[IsMax] = EPIndex++;
-						*(CurrentMaxValue-1) = *CurrentMaxValue;
-						*(CurrentMaxData-1) = *CurrentMaxData;
-
-						CurrentMaxValue++;
-						CurrentMaxData++;
-					}
-
-					if(SavedIndex!=EPIndex)
-					{
-						mBoxEndPts[Axis][getOwner(SavedData)].mMinMax[isMax(SavedData)] = EPIndex;
-						BaseEPValue[EPIndex] = SavedValue;
-						BaseEPData[EPIndex] = SavedData;
-					}
-				}
-				else if(Limit < *CurrentMaxValue)
-				{
-					*CurrentMaxValue = Limit;
-
-					// Max is moving left:
-					BPValType SavedValue = *CurrentMaxValue;
-					PxBpHandle SavedData = *CurrentMaxData;
-
-					PxU32 EPIndex = PxU32(size_t(CurrentMaxData) - size_t(BaseEPData))/sizeof(PxBpHandle);
-					const PxU32 SavedIndex = EPIndex;
-
-					CurrentMaxData--;
-					CurrentMaxValue--;
-					while(Limit < (*CurrentMaxValue))
-					{
-#if BP_SAP_USE_PREFETCH
-						Ps::prefetchLine(CurrentMaxValue-1);
-						Ps::prefetchLine(CurrentMaxData-1);
-#endif
-						const PxU32 ownerId = getOwner(*CurrentMaxData);
-						SapBox1D* id1box = mBoxEndPts[Axis] + ownerId;
-
-						const PxU32 IsMax = isMax(*CurrentMaxData);
-						if(!IsMax)
-						{
-							// Our max passed a min => stop overlap
-							if(
-#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-								(mBoxGroups[handle]!=mBoxGroups[ownerId]) && 
-#endif								
-#if BP_SAP_USE_OVERLAP_TEST_ON_REMOVES
-								intersect2D(Object, mBoxEndPts, ownerId, Axis1, Axis2) &&
-#endif
-								Object_Axis != id1box)
-							{
-								RemovePair(handle, getOwner(*CurrentMaxData), mPairs, mData, mDataSize, mDataCapacity);
-							}
-						}
-
-						id1box->mMinMax[IsMax] = EPIndex--;
-						*(CurrentMaxValue+1) = *CurrentMaxValue;
-						*(CurrentMaxData+1) = *CurrentMaxData;
-
-						CurrentMaxData--;
-						CurrentMaxValue--;
-					}
-
-					if(SavedIndex!=EPIndex)
-					{
-						mBoxEndPts[Axis][getOwner(SavedData)].mMinMax[isMax(SavedData)] = EPIndex;
-						BaseEPValue[EPIndex] = SavedValue;
-						BaseEPData[EPIndex] = SavedData;
-					}
-				}
-			}
-		}
-	}
-}
-*/
 
 } //namespace Bp
 

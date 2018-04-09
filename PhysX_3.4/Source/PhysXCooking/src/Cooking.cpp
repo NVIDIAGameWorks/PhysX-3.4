@@ -127,8 +127,6 @@ bool Cooking::cookTriangleMesh(TriangleMeshBuilder& builder, const PxTriangleMes
 		*condition = PxTriangleMeshCookingResult::eSUCCESS;
 	if(!builder.loadFromDesc(desc, condition, false))
 	{
-		if (condition)
-			*condition = PxTriangleMeshCookingResult::eFAILURE;
 		return false;
 	}
 
@@ -150,13 +148,17 @@ bool Cooking::cookTriangleMesh(const PxTriangleMeshDesc& desc, PxOutputStream& s
 	}
 }
 
-PxTriangleMesh* Cooking::createTriangleMesh(TriangleMeshBuilder& builder, const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback) const
+PxTriangleMesh* Cooking::createTriangleMesh(TriangleMeshBuilder& builder, const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback, PxTriangleMeshCookingResult::Enum* condition) const
 {	
 	// cooking code does lots of float bitwise reinterpretation that generates exceptions
 	PX_FPU_GUARD;
 
-	if(!builder.loadFromDesc(desc, NULL, false))
+	if (condition)
+		*condition = PxTriangleMeshCookingResult::eSUCCESS;
+	if(!builder.loadFromDesc(desc, condition, false))
+	{
 		return NULL;	
+	}
 
 	// check if the indices can be moved from 32bits to 16bits
 	if(!(mParams.meshPreprocessParams & PxMeshPreprocessingFlag::eFORCE_32BIT_INDICES))
@@ -171,17 +173,17 @@ PxTriangleMesh* Cooking::createTriangleMesh(TriangleMeshBuilder& builder, const 
 	return static_cast<PxTriangleMesh*>(insertionCallback.buildObjectFromData(type, &builder.getMeshData()));
 }
 
-PxTriangleMesh* Cooking::createTriangleMesh(const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback) const
+PxTriangleMesh* Cooking::createTriangleMesh(const PxTriangleMeshDesc& desc, PxPhysicsInsertionCallback& insertionCallback, PxTriangleMeshCookingResult::Enum* condition) const
 {	
 	if((mParams.midphaseDesc.getType() == PxMeshMidPhase::eINVALID) || (mParams.midphaseDesc.getType() == PxMeshMidPhase::eBVH33))
 	{
 		RTreeTriangleMeshBuilder builder(mParams);
-		return createTriangleMesh(builder, desc, insertionCallback);
+		return createTriangleMesh(builder, desc, insertionCallback, condition);
 	}
 	else
 	{
 		BV4TriangleMeshBuilder builder(mParams);
-		return createTriangleMesh(builder, desc, insertionCallback);
+		return createTriangleMesh(builder, desc, insertionCallback, condition);
 	}
 }
 
@@ -323,7 +325,7 @@ bool Cooking::cookConvexMesh(const PxConvexMeshDesc& desc_, PxOutputStream& stre
 //////////////////////////////////////////////////////////////////////////
 // cook convex mesh from given desc, copy the results into internal convex mesh
 // and insert the mesh into PxPhysics
-PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc_, PxPhysicsInsertionCallback& insertionCallback) const
+PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc_, PxPhysicsInsertionCallback& insertionCallback, PxConvexMeshCookingResult::Enum* condition) const
 {
 	PX_FPU_GUARD;
 	// choose cooking library if needed
@@ -352,7 +354,7 @@ PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc_, PxPhysics
 
 	// cook the mesh
 	ConvexMeshBuilder meshBuilder(mParams.buildGPUData);
-	if (!cookConvexMeshInternal(desc, meshBuilder, hullLib, NULL))
+	if (!cookConvexMeshInternal(desc, meshBuilder, hullLib, condition))
 	{
 		if(hullLib)
 			PX_DELETE(hullLib);		
@@ -369,6 +371,8 @@ PxConvexMesh* Cooking::createConvexMesh(const PxConvexMeshDesc& desc_, PxPhysics
 	Gu::ConvexMesh* convexMesh = static_cast<Gu::ConvexMesh*>(insertionCallback.buildObjectFromData(PxConcreteType::eCONVEX_MESH, &meshData));
 	if (!convexMesh)
 	{
+		if(condition)
+			*condition = PxConvexMeshCookingResult::eFAILURE;
 		if (hullLib)
 			PX_DELETE(hullLib);
 		return NULL;

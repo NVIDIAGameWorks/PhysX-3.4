@@ -50,14 +50,14 @@ MBPPostUpdateWorkTask::MBPPostUpdateWorkTask(PxU64 contextId) : MBPTask(contextI
 
 void MBPUpdateWorkTask::runInternal()
 {
-	mMBP->update(getContinuation());
+	mMBP->update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void MBPPostUpdateWorkTask::runInternal()
 {
-	mMBP->postUpdate(getContinuation());
+	mMBP->postUpdate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -298,6 +298,21 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#03b103772b8c06f2bf5c8192f1cb3f70">forceDynamicTreeRebuild</a> (bool rebuildStaticStructure, bool rebuildDynamicStructure)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Forces dynamic trees to be immediately rebuilt.  <a href="#03b103772b8c06f2bf5c8192f1cb3f70"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#8b689efc2353e9c57abf0182cb3f7dfd">setSceneQueryUpdateMode</a> (<a class="el" href="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4">PxSceneQueryUpdateMode::Enum</a> updateMode)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets scene query update mode.  <a href="#8b689efc2353e9c57abf0182cb3f7dfd"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <br class="typebreak">
+<a class="el" href="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4">PxSceneQueryUpdateMode::Enum</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#1fd7e1e617aa9359b56e91e060ad9f90">getSceneQueryUpdateMode</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets scene query update mode.  <a href="#1fd7e1e617aa9359b56e91e060ad9f90"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a2b103c61cc84c1df17b82266a17413f">sceneQueriesUpdate</a> (<a class="el" href="classphysx_1_1PxBaseTask.html">physx::PxBaseTask</a> *completionTask=NULL, bool controlSimulation=true)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Executes scene queries update tasks. This function will refit dirty shapes within the pruner and will execute a task to build a new AABB tree, which is build on a different thread. The new AABB tree is built based on the dynamic tree rebuild hint rate. Once the new tree is ready it will be commited in next fetchQueries call, which must be called after.  <a href="#a2b103c61cc84c1df17b82266a17413f"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#e4e41c3f3c32b955b230b26a86390e0c">checkQueries</a> (bool block=false)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This checks to see if the scene queries update has completed.  <a href="#e4e41c3f3c32b955b230b26a86390e0c"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#2f7af5ab3815d6ec6db66603ef8ced4e">fetchQueries</a> (bool block=false)=0</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#7d7dcd877cee092f8b57c67d79982b50">raycast</a> (const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;origin, const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;unitDir, const PxReal distance, <a class="el" href="structPxHitCallback.html">PxRaycastCallback</a> &amp;hitCall, PxHitFlags hitFlags=PxHitFlags(PxHitFlag::eDEFAULT), const <a class="el" href="structPxQueryFilterData.html">PxQueryFilterData</a> &amp;filterData=<a class="el" href="structPxQueryFilterData.html">PxQueryFilterData</a>(), <a class="el" href="classPxQueryFilterCallback.html">PxQueryFilterCallback</a> *filterCall=NULL, const <a class="el" href="structPxQueryCache.html">PxQueryCache</a> *cache=NULL) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs a raycast against objects in the scene, returns results in a PxRaycastBuffer object or via a custom user callback implementation inheriting from PxRaycastCallback.  <a href="#7d7dcd877cee092f8b57c67d79982b50"></a><br></td></tr>
@@ -704,6 +719,36 @@ Performs dynamics phase of the simulation pipeline.
 
 </div>
 </div><p>
+<a class="anchor" name="e4e41c3f3c32b955b230b26a86390e0c"></a><!-- doxytag: member="PxScene::checkQueries" ref="e4e41c3f3c32b955b230b26a86390e0c" args="(bool block=false)=0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool PxScene::checkQueries           </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>block</em> = <code>false</code>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+This checks to see if the scene queries update has completed. 
+<p>
+This does not cause the data available for reading to be updated with the results of the scene queries update, it is simply a status check. The bool will allow it to either return immediately or block waiting for the condition to be met so that it can return true<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>block</em>&nbsp;</td><td>When set to true will block until the condition is met. </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>True if the results are available.</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxScene.html#a2b103c61cc84c1df17b82266a17413f" title="Executes scene queries update tasks. This function will refit dirty shapes within...">sceneQueriesUpdate()</a> <a class="el" href="classPxScene.html#b34e054ccf428a1cdbd81bf1e2b87fae">fetchResults()</a> </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="6f45a8ee04f0bcd2c23b23daa176bee5"></a><!-- doxytag: member="PxScene::checkResults" ref="6f45a8ee04f0bcd2c23b23daa176bee5" args="(bool block=false)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -900,6 +945,33 @@ This method must be called after <a class="el" href="classPxScene.html#17c3863f7
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>block</em>&nbsp;</td><td>When set to true will block until the condition is met, which is collision must finish running. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="2f7af5ab3815d6ec6db66603ef8ced4e"></a><!-- doxytag: member="PxScene::fetchQueries" ref="2f7af5ab3815d6ec6db66603ef8ced4e" args="(bool block=false)=0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool PxScene::fetchQueries           </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>block</em> = <code>false</code>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+This method must be called after sceneQueriesUpdate. It will wait for the scene queries update to finish. If the user makes an illegal scene queries update call, the SDK will issue an error message.<p>
+If a new AABB tree build finished, then during fetchQueries the current tree within the pruning structure is swapped with the new tree.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>block</em>&nbsp;</td><td>When set to true will block until the condition is met, which is tree built task must finish running. </td></tr>
   </table>
 </dl>
 
@@ -2311,6 +2383,29 @@ Retrieves the scene's internal scene query timestamp, increased each time a chan
 
 </div>
 </div><p>
+<a class="anchor" name="1fd7e1e617aa9359b56e91e060ad9f90"></a><!-- doxytag: member="PxScene::getSceneQueryUpdateMode" ref="1fd7e1e617aa9359b56e91e060ad9f90" args="() const =0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4">PxSceneQueryUpdateMode::Enum</a> PxScene::getSceneQueryUpdateMode           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Gets scene query update mode. 
+<p>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Current scene query update mode.</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4">PxSceneQueryUpdateMode::Enum</a> </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="1eb6366fd80f5a8f6a9154a412c33436"></a><!-- doxytag: member="PxScene::getSimulationEventCallback" ref="1eb6366fd80f5a8f6a9154a412c33436" args="(PX_DEPRECATED PxClientID client=PX_DEFAULT_CLIENT) const =0" -->
 <div class="memitem">
 <div class="memproto">
@@ -3099,6 +3194,45 @@ It is invalid to use this method if <a class="el" href="structPxActorFlag.html#1
 
 </div>
 </div><p>
+<a class="anchor" name="a2b103c61cc84c1df17b82266a17413f"></a><!-- doxytag: member="PxScene::sceneQueriesUpdate" ref="a2b103c61cc84c1df17b82266a17413f" args="(physx::PxBaseTask *completionTask=NULL, bool controlSimulation=true)=0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void PxScene::sceneQueriesUpdate           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classphysx_1_1PxBaseTask.html">physx::PxBaseTask</a> *&nbsp;</td>
+          <td class="paramname"> <em>completionTask</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>controlSimulation</em> = <code>true</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Executes scene queries update tasks. This function will refit dirty shapes within the pruner and will execute a task to build a new AABB tree, which is build on a different thread. The new AABB tree is built based on the dynamic tree rebuild hint rate. Once the new tree is ready it will be commited in next fetchQueries call, which must be called after. 
+<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>If <a class="el" href="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4793afa91b648fc6b1c92ff333490e7f2" title="No work is done, no update of scene queries.">PxSceneQueryUpdateMode::eBUILD_DISABLED_COMMIT_DISABLED</a> is used, it is required to update the scene queries using this function.</dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>completionTask</em>&nbsp;</td><td>if non-NULL, this task will have its refcount incremented in sceneQueryUpdate(), then decremented when the scene is ready to have fetchQueries called. So the task will not run until the application also calls removeReference(). </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>controlSimulation</em>&nbsp;</td><td>if true, the scene controls its PxTaskManager simulation state. Leave true unless the application is calling the PxTaskManager start/stopSimulation() methods itself.</td></tr>
+  </table>
+</dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4793afa91b648fc6b1c92ff333490e7f2" title="No work is done, no update of scene queries.">PxSceneQueryUpdateMode::eBUILD_DISABLED_COMMIT_DISABLED</a> </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="1e102ec1b29dea3b588b7507561e656e"></a><!-- doxytag: member="PxScene::setBounceThresholdVelocity" ref="1e102ec1b29dea3b588b7507561e656e" args="(const PxReal t)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -3634,6 +3768,34 @@ This call will force allocation of cache blocks if the numBlocks parameter is gr
   </table>
 </dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classPxSceneDesc.html#625cdbae7d2149a9df472fb4f9c06f83" title="Setting to define the number of 16K blocks that will be initially reserved to store...">PxSceneDesc.nbContactDataBlocks</a> <a class="el" href="classPxSceneDesc.html#8791132cbe8cce32f051e5eaab774d35" title="Setting to define the maximum number of 16K blocks that can be allocated to store...">PxSceneDesc.maxNbContactDataBlocks</a> <a class="el" href="classPxScene.html#b557fc677e9549c71d36979dfd3ec8c5" title="Clear internal buffers and free memory.">flushSimulation()</a> <a class="el" href="classPxScene.html#b6224a915d459fb6a1c0899a080f5697" title="get the number of cache blocks currently used by the scene">getNbContactDataBlocksUsed</a> <a class="el" href="classPxScene.html#a3c625507d5cfaf0f1cb9d26f66be329" title="get the maximum number of cache blocks used by the scene">getMaxNbContactDataBlocksUsed</a> </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="8b689efc2353e9c57abf0182cb3f7dfd"></a><!-- doxytag: member="PxScene::setSceneQueryUpdateMode" ref="8b689efc2353e9c57abf0182cb3f7dfd" args="(PxSceneQueryUpdateMode::Enum updateMode)=0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void PxScene::setSceneQueryUpdateMode           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4">PxSceneQueryUpdateMode::Enum</a>&nbsp;</td>
+          <td class="paramname"> <em>updateMode</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets scene query update mode. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>updateMode</em>&nbsp;</td><td>Scene query update mode.</td></tr>
+  </table>
+</dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4">PxSceneQueryUpdateMode::Enum</a> </dd></dl>
 
 </div>
 </div><p>

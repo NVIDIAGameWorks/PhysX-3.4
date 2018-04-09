@@ -103,11 +103,10 @@ public:
 		MAX_Z
 	};
 
-	IntegerAABB();
-
 	IntegerAABB(const PxBounds3& b, PxReal contactDistance)
 	{
-		encode(PxBounds3(b.minimum-PxVec3(contactDistance), b.maximum+PxVec3(contactDistance)));
+		const PxVec3 dist(contactDistance);
+		encode(PxBounds3(b.minimum - dist, b.maximum + dist));
 	}
 
 	/*

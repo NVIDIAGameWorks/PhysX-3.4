@@ -687,7 +687,7 @@ namespace Sc
 					void						processNarrowPhaseLostTouchEventsIslands(PxBaseTask*);
 					void						processLostTouchPairs();
 					void						integrateKinematicPose();
-					void						updateKinematicCached();
+					void						updateKinematicCached(PxBaseTask*);
 
 					void						beforeSolver(PxBaseTask* continuation);
 					void						checkForceThresholdContactEvents(const PxU32 ccdPass);

@@ -146,23 +146,31 @@ print("platform:", platform.system())
 commonFlags = '-DNDEBUG -DPX_GENERATE_META_DATA -x c++-header -std=c++0x -w -Wno-c++11-narrowing -fms-extensions '
 
 if platform.system() == "Windows":
-	# stddef.h doesn't compile with VS10 and -std=c++0x
-	# for some reason -cc1 needs to go first in commonFlags
-	commonFlags = '-cc1 ' + commonFlags
-	platformFlags = '-DPX_VC=11 -D_WIN32 ' + ' -isystem"' + os.environ['VS110COMNTOOLS'] + '/../../VC/include"'
-	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/win32/bin/clang.exe'))
 	debugFile = open("temp/clangCommandLine_windows.txt", "a")
 	
+	# read INCLUDE variable, set by calling batch script
+	sysIncludes = os.environ['INCLUDE']
+	sysIncludes = sysIncludes.rstrip(';')
+	sysIncludeList = sysIncludes.split(';')	
+	sysIncludeFlags = ' -isystem"' + '" -isystem"'.join(sysIncludeList) + '"'
+	
+	# for some reason -cc1 needs to go first in commonFlags
+	commonFlags = '-cc1 ' + commonFlags
+	platformFlags = '-DPX_VC=14 -D_WIN32 ' + sysIncludeFlags
+	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/win32/bin/clang.exe'))
+	
+	
 elif platform.system() == "Linux":
-	platformFlags = ''
-	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/linux32/bin/clang'))
 	debugFile = open("temp/clangCommandLine_linux.txt", "a")
 	
+	platformFlags = ''
+	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/linux32/bin/clang'))
+	
 elif platform.system() == "Darwin":
+	debugFile = open("temp/clangCommandLine_osx.txt", "a")
+
 	platformFlags = ' -isysroot' + get_osx_platform_path()
 	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/osx/bin/clang'))
-	debugFile = open("temp/clangCommandLine_osx.txt", "a")
-	
 else:
 	print("unsupported platform, aborting!")
 	sys.exit(1)

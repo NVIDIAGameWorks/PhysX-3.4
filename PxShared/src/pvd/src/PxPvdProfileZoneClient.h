@@ -57,7 +57,6 @@ class PvdProfileZoneClient : public PvdClient, public profile::PxProfileZoneHand
 
 	PvdDataStream* getDataStream();
 	PvdUserRenderer* getUserRender();
-	void setObjectRegistrar(ObjectRegistrar*);
 
 	// PxProfileZoneHandler
 	void onZoneAdded(profile::PxProfileZone& inSDK);

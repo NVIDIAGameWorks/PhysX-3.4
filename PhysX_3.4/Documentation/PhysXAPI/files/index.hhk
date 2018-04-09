@@ -191,6 +191,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__character.html#g05750d6d68cb164b2de6c80e93ca29d1"><param name="Name" value="toVec3"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__character.html#geea81704d1af3dec82b411b53d39b7e0"><param name="Name" value="~PxControllerDesc"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#e4e41c3f3c32b955b230b26a86390e0c"><param name="Name" value="checkQueries"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#6f45a8ee04f0bcd2c23b23daa176bee5"><param name="Name" value="checkResults"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gc66173de22806e20a666d3ab289597be"><param name="Name" value="clear"></OBJECT>
   <UL>
@@ -394,9 +395,9 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#e2eafca38332e6d7dff642641317e90a"><param name="Name" value="createCollectionFromXml"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#1126f3f545ebe183be1753f62d1efc7d"><param name="Name" value="createConstraint"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxControllerManager.html#8e05d3238438b16de95f5f8d04b5c674"><param name="Name" value="createController"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#b2aa803493356f5c916fa92c69164472"><param name="Name" value="createConvexMesh"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#0a70f14b0fd0f449ea145dcd27b0c2f8"><param name="Name" value="createConvexMesh"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#b2aa803493356f5c916fa92c69164472"><param name="Name" value="PxCooking"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#0a70f14b0fd0f449ea145dcd27b0c2f8"><param name="Name" value="PxCooking"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#54fc5f8b0884977ccfd45ea829392a52"><param name="Name" value="PxPhysics"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMat33.html#e7052afa072d3c45c1f570a6a794c6a5"><param name="Name" value="createDiagonal"></OBJECT>
@@ -437,9 +438,9 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxStringTableExt.html#b55c61beea368e12068fa362e7f86294"><param name="Name" value="createStringTable"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxTaskManager.html#940fded6abf31baf0dd31b01b2b86c36"><param name="Name" value="createTaskManager"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#e3b75906fe677e931d9bb34df57f8cb8"><param name="Name" value="createTriangleMesh"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#227e676ba5b15b9cf292fd457427b13b"><param name="Name" value="createTriangleMesh"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#e3b75906fe677e931d9bb34df57f8cb8"><param name="Name" value="PxCooking"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#227e676ba5b15b9cf292fd457427b13b"><param name="Name" value="PxCooking"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#29dcbbe128cef11eaf4ce5696c216dfd"><param name="Name" value="PxPhysics"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b5921a4665caaa38d0e02d9324b77c7c"><param name="Name" value="createVolumeCache"></OBJECT>
@@ -632,6 +633,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxGeometryType.html#efc79f72c4c479192ac19d41a6f30ed54ac248bdee2283c0471c9dc0eba40c34"><param name="Name" value="PxGeometryType"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConstraintFlag.html#86960e99b3e80ddb9e0ab51d7afc342791151f48e43ade5a5d7153f1b3160696"><param name="Name" value="eBROKEN"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4793afa91b648fc6b1c92ff333490e7f2"><param name="Name" value="eBUILD_DISABLED_COMMIT_DISABLED"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4501079944c5156ae69a4b8e66727144c"><param name="Name" value="eBUILD_ENABLED_COMMIT_DISABLED"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4a9f1900ad863b24a136a6bf7061718e5"><param name="Name" value="eBUILD_ENABLED_COMMIT_ENABLED"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMeshMidPhase.html#49f740883fbfb1a49631c28818c219f4a791bfd986fc6edb77db2928e3c5e529"><param name="Name" value="eBVH33"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMeshMidPhase.html#49f740883fbfb1a49631c28818c219f442051af73b6c6b3a5ac4df2928b6d446"><param name="Name" value="eBVH34"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxControllerDebugRenderFlag.html#2ca2d1c4bfca5877efb137362de83b9ca161d9988d0de3687f09aa94748b966c"><param name="Name" value="eCACHED_BV"></OBJECT>
@@ -1115,7 +1119,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxTriangleMeshCookingResult.html#be8e2312c47cc522a546c34ea337fb64ee8ea24838d56b947a7257de59d8b173"><param name="Name" value="PxTriangleMeshCookingResult"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterFlag.html#8de424e04d86b5772436423b0dc58083823b175755a63b3e8ad474528f5e1bf6"><param name="Name" value="eSUPPRESS"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53578417c8b82a150d90b69eb4064fa20d"><param name="Name" value="eSUPPRESS_EAGER_SCENE_QUERY_REFIT"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxVehicleDrivableSurfaceType.html#29596afb2720fc7b82bc4da11cbfea2dd2a01ae83fd1798640e6edcd52148307"><param name="Name" value="eSURFACE_TYPE_UNKNOWN"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxClothFlag.html#e53797ea68710df0ee906aea21693fe2359d023e02d30616011e3f5a569b81e5"><param name="Name" value="eSWEPT_CONTACT"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxD6Axis.html#0a15eb4ffcf285b3bd8289ddca128880e9f4bbfb50eaf463e7b1dd406ed1957b"><param name="Name" value="eSWING1"></OBJECT>
@@ -1309,6 +1312,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g060890e60cdbd06a2819e6d4a1f2d3be"><param name="Name" value="PxBounds3"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#c320cd782704022cc044a1ef4b0c582f"><param name="Name" value="fetchCollision"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#2f7af5ab3815d6ec6db66603ef8ced4e"><param name="Name" value="fetchQueries"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b34e054ccf428a1cdbd81bf1e2b87fae"><param name="Name" value="fetchResults"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#9e70b9f9ac942c0b90b2b78d45b99708"><param name="Name" value="fetchResultsFinish"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#e5515efb07a300166c0d47adce6acd6f"><param name="Name" value="fetchResultsStart"></OBJECT>
@@ -2386,6 +2390,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPvdSceneClient.html#a001bda702ba5738c182358035f36cc3"><param name="Name" value="getScenePvdFlags"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#e7bbe46e5efa6cefcc3832c961e047a9"><param name="Name" value="getSceneQueryFilterData"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#32850ee34d1736811c1e93e25c689a68"><param name="Name" value="getSceneQueryStaticTimestamp"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#1fd7e1e617aa9359b56e91e060ad9f90"><param name="Name" value="getSceneQueryUpdateMode"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPhysics.html#1ecd80a6f7c5239bd6cc50c5ea76156d"><param name="Name" value="getScenes"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxAggregate.html#ecc9a58a8966bb5b76fd82b655efb43e"><param name="Name" value="getSelfCollision"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#514d63d5ad2fcd5e0bb147c439da20bc"><param name="Name" value="getSelfCollisionDistance"></OBJECT>
@@ -4370,7 +4375,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConvexMeshCookingType.html#5a2ae723aca74c185675cd7ba2c9c115feeda5c1fbf29c966ab12b42ddc44049"><param name="Name" value="PxConvexMeshCookingType"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterObjectType.html#6b94c22981119369d08ce8b13838a3cf9f616c2a37bb68bd02140f9578c992fb"><param name="Name" value="PxFilterObjectType"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#gfd8f8779793627061774cfcfa1b9fbd7"><param name="Name" value="PxPreprocessor.h"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53eabf4ab99946ab299fbb858b6a8f53af"><param name="Name" value="PxSceneFlag"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c5338481fa715039972c2047d15094a1060"><param name="Name" value="PxSceneFlag"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#996a480bf74af73637d277c454dce87c1e1bd6604862aa41bb644ae0efa33d20"><param name="Name" value="PxSimulationStatistics"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g5be743320fae5abf91e51efebced816e"><param name="Name" value="PX_DLL_EXPORT"></OBJECT>
@@ -6610,9 +6615,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1"><param name="Name" value="cookConvexMesh"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#bf4f0fe5c9a709cde84338c5bdf7cde4"><param name="Name" value="cookHeightField"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#29bea4d23794e1521a0a6cbfa8e62464"><param name="Name" value="cookTriangleMesh"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#b2aa803493356f5c916fa92c69164472"><param name="Name" value="createConvexMesh"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#0a70f14b0fd0f449ea145dcd27b0c2f8"><param name="Name" value="createConvexMesh"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#0a3d0ec6145be91dd6707535724d8ffb"><param name="Name" value="createHeightField"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#e3b75906fe677e931d9bb34df57f8cb8"><param name="Name" value="createTriangleMesh"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#227e676ba5b15b9cf292fd457427b13b"><param name="Name" value="createTriangleMesh"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#83607708fd1cb2f58a3d758a558f5b28"><param name="Name" value="getParams"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#82e0864b92d51d409f3134cc8f740102"><param name="Name" value="platformMismatch"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCooking.html#cf1f0cfa4c76ccbe42e84af17a90fb3e"><param name="Name" value="release"></OBJECT>
@@ -9190,12 +9195,14 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#ffbf0f147c773e2b2d58831df610b1a7"><param name="Name" value="addBroadPhaseRegion"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#6b61683d8acb5e73b2ffb41ebecae589"><param name="Name" value="addCollection"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#dc85aa20552a55905aa1329722a555d7"><param name="Name" value="advance"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#e4e41c3f3c32b955b230b26a86390e0c"><param name="Name" value="checkQueries"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#6f45a8ee04f0bcd2c23b23daa176bee5"><param name="Name" value="checkResults"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#17c3863f711ef79c08c6054b69fd430c"><param name="Name" value="collide"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#080866698f34876134941cf42949592b"><param name="Name" value="createBatchQuery"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#285849425521dd0344f55b4a7c0a834a"><param name="Name" value="createClient"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b5921a4665caaa38d0e02d9324b77c7c"><param name="Name" value="createVolumeCache"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#c320cd782704022cc044a1ef4b0c582f"><param name="Name" value="fetchCollision"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#2f7af5ab3815d6ec6db66603ef8ced4e"><param name="Name" value="fetchQueries"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b34e054ccf428a1cdbd81bf1e2b87fae"><param name="Name" value="fetchResults"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#9e70b9f9ac942c0b90b2b78d45b99708"><param name="Name" value="fetchResultsFinish"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#e5515efb07a300166c0d47adce6acd6f"><param name="Name" value="fetchResultsStart"></OBJECT>
@@ -9246,6 +9253,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#35f231796a325fcf587e681831c5fcb5"><param name="Name" value="getRenderBuffer"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#ac4ee13053cdb7f50ca6c065077c9ee3"><param name="Name" value="getScenePvdClient"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#32850ee34d1736811c1e93e25c689a68"><param name="Name" value="getSceneQueryStaticTimestamp"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#1fd7e1e617aa9359b56e91e060ad9f90"><param name="Name" value="getSceneQueryUpdateMode"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#1eb6366fd80f5a8f6a9154a412c33436"><param name="Name" value="getSimulationEventCallback"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#7abb1e1354ae3258b91fc097e9d682b8"><param name="Name" value="getSimulationStatistics"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#dd966317a1feb083e273fd8c12f454b5"><param name="Name" value="getSolverBatchSize"></OBJECT>
@@ -9268,6 +9276,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#50992e7d29c92240d2b22ac4fe31b090"><param name="Name" value="removeArticulation"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#8fff11a9236b623ae6c2e45d00c60232"><param name="Name" value="removeBroadPhaseRegion"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#f648aa06d19cfec20eeee278719f345c"><param name="Name" value="resetFiltering"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#a2b103c61cc84c1df17b82266a17413f"><param name="Name" value="sceneQueriesUpdate"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#1e102ec1b29dea3b588b7507561e656e"><param name="Name" value="setBounceThresholdVelocity"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#c1110386fc2ffad70aa771aabc51d026"><param name="Name" value="setBroadPhaseCallback"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#593d339e0fd64e47fa3b68016ce723ec"><param name="Name" value="setCCDContactModifyCallback"></OBJECT>
@@ -9285,6 +9294,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#575ed34c73adbd61892d728a688479f3"><param name="Name" value="setGravity"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#1c9025d9a26efa7b90c8c75cb7126b92"><param name="Name" value="setLimits"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#148be23880c4e2d67f9f772066a9f966"><param name="Name" value="setNbContactDataBlocks"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#8b689efc2353e9c57abf0182cb3f7dfd"><param name="Name" value="setSceneQueryUpdateMode"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#88f5438bf61cf5c3f767d8b515c51d31"><param name="Name" value="setSimulationEventCallback"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#ad9cc8bf329f4de4b407436f5cd38c98"><param name="Name" value="setSolverBatchSize"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#b562ba2df953188a7e2b99f7ddcda5dc"><param name="Name" value="setVisualizationCullingBox"></OBJECT>
@@ -9331,6 +9341,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#g8c083fd86a8c52ff269aa4dd3407127b"><param name="Name" value="physics"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#g8c083fd86a8c52ff269aa4dd3407127b"><param name="Name" value="PxSceneDesc"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#8d6ba51fe74a6c5ea4a46709abb89168"><param name="Name" value="sanityBounds"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#466c85f090678a01f2c6ee85b9584e7a"><param name="Name" value="sceneQueryUpdateMode"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#ga7375184ba494172fa7677dae44bd9a8"><param name="Name" value="setToDefault"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#71a00536a56d40fe031de2ced1834941"><param name="Name" value="simulationEventCallback"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#26b321b928708c10a047b38ec9127797"><param name="Name" value="solverBatchSize"></OBJECT>
@@ -9358,8 +9369,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53a645ccb938b901ce501b50ce55c15886"><param name="Name" value="eEXCLUDE_KINEMATICS_FROM_ACTIVE_ACTORS"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c5344d457656c5ac42d8318bfa2df7aee82"><param name="Name" value="eMUTABLE_FLAGS"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c5397a4bafb1db3bba4b8ff373e16d67c5b"><param name="Name" value="eREQUIRE_RW_LOCK"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53578417c8b82a150d90b69eb4064fa20d"><param name="Name" value="eSUPPRESS_EAGER_SCENE_QUERY_REFIT"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53eabf4ab99946ab299fbb858b6a8f53af"><param name="Name" value="PX_DEPRECATED"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneFlag.html#b4c347372b4433d34d983da780916c5338481fa715039972c2047d15094a1060"><param name="Name" value="PX_DEPRECATED"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__physics.html#g54a626a9a6d80543048bffc654814704"><param name="Name" value="PxSceneFlags"></OBJECT>
   <UL>
@@ -9431,6 +9441,12 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__extensions.html#g55259fcecc0dd432e8c97f80a1425aad"><param name="Name" value="extensions"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__extensions.html#g55259fcecc0dd432e8c97f80a1425aad"><param name="Name" value="PxSceneQueryExt.h"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneQueryUpdateMode.html"><param name="Name" value="PxSceneQueryUpdateMode"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4793afa91b648fc6b1c92ff333490e7f2"><param name="Name" value="eBUILD_DISABLED_COMMIT_DISABLED"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4501079944c5156ae69a4b8e66727144c"><param name="Name" value="eBUILD_ENABLED_COMMIT_DISABLED"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4a9f1900ad863b24a136a6bf7061718e5"><param name="Name" value="eBUILD_ENABLED_COMMIT_ENABLED"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneReadLock.html"><param name="Name" value="PxSceneReadLock"></OBJECT>
   <UL>
@@ -11583,6 +11599,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g34f70075ac4a52e2d7fb8afc03afc6e2"><param name="Name" value="foundation"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g34f70075ac4a52e2d7fb8afc03afc6e2"><param name="Name" value="PxBounds3"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#a2b103c61cc84c1df17b82266a17413f"><param name="Name" value="sceneQueriesUpdate"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__scenequery.html"><param name="Name" value="scenequery"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__scenequery.html#g037fc04d69de2f4067656836ab9d7298"><param name="Name" value="PX_COMPILE_TIME_ASSERT"></OBJECT>
@@ -11597,6 +11614,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__scenequery.html#gecfed2b83a930b922b3d95e22ff30665"><param name="Name" value="PxSweepBuffer"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__scenequery.html#g6f93f556cef747d50f643499928dd865"><param name="Name" value="PxSweepCallback"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSceneDesc.html#466c85f090678a01f2c6ee85b9584e7a"><param name="Name" value="sceneQueryUpdateMode"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxDefaultFileInputData.html#234ab504e8d281b6e0319e40dcac7c4d"><param name="Name" value="seek"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxDefaultFileInputData.html#234ab504e8d281b6e0319e40dcac7c4d"><param name="Name" value="PxDefaultFileInputData"></OBJECT>
@@ -11975,6 +11993,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPvdSceneClient.html#3b5e6327978fbe7a39fd53478da0c588"><param name="Name" value="setScenePvdFlag"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxPvdSceneClient.html#74a77b0f48b6d0f9394ed7daa9c2c957"><param name="Name" value="setScenePvdFlags"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#be8c9e522970df21292a0e8dfa5e2463"><param name="Name" value="setSceneQueryFilterData"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#8b689efc2353e9c57abf0182cb3f7dfd"><param name="Name" value="setSceneQueryUpdateMode"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#8a9395c7ef65990a78a8654eedd70eef"><param name="Name" value="setSelfCollisionDistance"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#3d1655d3a49678ac120e60e5f5d0cb74"><param name="Name" value="setSelfCollisionIndices"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxCloth.html#444689a873e29404153b54e06c7f21f6"><param name="Name" value="setSelfCollisionStiffness"></OBJECT>

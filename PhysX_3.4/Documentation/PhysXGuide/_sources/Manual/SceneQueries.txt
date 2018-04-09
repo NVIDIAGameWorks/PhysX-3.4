@@ -538,7 +538,7 @@ and in pathological cases query performance may degrade to O(n) time.
 Acceleration structures must be continually modified in accordance with objects being added or removed, or object AABB updates
 due to changes in position or geometry. To minimize the cost, modifications are deferred for as long as possible.
 Thus adding or removing objects or updating AABBs occurs in amortized constant time, with the cost of modifications deferred
-until the changes 'commit'. This happens on the next subsequent query or the next fetchResults().
+until the changes 'commit'. This happens on the next subsequent query or the next fetchResults() or the next fetchQueries().
 To force an immediate commit, call the PxScene::flushQueryUpdates() function.
 
 The exact details of the commit process depend on the values of staticStructure and dynamicStructure specified in PxSceneDesc.
@@ -584,6 +584,19 @@ To force a full immediate rebuild, call PxScene::forceDynamicTreeRebuild(). This
 * a slow rebuilt rate is typically desirable, but occasionally a large number of object additions creates high occupancy in the grid,
   especially if the additions are localized so as to put pressure on just a few of the grid cells.
 * you are moving many objects across large distances, since refitting may significantly degrade the quality of the current tree
+
+====================================
+PxSceneQueryUpdateMode
+====================================
+
+It is possible to define what scene query related work is done druing PxScene::fetchResults.
+
+By default fetchResults will sync changed bounds during simulation and update the scene query bounds in pruners, this work is mandatory.
+Other work can be optional, based on the PxSceneQueryUpdateMode:
+
+* eCOMMIT_ENABLED_BUILD_ENABLED does allow to execute the new AABB tree build step during fetchResults, additionally the pruner commit is called where any changes are applied. During commit PhysX refits the dynamic scene query tree and if a new tree was built and the build finished the tree is swapped with current AABB tree. 
+* eCOMMIT_DISABLED_BUILD_ENABLED does allow to execute the new AABB tree build step during fetchResults. Pruner commit is not called, this means that refit will then occur during the first scene query following fetchResults, or may be forced by the method PxScene::flushSceneQueryUpdates(). 
+* eCOMMIT_DISABLED_BUILD_DISABLED no further scene query work is executed. The scene queries update needs to be called manually, see PxScene::sceneQueriesUpdate. It is recommended to call PxScene::sceneQueriesUpdate right after fetchResults as the pruning structures are not updated. 
 
 ==================
 PxPruningStructure

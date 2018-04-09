@@ -19,6 +19,8 @@ using physx::PxQuat;
 namespace nvidia
 {
 
+using namespace clothing;
+
 	bool operator != (const PxMat44& a, const PxMat44& b)
 	{
 		PX_ASSERT((((size_t)&a) & 0xf) == 0); // verify 16 byte alignment

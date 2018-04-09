@@ -60,8 +60,6 @@ class PvdMemClient : public PvdClient,
 
 	PvdDataStream* getDataStream();
 	PvdUserRenderer* getUserRender();
-	void setObjectRegistrar(ObjectRegistrar*);
-	void sendMemEvents();
 
 	// memory event
 	void onAllocation(size_t size, const char* typeName, const char* filename, int line, void* allocatedMemory);

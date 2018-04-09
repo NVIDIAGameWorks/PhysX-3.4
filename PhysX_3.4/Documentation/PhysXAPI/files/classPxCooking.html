@@ -44,18 +44,18 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#29bea4d23794e1521a0a6cbfa8e62464">cookTriangleMesh</a> (const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;desc, <a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;stream, <a class="el" href="structPxTriangleMeshCookingResult.html#be8e2312c47cc522a546c34ea337fb64">PxTriangleMeshCookingResult::Enum</a> *condition=NULL) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks a triangle mesh. The results are written to the stream.  <a href="#29bea4d23794e1521a0a6cbfa8e62464"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxTriangleMesh.html">PxTriangleMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#e3b75906fe677e931d9bb34df57f8cb8">createTriangleMesh</a> (const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;desc, <a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;insertionCallback) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxTriangleMesh.html">PxTriangleMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#227e676ba5b15b9cf292fd457427b13b">createTriangleMesh</a> (const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;desc, <a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;insertionCallback, <a class="el" href="structPxTriangleMeshCookingResult.html#be8e2312c47cc522a546c34ea337fb64">PxTriangleMeshCookingResult::Enum</a> *condition=NULL) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks and creates a triangle mesh and inserts it into <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>.  <a href="#e3b75906fe677e931d9bb34df57f8cb8"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks and creates a triangle mesh and inserts it into <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>.  <a href="#227e676ba5b15b9cf292fd457427b13b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#fca9fe3e3bb8b4943d35475f80f37d2e">validateTriangleMesh</a> (const <a class="el" href="classPxTriangleMeshDesc.html">PxTriangleMeshDesc</a> &amp;desc) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Verifies if the triangle mesh is valid. Prints an error message for each inconsistency found.  <a href="#fca9fe3e3bb8b4943d35475f80f37d2e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#de8e845a8a4253292aed0ef93177ffa1">cookConvexMesh</a> (const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;desc, <a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;stream, <a class="el" href="structPxConvexMeshCookingResult.html#c1c7b1cbfc80b0af00bec95faf1ebf42">PxConvexMeshCookingResult::Enum</a> *condition=NULL) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks a convex mesh. The results are written to the stream.  <a href="#de8e845a8a4253292aed0ef93177ffa1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxConvexMesh.html">PxConvexMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#b2aa803493356f5c916fa92c69164472">createConvexMesh</a> (const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;desc, <a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;insertionCallback) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classPxConvexMesh.html">PxConvexMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#0a70f14b0fd0f449ea145dcd27b0c2f8">createConvexMesh</a> (const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;desc, <a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;insertionCallback, <a class="el" href="structPxConvexMeshCookingResult.html#c1c7b1cbfc80b0af00bec95faf1ebf42">PxConvexMeshCookingResult::Enum</a> *condition=NULL) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks and creates a convex mesh and inserts it into <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>.  <a href="#b2aa803493356f5c916fa92c69164472"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cooks and creates a convex mesh and inserts it into <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>.  <a href="#0a70f14b0fd0f449ea145dcd27b0c2f8"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxCooking.html#ea8a3c270cc6db602ad250c82c1225bc">validateConvexMesh</a> (const <a class="el" href="classPxConvexMeshDesc.html">PxConvexMeshDesc</a> &amp;desc) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Verifies if the convex mesh is valid. Prints an error message for each inconsistency found.  <a href="#ea8a3c270cc6db602ad250c82c1225bc"></a><br></td></tr>
@@ -321,7 +321,7 @@ Example<p>
 
 </div>
 </div><p>
-<a class="anchor" name="b2aa803493356f5c916fa92c69164472"></a><!-- doxytag: member="PxCooking::createConvexMesh" ref="b2aa803493356f5c916fa92c69164472" args="(const PxConvexMeshDesc &amp;desc, PxPhysicsInsertionCallback &amp;insertionCallback) const =0" -->
+<a class="anchor" name="0a70f14b0fd0f449ea145dcd27b0c2f8"></a><!-- doxytag: member="PxCooking::createConvexMesh" ref="0a70f14b0fd0f449ea145dcd27b0c2f8" args="(const PxConvexMeshDesc &amp;desc, PxPhysicsInsertionCallback &amp;insertionCallback, PxConvexMeshCookingResult::Enum *condition=NULL) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -335,7 +335,13 @@ Example<p>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;&nbsp;</td>
-          <td class="paramname"> <em>insertionCallback</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>insertionCallback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxConvexMeshCookingResult.html#c1c7b1cbfc80b0af00bec95faf1ebf42">PxConvexMeshCookingResult::Enum</a> *&nbsp;</td>
+          <td class="paramname"> <em>condition</em> = <code>NULL</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -355,6 +361,7 @@ Cooks and creates a convex mesh and inserts it into <a class="el" href="classPxP
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>desc</em>&nbsp;</td><td>The convex mesh descriptor to read the mesh from. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>insertionCallback</em>&nbsp;</td><td>The insertion interface from <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>condition</em>&nbsp;</td><td>Result from convex mesh cooking. </td></tr>
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd><a class="el" href="classPxConvexMesh.html" title="A convex mesh.">PxConvexMesh</a> pointer on success</dd></dl>
@@ -401,7 +408,7 @@ Cooks and creates a heightfield mesh and inserts it into <a class="el" href="cla
 
 </div>
 </div><p>
-<a class="anchor" name="e3b75906fe677e931d9bb34df57f8cb8"></a><!-- doxytag: member="PxCooking::createTriangleMesh" ref="e3b75906fe677e931d9bb34df57f8cb8" args="(const PxTriangleMeshDesc &amp;desc, PxPhysicsInsertionCallback &amp;insertionCallback) const =0" -->
+<a class="anchor" name="227e676ba5b15b9cf292fd457427b13b"></a><!-- doxytag: member="PxCooking::createTriangleMesh" ref="227e676ba5b15b9cf292fd457427b13b" args="(const PxTriangleMeshDesc &amp;desc, PxPhysicsInsertionCallback &amp;insertionCallback, PxTriangleMeshCookingResult::Enum *condition=NULL) const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -415,7 +422,13 @@ Cooks and creates a heightfield mesh and inserts it into <a class="el" href="cla
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classPxPhysicsInsertionCallback.html">PxPhysicsInsertionCallback</a> &amp;&nbsp;</td>
-          <td class="paramname"> <em>insertionCallback</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>insertionCallback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTriangleMeshCookingResult.html#be8e2312c47cc522a546c34ea337fb64">PxTriangleMeshCookingResult::Enum</a> *&nbsp;</td>
+          <td class="paramname"> <em>condition</em> = <code>NULL</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -434,6 +447,7 @@ Cooks and creates a triangle mesh and inserts it into <a class="el" href="classP
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>desc</em>&nbsp;</td><td>The triangle mesh descriptor to read the mesh from. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>insertionCallback</em>&nbsp;</td><td>The insertion interface from <a class="el" href="classPxPhysics.html" title="Abstract singleton factory class used for instancing objects in the Physics SDK.">PxPhysics</a>. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>condition</em>&nbsp;</td><td>Result from triangle mesh cooking. </td></tr>
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd><a class="el" href="classPxTriangleMesh.html" title="A triangle mesh, also called a &#39;polygon soup&#39;.">PxTriangleMesh</a> pointer on success.</dd></dl>

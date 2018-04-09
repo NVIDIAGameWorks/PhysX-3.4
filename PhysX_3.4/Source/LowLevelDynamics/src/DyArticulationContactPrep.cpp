@@ -338,7 +338,7 @@ PxReal getImpulseResponse(const SolverExtBody& b0, const Cm::SpatialVector& impu
 					Cm::SpatialVector deltaV0, deltaV1;
 
 					const Cm::SpatialVector resp0 = createImpulseResponseVector(t0, raXn, b0);
-					const Cm::SpatialVector resp1 = createImpulseResponseVector(-t1, -rbXn, b1);
+					const Cm::SpatialVector resp1 = createImpulseResponseVector(-t0, -rbXn, b1);
 					FloatV resp = FLoad(getImpulseResponse(b0, resp0, deltaV0, d0, angD0,
 															 b1, resp1, deltaV1, d1, angD1));
 
