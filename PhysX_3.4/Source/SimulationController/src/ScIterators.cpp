@@ -43,8 +43,6 @@ Sc::ContactIterator::Pair::Pair(const void*& contactPatches, const void*& contac
 , mNumContacts(numContacts)
 , mIter(reinterpret_cast<const PxU8*>(contactPatches), reinterpret_cast<const PxU8*>(contactPoints), reinterpret_cast<const PxU32*>(forces + numContacts), numPatches, numContacts)
 , mForces(forces)
-, mShape0(&shape0)
-, mShape1(&shape1)
 {	
 	mCurrentContact.shape0 = shape0.getPxShape();
 	mCurrentContact.shape1 = shape1.getPxShape();

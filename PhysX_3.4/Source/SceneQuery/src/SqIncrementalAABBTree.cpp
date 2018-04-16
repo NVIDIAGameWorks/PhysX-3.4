@@ -562,8 +562,8 @@ static void checkNode(IncrementalAABBTreeNode* node, IncrementalAABBTreeNode* pa
 	PX_ASSERT(!parent->isLeaf());
 	PX_ASSERT(parent->mChilds[0] == node || parent->mChilds[1] == node);
 
-	ASSERT_ISVALIDVEC3V(node->mBVMin);
-	ASSERT_ISVALIDVEC3V(node->mBVMax);
+	//ASSERT_ISVALIDVEC3V(node->mBVMin);
+	//ASSERT_ISVALIDVEC3V(node->mBVMax);
 
 	if(!node->isLeaf())
 	{

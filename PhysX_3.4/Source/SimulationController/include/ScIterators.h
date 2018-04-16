@@ -81,8 +81,6 @@ namespace Sc
 				PxContactStreamIterator		mIter;
 				const PxReal*				mForces;
 				Contact						mCurrentContact;
-				ShapeSim*					mShape0;
-				ShapeSim*					mShape1;
 			};
 
 			ContactIterator() {}

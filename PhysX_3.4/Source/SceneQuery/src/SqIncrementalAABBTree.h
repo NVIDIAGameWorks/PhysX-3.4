@@ -96,22 +96,22 @@ namespace physx
 			PX_FORCE_INLINE	IncrementalAABBTreeNode*		getPos(IncrementalAABBTreeNode* ) { return mChilds[0]; }
 			PX_FORCE_INLINE	IncrementalAABBTreeNode*		getNeg(IncrementalAABBTreeNode* ) { return mChilds[1]; }
 
-			PX_FORCE_INLINE	void						getAABBCenterExtentsV(Vec4V* center, Vec4V* extents) const
+			PX_FORCE_INLINE	void						getAABBCenterExtentsV(physx::shdfnd::aos::Vec3V* center, physx::shdfnd::aos::Vec3V* extents) const
 			{
 				const float half = 0.5f;
 				const FloatV halfV = FLoad(half);
 
-				*extents = V4Scale(V4Sub(mBVMax, mBVMin), halfV);
-				*center = V4Scale(V4Add(mBVMax, mBVMin), halfV);
+				*extents = Vec3V_From_Vec4V((V4Scale(V4Sub(mBVMax, mBVMin), halfV)));
+				*center = Vec3V_From_Vec4V((V4Scale(V4Add(mBVMax, mBVMin), halfV)));
 			}
 
-			PX_FORCE_INLINE	void						getAABBCenterExtentsV2(Vec4V* center, Vec4V* extents) const
+			PX_FORCE_INLINE	void						getAABBCenterExtentsV2(physx::shdfnd::aos::Vec3V* center, physx::shdfnd::aos::Vec3V* extents) const
 			{
-				*extents = V4Sub(mBVMax, mBVMin);
-				*center = V4Add(mBVMax, mBVMin);
+				*extents = Vec3V_From_Vec4V((V4Sub(mBVMax, mBVMin)));
+				*center = Vec3V_From_Vec4V((V4Add(mBVMax, mBVMin)));
 			}
 
-			PX_FORCE_INLINE	void						getAABBMinMaxV(Vec4V* minV, Vec4V* maxV) const
+			PX_FORCE_INLINE	void						getAABBMinMaxV(physx::shdfnd::aos::Vec4V* minV, physx::shdfnd::aos::Vec4V* maxV) const
 			{
 				*minV = mBVMin;
 				*maxV = mBVMax;
