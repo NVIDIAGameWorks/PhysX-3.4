@@ -30,6 +30,9 @@
 #ifndef PXFOUNDATION_PXUNIONCAST_H
 #define PXFOUNDATION_PXUNIONCAST_H
 
+#include <cstring>
+#include <type_traits>
+
 #include "foundation/Px.h"
 
 /** \addtogroup foundation
@@ -42,17 +45,15 @@ namespace physx
 #endif
 
 template <class A, class B>
-PX_FORCE_INLINE A PxUnionCast(B b)
+PX_FORCE_INLINE A PxUnionCast(B source)
 {
-	union AB
-	{
-		AB(B bb) : _b(bb)
-		{
-		}
-		B _b;
-		A _a;
-	} u(b);
-	return u._a;
+	static_assert(std::is_trivial<A>::value, "Destination type must be trivial.");
+	static_assert(std::is_trivial<B>::value, "Source type must be trivial.");
+	A dest{};
+
+	std::memcpy(&dest, &source,
+		sizeof(dest) <= sizeof(source) ? sizeof(dest) : sizeof(source));
+	return dest;
 }
 
 #if !PX_DOXYGEN
