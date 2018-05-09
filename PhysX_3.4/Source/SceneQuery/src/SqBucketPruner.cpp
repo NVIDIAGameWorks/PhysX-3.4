@@ -1604,6 +1604,11 @@ static PX_FORCE_INLINE bool processBucket(	PxU32 nb, const BucketBox* PX_RESTRIC
 		const BucketBox& currentBox = *boxes++;
 		PrunerPayload* currentObject = objects++;
 
+		if (currentBox.mExtents.x<0.0f)
+		{
+			continue;
+		}
+
 		if(currentBox.mData1<minLimitInt)
 		{
 			if(doAssert)
