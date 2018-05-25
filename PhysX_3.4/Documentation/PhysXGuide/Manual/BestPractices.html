@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Best Practices Guide &mdash; NVIDIA PhysX SDK 3.4.1 Documentation</title>
+    <title>Best Practices Guide &mdash; NVIDIA PhysX SDK 3.4.2 Documentation</title>
     
     <link rel="stylesheet" href="../_static/nvidia.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '3.4.1',
+        VERSION:     '3.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="NVIDIA PhysX SDK 3.4.1 Documentation" href="../index.html" />
+    <link rel="top" title="NVIDIA PhysX SDK 3.4.2 Documentation" href="../index.html" />
     <link rel="up" title="User&#39;s Guide" href="Index.html" />
     <link rel="next" title="Migrating From PhysX SDK 2.x to 3.x" href="MigrationFrom28.html" />
     <link rel="prev" title="Extending Serialization" href="ExtendingSerialization.html" /> 
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="ExtendingSerialization.html" title="Extending Serialization"
              accesskey="P">previous</a> |</li>
-        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.1 Documentation</a> &raquo;</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
           <li><a href="Index.html" accesskey="U">User's Guide</a> &raquo;</li> 
       </ul>
     </div>  
@@ -125,6 +125,10 @@
 <div class="section" id="use-the-insertion-callback-when-cooking-at-runtime">
 <h3>Use the insertion callback when cooking at runtime<a class="headerlink" href="#use-the-insertion-callback-when-cooking-at-runtime" title="Permalink to this headline">¶</a></h3>
 <p>Use PxPhysicsInsertionCallback for objects that are cooked at runtime. This is faster than first writing the data to a file or a memory buffer, and then passing the data to PhysX.</p>
+</div>
+<div class="section" id="kill-kinematic-pairs-early">
+<h3>Kill kinematic pairs early<a class="headerlink" href="#kill-kinematic-pairs-early" title="Permalink to this headline">¶</a></h3>
+<p>If you do not need them, use PxPairFilteringMode::eKILL to disable kinematic pairs earlier in the pipeline.</p>
 </div>
 <div class="section" id="the-well-of-despair">
 <h3>The &quot;Well of Despair&quot;<a class="headerlink" href="#the-well-of-despair" title="Permalink to this headline">¶</a></h3>
@@ -387,6 +391,7 @@ The transformation is performed as follows (in pseudo-code):</p>
 <li><a class="reference internal" href="#use-the-scene-query-and-simulation-flags">Use the scene-query and simulation flags</a></li>
 <li><a class="reference internal" href="#tweak-the-dynamic-tree-rebuild-rate">Tweak the dynamic tree rebuild rate</a></li>
 <li><a class="reference internal" href="#use-the-insertion-callback-when-cooking-at-runtime">Use the insertion callback when cooking at runtime</a></li>
+<li><a class="reference internal" href="#kill-kinematic-pairs-early">Kill kinematic pairs early</a></li>
 <li><a class="reference internal" href="#the-well-of-despair">The &quot;Well of Despair&quot;</a></li>
 <li><a class="reference internal" href="#pruner-performance-for-streamed-environments">Pruner Performance for Streamed Environments</a></li>
 <li><a class="reference internal" href="#performance-implications-for-multi-threading">Performance Implications for Multi-Threading</a></li>
@@ -451,12 +456,12 @@ The transformation is performed as follows (in pseudo-code):</p>
         <li class="right" >
           <a href="ExtendingSerialization.html" title="Extending Serialization"
              >previous</a> |</li>
-        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.1 Documentation</a> &raquo;</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
           <li><a href="Index.html" >User's Guide</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2008-2017 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
+        &copy; Copyright 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
     </div>
   </body>
 </html>

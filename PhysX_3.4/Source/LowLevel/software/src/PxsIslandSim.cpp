@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -71,6 +71,7 @@ namespace IG
 		mActiveEdgeCount[0] = mActiveEdgeCount[1] = 0;
 	}
 
+#if PX_ENABLE_ASSERTS
 template <typename Thing>
 static bool contains(Ps::Array<Thing>& arr, const Thing& thing)
 {
@@ -81,6 +82,7 @@ static bool contains(Ps::Array<Thing>& arr, const Thing& thing)
 	}
 	return false;
 }
+#endif
 
 void IslandSim::resize(const PxU32 nbNodes, const PxU32 nbContactManagers, const PxU32 nbConstraints)
 {

@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -1235,6 +1235,10 @@ inline PxSimulationFilterShader getPxSceneDescFilterShader( const PxSceneDesc* i
 inline void setPxSceneDescFilterShader( PxSceneDesc* inOwner, PxSimulationFilterShader inData) { inOwner->filterShader = inData; }
 inline PxSimulationFilterCallback * getPxSceneDescFilterCallback( const PxSceneDesc* inOwner ) { return inOwner->filterCallback; }
 inline void setPxSceneDescFilterCallback( PxSceneDesc* inOwner, PxSimulationFilterCallback * inData) { inOwner->filterCallback = inData; }
+inline PxPairFilteringMode::Enum getPxSceneDescKineKineFilteringMode( const PxSceneDesc* inOwner ) { return inOwner->kineKineFilteringMode; }
+inline void setPxSceneDescKineKineFilteringMode( PxSceneDesc* inOwner, PxPairFilteringMode::Enum inData) { inOwner->kineKineFilteringMode = inData; }
+inline PxPairFilteringMode::Enum getPxSceneDescStaticKineFilteringMode( const PxSceneDesc* inOwner ) { return inOwner->staticKineFilteringMode; }
+inline void setPxSceneDescStaticKineFilteringMode( PxSceneDesc* inOwner, PxPairFilteringMode::Enum inData) { inOwner->staticKineFilteringMode = inData; }
 inline PxBroadPhaseType::Enum getPxSceneDescBroadPhaseType( const PxSceneDesc* inOwner ) { return inOwner->broadPhaseType; }
 inline void setPxSceneDescBroadPhaseType( PxSceneDesc* inOwner, PxBroadPhaseType::Enum inData) { inOwner->broadPhaseType = inData; }
 inline PxBroadPhaseCallback * getPxSceneDescBroadPhaseCallback( const PxSceneDesc* inOwner ) { return inOwner->broadPhaseCallback; }
@@ -1299,6 +1303,8 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedInfo::PxSceneDescGeneratedInfo()
 	, FilterShaderDataSize( "FilterShaderDataSize", setPxSceneDescFilterShaderDataSize, getPxSceneDescFilterShaderDataSize )
 	, FilterShader( "FilterShader", setPxSceneDescFilterShader, getPxSceneDescFilterShader )
 	, FilterCallback( "FilterCallback", setPxSceneDescFilterCallback, getPxSceneDescFilterCallback )
+	, KineKineFilteringMode( "KineKineFilteringMode", setPxSceneDescKineKineFilteringMode, getPxSceneDescKineKineFilteringMode )
+	, StaticKineFilteringMode( "StaticKineFilteringMode", setPxSceneDescStaticKineFilteringMode, getPxSceneDescStaticKineFilteringMode )
 	, BroadPhaseType( "BroadPhaseType", setPxSceneDescBroadPhaseType, getPxSceneDescBroadPhaseType )
 	, BroadPhaseCallback( "BroadPhaseCallback", setPxSceneDescBroadPhaseCallback, getPxSceneDescBroadPhaseCallback )
 	, Limits( "Limits", setPxSceneDescLimits, getPxSceneDescLimits )
@@ -1336,6 +1342,8 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedValues::PxSceneDescGeneratedValues( const 
 		,FilterShaderDataSize( inSource->filterShaderDataSize )
 		,FilterShader( inSource->filterShader )
 		,FilterCallback( inSource->filterCallback )
+		,KineKineFilteringMode( inSource->kineKineFilteringMode )
+		,StaticKineFilteringMode( inSource->staticKineFilteringMode )
 		,BroadPhaseType( inSource->broadPhaseType )
 		,BroadPhaseCallback( inSource->broadPhaseCallback )
 		,Limits( inSource->limits )

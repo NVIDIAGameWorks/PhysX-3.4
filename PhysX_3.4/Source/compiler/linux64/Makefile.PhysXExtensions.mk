@@ -114,7 +114,7 @@ PhysXExtensions_debug_hpaths    += ./../../PhysX/src
 PhysXExtensions_debug_lpaths    := 
 PhysXExtensions_debug_lpaths    += ./../../../../PxShared/lib/linux64
 PhysXExtensions_debug_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_debug_defines   += PX_BUILD_NUMBER=23879214
+PhysXExtensions_debug_defines   += PX_BUILD_NUMBER=24171494
 PhysXExtensions_debug_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_debug_defines   += _DEBUG
 PhysXExtensions_debug_defines   += PX_DEBUG=1
@@ -231,7 +231,7 @@ PhysXExtensions_checked_hpaths    += ./../../PhysX/src
 PhysXExtensions_checked_lpaths    := 
 PhysXExtensions_checked_lpaths    += ./../../../../PxShared/lib/linux64
 PhysXExtensions_checked_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_checked_defines   += PX_BUILD_NUMBER=23879214
+PhysXExtensions_checked_defines   += PX_BUILD_NUMBER=24171494
 PhysXExtensions_checked_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_checked_defines   += NDEBUG
 PhysXExtensions_checked_defines   += PX_CHECKED=1
@@ -347,7 +347,7 @@ PhysXExtensions_profile_hpaths    += ./../../PhysX/src
 PhysXExtensions_profile_lpaths    := 
 PhysXExtensions_profile_lpaths    += ./../../../../PxShared/lib/linux64
 PhysXExtensions_profile_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_profile_defines   += PX_BUILD_NUMBER=23879214
+PhysXExtensions_profile_defines   += PX_BUILD_NUMBER=24171494
 PhysXExtensions_profile_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_profile_defines   += NDEBUG
 PhysXExtensions_profile_defines   += PX_PROFILE=1
@@ -463,7 +463,7 @@ PhysXExtensions_release_hpaths    += ./../../PhysX/src
 PhysXExtensions_release_lpaths    := 
 PhysXExtensions_release_lpaths    += ./../../../../PxShared/lib/linux64
 PhysXExtensions_release_defines   := $(PhysXExtensions_custom_defines)
-PhysXExtensions_release_defines   += PX_BUILD_NUMBER=23879214
+PhysXExtensions_release_defines   += PX_BUILD_NUMBER=24171494
 PhysXExtensions_release_defines   += PX_PHYSX_STATIC_LIB
 PhysXExtensions_release_defines   += NDEBUG
 PhysXExtensions_release_defines   += PX_SUPPORT_PVD=0

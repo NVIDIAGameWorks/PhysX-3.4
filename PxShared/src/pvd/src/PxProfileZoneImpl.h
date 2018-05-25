@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -68,7 +68,6 @@ namespace physx { namespace profile {
 
 
 		const char*										mName;
-		PxProfileAllocatorWrapper								mWrapper;
 		mutable TMutexType								mMutex;
 		PxProfileArray<PxProfileEventName>				mEventNames;
 		// to avoid locking, read-only and read-write map exist
@@ -79,7 +78,7 @@ namespace physx { namespace profile {
 
 		PxProfileZoneManager*							mProfileZoneManager;
 
-		PxProfileArray<PxProfileZoneClient*>				mClients;
+		PxProfileArray<PxProfileZoneClient*>			mZoneClients;
 		volatile bool									mEventsActive;
 
 		PX_NOCOPY(ZoneImpl<TNameProvider>)
@@ -87,14 +86,13 @@ namespace physx { namespace profile {
 		ZoneImpl( PxAllocatorCallback* inAllocator, const char* inName, uint32_t bufferSize = 0x10000 /*64k*/, const TNameProvider& inProvider = TNameProvider() )
 			: TZoneEventBufferType( inAllocator, bufferSize, PxDefaultContextProvider(), NULL, PxProfileNullEventFilter() )
 			, mName( inName )
-			, mWrapper( inAllocator )
 			, mMutex( PxProfileWrapperReflectionAllocator<uint8_t>( mWrapper ) )
 			, mEventNames( mWrapper )
 			, mNameToEvtIndexMapR( mWrapper )
 			, mNameToEvtIndexMapRW(mWrapper)
 			, mEvtIdToNameMap( mWrapper )
 			, mProfileZoneManager( NULL )
-			, mClients( mWrapper )
+			, mZoneClients( mWrapper )
 			, mEventsActive( false )
 		{
 			TZoneEventBufferType::setBufferMutex( &mMutex );
@@ -173,13 +171,13 @@ namespace physx { namespace profile {
 			}
 			while( foundAnEventId );
 
-			uint32_t clientCount = mClients.size();
+			uint32_t clientCount = mZoneClients.size();
 			for ( uint16_t nameIdx = 0; nameIdx < inLen; ++nameIdx )
 			{
 				uint16_t newId = uint16_t(eventId + nameIdx);
 				doAddName( inNames[nameIdx], newId, true );
 				for( uint32_t clientIdx =0; clientIdx < clientCount; ++clientIdx )
-					mClients[clientIdx]->handleEventAdded( PxProfileEventName( inNames[nameIdx], PxProfileEventId( newId ) ) );
+					mZoneClients[clientIdx]->handleEventAdded( PxProfileEventName( inNames[nameIdx], PxProfileEventId( newId ) ) );
 			}
 
 			return eventId;
@@ -206,23 +204,23 @@ namespace physx { namespace profile {
 		void addClient( PxProfileZoneClient& inClient )
 		{
 			TLockType lock( mMutex );
-			mClients.pushBack( &inClient );
+			mZoneClients.pushBack( &inClient );
 			mEventsActive = true;
 		}
 
 		void removeClient( PxProfileZoneClient& inClient )
 		{
 			TLockType lock( mMutex );
-			for ( uint32_t idx =0; idx < mClients.size(); ++idx )
+			for ( uint32_t idx =0; idx < mZoneClients.size(); ++idx )
 			{
-				if ( mClients[idx] == &inClient )
+				if (mZoneClients[idx] == &inClient )
 				{
 					inClient.handleClientRemoved();
-					mClients.replaceWithLast( idx );
+					mZoneClients.replaceWithLast( idx );
 					break;
 				}
 			}
-			mEventsActive = mClients.size() != 0;
+			mEventsActive = mZoneClients.size() != 0;
 		}
 
 		virtual bool hasClients() const
@@ -248,9 +246,9 @@ namespace physx { namespace profile {
 		{
 			TLockType theLocker( mMutex );
 
-			uint32_t clientCount = mClients.size();
+			uint32_t clientCount = mZoneClients.size();
 			for( uint32_t idx =0; idx < clientCount; ++idx )
-				mClients[idx]->handleBufferFlush( inData, inLength );
+				mZoneClients[idx]->handleBufferFlush( inData, inLength );
 		}
 		//Happens if something removes all the clients from the manager.
 		virtual void handleClientRemoved() {}

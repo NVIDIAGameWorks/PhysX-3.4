@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -49,9 +49,14 @@ PX_FORCE_INLINE A PxUnionCast(B b)
 		AB(B bb) : _b(bb)
 		{
 		}
-		B _b;
-		A _a;
+		 B _b;
+		 A _a;
+// needed for clang 7
+#if PX_LINUX && PX_CLANG 
+	} volatile u(b);
+#else
 	} u(b);
+#endif
 	return u._a;
 }
 

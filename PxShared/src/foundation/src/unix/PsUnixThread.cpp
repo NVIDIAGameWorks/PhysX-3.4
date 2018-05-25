@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -458,9 +458,21 @@ void* TlsGet(uint32_t index)
 	return reinterpret_cast<void*>(pthread_getspecific(pthread_key_t(index)));
 }
 
+size_t TlsGetValue(uint32_t index)
+{
+	return reinterpret_cast<size_t>(pthread_getspecific(pthread_key_t(index)));
+}
+
 uint32_t TlsSet(uint32_t index, void* value)
 {
 	int status = pthread_setspecific(pthread_key_t(index), value);
+	PX_ASSERT(!status);
+	return !status;
+}
+
+uint32_t TlsSetValue(uint32_t index, size_t value)
+{
+	int status = pthread_setspecific(pthread_key_t(index), reinterpret_cast<void*>(value));
 	PX_ASSERT(!status);
 	return !status;
 }

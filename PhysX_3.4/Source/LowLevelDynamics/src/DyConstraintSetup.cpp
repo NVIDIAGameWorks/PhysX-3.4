@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -184,19 +184,6 @@ PX_FORCE_INLINE void rescale4(const Mat33V& m, PxReal* a0, PxReal* a1, PxReal* a
 	V4StoreA(b0, a0);
 	V4StoreA(b1, a1);
 	V4StoreA(b2, a2);
-}
-
-
-template<typename T>
-PX_FORCE_INLINE void rescale(const PxMat33& m, T& a0, T& a1, T& a2)
-{
-	T b0 = a0*m(0,0) + a1 * m(1,0) + a2 * m(2,0);
-	T b1 = a0*m(0,1) + a1 * m(1,1) + a2 * m(2,1);
-	T b2 = a0*m(0,2) + a1 * m(1,2) + a2 * m(2,2);
-
-	a0 = b0;
-	a1 = b1;
-	a2 = b2;
 }
 
 void diagonalize(Px1DConstraint** row,

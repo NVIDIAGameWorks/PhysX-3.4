@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -42,7 +42,7 @@
 #include "PsFoundation.h"
 #include "BpAABBManagerTasks.h"
 #include "PsHashSet.h"
-
+#include "PxFiltering.h"
 
 /**
 \brief The maximum number of bounds allowed in an aggregate
@@ -99,30 +99,6 @@ namespace Bp
 			void*		mPairUserData;		//For deleted pairs, this is the user data written by the application to the pair
 		};*/
 		void*	mPairUserData;		//For deleted pairs, this is the user data written by the application to the pair
-	};
-
-	/*
-	\brief AABBManager volumes with the same filter group value are guaranteed never to generate an overlap pair.
-	\note To ensure that static pairs never overlap, add static shapes with eSTATICS.
-	To ensure that particle bounds never overlap, add particle bounds with ePARTICLES.
-	To ensure that cloth bounds never overlap, add cloth bounds with  eCLOTH.   
-	To ensure that cloth bounds never overlap with cloth or particle bounds, use eCLOTH_NO_PARTICLE_INTERACTION.
-	The value eDYNAMICS_BASE provides a minimum recommended group value for dynamic shapes.
-	If dynamics shapes are assigned group values greater than or equal to eDYNAMICS_BASE then
-	they are allowed to generate broadphase overlaps with particles and statics, and other dynamic shapes provided 
-	they have different group values.
-	@see AABBManager::createVolume
-	*/
-	struct FilterGroup
-	{
-		enum Enum
-		{
-			eSTATICS,
-			ePARTICLES,
-			eCLOTH_NO_PARTICLE_INTERACTION = ePARTICLES,
-			eCLOTH,
-			eDYNAMICS_BASE
-		};
 	};
 
 	class BoundsArray : public Ps::UserAllocated
@@ -317,14 +293,16 @@ namespace Bp
 		PX_NOCOPY(SimpleAABBManager)
 	public:
 
-		SimpleAABBManager(BroadPhase& bp, BoundsArray& boundsArray, Ps::Array<PxReal, Ps::VirtualAllocator>& contactDistance, PxU32 maxNbAggregates, PxU32 maxNbShapes, Ps::VirtualAllocator& allocator, PxU64 contextID);
+		SimpleAABBManager(	BroadPhase& bp, BoundsArray& boundsArray, Ps::Array<PxReal, Ps::VirtualAllocator>& contactDistance,
+							PxU32 maxNbAggregates, PxU32 maxNbShapes, Ps::VirtualAllocator& allocator, PxU64 contextID,
+							PxPairFilteringMode::Enum kineKineFilteringMode, PxPairFilteringMode::Enum staticKineFilteringMode);
 
 		void	destroy();
 
-		AggregateHandle	createAggregate(BoundsIndex index, void* userData, const bool selfCollisions);
-		BoundsIndex		destroyAggregate(AggregateHandle aggregateHandle);
+		AggregateHandle	createAggregate(BoundsIndex index, Bp::FilterGroup::Enum group, void* userData, const bool selfCollisions);
+		bool			destroyAggregate(BoundsIndex& index, Bp::FilterGroup::Enum& group, AggregateHandle aggregateHandle);
 
-		bool			addBounds(BoundsIndex index, PxReal contactDistance, PxU32 group, void* userdata, AggregateHandle aggregateHandle, PxU8 volumeType);
+		bool			addBounds(BoundsIndex index, PxReal contactDistance, Bp::FilterGroup::Enum group, void* userdata, AggregateHandle aggregateHandle, PxU8 volumeType);
 		void			reserveSpaceForBounds(BoundsIndex index);
 		void			removeBounds(BoundsIndex index);
 
@@ -339,6 +317,13 @@ namespace Bp
 		void setVolumeType(BoundsIndex handle, PxU8 volumeType)
 		{
 			mVolumeData[handle].setVolumeType(volumeType);
+		}
+
+		void setBPGroup(BoundsIndex index, Bp::FilterGroup::Enum group)
+		{
+			PX_ASSERT((index + 1) < mVolumeData.size());
+			PX_ASSERT(group != Bp::FilterGroup::eINVALID);	// PT: we use group == Bp::FilterGroup::eINVALID to mark removed/invalid entries
+			mGroups[index] = group;
 		}
 
 		// PT: TODO: revisit name: we don't "update AABBs" here anymore
@@ -410,7 +395,6 @@ namespace Bp
 	private:
 		void reserveShapeSpace(PxU32 nbShapes);
 		
-
 		//Cm::DelegateTask<SimpleAABBManager, &SimpleAABBManager::postBroadPhase>			mPostBroadPhase;
 
 		FinalizeUpdateTask				mFinalizeUpdateTask;
@@ -429,17 +413,24 @@ namespace Bp
 				mRemovedHandleMap.set(index);	// PT: else we need to remove it from the BP
 		}
 
+		PX_FORCE_INLINE void addBPEntry(BoundsIndex index)
+		{
+			if(mRemovedHandleMap.test(index))
+				mRemovedHandleMap.reset(index);
+			else
+				mAddedHandleMap.set(index);
+		}
+
 		// PT: TODO: when do we need 'Ps::VirtualAllocator' and when don't we? When memory is passed to GPU BP?
-		// PT: TODO: this group array won't compile on platforms where PX_USE_16_BIT_HANDLES is true, because it's silently
-		// passed to BroadPhaseUpdateData, which expects ShapeHandle for groups (not PxU32). I cannot change it immediately
-		// because of the comment below, saying it sticks PX_INVALID_U32 in there. Not sure if 0xffff would work.
 		//ML: we create mGroups and mContactDistance in the SimpleAABBManager constructor. Ps::Array will take Ps::VirtualAllocator as a parameter. Therefore, if GPU BP is using,
 		//we will passed a pinned host memory allocator, otherwise, we will just pass a normal allocator.
-		Ps::Array<PxU32,	Ps::VirtualAllocator>				mGroups;				// NOTE: we stick PX_INVALID_U32 in this slot to indicate that the entry is invalid (removed or never inserted.)
+		Ps::Array<Bp::FilterGroup::Enum, Ps::VirtualAllocator>	mGroups;				// NOTE: we stick Bp::FilterGroup::eINVALID in this slot to indicate that the entry is invalid (removed or never inserted.)
 		Ps::Array<PxReal, Ps::VirtualAllocator>& 				mContactDistance;
 		Ps::Array<VolumeData>									mVolumeData;
-
-		PX_FORCE_INLINE void initEntry(BoundsIndex index, PxReal contactDistance, PxU32 group, void* userData)
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+		bool													mLUT[Bp::FilterType::COUNT][Bp::FilterType::COUNT];
+#endif
+		PX_FORCE_INLINE void initEntry(BoundsIndex index, PxReal contactDistance, Bp::FilterGroup::Enum group, void* userData)
 		{
 			if((index+1) >= mVolumeData.size())
 				reserveShapeSpace(index+1);
@@ -447,7 +438,7 @@ namespace Bp
 			// PT: TODO: why is this needed at all? Why aren't size() and capacity() enough?
 			mUsedSize = PxMax(index+1, mUsedSize);
 
-			PX_ASSERT(group != PX_INVALID_U32);	// PT: we use group == PX_INVALID_U32 to mark removed/invalid entries
+			PX_ASSERT(group != Bp::FilterGroup::eINVALID);	// PT: we use group == Bp::FilterGroup::eINVALID to mark removed/invalid entries
 			mGroups[index] = group;
 			mContactDistance.begin()[index] = contactDistance;
 			mVolumeData[index].setUserData(userData);
@@ -455,7 +446,7 @@ namespace Bp
 
 		PX_FORCE_INLINE void resetEntry(BoundsIndex index)
 		{
-			mGroups[index] = PX_INVALID_U32;
+			mGroups[index] = Bp::FilterGroup::eINVALID;
 			mContactDistance.begin()[index] = 0.0f;
 			mVolumeData[index].reset();
 		}
@@ -490,12 +481,13 @@ namespace Bp
 		AggPairMap					mActorAggregatePairs;
 		AggPairMap					mAggregateAggregatePairs;
 
+#ifdef BP_USE_AGGREGATE_GROUP_TAIL
 		// PT: TODO: even in the 3.4 trunk this stuff is a clumsy mess: groups are "BpHandle" suddenly passed
 		// to BroadPhaseUpdateData as "ShapeHandle".
 		//Free aggregate group ids.
-		BpHandle					mAggregateGroupTide;
-		Ps::Array<BpHandle>			mFreeAggregateGroups;	// PT: TODO: remove this useless array
-
+		PxU32								mAggregateGroupTide;
+		Ps::Array<Bp::FilterGroup::Enum>	mFreeAggregateGroups;	// PT: TODO: remove this useless array
+#endif
 		Ps::HashSet<Pair>			mCreatedPairs;
 
 		PxU64						mContextID;
@@ -506,23 +498,31 @@ namespace Bp
 			return mAggregates[handle];
 		}
 
-		PX_FORCE_INLINE void		releaseAggregateGroup(const BpHandle group) 
+#ifdef BP_USE_AGGREGATE_GROUP_TAIL
+		PX_FORCE_INLINE void		releaseAggregateGroup(const Bp::FilterGroup::Enum group) 
 		{
-			PX_ASSERT(group != BP_INVALID_BP_HANDLE);
+			PX_ASSERT(group != Bp::FilterGroup::eINVALID);
 			mFreeAggregateGroups.pushBack(group);
 		}
 
-		PX_FORCE_INLINE BpHandle	getAggregateGroup()
+		PX_FORCE_INLINE Bp::FilterGroup::Enum	getAggregateGroup()
 		{
-			BpHandle group;
+			PxU32 id;
 			if(mFreeAggregateGroups.size())
-				group = mFreeAggregateGroups.popBack();
+				id = mFreeAggregateGroups.popBack();
 			else
-				group = mAggregateGroupTide--;
-			PX_ASSERT(group!=BP_INVALID_BP_HANDLE);
+			{
+				id = mAggregateGroupTide--;
+	#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+				id<<=2;
+				id|=FilterType::AGGREGATE;
+	#endif
+			}
+			const Bp::FilterGroup::Enum group = Bp::FilterGroup::Enum(id);
+			PX_ASSERT(group != Bp::FilterGroup::eINVALID);
 			return group;
 		}
-
+#endif
 		void startAggregateBoundsComputationTasks(PxU32 nbToGo, PxU32 numCpuTasks, Cm::FlushPool& flushPool);
 		PersistentActorAggregatePair* createPersistentActorAggregatePair(ShapeHandle volA, ShapeHandle volB);
 		PersistentAggregateAggregatePair* createPersistentAggregateAggregatePair(ShapeHandle volA, ShapeHandle volB);

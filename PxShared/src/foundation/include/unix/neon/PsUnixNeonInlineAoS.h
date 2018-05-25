@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -2052,6 +2052,13 @@ PX_FORCE_INLINE Vec4V V4PermYZXW(const Vec4V a)
 	const uint32x2_t yz = vext_u32(xy, zw, 1);
 	const uint32x2_t xw = vrev64_u32(vext_u32(zw, xy, 1));
 	return vreinterpretq_f32_u32(vcombine_u32(yz, xw));
+}
+
+PX_FORCE_INLINE Vec4V V4PermZWXY(const Vec4V a)
+{
+	const float32x2_t low = vget_low_f32(a);
+	const float32x2_t high = vget_high_f32(a);
+	return vcombine_f32(high, low);
 }
 
 template <PxU8 E0, PxU8 E1, PxU8 E2, PxU8 E3>

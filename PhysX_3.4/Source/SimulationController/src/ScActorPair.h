@@ -23,10 +23,9 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
-
 
 #ifndef PX_COLLISION_ACTORPAIR
 #define PX_COLLISION_ACTORPAIR
@@ -39,20 +38,19 @@ namespace physx
 {
 namespace Sc
 {
-
 	class ActorPairContactReportData
 	{
 	public:
 		ActorPairContactReportData() : 
-			mStrmResetStamp						(0xffffffff),
-			mActorAID							(0xffffffff),
-			mActorBID							(0xffffffff),
-			mPxActorA							(NULL),
-			mPxActorB							(NULL),
-			mActorAClientID						(0xff),
-			mActorBClientID						(0xff),
-			mActorAClientBehavior				(0),
-			mActorBClientBehavior				(0)
+			mStrmResetStamp			(0xffffffff),
+			mActorAID				(0xffffffff),
+			mActorBID				(0xffffffff),
+			mPxActorA				(NULL),
+			mPxActorB				(NULL),
+			mActorAClientID			(0xff),
+			mActorBClientID			(0xff),
+			mActorAClientBehavior	(0),
+			mActorBClientBehavior	(0)
 			{}
 
 		ContactStreamManager	mContactStreamManager;
@@ -67,7 +65,6 @@ namespace Sc
 		PxU8					mActorBClientBehavior;
 	};
 
-
 	/**
 	\brief Class shared by all shape interactions for a pair of actors.
 
@@ -76,11 +73,10 @@ namespace Sc
 	class ActorPair
 	{
 	public:
-
 		enum ActorPairFlags
 		{
-			eIS_REPORT_PAIR							= (1<<0),
-			eNEXT_FREE								= (1<<1)
+			eIS_REPORT_PAIR	= (1<<0),
+			eNEXT_FREE		= (1<<1)
 		};
 
 		PX_FORCE_INLINE					ActorPair() : mInternalFlags(0), mTouchCount(0), mRefCount(0) {}
@@ -99,14 +95,12 @@ namespace Sc
 	private:
 		ActorPair& operator=(const ActorPair&);
 
-
 	protected:
 						PxU16			mInternalFlags;
 						PxU16			mTouchCount;
 						PxU16			mRefCount;
 						PxU16			mPad;  // instances of this class are stored in a pool which needs an item size of at least size_t
 	};
-
 
 	/**
 	\brief Class shared by all shape interactions for a pair of actors if contact reports are requested.
@@ -166,7 +160,6 @@ namespace Sc
 
 } // namespace Sc
 
-
 PX_FORCE_INLINE Sc::ActorPairReport::ActorPairReport(RigidSim& actor0, RigidSim& actor1) : ActorPair(),
 mActorA			(actor0),
 mActorB			(actor1),
@@ -176,18 +169,15 @@ mReportData		(NULL)
 	mInternalFlags = ActorPair::eIS_REPORT_PAIR;
 }
 
-
 PX_FORCE_INLINE Sc::ActorPairReport::~ActorPairReport()
 {
 	PX_ASSERT(mReportData == NULL);
 }
 
-
 PX_FORCE_INLINE bool Sc::ActorPairReport::streamResetNeeded(PxU32 cmpStamp) const
 {
 	return (cmpStamp != mReportData->mStrmResetStamp);
 }
-
 
 PX_INLINE bool Sc::ActorPairReport::streamResetStamp(PxU32 cmpStamp) 
 {
@@ -196,7 +186,6 @@ PX_INLINE bool Sc::ActorPairReport::streamResetStamp(PxU32 cmpStamp)
 	mReportData->mStrmResetStamp = cmpStamp; 
 	return ret; 
 }
-
 
 PX_INLINE Sc::ContactStreamManager&	Sc::ActorPairReport::createContactStreamManager(NPhaseCore& npCore)
 {
@@ -207,7 +196,6 @@ PX_INLINE Sc::ContactStreamManager&	Sc::ActorPairReport::createContactStreamMana
 	return mReportData->mContactStreamManager;
 }
 
-
 PX_FORCE_INLINE void Sc::ActorPairReport::createContactReportData(NPhaseCore& npCore)
 {
 	PX_ASSERT(!mReportData);
@@ -216,8 +204,8 @@ PX_FORCE_INLINE void Sc::ActorPairReport::createContactReportData(NPhaseCore& np
 
 	if(reportData)
 	{
-		reportData->mActorAID = mActorA.getID();
-		reportData->mActorBID = mActorB.getID();
+		reportData->mActorAID = mActorA.getRigidID();
+		reportData->mActorBID = mActorB.getRigidID();
 
 		reportData->mPxActorA = mActorA.getPxActor();
 		reportData->mPxActorB = mActorB.getPxActor();
@@ -233,7 +221,6 @@ PX_FORCE_INLINE void Sc::ActorPairReport::createContactReportData(NPhaseCore& np
 	}
 }
 
-
 PX_FORCE_INLINE void Sc::ActorPairReport::releaseContactReportData(NPhaseCore& npCore)
 {
 	// Can't take the NPhaseCore (scene) reference from the actors since they're already gone on scene release
@@ -244,7 +231,6 @@ PX_FORCE_INLINE void Sc::ActorPairReport::releaseContactReportData(NPhaseCore& n
 		mReportData = NULL;
 	}
 }
-
 
 }
 

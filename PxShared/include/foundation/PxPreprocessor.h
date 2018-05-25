@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -37,6 +37,12 @@
 /** \addtogroup foundation
   @{
 */
+
+#define PX_STRINGIZE_HELPER(X) #X
+#define PX_STRINGIZE(X) PX_STRINGIZE_HELPER(X)
+
+#define PX_CONCAT_HELPER(X, Y) X##Y
+#define PX_CONCAT(X, Y) PX_CONCAT_HELPER(X, Y)
 
 /*
 The following preprocessor identifiers specify compiler, OS, and architecture.
@@ -427,8 +433,8 @@ General defines
 */
 
 // static assert
-#if(defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7))) || (PX_PS4) || (PX_APPLE_FAMILY) || (PX_SWITCH) || (PX_CLANG && PX_ARM)
-#define PX_COMPILE_TIME_ASSERT(exp) typedef char PxCompileTimeAssert_Dummy[(exp) ? 1 : -1] __attribute__((unused))
+#if (defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7))) || (PX_PS4) || (PX_APPLE_FAMILY) || (PX_SWITCH) || (PX_CLANG && PX_ARM)
+#define PX_COMPILE_TIME_ASSERT(exp) typedef char PX_CONCAT(PxCompileTimeAssert_Dummy, __COUNTER__)[(exp) ? 1 : -1] __attribute__((unused))
 #else
 #define PX_COMPILE_TIME_ASSERT(exp) typedef char PxCompileTimeAssert_Dummy[(exp) ? 1 : -1]
 #endif
@@ -519,12 +525,6 @@ PX_COMPILE_TIME_ASSERT(PX_OFFSET_OF(PxPackValidation, a) == 8);
 protected:                                                                                                             \
 	Class(const Class&);                                                                                               \
 	Class& operator=(const Class&);
-
-#define PX_STRINGIZE_HELPER(X) #X
-#define PX_STRINGIZE(X) PX_STRINGIZE_HELPER(X)
-
-#define PX_CONCAT_HELPER(X, Y) X##Y
-#define PX_CONCAT(X, Y) PX_CONCAT_HELPER(X, Y)
 
 #ifndef DISABLE_CUDA_PHYSX
 //CUDA is currently supported only on windows 

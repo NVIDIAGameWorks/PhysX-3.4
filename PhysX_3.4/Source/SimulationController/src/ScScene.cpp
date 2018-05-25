@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -582,6 +582,8 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 	mMemBlock256Pool				(PX_DEBUG_EXP("PxsContext ConstraintBlock256Pool")),
 	mMemBlock384Pool				(PX_DEBUG_EXP("PxsContext ConstraintBlock384Pool")),
 	mNPhaseCore						(NULL),
+	mKineKineFilteringMode			(desc.kineKineFilteringMode),
+	mStaticKineFilteringMode		(desc.staticKineFilteringMode),
 	mSleepBodies					(PX_DEBUG_EXP("sceneSleepBodies")),
 	mWokeBodies						(PX_DEBUG_EXP("sceneWokeBodies")),
 	mEnableStabilization			(desc.flags & PxSceneFlag::eENABLE_STABILIZATION),
@@ -804,7 +806,9 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 		mSimulationControllerCallback = PX_PLACEMENT_NEW(PX_ALLOC(sizeof(ScSimulationControllerCallback), PX_DEBUG_EXP("ScSimulationControllerCallback")), ScSimulationControllerCallback(this));
 		mSimulationController = createSimulationController(mSimulationControllerCallback);
 
-		mAABBManager = PX_NEW(Bp::SimpleAABBManager)(*mBP, *mBoundsArray, *mContactDistance, desc.limits.maxNbAggregates, desc.limits.maxNbStaticShapes + desc.limits.maxNbDynamicShapes, allocator, contextID);
+		mAABBManager = PX_NEW(Bp::SimpleAABBManager)(	*mBP, *mBoundsArray, *mContactDistance,
+														desc.limits.maxNbAggregates, desc.limits.maxNbStaticShapes + desc.limits.maxNbDynamicShapes, allocator, contextID,
+														desc.kineKineFilteringMode, desc.staticKineFilteringMode);
 	}
 	else
 	{
@@ -841,7 +845,9 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 
 		Ps::VirtualAllocator tAllocator(mHeapMemoryAllocationManager->mMappedMemoryAllocators);
 	
-		mAABBManager = PX_NEW(Bp::SimpleAABBManager)(*mBP, *mBoundsArray, *mContactDistance, desc.limits.maxNbAggregates, desc.limits.maxNbStaticShapes + desc.limits.maxNbDynamicShapes, tAllocator, contextID);		
+		mAABBManager = PX_NEW(Bp::SimpleAABBManager)(	*mBP, *mBoundsArray, *mContactDistance,
+														desc.limits.maxNbAggregates, desc.limits.maxNbStaticShapes + desc.limits.maxNbDynamicShapes, tAllocator, contextID,
+														desc.kineKineFilteringMode, desc.staticKineFilteringMode);
 #endif
 	}
 
@@ -1695,7 +1701,7 @@ void Sc::Scene::removeBody(BodySim& body)	//this also notifies any connected joi
 	else
 		PX_ASSERT(!isInPosePreviewList(body));
 
-	markReleasedBodyIDForLostTouch(body.getID());
+	markReleasedBodyIDForLostTouch(body.getRigidID());
 }
 
 void Sc::Scene::addConstraint(ConstraintCore& constraint, RigidCore* body0, RigidCore* body1)
@@ -3893,7 +3899,6 @@ public:
 	const PxReal				mDt;
 	IG::SimpleIslandManager*	mIslandManager;
 	PxsSimulationController*	mSimulationController;
-	PxU64						mContextID;
 	bool						mSimUsesAdaptiveForce;
 
 public:
@@ -3903,7 +3908,6 @@ public:
 		mDt						(dt),
 		mIslandManager			(islandManager),
 		mSimulationController	(simulationController),
-		mContextID				(contextID),
 		mSimUsesAdaptiveForce	(simUsesAdaptiveForce)
 	{
 	}
@@ -5824,7 +5828,7 @@ void Sc::Scene::addToLostTouchList(BodySim* body1, BodySim* body2)
 {
 	PX_ASSERT(body1 != 0);
 	PX_ASSERT(body2 != 0);
-	SimpleBodyPair p = { body1, body2, body1->getID(), body2->getID() };
+	SimpleBodyPair p = { body1, body2, body1->getRigidID(), body2->getRigidID() };
 	mLostTouchPairs.pushBack(p);
 }
 
@@ -6036,13 +6040,35 @@ PxU32 Sc::Scene::createAggregate(void* userData, bool selfCollisions)
 {
 	const physx::Bp::BoundsIndex index = getElementIDPool().createID();
 	mBoundsArray->initEntry(index);
-	return mAABBManager->createAggregate(index, userData, selfCollisions);
+#ifdef BP_USE_AGGREGATE_GROUP_TAIL
+	return mAABBManager->createAggregate(index, Bp::FilterGroup::eINVALID, userData, selfCollisions);
+#else
+	// PT: TODO: ideally a static compound would have a static group
+	const PxU32 rigidId	= getRigidIDTracker().createID();
+	const Bp::FilterGroup::Enum bpGroup = Bp::FilterGroup::Enum(rigidId + Bp::FilterGroup::eDYNAMICS_BASE);
+	return mAABBManager->createAggregate(index, bpGroup, userData, selfCollisions);
+#endif
 }
 
 void Sc::Scene::deleteAggregate(PxU32 id)
 {
-	const physx::Bp::BoundsIndex index = mAABBManager->destroyAggregate(id);
-	getElementIDPool().releaseID(index);
+	Bp::BoundsIndex index;
+	Bp::FilterGroup::Enum bpGroup;
+#ifdef BP_USE_AGGREGATE_GROUP_TAIL
+	if(mAABBManager->destroyAggregate(index, bpGroup, id))
+	{
+		getElementIDPool().releaseID(index);
+	}
+#else
+	if(mAABBManager->destroyAggregate(index, bpGroup, id))
+	{
+		getElementIDPool().releaseID(index);
+
+		// PT: this is clumsy....
+		const PxU32 rigidId	= PxU32(bpGroup) - Bp::FilterGroup::eDYNAMICS_BASE;
+		getRigidIDTracker().releaseID(rigidId);
+	}
+#endif
 }
 
 //~PX_AGGREGATE

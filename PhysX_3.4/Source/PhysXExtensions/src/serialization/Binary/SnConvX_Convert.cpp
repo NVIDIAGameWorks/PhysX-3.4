@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 
 #include "foundation/PxErrorCallback.h"
 #include "SnConvX.h"
@@ -307,11 +307,11 @@ bool Sn::ConvX::convertClass(const char* buffer, const MetaClass* mc, int offset
 
 		if (i < nbSrcEntries)
 		{
-			displayMessage(PxErrorCode::eDEBUG_INFO, "\t0x%p\t%x\t%d\t%d\t%s", buffer + srcOffsetCheck, 
-				buffer[srcOffsetCheck], srcOffsetCheck, srcEntries[i].entry.mOffset, srcEntries[i].entry.mName);
+			displayMessage(PxErrorCode::eDEBUG_INFO, "\t0x%p\t%02x\t%d\t%d\t%s", buffer + srcOffsetCheck, 
+				static_cast<unsigned char>(buffer[srcOffsetCheck]), srcOffsetCheck, srcEntries[i].entry.mOffset, srcEntries[i].entry.mName);
 			for (int byteCount = 1; byteCount < srcEntries[i].entry.mSize; ++byteCount) 
-				displayMessage(PxErrorCode::eDEBUG_INFO, "\t0x%p\t%x\t%d\t%d\t.", buffer + srcOffsetCheck + byteCount,
-				buffer[srcOffsetCheck + byteCount], srcOffsetCheck + byteCount, srcEntries[i].entry.mOffset + byteCount);
+				displayMessage(PxErrorCode::eDEBUG_INFO, "\t0x%p\t%02x\t%d\t%d\t.", buffer + srcOffsetCheck + byteCount,
+				static_cast<unsigned char>(buffer[srcOffsetCheck + byteCount]), srcOffsetCheck + byteCount, srcEntries[i].entry.mOffset + byteCount);
 		}
 
 		bool handlePadding = true;
@@ -691,12 +691,11 @@ const char* Sn::ConvX::convertExtraData_Ptr(const char* Address, const char* las
 	tmpDst.mCount = count;
 	tmpDst.mSize = count * ptrSize_Dst;
 
-
 	displayMessage(PxErrorCode::eDEBUG_INFO, "extra data ptrs\n");
 	displayMessage(PxErrorCode::eDEBUG_INFO, "+++++++++++++++++++++++++++++++++++++++++++++\n");
-	displayMessage(PxErrorCode::eDEBUG_INFO, "\t0x%p\t%x\t\t\t%s", Address, Address[0], entry.mName);
+	displayMessage(PxErrorCode::eDEBUG_INFO, "\t0x%p\t%02x\t\t\t%s", Address, static_cast<unsigned char>(Address[0]), entry.mName);
 	for (int byteCount = 1; byteCount < ptrSize_Src*count; ++byteCount) 
-		displayMessage(PxErrorCode::eDEBUG_INFO, "\t0x%p\t%x\t\t\t.", Address + byteCount, Address[byteCount]);
+		displayMessage(PxErrorCode::eDEBUG_INFO, "\t0x%p\t%02x\t\t\t.", Address + byteCount, static_cast<unsigned char>(Address[byteCount]));
 
 	convertPtr(Address, tmpSrc, tmpDst);
 	Address += count * ptrSize_Src;

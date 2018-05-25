@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -772,11 +772,11 @@ bool NpShape::checkMaterialSetup(const PxGeometry& geom, const char* errorMsgPre
 		const PxHeightField& mesh = *meshGeom.heightField;
 		if(mesh.getTriangleMaterialIndex(0) != 0xffff)
 		{
-			const PxU32 nbTris = (mesh.getNbColumns() - 1)*(mesh.getNbColumns() - 1)*2;
+			const PxU32 nbTris = mesh.getNbColumns()*mesh.getNbRows()*2;
 			for(PxU32 i = 0; i < nbTris; i++)
 			{
 				const PxMaterialTableIndex meshMaterialIndex = mesh.getTriangleMaterialIndex(i);
-				if(meshMaterialIndex >= materialCount)
+				if(meshMaterialIndex != PxHeightFieldMaterial::eHOLE && meshMaterialIndex >= materialCount)
 				{
 					Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, 
 						"%s: PxHeightField material indices reference more materials than provided!", errorMsgPrefix);

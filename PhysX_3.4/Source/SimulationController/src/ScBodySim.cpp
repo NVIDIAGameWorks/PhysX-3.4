@@ -23,10 +23,9 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
-
 
 #include "ScBodySim.h"
 #include "ScScene.h"
@@ -49,6 +48,7 @@
 
 using namespace physx;
 using namespace physx::Dy;
+using namespace Sc;
 
 #define PX_FREEZE_INTERVAL 1.5f
 #define PX_FREE_EXIT_THRESHOLD 4.f
@@ -121,7 +121,6 @@ Sc::BodySim::BodySim(Scene& scene, BodyCore& core) :
 		}
 	}
 
-
 	//If a user add force or torque before the body is inserted into the scene,
 	//this logic will make sure pre solver stage apply external force/torque to the body
 	if(hasPendingForce && !isArticulationLink())
@@ -164,7 +163,6 @@ Sc::BodySim::BodySim(Scene& scene, BodyCore& core) :
 	}
 }
 
-
 Sc::BodySim::~BodySim()
 {
 	Sc::Scene &scene = getScene();
@@ -199,13 +197,11 @@ Sc::BodySim::~BodySim()
 	mCore.setSim(NULL);
 }
 
-
 //--------------------------------------------------------------
 //
 // Actor implementation
 //
 //--------------------------------------------------------------
-
 
 void Sc::BodySim::onActivate()
 {
@@ -264,7 +260,6 @@ void Sc::BodySim::updateContactDistance(PxReal* contactDistance, const PxReal dt
 	}
 }
 
-
 void Sc::BodySim::onDeactivate()
 {
 	PX_ASSERT((!isKinematic()) || notInScene() || !readInternalFlag(BF_KINEMATIC_MOVED));	// kinematics should only get deactivated when no target is set.
@@ -291,16 +286,13 @@ void Sc::BodySim::onDeactivate()
 		getScene().removeFromPosePreviewList(*this);
 	}
 	destroySqBounds();
-
 }
-
 
 //--------------------------------------------------------------
 //
 // BodyCore interface implementation
 //
 //--------------------------------------------------------------
-
 
 void Sc::BodySim::notifyAddSpatialAcceleration()
 {
@@ -319,7 +311,6 @@ void Sc::BodySim::notifyClearSpatialAcceleration()
 	getScene().getVelocityModifyMap().growAndSet(getNodeIndex().index());
 }
 
-
 void Sc::BodySim::notifyAddSpatialVelocity()
 {
 	//The dirty flag is stored separately in the BodySim so that we query the dirty flag before going to 
@@ -335,7 +326,6 @@ void Sc::BodySim::notifyClearSpatialVelocity()
 	raiseVelocityModFlag(VMF_VEL_DIRTY);
 	getScene().getVelocityModifyMap().growAndSet(getNodeIndex().index());
 }
-
 
 void Sc::BodySim::postActorFlagChange(PxU32 oldFlags, PxU32 newFlags)
 {
@@ -354,7 +344,6 @@ void Sc::BodySim::postActorFlagChange(PxU32 oldFlags, PxU32 newFlags)
 	}
 }
 
-
 void Sc::BodySim::postBody2WorldChange()
 {
 	mLLBody.saveLastCCDTransform();
@@ -366,7 +355,6 @@ void Sc::BodySim::postBody2WorldChange()
 
 	notifyShapesOfTransformChange();
 }
-
 
 void Sc::BodySim::postSetWakeCounter(PxReal t, bool forceWakeUp)
 {
@@ -380,7 +368,6 @@ void Sc::BodySim::postSetWakeCounter(PxReal t, bool forceWakeUp)
 	}
 }
 
-
 void Sc::BodySim::postSetKinematicTarget()
 {
 	PX_ASSERT(getBodyCore().getSimStateData(true));
@@ -390,6 +377,14 @@ void Sc::BodySim::postSetKinematicTarget()
 	raiseInternalFlag(BF_KINEMATIC_MOVED);	// Important to set this here already because trigger interactions need to have this information when being activated.
 }
 
+static void updateBPGroup(ElementSim* current)
+{
+	while(current)
+	{
+		static_cast<ShapeSim*>(current)->updateBPGroup();
+		current = current->mNextInActor;
+	}
+}
 
 void Sc::BodySim::postSwitchToKinematic()
 {
@@ -402,8 +397,9 @@ void Sc::BodySim::postSwitchToKinematic()
 	setActorsInteractionsDirty(InteractionDirtyFlag::eBODY_KINEMATIC, NULL, InteractionFlag::eFILTERABLE);
 
 	getScene().getSimpleIslandManager()->setKinematic(mNodeIndex);
-}
 
+	updateBPGroup(getElements_());
+}
 
 void Sc::BodySim::postSwitchToDynamic()
 {
@@ -411,7 +407,7 @@ void Sc::BodySim::postSwitchToDynamic()
 
 	setForcesToDefaults(true);
 
-	if (getConstraintGroup())
+	if(getConstraintGroup())
 		getConstraintGroup()->markForProjectionTreeRebuild(mScene.getProjectionManager());
 
 	// - interactions need to get refiltered to make sure that former kinematic-kinematic and kinematic-static pairs get enabled
@@ -423,10 +419,12 @@ void Sc::BodySim::postSwitchToDynamic()
 
 	clearInternalFlag(BF_KINEMATIC_MOVE_FLAGS);
 
-	if (isActive())
+	if(isActive())
 		mScene.swapInActiveBodyList(*this);
-}
 
+	//
+	updateBPGroup(getElements_());
+}
 
 void Sc::BodySim::postPosePreviewChange(const PxU32 posePreviewFlag)
 {
@@ -441,13 +439,11 @@ void Sc::BodySim::postPosePreviewChange(const PxU32 posePreviewFlag)
 		PX_ASSERT(!getScene().isInPosePreviewList(*this));
 }
 
-
 //--------------------------------------------------------------
 //
 // Sleeping
 //
 //--------------------------------------------------------------
-
 
 void Sc::BodySim::setActive(bool active, PxU32 infoFlag)
 {
@@ -489,7 +485,6 @@ void Sc::BodySim::setActive(bool active, PxU32 infoFlag)
 	}
 }
 
-
 void Sc::BodySim::activateInteractions(PxU32 /*infoFlag*/)
 {
 	const PxU32 nbInteractions = getActorInteractionCount();
@@ -510,7 +505,6 @@ void Sc::BodySim::activateInteractions(PxU32 /*infoFlag*/)
 		}
 	}
 }
-
 
 void Sc::BodySim::deactivateInteractions(PxU32 infoFlag)
 {
@@ -533,13 +527,11 @@ void Sc::BodySim::deactivateInteractions(PxU32 infoFlag)
 	}
 }
 
-
 void Sc::BodySim::wakeUp()
 {
 	setActive(true);
 	notifyWakeUp(true);
 }
-
 
 void Sc::BodySim::putToSleep()
 {
@@ -563,7 +555,6 @@ void Sc::BodySim::putToSleep()
 												// We can move this code when we look into the open task of making buffered re-insertion more consistent with the non-buffered case.
 }
 
-
 void Sc::BodySim::internalWakeUp(PxReal wakeCounterValue)
 {
 	if(mArticulation)
@@ -572,13 +563,11 @@ void Sc::BodySim::internalWakeUp(PxReal wakeCounterValue)
 		internalWakeUpBase(wakeCounterValue);
 }
 
-
 void Sc::BodySim::internalWakeUpArticulationLink(PxReal wakeCounterValue)
 {
 	PX_ASSERT(mArticulation);
 	internalWakeUpBase(wakeCounterValue);
 }
-
 
 void Sc::BodySim::internalWakeUpBase(PxReal wakeCounterValue)	//this one can only increase the wake counter, not decrease it, so it can't be used to put things to sleep!
 {
@@ -595,25 +584,21 @@ void Sc::BodySim::internalWakeUpBase(PxReal wakeCounterValue)	//this one can onl
 	}
 }
 
-
 void Sc::BodySim::notifyReadyForSleeping()
 {
 	if(mArticulation == NULL)
 		getScene().getSimpleIslandManager()->deactivateNode(mNodeIndex);
 }
 
-
 void Sc::BodySim::notifyNotReadyForSleeping()
 {
 	getScene().getSimpleIslandManager()->activateNode(mNodeIndex);
 }
 
-
 void Sc::BodySim::notifyWakeUp(bool /*wakeUpInIslandGen*/)
 {
 	getScene().getSimpleIslandManager()->activateNode(mNodeIndex);
 }
-
 
 void Sc::BodySim::notifyPutToSleep()
 {
@@ -692,7 +677,6 @@ PxReal Sc::BodySim::updateWakeCounter(PxReal dt, PxReal energyThreshold, const C
 	return wc;
 }
 
-
 //--------------------------------------------------------------
 //
 // Kinematics
@@ -713,7 +697,6 @@ PX_FORCE_INLINE void Sc::BodySim::initKinematicStateBase(BodyCore&, bool asPartO
 	if (getConstraintGroup())
 		getConstraintGroup()->markForProjectionTreeRebuild(getScene().getProjectionManager());
 }
-
 
 void Sc::BodySim::calculateKinematicVelocity(PxReal oneOverDt)
 {
@@ -802,8 +785,6 @@ void Sc::BodySim::updateKinematicPose()
 	}
 }
 
-
-
 bool Sc::BodySim::deactivateKinematic()
 {
 	BodyCore& core = getBodyCore();
@@ -829,14 +810,11 @@ bool Sc::BodySim::deactivateKinematic()
 	return false;
 }
 
-
-
 //--------------------------------------------------------------
 //
 // Miscellaneous
 //
 //--------------------------------------------------------------
-
 
 void Sc::BodySim::updateForces(PxReal dt, PxsRigidBody** updatedBodySims, PxU32* updatedBodyNodeIndices, PxU32& index, Cm::SpatialVector* acceleration, bool simUsesAdaptiveForce)
 {
@@ -894,8 +872,6 @@ void Sc::BodySim::updateForces(PxReal dt, PxsRigidBody** updatedBodySims, PxU32*
 	setForcesToDefaults(readVelocityModFlag(VMF_ACC_DIRTY));
 }
 
-
-
 bool Sc::BodySim::isConnectedTo(const ActorSim& other, bool& collisionDisabled) const
 {
 	const Sc::ActorSim* actorToMatch;
@@ -933,7 +909,6 @@ bool Sc::BodySim::isConnectedTo(const ActorSim& other, bool& collisionDisabled) 
 	return false;
 }
 
-
 void Sc::BodySim::onConstraintDetach()
 {
 	PX_ASSERT(readInternalFlag(BF_HAS_CONSTRAINTS));
@@ -951,7 +926,6 @@ void Sc::BodySim::onConstraintDetach()
 
 	clearInternalFlag(BF_HAS_CONSTRAINTS);  // There are no other constraint interactions left
 }
-
 
 void Sc::BodySim::setArticulation(Sc::ArticulationSim* a, PxReal wakeCounter, bool asleep, PxU32 bodyIndex)
 {

@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -589,6 +589,8 @@ namespace Sc
 		PX_FORCE_INLINE	PxU32						getFilterShaderDataSizeFast()			const	{ return mFilterShaderDataSize;			}
 		PX_FORCE_INLINE	PxSimulationFilterShader	getFilterShaderFast()					const	{ return mFilterShader;					}
 		PX_FORCE_INLINE	PxSimulationFilterCallback*	getFilterCallbackFast()					const	{ return mFilterCallback;				}
+		PX_FORCE_INLINE	PxPairFilteringMode::Enum	getKineKineFilteringMode()				const	{ return mKineKineFilteringMode;		}
+		PX_FORCE_INLINE	PxPairFilteringMode::Enum	getStaticKineFilteringMode()			const	{ return mStaticKineFilteringMode;		}
 
 		PX_FORCE_INLINE	PxU32						getTimeStamp()							const	{ return mTimeStamp;					}
 		PX_FORCE_INLINE	PxU32						getReportShapePairTimeStamp()			const	{ return mReportShapePairTimeStamp;		}
@@ -849,6 +851,9 @@ namespace Sc
 					PxU32						mFilterShaderDataCapacity;
 					PxSimulationFilterShader	mFilterShader;
 					PxSimulationFilterCallback*	mFilterCallback;
+
+					PxPairFilteringMode::Enum	mKineKineFilteringMode;
+					PxPairFilteringMode::Enum	mStaticKineFilteringMode;
 
 					Ps::CoalescedHashSet<BodyCore*> mSleepBodies;
 					Ps::CoalescedHashSet<BodyCore*> mWokeBodies;

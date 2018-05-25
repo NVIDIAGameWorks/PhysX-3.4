@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -46,10 +46,8 @@
 #include "ScContactReportBuffer.h"
 #include "PsHash.h"
 
-
 namespace physx
 {
-
 namespace Bp
 {
 	struct AABBOverlap;
@@ -94,7 +92,6 @@ namespace Sc
 
 	class RigidSim;
 
-
 	struct PairReleaseFlag
 	{
 		enum Enum
@@ -111,28 +108,22 @@ namespace Sc
 
 	The broadphase inserts shape pairs into the NPhaseCore, which are then processed into contact point streams.
 	Pairs can then be processed into AxisConstraints by the GroupSolveCore.
-
 	*/
-
-	
-
 
 	struct BodyPairKey
 	{
 		PxU32 mSim0;
 		PxU32 mSim1;
 
-		bool operator == (const BodyPairKey& pair) const { return mSim0 == pair.mSim0 && mSim1 == pair.mSim1; }
+		PX_FORCE_INLINE	bool operator == (const BodyPairKey& pair) const { return mSim0 == pair.mSim0 && mSim1 == pair.mSim1; }
 	};
-
-	
 
 	PX_INLINE PxU32 hash(const BodyPairKey& key)
 	{
-		PxU32 add0 = key.mSim0;
-		PxU32 add1 = key.mSim1;
+		const PxU32 add0 = key.mSim0;
+		const PxU32 add1 = key.mSim1;
 
-		PxU32 base = PxU32((add0 & 0xFFFF) | (add1 << 16));
+		const PxU32 base = PxU32((add0 & 0xFFFF) | (add1 << 16));
 
 		return physx::shdfnd::hash(base);
 	}
@@ -141,11 +132,18 @@ namespace Sc
 	{
 		ElementSim* mSim0, *mSim1;
 
-		ElementSimKey(ElementSim* sim0 = NULL, ElementSim* sim1 = NULL) : mSim0(sim0), mSim1(sim1)
+		ElementSimKey() : mSim0(NULL), mSim1(NULL)
 		{}
 
-		bool operator == (const ElementSimKey& pair) const { return mSim0 == pair.mSim0 && mSim1 == pair.mSim1; }
+		ElementSimKey(ElementSim* sim0, ElementSim* sim1)
+		{
+			if(sim0 > sim1)
+				Ps::swap(sim0, sim1);
+			 mSim0 = sim0;
+			 mSim1 = sim1;
+		}
 
+		PX_FORCE_INLINE	bool operator == (const ElementSimKey& pair) const { return mSim0 == pair.mSim0 && mSim1 == pair.mSim1; }
 	};
 
 	PX_INLINE PxU32 hash(const ElementSimKey& key)
@@ -157,11 +155,10 @@ namespace Sc
 		add0 = add0 >> 2;
 		add1 = add1 >> 2;
 
-		PxU32 base = PxU32((add0 & 0xFFFF) | (add1 << 16));
+		const PxU32 base = PxU32((add0 & 0xFFFF) | (add1 << 16));
 
 		return physx::shdfnd::hash(base);
 	}
-
 
 	class NPhaseCore : public Ps::UserAllocated
 	{
@@ -198,9 +195,6 @@ namespace Sc
 		void addToDirtyInteractionList(Interaction* interaction);
 		void removeFromDirtyInteractionList(Interaction* interaction);
 		void updateDirtyInteractions(PxsContactManagerOutputIterator& outputs, bool useAdaptiveForce);
-
-		void reserveSpaceInNphaseCore(const PxU32 nbContactManagers);
-
 
 		/*
 		Description: Perform trigger overlap tests.

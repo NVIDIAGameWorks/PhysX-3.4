@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -418,7 +418,7 @@ void PxVehicleWheels::getBinaryMetaData(PxOutputStream& stream)
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxVehicleWheels,	PxU32,					mNbNonDrivenWheels,				0)	
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxVehicleWheels,	PxU8,					mOnConstraintReleaseCounter,	0)	
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxVehicleWheels,	PxU8,					mType,							0)	
-	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream,	PxVehicleWheels,	PxU8,					mPad,							PxMetaDataFlag::ePADDING)
+	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream,	PxVehicleWheels,	PxU8,					mPad0,							PxMetaDataFlag::ePADDING)
 }
 
 void PxVehicleConstraintShader::getBinaryMetaData(PxOutputStream& stream)

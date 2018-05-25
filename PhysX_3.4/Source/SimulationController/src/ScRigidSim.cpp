@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -53,13 +53,7 @@ using namespace physx;
 Sc::RigidSim::RigidSim(Scene& scene, RigidCore& core) :
 	ActorSim(scene, core)
 {
-	mRigidId	= scene.getRigidIDTracker().createID();
-
-#if PX_CHECKED
-#if PX_USE_16_BIT_HANDLES
-	PX_CHECK_MSG(getBroadphaseGroupId() < BP_INVALID_BP_HANDLE, "The total of actors in the scene plus the number of adds cannot exceed 65535 between simulate()/fetchResult() calls.  The sdk will can now proceed with unexpected outcomes. \n");
-#endif
-#endif
+	mRigidId = scene.getRigidIDTracker().createID();
 }
 
 Sc::RigidSim::~RigidSim()
@@ -110,7 +104,3 @@ Sc::ShapeSim& Sc::RigidSim::getSimForShape(Sc::ShapeCore& core) const
 	return *reinterpret_cast<Sc::ShapeSim*>(1);
 }
 
-PxActor* Sc::RigidSim::getPxActor() const
-{
-	return getRigidCore().getPxActor();
-}

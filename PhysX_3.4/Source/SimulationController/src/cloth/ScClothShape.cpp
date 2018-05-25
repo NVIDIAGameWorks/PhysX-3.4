@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -105,7 +105,13 @@ void Sc::ClothShape::createLowLevelVolume()
 {
 	PX_ASSERT(getWorldBounds().isFinite());
 	getScene().getBoundsArray().setBounds(getWorldBounds(), getElementID());	
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	const PxU32 group = Bp::FilterGroup::eCLOTH_NO_PARTICLE_INTERACTION;
+	const PxU32 type = Bp::FilterType::DYNAMIC;
+	addToAABBMgr(0, Bp::FilterGroup::Enum((group<<2)|type), false);
+#else
 	addToAABBMgr(0, Bp::FilterGroup::eCLOTH_NO_PARTICLE_INTERACTION, false);
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

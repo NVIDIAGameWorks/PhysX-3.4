@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -112,18 +112,21 @@ bool BigConvexDataBuilder::computeValencies(const ConvexHullBuilder& meshBuilder
 	const PxU32 numVertices = meshBuilder.mHull->mNbHullVertices;
 	mSVM->mData.mNbVerts = numVertices;
 
-	// Get ram for valencies
-	mSVM->mData.mValencies = PX_NEW(Gu::Valency)[mSVM->mData.mNbVerts];
+	// Get ram for valencies and adjacent verts
+	const PxU32 numAlignedVerts = (numVertices+3)&~3;
+	const PxU32 TotalSize = sizeof(Gu::Valency)*numAlignedVerts + sizeof(PxU8)*meshBuilder.mHull->mNbEdges*2u;
+	mSVM->mVBuffer = PX_ALLOC(TotalSize, "BigConvexData data");
+	mSVM->mData.mValencies		= reinterpret_cast<Gu::Valency*>(mSVM->mVBuffer);
+	mSVM->mData.mAdjacentVerts	= (reinterpret_cast<PxU8*>(mSVM->mVBuffer)) + sizeof(Gu::Valency)*numAlignedVerts;
+
 	PxMemZero(mSVM->mData.mValencies, numVertices*sizeof(Gu::Valency));
 	PxU8 vertexMarker[256];
 	PxMemZero(vertexMarker,numVertices);
-	// Get ram for adjacent vertices references
-	mSVM->mData.mAdjacentVerts = PX_NEW(PxU8)[meshBuilder.mHull->mNbEdges*2u];
 
 	// Compute valencies
 	for (PxU32 i = 0; i < meshBuilder.mHull->mNbPolygons; i++)
 	{
-		PxU32 numVerts = meshBuilder.mHullDataPolygons[i].mNbVerts;
+		const PxU32 numVerts = meshBuilder.mHullDataPolygons[i].mNbVerts;
 		const PxU8* Data = meshBuilder.mHullDataVertexData8 + meshBuilder.mHullDataPolygons[i].mVRef8;
 		for (PxU32 j = 0; j < numVerts; j++)
 		{			

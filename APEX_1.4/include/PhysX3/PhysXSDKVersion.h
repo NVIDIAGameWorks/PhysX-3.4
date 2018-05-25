@@ -27,7 +27,7 @@
 /// Minor version of PhysX
 #define PX_PHYSICS_VERSION_MINOR 4
 /// Bugfix version of PhysX
-#define PX_PHYSICS_VERSION_BUGFIX 1
+#define PX_PHYSICS_VERSION_BUGFIX 2
 
 /**
 The constant PX_PHYSICS_VERSION is used when creating certain PhysX module objects.

@@ -411,13 +411,13 @@ PxVehicleWheels_8h.html
 PxVisualizationParameter_8h.html
 PxVolumeCache_8h.html
 deprecated.html
+group__cloth.html
 group__particles.html
 group__physics.html
 group__scenequery.html
 group__immediatemode.html
 group__foundation.html
 group__character.html
-group__cloth.html
 group__common.html
 group__extensions.html
 group__cooking.html
@@ -488,6 +488,7 @@ functions_vars_0x66.html
 functions_vars_0x67.html
 functions_vars_0x68.html
 functions_vars_0x69.html
+functions_vars_0x6b.html
 functions_vars_0x6c.html
 functions_vars_0x6d.html
 functions_vars_0x6e.html
@@ -969,6 +970,8 @@ structPxPackValidation.html
 structPxPackValidation-members.html
 structPxPadding.html
 structPxPadding-members.html
+structPxPairFilteringMode.html
+structPxPairFilteringMode-members.html
 structPxPairFlag.html
 structPxPairFlag-members.html
 classPxParticleBase.html

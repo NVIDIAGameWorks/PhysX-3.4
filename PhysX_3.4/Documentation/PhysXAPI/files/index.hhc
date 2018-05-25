@@ -9,6 +9,38 @@
   </UL>
 <LI><OBJECT type="text/sitemap"><param name="Name" value="Modules"><param name="Local" value="modules.html"><param name="ImageNumber" value="1"></OBJECT>
   <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="cloth (deprecated)"><param name="Local" value="group__cloth.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Typedefs"><param name="Local" value="group__cloth.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFlags"><param name="Local" value="group__cloth.html#g2be4311f196add0112bf7148caa36151"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Functions"><param name="Local" value="group__cloth.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="isValid"><param name="Local" value="group__cloth.html#g9da16e662b3e661e129cb7cb8726b8dd"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabricDesc"><param name="Local" value="group__cloth.html#g67e57148524e0336ebc001c5dc9f345f"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabricPhase"><param name="Local" value="group__cloth.html#ga6666ad3d3501085542b7c9ccc94a8d7"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="setToDefault"><param name="Local" value="group__cloth.html#g2a75f18d35312c00faeacf1e144af741"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Classes"><param name="Local" value="group__cloth.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothStretchConfig"><param name="Local" value="structPxClothStretchConfig.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothTetherConfig"><param name="Local" value="structPxClothTetherConfig.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothMotionConstraintConfig"><param name="Local" value="structPxClothMotionConstraintConfig.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxCloth"><param name="Local" value="classPxCloth.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothCollisionSphere"><param name="Local" value="structPxClothCollisionSphere.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothCollisionPlane"><param name="Local" value="structPxClothCollisionPlane.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothCollisionTriangle"><param name="Local" value="structPxClothCollisionTriangle.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabricPhaseType"><param name="Local" value="structPxClothFabricPhaseType.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabricPhase"><param name="Local" value="structPxClothFabricPhase.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabricDesc"><param name="Local" value="classPxClothFabricDesc.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabric"><param name="Local" value="classPxClothFabric.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFlag"><param name="Local" value="structPxClothFlag.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothParticle"><param name="Local" value="structPxClothParticle.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothParticleMotionConstraint"><param name="Local" value="structPxClothParticleMotionConstraint.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothParticleSeparationConstraint"><param name="Local" value="structPxClothParticleSeparationConstraint.html"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="particles (deprecated)"><param name="Local" value="group__particles.html"><param name="ImageNumber" value="1"></OBJECT>
     <UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Typedefs"><param name="Local" value="group__particles.html"><param name="ImageNumber" value="1"></OBJECT>
@@ -167,6 +199,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxFilterObjectFlag"><param name="Local" value="structPxFilterObjectFlag.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxSimulationFilterCallback"><param name="Local" value="classPxSimulationFilterCallback.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxFilterInfo"><param name="Local" value="structPxFilterInfo.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxPairFilteringMode"><param name="Local" value="structPxPairFilteringMode.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxForceMode"><param name="Local" value="structPxForceMode.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxDataAccessFlag"><param name="Local" value="structPxDataAccessFlag.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxLockedData"><param name="Local" value="classPxLockedData.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -632,38 +665,6 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxCapsuleObstacle"><param name="Local" value="classPxCapsuleObstacle.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxObstacleContext"><param name="Local" value="classPxObstacleContext.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PxExtendedVec3"><param name="Local" value="structPxExtendedVec3.html"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="Cloth"><param name="Local" value="group__cloth.html"><param name="ImageNumber" value="1"></OBJECT>
-    <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="Typedefs"><param name="Local" value="group__cloth.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFlags"><param name="Local" value="group__cloth.html#g2be4311f196add0112bf7148caa36151"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="Functions"><param name="Local" value="group__cloth.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="isValid"><param name="Local" value="group__cloth.html#g9da16e662b3e661e129cb7cb8726b8dd"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabricDesc"><param name="Local" value="group__cloth.html#g67e57148524e0336ebc001c5dc9f345f"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabricPhase"><param name="Local" value="group__cloth.html#ga6666ad3d3501085542b7c9ccc94a8d7"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="setToDefault"><param name="Local" value="group__cloth.html#g2a75f18d35312c00faeacf1e144af741"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="Classes"><param name="Local" value="group__cloth.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothStretchConfig"><param name="Local" value="structPxClothStretchConfig.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothTetherConfig"><param name="Local" value="structPxClothTetherConfig.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothMotionConstraintConfig"><param name="Local" value="structPxClothMotionConstraintConfig.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxCloth"><param name="Local" value="classPxCloth.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothCollisionSphere"><param name="Local" value="structPxClothCollisionSphere.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothCollisionPlane"><param name="Local" value="structPxClothCollisionPlane.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothCollisionTriangle"><param name="Local" value="structPxClothCollisionTriangle.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabricPhaseType"><param name="Local" value="structPxClothFabricPhaseType.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabricPhase"><param name="Local" value="structPxClothFabricPhase.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabricDesc"><param name="Local" value="classPxClothFabricDesc.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFabric"><param name="Local" value="classPxClothFabric.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothFlag"><param name="Local" value="structPxClothFlag.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothParticle"><param name="Local" value="structPxClothParticle.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothParticleMotionConstraint"><param name="Local" value="structPxClothParticleMotionConstraint.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="PxClothParticleSeparationConstraint"><param name="Local" value="structPxClothParticleSeparationConstraint.html"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
     </UL>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="Common"><param name="Local" value="group__common.html"><param name="ImageNumber" value="1"></OBJECT>
@@ -1343,6 +1344,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxOverlapHit"><param name="Local" value="structPxOverlapHit.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxPackValidation"><param name="Local" value="structPxPackValidation.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxPadding< TNumBytes >"><param name="Local" value="structPxPadding.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="PxPairFilteringMode"><param name="Local" value="structPxPairFilteringMode.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxPairFlag"><param name="Local" value="structPxPairFlag.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxParticleBase"><param name="Local" value="classPxParticleBase.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxParticleBaseFlag"><param name="Local" value="structPxParticleBaseFlag.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -1848,6 +1850,7 @@
     </UL>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxPackValidation"><param name="Local" value="structPxPackValidation.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxPadding< TNumBytes >"><param name="Local" value="structPxPadding.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="PxPairFilteringMode"><param name="Local" value="structPxPairFilteringMode.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxPairFlag"><param name="Local" value="structPxPairFlag.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxParticleBaseFlag"><param name="Local" value="structPxParticleBaseFlag.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="PxParticleCreationData"><param name="Local" value="classPxParticleCreationData.html"><param name="ImageNumber" value="11"></OBJECT>

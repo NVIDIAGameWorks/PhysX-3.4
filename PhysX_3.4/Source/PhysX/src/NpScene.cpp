@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -2345,7 +2345,10 @@ bool NpScene::fetchResults(bool block, PxU32* errorState)
 	}
 
 #if PX_SUPPORT_PVD
-	mScene.getScenePvdClient().frameEnd();
+	{
+		PX_SIMD_GUARD;
+		mScene.getScenePvdClient().frameEnd();
+	}
 #endif
 	return true;
 }
@@ -2865,6 +2868,17 @@ namespace
 {
 	struct ThreadReadWriteCount
 	{
+		ThreadReadWriteCount(const size_t data)
+			:	readDepth(data & 0xFF),
+				writeDepth((data >> 8) & 0xFF),
+				readLockDepth((data >> 16) & 0xFF),
+				writeLockDepth((data >> 24) & 0xFF)
+		{
+			
+		}
+
+		size_t getData() const { return size_t(writeLockDepth) << 24 |  size_t(readLockDepth) << 16 | size_t(writeDepth) << 8 | size_t(readDepth); }
+
 		PxU8 readDepth;			// depth of re-entrant reads
 		PxU8 writeDepth;		// depth of re-entrant writes 
 
@@ -2881,7 +2895,7 @@ NpScene::StartWriteResult::Enum NpScene::startWrite(bool allowReentry)
 
 	if (mScene.getFlags() & PxSceneFlag::eREQUIRE_RW_LOCK)
 	{
-		ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
+		ThreadReadWriteCount localCounts(TlsGetValue(mThreadReadWriteDepth));
 
 		if (mBetweenFetchResults)
 			return StartWriteResult::eIN_FETCHRESULTS;
@@ -2891,7 +2905,7 @@ NpScene::StartWriteResult::Enum NpScene::startWrite(bool allowReentry)
 	}
 	
 	{
-		ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
+		ThreadReadWriteCount localCounts(TlsGetValue(mThreadReadWriteDepth));
 		StartWriteResult::Enum result;
 
 		if (mBetweenFetchResults)
@@ -2912,7 +2926,7 @@ NpScene::StartWriteResult::Enum NpScene::startWrite(bool allowReentry)
 		// by 2 to force subsequent writes to fail by creating a mismatch between
 		// the concurrent write counter and the local counter, any value > 1 will do
 		localCounts.writeDepth += allowReentry ? 1 : 2;
-		TlsSet(mThreadReadWriteDepth, PxUnionCast<void*>(localCounts));
+		TlsSetValue(mThreadReadWriteDepth, localCounts.getData());
 
 		if (result != StartWriteResult::eOK)
 			Ps::atomicIncrement(&mConcurrentErrorCount);
@@ -2928,7 +2942,7 @@ void NpScene::stopWrite(bool allowReentry)
 		Ps::atomicDecrement(&mConcurrentWriteCount);
 
 		// decrement depth of writes for this thread
-		ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
+		ThreadReadWriteCount localCounts (TlsGetValue(mThreadReadWriteDepth));
 
 		// see comment in startWrite()
 		if (allowReentry)
@@ -2936,7 +2950,7 @@ void NpScene::stopWrite(bool allowReentry)
 		else
 			localCounts.writeDepth-=2;
 
-		TlsSet(mThreadReadWriteDepth, PxUnionCast<void*>(localCounts));
+		TlsSetValue(mThreadReadWriteDepth, localCounts.getData());
 	}
 }
 
@@ -2944,7 +2958,7 @@ bool NpScene::startRead() const
 { 
 	if (mScene.getFlags() & PxSceneFlag::eREQUIRE_RW_LOCK)
 	{
-		ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
+		ThreadReadWriteCount localCounts (TlsGetValue(mThreadReadWriteDepth));
 
 		// ensure we already have the write or read lock
 		return localCounts.writeLockDepth > 0 || localCounts.readLockDepth > 0;
@@ -2954,9 +2968,9 @@ bool NpScene::startRead() const
 		Ps::atomicIncrement(&mConcurrentReadCount);
 
 		// update current threads read depth
-		ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
+		ThreadReadWriteCount localCounts (TlsGetValue(mThreadReadWriteDepth));
 		localCounts.readDepth++;
-		TlsSet(mThreadReadWriteDepth, PxUnionCast<void*>(localCounts));
+		TlsSetValue(mThreadReadWriteDepth, localCounts.getData());
 
 		// success if the current thread is already performing a write (API re-entry) or no writes are in progress
 		bool success = (localCounts.writeDepth > 0 || mConcurrentWriteCount == 0); 
@@ -2975,9 +2989,9 @@ void NpScene::stopRead() const
 		Ps::atomicDecrement(&mConcurrentReadCount); 
 
 		// update local threads read depth
-		ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
+		ThreadReadWriteCount localCounts (TlsGetValue(mThreadReadWriteDepth));
 		localCounts.readDepth--;
-		TlsSet(mThreadReadWriteDepth, PxUnionCast<void*>(localCounts));
+		TlsSetValue(mThreadReadWriteDepth, localCounts.getData());
 	}
 }
 
@@ -2994,9 +3008,9 @@ void NpScene::stopRead() const {}
 void NpScene::lockRead(const char* /*file*/, PxU32 /*line*/)
 {
 	// increment this threads read depth
-	ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
+	ThreadReadWriteCount localCounts (TlsGetValue(mThreadReadWriteDepth));
 	localCounts.readLockDepth++;
-	TlsSet(mThreadReadWriteDepth, PxUnionCast<void*>(localCounts));
+	TlsSetValue(mThreadReadWriteDepth, localCounts.getData());
 
 	// only lock on first read
 	// if we are the current writer then increment the reader count but don't actually lock (allow reading from threads with write ownership)
@@ -3007,14 +3021,14 @@ void NpScene::lockRead(const char* /*file*/, PxU32 /*line*/)
 void NpScene::unlockRead()
 {
 	// increment this threads read depth
-	ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
+	ThreadReadWriteCount localCounts (TlsGetValue(mThreadReadWriteDepth));
 	if(localCounts.readLockDepth < 1)
 	{
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxScene::unlockRead() called without matching call to PxScene::lockRead(), behaviour will be undefined.");
 		return;
 	}
 	localCounts.readLockDepth--;
-	TlsSet(mThreadReadWriteDepth, PxUnionCast<void*>(localCounts));
+	TlsSetValue(mThreadReadWriteDepth, localCounts.getData());
 
 	// only unlock on last read
 	if(localCounts.readLockDepth == 0)
@@ -3024,14 +3038,14 @@ void NpScene::unlockRead()
 void NpScene::lockWrite(const char* file, PxU32 line)
 {
 	// increment this threads write depth
-	ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
+	ThreadReadWriteCount localCounts (TlsGetValue(mThreadReadWriteDepth));
 	if (localCounts.writeLockDepth == 0 && localCounts.readLockDepth > 0)
 	{
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, file?file:__FILE__, file?int(line):__LINE__, "PxScene::lockWrite() detected after a PxScene::lockRead(), lock upgrading is not supported, behaviour will be undefined.");
 		return;
 	}
 	localCounts.writeLockDepth++;
-	TlsSet(mThreadReadWriteDepth, PxUnionCast<void*>(localCounts));
+	TlsSetValue(mThreadReadWriteDepth, localCounts.getData());
 
 	// only lock on first call
 	if (localCounts.writeLockDepth == 1)
@@ -3046,14 +3060,14 @@ void NpScene::lockWrite(const char* file, PxU32 line)
 void NpScene::unlockWrite()
 {
 	// increment this thread's write depth
-	ThreadReadWriteCount localCounts = PxUnionCast<ThreadReadWriteCount>(TlsGet(mThreadReadWriteDepth));
+	ThreadReadWriteCount localCounts (TlsGetValue(mThreadReadWriteDepth));
 	if (localCounts.writeLockDepth < 1)
 	{
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxScene::unlockWrite() called without matching call to PxScene::lockWrite(), behaviour will be undefined.");
 		return;
 	}
 	localCounts.writeLockDepth--;
-	TlsSet(mThreadReadWriteDepth, PxUnionCast<void*>(localCounts));
+	TlsSetValue(mThreadReadWriteDepth, localCounts.getData());
 
 	PX_ASSERT(mCurrentWriter == Thread::getId());
 

@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -44,21 +44,12 @@ namespace Dy
 	class Articulation;
 }
 
-#if PX_USE_16_BIT_HANDLES
-typedef PxU16 NodeType;
-typedef PxU16 EdgeType;
-typedef PxU16 IslandType;
-#define INVALID_NODE 0xffff
-#define INVALID_EDGE 0xffff
-#define INVALID_ISLAND 0xffff
-#else
 typedef PxU32 NodeType;
 typedef PxU32 EdgeType;
 typedef PxU32 IslandType;
 #define INVALID_NODE 0xffffffff
 #define INVALID_EDGE 0xffffffff
 #define INVALID_ISLAND 0xffffffff
-#endif
 
 namespace Dy
 {

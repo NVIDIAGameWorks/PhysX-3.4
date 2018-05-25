@@ -124,7 +124,7 @@ Here is an example for a contact event function from SampleSubmarine::
 
 SampleSubmarine is a subclass of PxSimulationEventCallback.  onContact receives the pair for which the requested contact events have been triggered.  The above function is only interested in eNOTIFY_TOUCH_FOUND events, which are raised whenever two shapes start to touch.  In fact it is only interested in touch events of the submarine -- which is checked in the second if-statement.  It then goes on to assume that the second actor is a mine (which works in this example because the sample is configured such that no other contact reports will get sent when a submarine actor is involved).  After that, it adds the mine to a set of mines that should explode during the next update.
 
-.. note:: By default collisions between kinematic rigid bodies and kinematic and static rigid bodies will not get reported. To enable these reports raise the PxSceneFlag::eENABLE_KINEMATIC_PAIRS or ::eENABLE_KINEMATIC_STATIC_PAIRS flag respectively by calling PxScene::setFlag().
+.. note:: By default collisions between kinematic rigid bodies and kinematic and static rigid bodies will not get reported. To enable these reports use the PxSceneDesc::kineKineFilteringMode and PxSceneDesc::staticKineFilteringMode parameters when creating a scene.
 
 Frequently, users are only interested in contact reports, if the force of impact is larger than a certain threshold. This allows to reduce the amount of reported pairs which need to get processed. To take advantage of this option the following additional configurations are necessary:
 

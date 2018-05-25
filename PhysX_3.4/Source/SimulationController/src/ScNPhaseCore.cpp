@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -170,16 +170,10 @@ PxU32 Sc::NPhaseCore::getDefaultContactReportStreamBufferSize() const
 	return mContactReportBuffer.getDefaultBufferSize();
 }
 
-// PT: function used only once, so safe to force inline
 Sc::ElementSimInteraction* Sc::NPhaseCore::findInteraction(ElementSim* _element0, ElementSim* _element1)
 {
-	if (_element0 > _element1)
-		Ps::swap(_element0, _element1);
-
 	const Ps::HashMap<ElementSimKey, ElementSimInteraction*>::Entry* pair = mElementSimMap.find(ElementSimKey(_element0, _element1));
-	if (pair)
-		return pair->second;
-	return NULL;
+	return pair ? pair->second : NULL;
 }
 
 PxFilterInfo Sc::NPhaseCore::onOverlapFilter(ElementSim* volume0, ElementSim* volume1)
@@ -480,23 +474,12 @@ void Sc::NPhaseCore::onOverlapCreated(const Bp::AABBOverlap* PX_RESTRICT pairs, 
 
 void Sc::NPhaseCore::registerInteraction(ElementSimInteraction* interaction)
 {
-	ElementSim* sim0 = &interaction->getElement0();
-	ElementSim* sim1 = &interaction->getElement1();
-
-	if (sim0 > sim1)
-		Ps::swap(sim0, sim1);
-
-	mElementSimMap.insert(ElementSimKey(sim0, sim1), interaction);
+	mElementSimMap.insert(ElementSimKey(&interaction->getElement0(), &interaction->getElement1()), interaction);
 }
 
 void Sc::NPhaseCore::unregisterInteraction(ElementSimInteraction* interaction)
 {
-	ElementSim* sim0 = &interaction->getElement0();
-	ElementSim* sim1 = &interaction->getElement1();
-	if (sim0 > sim1)
-		Ps::swap(sim0, sim1);
-
-	mElementSimMap.erase(ElementSimKey(sim0, sim1));
+	mElementSimMap.erase(ElementSimKey(&interaction->getElement0(), &interaction->getElement1()));
 }
 
 ElementSimInteraction* Sc::NPhaseCore::onOverlapRemovedStage1(ElementSim* volume0, ElementSim* volume1)
@@ -797,7 +780,6 @@ Sc::ShapeInteraction* Sc::NPhaseCore::createShapeInteraction(ShapeSim& s0, Shape
 	If bodyA is in an earlier BP group than bodyB, swap
 	*/
 	{
-		// PT: 'getRbSim()' is not inlined so call it only once here.
 		Sc::RigidSim& rs0 = s0.getRbSim();
 		Sc::RigidSim& rs1 = s1.getRbSim();
 
@@ -806,13 +788,12 @@ Sc::ShapeInteraction* Sc::NPhaseCore::createShapeInteraction(ShapeSim& s0, Shape
 		if( actorType0 == PxActorType::eRIGID_STATIC
 			 || (actorType0 == PxActorType::eRIGID_DYNAMIC && actorType1 == PxActorType::eARTICULATION_LINK)
 			 || ((actorType0 == PxActorType::eRIGID_DYNAMIC && actorType1 == PxActorType::eRIGID_DYNAMIC) && s0.getBodySim()->isKinematic())
-			 || (actorType0 == actorType1 && rs0.getBroadphaseGroupId() < rs1.getBroadphaseGroupId()))
+			 || (actorType0 == actorType1 && rs0.getRigidID() < rs1.getRigidID()))
 			Ps::swap(_s0, _s1);
 	}
 
-	ActorPair* aPair = NULL;
 	ShapeInteraction* si = shapeInteraction ? shapeInteraction : mShapeInteractionPool.allocate();
-	PX_PLACEMENT_NEW(si, ShapeInteraction)(*_s0, *_s1, aPair, pairFlags, contactManager);
+	PX_PLACEMENT_NEW(si, ShapeInteraction)(*_s0, *_s1, pairFlags, contactManager);
 
 	PX_ASSERT(si->mReportPairIndex == INVALID_REPORT_PAIR_ID);
 
@@ -1311,7 +1292,18 @@ PxFilterInfo Sc::NPhaseCore::filterRbCollisionPair(const ShapeSim& s0, const Sha
 		const bool kinematicPair = isS0Kinematic | isS1Kinematic;
 		if(kinematicPair)
 		{
-			const PxSceneFlags sceneFlags = mOwnerScene.getPublicFlags();
+			PxSceneFlags sceneFlags = mOwnerScene.getPublicFlags();
+			const PxPairFilteringMode::Enum kineKineFilteringMode = mOwnerScene.getKineKineFilteringMode();
+			if(kineKineFilteringMode==PxPairFilteringMode::eKEEP)
+				sceneFlags |= PxSceneFlag::eENABLE_KINEMATIC_PAIRS;
+			else if(kineKineFilteringMode==PxPairFilteringMode::eSUPPRESS)
+				sceneFlags &= ~PxSceneFlag::eENABLE_KINEMATIC_PAIRS;
+
+			const PxPairFilteringMode::Enum staticKineFilteringMode = mOwnerScene.getStaticKineFilteringMode();
+			if(staticKineFilteringMode==PxPairFilteringMode::eKEEP)
+				sceneFlags |= PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS;
+			else if(staticKineFilteringMode==PxPairFilteringMode::eSUPPRESS)
+				sceneFlags &= ~PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS;
 
 			// ...then ignore kinematic vs. static pairs
 			if(!(sceneFlags & PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS))
@@ -1406,11 +1398,11 @@ Sc::ActorPair* Sc::NPhaseCore::findActorPair(ShapeSim* s0, ShapeSim* s1, Ps::Int
 	RigidSim* aLess = &s0->getRbSim();
 	RigidSim* aMore = &s1->getRbSim();
 
-	if (aLess->getID() > aMore->getID())
+	if (aLess->getRigidID() > aMore->getRigidID())
 		Ps::swap(aLess, aMore);
 
-	key.mSim0 = aLess->getID();
-	key.mSim1 = aMore->getID();
+	key.mSim0 = aLess->getRigidID();
+	key.mSim1 = aMore->getRigidID();
 
 	Sc::ActorPair*& actorPair = mActorPairMap[key];
 	
@@ -2007,12 +1999,6 @@ void Sc::NPhaseCore::removeFromDirtyInteractionList(Interaction* pair)
 	mDirtyInteractions.erase(pair);
 }
 
-void Sc::NPhaseCore::reserveSpaceInNphaseCore(const PxU32 nbContactManagers)
-{
-	PX_UNUSED(nbContactManagers);
-}
-
-
 void Sc::NPhaseCore::updateDirtyInteractions(PxsContactManagerOutputIterator& outputs, bool useAdaptiveForce)
 {
 	// The sleeping SIs will be updated on activation
@@ -2159,11 +2145,11 @@ void Sc::NPhaseCore::lostTouchReports(ShapeInteraction* si, PxU32 flags, PxU32 c
 
 		BodyPairKey pair;
 
-		if (sim0->getID() > sim1->getID())
+		if (sim0->getRigidID() > sim1->getRigidID())
 			Ps::swap(sim0, sim1);
 
-		pair.mSim0 = sim0->getID();
-		pair.mSim1 = sim1->getID();
+		pair.mSim0 = sim0->getRigidID();
+		pair.mSim1 = sim1->getRigidID();
 
 		mActorPairMap.erase(pair);
 

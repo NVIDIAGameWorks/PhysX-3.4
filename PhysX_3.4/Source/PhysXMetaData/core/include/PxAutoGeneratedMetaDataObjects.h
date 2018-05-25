@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -2966,6 +2966,15 @@ template<> struct PxEnumTraits< physx::PxBroadPhaseType::Enum > { PxEnumTraits()
 		const PxgDynamicsMemoryConfigGeneratedInfo* getInfo() { return &Info; }
 	};
 
+	static PxU32ToName g_physx__PxPairFilteringMode__EnumConversion[] = {
+		{ "eKEEP", static_cast<PxU32>( physx::PxPairFilteringMode::eKEEP ) },
+		{ "eSUPPRESS", static_cast<PxU32>( physx::PxPairFilteringMode::eSUPPRESS ) },
+		{ "eKILL", static_cast<PxU32>( physx::PxPairFilteringMode::eKILL ) },
+		{ "eDEFAULT", static_cast<PxU32>( physx::PxPairFilteringMode::eDEFAULT ) },
+		{ NULL, 0 }
+	};
+
+template<> struct PxEnumTraits< physx::PxPairFilteringMode::Enum > { PxEnumTraits() : NameConversion( g_physx__PxPairFilteringMode__EnumConversion ) {} const PxU32ToName* NameConversion; }; 
 	class PxSceneDesc;
 	struct PxSceneDescGeneratedValues
 	{
@@ -2977,6 +2986,8 @@ template<> struct PxEnumTraits< physx::PxBroadPhaseType::Enum > { PxEnumTraits()
 		PxU32 FilterShaderDataSize;
 		PxSimulationFilterShader FilterShader;
 		PxSimulationFilterCallback * FilterCallback;
+		PxPairFilteringMode::Enum KineKineFilteringMode;
+		PxPairFilteringMode::Enum StaticKineFilteringMode;
 		PxBroadPhaseType::Enum BroadPhaseType;
 		PxBroadPhaseCallback * BroadPhaseCallback;
 		PxSceneLimits Limits;
@@ -3014,6 +3025,8 @@ template<> struct PxEnumTraits< physx::PxBroadPhaseType::Enum > { PxEnumTraits()
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxSceneDesc, FilterShaderDataSize, PxSceneDescGeneratedValues)
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxSceneDesc, FilterShader, PxSceneDescGeneratedValues)
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxSceneDesc, FilterCallback, PxSceneDescGeneratedValues)
+	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxSceneDesc, KineKineFilteringMode, PxSceneDescGeneratedValues)
+	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxSceneDesc, StaticKineFilteringMode, PxSceneDescGeneratedValues)
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxSceneDesc, BroadPhaseType, PxSceneDescGeneratedValues)
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxSceneDesc, BroadPhaseCallback, PxSceneDescGeneratedValues)
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxSceneDesc, Limits, PxSceneDescGeneratedValues)
@@ -3054,6 +3067,8 @@ template<> struct PxEnumTraits< physx::PxBroadPhaseType::Enum > { PxEnumTraits()
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxSceneDesc_FilterShaderDataSize, PxSceneDesc, PxU32, PxU32 > FilterShaderDataSize;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxSceneDesc_FilterShader, PxSceneDesc, PxSimulationFilterShader, PxSimulationFilterShader > FilterShader;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxSceneDesc_FilterCallback, PxSceneDesc, PxSimulationFilterCallback *, PxSimulationFilterCallback * > FilterCallback;
+		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxSceneDesc_KineKineFilteringMode, PxSceneDesc, PxPairFilteringMode::Enum, PxPairFilteringMode::Enum > KineKineFilteringMode;
+		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxSceneDesc_StaticKineFilteringMode, PxSceneDesc, PxPairFilteringMode::Enum, PxPairFilteringMode::Enum > StaticKineFilteringMode;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxSceneDesc_BroadPhaseType, PxSceneDesc, PxBroadPhaseType::Enum, PxBroadPhaseType::Enum > BroadPhaseType;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxSceneDesc_BroadPhaseCallback, PxSceneDesc, PxBroadPhaseCallback *, PxBroadPhaseCallback * > BroadPhaseCallback;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxSceneDesc_Limits, PxSceneDesc, PxSceneLimits, PxSceneLimits > Limits;
@@ -3100,7 +3115,7 @@ template<> struct PxEnumTraits< physx::PxBroadPhaseType::Enum > { PxEnumTraits()
 			PX_UNUSED(inStartIndex);
 			return inStartIndex;
 		}
-		static PxU32 instancePropertyCount() { return 36; }
+		static PxU32 instancePropertyCount() { return 38; }
 		static PxU32 totalPropertyCount() { return instancePropertyCount(); }
 		template<typename TOperator>
 		PxU32 visitInstanceProperties( TOperator inOperator, PxU32 inStartIndex = 0 ) const
@@ -3116,34 +3131,36 @@ template<> struct PxEnumTraits< physx::PxBroadPhaseType::Enum > { PxEnumTraits()
 			inOperator( FilterShaderDataSize, inStartIndex + 6 );; 
 			inOperator( FilterShader, inStartIndex + 7 );; 
 			inOperator( FilterCallback, inStartIndex + 8 );; 
-			inOperator( BroadPhaseType, inStartIndex + 9 );; 
-			inOperator( BroadPhaseCallback, inStartIndex + 10 );; 
-			inOperator( Limits, inStartIndex + 11 );; 
-			inOperator( FrictionType, inStartIndex + 12 );; 
-			inOperator( BounceThresholdVelocity, inStartIndex + 13 );; 
-			inOperator( FrictionOffsetThreshold, inStartIndex + 14 );; 
-			inOperator( CcdMaxSeparation, inStartIndex + 15 );; 
-			inOperator( SolverOffsetSlop, inStartIndex + 16 );; 
-			inOperator( Flags, inStartIndex + 17 );; 
-			inOperator( CpuDispatcher, inStartIndex + 18 );; 
-			inOperator( GpuDispatcher, inStartIndex + 19 );; 
-			inOperator( StaticStructure, inStartIndex + 20 );; 
-			inOperator( DynamicStructure, inStartIndex + 21 );; 
-			inOperator( DynamicTreeRebuildRateHint, inStartIndex + 22 );; 
-			inOperator( SceneQueryUpdateMode, inStartIndex + 23 );; 
-			inOperator( UserData, inStartIndex + 24 );; 
-			inOperator( SolverBatchSize, inStartIndex + 25 );; 
-			inOperator( NbContactDataBlocks, inStartIndex + 26 );; 
-			inOperator( MaxNbContactDataBlocks, inStartIndex + 27 );; 
-			inOperator( MaxBiasCoefficient, inStartIndex + 28 );; 
-			inOperator( ContactReportStreamBufferSize, inStartIndex + 29 );; 
-			inOperator( CcdMaxPasses, inStartIndex + 30 );; 
-			inOperator( WakeCounterResetValue, inStartIndex + 31 );; 
-			inOperator( SanityBounds, inStartIndex + 32 );; 
-			inOperator( GpuDynamicsConfig, inStartIndex + 33 );; 
-			inOperator( GpuMaxNumPartitions, inStartIndex + 34 );; 
-			inOperator( GpuComputeVersion, inStartIndex + 35 );; 
-			return 36 + inStartIndex;
+			inOperator( KineKineFilteringMode, inStartIndex + 9 );; 
+			inOperator( StaticKineFilteringMode, inStartIndex + 10 );; 
+			inOperator( BroadPhaseType, inStartIndex + 11 );; 
+			inOperator( BroadPhaseCallback, inStartIndex + 12 );; 
+			inOperator( Limits, inStartIndex + 13 );; 
+			inOperator( FrictionType, inStartIndex + 14 );; 
+			inOperator( BounceThresholdVelocity, inStartIndex + 15 );; 
+			inOperator( FrictionOffsetThreshold, inStartIndex + 16 );; 
+			inOperator( CcdMaxSeparation, inStartIndex + 17 );; 
+			inOperator( SolverOffsetSlop, inStartIndex + 18 );; 
+			inOperator( Flags, inStartIndex + 19 );; 
+			inOperator( CpuDispatcher, inStartIndex + 20 );; 
+			inOperator( GpuDispatcher, inStartIndex + 21 );; 
+			inOperator( StaticStructure, inStartIndex + 22 );; 
+			inOperator( DynamicStructure, inStartIndex + 23 );; 
+			inOperator( DynamicTreeRebuildRateHint, inStartIndex + 24 );; 
+			inOperator( SceneQueryUpdateMode, inStartIndex + 25 );; 
+			inOperator( UserData, inStartIndex + 26 );; 
+			inOperator( SolverBatchSize, inStartIndex + 27 );; 
+			inOperator( NbContactDataBlocks, inStartIndex + 28 );; 
+			inOperator( MaxNbContactDataBlocks, inStartIndex + 29 );; 
+			inOperator( MaxBiasCoefficient, inStartIndex + 30 );; 
+			inOperator( ContactReportStreamBufferSize, inStartIndex + 31 );; 
+			inOperator( CcdMaxPasses, inStartIndex + 32 );; 
+			inOperator( WakeCounterResetValue, inStartIndex + 33 );; 
+			inOperator( SanityBounds, inStartIndex + 34 );; 
+			inOperator( GpuDynamicsConfig, inStartIndex + 35 );; 
+			inOperator( GpuMaxNumPartitions, inStartIndex + 36 );; 
+			inOperator( GpuComputeVersion, inStartIndex + 37 );; 
+			return 38 + inStartIndex;
 		}
 	};
 	template<> struct PxClassInfoTraits<PxSceneDesc>

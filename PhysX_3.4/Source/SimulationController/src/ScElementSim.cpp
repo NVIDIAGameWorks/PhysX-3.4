@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -127,7 +127,7 @@ PX_COMPILE_TIME_ASSERT(PxU32(PxSimulationStatistics::eCLOTH) == PxU32(Sc::Elemen
 PX_COMPILE_TIME_ASSERT(PxU32(PxSimulationStatistics::ePARTICLE_SYSTEM) == PxU32(Sc::ElementType::ePARTICLE_PACKET));
 #endif
 
-void Sc::ElementSim::addToAABBMgr(PxReal contactDistance, PxU32 group, bool isTrigger)
+void Sc::ElementSim::addToAABBMgr(PxReal contactDistance, Bp::FilterGroup::Enum group, Ps::IntBool isTrigger)
 {
 	Sc::Scene& scene = getScene();
 	bool success = scene.getAABBManager()->addBounds(mElementID, contactDistance, group, this, mActor.getActorCore().getAggregateID(), isTrigger ? PxU8(Sc::ElementType::eTRIGGER) : PxU8(mType) );

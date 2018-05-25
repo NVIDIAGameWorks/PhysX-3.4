@@ -266,7 +266,7 @@ Caveats:
 
 - A kinematic actor can push away dynamic objects, but nothing pushes it back. As a result, a kinematic can easily squish a dynamic actor against a static actor, or against another kinematic actor. As a result, the squished dynamic object can deeply penetrate the geometry it has been pushed into.
 
-- There is no interaction or collision between kinematic actors and static actors. However, it is possible to request contact information for these cases if PxSceneFlag::eENABLE_KINEMATIC_PAIRS or ::eENABLE_KINEMATIC_STATIC_PAIRS gets set.
+- There is no interaction or collision between kinematic actors and static actors. However, it is possible to request contact information for these cases with the PxSceneDesc::kineKineFilteringMode and PxSceneDesc::staticKineFilteringMode.
 
 ===============================
 Active Transforms

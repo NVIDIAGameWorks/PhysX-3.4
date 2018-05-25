@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -54,15 +54,9 @@ namespace Bp
 //Set 0 to neglect group id test in batchCreate/batchUpdate and delay test until ComputeCreatedDeletedPairsLists
 #define BP_SAP_TEST_GROUP_ID_CREATEUPDATE 1
 
-#if PX_USE_16_BIT_HANDLES
-#define MAX_BP_HANDLE			0xffff
-#define PX_REMOVED_BP_HANDLE	0xfffd
-#define MAX_BP_PAIRS_MESSAGE "Only 65536 broadphase pairs are supported.  This limit has been exceeded and some pairs will be dropped \n"
-#else
 #define MAX_BP_HANDLE			0x3fffffff
 #define PX_REMOVED_BP_HANDLE	0x3ffffffd
 #define MAX_BP_PAIRS_MESSAGE "Only 4294967296 broadphase pairs are supported.  This limit has been exceeded and some pairs will be dropped \n"
-#endif
 
 PX_FORCE_INLINE	void setMinSentinel(ValType& v, BpHandle& d)
 {
@@ -228,7 +222,7 @@ void addPair(const BpHandle id0, const BpHandle id1, PxcScratchAllocator* scratc
 void removePair(BpHandle id0, BpHandle id1, PxcScratchAllocator* scratchAllocator, SapPairManager& pairManager, DataArray& dataArray);
 
 void ComputeCreatedDeletedPairsLists
-(const BpHandle* PX_RESTRICT boxGroups, 
+(const Bp::FilterGroup::Enum* PX_RESTRICT boxGroups, 
  const BpHandle* PX_RESTRICT dataArray, const PxU32 dataArraySize,
  PxcScratchAllocator* scratchAllocator,
  BroadPhasePair* & createdPairsList, PxU32& numCreatedPairs, PxU32& maxNumCreatdPairs,
@@ -254,20 +248,26 @@ void DeletePairsLists(const PxU32 numActualDeletedPairs, BroadPhasePair* deleted
 
 	struct AuxData
 	{
-		AuxData(PxU32 nb, const SapBox1D*const* PX_RESTRICT boxes, const BpHandle* PX_RESTRICT indicesSorted, const BpHandle* PX_RESTRICT groupIds);
+		AuxData(PxU32 nb, const SapBox1D*const* PX_RESTRICT boxes, const BpHandle* PX_RESTRICT indicesSorted, const Bp::FilterGroup::Enum* PX_RESTRICT groupIds);
 		~AuxData();
 
-		BoxX*		mBoxX;
-		BoxYZ*		mBoxYZ;
-		BpHandle*	mGroups;
-		PxU32*		mRemap;
-		PxU32		mNb;
+		BoxX*					mBoxX;
+		BoxYZ*					mBoxYZ;
+		Bp::FilterGroup::Enum*	mGroups;
+		PxU32*					mRemap;
+		PxU32					mNb;
 	};
 
 void performBoxPruningNewNew(	const AuxData* PX_RESTRICT auxData, PxcScratchAllocator* scratchAllocator,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+								const bool* lut,
+#endif
 								SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity);
 
 void performBoxPruningNewOld(	const AuxData* PX_RESTRICT auxData0, const AuxData* PX_RESTRICT auxData1, PxcScratchAllocator* scratchAllocator,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+								const bool* lut,
+#endif
 								SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity);
 
 PX_FORCE_INLINE bool Intersect2D_Handle

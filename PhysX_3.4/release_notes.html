@@ -2,7 +2,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>Release Notes - NVIDIA PhysX SDK 3.4.1</title>
+<title>Release Notes - NVIDIA PhysX SDK 3.4.2</title>
 <style type="text/css">
 	body
 	{
@@ -27,6 +27,51 @@
 </head>
 
 <body>
+
+   <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.24214033</h1>
+    <h2 style="TEXT-ALIGN: center">May 2018</h2>
+
+    <h3>General</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+        	<li>Fixed clang 7 unionCast issues.</li>
+			<li>Fixed the binary meta data in PhysX_3.4/Tools/BinaryMetaData for conversion of vehicles.</li>
+        </ul>
+    </ul>
+
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Deprecated:</li>
+        <ul>
+            <li>PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS and PxSceneDesc::eENABLE_KINEMATIC_PAIRS have been deprecated. Use the new PxPairFilteringMode parameters in PxSceneDesc instead.</li>
+        </ul>
+        <li>Fixed:</li>
+		<ul>
+            <li>A sequence of shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false) / shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, true) without simulation calls inbetween could produce errors in the broadphase. This has been fixed.</li>
+            <li>Fixed a bug in the broadphase (SAP) that got recently introduced in SDK 3.4.1.23933511. It should only have generated a few false positives (more overlaps than stricly necessary).</li>
+        	<li>Fixed a bug in PxShape::checkMaterialSetup.</li>
+            <li>Fixed intermittent crash with GPU rigid bodies when materials were destroyed.</li>
+        </ul>
+    </ul>
+
+    <h3>Cooking</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+        	<li>Big convex mesh serialization used together with insertion callback stored incorrect memory for big convex data. This has been fixed.</li>
+        </ul>
+    </ul>
+
+    <h3>Scene query</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+        	<li>Fixed a bug in extended bucket pruner, when a pruning structure was added and immediatelly released.</li>
+        </ul>
+    </ul>
 
     <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -3343,7 +3388,7 @@
 
             <p>
                 <br>
-                Copyright (C) 2008-2017 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+                Copyright (C) 2008-2018 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
             </p>
 </body>
 </html>

@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -404,7 +404,7 @@ namespace Gu
 
 	// PT: we don't create a structure for small meshes with just a few triangles. We use brute-force tests on these.
 	template<class LeafFunction_AnyT, class LeafFunction_ClosestT, class ParamsT>
-	static void doBruteForceTests(PxU32 nbTris, ParamsT* PX_RESTRICT params)
+	void doBruteForceTests(PxU32 nbTris, ParamsT* PX_RESTRICT params)
 	{
 		PX_ASSERT(nbTris<16);
 		if(params->mEarlyExit)
