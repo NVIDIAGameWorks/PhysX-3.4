@@ -2329,7 +2329,10 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 			Sc::ShapeSim* shapeSim = NULL;
 			while ((shapeSim = iterator.getNext()) != NULL)
 			{
-				changedMap.growAndSet(shapeSim->getElementID());
+				if (shapeSim->isInBroadPhase())
+				{
+					changedMap.growAndSet(shapeSim->getElementID());
+				}
 			}
 
 			if (ccdTask->mNbBodies == SpeculativeCCDContactDistanceUpdateTask::MaxBodies)
