@@ -70,7 +70,7 @@
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
 			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /Zi /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /wd5045 /Zi /d2Zi+</AdditionalOptions>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>./../../../include;./../../pvd/include;./../../foundation/include;./../../filebuf/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PVDSDK_DLL=1;PX_FOUNDATION_DLL=1;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -113,7 +113,7 @@
 			<TreatWarningAsError>true</TreatWarningAsError>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /wd5045 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../../include;./../../pvd/include;./../../foundation/include;./../../filebuf/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PVDSDK_DLL=1;PX_FOUNDATION_DLL=1;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -156,7 +156,7 @@
 			<TreatWarningAsError>true</TreatWarningAsError>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /wd5045 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../../include;./../../pvd/include;./../../foundation/include;./../../filebuf/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PVDSDK_DLL=1;PX_FOUNDATION_DLL=1;NDEBUG;PX_CHECKED=1;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -199,7 +199,7 @@
 			<TreatWarningAsError>true</TreatWarningAsError>
 			<BufferSecurityCheck>false</BufferSecurityCheck>
 			<FloatingPointModel>Fast</FloatingPointModel>
-			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /d2Zi+</AdditionalOptions>
+			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /wd5045 /d2Zi+</AdditionalOptions>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>./../../../include;./../../pvd/include;./../../foundation/include;./../../filebuf/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PVDSDK_DLL=1;PX_FOUNDATION_DLL=1;NDEBUG;PX_PROFILE=1;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>

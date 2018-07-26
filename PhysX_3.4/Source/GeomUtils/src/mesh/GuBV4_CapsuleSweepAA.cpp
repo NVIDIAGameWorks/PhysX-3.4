@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -67,7 +67,6 @@ namespace
 		Capsule	mLocalCapsule;
 		PxVec3	mCapsuleCenter;
 		PxVec3	mExtrusionDir;
-		PxU32	mEarlyExit;
 		float	mBestAlignmentValue;
 		float	mBestDistance;
 		float	mMaxDist;

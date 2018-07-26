@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -135,6 +135,10 @@ BroadPhaseSap::BroadPhaseSap(
 	mDeletedPairsCapacity = 0;
 	mDeletedPairsSize = 0;
 	mActualDeletedPairSize = 0;
+
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	mLUT = NULL;
+#endif
 }
 
 BroadPhaseSap::~BroadPhaseSap()
@@ -350,8 +354,6 @@ void BroadPhaseSap::shiftOrigin(const PxVec3& shift)
 #if PX_CHECKED
 bool BroadPhaseSap::isValid(const BroadPhaseUpdateData& updateData) const
 {
-	PX_UNUSED(updateData);
-#if 0
 	//Test that the created bounds haven't been added already (without first being removed).
 	const BpHandle* created=updateData.getCreatedHandles();
 	const PxU32 numCreated=updateData.getNumCreatedHandles();
@@ -446,7 +448,6 @@ bool BroadPhaseSap::isValid(const BroadPhaseUpdateData& updateData) const
 			}
 		}
 	}
-#endif
 	return true;
 }
 #endif
@@ -512,6 +513,9 @@ bool BroadPhaseSap::setUpdateData(const BroadPhaseUpdateData& updateData)
 	mRemovedSize		= updateData.getNumRemovedHandles();
 	mBoxBoundsMinMax	= updateData.getAABBs();
 	mBoxGroups			= updateData.getGroups();
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	mLUT				= updateData.getLUT();
+#endif
 	mContactDistance	= updateData.getContactDistance();
 
 	//Do we need more memory to store the positions of each box min/max in the arrays of sorted boxes min/max?
@@ -749,7 +753,6 @@ static PX_FORCE_INLINE bool Intersect3D(const ValType bDir1Min, const ValType bD
 			bDir3Max >= cDir3Min && cDir3Max >= bDir3Min);       
 }
 
-PX_COMPILE_TIME_ASSERT(FilterGroup::eSTATICS==0);
 void BroadPhaseSap::ComputeSortedLists(	BpHandle* PX_RESTRICT newBoxIndicesSorted, PxU32& newBoxIndicesCount, BpHandle* PX_RESTRICT oldBoxIndicesSorted, PxU32& oldBoxIndicesCount,
 										bool& allNewBoxesStatics, bool& allOldBoxesStatics)
 {
@@ -769,7 +772,7 @@ void BroadPhaseSap::ComputeSortedLists(	BpHandle* PX_RESTRICT newBoxIndicesSorte
 	const PxU32 insertAABBEnd = mCreatedSize;
 	const BpHandle* PX_RESTRICT createdAABBs = mCreated;
 	SapBox1D** PX_RESTRICT asapBoxes = mBoxEndPts;
-	const BpHandle* PX_RESTRICT asapBoxGroupIds = mBoxGroups;
+	const Bp::FilterGroup::Enum* PX_RESTRICT asapBoxGroupIds = mBoxGroups;
 	BpHandle* PX_RESTRICT asapEndPointDatas = mEndPointDatas[axis0];
 	const PxU32 numSortedEndPoints = mBoxesSize*2 + NUM_SENTINELS;
 
@@ -828,15 +831,14 @@ void BroadPhaseSap::ComputeSortedLists(	BpHandle* PX_RESTRICT newBoxIndicesSorte
 					asapBoxes[axis2][boxId].mMinMax[1]))
 				{
 					oldBoxIndicesSorted[oldBoxIndicesCount++] = boxId;
-					oldStaticCount += asapBoxGroupIds[boxId];	// (*)
+					oldStaticCount += asapBoxGroupIds[boxId]==FilterGroup::eSTATICS ? 0 : 1;
 				}
 			}
-			else 
+			else
 			{
 				newBoxIndicesSorted[newBoxIndicesCount++] = boxId;
-				newStaticCount += asapBoxGroupIds[boxId];	// (*)
+				newStaticCount += asapBoxGroupIds[boxId]==FilterGroup::eSTATICS ? 0 : 1;
 			}
-			// (*) PT: warning, this will break if we put kinematics in the same group as statics to disable collisions!
 		}
 	}
 
@@ -968,7 +970,11 @@ void BroadPhaseSap::batchCreate()
 
 		if(!allNewBoxesStatics)
 		{
-			performBoxPruningNewNew(&data0, mScratchAllocator, mPairs, mData, mDataSize, mDataCapacity);
+			performBoxPruningNewNew(&data0, mScratchAllocator,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+				mLUT,
+#endif
+				mPairs, mData, mDataSize, mDataCapacity);
 		}
 
 		// the old boxes are not the first ones in the array
@@ -978,7 +984,11 @@ void BroadPhaseSap::batchCreate()
 			{
 				const AuxData data1(oldBoxCount, mBoxEndPts, oldBoxesIndicesSorted, mBoxGroups);
 
-				performBoxPruningNewOld(&data0, &data1, mScratchAllocator, mPairs, mData, mDataSize, mDataCapacity);
+				performBoxPruningNewOld(&data0, &data1, mScratchAllocator,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+					mLUT,
+#endif
+					mPairs, mData, mDataSize, mDataCapacity);
 			}
 		}
 	}
@@ -1022,7 +1032,6 @@ void BroadPhaseSap::batchRemove()
 			if(MinIndex<MinMinIndex)	
 				MinMinIndex = MinIndex;
 		}
-
 
 		PxU32 ReadIndex = MinMinIndex;
 		PxU32 DestIndex = MinMinIndex;
@@ -1123,9 +1132,8 @@ void BroadPhaseSap::batchUpdate
 	const SapBox1D* PX_RESTRICT boxMinMax0=boxMinMax2D[2*Axis+0];
 	const SapBox1D* PX_RESTRICT boxMinMax1=boxMinMax2D[2*Axis+1];
 
-
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE 
-	const BpHandle* PX_RESTRICT asapBoxGroupIds=mBoxGroups;
+	const Bp::FilterGroup::Enum* PX_RESTRICT asapBoxGroupIds=mBoxGroups;
 #endif
 
 	SapBox1D* PX_RESTRICT asapBoxes=mBoxEndPts[Axis];
@@ -1169,7 +1177,6 @@ void BroadPhaseSap::batchUpdate
 	currentPocket->mEndIndex = 0;
 	currentPocket->mStartIndex = 0;
 
-
 	BpHandle ind = 2;
 	PxU8 wasUpdated = updated[startHandle];
 	for(; !isSentinel(BaseEPDatas[ind]); ++ind)
@@ -1186,7 +1193,6 @@ void BroadPhaseSap::batchUpdate
 			BpHandle ThisIndex = ind;
 
 			const BpHandle startIsMax = isMax(ThisData);
-
 
 			//Access and write back the updated values. TODO - can we avoid this when we're walking through inactive nodes?
 			//BPValType ThisValue = boxMinMax1D[Axis][twoHandle+startIsMax];
@@ -1223,9 +1229,8 @@ void BroadPhaseSap::batchUpdate
 				PxU32 startIndex = ind;
 
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-				ValType group = asapBoxGroupIds[handle];
+				const Bp::FilterGroup::Enum group = asapBoxGroupIds[handle];
 #endif
-
 				if(!isMax(ThisData))
 				{
 					do
@@ -1247,7 +1252,11 @@ void BroadPhaseSap::batchUpdate
 								            boxMinMax0[ownerId].mMinMax[0],boxMinMax0[ownerId].mMinMax[1],boxMinMax1[ownerId].mMinMax[0],boxMinMax1[ownerId].mMinMax[1])
 
 	#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-								&& (group!=asapBoxGroupIds[ownerId])
+		#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+								&& groupFiltering(group, asapBoxGroupIds[ownerId], mLUT)
+		#else
+								&& groupFiltering(group, asapBoxGroupIds[ownerId])
+		#endif
 	#else
 								&& handle!=ownerId
 	#endif
@@ -1294,7 +1303,11 @@ void BroadPhaseSap::batchUpdate
 								       boxMinMax0[ownerId].mMinMax[0],boxMinMax0[ownerId].mMinMax[1],boxMinMax1[ownerId].mMinMax[0],boxMinMax1[ownerId].mMinMax[1])
 #endif
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-								&& (group!=asapBoxGroupIds[ownerId])
+	#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+								&& groupFiltering(group, asapBoxGroupIds[ownerId], mLUT)
+	#else
+								&& groupFiltering(group, asapBoxGroupIds[ownerId])
+	#endif
 #else
 								&& handle!=ownerId
 #endif
@@ -1429,7 +1442,7 @@ void BroadPhaseSap::batchUpdateFewUpdates
 	SapBox1D* boxMinMax2D[6]={mBoxEndPts[1],mBoxEndPts[2],mBoxEndPts[2],mBoxEndPts[0],mBoxEndPts[0],mBoxEndPts[1]};
 
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE 
-	const BpHandle* PX_RESTRICT asapBoxGroupIds=mBoxGroups;
+	const Bp::FilterGroup::Enum* PX_RESTRICT asapBoxGroupIds=mBoxGroups;
 #endif
 
 	SapBox1D* PX_RESTRICT asapBoxes=mBoxEndPts[Axis];
@@ -1559,7 +1572,7 @@ void BroadPhaseSap::batchUpdateFewUpdates
 				//const BPValType* PX_RESTRICT box0MinMax0 = &boxMinMax0[twoHandle];
 				//const BPValType* PX_RESTRICT box0MinMax1 = &boxMinMax1[twoHandle];
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-				ValType group = asapBoxGroupIds[handle];
+				const Bp::FilterGroup::Enum group = asapBoxGroupIds[handle];
 #endif
 				if(!isMax(ThisData))
 				{
@@ -1581,7 +1594,11 @@ void BroadPhaseSap::batchUpdateFewUpdates
 								Intersect2D_Handle(boxMinMax0[handle].mMinMax[0], boxMinMax0[handle].mMinMax[1], boxMinMax1[handle].mMinMax[0], boxMinMax1[handle].mMinMax[1],
 								       boxMinMax0[ownerId].mMinMax[0],boxMinMax0[ownerId].mMinMax[1],boxMinMax1[ownerId].mMinMax[0],boxMinMax1[ownerId].mMinMax[1])
 	#if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-								&& (group!=asapBoxGroupIds[ownerId])
+		#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+								&& groupFiltering(group, asapBoxGroupIds[ownerId], mLUT)
+		#else
+								&& groupFiltering(group, asapBoxGroupIds[ownerId])
+		#endif
 	#else
 								&& Object!=id1
 	#endif
@@ -1628,7 +1645,11 @@ void BroadPhaseSap::batchUpdateFewUpdates
 								       boxMinMax0[ownerId].mMinMax[0],boxMinMax0[ownerId].mMinMax[1],boxMinMax1[ownerId].mMinMax[0],boxMinMax1[ownerId].mMinMax[1])
 #endif
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-								&& (group!=asapBoxGroupIds[ownerId])
+	#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+								&& groupFiltering(group, asapBoxGroupIds[ownerId], mLUT)
+	#else
+								&& groupFiltering(group, asapBoxGroupIds[ownerId])
+	#endif
 #else
 								&& Object!=id1
 #endif

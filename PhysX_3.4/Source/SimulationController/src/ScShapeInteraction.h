@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -85,7 +85,7 @@ namespace Sc
 			LL_MANAGER_RECREATE_EVENT		= CONTACT_REPORT_EVENTS | CONTACTS_COLLECT_POINTS |
 											  CONTACTS_RESPONSE_DISABLED | PxU32(PxPairFlag::eMODIFY_CONTACTS)
 		};
-												ShapeInteraction(ShapeSim& s1, ShapeSim& s2, ActorPair* aPair, PxPairFlags pairFlags, PxsContactManager* contactManager);
+												ShapeInteraction(ShapeSim& s1, ShapeSim& s2, PxPairFlags pairFlags, PxsContactManager* contactManager);
 		virtual									~ShapeInteraction();
 
 		// Submits to contact stream

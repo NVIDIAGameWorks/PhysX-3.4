@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -483,7 +483,7 @@ void resizeCreatedDeleted(BroadPhasePair*& pairs, PxU32& maxNumPairs)
 }
 
 void ComputeCreatedDeletedPairsLists
-(const BpHandle* PX_RESTRICT boxGroups, 
+(const Bp::FilterGroup::Enum* PX_RESTRICT boxGroups, 
  const BpHandle* PX_RESTRICT dataArray, const PxU32 dataArraySize,
  PxcScratchAllocator* scratchAllocator,
  BroadPhasePair*& createdPairsList, PxU32& numCreatedPairs, PxU32& maxNumCreatedPairs,
@@ -529,7 +529,7 @@ void ComputeCreatedDeletedPairsLists
 			if(pairManager.IsNew(UP))
 			{
 #if !BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-				if(boxGroups[UP->mVolA]!=boxGroups[UP->mVolB])
+				if(groupFiltering(boxGroups[UP->mVolA], boxGroups[UP->mVolB]))
 #endif
 				{
 					if(numCreatedPairs==maxNumCreatedPairs)
@@ -594,7 +594,7 @@ void ComputeCreatedDeletedPairsLists
 	{
 		const PxU32 id0 = deletedPairsList[i].mVolA;
 		const PxU32 id1 = deletedPairsList[i].mVolB;
-		if(boxGroups[id0]==boxGroups[id1])
+		if(!groupFiltering(boxGroups[id0], boxGroups[id1]))
 		{
 			while((numDeletedPairs-1) > i && boxGroups[deletedPairsList[numDeletedPairs-1].mVolA] == boxGroups[deletedPairsList[numDeletedPairs-1].mVolB])
 			{
@@ -736,13 +736,13 @@ static void addPair(const AddPairParams* PX_RESTRICT params, const BpHandle id0_
 
 // PT: TODO: use SIMD
 
-AuxData::AuxData(PxU32 nb, const SapBox1D*const* PX_RESTRICT boxes, const BpHandle* PX_RESTRICT indicesSorted, const BpHandle* PX_RESTRICT groupIds)
+AuxData::AuxData(PxU32 nb, const SapBox1D*const* PX_RESTRICT boxes, const BpHandle* PX_RESTRICT indicesSorted, const Bp::FilterGroup::Enum* PX_RESTRICT groupIds)
 {
 	// PT: TODO: use scratch allocator / etc
-	BoxX* PX_RESTRICT boxX			= reinterpret_cast<BoxX*>(PX_ALLOC(sizeof(BoxX)*(nb+1), PX_DEBUG_EXP("mBoxX")));
-	BoxYZ* PX_RESTRICT boxYZ		= reinterpret_cast<BoxYZ*>(PX_ALLOC(sizeof(BoxYZ)*nb, PX_DEBUG_EXP("mBoxYZ")));
-	BpHandle* PX_RESTRICT groups	= reinterpret_cast<BpHandle*>(PX_ALLOC(sizeof(BpHandle)*nb, PX_DEBUG_EXP("mGroups")));
-	PxU32* PX_RESTRICT remap		= reinterpret_cast<PxU32*>(PX_ALLOC(sizeof(PxU32)*nb, PX_DEBUG_EXP("mRemap")));
+	BoxX* PX_RESTRICT boxX						= reinterpret_cast<BoxX*>(PX_ALLOC(sizeof(BoxX)*(nb+1), PX_DEBUG_EXP("mBoxX")));
+	BoxYZ* PX_RESTRICT boxYZ					= reinterpret_cast<BoxYZ*>(PX_ALLOC(sizeof(BoxYZ)*nb, PX_DEBUG_EXP("mBoxYZ")));
+	Bp::FilterGroup::Enum* PX_RESTRICT groups	= reinterpret_cast<Bp::FilterGroup::Enum*>(PX_ALLOC(sizeof(Bp::FilterGroup::Enum)*nb, PX_DEBUG_EXP("mGroups")));
+	PxU32* PX_RESTRICT remap					= reinterpret_cast<PxU32*>(PX_ALLOC(sizeof(PxU32)*nb, PX_DEBUG_EXP("mRemap")));
 
 	mBoxX = boxX;
 	mBoxYZ = boxYZ;
@@ -788,6 +788,9 @@ AuxData::~AuxData()
 }
 
 void performBoxPruningNewNew(	const AuxData* PX_RESTRICT auxData, PxcScratchAllocator* scratchAllocator,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+								const bool* lut,
+#endif
 								SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity)
 {
 	const PxU32 nb = auxData->mNb;
@@ -800,7 +803,7 @@ void performBoxPruningNewNew(	const AuxData* PX_RESTRICT auxData, PxcScratchAllo
 	{
 		BoxX* boxX = auxData->mBoxX;
 		BoxYZ* boxYZ = auxData->mBoxYZ;
-		BpHandle* groups = auxData->mGroups;
+		Bp::FilterGroup::Enum* groups = auxData->mGroups;
 		PxU32* remap = auxData->mRemap;
 
 		AddPairParams params(remap, remap, scratchAllocator, &pairManager, &da);
@@ -811,7 +814,7 @@ void performBoxPruningNewNew(	const AuxData* PX_RESTRICT auxData, PxcScratchAllo
 		while(runningIndex<nb && index0<nb)
 		{
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-			const BpHandle group0 = groups[index0];
+			const Bp::FilterGroup::Enum group0 = groups[index0];
 #endif
 			const BoxX& boxX0 = boxX[index0];
 
@@ -824,7 +827,11 @@ void performBoxPruningNewNew(	const AuxData* PX_RESTRICT auxData, PxcScratchAllo
 			{
 				INCREASE_STATS_NB_ITER
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-				if(group0!=groups[index1])
+	#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+				if(groupFiltering(group0, groups[index1], lut))
+	#else
+				if(groupFiltering(group0, groups[index1]))
+	#endif
 #endif
 				{
 					INCREASE_STATS_NB_TESTS
@@ -852,9 +859,13 @@ void performBoxPruningNewNew(	const AuxData* PX_RESTRICT auxData, PxcScratchAllo
 	dataArrayCapacity = da.mCapacity;
 }
 
+template<int codepath>
 static void bipartitePruning(
-	const PxU32 nb0, const BoxX* PX_RESTRICT boxX0, const BoxYZ* PX_RESTRICT boxYZ0, const PxU32* PX_RESTRICT remap0, const BpHandle* PX_RESTRICT groups0,
-	const PxU32 nb1, const BoxX* PX_RESTRICT boxX1, const BoxYZ* PX_RESTRICT boxYZ1, const PxU32* PX_RESTRICT remap1, const BpHandle* PX_RESTRICT groups1,
+	const PxU32 nb0, const BoxX* PX_RESTRICT boxX0, const BoxYZ* PX_RESTRICT boxYZ0, const PxU32* PX_RESTRICT remap0, const Bp::FilterGroup::Enum* PX_RESTRICT groups0,
+	const PxU32 nb1, const BoxX* PX_RESTRICT boxX1, const BoxYZ* PX_RESTRICT boxYZ1, const PxU32* PX_RESTRICT remap1, const Bp::FilterGroup::Enum* PX_RESTRICT groups1,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	const bool* lut,
+#endif
 	PxcScratchAllocator* scratchAllocator, SapPairManager& pairManager, DataArray& dataArray
 	)
 {
@@ -866,12 +877,20 @@ static void bipartitePruning(
 	while(runningIndex<nb1 && index0<nb0)
 	{
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-		const BpHandle group0 = groups0[index0];
+		const Bp::FilterGroup::Enum group0 = groups0[index0];
 #endif
 
 		const BpHandle minLimit = boxX0[index0].mMinX;
-		while(boxX1[runningIndex].mMinX<minLimit)
-			runningIndex++;
+		if(!codepath)
+		{
+			while(boxX1[runningIndex].mMinX<minLimit)
+				runningIndex++;
+		}
+		else
+		{
+			while(boxX1[runningIndex].mMinX<=minLimit)
+				runningIndex++;
+		}
 
 		const BpHandle maxLimit = boxX0[index0].mMaxX;
 		PxU32 index1 = runningIndex;
@@ -879,7 +898,11 @@ static void bipartitePruning(
 		{
 			INCREASE_STATS_NB_ITER
 #if BP_SAP_TEST_GROUP_ID_CREATEUPDATE
-			if(group0!=groups1[index1])
+	#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+			if(groupFiltering(group0, groups1[index1], lut))
+	#else
+			if(groupFiltering(group0, groups1[index1]))
+	#endif
 #endif
 			{
 				INCREASE_STATS_NB_TESTS
@@ -895,7 +918,10 @@ static void bipartitePruning(
 	}
 }
 
-void performBoxPruningNewOld(	const AuxData* PX_RESTRICT auxData0, const AuxData* PX_RESTRICT auxData1, PxcScratchAllocator* scratchAllocator, 
+void performBoxPruningNewOld(	const AuxData* PX_RESTRICT auxData0, const AuxData* PX_RESTRICT auxData1, PxcScratchAllocator* scratchAllocator,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+								const bool* lut,
+#endif
 								SapPairManager& pairManager, BpHandle*& dataArray, PxU32& dataArraySize, PxU32& dataArrayCapacity)
 {
 	const PxU32 nb0 = auxData0->mNb;
@@ -908,18 +934,23 @@ void performBoxPruningNewOld(	const AuxData* PX_RESTRICT auxData0, const AuxData
 
 	START_STATS
 	{
-		BoxX* boxX0 = auxData0->mBoxX;
-		BoxYZ* boxYZ0 = auxData0->mBoxYZ;
-		BpHandle* groups0 = auxData0->mGroups;
-		PxU32* remap0 = auxData0->mRemap;
+		const BoxX* boxX0 = auxData0->mBoxX;
+		const BoxYZ* boxYZ0 = auxData0->mBoxYZ;
+		const Bp::FilterGroup::Enum* groups0 = auxData0->mGroups;
+		const PxU32* remap0 = auxData0->mRemap;
 
-		BoxX* boxX1 = auxData1->mBoxX;
-		BoxYZ* boxYZ1 = auxData1->mBoxYZ;
-		BpHandle* groups1 = auxData1->mGroups;
-		PxU32* remap1 = auxData1->mRemap;
+		const BoxX* boxX1 = auxData1->mBoxX;
+		const BoxYZ* boxYZ1 = auxData1->mBoxYZ;
+		const Bp::FilterGroup::Enum* groups1 = auxData1->mGroups;
+		const PxU32* remap1 = auxData1->mRemap;
 
-		bipartitePruning(nb0, boxX0, boxYZ0, remap0, groups0, nb1, boxX1, boxYZ1, remap1, groups1, scratchAllocator, pairManager, da);
-		bipartitePruning(nb1, boxX1, boxYZ1, remap1, groups1, nb0, boxX0, boxYZ0, remap0, groups0, scratchAllocator, pairManager, da);
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+		bipartitePruning<0>(nb0, boxX0, boxYZ0, remap0, groups0, nb1, boxX1, boxYZ1, remap1, groups1, lut, scratchAllocator, pairManager, da);
+		bipartitePruning<1>(nb1, boxX1, boxYZ1, remap1, groups1, nb0, boxX0, boxYZ0, remap0, groups0, lut, scratchAllocator, pairManager, da);
+#else
+		bipartitePruning<0>(nb0, boxX0, boxYZ0, remap0, groups0, nb1, boxX1, boxYZ1, remap1, groups1, scratchAllocator, pairManager, da);
+		bipartitePruning<1>(nb1, boxX1, boxYZ1, remap1, groups1, nb0, boxX0, boxYZ0, remap0, groups0, scratchAllocator, pairManager, da);
+#endif
 	}
 	DUMP_STATS
 

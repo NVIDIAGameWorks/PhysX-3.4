@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -33,7 +33,6 @@
 #include "CmPhysXCommon.h"
 #include "BpBroadPhase.h"
 #include "BpBroadPhaseMBPCommon.h"
-#include "PsUserAllocated.h"
 #include "BpMBPTasks.h"
 
 	class MBP;
@@ -69,7 +68,7 @@ namespace Bp
 	// BroadPhase
 		virtual	PxBroadPhaseType::Enum		getType()					const	{ return PxBroadPhaseType::eMBP;	}
 
-		virtual	void						destroy();
+		virtual	void						destroy()							{ delete this;						}
 
 		virtual	void						update(const PxU32 numCpuTasks, PxcScratchAllocator* scratchAllocator, const BroadPhaseUpdateData& updateData, physx::PxBaseTask* continuation, physx::PxBaseTask* narrowPhaseUnblockTask);
 		virtual void						fetchBroadPhaseResults(physx::PxBaseTask*) {}
@@ -88,9 +87,7 @@ namespace Bp
 #endif
 
 		virtual BroadPhasePair*				getBroadPhasePairs() const  {return NULL;}  //KS - TODO - implement this!!!
-
 		virtual void						deletePairs(){}								//KS - TODO - implement this!!!
-
 	//~BroadPhase
 
 				MBPUpdateWorkTask			mMBPUpdateWorkTask;
@@ -103,8 +100,10 @@ namespace Bp
 				Ps::Array<BroadPhasePair>	mCreated;
 				Ps::Array<BroadPhasePair>	mDeleted;
 
-				const BpHandle*				mGroups;	// ### why are those 'handles'?
-
+				const Bp::FilterGroup::Enum*mGroups;
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+				const bool*					mLUT;
+#endif
 				void						setUpdateData(const BroadPhaseUpdateData& updateData);
 				void						addObjects(const BroadPhaseUpdateData& updateData);
 				void						removeObjects(const BroadPhaseUpdateData& updateData);

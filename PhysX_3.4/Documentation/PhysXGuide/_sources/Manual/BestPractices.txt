@@ -89,6 +89,10 @@ Use the insertion callback when cooking at runtime
 ==================================================
 Use PxPhysicsInsertionCallback for objects that are cooked at runtime. This is faster than first writing the data to a file or a memory buffer, and then passing the data to PhysX.
 
+Kill kinematic pairs early
+==========================
+If you do not need them, use PxPairFilteringMode::eKILL to disable kinematic pairs earlier in the pipeline.
+
 
 The "Well of Despair"
 ==========================

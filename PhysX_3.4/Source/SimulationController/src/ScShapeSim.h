@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -128,6 +128,7 @@ namespace Sc
 						void							updateCached(PxsTransformCache& transformCache, Bp::BoundsArray& boundsArray);
 						void							updateContactDistance(PxReal* contactDistance, const PxReal inflation, const PxVec3 angVel, const PxReal dt, Bp::BoundsArray& boundsArray);
 						Ps::IntBool						updateSweptBounds();
+						void							updateBPGroup();
 
 		PX_FORCE_INLINE PxsShapeSim&					getLLShapeSim() 							{ return mLLShape; }
 	private:
@@ -137,8 +138,9 @@ namespace Sc
 						PxU32							mSqBoundsId;
 
 		PX_FORCE_INLINE	void							internalAddToBroadPhase();
-		PX_FORCE_INLINE	void							internalRemoveFromBroadPhase();
+		PX_FORCE_INLINE	void							internalRemoveFromBroadPhase(bool wakeOnLostTouch=true);
 						void							initSubsystemsDependingOnElementID();
+						Bp::FilterGroup::Enum			getBPGroup()	const;
 	}
 	PX_ALIGN_SUFFIX(16);
 

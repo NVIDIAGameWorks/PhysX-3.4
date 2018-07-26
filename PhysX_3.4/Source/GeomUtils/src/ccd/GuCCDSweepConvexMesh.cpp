@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -702,9 +702,6 @@ PxReal SweepEstimateAnyShapeMesh(GU_SWEEP_ESTIMATE_ARGS)
 				convexPartOfMesh1.getBounds(bounds, transform1);
 				//OK, we have all 3 vertices, now calculate bounds...
 
-				PX_ASSERT(trB.x == 0.f);
-				PX_ASSERT(trB.y == 0.f);
-				PX_ASSERT(trB.z == 0.f);
 				PxF32 toi = sweepAABBAABB(
 					origin, extent * 1.1f, bounds.getCenter(), (bounds.getExtents() + PxVec3(0.01f, 0.01f, 0.01f)) * 1.1f, trA, trB);
 

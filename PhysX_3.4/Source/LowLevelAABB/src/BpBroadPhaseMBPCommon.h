@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -52,57 +52,6 @@ namespace Bp
 #endif
 	typedef	PxU32	MBP_ObjectIndex;	// PT: index in mMBP_Objects
 	typedef	PxU32	MBP_Handle;			// PT: returned to MBP users, combination of index/flip-flop/static-bit
-
-	PX_FORCE_INLINE MBP_Handle encodeHandle(MBP_ObjectIndex objectIndex, PxU32 flipFlop, bool isStatic)
-	{
-	/*	objectIndex += objectIndex;
-		objectIndex |= flipFlop;
-		return objectIndex;*/
-		return (objectIndex<<2)|(flipFlop<<1)|PxU32(isStatic);
-	}
-
-	PX_FORCE_INLINE MBP_ObjectIndex decodeHandle_Index(MBP_Handle handle)
-	{
-	//	return handle>>1;
-		return handle>>2;
-	}
-
-	PX_FORCE_INLINE PxU32 decodeHandle_IsStatic(MBP_Handle handle)
-	{
-		return handle&1;
-	}
-
-	struct MBPEntry_Data
-	{
-		#if PX_DEBUG
-			bool	mUpdated;
-		#endif
-
-		// ### mIndex could be PxU16 but beware, we store mFirstFree there
-		PxU32		mIndex;			// Out-to-in, maps user handle to internal array. mIndex indexes either the static or dynamic array.
-		MBP_Handle	mMBPHandle;		// MBP-level handle (the one returned to users)
-
-		PX_FORCE_INLINE		PxU32	isStatic()	const
-		{
-			return decodeHandle_IsStatic(mMBPHandle);
-		}
-	};
-
-//	#define MBP_MAX_NB_OVERLAPS	4096
-	#define MBP_MAX_NB_OVERLAPS	8192
-	struct MBP_Overlap
-	{
-		PxU16	mIndex0;
-		PxU16	mIndex1;
-	};
-
-//	#define MBP_BOX_CACHE_SIZE	(16)
-//	#define MBP_BOX_CACHE_SIZE	(16*2)
-//	#define MBP_BOX_CACHE_SIZE	(16*4)
-//	#define MBP_BOX_CACHE_SIZE	(16*8)
-//	#define MBP_BOX_CACHE_SIZE	(16*16)
-	#define MBP_BOX_CACHE_SIZE	(16*32)
-//	#define MBP_BOX_CACHE_SIZE	(16*64)
 
 	struct IAABB : public Ps::UserAllocated
 	{

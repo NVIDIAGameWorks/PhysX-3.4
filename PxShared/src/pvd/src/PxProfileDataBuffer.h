@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -51,10 +51,10 @@ namespace physx { namespace profile {
 
 	protected:
 		
-		PxProfileAllocatorWrapper					mWrapper;
+		PxProfileAllocatorWrapper			mWrapper;
 		TMemoryBufferType					mDataArray;
-		TBufferClientArray					mClients;
-		uint32_t								mBufferFullAmount;
+		TBufferClientArray					mBufferClients;
+		uint32_t							mBufferFullAmount;
 		EventContextInformation				mEventContextInformation;		
 		TMutexType*							mBufferMutex;
 		volatile bool						mHasClients;
@@ -68,7 +68,7 @@ namespace physx { namespace profile {
 					, const char* inAllocationName )
 			: mWrapper( inFoundation )
 			, mDataArray( TU8AllocatorType( mWrapper, inAllocationName ) )
-			, mClients( mWrapper )
+			, mBufferClients( mWrapper )
 			, mBufferFullAmount( inBufferFullAmount )
 			, mBufferMutex( inBufferMutex )
 			, mHasClients( false )
@@ -81,9 +81,9 @@ namespace physx { namespace profile {
 		
 		virtual ~DataBuffer()
 		{
-			while( mClients.size() )
+			while( mBufferClients.size() )
 			{
-				removeClient( *mClients[0] );
+				removeClient( *mBufferClients[0] );
 			}
 		}
 
@@ -94,23 +94,23 @@ namespace physx { namespace profile {
 		void addClient( PxProfileEventBufferClient& inClient ) 
 		{ 
 			TScopedLockType lock( mBufferMutex ); 
-			mClients.pushBack( &inClient );
+			mBufferClients.pushBack( &inClient );
 			mHasClients = true;
 		}
 
 		void removeClient( PxProfileEventBufferClient& inClient ) 
 		{
 			TScopedLockType lock( mBufferMutex );
-			for ( uint32_t idx =0; idx < mClients.size(); ++idx )
+			for ( uint32_t idx =0; idx < mBufferClients.size(); ++idx )
 			{
-				if ( mClients[idx] == &inClient )
+				if (mBufferClients[idx] == &inClient )
 				{
 					inClient.handleClientRemoved();
-					mClients.replaceWithLast( idx );
+					mBufferClients.replaceWithLast( idx );
 					break;
 				}
 			}
-			mHasClients = mClients.size() != 0;
+			mHasClients = mBufferClients.size() != 0;
 		}
 
 		
@@ -154,9 +154,9 @@ namespace physx { namespace profile {
 			
 		void sendDataToClients( const uint8_t* inData, uint32_t inDataSize )
 		{
-			uint32_t clientCount = mClients.size();
+			uint32_t clientCount = mBufferClients.size();
 			for( uint32_t idx =0; idx < clientCount; ++idx )
-				mClients[idx]->handleBufferFlush( inData, inDataSize );
+				mBufferClients[idx]->handleBufferFlush( inData, inDataSize );
 		}
 
 	};

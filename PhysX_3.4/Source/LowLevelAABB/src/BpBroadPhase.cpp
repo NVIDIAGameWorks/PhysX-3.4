@@ -23,10 +23,9 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
-
 
 #include "BpBroadPhase.h"
 #include "BpBroadPhaseSap.h"
@@ -58,9 +57,7 @@ bool BroadPhaseUpdateData::isValid(const BroadPhaseUpdateData& updateData, const
 {
 	return (updateData.isValid() && bp.isValid(updateData));
 }
-#endif
 
-#if PX_CHECKED
 bool BroadPhaseUpdateData::isValid() const 
 {
 	const BpHandle* created=getCreatedHandles();
@@ -70,7 +67,6 @@ bool BroadPhaseUpdateData::isValid() const
 	const PxU32 updatedSize=getNumUpdatedHandles();
 	const PxU32 removedSize=getNumRemovedHandles();
 	const PxBounds3* bounds=getAABBs();
-	const BpHandle* groups=getGroups();
 	const PxU32 boxesCapacity=getCapacity();
 
 	if(NULL==created && createdSize>0)
@@ -125,10 +121,6 @@ bool BroadPhaseUpdateData::isValid() const
 				return false;
 #endif
 		}
-
-		//Group ids must be less than BP_INVALID_BP_HANDLE.
-		if(groups[created[i]]>=BP_INVALID_BP_HANDLE)
-			return false;
 	}
 
 	for(PxU32 i=0;i<updatedSize;i++)
@@ -165,10 +157,6 @@ bool BroadPhaseUpdateData::isValid() const
 				return false;
 #endif
 		}
-
-		//Group ids must be less than BP_INVALID_BP_HANDLE.
-		if(groups[updated[i]]>=BP_INVALID_BP_HANDLE)
-			return false;
 	}
 
 	for(PxU32 i=0;i<removedSize;i++)

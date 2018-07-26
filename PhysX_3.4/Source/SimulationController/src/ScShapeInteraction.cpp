@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
            
@@ -40,11 +40,11 @@
 using namespace physx;
 
 
-Sc::ShapeInteraction::ShapeInteraction(ShapeSim& s1, ShapeSim& s2, ActorPair* aPair, PxPairFlags pairFlags, PxsContactManager* contactManager) :
+Sc::ShapeInteraction::ShapeInteraction(ShapeSim& s1, ShapeSim& s2, PxPairFlags pairFlags, PxsContactManager* contactManager) :
 	RbElementInteraction	(s1, s2, InteractionType::eOVERLAP, InteractionFlag::eRB_ELEMENT|InteractionFlag::eFILTERABLE),
 	mContactReportStamp		(PX_INVALID_U32),
 	mFlags					(0),
-	mActorPair				(aPair),
+	mActorPair				(NULL),
 	mReportPairIndex		(INVALID_REPORT_PAIR_ID),
 	mManager				(NULL),
 	mEdgeIndex				(IG_INVALID_EDGE),
@@ -110,9 +110,6 @@ Sc::ShapeInteraction::ShapeInteraction(ShapeSim& s1, ShapeSim& s2, ActorPair* aP
 	{
 		onActivate(contactManager);
 	}
-
-	if(aPair)
-		aPair->incRefCount();
 }
 
 

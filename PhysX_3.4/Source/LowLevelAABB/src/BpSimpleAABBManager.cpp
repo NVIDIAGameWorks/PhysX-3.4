@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -95,11 +95,6 @@ static const bool gUseBruteForce = false;
 	#define USE_SIMD_BOUNDS
 #endif
 
-static PX_FORCE_INLINE bool groupFiltering(PxU32 group0, PxU32 group1)
-{
-	return group0!=group1;
-}
-
 namespace physx
 {
 
@@ -115,11 +110,11 @@ static PX_FORCE_INLINE uint32_t hash(const AggPair& p)
 	return PxU32(Ps::hash( (p.mIndex0&0xffff)|(p.mIndex1<<16)) );
 }
 
-static PX_FORCE_INLINE bool shouldPairBeDeleted(const Ps::Array<PxU32, Ps::VirtualAllocator>& groups, ShapeHandle h0, ShapeHandle h1)
+static PX_FORCE_INLINE bool shouldPairBeDeleted(const Ps::Array<Bp::FilterGroup::Enum, Ps::VirtualAllocator>& groups, ShapeHandle h0, ShapeHandle h1)
 {
 	PX_ASSERT(h0<groups.size());
 	PX_ASSERT(h1<groups.size());
-	return (groups[h0]==PX_INVALID_U32) || (groups[h1]==PX_INVALID_U32);
+	return (groups[h0]==Bp::FilterGroup::eINVALID) || (groups[h1]==Bp::FilterGroup::eINVALID);
 }
 
 // PT: TODO: refactor with CCT version
@@ -292,7 +287,6 @@ namespace
 						PxU32*				mNext;
 						MBP_Pair*			mActivePairs;
 						PxU32				mReservedMemory;
-						bool				mStuff;
 
 		PX_FORCE_INLINE	MBP_Pair*			findPair(PxU32 id0, PxU32 id1, PxU32 hashValue) const;
 						void				removePair(PxU32 id0, PxU32 id1, PxU32 hashValue, PxU32 pairIndex);
@@ -604,11 +598,18 @@ class PersistentPairs : public Ps::UserAllocated
 
 	virtual			bool			update(SimpleAABBManager& /*manager*/)		{ return false; }
 
-	PX_FORCE_INLINE	void			updatePairs(PxU32 timestamp, const PxBounds3* bounds, const float* contactDistances, const PxU32* groups,
+	PX_FORCE_INLINE	void			updatePairs(PxU32 timestamp, const PxBounds3* bounds, const float* contactDistances, const Bp::FilterGroup::Enum* groups,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+												const bool* lut,
+#endif
 												Ps::Array<VolumeData>& volumeData, Ps::Array<AABBOverlap>* createdOverlaps, Ps::Array<AABBOverlap>* destroyedOverlaps);
 					void			outputDeletedOverlaps(Ps::Array<AABBOverlap>* overlaps, const Ps::Array<VolumeData>& volumeData);
 	private:
-	virtual			void			findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT bounds, const float* PX_RESTRICT contactDistances, const PxU32* PX_RESTRICT groups)	= 0;
+	virtual			void			findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT bounds, const float* PX_RESTRICT contactDistances, const Bp::FilterGroup::Enum* PX_RESTRICT groups
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	, const bool* PX_RESTRICT lut
+#endif
+		)	= 0;
 	protected:
 					PxU32			mTimestamp;
 #ifdef USE_MBP_PAIR_MANAGER
@@ -676,16 +677,24 @@ static PX_FORCE_INLINE InflatedType getMaxX(const InflatedAABB& box)
 #endif
 }
 
-static PX_FORCE_INLINE void testPair(PairArray& pairs, const InflatedAABB* bounds0, const InflatedAABB* bounds1, const PxU32* PX_RESTRICT groups, const PxU32 aggIndex0, const PxU32 aggIndex1, const PxU32 index0, const PxU32 index1)
+static PX_FORCE_INLINE void testPair(PairArray& pairs, const InflatedAABB* bounds0, const InflatedAABB* bounds1, const Bp::FilterGroup::Enum* PX_RESTRICT groups,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	const bool* PX_RESTRICT lut,
+#endif
+	const PxU32 aggIndex0, const PxU32 aggIndex1, const PxU32 index0, const PxU32 index1)
 {
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	if(groupFiltering(groups[aggIndex0], groups[aggIndex1], lut))
+#else
 	if(groupFiltering(groups[aggIndex0], groups[aggIndex1]))
+#endif
 		if(intersects2D(bounds0[index0], bounds1[index1]))
 			outputPair(pairs, aggIndex0, aggIndex1);
 }
 
 #ifdef REMOVED_FAILED_EXPERIMENT
 static PX_NOINLINE void processCandidates(PxU32 nbCandidates, const Pair* PX_RESTRICT candidates,
-										PairArray& pairs, const InflatedAABB* bounds0, const InflatedAABB* bounds1, const PxU32* PX_RESTRICT groups, const PxU32* aggIndices0, const PxU32* aggIndices1)
+										PairArray& pairs, const InflatedAABB* bounds0, const InflatedAABB* bounds1, const Bp::FilterGroup::Enum* PX_RESTRICT groups, const PxU32* aggIndices0, const PxU32* aggIndices1)
 {
 	while(nbCandidates--)
 	{
@@ -700,7 +709,7 @@ static PX_NOINLINE void processCandidates(PxU32 nbCandidates, const Pair* PX_RES
 	}
 }
 
-static /*PX_FORCE_INLINE*/ void boxPruning(PairArray& pairs, const InflatedAABB* bounds0, const InflatedAABB* bounds1, const PxU32* PX_RESTRICT groups, PxU32 size0, PxU32 size1, const PxU32* aggIndices0, const PxU32* aggIndices1)
+static /*PX_FORCE_INLINE*/ void boxPruning(PairArray& pairs, const InflatedAABB* bounds0, const InflatedAABB* bounds1, const Bp::FilterGroup::Enum* PX_RESTRICT groups, PxU32 size0, PxU32 size1, const PxU32* aggIndices0, const PxU32* aggIndices1)
 {
 //	PxU32 nbCandidates = 0;
 //	Pair candidates[16384];
@@ -735,7 +744,7 @@ static /*PX_FORCE_INLINE*/ void boxPruning(PairArray& pairs, const InflatedAABB*
 #endif
 
 #ifdef REMOVED
-static /*PX_FORCE_INLINE*/ void boxPruning(PairArray& pairs, const InflatedAABB* bounds0, const InflatedAABB* bounds1, const PxU32* PX_RESTRICT groups, PxU32 size0, PxU32 size1, const PxU32* aggIndices0, const PxU32* aggIndices1)
+static /*PX_FORCE_INLINE*/ void boxPruning(PairArray& pairs, const InflatedAABB* bounds0, const InflatedAABB* bounds1, const Bp::FilterGroup::Enum* PX_RESTRICT groups, PxU32 size0, PxU32 size1, const PxU32* aggIndices0, const PxU32* aggIndices1)
 {
 	PxU32 index0 = 0;
 	PxU32 runningAddress1 = 0;
@@ -767,7 +776,10 @@ static /*PX_FORCE_INLINE*/ void boxPruning(PairArray& pairs, const InflatedAABB*
 #endif
 
 #ifdef STORE_SORTED_BOUNDS
-static void boxPruning(	PairArray& pairs, const InflatedAABB* PX_RESTRICT bounds0, const InflatedAABB* PX_RESTRICT bounds1, const PxU32* PX_RESTRICT groups,
+static void boxPruning(	PairArray& pairs, const InflatedAABB* PX_RESTRICT bounds0, const InflatedAABB* PX_RESTRICT bounds1, const Bp::FilterGroup::Enum* PX_RESTRICT groups,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+						const bool* PX_RESTRICT lut,
+#endif
 						PxU32 size0, PxU32 size1, const BoundsIndex* PX_RESTRICT aggIndices0, const BoundsIndex* PX_RESTRICT aggIndices1)
 {
 	{
@@ -791,7 +803,11 @@ static void boxPruning(	PairArray& pairs, const InflatedAABB* PX_RESTRICT bounds
 			{
 				const PxU32 aggIndex1 = aggIndices1[index1];
 //				testPair(pairs, bounds0, bounds1, groups, aggIndex0, aggIndex1, index0, index1);
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+					if(groupFiltering(groups[aggIndex0], groups[aggIndex1], lut))
+#else
 					if(groupFiltering(groups[aggIndex0], groups[aggIndex1]))
+#endif
 					{
 #ifdef USE_SIMD_BOUNDS
 						SIMD_OVERLAP_TEST(bounds1[index1])
@@ -830,7 +846,11 @@ static void boxPruning(	PairArray& pairs, const InflatedAABB* PX_RESTRICT bounds
 			{
 				const PxU32 aggIndex1 = aggIndices0[index1];
 //				testPair(pairs, bounds0, bounds1, groups, aggIndex0, aggIndex1, index1, index0);
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+					if(groupFiltering(groups[aggIndex0], groups[aggIndex1], lut))
+#else
 					if(groupFiltering(groups[aggIndex0], groups[aggIndex1]))
+#endif
 					{
 #ifdef USE_SIMD_BOUNDS
 						SIMD_OVERLAP_TEST(bounds0[index1])
@@ -858,7 +878,11 @@ class PersistentActorAggregatePair : public PersistentPairs
 								PersistentActorAggregatePair(Aggregate* aggregate, ShapeHandle actorHandle);
 	virtual						~PersistentActorAggregatePair()	{}
 
-	virtual			void		findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT bounds, const float* PX_RESTRICT contactDistances, const PxU32* PX_RESTRICT groups);
+	virtual			void		findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT bounds, const float* PX_RESTRICT contactDistances, const Bp::FilterGroup::Enum* PX_RESTRICT groups
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	, const bool* PX_RESTRICT lut
+#endif
+		);
 	virtual			bool		update(SimpleAABBManager& manager);
 
 					ShapeHandle	mAggregateHandle;
@@ -873,7 +897,11 @@ PersistentActorAggregatePair::PersistentActorAggregatePair(Aggregate* aggregate,
 {
 }
 
-void PersistentActorAggregatePair::findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT bounds, const float* PX_RESTRICT contactDistances, const PxU32* PX_RESTRICT groups)
+void PersistentActorAggregatePair::findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT bounds, const float* PX_RESTRICT contactDistances, const Bp::FilterGroup::Enum* PX_RESTRICT groups
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	, const bool* PX_RESTRICT lut
+#endif
+	)
 {
 	const ShapeHandle actorHandle = mActorHandle;
 
@@ -893,11 +921,15 @@ void PersistentActorAggregatePair::findOverlaps(PairArray& pairs, const PxBounds
 	const InflatedAABB* inflatedBounds = mAggregate->mInflatedBounds;
 	if(gUseBruteForce)
 	{
-		const PxU32 actorGroup = groups[actorHandle];
+		const Bp::FilterGroup::Enum actorGroup = groups[actorHandle];
 		for(PxU32 i=0;i<size;i++)
 		{
 			const BoundsIndex index = mAggregate->getAggregated(i);
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+			if(groupFiltering(actorGroup, groups[index], lut))
+#else
 			if(groupFiltering(actorGroup, groups[index]))
+#endif
 			{
 				if(actorBounds[0].intersects(inflatedBounds[i]))
 					outputPair(pairs, index, actorHandle);
@@ -916,7 +948,11 @@ void PersistentActorAggregatePair::findOverlaps(PairArray& pairs, const PxBounds
 		const InflatedAABB* PX_RESTRICT bounds0 = actorBounds;
 		const InflatedAABB* PX_RESTRICT bounds1 = inflatedBounds;
 		mAggregate->getSortedMinBounds();
+	#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+		boxPruning(pairs, bounds0, bounds1, groups, lut, 1, size, &actorHandle, mAggregate->getIndices());
+	#else
 		boxPruning(pairs, bounds0, bounds1, groups, 1, size, &actorHandle, mAggregate->getIndices());
+	#endif
 #else
 		const InflatedAABB* PX_RESTRICT bounds0 = actorBounds;
 		const InflatedAABB* PX_RESTRICT bounds1 = inflatedBounds;
@@ -999,7 +1035,11 @@ class PersistentAggregateAggregatePair : public PersistentPairs
 								PersistentAggregateAggregatePair(Aggregate* aggregate0, Aggregate* aggregate1);
 	virtual						~PersistentAggregateAggregatePair()	{}
 
-	virtual			void		findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT bounds, const float* PX_RESTRICT contactDistances, const PxU32* PX_RESTRICT groups);
+	virtual			void		findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT bounds, const float* PX_RESTRICT contactDistances, const Bp::FilterGroup::Enum* PX_RESTRICT groups
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	, const bool* PX_RESTRICT lut
+#endif
+		);
 	virtual			bool		update(SimpleAABBManager& manager);
 
 					ShapeHandle	mAggregateHandle0;
@@ -1016,7 +1056,11 @@ PersistentAggregateAggregatePair::PersistentAggregateAggregatePair(Aggregate* ag
 {
 }
 
-void PersistentAggregateAggregatePair::findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT /*bounds*/, const float* PX_RESTRICT /*contactDistances*/, const PxU32* PX_RESTRICT groups)
+void PersistentAggregateAggregatePair::findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT /*bounds*/, const float* PX_RESTRICT /*contactDistances*/, const Bp::FilterGroup::Enum* PX_RESTRICT groups
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	, const bool* PX_RESTRICT lut
+#endif
+	)
 {
 	const PxU32 size0 = mAggregate0->getNbAggregated();
 	const PxU32 size1 = mAggregate1->getNbAggregated();
@@ -1036,7 +1080,11 @@ void PersistentAggregateAggregatePair::findOverlaps(PairArray& pairs, const PxBo
 			{
 				const BoundsIndex index1 = mAggregate1->getAggregated(j);
 
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+				if(groupFiltering(groups[index0], groups[index1], lut))
+#else
 				if(groupFiltering(groups[index0], groups[index1]))
+#endif
 				{
 					if(inflatedBounds0.intersects(inflated1[j]))
 						outputPair(pairs, index0, index1);
@@ -1051,7 +1099,11 @@ void PersistentAggregateAggregatePair::findOverlaps(PairArray& pairs, const PxBo
 		mAggregate1->getSortedMinBounds();
 		const InflatedAABB* PX_RESTRICT bounds0 = mAggregate0->mInflatedBounds;
 		const InflatedAABB* PX_RESTRICT bounds1 = mAggregate1->mInflatedBounds;
+	#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+		boxPruning(pairs, bounds0, bounds1, groups, lut, size0, size1, mAggregate0->getIndices(), mAggregate1->getIndices());
+	#else
 		boxPruning(pairs, bounds0, bounds1, groups, size0, size1, mAggregate0->getIndices(), mAggregate1->getIndices());
+	#endif
 #else
 		const InflatedAABB* PX_RESTRICT bounds0 = mAggregate0->mInflatedBounds;
 		const InflatedAABB* PX_RESTRICT bounds1 = mAggregate1->mInflatedBounds;
@@ -1153,7 +1205,11 @@ class PersistentSelfCollisionPairs : public PersistentPairs
 						PersistentSelfCollisionPairs(Aggregate* aggregate);
 	virtual				~PersistentSelfCollisionPairs()	{}
 
-	virtual	void		findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT bounds, const float* PX_RESTRICT contactDistances, const PxU32* PX_RESTRICT groups);
+	virtual	void		findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT bounds, const float* PX_RESTRICT contactDistances, const Bp::FilterGroup::Enum* PX_RESTRICT groups
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	, const bool* PX_RESTRICT lut
+#endif
+		);
 
 			Aggregate*	mAggregate;
 };
@@ -1163,7 +1219,11 @@ PersistentSelfCollisionPairs::PersistentSelfCollisionPairs(Aggregate* aggregate)
 {
 }
 
-void PersistentSelfCollisionPairs::findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT/*bounds*/, const float* PX_RESTRICT/*contactDistances*/, const PxU32* PX_RESTRICT groups)
+void PersistentSelfCollisionPairs::findOverlaps(PairArray& pairs, const PxBounds3* PX_RESTRICT/*bounds*/, const float* PX_RESTRICT/*contactDistances*/, const Bp::FilterGroup::Enum* PX_RESTRICT groups
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	, const bool* PX_RESTRICT lut
+#endif
+	)
 {
 	const PxU32 size0 = mAggregate->getNbAggregated();
 
@@ -1181,7 +1241,11 @@ void PersistentSelfCollisionPairs::findOverlaps(PairArray& pairs, const PxBounds
 			for(PxU32 j=i+1;j<size0;j++)
 			{
 				const BoundsIndex index1 = mAggregate->getAggregated(j);
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+				if(groupFiltering(groups[index0], groups[index1], lut))
+#else
 				if(groupFiltering(groups[index0], groups[index1]))
+#endif
 				{
 					if(inflatedBounds0.intersects(inflatedBounds[j]))
 						outputPair(pairs, index0, index1);
@@ -1212,7 +1276,11 @@ void PersistentSelfCollisionPairs::findOverlaps(PairArray& pairs, const PxBounds
 //				if(index0!=index1)
 				{
 					const PxU32 aggIndex1 = mAggregate->getAggregated(index1);
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+					testPair(pairs, bounds, bounds, groups, lut, aggIndex0, aggIndex1, index0, index1);
+#else
 					testPair(pairs, bounds, bounds, groups, aggIndex0, aggIndex1, index0, index1);
+#endif
 				}
 				index1++;
 			}
@@ -1502,7 +1570,7 @@ void Aggregate::computeBounds(const BoundsArray& boundsArray, const float* conta
 void SimpleAABBManager::reserveShapeSpace(PxU32 nbTotalBounds)
 {
 	nbTotalBounds = Ps::nextPowerOfTwo(nbTotalBounds);
-	mGroups.resize(nbTotalBounds, PX_INVALID_U32);
+	mGroups.resize(nbTotalBounds, Bp::FilterGroup::eINVALID);
 	mVolumeData.resize(nbTotalBounds);					//KS - must be initialized so that userData is NULL for SQ-only shapes
 	mContactDistance.resizeUninitialized(nbTotalBounds);
 	mAddedHandleMap.resize(nbTotalBounds);
@@ -1513,7 +1581,9 @@ void SimpleAABBManager::reserveShapeSpace(PxU32 nbTotalBounds)
 #pragma warning(disable: 4355 )	// "this" used in base member initializer list
 #endif
 
-SimpleAABBManager::SimpleAABBManager(BroadPhase& bp, BoundsArray& boundsArray, Ps::Array<PxReal, Ps::VirtualAllocator>& contactDistance, PxU32 maxNbAggregates, PxU32 maxNbShapes, Ps::VirtualAllocator& allocator, PxU64 contextID) :
+SimpleAABBManager::SimpleAABBManager(	BroadPhase& bp, BoundsArray& boundsArray, Ps::Array<PxReal, Ps::VirtualAllocator>& contactDistance,
+										PxU32 maxNbAggregates, PxU32 maxNbShapes, Ps::VirtualAllocator& allocator, PxU64 contextID,
+										PxPairFilteringMode::Enum kineKineFilteringMode, PxPairFilteringMode::Enum staticKineFilteringMode) :
 	mFinalizeUpdateTask			(contextID),
 	mChangedHandleMap			(allocator),
 	mGroups						(allocator),
@@ -1536,13 +1606,38 @@ SimpleAABBManager::SimpleAABBManager(BroadPhase& bp, BoundsArray& boundsArray, P
 	mNbAggregates				(0),
 	mFirstFreeAggregate			(PX_INVALID_U32),
 	mTimestamp					(0),
-	mAggregateGroupTide			(BP_INVALID_BP_HANDLE-1),
+#ifdef BP_USE_AGGREGATE_GROUP_TAIL
+	mAggregateGroupTide			(PxU32(Bp::FilterGroup::eAGGREGATE_BASE)),
+#endif
 	mContextID					(contextID)
 {
 	PX_UNUSED(maxNbAggregates);	// PT: TODO: use it or remove it
 	reserveShapeSpace(PxMax(maxNbShapes, 1u));
 
 //	mCreatedOverlaps.reserve(16000);
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	{
+		const bool discardKineKine = kineKineFilteringMode==PxPairFilteringMode::eKILL ? true : false;
+		const bool discardStaticKine = staticKineFilteringMode==PxPairFilteringMode::eKILL ? true : false;
+
+		for(int j=0;j<Bp::FilterType::COUNT;j++)
+			for(int i=0;i<Bp::FilterType::COUNT;i++)
+				mLUT[j][i] = false;
+		mLUT[Bp::FilterType::STATIC][Bp::FilterType::DYNAMIC] = mLUT[Bp::FilterType::DYNAMIC][Bp::FilterType::STATIC] = true;
+		mLUT[Bp::FilterType::STATIC][Bp::FilterType::KINEMATIC] = mLUT[Bp::FilterType::KINEMATIC][Bp::FilterType::STATIC] = !discardStaticKine;
+		mLUT[Bp::FilterType::DYNAMIC][Bp::FilterType::KINEMATIC] = mLUT[Bp::FilterType::KINEMATIC][Bp::FilterType::DYNAMIC] = true;
+		mLUT[Bp::FilterType::DYNAMIC][Bp::FilterType::DYNAMIC] = true;
+		mLUT[Bp::FilterType::KINEMATIC][Bp::FilterType::KINEMATIC] = !discardKineKine;
+
+		mLUT[Bp::FilterType::STATIC][Bp::FilterType::AGGREGATE] = mLUT[Bp::FilterType::AGGREGATE][Bp::FilterType::STATIC] = true;
+		mLUT[Bp::FilterType::KINEMATIC][Bp::FilterType::AGGREGATE] = mLUT[Bp::FilterType::AGGREGATE][Bp::FilterType::KINEMATIC] = true;
+		mLUT[Bp::FilterType::DYNAMIC][Bp::FilterType::AGGREGATE] = mLUT[Bp::FilterType::AGGREGATE][Bp::FilterType::DYNAMIC] = true;
+		mLUT[Bp::FilterType::AGGREGATE][Bp::FilterType::AGGREGATE] = true;
+	}
+#else
+	PX_UNUSED(kineKineFilteringMode);
+	PX_UNUSED(staticKineFilteringMode);
+#endif
 }
 
 static void releasePairs(AggPairMap& map)
@@ -1626,7 +1721,7 @@ void SimpleAABBManager::reserveSpaceForBounds(BoundsIndex index)
 }
 
 // PT: TODO: what is the "userData" here?
-bool SimpleAABBManager::addBounds(BoundsIndex index, PxReal contactDistance, PxU32 group, void* userData, AggregateHandle aggregateHandle, PxU8 volumeType)
+bool SimpleAABBManager::addBounds(BoundsIndex index, PxReal contactDistance, Bp::FilterGroup::Enum group, void* userData, AggregateHandle aggregateHandle, PxU8 volumeType)
 {
 //	PX_ASSERT(checkID(index));
 
@@ -1637,7 +1732,7 @@ bool SimpleAABBManager::addBounds(BoundsIndex index, PxReal contactDistance, PxU
 	{
 		mVolumeData[index].setSingleActor();
 
-		mAddedHandleMap.set(index);
+		addBPEntry(index);
 
 		mPersistentStateChanged = true;
 	}
@@ -1673,12 +1768,8 @@ bool SimpleAABBManager::addBounds(BoundsIndex index, PxReal contactDistance, PxU
 		{
 			// PT: schedule the aggregate for BP insertion here, if we just added its first shape
 			if(!aggregate->getNbAggregated())
-			{
-				if(mRemovedHandleMap.test(aggregate->mIndex))
-					mRemovedHandleMap.reset(aggregate->mIndex);
-				else
-					mAddedHandleMap.set(aggregate->mIndex);
-			}
+				addBPEntry(aggregate->mIndex);
+
 			aggregate->addAggregated(index);
 
 			// PT: new actor added to aggregate => mark dirty to recompute bounds later
@@ -1734,7 +1825,7 @@ void SimpleAABBManager::removeBounds(BoundsIndex index)
 }
 
 // PT: TODO: the userData is actually a PxAggregate pointer. Maybe we could expose/use that.
-AggregateHandle SimpleAABBManager::createAggregate(BoundsIndex index, void* userData, const bool selfCollisions)
+AggregateHandle SimpleAABBManager::createAggregate(BoundsIndex index, Bp::FilterGroup::Enum group, void* userData, const bool selfCollisions)
 {
 //	PX_ASSERT(checkID(index));
 
@@ -1753,7 +1844,18 @@ AggregateHandle SimpleAABBManager::createAggregate(BoundsIndex index, void* user
 		mAggregates[handle] = aggregate;
 	}
 
+#ifdef BP_USE_AGGREGATE_GROUP_TAIL
+/*	#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+		PxU32 id = index;
+		id<<=2;
+		id|=FilterType::AGGREGATE;
+		initEntry(index, 0.0f, Bp::FilterGroup::Enum(id), userData);
+	#endif*/
 	initEntry(index, 0.0f, getAggregateGroup(), userData);
+	PX_UNUSED(group);
+#else
+	initEntry(index, 0.0f, group, userData);
+#endif
 
 	mVolumeData[index].setAggregate(handle);
 
@@ -1765,13 +1867,13 @@ AggregateHandle SimpleAABBManager::createAggregate(BoundsIndex index, void* user
 	return handle;
 }
 
-BoundsIndex SimpleAABBManager::destroyAggregate(AggregateHandle aggregateHandle)
+bool SimpleAABBManager::destroyAggregate(BoundsIndex& index_, Bp::FilterGroup::Enum& group_, AggregateHandle aggregateHandle)
 {
 #if PX_CHECKED
 	if(aggregateHandle>=mAggregates.size())
 	{
 		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "AABBManager::destroyAggregate - aggregateId out of bounds\n");
-		return BP_INVALID_BP_HANDLE;
+		return false;
 	}
 
 	{
@@ -1781,7 +1883,7 @@ BoundsIndex SimpleAABBManager::destroyAggregate(AggregateHandle aggregateHandle)
 			if(firstFreeAggregate==aggregateHandle)
 			{
 				Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "AABBManager::destroyAggregate - aggregate has already been removed\n");
-				return BP_INVALID_BP_HANDLE;
+				return false;
 			}
 			firstFreeAggregate = PxU32(reinterpret_cast<size_t>(mAggregates[firstFreeAggregate]));
 		}
@@ -1794,7 +1896,7 @@ BoundsIndex SimpleAABBManager::destroyAggregate(AggregateHandle aggregateHandle)
 	if(aggregate->getNbAggregated())
 	{
 		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "AABBManager::destroyAggregate - aggregate still has bounds that needs removed\n");
-		return BP_INVALID_BP_HANDLE;
+		return false;
 	}
 #endif
 
@@ -1813,7 +1915,12 @@ BoundsIndex SimpleAABBManager::destroyAggregate(AggregateHandle aggregateHandle)
 	// PT: TODO: shouldn't it be compared to mUsedSize?
 	PX_ASSERT(index < mVolumeData.size());
 
+	index_ = index;
+	group_ = mGroups[index];
+
+#ifdef BP_USE_AGGREGATE_GROUP_TAIL
 	releaseAggregateGroup(mGroups[index]);
+#endif
 	resetEntry(index);
 
 	mPersistentStateChanged = true;
@@ -1821,7 +1928,7 @@ BoundsIndex SimpleAABBManager::destroyAggregate(AggregateHandle aggregateHandle)
 	PX_ASSERT(mNbAggregates);
 	mNbAggregates--;
 
-	return index;
+	return true;
 }
 
 void SimpleAABBManager::handleOriginShift()
@@ -1832,7 +1939,7 @@ void SimpleAABBManager::handleOriginShift()
 	// PT: TODO: check that aggregates code is correct here
 	for(PxU32 i=0; i<mUsedSize; i++)
 	{
-		if(mGroups[i] == PX_INVALID_U32)
+		if(mGroups[i] == Bp::FilterGroup::eINVALID)
 			continue;
 
 		{
@@ -1986,7 +2093,7 @@ void SimpleAABBManager::updateAABBsAndBP(PxU32 numCpuTasks, Cm::FlushPool& flush
 
 							if(mVolumeData[handle].isSingleActor())
 							{
-								PX_ASSERT(mGroups[handle] != PX_INVALID_U32);
+								PX_ASSERT(mGroups[handle] != Bp::FilterGroup::eINVALID);
 								mUpdatedHandles.pushBack(handle);	// PT: TODO: BoundsIndex-to-ShapeHandle confusion here
 							}
 							else
@@ -2097,7 +2204,11 @@ void SimpleAABBManager::finalizeUpdate(PxU32 numCpuTasks, PxcScratchAllocator* s
 	const BroadPhaseUpdateData updateData(	mAddedHandles.begin(), mAddedHandles.size(),
 											mUpdatedHandles.begin(), mUpdatedHandles.size(),
 											mRemovedHandles.begin(), mRemovedHandles.size(),
-											mBoundsArray.begin(), mGroups.begin(), mContactDistance.begin(), mBoundsArray.getCapacity(),
+											mBoundsArray.begin(), mGroups.begin(),
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+											&mLUT[0][0],
+#endif
+											mContactDistance.begin(), mBoundsArray.getCapacity(),
 											mPersistentStateChanged || mBoundsArray.hasChanged());
 	mPersistentStateChanged = false;
 
@@ -2203,7 +2314,10 @@ static void computePairDeltas(/*const*/ Ps::Array<Pair>& newPairs, const Ps::Arr
 }
 #endif
 
-PX_FORCE_INLINE void PersistentPairs::updatePairs(	PxU32 timestamp, const PxBounds3* bounds, const float* contactDistances, const PxU32* groups,
+PX_FORCE_INLINE void PersistentPairs::updatePairs(	PxU32 timestamp, const PxBounds3* bounds, const float* contactDistances, const Bp::FilterGroup::Enum* groups,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	const bool* lut,
+#endif
 									Ps::Array<VolumeData>& volumeData, Ps::Array<AABBOverlap>* createdOverlaps, Ps::Array<AABBOverlap>* destroyedOverlaps)
 {
 	if(mTimestamp==timestamp)
@@ -2212,7 +2326,11 @@ PX_FORCE_INLINE void PersistentPairs::updatePairs(	PxU32 timestamp, const PxBoun
 	mTimestamp = timestamp;
 
 #ifdef USE_MBP_PAIR_MANAGER
+	#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	findOverlaps(mPM, bounds, contactDistances, groups, lut);
+	#else
 	findOverlaps(mPM, bounds, contactDistances, groups);
+	#endif
 
 	PxU32 i=0;
 	PxU32 nbActivePairs = mPM.mNbActivePairs;
@@ -2296,7 +2414,11 @@ PersistentAggregateAggregatePair* SimpleAABBManager::createPersistentAggregateAg
 
 void SimpleAABBManager::updatePairs(PersistentPairs& p)
 {
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	p.updatePairs(mTimestamp, mBoundsArray.begin(), mContactDistance.begin(), mGroups.begin(), &mLUT[0][0], mVolumeData, mCreatedOverlaps, mDestroyedOverlaps);
+#else
 	p.updatePairs(mTimestamp, mBoundsArray.begin(), mContactDistance.begin(), mGroups.begin(), mVolumeData, mCreatedOverlaps, mDestroyedOverlaps);
+#endif
 }
 
 void SimpleAABBManager::processBPCreatedPair(const BroadPhasePair& pair)
@@ -2567,8 +2689,11 @@ void SimpleAABBManager::postBroadPhase(PxBaseTask*, PxBaseTask* narrowPhaseUnloc
 		}
 	}
 
-	mAddedHandleMap.clear();
-	mRemovedHandleMap.clear();
+	{
+		PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - clear", getContextId());
+		mAddedHandleMap.clear();
+		mRemovedHandleMap.clear();
+	}
 }
 
 void SimpleAABBManager::freeBuffers()

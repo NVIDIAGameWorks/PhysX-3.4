@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -390,9 +390,19 @@ void* TlsGet(uint32_t index)
 	return ::TlsGetValue(index);
 }
 
+size_t TlsGetValue(uint32_t index)
+{
+	return reinterpret_cast<size_t>(::TlsGetValue(index));
+}
+
 uint32_t TlsSet(uint32_t index, void* value)
 {
 	return (uint32_t)::TlsSetValue(index, value);
+}
+
+uint32_t TlsSetValue(uint32_t index, size_t value)
+{
+	return (uint32_t)::TlsSetValue(index, reinterpret_cast<void*>(value));
 }
 
 uint32_t ThreadImpl::getDefaultStackSize()

@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -205,7 +205,6 @@ struct PxSceneFlag
 		*/
 		eDISABLE_CCD_RESWEEP	= (1<<3),
 
-
 		/**
 		\brief Enable adaptive forces to accelerate convergence of the solver. 
 		
@@ -214,7 +213,6 @@ struct PxSceneFlag
 		<b>Default:</b> false
 		*/
 		eADAPTIVE_FORCE				= (1<<4),
-
 
 		/**
 		\brief Enable contact pair filtering between kinematic and static rigid bodies.
@@ -226,8 +224,7 @@ struct PxSceneFlag
 
 		<b>Default:</b> false
 		*/
-		eENABLE_KINEMATIC_STATIC_PAIRS = (1<<5),
-
+		eENABLE_KINEMATIC_STATIC_PAIRS	PX_DEPRECATED	= (1<<5),
 
 		/**
 		\brief Enable contact pair filtering between kinematic rigid bodies.
@@ -239,8 +236,7 @@ struct PxSceneFlag
 
 		<b>Default:</b> false
 		*/
-		eENABLE_KINEMATIC_PAIRS = (1<<6),
-
+		eENABLE_KINEMATIC_PAIRS	PX_DEPRECATED	= (1<<6),
 
 		/**
 		\brief Enable GJK-based distance collision detection system.
@@ -272,7 +268,6 @@ struct PxSceneFlag
 		<b>Default:</b> false
 		*/
 		eDISABLE_CONTACT_CACHE	= (1 << 11),
-
 
 		/**
 		\brief Require scene-level locking
@@ -354,7 +349,6 @@ struct PxSceneFlag
 
 		<b>Default:</b> false
 		*/
-
 		eSUPPRESS_EAGER_SCENE_QUERY_REFIT PX_DEPRECATED = (1 << 18),
 
 		/*\brief Enables the GPU dynamics pipeline
@@ -362,9 +356,7 @@ struct PxSceneFlag
 		When set to true, a CUDA 2.0 or above-enabled NVIDIA GPU is present and the GPU dispatcher has been configured, this will run the GPU dynamics pipelin instead of the CPU dynamics pipeline.
 
 		Note that this flag is not mutable and must be set in PxSceneDesc at scene creation.
-
 		*/
-
 		eENABLE_GPU_DYNAMICS = (1 << 19),
 
 		/**
@@ -387,7 +379,6 @@ struct PxSceneFlag
 		Note that this feature is not currently supported on GPU.
 
 		<b>Default</b> false
-
 		*/
 		eENABLE_ENHANCED_DETERMINISM = (1<<20),
 
@@ -598,6 +589,24 @@ public:
 	@see PxSimulationFilterCallback
 	*/
 	PxSimulationFilterCallback*	filterCallback;
+
+	/**
+	\brief Filtering mode for kinematic-kinematic pairs in the broadphase.
+
+	<b>Default:</b> PxPairFilteringMode::eDEFAULT
+
+	@see PxPairFilteringMode
+	*/
+	PxPairFilteringMode::Enum		kineKineFilteringMode;
+
+	/**
+	\brief Filtering mode for static-kinematic pairs in the broadphase.
+
+	<b>Default:</b> PxPairFilteringMode::eDEFAULT
+
+	@see PxPairFilteringMode
+	*/
+	PxPairFilteringMode::Enum		staticKineFilteringMode;
 
 	/**
 	\brief Selects the broad-phase algorithm to use.
@@ -951,6 +960,10 @@ PX_INLINE PxSceneDesc::PxSceneDesc(const PxTolerancesScale& scale):
 	filterShaderDataSize				(0),
 	filterShader						(NULL),
 	filterCallback						(NULL),
+
+	kineKineFilteringMode				(PxPairFilteringMode::eDEFAULT),
+	staticKineFilteringMode				(PxPairFilteringMode::eDEFAULT),
+
 	broadPhaseType						(PxBroadPhaseType::eSAP),
 	broadPhaseCallback					(NULL),
 

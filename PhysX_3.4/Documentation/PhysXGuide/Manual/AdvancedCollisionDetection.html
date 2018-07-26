@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Advanced Collision Detection &mdash; NVIDIA PhysX SDK 3.4.1 Documentation</title>
+    <title>Advanced Collision Detection &mdash; NVIDIA PhysX SDK 3.4.2 Documentation</title>
     
     <link rel="stylesheet" href="../_static/nvidia.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '3.4.1',
+        VERSION:     '3.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="NVIDIA PhysX SDK 3.4.1 Documentation" href="../index.html" />
+    <link rel="top" title="NVIDIA PhysX SDK 3.4.2 Documentation" href="../index.html" />
     <link rel="up" title="User&#39;s Guide" href="Index.html" />
     <link rel="next" title="Joints" href="Joints.html" />
     <link rel="prev" title="Simulation" href="Simulation.html" /> 
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="Simulation.html" title="Simulation"
              accesskey="P">previous</a> |</li>
-        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.1 Documentation</a> &raquo;</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
           <li><a href="Index.html" accesskey="U">User's Guide</a> &raquo;</li> 
       </ul>
     </div>  
@@ -152,7 +152,7 @@
 <p>SampleSubmarine is a subclass of PxSimulationEventCallback.  onContact receives the pair for which the requested contact events have been triggered.  The above function is only interested in eNOTIFY_TOUCH_FOUND events, which are raised whenever two shapes start to touch.  In fact it is only interested in touch events of the submarine -- which is checked in the second if-statement.  It then goes on to assume that the second actor is a mine (which works in this example because the sample is configured such that no other contact reports will get sent when a submarine actor is involved).  After that, it adds the mine to a set of mines that should explode during the next update.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">By default collisions between kinematic rigid bodies and kinematic and static rigid bodies will not get reported. To enable these reports raise the PxSceneFlag::eENABLE_KINEMATIC_PAIRS or ::eENABLE_KINEMATIC_STATIC_PAIRS flag respectively by calling PxScene::setFlag().</p>
+<p class="last">By default collisions between kinematic rigid bodies and kinematic and static rigid bodies will not get reported. To enable these reports use the PxSceneDesc::kineKineFilteringMode and PxSceneDesc::staticKineFilteringMode parameters when creating a scene.</p>
 </div>
 <p>Frequently, users are only interested in contact reports, if the force of impact is larger than a certain threshold. This allows to reduce the amount of reported pairs which need to get processed. To take advantage of this option the following additional configurations are necessary:</p>
 <blockquote>
@@ -461,12 +461,12 @@ return PxFilterFlag::eDEFAULT;</div></blockquote>
         <li class="right" >
           <a href="Simulation.html" title="Simulation"
              >previous</a> |</li>
-        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.1 Documentation</a> &raquo;</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
           <li><a href="Index.html" >User's Guide</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2008-2017 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
+        &copy; Copyright 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
     </div>
   </body>
 </html>

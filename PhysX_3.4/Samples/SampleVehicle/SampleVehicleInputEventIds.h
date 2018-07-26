@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 #ifndef _SAMPLE_VEHICLE_INPUT_EVENT_IDS_H
 #define _SAMPLE_VEHICLE_INPUT_EVENT_IDS_H
 

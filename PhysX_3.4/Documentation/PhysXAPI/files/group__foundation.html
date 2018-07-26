@@ -93,7 +93,7 @@ Collaboration diagram for Foundation:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g25c9c85e3980cdbf0bedfbcad822aed7">PX_PHYSICS_VERSION_MINOR</a>&nbsp;&nbsp;&nbsp;4</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g4edfc95b25e96e7d308d83347c93a69f">PX_PHYSICS_VERSION_BUGFIX</a>&nbsp;&nbsp;&nbsp;1</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g4edfc95b25e96e7d308d83347c93a69f">PX_PHYSICS_VERSION_BUGFIX</a>&nbsp;&nbsp;&nbsp;2</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#geedfba7b2ad3d3be35867607faabb11d">PX_PHYSICS_VERSION</a>&nbsp;&nbsp;&nbsp;((PX_PHYSICS_VERSION_MAJOR&lt;&lt;24) + (PX_PHYSICS_VERSION_MINOR&lt;&lt;16) + (PX_PHYSICS_VERSION_BUGFIX&lt;&lt;8) + 0)</td></tr>
 
@@ -118,6 +118,14 @@ Collaboration diagram for Foundation:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#ge095e9cefb5bd0a9322d99e345353eda">PX_FOUNDATION_VERSION_BUGFIX</a>&nbsp;&nbsp;&nbsp;0</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g8e26dc2a95a2bfb038f0cf0b93f61ebf">PX_FOUNDATION_VERSION</a>&nbsp;&nbsp;&nbsp;((PX_FOUNDATION_VERSION_MAJOR &lt;&lt; 24) + (PX_FOUNDATION_VERSION_MINOR &lt;&lt; 16) + (PX_FOUNDATION_VERSION_BUGFIX &lt;&lt; 8) + 0)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#gaa541ee81b5c7958c1367b710cfa99ed">PX_STRINGIZE_HELPER</a>(X)&nbsp;&nbsp;&nbsp;#X</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g40e7fc272047a5ab6870668b81aca1a3">PX_STRINGIZE</a>(X)&nbsp;&nbsp;&nbsp;PX_STRINGIZE_HELPER(X)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g571ac4b7ead96ee2a8ad83d1ebe1aec9">PX_CONCAT_HELPER</a>(X, Y)&nbsp;&nbsp;&nbsp;X##Y</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g5f35262177498e8a11a4f3e5ba83e5e8">PX_CONCAT</a>(X, Y)&nbsp;&nbsp;&nbsp;PX_CONCAT_HELPER(X, Y)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#gec15ff1639b763560ddaffc82936ff03">PX_VC</a>&nbsp;&nbsp;&nbsp;0</td></tr>
 
@@ -236,14 +244,6 @@ Collaboration diagram for Foundation:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g41f92d88ba8f7b8ef321aa090b0e270d">PX_WEAK_SYMBOL</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g2af6846d9d49e433af97059f0291eef1">PX_NOCOPY</a>(Class)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#gaa541ee81b5c7958c1367b710cfa99ed">PX_STRINGIZE_HELPER</a>(X)&nbsp;&nbsp;&nbsp;#X</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g40e7fc272047a5ab6870668b81aca1a3">PX_STRINGIZE</a>(X)&nbsp;&nbsp;&nbsp;PX_STRINGIZE_HELPER(X)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g571ac4b7ead96ee2a8ad83d1ebe1aec9">PX_CONCAT_HELPER</a>(X, Y)&nbsp;&nbsp;&nbsp;X##Y</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g5f35262177498e8a11a4f3e5ba83e5e8">PX_CONCAT</a>(X, Y)&nbsp;&nbsp;&nbsp;PX_CONCAT_HELPER(X, Y)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#g0a511de410e7de7a8625fb572f88bd89">PX_SUPPORT_GPU_PHYSX</a>&nbsp;&nbsp;&nbsp;((PX_WINDOWS_FAMILY) || (PX_LINUX &amp;&amp; PX_X64))</td></tr>
 
@@ -1967,7 +1967,7 @@ The constant PX_PHYSICS_VERSION is used when creating certain PhysX module objec
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define PX_PHYSICS_VERSION_BUGFIX&nbsp;&nbsp;&nbsp;1          </td>
+          <td class="memname">#define PX_PHYSICS_VERSION_BUGFIX&nbsp;&nbsp;&nbsp;2          </td>
         </tr>
       </table>
 </div>
@@ -3148,7 +3148,7 @@ template&lt;typename enumtype, typename storagetype &gt; </div>
 checks that the AABB values describe a valid configuration. 
 <p>References <a class="el" href="PxBounds3_8h-source.html#l00273">PxBounds3::isFinite()</a>, <a class="el" href="PxBounds3_8h-source.html#l00260">PxBounds3::maximum</a>, <a class="el" href="PxBounds3_8h-source.html#l00260">PxBounds3::minimum</a>, <a class="el" href="PxBounds3_8h-source.html#l00046">PX_MAX_BOUNDS_EXTENTS</a>, <a class="el" href="PxVec3_8h-source.html#l00380">PxVec3::x</a>, <a class="el" href="PxVec3_8h-source.html#l00380">PxVec3::y</a>, and <a class="el" href="PxVec3_8h-source.html#l00380">PxVec3::z</a>.</p>
 
-<p>Referenced by <a class="el" href="PxBounds3_8h-source.html#l00355">PxBounds3::contains()</a>, <a class="el" href="PxBounds3_8h-source.html#l00431">PxBounds3::fattenFast()</a>, <a class="el" href="PxBounds3_8h-source.html#l00424">PxBounds3::fattenSafe()</a>, <a class="el" href="PxBounds3_8h-source.html#l00381">PxBounds3::getCenter()</a>, <a class="el" href="PxBounds3_8h-source.html#l00399">PxBounds3::getDimensions()</a>, <a class="el" href="PxBounds3_8h-source.html#l00393">PxBounds3::getExtents()</a>, <a class="el" href="PxBounds3_8h-source.html#l00322">PxBounds3::include()</a>, <a class="el" href="PxBounds3_8h-source.html#l00342">PxBounds3::intersects()</a>, <a class="el" href="PxBounds3_8h-source.html#l00349">PxBounds3::intersects1D()</a>, <a class="el" href="PxBounds3_8h-source.html#l00336">PxBounds3::isEmpty()</a>, <a class="el" href="PxBounds3_8h-source.html#l00363">PxBounds3::isInside()</a>, <a class="el" href="PxSceneDesc_8h-source.html#l00997">PxSceneDesc::isValid()</a>, <a class="el" href="PxBounds3_8h-source.html#l00418">PxBounds3::scaleFast()</a>, <a class="el" href="PxBounds3_8h-source.html#l00411">PxBounds3::scaleSafe()</a>, <a class="el" href="PxBounds3_8h-source.html#l00449">PxBounds3::transformFast()</a>, and <a class="el" href="PxBounds3_8h-source.html#l00443">PxBounds3::transformSafe()</a>.</p>
+<p>Referenced by <a class="el" href="PxBounds3_8h-source.html#l00355">PxBounds3::contains()</a>, <a class="el" href="PxBounds3_8h-source.html#l00431">PxBounds3::fattenFast()</a>, <a class="el" href="PxBounds3_8h-source.html#l00424">PxBounds3::fattenSafe()</a>, <a class="el" href="PxBounds3_8h-source.html#l00381">PxBounds3::getCenter()</a>, <a class="el" href="PxBounds3_8h-source.html#l00399">PxBounds3::getDimensions()</a>, <a class="el" href="PxBounds3_8h-source.html#l00393">PxBounds3::getExtents()</a>, <a class="el" href="PxBounds3_8h-source.html#l00322">PxBounds3::include()</a>, <a class="el" href="PxBounds3_8h-source.html#l00342">PxBounds3::intersects()</a>, <a class="el" href="PxBounds3_8h-source.html#l00349">PxBounds3::intersects1D()</a>, <a class="el" href="PxBounds3_8h-source.html#l00336">PxBounds3::isEmpty()</a>, <a class="el" href="PxBounds3_8h-source.html#l00363">PxBounds3::isInside()</a>, <a class="el" href="PxSceneDesc_8h-source.html#l01010">PxSceneDesc::isValid()</a>, <a class="el" href="PxBounds3_8h-source.html#l00418">PxBounds3::scaleFast()</a>, <a class="el" href="PxBounds3_8h-source.html#l00411">PxBounds3::scaleSafe()</a>, <a class="el" href="PxBounds3_8h-source.html#l00449">PxBounds3::transformFast()</a>, and <a class="el" href="PxBounds3_8h-source.html#l00443">PxBounds3::transformSafe()</a>.</p>
 
 </div>
 </div><p>
@@ -5822,6 +5822,6 @@ This version is safe to call for empty bounds.<p>
 </div>
 
 <hr style="width: 100%; height: 2px;"><br>
-Copyright &copy; 2008-2017 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a>
+Copyright &copy; 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a>
 </body>
 </html>

@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -1052,6 +1052,11 @@ PX_FORCE_INLINE Vec4V V4PermYWYW(const Vec4V v)
 PX_FORCE_INLINE Vec4V V4PermYZXW(const Vec4V v)
 {
 	return Vec4V(v.y, v.z, v.x, v.w);
+}
+
+PX_FORCE_INLINE Vec4V V4PermZWXY(const Vec4V a)
+{
+	return Vec4V(v.z, v.w, v.x, v.y);
 }
 
 template <PxU8 _x, PxU8 _y, PxU8 _z, PxU8 _w>

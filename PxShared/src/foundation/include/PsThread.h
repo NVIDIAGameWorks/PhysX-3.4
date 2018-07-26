@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -374,7 +374,9 @@ typedef ThreadT<> Thread;
 PX_FOUNDATION_API uint32_t TlsAlloc();
 PX_FOUNDATION_API void TlsFree(uint32_t index);
 PX_FOUNDATION_API void* TlsGet(uint32_t index);
+PX_FOUNDATION_API size_t TlsGetValue(uint32_t index);
 PX_FOUNDATION_API uint32_t TlsSet(uint32_t index, void* value);
+PX_FOUNDATION_API uint32_t TlsSetValue(uint32_t index, size_t value);
 
 } // namespace shdfnd
 } // namespace physx

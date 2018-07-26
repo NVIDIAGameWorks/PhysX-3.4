@@ -23,10 +23,9 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
-
 
 #ifndef BP_BROADPHASE_UPDATE_H
 #define BP_BROADPHASE_UPDATE_H
@@ -39,22 +38,106 @@
 
 namespace physx
 {
-
 namespace Bp
 {
-
-#if PX_USE_16_BIT_HANDLES
-	typedef PxU16 ShapeHandle;
-	typedef PxU16 BpHandle;
-#define BP_INVALID_BP_HANDLE	0xffff
-#else
-	typedef PxU32 ShapeHandle;
-	typedef PxU32 BpHandle;
+typedef PxU32 ShapeHandle;
+typedef PxU32 BpHandle;
 #define BP_INVALID_BP_HANDLE	0x3fffffff
-#endif
 
 #define ALIGN_SIZE_16(size) ((unsigned(size)+15)&(unsigned(~15)))
 
+#define BP_USE_AGGREGATE_GROUP_TAIL
+#define BP_FILTERING_USES_TYPE_IN_GROUP
+
+	/*
+	\brief AABBManager volumes with the same filter group value are guaranteed never to generate an overlap pair.
+	\note To ensure that static pairs never overlap, add static shapes with eSTATICS.
+	To ensure that particle bounds never overlap, add particle bounds with ePARTICLES.
+	To ensure that cloth bounds never overlap, add cloth bounds with  eCLOTH.   
+	To ensure that cloth bounds never overlap with cloth or particle bounds, use eCLOTH_NO_PARTICLE_INTERACTION.
+	The value eDYNAMICS_BASE provides a minimum recommended group value for dynamic shapes.
+	If dynamics shapes are assigned group values greater than or equal to eDYNAMICS_BASE then
+	they are allowed to generate broadphase overlaps with particles and statics, and other dynamic shapes provided 
+	they have different group values.
+	@see AABBManager::createVolume
+	*/
+	struct FilterGroup
+	{
+		enum Enum
+		{
+			eSTATICS		= 0,
+			ePARTICLES		= 1,
+			eCLOTH_NO_PARTICLE_INTERACTION = ePARTICLES,
+			eCLOTH			= 2,
+			eDYNAMICS_BASE	= 3,
+#ifdef BP_USE_AGGREGATE_GROUP_TAIL
+			eAGGREGATE_BASE	= 0xfffffffe,
+#endif
+			eINVALID		= 0xffffffff
+		};
+	};
+
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	// PT: the cloth & particles use the DYNAMIC type here.
+	struct FilterType
+	{
+		enum Enum
+		{
+			STATIC		= 0,
+			KINEMATIC	= 1,
+			DYNAMIC		= 2,
+			AGGREGATE	= 3,
+
+			COUNT		= 4
+		};
+	};
+#endif
+
+	PX_FORCE_INLINE Bp::FilterGroup::Enum getFilterGroup_Statics()
+	{
+		return Bp::FilterGroup::eSTATICS;
+	}
+
+	PX_FORCE_INLINE	Bp::FilterGroup::Enum	getFilterGroup_Dynamics(PxU32 rigidId, bool isKinematic)
+	{
+		const PxU32 group = rigidId + Bp::FilterGroup::eDYNAMICS_BASE;
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+		const PxU32 type = isKinematic ? FilterType::KINEMATIC : FilterType::DYNAMIC;
+		return Bp::FilterGroup::Enum((group<<2)|type);
+#else
+		PX_UNUSED(isKinematic);
+		return Bp::FilterGroup::Enum(group);
+#endif
+	}
+
+	PX_FORCE_INLINE	Bp::FilterGroup::Enum	getFilterGroup(bool isStatic, PxU32 rigidId, bool isKinematic)
+	{
+		return isStatic ? getFilterGroup_Statics() : getFilterGroup_Dynamics(rigidId, isKinematic);
+	}
+
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	PX_FORCE_INLINE bool groupFiltering(const Bp::FilterGroup::Enum group0, const Bp::FilterGroup::Enum group1, const bool* PX_RESTRICT lut)
+	{
+/*		const int g0 = group0 & ~3;
+		const int g1 = group1 & ~3;
+		if(g0==g1)
+			return false;*/
+		if(group0==group1)
+		{
+			PX_ASSERT((group0 & ~3)==(group1 & ~3));
+			return false;
+		}
+
+		const int type0 = group0 & 3;
+		const int type1 = group1 & 3;
+		return lut[type0*4+type1];
+	}
+#else
+	PX_FORCE_INLINE bool groupFiltering(const Bp::FilterGroup::Enum group0, const Bp::FilterGroup::Enum group1)
+	{
+		return group0!=group1;
+	}
+#endif
 
 	/*
 	\brief Encode a single float value with lossless encoding to integer
@@ -85,7 +168,6 @@ namespace Bp
 \brief Integer representation of PxBounds3 used by BroadPhase
 @see BroadPhaseUpdateData
 */
-
 
 typedef PxU32 ValType;
 
@@ -296,7 +378,6 @@ public:
 		mMinMax[MAX_X] = mMinMax[MAX_Y] = mMinMax[MAX_Z] = 0x00800000;	///PX_IR(0.0f);
 	}
 
-
 	ValType mMinMax[6];
 
 private:
@@ -313,7 +394,6 @@ PX_FORCE_INLINE ValType encodeMin(const PxBounds3& bounds, PxU32 axis, PxReal co
 	const PxU32 min = PxUnionCast<PxU32, PxF32>(val);
 	const PxU32 m = IntegerAABB::encodeFloatMin(min);
 	return m;
-
 }
 
 PX_FORCE_INLINE ValType encodeMax(const PxBounds3& bounds, PxU32 axis, PxReal contactDistance)
@@ -374,7 +454,11 @@ public:
 		const ShapeHandle* created, const PxU32 createdSize, 
 		const ShapeHandle* updated, const PxU32 updatedSize, 
 		const ShapeHandle* removed, const PxU32 removedSize, 
-		const PxBounds3* boxBounds, const ShapeHandle* boxGroups, const PxReal* boxContactDistances, const PxU32 boxesCapacity,
+		const PxBounds3* boxBounds, const Bp::FilterGroup::Enum* boxGroups,
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+		const bool* lut,
+#endif
+		const PxReal* boxContactDistances, const PxU32 boxesCapacity,
 		const bool stateChanged) :
 		mCreated		(created),
 		mCreatedSize	(createdSize),
@@ -384,28 +468,34 @@ public:
 		mRemovedSize	(removedSize),
 		mBoxBounds		(boxBounds),
 		mBoxGroups		(boxGroups),
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+		mLUT			(lut),
+#endif
 		mContactDistance(boxContactDistances),
 		mBoxesCapacity	(boxesCapacity),
 		mStateChanged	(stateChanged)
 	{
 	}
 
-	PX_FORCE_INLINE	const ShapeHandle*	getCreatedHandles()		const { return mCreated;			}
-	PX_FORCE_INLINE	PxU32				getNumCreatedHandles()	const { return mCreatedSize;		}
+	PX_FORCE_INLINE	const ShapeHandle*				getCreatedHandles()		const { return mCreated;			}
+	PX_FORCE_INLINE	PxU32							getNumCreatedHandles()	const { return mCreatedSize;		}
 
-	PX_FORCE_INLINE	const ShapeHandle*	getUpdatedHandles()		const { return mUpdated;			}
-	PX_FORCE_INLINE	PxU32				getNumUpdatedHandles()	const { return mUpdatedSize;		}
+	PX_FORCE_INLINE	const ShapeHandle*				getUpdatedHandles()		const { return mUpdated;			}
+	PX_FORCE_INLINE	PxU32							getNumUpdatedHandles()	const { return mUpdatedSize;		}
 
-	PX_FORCE_INLINE	const ShapeHandle*	getRemovedHandles()		const { return mRemoved;			}
-	PX_FORCE_INLINE	PxU32				getNumRemovedHandles()	const { return mRemovedSize;		}
+	PX_FORCE_INLINE	const ShapeHandle*				getRemovedHandles()		const { return mRemoved;			}
+	PX_FORCE_INLINE	PxU32							getNumRemovedHandles()	const { return mRemovedSize;		}
 
-	PX_FORCE_INLINE	const PxBounds3*	getAABBs()				const { return mBoxBounds;			}
-	PX_FORCE_INLINE	const ShapeHandle*	getGroups()				const { return mBoxGroups;			}
-	PX_FORCE_INLINE	PxU32				getCapacity()			const { return mBoxesCapacity;		}
+	PX_FORCE_INLINE	const PxBounds3*				getAABBs()				const { return mBoxBounds;			}
+	PX_FORCE_INLINE	const Bp::FilterGroup::Enum*	getGroups()				const { return mBoxGroups;			}
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	PX_FORCE_INLINE	const bool*						getLUT()				const { return mLUT;				}
+#endif
+	PX_FORCE_INLINE	PxU32							getCapacity()			const { return mBoxesCapacity;		}
 
-	PX_FORCE_INLINE	const PxReal*		getContactDistance()	const { return mContactDistance;	}
+	PX_FORCE_INLINE	const PxReal*					getContactDistance()	const { return mContactDistance;	}
 
-	PX_FORCE_INLINE	bool				getStateChanged()		const { return mStateChanged;		}
+	PX_FORCE_INLINE	bool							getStateChanged()		const { return mStateChanged;		}
 
 #if PX_CHECKED
 	static bool isValid(const BroadPhaseUpdateData& updateData, const BroadPhase& bp);
@@ -414,20 +504,23 @@ public:
 
 private:
 
-	const ShapeHandle*	mCreated;
-	PxU32				mCreatedSize;
+	const ShapeHandle*				mCreated;
+	PxU32							mCreatedSize;
 
-	const ShapeHandle*	mUpdated;
-	PxU32				mUpdatedSize;
+	const ShapeHandle*				mUpdated;
+	PxU32							mUpdatedSize;
 
-	const ShapeHandle*	mRemoved;
-	PxU32				mRemovedSize;
+	const ShapeHandle*				mRemoved;
+	PxU32							mRemovedSize;
 
-	const PxBounds3*	mBoxBounds;
-	const ShapeHandle*	mBoxGroups;
-	const PxReal*		mContactDistance;
-	PxU32				mBoxesCapacity;
-	bool				mStateChanged;
+	const PxBounds3*				mBoxBounds;
+	const Bp::FilterGroup::Enum*	mBoxGroups;
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	const bool*						mLUT;
+#endif
+	const PxReal*					mContactDistance;
+	PxU32							mBoxesCapacity;
+	bool							mStateChanged;
 };
 
 } //namespace Bp

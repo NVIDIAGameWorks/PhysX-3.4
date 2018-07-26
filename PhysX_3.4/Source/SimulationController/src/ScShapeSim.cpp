@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -60,6 +60,7 @@
 
 using namespace physx;
 using namespace Gu;
+using namespace Sc;
 
 // PT: keep local functions in cpp, no need to pollute the header. Don't force conversions to bool if not necessary.
 static PX_FORCE_INLINE PxU32 hasTriggerFlags(PxShapeFlags flags)	{ return PxU32(flags) & PxU32(PxShapeFlag::eTRIGGER_SHAPE);									}
@@ -99,13 +100,9 @@ void Sc::ShapeSim::initSubsystemsDependingOnElementID()
 	{
 		PX_PROFILE_ZONE("API.simAddShapeToBroadPhase", scScene.getContextId());
 		if(isBroadPhase(mCore.getFlags()))
-		{
 			internalAddToBroadPhase();			
-		}
 		else
-		{
 			scScene.getAABBManager()->reserveSpaceForBounds(index);
-		}
 		scScene.updateContactDistance(index, getContactOffset());
 	}
 
@@ -155,32 +152,37 @@ Sc::ShapeSim::~ShapeSim()
 	scScene.getShapeIDTracker().releaseID(mId);
 }
 
+Bp::FilterGroup::Enum ShapeSim::getBPGroup() const
+{
+	bool isKinematic = false;
+	BodySim* bs = getBodySim();
+	if(bs)
+		isKinematic = bs->isKinematic();
+
+	RigidSim& rbSim = getRbSim();
+	return Bp::getFilterGroup(rbSim.getActorType()==PxActorType::eRIGID_STATIC, rbSim.getRigidID(), isKinematic);
+}
+
 PX_FORCE_INLINE void Sc::ShapeSim::internalAddToBroadPhase()
 {
 	PX_ASSERT(!isInBroadPhase());
-	addToAABBMgr(mCore.getContactOffset(), getRbSim().getBroadphaseGroupId(), !!(mCore.getCore().mShapeFlags & PxShapeFlag::eTRIGGER_SHAPE));
+	addToAABBMgr(mCore.getContactOffset(), getBPGroup(), Ps::IntBool(mCore.getCore().mShapeFlags & PxShapeFlag::eTRIGGER_SHAPE));
 }
 
-PX_FORCE_INLINE void Sc::ShapeSim::internalRemoveFromBroadPhase()
+PX_FORCE_INLINE void Sc::ShapeSim::internalRemoveFromBroadPhase(bool wakeOnLostTouch)
 {
 	PX_ASSERT(isInBroadPhase());
 	removeFromAABBMgr();
 
-	Sc::Scene& scene = getScene();
+	Scene& scene = getScene();
 	PxsContactManagerOutputIterator outputs = scene.getLowLevelContext()->getNphaseImplementationContext()->getContactManagerOutputs();
-	scene.getNPhaseCore()->onVolumeRemoved(this, PxU32(PairReleaseFlag::eWAKE_ON_LOST_TOUCH), outputs, scene.getPublicFlags() & PxSceneFlag::eADAPTIVE_FORCE);
+	scene.getNPhaseCore()->onVolumeRemoved(this, wakeOnLostTouch ? PxU32(PairReleaseFlag::eWAKE_ON_LOST_TOUCH) : 0, outputs, scene.getPublicFlags() & PxSceneFlag::eADAPTIVE_FORCE);
 }
 
 void Sc::ShapeSim::removeFromBroadPhase(bool wakeOnLostTouch)
 {
 	if(isInBroadPhase())
-	{
-		// PT: TODO: refactor with internalRemoveFromBroadPhase()
-		removeFromAABBMgr();
-		Sc::Scene& scene = getScene();
-		PxsContactManagerOutputIterator outputs = scene.getLowLevelContext()->getNphaseImplementationContext()->getContactManagerOutputs();
-		scene.getNPhaseCore()->onVolumeRemoved(this, wakeOnLostTouch ? PxU32(PairReleaseFlag::eWAKE_ON_LOST_TOUCH) : 0, outputs, scene.getPublicFlags() & PxSceneFlag::eADAPTIVE_FORCE);
-	}
+		internalRemoveFromBroadPhase(wakeOnLostTouch);
 }
 
 void Sc::ShapeSim::reinsertBroadPhase()
@@ -258,8 +260,6 @@ void Sc::ShapeSim::onFlagChange(PxShapeFlags oldFlags)
 {
 	PxShapeFlags newFlags = mCore.getFlags();
 
-	const PxSceneFlags sceneFlags = getScene().getPublicFlags();
-
 	const bool oldBp = isBroadPhase(oldFlags)!=0;
 	const bool newBp = isBroadPhase(newFlags)!=0;
 
@@ -267,17 +267,14 @@ void Sc::ShapeSim::onFlagChange(PxShapeFlags oldFlags)
 	if(oldBp != newBp)
 	{
 		if(!oldBp && newBp)
-		{
-			PX_ASSERT(!isInBroadPhase());
 			internalAddToBroadPhase();
-		}
 		else
-		{
 			internalRemoveFromBroadPhase();
-		}
 	}
 	else
 	{
+		Scene& scene = getScene();
+		const PxSceneFlags sceneFlags = scene.getPublicFlags();
 		const bool wasTrigger = hasTriggerFlags(oldFlags)!=0;
 		const bool isTrigger = hasTriggerFlags(newFlags)!=0;
 		if(!(sceneFlags & PxSceneFlag::eDEPRECATED_TRIGGER_TRIGGER_REPORTS))
@@ -287,7 +284,7 @@ void Sc::ShapeSim::onFlagChange(PxShapeFlags oldFlags)
 		}
 		else
 		{
-			getScene().getAABBManager()->setVolumeType(this->getElementID(), PxU8((isTrigger ? Sc::ElementType::eTRIGGER : getElementType())));
+			scene.getAABBManager()->setVolumeType(this->getElementID(), PxU8((isTrigger ? Sc::ElementType::eTRIGGER : getElementType())));
 			if (wasTrigger != isTrigger)
 				setElementInteractionsDirty(InteractionDirtyFlag::eFILTER_STATE, InteractionFlag::eFILTERABLE);
 		}
@@ -296,7 +293,8 @@ void Sc::ShapeSim::onFlagChange(PxShapeFlags oldFlags)
 	PxShapeFlags hadSq = oldFlags&PxShapeFlag::eSCENE_QUERY_SHAPE, hasSq = newFlags&PxShapeFlag::eSCENE_QUERY_SHAPE;
 	if(hasSq && !hadSq)
 	{
-		if(getBodySim() &&  getBodySim()->isActive())
+		BodySim* body = getBodySim();
+		if(body &&  body->isActive())
 			createSqBounds();
 	}
 	else if(hadSq && !hasSq)
@@ -354,7 +352,7 @@ void Sc::ShapeSim::getAbsPoseAligned(PxTransform* PX_RESTRICT globalPose) const
 	Cm::getStaticGlobalPoseAligned(*actor2World, shape2Actor, *globalPose);
 }
 
-Sc::BodySim* Sc::ShapeSim::getBodySim() const	
+Sc::BodySim* Sc::ShapeSim::getBodySim() const
 { 
 	ActorSim& a = getActor();
 	return a.isDynamicRigid() ? static_cast<BodySim*>(&a) : NULL;
@@ -424,8 +422,9 @@ Ps::IntBool Sc::ShapeSim::updateSweptBounds()
 
 	PxBounds3 bounds = PxBounds3::centerExtents(endOrigin, endExtent);
 
-	PxcRigidBody& rigidBody = getBodySim()->getLowLevelBody();
-	PxsBodyCore& bodyCore = getBodySim()->getBodyCore().getCore();
+	BodySim* body = getBodySim();
+	PxcRigidBody& rigidBody = body->getLowLevelBody();
+	PxsBodyCore& bodyCore = body->getBodyCore().getCore();
 	PX_ALIGN(16, PxTransform shape2World);
 	Cm::getDynamicGlobalPoseAligned(rigidBody.mLastTransform, shapeCore.getShape2Actor(), bodyCore.getBody2Actor(), shape2World);
 	PxBounds3 startBounds = computeBounds(shapeCore.getGeometry(), shape2World, !physx::gUnifiedHeightfieldCollision);
@@ -444,18 +443,25 @@ Ps::IntBool Sc::ShapeSim::updateSweptBounds()
 	return isFastMoving;	
 }
 
+void ShapeSim::updateBPGroup()
+{
+	if(isInBroadPhase())
+	{
+		Sc::Scene& scene = getScene();
+		scene.getAABBManager()->setBPGroup(getElementID(), getBPGroup());
+	}
+}
+
 void Sc::ShapeSim::markBoundsForUpdate(bool forceBoundsUpdate, bool isDynamic)
 {
 	PX_UNUSED(isDynamic);
 
 	Sc::Scene& scene = getScene();
 
-	const PxU32 elementID = getElementID();
-
 	if(forceBoundsUpdate)
 		updateCached(0, &scene.getAABBManager()->getChangedAABBMgActorHandleMap());
 	else if(isInBroadPhase())
-		scene.getDirtyShapeSimMap().growAndSet(elementID);
+		scene.getDirtyShapeSimMap().growAndSet(getElementID());
 
 #if PX_USE_PARTICLE_SYSTEM_API
 #if PX_SUPPORT_GPU_PHYSX
@@ -535,7 +541,6 @@ void Sc::ShapeSim::createSqBounds()
 		return;
 
 	Sc::BodySim* bodySim = getBodySim();
-
 	PX_ASSERT(bodySim);
 
 	if(bodySim->usingSqKinematicTarget() || bodySim->isFrozen() || !bodySim->isActive())

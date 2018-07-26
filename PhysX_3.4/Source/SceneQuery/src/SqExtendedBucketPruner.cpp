@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -198,7 +198,7 @@ void ExtendedBucketPruner::resize(PxU32 size)
 {
 	PX_ASSERT(size > mCurrentTreeCapacity);
 	// allocate new bounds
-	PxBounds3* newBounds = reinterpret_cast<PxBounds3*>(PX_ALLOC(sizeof(PxBounds3)*size, "Bounds"));
+	PxBounds3* newBounds = reinterpret_cast<PxBounds3*>(PX_ALLOC(sizeof(PxBounds3)*(size + 1), "Bounds"));
 	// copy previous bounds
 	PxMemCopy(newBounds, mBounds, sizeof(PxBounds3)*mCurrentTreeCapacity);
 	PX_FREE(mBounds);
@@ -333,16 +333,24 @@ void ExtendedBucketPruner::refitMarkedNodes(const PxBounds3* boxes)
 		// new merged trees size
 		mCurrentTreeIndex = nbValidTrees;
 
-		// trees have changed, we need to rebuild the main tree
-		buildMainAABBTree();
+		if(mCurrentTreeIndex)
+		{
+			// trees have changed, we need to rebuild the main tree
+			buildMainAABBTree();
 
-		// fixup the object entries, the merge index has changed	
-		for (ExtendedBucketPrunerMap::Iterator iter = mExtendedBucketPrunerMap.getIterator(); !iter.done(); ++iter)
-		{			
-			ExtendedBucketPrunerData& data = iter->second;
-			PX_ASSERT(swapMap[data.mMergeIndex] < nbValidTrees);
-			data.mMergeIndex = swapMap[data.mMergeIndex];
-		}		
+			// fixup the object entries, the merge index has changed	
+			for (ExtendedBucketPrunerMap::Iterator iter = mExtendedBucketPrunerMap.getIterator(); !iter.done(); ++iter)
+			{			
+				ExtendedBucketPrunerData& data = iter->second;
+				PX_ASSERT(swapMap[data.mMergeIndex] < nbValidTrees);
+				data.mMergeIndex = swapMap[data.mMergeIndex];
+			}
+		}
+		else
+		{
+			// if there is no tree release the main tree
+			mMainTree->release();
+		}
 		PX_FREE(swapMap);
 	}
 #if PX_DEBUG

@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -154,7 +154,10 @@ private:
 			const BpHandle*				mUpdated;				
 			PxU32						mUpdatedSize;				
 			const PxBounds3*			mBoxBoundsMinMax;			
-			const BpHandle*				mBoxGroups;
+			const Bp::FilterGroup::Enum*mBoxGroups;
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+			const bool*					mLUT;
+#endif
 			const PxReal*				mContactDistance;
 			PxU32						mBoxesCapacity;
 

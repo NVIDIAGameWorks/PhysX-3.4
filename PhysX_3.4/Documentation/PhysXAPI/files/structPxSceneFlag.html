@@ -43,9 +43,9 @@
 <br>
 &nbsp;&nbsp;<a class="el" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53f41a174026200b36d385fbe91a67eac0">eADAPTIVE_FORCE</a> =  (1&lt;&lt;4), 
 <br>
-&nbsp;&nbsp;<a class="el" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c53ce733907cb004049960a43b9c9184b9b">eENABLE_KINEMATIC_STATIC_PAIRS</a> =  (1&lt;&lt;5), 
+&nbsp;&nbsp;<a class="el" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c5338481fa715039972c2047d15094a1060">PX_DEPRECATED</a> =  (1&lt;&lt;1), 
 <br>
-&nbsp;&nbsp;<a class="el" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c538537c3d1b706799fd9bdf6496dde1dbf">eENABLE_KINEMATIC_PAIRS</a> =  (1&lt;&lt;6), 
+&nbsp;&nbsp;<a class="el" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c5338481fa715039972c2047d15094a1060">PX_DEPRECATED</a> =  (1&lt;&lt;1), 
 <br>
 &nbsp;&nbsp;<a class="el" href="structPxSceneFlag.html#b4c347372b4433d34d983da780916c5329717fa631812cc31261d73055762e03">eENABLE_PCM</a> =  (1 &lt;&lt; 9), 
 <br>
@@ -103,9 +103,17 @@ This flag enables the Active Actor Notification feature for a scene. This featur
 Enable Active Transform Notification. 
 <p>
 Lazily refit the dynamic scene query tree, instead of eagerly refitting in fetchResults.<p>
+Enable contact pair filtering between kinematic rigid bodies.<p>
+Enable contact pair filtering between kinematic and static rigid bodies.<p>
 This flag enables the Active Transform Notification feature for a scene. This feature defaults to disabled. When disabled, the function <a class="el" href="classPxScene.html#5fdec7976b853ad4af5573bb13197426" title="Queries the PxScene for a list of the PxActors whose transforms have been updated...">PxScene::getActiveTransforms()</a> will always return a NULL list.<p>
 <dl class="note" compact><dt><b>Note:</b></dt><dd>There may be a performance penalty for enabling the Active Transform Notification, hence this flag should only be enabled if the application intends to use the feature.</dd></dl>
 <b>Default:</b> False<p>
+By default contacts between kinematic and static rigid bodies are suppressed (see <a class="el" href="structPxFilterFlag.html#8de424e04d86b5772436423b0dc58083823b175755a63b3e8ad474528f5e1bf6" title="Ignore the collision pair as long as the bounding volumes of the pair objects overlap...">PxFilterFlag::eSUPPRESS</a>) and don't get reported to the filter mechanism. Raise this flag if these pairs should go through the filtering pipeline nonetheless.<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>This flag is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.</dd></dl>
+<b>Default:</b> false<p>
+By default contacts between kinematic bodies are suppressed (see <a class="el" href="structPxFilterFlag.html#8de424e04d86b5772436423b0dc58083823b175755a63b3e8ad474528f5e1bf6" title="Ignore the collision pair as long as the bounding volumes of the pair objects overlap...">PxFilterFlag::eSUPPRESS</a>) and don't get reported to the filter mechanism. Raise this flag if these pairs should go through the filtering pipeline nonetheless.<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>This flag is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.</dd></dl>
+<b>Default:</b> false<p>
 By default PhysX refits the dynamic scene query tree during fetchResults. Setting this flag during scene creation suppresses this behavior. Refit will then occur during the first scene query following fetchResults, or may be forced by the method PxScene::flushSceneQueryUpdates()<p>
 <dl class="note" compact><dt><b>Note:</b></dt><dd>Deprecated, will be replaced with an enum in next releases. <p>
 This flag will be ignored if <a class="el" href="classPxSceneDesc.html#466c85f090678a01f2c6ee85b9584e7a" title="Defines the scene query update mode.">PxSceneDesc::sceneQueryUpdateMode</a> is set. <p>
@@ -137,17 +145,47 @@ Enable adaptive forces to accelerate convergence of the solver.
 <p>
 <dl class="note" compact><dt><b>Note:</b></dt><dd>This flag is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.</dd></dl>
 <b>Default:</b> false </td></tr>
-<tr><td valign="top"><em><a class="anchor" name="b4c347372b4433d34d983da780916c53ce733907cb004049960a43b9c9184b9b"></a><!-- doxytag: member="eENABLE_KINEMATIC_STATIC_PAIRS" ref="b4c347372b4433d34d983da780916c53ce733907cb004049960a43b9c9184b9b" args="" -->eENABLE_KINEMATIC_STATIC_PAIRS</em>&nbsp;</td><td>
-Enable contact pair filtering between kinematic and static rigid bodies. 
+<tr><td valign="top"><em><a class="anchor" name="b4c347372b4433d34d983da780916c5338481fa715039972c2047d15094a1060"></a><!-- doxytag: member="PX_DEPRECATED" ref="b4c347372b4433d34d983da780916c5338481fa715039972c2047d15094a1060" args="" -->PX_DEPRECATED</em>&nbsp;</td><td>
+Enable Active Transform Notification. 
 <p>
+Lazily refit the dynamic scene query tree, instead of eagerly refitting in fetchResults.<p>
+Enable contact pair filtering between kinematic rigid bodies.<p>
+Enable contact pair filtering between kinematic and static rigid bodies.<p>
+This flag enables the Active Transform Notification feature for a scene. This feature defaults to disabled. When disabled, the function <a class="el" href="classPxScene.html#5fdec7976b853ad4af5573bb13197426" title="Queries the PxScene for a list of the PxActors whose transforms have been updated...">PxScene::getActiveTransforms()</a> will always return a NULL list.<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>There may be a performance penalty for enabling the Active Transform Notification, hence this flag should only be enabled if the application intends to use the feature.</dd></dl>
+<b>Default:</b> False<p>
 By default contacts between kinematic and static rigid bodies are suppressed (see <a class="el" href="structPxFilterFlag.html#8de424e04d86b5772436423b0dc58083823b175755a63b3e8ad474528f5e1bf6" title="Ignore the collision pair as long as the bounding volumes of the pair objects overlap...">PxFilterFlag::eSUPPRESS</a>) and don't get reported to the filter mechanism. Raise this flag if these pairs should go through the filtering pipeline nonetheless.<p>
 <dl class="note" compact><dt><b>Note:</b></dt><dd>This flag is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.</dd></dl>
-<b>Default:</b> false </td></tr>
-<tr><td valign="top"><em><a class="anchor" name="b4c347372b4433d34d983da780916c538537c3d1b706799fd9bdf6496dde1dbf"></a><!-- doxytag: member="eENABLE_KINEMATIC_PAIRS" ref="b4c347372b4433d34d983da780916c538537c3d1b706799fd9bdf6496dde1dbf" args="" -->eENABLE_KINEMATIC_PAIRS</em>&nbsp;</td><td>
-Enable contact pair filtering between kinematic rigid bodies. 
-<p>
+<b>Default:</b> false<p>
 By default contacts between kinematic bodies are suppressed (see <a class="el" href="structPxFilterFlag.html#8de424e04d86b5772436423b0dc58083823b175755a63b3e8ad474528f5e1bf6" title="Ignore the collision pair as long as the bounding volumes of the pair objects overlap...">PxFilterFlag::eSUPPRESS</a>) and don't get reported to the filter mechanism. Raise this flag if these pairs should go through the filtering pipeline nonetheless.<p>
 <dl class="note" compact><dt><b>Note:</b></dt><dd>This flag is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.</dd></dl>
+<b>Default:</b> false<p>
+By default PhysX refits the dynamic scene query tree during fetchResults. Setting this flag during scene creation suppresses this behavior. Refit will then occur during the first scene query following fetchResults, or may be forced by the method PxScene::flushSceneQueryUpdates()<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>Deprecated, will be replaced with an enum in next releases. <p>
+This flag will be ignored if <a class="el" href="classPxSceneDesc.html#466c85f090678a01f2c6ee85b9584e7a" title="Defines the scene query update mode.">PxSceneDesc::sceneQueryUpdateMode</a> is set. <p>
+This flag is not used anymore, please use <a class="el" href="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4">PxSceneQueryUpdateMode::Enum</a> instead</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd>PxScene::flushSceneQueryUpdates()</dd></dl>
+<b>Default:</b> false </td></tr>
+<tr><td valign="top"><em><a class="anchor" name="b4c347372b4433d34d983da780916c5338481fa715039972c2047d15094a1060"></a><!-- doxytag: member="PX_DEPRECATED" ref="b4c347372b4433d34d983da780916c5338481fa715039972c2047d15094a1060" args="" -->PX_DEPRECATED</em>&nbsp;</td><td>
+Enable Active Transform Notification. 
+<p>
+Lazily refit the dynamic scene query tree, instead of eagerly refitting in fetchResults.<p>
+Enable contact pair filtering between kinematic rigid bodies.<p>
+Enable contact pair filtering between kinematic and static rigid bodies.<p>
+This flag enables the Active Transform Notification feature for a scene. This feature defaults to disabled. When disabled, the function <a class="el" href="classPxScene.html#5fdec7976b853ad4af5573bb13197426" title="Queries the PxScene for a list of the PxActors whose transforms have been updated...">PxScene::getActiveTransforms()</a> will always return a NULL list.<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>There may be a performance penalty for enabling the Active Transform Notification, hence this flag should only be enabled if the application intends to use the feature.</dd></dl>
+<b>Default:</b> False<p>
+By default contacts between kinematic and static rigid bodies are suppressed (see <a class="el" href="structPxFilterFlag.html#8de424e04d86b5772436423b0dc58083823b175755a63b3e8ad474528f5e1bf6" title="Ignore the collision pair as long as the bounding volumes of the pair objects overlap...">PxFilterFlag::eSUPPRESS</a>) and don't get reported to the filter mechanism. Raise this flag if these pairs should go through the filtering pipeline nonetheless.<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>This flag is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.</dd></dl>
+<b>Default:</b> false<p>
+By default contacts between kinematic bodies are suppressed (see <a class="el" href="structPxFilterFlag.html#8de424e04d86b5772436423b0dc58083823b175755a63b3e8ad474528f5e1bf6" title="Ignore the collision pair as long as the bounding volumes of the pair objects overlap...">PxFilterFlag::eSUPPRESS</a>) and don't get reported to the filter mechanism. Raise this flag if these pairs should go through the filtering pipeline nonetheless.<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>This flag is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.</dd></dl>
+<b>Default:</b> false<p>
+By default PhysX refits the dynamic scene query tree during fetchResults. Setting this flag during scene creation suppresses this behavior. Refit will then occur during the first scene query following fetchResults, or may be forced by the method PxScene::flushSceneQueryUpdates()<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>Deprecated, will be replaced with an enum in next releases. <p>
+This flag will be ignored if <a class="el" href="classPxSceneDesc.html#466c85f090678a01f2c6ee85b9584e7a" title="Defines the scene query update mode.">PxSceneDesc::sceneQueryUpdateMode</a> is set. <p>
+This flag is not used anymore, please use <a class="el" href="structPxSceneQueryUpdateMode.html#04e575a313bce592e2b404eedf89a9d4">PxSceneQueryUpdateMode::Enum</a> instead</dd></dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd>PxScene::flushSceneQueryUpdates()</dd></dl>
 <b>Default:</b> false </td></tr>
 <tr><td valign="top"><em><a class="anchor" name="b4c347372b4433d34d983da780916c5329717fa631812cc31261d73055762e03"></a><!-- doxytag: member="eENABLE_PCM" ref="b4c347372b4433d34d983da780916c5329717fa631812cc31261d73055762e03" args="" -->eENABLE_PCM</em>&nbsp;</td><td>
 Enable GJK-based distance collision detection system. 
@@ -204,9 +242,17 @@ Since the target pose for kinematics is set by the user, an application can trac
 Enable Active Transform Notification. 
 <p>
 Lazily refit the dynamic scene query tree, instead of eagerly refitting in fetchResults.<p>
+Enable contact pair filtering between kinematic rigid bodies.<p>
+Enable contact pair filtering between kinematic and static rigid bodies.<p>
 This flag enables the Active Transform Notification feature for a scene. This feature defaults to disabled. When disabled, the function <a class="el" href="classPxScene.html#5fdec7976b853ad4af5573bb13197426" title="Queries the PxScene for a list of the PxActors whose transforms have been updated...">PxScene::getActiveTransforms()</a> will always return a NULL list.<p>
 <dl class="note" compact><dt><b>Note:</b></dt><dd>There may be a performance penalty for enabling the Active Transform Notification, hence this flag should only be enabled if the application intends to use the feature.</dd></dl>
 <b>Default:</b> False<p>
+By default contacts between kinematic and static rigid bodies are suppressed (see <a class="el" href="structPxFilterFlag.html#8de424e04d86b5772436423b0dc58083823b175755a63b3e8ad474528f5e1bf6" title="Ignore the collision pair as long as the bounding volumes of the pair objects overlap...">PxFilterFlag::eSUPPRESS</a>) and don't get reported to the filter mechanism. Raise this flag if these pairs should go through the filtering pipeline nonetheless.<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>This flag is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.</dd></dl>
+<b>Default:</b> false<p>
+By default contacts between kinematic bodies are suppressed (see <a class="el" href="structPxFilterFlag.html#8de424e04d86b5772436423b0dc58083823b175755a63b3e8ad474528f5e1bf6" title="Ignore the collision pair as long as the bounding volumes of the pair objects overlap...">PxFilterFlag::eSUPPRESS</a>) and don't get reported to the filter mechanism. Raise this flag if these pairs should go through the filtering pipeline nonetheless.<p>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>This flag is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene.">PxSceneDesc</a> at scene creation.</dd></dl>
+<b>Default:</b> false<p>
 By default PhysX refits the dynamic scene query tree during fetchResults. Setting this flag during scene creation suppresses this behavior. Refit will then occur during the first scene query following fetchResults, or may be forced by the method PxScene::flushSceneQueryUpdates()<p>
 <dl class="note" compact><dt><b>Note:</b></dt><dd>Deprecated, will be replaced with an enum in next releases. <p>
 This flag will be ignored if <a class="el" href="classPxSceneDesc.html#466c85f090678a01f2c6ee85b9584e7a" title="Defines the scene query update mode.">PxSceneDesc::sceneQueryUpdateMode</a> is set. <p>
@@ -237,6 +283,6 @@ Note that this feature is not currently supported on GPU.<p>
 </div>
 
 <hr style="width: 100%; height: 2px;"><br>
-Copyright &copy; 2008-2017 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a>
+Copyright &copy; 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a>
 </body>
 </html>

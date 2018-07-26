@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -48,6 +48,25 @@ using namespace physx::shdfnd::aos;
 using namespace physx;
 using namespace Bp;
 using namespace Cm;
+
+	static PX_FORCE_INLINE MBP_Handle encodeHandle(MBP_ObjectIndex objectIndex, PxU32 flipFlop, bool isStatic)
+	{
+	/*	objectIndex += objectIndex;
+		objectIndex |= flipFlop;
+		return objectIndex;*/
+		return (objectIndex<<2)|(flipFlop<<1)|PxU32(isStatic);
+	}
+
+	static PX_FORCE_INLINE MBP_ObjectIndex decodeHandle_Index(MBP_Handle handle)
+	{
+	//	return handle>>1;
+		return handle>>2;
+	}
+
+	static PX_FORCE_INLINE PxU32 decodeHandle_IsStatic(MBP_Handle handle)
+	{
+		return handle&1;
+	}
 
 	static PX_FORCE_INLINE void storeDwords(PxU32* dest, PxU32 nb, PxU32 value)
 	{
@@ -94,7 +113,7 @@ enum MBPFlags
 // We have one of those for each of the "200K" objects so we should optimize this size as much as possible
 struct MBP_Object : public Ps::UserAllocated
 {
-	BpHandle	mUserID;		// ### added for PhysX integration
+	BpHandle	mUserID;		// Handle sent to us by the AABB manager
 	PxU16		mNbHandles;		// Number of regions the object is part of
 	PxU16		mFlags;			// MBPFlags ### only 1 bit used in the end
 
@@ -108,11 +127,23 @@ struct MBP_Object : public Ps::UserAllocated
 };
 
 // This one is used in each Region
-struct MBPEntry : public MBPEntry_Data, public Ps::UserAllocated
+struct MBPEntry : public Ps::UserAllocated
 {
 	PX_FORCE_INLINE	MBPEntry()
 	{
 		mMBPHandle = INVALID_ID;
+	}
+
+	// ### mIndex could be PxU16 but beware, we store mFirstFree there
+	PxU32		mIndex;			// Out-to-in, maps user handle to internal array. mIndex indexes either the static or dynamic array.
+	MBP_Handle	mMBPHandle;		// MBP-level handle (the one returned to users)
+#if PX_DEBUG
+	bool		mUpdated;
+#endif
+
+	PX_FORCE_INLINE		PxU32	isStatic()	const
+	{
+		return decodeHandle_IsStatic(mMBPHandle);
 	}
 };
 
@@ -307,11 +338,11 @@ static PX_FORCE_INLINE void clearBit(BitArray& bitmap, MBP_ObjectIndex objectInd
 	typedef	IAABB		MBP_AABB;
 #endif
 
+	// PT: TODO: Consider sharing with AABB Manager dup now
 	struct MBP_Pair : public Ps::UserAllocated
 	{
 		PxU32		id0;
 		PxU32		id1;
-//		void*		usrData;	// PT: TODO: why is this not used?! Consider sharing with AABB Manager dup now
 		// TODO: optimize memory here
 		bool		isNew;
 		bool		isUpdated;
@@ -330,11 +361,10 @@ static PX_FORCE_INLINE void clearBit(BitArray& bitmap, MBP_ObjectIndex objectInd
 						void				purge();
 						void				shrinkMemory();
 
-						MBP_Pair*			addPair				(PxU32 id0, PxU32 id1, const BpHandle* PX_RESTRICT groups = NULL, const MBP_Object* objects = NULL);
-						bool				removePair			(PxU32 id0, PxU32 id1);
-//						bool				removePairs			(const BitArray& array);
-						bool				removeMarkedPairs	(const MBP_Object* objects, BroadPhaseMBP* mbp, const BitArray& updated, const BitArray& removed);
-		PX_FORCE_INLINE	PxU32				getPairIndex		(const MBP_Pair* pair)		const
+						MBP_Pair*			addPair						(PxU32 id0, PxU32 id1);
+						bool				removePair					(PxU32 id0, PxU32 id1);
+						bool				computeCreatedDeletedPairs	(const MBP_Object* objects, BroadPhaseMBP* mbp, const BitArray& updated, const BitArray& removed);
+		PX_FORCE_INLINE	PxU32				getPairIndex				(const MBP_Pair* pair)		const
 											{
 												return (PxU32((size_t(pair) - size_t(mActivePairs)))/sizeof(MBP_Pair));
 											}
@@ -346,6 +376,12 @@ static PX_FORCE_INLINE void clearBit(BitArray& bitmap, MBP_ObjectIndex objectInd
 						PxU32*				mNext;
 						MBP_Pair*			mActivePairs;
 						PxU32				mReservedMemory;
+
+						const Bp::FilterGroup::Enum*	mGroups;
+						const MBP_Object*				mObjects;
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+						const bool*						mLUT;
+#endif
 
 		PX_FORCE_INLINE	MBP_Pair*			findPair(PxU32 id0, PxU32 id1, PxU32 hashValue) const;
 						void				removePair(PxU32 id0, PxU32 id1, PxU32 hashValue, PxU32 pairIndex);
@@ -441,7 +477,7 @@ static PX_FORCE_INLINE void clearBit(BitArray& bitmap, MBP_ObjectIndex objectInd
 		MBP_Handle			retrieveBounds(MBP_AABB& bounds, MBP_Index handle)	const;
 		void				setBounds(MBP_Index handle, const MBP_AABB& bounds);
 		void				prepareOverlaps();
-		void				findOverlaps(MBP_PairManager& pairManager, const BpHandle* PX_RESTRICT groups, const MBP_Object* PX_RESTRICT mbpObjects);
+		void				findOverlaps(MBP_PairManager& pairManager);
 
 //		private:
 		BoxPruning_Input	PX_ALIGN(16, mInput);
@@ -503,19 +539,22 @@ struct RegionData : public Ps::UserAllocated
 						const Region*			getRegion(PxU32 i)		const;
 		PX_FORCE_INLINE	PxU32					getNbRegions()			const	{ return mNbRegions;	}
 
-						MBP_Handle				addObject(const MBP_AABB& box, BpHandle userID, bool isStatic=false);
+						MBP_Handle				addObject(const MBP_AABB& box, BpHandle userID, bool isStatic);
 						bool					removeObject(MBP_Handle handle);
 						bool					updateObject(MBP_Handle handle, const MBP_AABB& box);
 						bool					updateObjectAfterRegionRemoval(MBP_Handle handle, Region* removedRegion);
 						bool					updateObjectAfterNewRegionAdded(MBP_Handle handle, const MBP_AABB& box, Region* addedRegion, PxU32 regionIndex);
 						void					prepareOverlaps();
-						void					findOverlaps(const BpHandle* PX_RESTRICT groups);
+						void					findOverlaps(const Bp::FilterGroup::Enum* PX_RESTRICT groups
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	, const bool* PX_RESTRICT lut
+#endif
+							);
 						PxU32					finalize(BroadPhaseMBP* mbp);
 						void					shiftOrigin(const PxVec3& shift);
 
 						void					setTransientBounds(const PxBounds3* bounds, const PxReal* contactDistance); 
 //		private:
-						PxU32					mNbPairs;
 						PxU32					mNbRegions;
 						MBP_ObjectIndex			mFirstFreeIndex;	// First free recycled index for mMBP_Objects
 						PxU32					mFirstFreeIndexBP;	// First free recycled index for mRegions
@@ -534,8 +573,8 @@ struct RegionData : public Ps::UserAllocated
 						Ps::Array<PxU32>		mOutOfBoundsObjects;	// These are BpHandle but the BP interface expects PxU32s
 						void					addToOutOfBoundsArray(BpHandle id);
 
-						const					PxBounds3* mTransientBounds;
-						const					PxReal* mTransientContactDistance;
+				const	PxBounds3*				mTransientBounds;
+				const	PxReal*					mTransientContactDistance;
 
 #ifdef USE_FULLY_INSIDE_FLAG
 						BitArray				mFullyInsideBitmap;	// Indexed by MBP_ObjectIndex
@@ -600,7 +639,12 @@ MBP_PairManager::MBP_PairManager() :
 	mHashTable		(NULL),
 	mNext			(NULL),
 	mActivePairs	(NULL),
-	mReservedMemory (0)
+	mReservedMemory (0),
+	mGroups			(NULL),
+	mObjects		(NULL)
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	,mLUT			(NULL)
+#endif
 {
 }
 
@@ -657,20 +701,24 @@ PX_FORCE_INLINE MBP_Pair* MBP_PairManager::findPair(PxU32 id0, PxU32 id1, PxU32 
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MBP_Pair* MBP_PairManager::addPair(PxU32 id0, PxU32 id1, const BpHandle* PX_RESTRICT groups, const MBP_Object* objects)
+MBP_Pair* MBP_PairManager::addPair(PxU32 id0, PxU32 id1)
 {
 	PX_ASSERT(id0!=INVALID_ID);
 	PX_ASSERT(id1!=INVALID_ID);
-
-	PX_ASSERT(groups);
+	PX_ASSERT(mGroups);
+	PX_ASSERT(mObjects);
 	{
 		const MBP_ObjectIndex index0 = decodeHandle_Index(id0);
 		const MBP_ObjectIndex index1 = decodeHandle_Index(id1);
 
-		const BpHandle object0 = objects[index0].mUserID;
-		const BpHandle object1 = objects[index1].mUserID;
+		const BpHandle object0 = mObjects[index0].mUserID;
+		const BpHandle object1 = mObjects[index1].mUserID;
 
-		if(groups[object0] == groups[object1])
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+		if(!groupFiltering(mGroups[object0], mGroups[object1], mLUT))
+#else
+		if(!groupFiltering(mGroups[object0], mGroups[object1]))
+#endif
 			return NULL;
 	}
 
@@ -908,9 +956,6 @@ void MBP_PairManager::reserveMemory(PxU32 memSize)
 	#define SIMD_OVERLAP_PRELOAD_BOX0
 #endif
 
-
-
-
 #ifdef MBP_USE_NO_CMP_OVERLAP
 /*static PX_FORCE_INLINE void initBox(IAABB& box, const PxBounds3& src)
 {
@@ -1110,6 +1155,7 @@ void Region::optimizeMemory()
 void Region::resizeObjects()
 {
 	const PxU32 newMaxNbOjects = mMaxNbObjects ? mMaxNbObjects + DEFAULT_NB_ENTRIES : DEFAULT_NB_ENTRIES;
+//	const PxU32 newMaxNbOjects = mMaxNbObjects ? mMaxNbObjects*2 : DEFAULT_NB_ENTRIES;
 	MBPEntry* newObjects = PX_NEW(MBPEntry)[newMaxNbOjects];
 	if(mNbObjects)
 		PxMemCopy(newObjects, mObjects, mNbObjects*sizeof(MBPEntry));
@@ -1191,6 +1237,7 @@ MBP_Index Region::addObject(const MBP_AABB& bounds, MBP_Handle mbpHandle, bool i
 		if(mMaxNbStaticBoxes==mNbStaticBoxes)
 		{
 			const PxU32 newMaxNbBoxes = mMaxNbStaticBoxes ? mMaxNbStaticBoxes + DEFAULT_NB_ENTRIES : DEFAULT_NB_ENTRIES;
+//			const PxU32 newMaxNbBoxes = mMaxNbStaticBoxes ? mMaxNbStaticBoxes*2 : DEFAULT_NB_ENTRIES;
 			mStaticBoxes = resizeBoxes(mNbStaticBoxes, newMaxNbBoxes, mStaticBoxes);
 			mInToOut_Static = resizeMapping(mNbStaticBoxes, newMaxNbBoxes, mInToOut_Static);
 			mMaxNbStaticBoxes = newMaxNbBoxes;
@@ -1207,6 +1254,7 @@ MBP_Index Region::addObject(const MBP_AABB& bounds, MBP_Handle mbpHandle, bool i
 		if(mMaxNbDynamicBoxes==mNbDynamicBoxes)
 		{
 			const PxU32 newMaxNbBoxes = mMaxNbDynamicBoxes ? mMaxNbDynamicBoxes + DEFAULT_NB_ENTRIES : DEFAULT_NB_ENTRIES;
+//			const PxU32 newMaxNbBoxes = mMaxNbDynamicBoxes ? mMaxNbDynamicBoxes*2 : DEFAULT_NB_ENTRIES;
 			mDynamicBoxes = resizeBoxes(mNbDynamicBoxes, newMaxNbBoxes, mDynamicBoxes);
 			mInToOut_Dynamic = resizeMapping(mNbDynamicBoxes, newMaxNbBoxes, mInToOut_Dynamic);
 			mMaxNbDynamicBoxes = newMaxNbBoxes;
@@ -1258,7 +1306,6 @@ void Region::removeObject(MBP_Index handle)
 	MBP_Index* PX_RESTRICT mapping;
 	MBP_AABB* PX_RESTRICT boxes;
 	PxU32 lastIndex;
-	PxU32 maxNbBoxes;
 	if(!object.isStatic())
 	{
 		mPrevNbUpdatedBoxes = 0;
@@ -1295,7 +1342,6 @@ void Region::removeObject(MBP_Index handle)
 		mapping = mInToOut_Dynamic;
 		boxes = mDynamicBoxes;
 		lastIndex = --mNbDynamicBoxes;
-		maxNbBoxes = mMaxNbDynamicBoxes;
 
 		// ### adjust size of mPosList ?
 	}
@@ -1310,15 +1356,8 @@ void Region::removeObject(MBP_Index handle)
 		mapping = mInToOut_Static;
 		boxes = mStaticBoxes;
 		lastIndex = --mNbStaticBoxes;
-		maxNbBoxes = mMaxNbStaticBoxes;
 	}
 	remove(mObjects, mapping, boxes, removedBoxIndex, lastIndex);
-
-	PX_UNUSED(maxNbBoxes);
-/*	if(lastIndex+DEFAULT_NB_ENTRIES<maxNbBoxes/2)
-	{
-		int stop=1;
-	}*/
 
 	object.mIndex		= mFirstFree;
 	object.mMBPHandle	= INVALID_ID;
@@ -1451,8 +1490,7 @@ static PxU32 gNbOverlaps = 0;
 static PX_FORCE_INLINE void outputPair(	MBP_PairManager& pairManager,
 										PxU32 index0, PxU32 index1,
 										const MBP_Index* PX_RESTRICT inToOut0, const MBP_Index* PX_RESTRICT inToOut1,
-										const MBPEntry* PX_RESTRICT objects,
-										const BpHandle* PX_RESTRICT groups, const MBP_Object* PX_RESTRICT mbpObjects)
+										const MBPEntry* PX_RESTRICT objects)
 {
 #ifdef CHECK_NB_OVERLAPS
 	gNbOverlaps++;
@@ -1464,7 +1502,7 @@ static PX_FORCE_INLINE void outputPair(	MBP_PairManager& pairManager,
 	const MBP_Handle id1 = objects[objectIndex1].mMBPHandle;
 //	printf("2: %d %d\n", index0, index1);
 //	printf("3: %d %d\n", objectIndex0, objectIndex1);
-	pairManager.addPair(id0, id1, groups, mbpObjects);
+	pairManager.addPair(id0, id1);
 }
 
 MBPOS_TmpBuffers::MBPOS_TmpBuffers() :
@@ -1483,14 +1521,11 @@ MBPOS_TmpBuffers::~MBPOS_TmpBuffers()
 		MBP_FREE(mInToOut_Dynamic_Sleeping);
 
 	if(mSleepingDynamicBoxes!=mSleepingDynamicBoxes_Stack)
-	{
 		DELETEARRAY(mSleepingDynamicBoxes);
-	}
 
 	if(mUpdatedDynamicBoxes!=mUpdatedDynamicBoxes_Stack)
-	{
 		DELETEARRAY(mUpdatedDynamicBoxes);
-	}
+
 	mNbSleeping = 0;
 	mNbUpdated = 0;
 }
@@ -1502,9 +1537,7 @@ void MBPOS_TmpBuffers::allocateSleeping(PxU32 nbSleeping, PxU32 nbSentinels)
 		if(mInToOut_Dynamic_Sleeping!=mInToOut_Dynamic_Sleeping_Stack)
 			MBP_FREE(mInToOut_Dynamic_Sleeping);
 		if(mSleepingDynamicBoxes!=mSleepingDynamicBoxes_Stack)
-		{
 			DELETEARRAY(mSleepingDynamicBoxes);
-		}
 
 		if(nbSleeping+nbSentinels<=STACK_BUFFER_SIZE)
 		{
@@ -1525,16 +1558,13 @@ void MBPOS_TmpBuffers::allocateUpdated(PxU32 nbUpdated, PxU32 nbSentinels)
 	if(nbUpdated>mNbUpdated)
 	{
 		if(mUpdatedDynamicBoxes!=mUpdatedDynamicBoxes_Stack)
-		{
 			DELETEARRAY(mUpdatedDynamicBoxes);
-		}
 
 		if(nbUpdated+nbSentinels<=STACK_BUFFER_SIZE)
 			mUpdatedDynamicBoxes = mUpdatedDynamicBoxes_Stack;
 		else
-		{
 			mUpdatedDynamicBoxes = PX_NEW_TEMP(MBP_AABB)[nbUpdated+nbSentinels];
-		}
+
 		mNbUpdated = nbUpdated;
 	}
 }
@@ -1714,7 +1744,7 @@ void Region::prepareBIPPruning(const MBPOS_TmpBuffers& buffers)
 	mInput.mBIPInput.mNeeded			= true;
 }
 
-static void doCompleteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, const BoxPruning_Input& input, const BpHandle* PX_RESTRICT groups, const MBP_Object* PX_RESTRICT mbpObjects)
+static void doCompleteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, const BoxPruning_Input& input)
 {
 	const MBPEntry* PX_RESTRICT objects						= input.mObjects;
 	const MBP_AABB* PX_RESTRICT updatedDynamicBoxes			= input.mUpdatedDynamicBoxes;
@@ -1726,6 +1756,7 @@ static void doCompleteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, const
 
 	//
 
+	// PT: find sleeping-dynamics-vs-active-dynamics overlaps
 	if(nbNonUpdated)
 	{
 		const PxU32 nb0 = nbUpdated;
@@ -1751,7 +1782,7 @@ static void doCompleteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, const
 			{
 				MBP_OVERLAP_TEST(sleepingDynamicBoxes[index1])
 				{
-					outputPair(*pairManager, index0, index1, inToOut_Dynamic, inToOut_Dynamic_Sleeping, objects, groups, mbpObjects);
+					outputPair(*pairManager, index0, index1, inToOut_Dynamic, inToOut_Dynamic_Sleeping, objects);
 				}
 				index1++;
 			}
@@ -1778,7 +1809,7 @@ static void doCompleteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, const
 			{
 				MBP_OVERLAP_TEST(updatedDynamicBoxes[index1])
 				{
-					outputPair(*pairManager, index1, index0, inToOut_Dynamic, inToOut_Dynamic_Sleeping, objects, groups, mbpObjects);
+					outputPair(*pairManager, index1, index0, inToOut_Dynamic, inToOut_Dynamic_Sleeping, objects);
 				}
 				index1++;
 			}
@@ -1788,7 +1819,8 @@ static void doCompleteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, const
 
 	///////
 
-	// Prune the list
+	// PT: find active-dynamics-vs-active-dynamics overlaps
+
 	PxU32 index0 = 0;
 	PxU32 runningIndex = 0;
 	while(runningIndex<nbUpdated && index0<nbUpdated)
@@ -1808,7 +1840,7 @@ static void doCompleteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, const
 			{
 				MBP_OVERLAP_TEST(updatedDynamicBoxes[index1])
 				{
-					outputPair(*pairManager, index0, index1, inToOut_Dynamic, inToOut_Dynamic, objects, groups, mbpObjects);
+					outputPair(*pairManager, index0, index1, inToOut_Dynamic, inToOut_Dynamic, objects);
 				}
 				index1++;
 			}
@@ -1817,7 +1849,7 @@ static void doCompleteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, const
 	}
 }
 
-static void doBipartiteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, const BIP_Input& input, const BpHandle* PX_RESTRICT groups, const MBP_Object* PX_RESTRICT mbpObjects)
+static void doBipartiteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, const BIP_Input& input)
 {
 	// ### crashes because the code expects the dynamic array to be sorted, but mDynamicBoxes is not
 	// ### we should instead modify mNbUpdatedBoxes so that mNbUpdatedBoxes == mNbDynamicBoxes, and
@@ -1859,7 +1891,7 @@ static void doBipartiteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, cons
 		{
 			MBP_OVERLAP_TEST(staticBoxes[index1])
 			{
-				outputPair(*pairManager, index0, index1, inToOut_Dynamic, inToOut_Static, mObjects, groups, mbpObjects);
+				outputPair(*pairManager, index0, index1, inToOut_Dynamic, inToOut_Static, mObjects);
 			}
 			index1++;
 		}
@@ -1886,7 +1918,7 @@ static void doBipartiteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, cons
 		{
 			MBP_OVERLAP_TEST(dynamicBoxes[index1])
 			{
-				outputPair(*pairManager, index1, index0, inToOut_Dynamic, inToOut_Static, mObjects, groups, mbpObjects);
+				outputPair(*pairManager, index1, index0, inToOut_Dynamic, inToOut_Static, mObjects);
 			}
 			index1++;
 		}
@@ -1901,9 +1933,7 @@ static void doBipartiteBoxPruning(MBP_PairManager* PX_RESTRICT pairManager, cons
 
 void Region::prepareOverlaps()
 {
-	if(!mNbUpdatedBoxes
-		&& !mNeedsSorting	//### bugfix added for PhysX integration
-		)
+	if(!mNbUpdatedBoxes && !mNeedsSorting)
 		return;
 
 	if(mNeedsSorting)
@@ -1917,7 +1947,7 @@ void Region::prepareOverlaps()
 		// a) skip the actual pruning in PreparePruning() (we only need to re-sort)
 		// b) do BipartiteBoxPruning() with the new/modified boxes, not all of them
 		// Well, not done yet.
-		mNbUpdatedBoxes = mNbDynamicBoxes;	// ### PhysX
+		mNbUpdatedBoxes = mNbDynamicBoxes;
 		mPrevNbUpdatedBoxes = 0;
 		mNeedsSortingSleeping = true;
 #if PX_DEBUG
@@ -1933,17 +1963,17 @@ void Region::prepareOverlaps()
 	prepareBIPPruning(mTmpBuffers);
 }
 
-void Region::findOverlaps(MBP_PairManager& pairManager, const BpHandle* PX_RESTRICT groups, const MBP_Object* PX_RESTRICT mbpObjects)
+void Region::findOverlaps(MBP_PairManager& pairManager)
 {
 	PX_ASSERT(!mNeedsSorting);
 	if(!mNbUpdatedBoxes)
 		return;
 
 	if(mInput.mNeeded)
-		doCompleteBoxPruning(&pairManager, mInput, groups, mbpObjects);
+		doCompleteBoxPruning(&pairManager, mInput);
 
 	if(mInput.mBIPInput.mNeeded)
-		doBipartiteBoxPruning(&pairManager, mInput.mBIPInput, groups, mbpObjects);
+		doBipartiteBoxPruning(&pairManager, mInput.mBIPInput);
 
 	mNbUpdatedBoxes = 0;
 }
@@ -1951,7 +1981,6 @@ void Region::findOverlaps(MBP_PairManager& pairManager, const BpHandle* PX_RESTR
 ///////////////////////////////////////////////////////////////////////////
 
 MBP::MBP() :
-	mNbPairs			(0),
 	mNbRegions			(0),
 	mFirstFreeIndex		(INVALID_ID),
 	mFirstFreeIndexBP	(INVALID_ID)
@@ -2958,7 +2987,7 @@ bool MBP::updateObjectAfterNewRegionAdded(MBP_Handle handle, const MBP_AABB& box
 	return true;
 }
 
-bool MBP_PairManager::removeMarkedPairs(const MBP_Object* objects, BroadPhaseMBP* mbp, const BitArray& updated, const BitArray& removed)
+bool MBP_PairManager::computeCreatedDeletedPairs(const MBP_Object* objects, BroadPhaseMBP* mbp, const BitArray& updated, const BitArray& removed)
 {
 	// PT: parse all currently active pairs. The goal here is to generate the found/lost pairs, compared to previous frame.
 	PxU32 i=0;
@@ -3055,22 +3084,33 @@ void MBP::prepareOverlaps()
 	}
 }
 
-void MBP::findOverlaps(const BpHandle* PX_RESTRICT groups)
+void MBP::findOverlaps(const Bp::FilterGroup::Enum* PX_RESTRICT groups
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	, const bool* PX_RESTRICT lut
+#endif
+	)
 {
 	PxU32 nb = mNbRegions;
 	const RegionData* PX_RESTRICT regions = mRegions.begin();
 	const MBP_Object* objects = mMBP_Objects.begin();
+
+	mPairManager.mObjects = objects;
+	mPairManager.mGroups = groups;
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	mPairManager.mLUT = lut;
+#endif
+
 	for(PxU32 i=0;i<nb;i++)
 	{
 		if(regions[i].mBP)
-			regions[i].mBP->findOverlaps(mPairManager, groups, objects);
+			regions[i].mBP->findOverlaps(mPairManager);
 	}
 }
 
 PxU32 MBP::finalize(BroadPhaseMBP* mbp)
 {
 	const MBP_Object* objects = mMBP_Objects.begin();
-	mPairManager.removeMarkedPairs(objects, mbp, mUpdatedObjects, mRemoved);
+	mPairManager.computeCreatedDeletedPairs(objects, mbp, mUpdatedObjects, mRemoved);
 
 	mUpdatedObjects.clearAll();
 
@@ -3088,7 +3128,6 @@ void MBP::reset()
 		regions++;
 	}
 
-	mNbPairs			= 0;
 	mNbRegions			= 0;
 	mFirstFreeIndex		= INVALID_ID;
 	mFirstFreeIndexBP	= INVALID_ID;
@@ -3183,8 +3222,10 @@ BroadPhaseMBP::BroadPhaseMBP(	PxU32 maxNbRegions,
 	mMapping				(NULL),
 	mCapacity				(0),
 	mGroups					(NULL)
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	,mLUT					(NULL)
+#endif
 {
-
 	mMBP = PX_NEW(MBP)();
 
 	const PxU32 nbObjects = maxNbStaticShapes + maxNbDynamicShapes;
@@ -3281,11 +3322,6 @@ PxU32 BroadPhaseMBP::addRegion(const PxBroadPhaseRegion& region, bool populateRe
 bool BroadPhaseMBP::removeRegion(PxU32 handle)
 {
 	return mMBP->removeRegion(handle);
-}
-
-void BroadPhaseMBP::destroy()
-{
-	delete this;
 }
 
 void BroadPhaseMBP::update(const PxU32 numCpuTasks, PxcScratchAllocator* scratchAllocator, const BroadPhaseUpdateData& updateData, physx::PxBaseTask* continuation, physx::PxBaseTask* narrowPhaseUnblockTask)
@@ -3425,7 +3461,7 @@ void BroadPhaseMBP::addObjects(const BroadPhaseUpdateData& updateData)
 	if(created)
 	{
 		const PxBounds3* PX_RESTRICT boundsXYZ = updateData.getAABBs();
-		const BpHandle* PX_RESTRICT groups = updateData.getGroups();
+		const Bp::FilterGroup::Enum* PX_RESTRICT groups = updateData.getGroups();
 
 		PxU32 nbToGo = updateData.getNumCreatedHandles();
 		while(nbToGo--)
@@ -3453,6 +3489,7 @@ void BroadPhaseMBP::setUpdateData(const BroadPhaseUpdateData& updateData)
 		allocateMappingArray(newCapacity);
 
 #if PX_CHECKED
+	// PT: WARNING: this must be done after the allocateMappingArray call
 	if(!BroadPhaseUpdateData::isValid(updateData, *this))
 	{
 		PX_CHECK_MSG(false, "Illegal BroadPhaseUpdateData \n");
@@ -3460,7 +3497,10 @@ void BroadPhaseMBP::setUpdateData(const BroadPhaseUpdateData& updateData)
 	}
 #endif
 
-	mGroups = updateData.getGroups();	// ### why are those 'handles'?
+	mGroups = updateData.getGroups();
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	mLUT = updateData.getLUT();
+#endif
 
 	// ### TODO: handle groups inside MBP
 	// ### TODO: get rid of AABB conversions
@@ -3480,7 +3520,11 @@ void BroadPhaseMBP::update()
 #ifdef CHECK_NB_OVERLAPS
 	gNbOverlaps = 0;
 #endif
-	mMBP->findOverlaps(mGroups);
+	mMBP->findOverlaps(mGroups
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+	, mLUT
+#endif		
+		);
 #ifdef CHECK_NB_OVERLAPS
 	printf("PPU: %d overlaps\n", gNbOverlaps);
 #endif

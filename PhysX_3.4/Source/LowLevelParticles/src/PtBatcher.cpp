@@ -23,7 +23,7 @@
 // components in life support devices or systems without express written approval of
 // NVIDIA Corporation.
 //
-// Copyright (c) 2008-2017 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -44,6 +44,7 @@ using namespace Pt;
 
 namespace
 {
+#if PX_SUPPORT_GPU_PHYSX
 template <class T>
 static void sortBatchedInputs(ParticleSystemSim** particleSystems, T* inputs, PxU32 batchSize, PxU32& cpuOffset,
                               PxU32& cpuCount, PxU32& gpuOffset, PxU32& gpuCount)
@@ -90,6 +91,7 @@ static void sortBatchedInputs(ParticleSystemSim** particleSystems, T* inputs, Px
 	cpuCount = gpuOffset;
 	gpuCount = batchSize - cpuCount;
 }
+#endif
 }
 
 Batcher::Batcher(class Context& _context)
