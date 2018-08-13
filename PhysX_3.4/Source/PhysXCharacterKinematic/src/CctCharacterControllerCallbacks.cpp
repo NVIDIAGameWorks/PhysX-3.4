@@ -44,7 +44,7 @@
 #include "PsMathUtils.h"
 #include "GuSIMDHelpers.h"
 
-static const bool gVisualizeTouchedTris = true;
+static const bool gVisualizeTouchedTris = false;
 static const float gDebugVisOffset = 0.01f;
 
 using namespace physx;
@@ -244,7 +244,7 @@ static void outputPlaneToStream(PxShape* planeShape, const PxRigidActor* actor, 
 	TouchedTriangles[1].verts[2] = p3 + offset;
 
 	if(gVisualizeTouchedTris)
-		visualizeTouchedTriangles(touchedMesh->mNbTris, touchedMesh->mIndexWorldTriangles, &worldTriangles.getTriangle(0), renderBuffer, offset, params.mUpDirection);
+		visualizeTouchedTriangles(touchedMesh->mNbTris, touchedMesh->mIndexWorldTriangles, worldTriangles.begin(), renderBuffer, offset, params.mUpDirection);
 }
 
 static void outputSphereToStream(PxShape* sphereShape, const PxRigidActor* actor, const PxTransform& globalPose, IntArray& geomStream, const PxExtendedVec3& origin)
@@ -623,7 +623,7 @@ static void outputMeshToStream(	PxShape* meshShape, const PxRigidActor* actor, c
 	}
 
 	if(gVisualizeTouchedTris)
-		visualizeTouchedTriangles(touchedMesh->mNbTris, touchedMesh->mIndexWorldTriangles, &worldTriangles.getTriangle(0), renderBuffer, offset, params.mUpDirection);
+		visualizeTouchedTriangles(touchedMesh->mNbTris, touchedMesh->mIndexWorldTriangles, worldTriangles.begin(), renderBuffer, offset, params.mUpDirection);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -763,7 +763,7 @@ static void outputHeightFieldToStream(	PxShape* hfShape, const PxRigidActor* act
 	}
 
 	if(gVisualizeTouchedTris)
-		visualizeTouchedTriangles(touchedMesh->mNbTris, touchedMesh->mIndexWorldTriangles, &worldTriangles.getTriangle(0), renderBuffer, offset, params.mUpDirection);
+		visualizeTouchedTriangles(touchedMesh->mNbTris, touchedMesh->mIndexWorldTriangles, worldTriangles.begin(), renderBuffer, offset, params.mUpDirection);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -891,7 +891,7 @@ static void outputConvexToStream(PxShape* convexShape, const PxRigidActor* actor
 		}
 	}
 	if(gVisualizeTouchedTris)
-		visualizeTouchedTriangles(touchedMesh->mNbTris, touchedMesh->mIndexWorldTriangles, &worldTriangles.getTriangle(0), renderBuffer, offset, params.mUpDirection);
+		visualizeTouchedTriangles(touchedMesh->mNbTris, touchedMesh->mIndexWorldTriangles, worldTriangles.begin(), renderBuffer, offset, params.mUpDirection);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

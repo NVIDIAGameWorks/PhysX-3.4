@@ -61,8 +61,8 @@ namespace physx
 			bool operator()(const PrunerPayload* objects, const PxBounds3* boxes, const Tree& tree, const Test& test, PrunerCallback& visitor)
 			{
 				using namespace Cm;
-
-				const Node* stack[RAW_TRAVERSAL_STACK_SIZE];
+				Ps::InlineArray<const Node*, RAW_TRAVERSAL_STACK_SIZE> stack;
+				stack.forceSize_Unsafe(RAW_TRAVERSAL_STACK_SIZE);
 				const Node* const nodeBase = tree.getNodes();
 				stack[0] = nodeBase;
 				PxU32 stackIndex = 1;
@@ -111,7 +111,8 @@ namespace physx
 
 						node = children;
 						stack[stackIndex++] = children + 1;
-						PX_ASSERT(stackIndex < RAW_TRAVERSAL_STACK_SIZE);
+						if(stackIndex == stack.capacity())
+							stack.resizeUninitialized(stack.capacity() * 2);
 						node->getAABBCenterExtentsV(&center, &extents);
 					}
 				}
@@ -173,7 +174,8 @@ namespace physx
 				// So we initialize the test with values multiplied by 2 as well, to get correct results
 				Gu::RayAABBTest test(origin*2.0f, unitDir*2.0f, maxDist, inflation*2.0f);
 
-				const Node* stack[RAW_TRAVERSAL_STACK_SIZE]; // stack always contains PPU addresses
+				Ps::InlineArray<const Node*, RAW_TRAVERSAL_STACK_SIZE> stack;
+				stack.forceSize_Unsafe(RAW_TRAVERSAL_STACK_SIZE);
 				const Node* const nodeBase = tree.getNodes();
 				stack[0] = nodeBase;
 				PxU32 stackIndex = 1;
@@ -205,7 +207,8 @@ namespace physx
 								const PxU32 bit = FAllGrtr(V3Dot(V3Sub(c1, c0), test.mDir), FZero()) & 1;
 								stack[stackIndex++] = children + bit;
 								node = children + (1 - bit);
-								PX_ASSERT(stackIndex < RAW_TRAVERSAL_STACK_SIZE);
+								if (stackIndex == stack.capacity())
+									stack.resizeUninitialized(stack.capacity() * 2);
 							}
 							else if (b0)
 								node = children;

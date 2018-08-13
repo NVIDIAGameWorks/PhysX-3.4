@@ -193,25 +193,21 @@ namespace Gu
 	class EdgeBuffer
 	{
 	public:
-		EdgeBuffer() : m_Size(0)
+		EdgeBuffer() : m_Size(0), m_OverFlow(false)
 		{
-		}
-
-		Edge* Insert(const Edge& edge)
-		{
-			PX_ASSERT(m_Size < MaxEdges);
-			Edge* PX_RESTRICT pEdge = &m_pEdges[m_Size++];
-			*pEdge = edge;
-			return pEdge;
 		}
 
 		Edge* Insert(Facet* PX_RESTRICT  facet, const PxU32 index)
 		{
-			PX_ASSERT(m_Size < MaxEdges);
-			Edge* pEdge = &m_pEdges[m_Size++];
-			pEdge->m_facet=facet;
-			pEdge->m_index=index;
-			return pEdge;
+			if (m_Size < MaxEdges)
+			{
+				Edge* pEdge = &m_pEdges[m_Size++];
+				pEdge->m_facet = facet;
+				pEdge->m_index = index;
+				return pEdge;
+			}
+			m_OverFlow = true;
+			return NULL;
 		}
 
 		Edge* Get(const PxU32 index)
@@ -225,18 +221,20 @@ namespace Gu
 			return m_Size;
 		}
 
-		bool IsEmpty()
+		bool IsValid()
 		{
-			return m_Size == 0;
+			return m_Size > 0 && !m_OverFlow;
 		}
 
 		void MakeEmpty()
 		{
 			m_Size = 0;
+			m_OverFlow = false;
 		}
 
-		Edge m_pEdges[MaxEdges];
-		PxU32 m_Size;
+		Edge	m_pEdges[MaxEdges];
+		PxU32	m_Size;
+		bool	m_OverFlow;
 	};
 
 	//ML: calculate MTD points for a shape pair

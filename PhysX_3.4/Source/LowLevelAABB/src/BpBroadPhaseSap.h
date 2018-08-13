@@ -200,8 +200,8 @@ private:
 			PxU32						mActualDeletedPairSize;
 
 			bool						setUpdateData(const BroadPhaseUpdateData& updateData);
-			void						update(physx::PxBaseTask* continuation);
-			void						postUpdate(physx::PxBaseTask* continuation);
+			void						update();
+			void						postUpdate();
 
 	//Batch create/remove/update.
 			void						batchCreate();

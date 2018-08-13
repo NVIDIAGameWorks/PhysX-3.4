@@ -79,7 +79,7 @@ public:
 		if(!intersectRayTriangle(mOrigin, mDir, vert0, vert1, vert2, hit.distance, hit.u, hit.v, !mBothSides, mGeomEpsilon))
 			return false;
 
-		if(hit.distance<-mGeomEpsilon) // test if the ray intersection t is really negative
+		if(hit.distance< 0.0f) // test if the ray intersection t is negative
 			return false;
 
 		return true;

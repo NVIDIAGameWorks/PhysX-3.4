@@ -622,7 +622,7 @@ bool BroadPhaseSap::setUpdateData(const BroadPhaseUpdateData& updateData)
 	return true;
 }
 
-void BroadPhaseSap::postUpdate(PxBaseTask* /*continuation*/)
+void BroadPhaseSap::postUpdate()
 {
 	PX_PROFILE_ZONE("BroadPhase.SapPostUpdate", mContextID);
 
@@ -678,7 +678,7 @@ void BroadPhaseBatchUpdateWorkTask::runInternal()
 	mSap->batchUpdate(mAxis, mPairs, mPairsSize, mPairsCapacity);
 }
 
-void BroadPhaseSap::update(PxBaseTask* /*continuation*/)
+void BroadPhaseSap::update()
 {
 	PX_PROFILE_ZONE("BroadPhase.SapUpdate", mContextID);
 

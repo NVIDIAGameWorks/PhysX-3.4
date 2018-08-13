@@ -189,6 +189,7 @@ static void resetOrClear(T& a)
 															return mRS.GetRanks();
 														}
 #endif
+
 						PxBounds3						mBounds;
 		private:
 #ifndef STORE_SORTED_BOUNDS
@@ -596,7 +597,7 @@ class PersistentPairs : public Ps::UserAllocated
 										mShouldBeDeleted(false)					{}
 	virtual							~PersistentPairs()							{}
 
-	virtual			bool			update(SimpleAABBManager& /*manager*/)		{ return false; }
+	virtual			bool			update(SimpleAABBManager& /*manager*/, BpCacheData* /*data*/ = NULL)		{ return false; }
 
 	PX_FORCE_INLINE	void			updatePairs(PxU32 timestamp, const PxBounds3* bounds, const float* contactDistances, const Bp::FilterGroup::Enum* groups,
 #ifdef BP_FILTERING_USES_TYPE_IN_GROUP
@@ -883,7 +884,7 @@ class PersistentActorAggregatePair : public PersistentPairs
 	, const bool* PX_RESTRICT lut
 #endif
 		);
-	virtual			bool		update(SimpleAABBManager& manager);
+	virtual			bool		update(SimpleAABBManager& manager, BpCacheData* data);
 
 					ShapeHandle	mAggregateHandle;
 					ShapeHandle	mActorHandle;
@@ -1013,7 +1014,7 @@ void PersistentActorAggregatePair::findOverlaps(PairArray& pairs, const PxBounds
 	}
 }
 
-bool PersistentActorAggregatePair::update(SimpleAABBManager& manager)
+bool PersistentActorAggregatePair::update(SimpleAABBManager& manager, BpCacheData* data)
 {
 	if(mShouldBeDeleted || shouldPairBeDeleted(manager.mGroups, mAggregateHandle, mActorHandle))
 		return true;
@@ -1022,7 +1023,7 @@ bool PersistentActorAggregatePair::update(SimpleAABBManager& manager)
 		return true;
 
 	if(mAggregate->isDirty() || manager.mChangedHandleMap.boundedTest(mActorHandle))
-		manager.updatePairs(*this);
+		manager.updatePairs(*this, data);
 
 	return false;
 }
@@ -1040,7 +1041,7 @@ class PersistentAggregateAggregatePair : public PersistentPairs
 	, const bool* PX_RESTRICT lut
 #endif
 		);
-	virtual			bool		update(SimpleAABBManager& manager);
+	virtual			bool		update(SimpleAABBManager& manager, BpCacheData*);
 
 					ShapeHandle	mAggregateHandle0;
 					ShapeHandle	mAggregateHandle1;
@@ -1183,7 +1184,7 @@ void PersistentAggregateAggregatePair::findOverlaps(PairArray& pairs, const PxBo
 	}
 }
 
-bool PersistentAggregateAggregatePair::update(SimpleAABBManager& manager)
+bool PersistentAggregateAggregatePair::update(SimpleAABBManager& manager, BpCacheData* data)
 {
 	if(mShouldBeDeleted || shouldPairBeDeleted(manager.mGroups, mAggregateHandle0, mAggregateHandle1))
 		return true;
@@ -1192,7 +1193,7 @@ bool PersistentAggregateAggregatePair::update(SimpleAABBManager& manager)
 		return true;
 
 	if(mAggregate0->isDirty() || mAggregate1->isDirty())
-		manager.updatePairs(*this);
+		manager.updatePairs(*this, data);
 
 	return false;
 }
@@ -1584,6 +1585,8 @@ void SimpleAABBManager::reserveShapeSpace(PxU32 nbTotalBounds)
 SimpleAABBManager::SimpleAABBManager(	BroadPhase& bp, BoundsArray& boundsArray, Ps::Array<PxReal, Ps::VirtualAllocator>& contactDistance,
 										PxU32 maxNbAggregates, PxU32 maxNbShapes, Ps::VirtualAllocator& allocator, PxU64 contextID,
 										PxPairFilteringMode::Enum kineKineFilteringMode, PxPairFilteringMode::Enum staticKineFilteringMode) :
+	mPostBroadPhase2			(contextID, *this),
+	mPostBroadPhase3			(contextID, this, "SimpleAABBManager::postBroadPhaseStage3"),
 	mFinalizeUpdateTask			(contextID),
 	mChangedHandleMap			(allocator),
 	mGroups						(allocator),
@@ -1671,6 +1674,14 @@ void SimpleAABBManager::destroy()
 			Aggregate* a = mAggregates[i];
 			PX_DELETE(a);
 		}
+	}
+
+	BpCacheData* entry = static_cast<BpCacheData*>(mBpThreadContextPool.pop());
+	while (entry)
+	{
+		entry->~BpCacheData();
+		PX_FREE(entry);
+		entry = static_cast<BpCacheData*>(mBpThreadContextPool.pop());
 	}
 
 	PX_DELETE(this);
@@ -2412,13 +2423,24 @@ PersistentAggregateAggregatePair* SimpleAABBManager::createPersistentAggregateAg
 	return PX_NEW(PersistentAggregateAggregatePair)(aggregate0, aggregate1);	// PT: TODO: use a pool or something
 }
 
-void SimpleAABBManager::updatePairs(PersistentPairs& p)
+void SimpleAABBManager::updatePairs(PersistentPairs& p, BpCacheData* data)
 {
+	if (data)
+	{
 #ifdef BP_FILTERING_USES_TYPE_IN_GROUP
-	p.updatePairs(mTimestamp, mBoundsArray.begin(), mContactDistance.begin(), mGroups.begin(), &mLUT[0][0], mVolumeData, mCreatedOverlaps, mDestroyedOverlaps);
+		p.updatePairs(mTimestamp, mBoundsArray.begin(), mContactDistance.begin(), mGroups.begin(), &mLUT[0][0], mVolumeData, data->mCreatedPairs, data->mDeletedPairs);
 #else
-	p.updatePairs(mTimestamp, mBoundsArray.begin(), mContactDistance.begin(), mGroups.begin(), mVolumeData, mCreatedOverlaps, mDestroyedOverlaps);
+		p.updatePairs(mTimestamp, mBoundsArray.begin(), mContactDistance.begin(), mGroups.begin(), mVolumeData, data->mCreatedPairs, data->mDeletedPairs);
 #endif
+	}
+	else
+	{
+#ifdef BP_FILTERING_USES_TYPE_IN_GROUP
+		p.updatePairs(mTimestamp, mBoundsArray.begin(), mContactDistance.begin(), mGroups.begin(), &mLUT[0][0], mVolumeData, mCreatedOverlaps, mDestroyedOverlaps);
+#else
+		p.updatePairs(mTimestamp, mBoundsArray.begin(), mContactDistance.begin(), mGroups.begin(), mVolumeData, mCreatedOverlaps, mDestroyedOverlaps);
+#endif
+	}
 }
 
 void SimpleAABBManager::processBPCreatedPair(const BroadPhasePair& pair)
@@ -2566,9 +2588,221 @@ static void processAggregatePairs(AggPairMap& map, SimpleAABBManager& manager)
 	}
 }
 
-void SimpleAABBManager::postBroadPhase(PxBaseTask*, PxBaseTask* narrowPhaseUnlockTask)
+struct PairData
+{
+	Ps::Array<AABBOverlap>* mArray;
+	PxU32 mStartIdx;
+	PxU32 mCount;
+
+	PairData() : mArray(NULL), mStartIdx(0), mCount(0)
+	{
+	}
+};
+
+class ProcessAggPairsBase : public Cm::Task
+{
+public:
+	static const PxU32 MaxPairs = 16;
+
+	PairData mCreatedPairs[2];
+	PairData mDestroyedPairs[2];
+
+	ProcessAggPairsBase(PxU64 contextID) : Cm::Task(contextID)
+	{
+	}
+
+	void setCache(BpCacheData& data)
+	{
+		for (PxU32 i = 0; i < 2; ++i)
+		{
+			mCreatedPairs[i].mArray = &data.mCreatedPairs[i];
+			mCreatedPairs[i].mStartIdx = data.mCreatedPairs[i].size();
+			mDestroyedPairs[i].mArray = &data.mDeletedPairs[i];
+			mDestroyedPairs[i].mStartIdx = data.mDeletedPairs[i].size();
+		}
+	}
+
+	void updateCounters()
+	{
+		for (PxU32 i = 0; i < 2; ++i)
+		{
+			mCreatedPairs[i].mCount = mCreatedPairs[i].mArray->size() - mCreatedPairs[i].mStartIdx;
+			mDestroyedPairs[i].mCount = mDestroyedPairs[i].mArray->size() - mDestroyedPairs[i].mStartIdx;
+		}
+	}
+};
+
+
+class ProcessAggPairsParallelTask : public ProcessAggPairsBase
+{
+public:
+	PersistentPairs* mPersistentPairs[MaxPairs];
+	Bp::AggPair mAggPairs[MaxPairs];
+	PxU32 mNbPairs;
+	Bp::SimpleAABBManager* mManager;
+	AggPairMap* mMap;
+	Ps::Mutex* mMutex;
+	const char* mName;
+
+	ProcessAggPairsParallelTask(PxU64 contextID, Ps::Mutex* mutex, Bp::SimpleAABBManager* manager, AggPairMap* map, const char* name) : ProcessAggPairsBase(contextID),
+		mNbPairs(0), mManager(manager), mMap(map), mMutex(mutex), mName(name)
+	{
+	}
+
+
+	void runInternal()
+	{
+		BpCacheData* data = mManager->getBpCacheData();
+
+		setCache(*data);
+
+
+		Ps::InlineArray<AggPair, MaxPairs> removedEntries;
+		for (PxU32 i = 0; i < mNbPairs; ++i)
+		{
+			if (mPersistentPairs[i]->update(*mManager, data))
+			{
+				removedEntries.pushBack(mAggPairs[i]);
+				PX_DELETE(mPersistentPairs[i]);
+			}
+		}
+
+		updateCounters();
+
+		mManager->putBpCacheData(data);
+
+
+		if (removedEntries.size())
+		{
+			Ps::Mutex::ScopedLock lock(*mMutex);
+			for (PxU32 i = 0; i < removedEntries.size(); i++)
+			{
+				bool status = mMap->erase(removedEntries[i]);
+				PX_ASSERT(status);
+				PX_UNUSED(status);
+			}
+		}
+
+		
+	}
+
+	virtual const char* getName() const { return mName; }
+
+};
+
+class SortAggregateBoundsParallel : public Cm::Task
+{
+public:
+	static const PxU32 MaxPairs = 16;
+	Aggregate** mAggregates;
+	PxU32 mNbAggs;
+	Bp::SimpleAABBManager* mManager;
+
+	SortAggregateBoundsParallel(PxU64 contextID, Aggregate** aggs, PxU32 nbAggs) : Cm::Task(contextID),
+		mAggregates(aggs), mNbAggs(nbAggs)
+	{
+	}
+
+
+	void runInternal()
+	{
+		PX_PROFILE_ZONE("SortBounds", mContextID);
+		for (PxU32 i = 0; i < mNbAggs; i++)
+		{
+			Aggregate* aggregate = mAggregates[i];
+
+			aggregate->getSortedMinBounds();
+		}
+	}
+
+	virtual const char* getName() const { return "SortAggregateBoundsParallel"; }
+
+};
+
+
+class ProcessSelfCollisionPairsParallel : public ProcessAggPairsBase
+{
+public:
+	Aggregate** mAggregates;
+	PxU32 mNbAggs;
+	Bp::SimpleAABBManager* mManager;
+
+	ProcessSelfCollisionPairsParallel(PxU64 contextID, Aggregate** aggs, PxU32 nbAggs, SimpleAABBManager* manager) : ProcessAggPairsBase(contextID),
+		mAggregates(aggs), mNbAggs(nbAggs), mManager(manager)
+	{
+	}
+
+
+	void runInternal()
+	{
+		BpCacheData* data = mManager->getBpCacheData();
+		setCache(*data);
+		PX_PROFILE_ZONE("ProcessSelfCollisionPairs", mContextID);
+		for (PxU32 i = 0; i < mNbAggs; i++)
+		{
+			Aggregate* aggregate = mAggregates[i];
+
+			if (aggregate->mSelfCollisionPairs)
+				mManager->updatePairs(*aggregate->mSelfCollisionPairs, data);
+		}
+		updateCounters();
+		mManager->putBpCacheData(data);
+	}
+
+	virtual const char* getName() const { return "ProcessSelfCollisionPairsParallel"; }
+
+};
+
+static void processAggregatePairsParallel(AggPairMap& map, SimpleAABBManager& manager, Cm::FlushPool& flushPool,
+	PxBaseTask* continuation, const char* taskName, Ps::Array<ProcessAggPairsBase*>& pairTasks)
+{
+	// PT: TODO: hmmm we have a list of dirty aggregates but we don't have a list of dirty pairs.
+	// PT: not sure how the 3.4 trunk solves this but let's just iterate all pairs for now
+	// PT: atm we reuse this loop to delete removed interactions
+	// PT: TODO: in fact we could handle all the "lost pairs" stuff right there with extra aabb-abb tests
+
+	// PT: TODO: replace with decent hash map - or remove the hashmap entirely and use a linear array
+
+	manager.mMapLock.lock();
+
+	ProcessAggPairsParallelTask* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(ProcessAggPairsParallelTask)), ProcessAggPairsParallelTask)(0, &manager.mMapLock, &manager, &map, taskName);
+
+	for (AggPairMap::Iterator iter = map.getIterator(); !iter.done(); ++iter)
+	{
+		task->mAggPairs[task->mNbPairs] = iter->first;
+		task->mPersistentPairs[task->mNbPairs++] = iter->second;
+		if (task->mNbPairs == ProcessAggPairsParallelTask::MaxPairs)
+		{
+			pairTasks.pushBack(task);
+			task->setContinuation(continuation);
+			task->removeReference();
+			//task->runInternal();
+			task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(ProcessAggPairsParallelTask)), ProcessAggPairsParallelTask)(0, &manager.mMapLock, &manager, &map, taskName);
+		}
+	}
+
+	manager.mMapLock.unlock();
+
+	if (task->mNbPairs)
+	{
+		pairTasks.pushBack(task);
+		task->setContinuation(continuation);
+		task->removeReference();
+		//task->runInternal();
+	}
+}
+
+void SimpleAABBManager::postBroadPhase(PxBaseTask* continuation, PxBaseTask* narrowPhaseUnlockTask, Cm::FlushPool& flushPool)
 {
 	PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase", getContextId());
+
+	//KS - There is a continuation task for discrete broad phase, but not for CCD broad phase. PostBroadPhase for CCD broad phase runs in-line.
+	//This probably should be revisited but it means that we can't use the parallel codepath within CCD.
+	if (continuation)
+	{
+		mPostBroadPhase3.setContinuation(continuation);
+		mPostBroadPhase2.setContinuation(&mPostBroadPhase3);
+	}
 
 	mTimestamp++;
 
@@ -2592,27 +2826,140 @@ void SimpleAABBManager::postBroadPhase(PxBaseTask*, PxBaseTask* narrowPhaseUnloc
 	}
 
 	{
+		//If there is a continuation task, then this is not part of CCD, so we can trigger bounds to be recomputed in parallel before pair generation runs during
+		//stage 2.			
+		if (continuation)
 		{
-			PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - process actor-aggregate pairs", getContextId());
-			processAggregatePairs(mActorAggregatePairs, *this);
+			const PxU32 size = mDirtyAggregates.size();
+			for (PxU32 i = 0; i < size; i += SortAggregateBoundsParallel::MaxPairs)
+			{
+				const PxU32 nbToProcess = PxMin(size - i, SortAggregateBoundsParallel::MaxPairs);
+
+				SortAggregateBoundsParallel* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(SortAggregateBoundsParallel)), SortAggregateBoundsParallel)
+					(mContextID, &mDirtyAggregates[i], nbToProcess);
+
+				task->setContinuation(&mPostBroadPhase2);
+				task->removeReference();
+			}
 		}
+	}
+
+	
+
+	if (continuation)
+	{
+		mPostBroadPhase2.setFlushPool(&flushPool);
+		mPostBroadPhase3.removeReference();
+		mPostBroadPhase2.removeReference();
+	}
+	else
+	{
+		postBpStage2(NULL, flushPool);
+		postBpStage3(NULL);
+	}
+
+}
+
+void PostBroadPhaseStage2Task::runInternal()
+{
+	mManager.postBpStage2(mCont, *mFlushPool);
+}
+
+void SimpleAABBManager::postBpStage2(PxBaseTask* continuation, Cm::FlushPool& flushPool)
+{
+	{
 		{
-			PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - process aggregate pairs", getContextId());
-			processAggregatePairs(mAggregateAggregatePairs, *this);
+			const PxU32 size = mDirtyAggregates.size();
+			for (PxU32 i = 0; i < size; i += ProcessSelfCollisionPairsParallel::MaxPairs)
+			{
+				const PxU32 nbToProcess = PxMin(size - i, ProcessSelfCollisionPairsParallel::MaxPairs);
+
+				ProcessSelfCollisionPairsParallel* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(ProcessSelfCollisionPairsParallel)), ProcessSelfCollisionPairsParallel)
+					(mContextID, &mDirtyAggregates[i], nbToProcess, this);
+				if (continuation)
+				{
+					task->setContinuation(continuation);
+					task->removeReference();
+				}
+				else
+					task->runInternal();
+				mAggPairTasks.pushBack(task);
+			}
 		}
 
 		{
+			if (continuation)
+				processAggregatePairsParallel(mAggregateAggregatePairs, *this, flushPool, continuation, "AggAggPairs", mAggPairTasks);
+			else
+				processAggregatePairs(mAggregateAggregatePairs, *this);
+		}
+
+
+
+		{
+			if (continuation)
+				processAggregatePairsParallel(mActorAggregatePairs, *this, flushPool, continuation, "AggActorPairs", mAggPairTasks);
+			else
+				processAggregatePairs(mActorAggregatePairs, *this);
+		}
+
+
+	}
+}
+
+void SimpleAABBManager::postBpStage3(PxBaseTask*)
+{
+
+	{
+		{
 			PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - aggregate self-collisions", getContextId());
 			const PxU32 size = mDirtyAggregates.size();
-			for(PxU32 i=0;i<size;i++)
+			for (PxU32 i = 0; i < size; i++)
 			{
 				Aggregate* aggregate = mDirtyAggregates[i];
 				aggregate->resetDirtyState();
 
-				if(aggregate->mSelfCollisionPairs)
-					updatePairs(*aggregate->mSelfCollisionPairs);
 			}
 			resetOrClear(mDirtyAggregates);
+		}
+		
+		{
+			PX_PROFILE_ZONE("SimpleAABBManager::postBroadPhase - append pairs", getContextId());
+
+			for (PxU32 a = 0; a < mAggPairTasks.size(); ++a)
+			{
+				ProcessAggPairsBase* task = mAggPairTasks[a];
+				for (PxU32 t = 0; t < 2; t++)
+				{
+					for (PxU32 i = 0, startIdx = task->mCreatedPairs[t].mStartIdx; i < task->mCreatedPairs[t].mCount; ++i)
+					{
+						mCreatedOverlaps[t].pushBack((*task->mCreatedPairs[t].mArray)[i+ startIdx]);
+					}
+					for (PxU32 i = 0, startIdx = task->mDestroyedPairs[t].mStartIdx; i < task->mDestroyedPairs[t].mCount; ++i)
+					{
+						mDestroyedOverlaps[t].pushBack((*task->mDestroyedPairs[t].mArray)[i + startIdx]);
+					}
+				}
+			}
+
+			mAggPairTasks.forceSize_Unsafe(0);
+
+
+			Ps::InlineArray<BpCacheData*, 16> bpCache;
+			BpCacheData* entry = static_cast<BpCacheData*>(mBpThreadContextPool.pop());
+
+			while (entry)
+			{
+				entry->reset();
+				bpCache.pushBack(entry);
+				entry = static_cast<BpCacheData*>(mBpThreadContextPool.pop());
+			}
+
+			//Now reinsert back into queue...
+			for (PxU32 i = 0; i < bpCache.size(); ++i)
+			{
+				mBpThreadContextPool.push(*bpCache[i]);
+			}
 		}
 	}
 
@@ -2706,6 +3053,37 @@ void SimpleAABBManager::shiftOrigin(const PxVec3& shift)
 {
 	mBroadPhase.shiftOrigin(shift);
 	mOriginShifted = true;
+}
+
+BpCacheData* SimpleAABBManager::getBpCacheData()
+{
+	BpCacheData* rv = static_cast<BpCacheData*>(mBpThreadContextPool.pop());
+	if (rv == NULL)
+	{
+		rv = PX_PLACEMENT_NEW(PX_ALLOC(sizeof(BpCacheData), PX_DEBUG_EXP("BpCacheData")), BpCacheData)();
+	}
+	return rv;
+}
+void SimpleAABBManager::putBpCacheData(BpCacheData* data)
+{
+	mBpThreadContextPool.push(*data);
+}
+void SimpleAABBManager::resetBpCacheData()
+{
+	Ps::InlineArray<BpCacheData*, 16> bpCache;
+	BpCacheData* entry = static_cast<BpCacheData*>(mBpThreadContextPool.pop());
+	while (entry)
+	{
+		entry->reset();
+		bpCache.pushBack(entry);
+		entry = static_cast<BpCacheData*>(mBpThreadContextPool.pop());
+	}
+
+	//Now reinsert back into queue...
+	for (PxU32 i = 0; i < bpCache.size(); ++i)
+	{
+		mBpThreadContextPool.push(*bpCache[i]);
+	}
 }
 
 // PT: disabled this by default, since it bypasses all per-shape/per-actor visualization flags

@@ -96,8 +96,8 @@ namespace Sq
 		PX_FORCE_INLINE	PxU32				getNbObjects()	const { return mAABBTree[0].mapping.size() + mAABBTree[1].mapping.size(); }
 
 	private:
-		void				updateMapping(bool split, IncrementalPrunerMap& mapping, const PoolIndex poolIndex, IncrementalAABBTreeNode* node);
-		void				test();			
+		void				updateMapping(IncrementalPrunerMap& mapping, const PoolIndex poolIndex, IncrementalAABBTreeNode* node);
+		void				test(bool chierarcyCheck = true);			
 
 	private:
 		static const PxU32		NUM_TREES = 2;
@@ -106,6 +106,7 @@ namespace Sq
 		PxU32					mLastTree;
 		CoreTree				mAABBTree[NUM_TREES];
 		const PruningPool*		mPool;					// Pruning pool from AABB pruner
+		NodeList				mChangedLeaves;
 	};
 
 }}

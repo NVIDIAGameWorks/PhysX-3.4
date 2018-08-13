@@ -35,6 +35,7 @@
 */
 
 #include "geometry/PxHeightFieldFlag.h"
+#include "geometry/PxHeightFieldSample.h"
 #include "common/PxBase.h"
 
 #if !PX_DOXYGEN
@@ -233,6 +234,15 @@ class PxHeightField	: public PxBase
 	\return Triangle normal for a given triangle index
 	*/
 	PX_PHYSX_COMMON_API virtual	PxVec3					getTriangleNormal(PxTriangleID triangleIndex) const = 0;
+
+	/**
+	\brief Returns heightfield sample of given row and column	
+
+	\param[in] row Given heightfield row
+	\param[in] column Given heightfield column
+	\return Heightfield sample
+	*/
+	PX_PHYSX_COMMON_API virtual	const PxHeightFieldSample&	getSample(PxU32 row, PxU32 column) const = 0;
 
 	/**
 	\brief Returns the number of times the heightfield data has been modified

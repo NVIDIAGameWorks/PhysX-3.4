@@ -27,37 +27,3 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "BpMBPTasks.h"
-#include "BpBroadPhaseMBP.h"
-#include "PsAllocator.h"
-
-using namespace physx;
-using namespace Bp;
-
-///////////////////////////////////////////////////////////////////////////////
-
-MBPUpdateWorkTask::MBPUpdateWorkTask(PxU64 contextId) : MBPTask(contextId)
-{
-}
-
-MBPUpdateWorkTask::~MBPUpdateWorkTask()
-{
-}
-
-MBPPostUpdateWorkTask::MBPPostUpdateWorkTask(PxU64 contextId) : MBPTask(contextId)
-{
-}
-
-void MBPUpdateWorkTask::runInternal()
-{
-	mMBP->update();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void MBPPostUpdateWorkTask::runInternal()
-{
-	mMBP->postUpdate();
-}
-
-///////////////////////////////////////////////////////////////////////////////

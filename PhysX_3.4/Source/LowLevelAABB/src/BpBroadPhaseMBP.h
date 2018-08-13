@@ -41,8 +41,6 @@ namespace physx
 {
 namespace Bp
 {
-	class BPDefaultMemoryAllocator;
-
 	class BroadPhaseMBP : public BroadPhase, public Ps::UserAllocated
 	{
 											PX_NOCOPY(BroadPhaseMBP)

@@ -2383,6 +2383,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#dd82906e8c19fcc1b24fda52140a58d9"><param name="Name" value="getRigidDynamicActor"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxRigidDynamic.html#a88e055440d6c1cc846e32dbed017345"><param name="Name" value="getRigidDynamicLockFlags"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxDefaultCpuDispatcher.html#40f8719e94a4b87017c1865b85ac1930"><param name="Name" value="getRunProfiled"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightField.html#15f91d308f23a987dc672614aa64d5fa"><param name="Name" value="getSample"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightField.html#34935489b77f6d386bdfe15b4f10b00e"><param name="Name" value="getSampleStride"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxActor.html#2bf2e48b1960ef8e4fc1a437473bd7a3"><param name="Name" value="getScene"></OBJECT>
   <UL>
@@ -3679,6 +3680,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__character.html#g81a73ed06438569e730320f322376ae8"><param name="Name" value="PxCapsuleControllerDesc"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__character.html#ge237ed6fc1c29cdf83cda84e7e0c8b39"><param name="Name" value="PxControllerDesc"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxDefaultMemoryOutputStream.html#f324822d2b0d254c8755c3d96dd1fc15"><param name="Name" value="PxDefaultMemoryOutputStream"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterData.html#20d8e3db97e925668d7eba863795b679"><param name="Name" value="PxFilterData"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxFixedSizeLookupTable.html#8292ce2756c85eb0520209cb15e605f2"><param name="Name" value="PxFixedSizeLookupTable"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group__foundation.html#g2931b1ac387a4417fb6053704b2ef327"><param name="Name" value="PxFlags"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxMat33.html#dcd8ef696b2539be02bc61bcd61dcbc4"><param name="Name" value="PxMat33"></OBJECT>
@@ -7215,6 +7217,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterData.html"><param name="Name" value="PxFilterData"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterData.html#7a8d658d4d0d02e5792bb285e4c6eb8e"><param name="Name" value="operator!="></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterData.html#20d8e3db97e925668d7eba863795b679"><param name="Name" value="operator="></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterData.html#535a321fcf2f15b37a31aafdb5bfef14"><param name="Name" value="operator=="></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterData.html#469ff4e6a40879e92ed4dc5de4b68a48"><param name="Name" value="PxFilterData"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxFilterData.html#d6d40431c37145235eaceea47f57b9b5"><param name="Name" value="setToDefault"></OBJECT>
@@ -7559,6 +7562,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightField.html#deb227d057ba7949ad536a26ad75adab"><param name="Name" value="getNbColumns"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightField.html#9c23959bd90dd2acf493e4a4a85b8b2e"><param name="Name" value="getNbRows"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightField.html#0419a4b453fcc887b337d49877cfab28"><param name="Name" value="getReferenceCount"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightField.html#15f91d308f23a987dc672614aa64d5fa"><param name="Name" value="getSample"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightField.html#34935489b77f6d386bdfe15b4f10b00e"><param name="Name" value="getSampleStride"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightField.html#3d1c8423fdb42c8707102f4785fee97a"><param name="Name" value="getThickness"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxHeightField.html#e4136344e0c9ed9c773c304bc87690fe"><param name="Name" value="getTimestamp"></OBJECT>

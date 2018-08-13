@@ -288,7 +288,8 @@ namespace Gu
 				{
 					//ML: facet isn't visible from w (we don't have a reflex edge), this facet will be on the boundary and part of the new polytope so that
 					//we will push it into our edgeBuffer
-					edgeBuffer.Insert(f, index);
+					if(!edgeBuffer.Insert(f, index))
+						return;
 				} 
 				else 
 				{
@@ -622,7 +623,8 @@ namespace Gu
 
 				facet->silhouette(q, aBuf, bBuf, edgeBuffer, facetManager);
 
-				if (edgeBuffer.IsEmpty())
+				//the edge buffer either empty or overflow
+				if (!edgeBuffer.IsValid())
 				{
 					calculateContactInformation(aBuf, bBuf, facet, a, b, pa, pb, normal, penDepth, takeCoreShape);
 					return EPA_DEGENERATE;

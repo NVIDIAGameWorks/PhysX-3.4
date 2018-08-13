@@ -48,11 +48,6 @@ namespace physx
 class PxsTransformCache;
 class PxsMaterialManager;
 
-namespace Bp
-{
-	class AABBManagerImpl;
-}
-
 namespace Sc
 {
 	class BodySim;

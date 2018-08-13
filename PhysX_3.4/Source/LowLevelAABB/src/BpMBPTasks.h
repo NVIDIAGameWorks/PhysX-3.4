@@ -47,22 +47,18 @@ namespace physx
 	class MBPTask : public Cm::Task, public shdfnd::UserAllocated
 	{
 		public:
-												MBPTask(PxU64 contextId) :
-												Cm::Task		(contextId),
-												mMBP			(NULL),
-												mNumCpuTasks	(0)
-												{}
+												MBPTask(PxU64 contextId) : Cm::Task(contextId), mMBP(NULL), mNumCpuTasks(0)		{}
 
-		PX_FORCE_INLINE	void					setBroadphase(Bp::BroadPhaseMBP* mbp)			{ mMBP = mbp;					}
-		PX_FORCE_INLINE	void					setScratchAllocator(PxcScratchAllocator* sa)	{ mScratchAllocator = sa;		}
-		PX_FORCE_INLINE void					setNumCpuTasks(const PxU32 numCpuTasks)			{ mNumCpuTasks = numCpuTasks;	}
-
+		PX_FORCE_INLINE	void					set(Bp::BroadPhaseMBP* mbp, PxcScratchAllocator* sa, PxU32 numCpuTasks)
+												{
+													mMBP = mbp;
+													mScratchAllocator = sa;
+													mNumCpuTasks = numCpuTasks;
+												}
 		protected:
 						Bp::BroadPhaseMBP*		mMBP;
 						PxU32					mNumCpuTasks;
-
 						PxcScratchAllocator*	mScratchAllocator;
-
 		private:
 		MBPTask& operator=(const MBPTask&);
 	};
@@ -71,8 +67,8 @@ namespace physx
 	class MBPUpdateWorkTask : public MBPTask
 	{
 	public:							
-								MBPUpdateWorkTask(PxU64 contextId);
-								~MBPUpdateWorkTask();
+								MBPUpdateWorkTask(PxU64 contextId) : MBPTask(contextId)	{}
+								~MBPUpdateWorkTask()									{}
 		// PxBaseTask
 		virtual const char*		getName() const { return "BpMBP.updateWork"; }
 		//~PxBaseTask
@@ -90,8 +86,8 @@ namespace physx
 	class MBPPostUpdateWorkTask : public MBPTask
 	{
 	public:
-								MBPPostUpdateWorkTask(PxU64 contextId);					
-
+								MBPPostUpdateWorkTask(PxU64 contextId) : MBPTask(contextId)	{}
+								~MBPPostUpdateWorkTask()									{}
 		// PxBaseTask
 		virtual const char*		getName() const { return "BpMBP.postUpdateWork"; }
 		//~PxBaseTask

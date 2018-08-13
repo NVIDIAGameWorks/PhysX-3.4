@@ -387,6 +387,11 @@ struct PxFilterData
 	}
 
 	/**
+	\brief Copy constructor.
+	*/
+	PX_INLINE PxFilterData(const PxFilterData& fd) : word0(fd.word0), word1(fd.word1), word2(fd.word2), word3(fd.word3)	{}
+
+	/**
 	\brief Constructor to set filter data initially.
 	*/
 	PX_INLINE PxFilterData(PxU32 w0, PxU32 w1, PxU32 w2, PxU32 w3) : word0(w0), word1(w1), word2(w2), word3(w3) {}
@@ -397,6 +402,17 @@ struct PxFilterData
 	PX_INLINE void setToDefault()
 	{
 		*this = PxFilterData();
+	}
+
+	/**
+	\brief Assignment operator
+	*/
+	PX_INLINE void operator = (const PxFilterData& fd)
+	{
+		word0 = fd.word0;
+		word1 = fd.word1;
+		word2 = fd.word2;
+		word3 = fd.word3;
 	}
 
 	/**

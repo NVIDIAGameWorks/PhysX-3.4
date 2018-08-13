@@ -406,7 +406,11 @@ namespace physx { namespace Sn {
 											"3.2.0",
 											"3.3.0",
 											"3.3.1",	
-											"3.3.2"
+											"3.3.2",
+											"3.3.3",
+											"3.3.4",
+											"3.4.0",
+											"3.4.1"
 		};//should be increase order
 		
 		PxU32 grade = UINT16_MAX;
@@ -430,7 +434,11 @@ namespace physx { namespace Sn {
 			upgrade3_2CollectionTo3_3Collection,
 			NULL,
 			NULL,
+			NULL,
+			NULL,
 			upgrade3_3CollectionTo3_4Collection,
+			NULL,
+			NULL
 		};
 
 		RepXCollection* dest = &src;

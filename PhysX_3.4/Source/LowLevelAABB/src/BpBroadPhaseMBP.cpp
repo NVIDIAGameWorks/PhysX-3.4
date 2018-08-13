@@ -3336,20 +3336,22 @@ void BroadPhaseMBP::update(const PxU32 numCpuTasks, PxcScratchAllocator* scratch
 
 	setUpdateData(updateData);
 
-	mMBPPostUpdateWorkTask.setScratchAllocator(scratchAllocator);
-	mMBPUpdateWorkTask.setScratchAllocator(scratchAllocator);
+	if(1)
+	{
+		update();
+		postUpdate();
+	}
+	else
+	{
+		mMBPPostUpdateWorkTask.set(this, scratchAllocator, numCpuTasks);
+		mMBPUpdateWorkTask.set(this, scratchAllocator, numCpuTasks);
 
-	mMBPPostUpdateWorkTask.setBroadphase(this);
-	mMBPUpdateWorkTask.setBroadphase(this);
+		mMBPPostUpdateWorkTask.setContinuation(continuation);
+		mMBPUpdateWorkTask.setContinuation(&mMBPPostUpdateWorkTask);
 
-	mMBPPostUpdateWorkTask.setNumCpuTasks(numCpuTasks);
-	mMBPUpdateWorkTask.setNumCpuTasks(numCpuTasks);
-
-	mMBPPostUpdateWorkTask.setContinuation(continuation);
-	mMBPUpdateWorkTask.setContinuation(&mMBPPostUpdateWorkTask);
-
-	mMBPPostUpdateWorkTask.removeReference();
-	mMBPUpdateWorkTask.removeReference();
+		mMBPPostUpdateWorkTask.removeReference();
+		mMBPUpdateWorkTask.removeReference();
+	}
 }
 
 static PX_FORCE_INLINE void computeMBPBounds(MBP_AABB& aabb, const PxBounds3* PX_RESTRICT boundsXYZ, const PxReal* PX_RESTRICT contactDistances, const BpHandle index)
@@ -3411,6 +3413,16 @@ static PX_FORCE_INLINE void computeMBPBounds(MBP_AABB& aabb, const PxBounds3* PX
 	PX_ASSERT(PrunerBox.mMaxY==aabb.mMaxY);
 	PX_ASSERT(PrunerBox.mMaxZ==aabb.mMaxZ);
 #endif*/
+}
+
+void MBPUpdateWorkTask::runInternal()
+{
+	mMBP->update();
+}
+
+void MBPPostUpdateWorkTask::runInternal()
+{
+	mMBP->postUpdate();
 }
 
 void BroadPhaseMBP::removeObjects(const BroadPhaseUpdateData& updateData)

@@ -102,7 +102,12 @@ public:
 		PX_PHYSX_COMMON_API virtual		PxVec3						getTriangleNormal(PxTriangleID triangleIndex)	const
 												{
 													return getTriangleNormalInternal(triangleIndex);
-												}	
+												}
+		PX_PHYSX_COMMON_API virtual	const PxHeightFieldSample&	getSample(PxU32 row, PxU32 column) const
+												{
+													const PxU32 cell = row * getNbColumnsFast() + column;
+													return getSample(cell);
+												}
 
 		/**
 		\brief Returns the number of times the heightfield data has been modified

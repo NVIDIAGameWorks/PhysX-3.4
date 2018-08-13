@@ -7383,7 +7383,7 @@ void PxVehicleUpdate::suspensionRaycasts(PxBatchQuery* batchQuery, const PxU32 n
 				}
 				else
 				{
-					PX_CHECK_MSG(false, "PxVehicleUpdate::suspensionRaycasts - numSceneQueryResults not bit enough to support one raycast hit report per wheel.  Increase size of sceneQueryResults");
+					PX_CHECK_MSG(false, "PxVehicleUpdate::suspensionRaycasts - numSceneQueryResults not big enough to support one raycast hit report per wheel.  Increase size of sceneQueryResults");
 				}
 				sqres+=numActiveWheelsInLast4;
 			}
@@ -7622,7 +7622,7 @@ void PxVehicleUpdate::suspensionSweeps
 				}
 				else
 				{
-					PX_CHECK_MSG(false, "PxVehicleUpdate::suspensionSweeps - numSceneQueryResults not bit enough to support one sweep hit report per wheel.  Increase size of sceneQueryResults");
+					PX_CHECK_MSG(false, "PxVehicleUpdate::suspensionSweeps - numSceneQueryResults not big enough to support one sweep hit report per wheel.  Increase size of sceneQueryResults");
 				}
 				sqres+=numActiveWheelsInLast4;
 			}

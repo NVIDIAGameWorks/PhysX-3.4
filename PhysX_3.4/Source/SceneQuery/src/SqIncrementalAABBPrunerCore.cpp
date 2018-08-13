@@ -53,6 +53,7 @@ IncrementalAABBPrunerCore::IncrementalAABBPrunerCore(const PruningPool* pool) :
 {
 	mAABBTree[0].mapping.reserve(256);
 	mAABBTree[1].mapping.reserve(256);
+	mChangedLeaves.reserve(32);
 }
 
 IncrementalAABBPrunerCore::~IncrementalAABBPrunerCore()
@@ -89,9 +90,9 @@ bool IncrementalAABBPrunerCore::addObject(const PoolIndex poolIndex, PxU32 timeS
 	}
 	PX_ASSERT(tree.timeStamp == timeStamp);
 
-	bool split = false;
-	IncrementalAABBTreeNode* node = tree.tree->insert(poolIndex, mPool->getCurrentWorldBoxes(), split);
-	updateMapping(split, tree.mapping, poolIndex, node);
+	mChangedLeaves.clear();
+	IncrementalAABBTreeNode* node = tree.tree->insert(poolIndex, mPool->getCurrentWorldBoxes(), mChangedLeaves);
+	updateMapping(tree.mapping, poolIndex, node);
 
 #if PARANOIA_CHECKS
 	test();
@@ -100,32 +101,35 @@ bool IncrementalAABBPrunerCore::addObject(const PoolIndex poolIndex, PxU32 timeS
 	return true;
 }
 
-void IncrementalAABBPrunerCore::updateMapping(bool split, IncrementalPrunerMap& mapping, const PoolIndex poolIndex, IncrementalAABBTreeNode* node)
+void IncrementalAABBPrunerCore::updateMapping(IncrementalPrunerMap& mapping, const PoolIndex poolIndex, IncrementalAABBTreeNode* node)
 {
-	// if a node was split we need to update the node indices and also the sibling indices
-	if(split)
+	// if some node leaves changed, we need to update mapping
+	if(!mChangedLeaves.empty())
 	{
-		for(PxU32 j = 0; j < node->getNbPrimitives(); j++)
+		if(node && node->isLeaf())
 		{
-			const PoolIndex index = node->getPrimitives(NULL)[j];
-			mapping[index] = node;
-		}
-		// sibling
-		if(node->mParent)
-		{
-			IncrementalAABBTreeNode* sibling = (node->mParent->mChilds[0] == node) ? node->mParent->mChilds[1] : node->mParent->mChilds[0];
-			if(sibling->isLeaf())
+			for(PxU32 j = 0; j < node->getNbPrimitives(); j++)
 			{
-				for(PxU32 j = 0; j < sibling->getNbPrimitives(); j++)
-				{
-					const PoolIndex index = sibling->getPrimitives(NULL)[j];
-					mapping[index] = sibling;
-				}
+				const PoolIndex index = node->getPrimitives(NULL)[j];
+				mapping[index] = node;
+			}
+		}
+
+		for(PxU32 i = 0; i < mChangedLeaves.size(); i++)
+		{
+			IncrementalAABBTreeNode* changedNode = mChangedLeaves[i];
+			PX_ASSERT(changedNode->isLeaf());
+
+			for(PxU32 j = 0; j < changedNode->getNbPrimitives(); j++)
+			{
+				const PoolIndex index = changedNode->getPrimitives(NULL)[j];
+				mapping[index] = changedNode;
 			}
 		}
 	}
 	else
 	{
+		PX_ASSERT(node->isLeaf());
 		mapping[poolIndex] = node;
 	}
 }
@@ -229,23 +233,13 @@ bool IncrementalAABBPrunerCore::updateObject(const PoolIndex poolIndex)
 		return false;
 
 	CoreTree& tree = mAABBTree[treeIndex];
-	bool split;
-	IncrementalAABBTreeNode* removedNode = NULL;
-	IncrementalAABBTreeNode* node = tree.tree->updateFast(entry->second, poolIndex, mPool->getCurrentWorldBoxes(), split, removedNode);
-	// we removed node during update, need to update the mapping
-	if(removedNode && removedNode->isLeaf())
-	{
-		for(PxU32 j = 0; j < removedNode->getNbPrimitives(); j++)
-		{
-			const PoolIndex index = removedNode->getPrimitives(NULL)[j];
-			tree.mapping[index] = removedNode;
-		}
-	}
-	if(split || node != entry->second)
-		updateMapping(split, tree.mapping, poolIndex, node);
+	mChangedLeaves.clear();
+	IncrementalAABBTreeNode* node = tree.tree->updateFast(entry->second, poolIndex, mPool->getCurrentWorldBoxes(), mChangedLeaves);
+	if(!mChangedLeaves.empty() || node != entry->second)
+		updateMapping(tree.mapping, poolIndex, node);
 
 #if PARANOIA_CHECKS
-	test();
+	test(false);
 #endif
 
 	return true;
@@ -420,16 +414,21 @@ void IncrementalAABBPrunerCore::visualize(Cm::RenderOutput& out, PxU32 color) co
 	}
 }
 
-void IncrementalAABBPrunerCore::test()
+void IncrementalAABBPrunerCore::test(bool chierarcyCheck)
 {
+	PxU32 maxDepth[NUM_TREES] = { 0, 0 };
 	for(PxU32 i = 0; i < NUM_TREES; i++)
-	{
+	{		
 		if(mAABBTree[i].tree)
 		{
-			//mAABBTree[i].tree->hierarchyCheck(mPool->getNbActiveObjects(), mPool->getCurrentWorldBoxes());
+			if(chierarcyCheck)
+				mAABBTree[i].tree->hierarchyCheck(mPool->getCurrentWorldBoxes());
 			for (IncrementalPrunerMap::Iterator iter = mAABBTree[i].mapping.getIterator(); !iter.done(); ++iter)
 			{
 				mAABBTree[i].tree->checkTreeLeaf(iter->second, iter->first);
+				PxU32 depth = mAABBTree[i].tree->getTreeLeafDepth(iter->second);
+				if(depth > maxDepth[i])
+					maxDepth[i] = depth;
 			}
 		}
 	}

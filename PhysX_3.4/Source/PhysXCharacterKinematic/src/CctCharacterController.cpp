@@ -204,6 +204,8 @@ static PX_INLINE void relocateCapsule(PxCapsuleGeometry& capsuleGeom, PxTransfor
 {
 	capsuleGeom.radius = radius;
 	pose = PxTransformFromSegment(p0, p1, &capsuleGeom.halfHeight);
+	if(capsuleGeom.halfHeight==0.0f)
+		capsuleGeom.halfHeight = FLT_EPSILON;
 }
 
 static PX_INLINE void relocateCapsule(PxCapsuleGeometry& capsuleGeom, PxTransform& pose, const TouchedUserCapsule& userCapsule)
