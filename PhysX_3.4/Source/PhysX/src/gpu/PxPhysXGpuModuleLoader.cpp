@@ -60,8 +60,14 @@ namespace physx
 #if PX_WINDOWS
 
 #include "windows/PsWindowsInclude.h"
+#include "windows/PxWindowsDelayLoadHook.h"
 #include "windows/CmWindowsModuleUpdateLoader.h"
 static const char*	gPhysXGpuLibraryName = "PhysX3Gpu" CONFIG_SUB_STR "_" PLATFORM_SUB_STR ".dll";
+
+namespace physx
+{
+	const PxDelayLoadHook* PxGetPhysXDelayLoadHook();
+}
 
 #elif PX_LINUX
 
@@ -115,6 +121,9 @@ namespace physx
 
 #if PX_WINDOWS
 
+	typedef void (PxSetPhysXGpuDelayLoadHook_FUNC)(const PxDelayLoadHook* delayLoadHook);
+	PxSetPhysXGpuDelayLoadHook_FUNC* g_PxSetPhysXGpuDelayLoadHook_Func = NULL;
+
 #define DEFAULT_PHYSX_GPU_GUID    "D79FA4BF-177C-4841-8091-4375D311D6A3"
 
 	void PxLoadPhysxGPUModule(const char* appGUID)
@@ -132,6 +141,7 @@ namespace physx
 
 		if (s_library)
 		{
+			g_PxSetPhysXGpuDelayLoadHook_Func = (PxSetPhysXGpuDelayLoadHook_FUNC*)GetProcAddress(s_library, "PxSetPhysXGpuDelayLoadHook");
 			g_PxCreatePhysXGpu_Func = (PxCreatePhysXGpu_FUNC*)GetProcAddress(s_library, "PxCreatePhysXGpu");
 			g_PxCreateCudaContextManager_Func = (PxCreateCudaContextManager_FUNC*)GetProcAddress(s_library, "PxCreateCudaContextManager");
 			g_PxGetSuggestedCudaDeviceOrdinal_Func = (PxGetSuggestedCudaDeviceOrdinal_FUNC*)GetProcAddress(s_library, "PxGetSuggestedCudaDeviceOrdinal");
@@ -139,9 +149,19 @@ namespace physx
 
 		// Check for errors
 		if (s_library == NULL)
+		{
 			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "Failed to load PhysXGpu dll!");
-		if (g_PxCreatePhysXGpu_Func == NULL || g_PxCreateCudaContextManager_Func == NULL || g_PxGetSuggestedCudaDeviceOrdinal_Func == NULL)
+			return;
+		}
+
+		if (g_PxSetPhysXGpuDelayLoadHook_Func == NULL || g_PxCreatePhysXGpu_Func == NULL || g_PxCreateCudaContextManager_Func == NULL || g_PxGetSuggestedCudaDeviceOrdinal_Func == NULL)
+		{
 			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "PhysXGpu dll is incompatible with this version of PhysX!");
+			return;
+		}
+
+		g_PxSetPhysXGpuDelayLoadHook_Func(PxGetPhysXDelayLoadHook());
+
 	}
 
 #elif PX_LINUX

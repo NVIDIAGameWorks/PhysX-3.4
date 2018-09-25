@@ -2767,6 +2767,9 @@ static void processAggregatePairsParallel(AggPairMap& map, SimpleAABBManager& ma
 
 	ProcessAggPairsParallelTask* task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(ProcessAggPairsParallelTask)), ProcessAggPairsParallelTask)(0, &manager.mMapLock, &manager, &map, taskName);
 
+
+	PxU32 startIdx = pairTasks.size();
+
 	for (AggPairMap::Iterator iter = map.getIterator(); !iter.done(); ++iter)
 	{
 		task->mAggPairs[task->mNbPairs] = iter->first;
@@ -2775,13 +2778,18 @@ static void processAggregatePairsParallel(AggPairMap& map, SimpleAABBManager& ma
 		{
 			pairTasks.pushBack(task);
 			task->setContinuation(continuation);
-			task->removeReference();
 			//task->runInternal();
 			task = PX_PLACEMENT_NEW(flushPool.allocate(sizeof(ProcessAggPairsParallelTask)), ProcessAggPairsParallelTask)(0, &manager.mMapLock, &manager, &map, taskName);
 		}
 	}
 
 	manager.mMapLock.unlock();
+
+	for (PxU32 i = startIdx; i < pairTasks.size(); ++i)
+	{
+		pairTasks[i]->removeReference();
+	}
+
 
 	if (task->mNbPairs)
 	{

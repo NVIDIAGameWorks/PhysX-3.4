@@ -13,7 +13,7 @@ PVD
 
 The PhysX Visual Debugger (PVD) provides a graphical view of the PhysX scene and includes various tools to inspect and visualize variables of every PhysX object. Additionally it can also record and visualize memory and timing data.
 
-PVD can be downloaded from: http://supportcenteronline.com/ics/support/default.asp?deptID=1949
+PVD can be downloaded from: https://developer.nvidia.com/physx-visual-debugger
 
 Questions regarding the usage of the GUI should all be answered by its detailed built-in help.
 

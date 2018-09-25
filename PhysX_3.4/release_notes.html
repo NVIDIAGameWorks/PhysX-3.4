@@ -30,6 +30,30 @@
 
    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+    <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.24990349</h1>
+    <h2 style="TEXT-ALIGN: center">September 2018</h2>
+
+    <h3>General</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>PxMeshQuery::getTriangle adjacency information for heightfield geometry fixed.</li>
+            <li>Removed PxSetPhysXGpuDelayLoadHook from API. Delay loaded dynamically linked library names are now provided through PxSetPhysXDelayLoadHook.</li>
+            <li>Fixed a source of non-determinism with GPU rigid bodies.</li>
+        </ul>
+    </ul>
+
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fixed a divide by zero bug when gjk is trying to calculate the barycentric coordinate for two identical/nearly identical points. </li>
+            <li>Fixed an incorrect mesh index reported in contact buffer when stabilization flag was used. </li>
+        </ul>
+    </ul>
+
+   <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.24698370</h1>
     <h2 style="TEXT-ALIGN: center">August 2018</h2>
 

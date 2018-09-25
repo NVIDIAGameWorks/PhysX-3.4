@@ -118,10 +118,7 @@ void Scb::Shape::syncState()
 
 		flush<Buf::BF_Shape2Actor>(buffer);
 		flush<Buf::BF_SimulationFilterData>(buffer);
-
-		if(isBuffered(Buf::BF_ContactOffset))
-			mShape.setContactOffset(buffer.mContactOffset);
-		
+		flush<Buf::BF_ContactOffset>(buffer);
 		flush<Buf::BF_RestOffset>(buffer);
 		flush<Buf::BF_Flags>(buffer);
 

@@ -3354,6 +3354,14 @@ void BroadPhaseMBP::update(const PxU32 numCpuTasks, PxcScratchAllocator* scratch
 	}
 }
 
+void BroadPhaseMBP::singleThreadedUpdate(PxcScratchAllocator* /*scratchAllocator*/, const BroadPhaseUpdateData& updateData)
+{
+	// PT: TODO: the scratchAllocator isn't actually needed, is it?
+	setUpdateData(updateData);
+	update();
+	postUpdate();
+}
+
 static PX_FORCE_INLINE void computeMBPBounds(MBP_AABB& aabb, const PxBounds3* PX_RESTRICT boundsXYZ, const PxReal* PX_RESTRICT contactDistances, const BpHandle index)
 {
 	const PxBounds3& b = boundsXYZ[index];
@@ -3614,23 +3622,24 @@ bool BroadPhaseMBP::isValid(const BroadPhaseUpdateData& updateData) const
 	const BpHandle* created = updateData.getCreatedHandles();
 	if(created)
 	{
+		Ps::HashSet<BpHandle> set;
+		PxU32 nbObjects = mMBP->mMBP_Objects.size();
+		const MBP_Object* PX_RESTRICT objects = mMBP->mMBP_Objects.begin();
+		while(nbObjects--)
+		{
+			if(!(objects->mFlags & MBP_REMOVED))
+				set.insert(objects->mUserID);
+			objects++;
+		}
+
 		PxU32 nbToGo = updateData.getNumCreatedHandles();
 		while(nbToGo--)
 		{
 			const BpHandle index = *created++;
 			PX_ASSERT(index<mCapacity);
 
-			PxU32 nbObjects = mMBP->mMBP_Objects.size();
-			const MBP_Object* PX_RESTRICT objects = mMBP->mMBP_Objects.begin();
-			while(nbObjects--)
-			{
-				if(!(objects->mFlags & MBP_REMOVED))
-				{
-					if(objects->mUserID==index)
-						return false;	// This object has been added already
-				}
-				objects++;
-			}
+			if(set.contains(index))
+				return false;	// This object has been added already
 		}
 	}
 

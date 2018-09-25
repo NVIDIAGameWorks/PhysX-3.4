@@ -36,11 +36,19 @@
 #define DELAYIMP_INSECURE_WRITABLE_HOOKS
 #include <delayimp.h>
 
-static const physx::PxDelayLoadHook* gDelayLoadHook = NULL;
-
-void physx::PxSetPhysXDelayLoadHook(const physx::PxDelayLoadHook* hook)
+namespace physx
 {
-	gDelayLoadHook = hook;
+	static const PxDelayLoadHook* gDelayLoadHook = NULL;
+	
+	void PxSetPhysXDelayLoadHook(const PxDelayLoadHook* hook)
+	{
+		gDelayLoadHook = hook;
+	}
+
+	const PxDelayLoadHook* PxGetPhysXDelayLoadHook()
+	{
+		return gDelayLoadHook;
+	}
 }
 
 using namespace physx;

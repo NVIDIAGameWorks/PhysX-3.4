@@ -229,7 +229,6 @@ PX_INLINE Shape::Shape(const PxGeometry& geometry,
 	PX_COMPILE_TIME_ASSERT(PxU32(ShapeBuffer::BF_ContactOffset)			== PxU32(Sc::ShapeChangeNotifyFlag::eCONTACTOFFSET));
 	PX_COMPILE_TIME_ASSERT(PxU32(ShapeBuffer::BF_RestOffset)			== PxU32(Sc::ShapeChangeNotifyFlag::eRESTOFFSET));
 	PX_COMPILE_TIME_ASSERT(PxU32(ShapeBuffer::BF_Flags)					== PxU32(Sc::ShapeChangeNotifyFlag::eFLAGS));
-	PX_COMPILE_TIME_ASSERT(PxU32(ShapeBuffer::BF_Geometry)				== PxU32(Sc::ShapeChangeNotifyFlag::eGEOMETRY));
 
 	if(isExclusive)
 		setScbType(ScbType::eSHAPE_EXCLUSIVE);

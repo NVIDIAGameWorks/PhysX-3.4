@@ -65,27 +65,21 @@ namespace Bp
 
 	// BroadPhase
 		virtual	PxBroadPhaseType::Enum		getType()					const	{ return PxBroadPhaseType::eMBP;	}
-
 		virtual	void						destroy()							{ delete this;						}
-
 		virtual	void						update(const PxU32 numCpuTasks, PxcScratchAllocator* scratchAllocator, const BroadPhaseUpdateData& updateData, physx::PxBaseTask* continuation, physx::PxBaseTask* narrowPhaseUnblockTask);
 		virtual void						fetchBroadPhaseResults(physx::PxBaseTask*) {}
-
 		virtual	PxU32						getNbCreatedPairs()		const;
 		virtual BroadPhasePair*				getCreatedPairs();
 		virtual PxU32						getNbDeletedPairs()		const;
 		virtual BroadPhasePair*				getDeletedPairs();
-
 		virtual void						freeBuffers();
-
 		virtual void						shiftOrigin(const PxVec3& shift);
-
 #if PX_CHECKED
 		virtual bool						isValid(const BroadPhaseUpdateData& updateData)	const;
 #endif
-
 		virtual BroadPhasePair*				getBroadPhasePairs() const  {return NULL;}  //KS - TODO - implement this!!!
 		virtual void						deletePairs(){}								//KS - TODO - implement this!!!
+		virtual	void						singleThreadedUpdate(PxcScratchAllocator* scratchAllocator, const BroadPhaseUpdateData& updateData);
 	//~BroadPhase
 
 				MBPUpdateWorkTask			mMBPUpdateWorkTask;

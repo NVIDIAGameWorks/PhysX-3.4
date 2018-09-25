@@ -55,6 +55,7 @@ class PxsMemoryManager;
 class PxsHeapMemoryAllocatorManager;
 class PxsSimulationController;
 class PxsSimulationControllerCallback;
+class PxDelayLoadHook;
 
 struct PxvSimStats;
 
@@ -220,6 +221,13 @@ public:
 };
 
 }
+
+#if PX_WINDOWS
+/**
+Sets delay load hook instance for PhysXGpu dll.
+*/
+PX_C_EXPORT PX_PHYSX_GPU_API void PX_CALL_CONV PxSetPhysXGpuDelayLoadHook(const physx::PxDelayLoadHook* hook);
+#endif
 
 /**
 Create PxPhysXGpu interface class.

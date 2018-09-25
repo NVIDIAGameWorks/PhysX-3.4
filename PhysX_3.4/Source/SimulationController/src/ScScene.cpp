@@ -3094,7 +3094,8 @@ void Sc::Scene::updateSimulationController(PxBaseTask* continuation)
 
 void Sc::Scene::updateDynamics(PxBaseTask* continuation)
 {
-	mProcessLostContactsTask3.setContinuation(continuation);
+	//Allow processLostContactsTask to run until after 2nd pass of solver completes (update bodies, run sleeping logic etc.)
+	mProcessLostContactsTask3.setContinuation(static_cast<PxLightCpuTask*>(continuation)->getContinuation());
 	mProcessLostContactsTask2.setContinuation(&mProcessLostContactsTask3);
 	mProcessLostContactsTask.setContinuation(&mProcessLostContactsTask2);
 
