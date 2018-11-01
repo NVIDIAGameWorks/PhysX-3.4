@@ -314,6 +314,10 @@ The transformation is performed as follows (in pseudo-code):</p>
 <h3>Use the scene-query and simulation flags<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>If a shape is only used for scene-queries (raycasts, etc), disable its simulation flag. If a shape is only used for simulation (e.g. it will never be raycasted against), disable its scene-query flag. This is good for both memory usage and performance. Please refer to the <a class="reference internal" href="RigidBodyCollision.html#rigidbodycollision"><em>Rigid Body Collision</em></a> chapter for details.</p>
 </div>
+<div class="section" id="id4">
+<h3>Kill kinematic pairs early<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>If you do not need them, use PxPairFilteringMode::eKILL to disable kinematic pairs earlier in the pipeline.</p>
+</div>
 </div>
 <div class="section" id="behavior-issues">
 <h2>Behavior issues<a class="headerlink" href="#behavior-issues" title="Permalink to this headline">¶</a></h2>
@@ -408,6 +412,7 @@ The transformation is performed as follows (in pseudo-code):</p>
 <li><a class="reference internal" href="#tweak-cooking-parameters">Tweak cooking parameters</a></li>
 <li><a class="reference internal" href="#share-shape-and-mesh-data">Share shape and mesh data</a></li>
 <li><a class="reference internal" href="#id3">Use the scene-query and simulation flags</a></li>
+<li><a class="reference internal" href="#id4">Kill kinematic pairs early</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#behavior-issues">Behavior issues</a><ul>

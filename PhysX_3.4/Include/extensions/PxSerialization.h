@@ -101,7 +101,7 @@ public:
 
 	For definitions of <b>requires</b> and <b>complete</b> see #PxSerialization::complete
 
-	A serializable object is <b>subordinate</b> if it cannot be serialized on it's own
+	A serializable object is <b>subordinate</b> if it cannot be serialized on its own
 	The following objects are subordinate:
 	- articulation links
 	- articulation joints

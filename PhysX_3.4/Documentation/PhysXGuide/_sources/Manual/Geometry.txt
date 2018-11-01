@@ -381,7 +381,7 @@ Each sample consists of a 16 bit integer height value, two materials (for the tw
 The flag and materials refer to the cell below and to the right of the sample point, and indicate along which diagonal to split it into triangles, and the materials of those triangles.  A special predefined material ``PxHeightFieldMaterial::eHOLE`` specifies a hole in the height field. See the reference documentation for *PxHeightFieldSample* for more details.
 
 .. csv-table::
-   :header: Tesselation flag set, Tesselation flag not set
+   :header: Tesselation flag not set, Tesselation flag set
    
    .. image:: ../images/heightfieldTriMat1.png, .. image:: ../images/heightfieldTriMat2.png
 
@@ -390,17 +390,17 @@ Examples:
 +-------------------+-------------------------------------------+
 | Tesselation flags | Result                                    |
 +===================+===========================================+
-| |     0,0,0       | .. image:: ../images/heightfieldTess1.png |
+| |     0,0,0       | .. image:: ../images/heightfieldTess2.png |
 | |     0,0,0       |                                           |
 | |     0,0,0       |                                           |
 +-------------------+-------------------------------------------+
-| |     1,1,1       | .. image:: ../images/heightfieldTess2.png |
+| |     1,1,1       | .. image:: ../images/heightfieldTess1.png |
 | |     1,1,1       |                                           |
 | |     1,1,1       |                                           |
 +-------------------+-------------------------------------------+
-| |     0,1,0       | .. image:: ../images/heightfieldTess3.png |
-| |     1,0,1       |                                           |
+| |     1,0,1       | .. image:: ../images/heightfieldTess3.png |
 | |     0,1,0       |                                           |
+| |     1,0,1       |                                           |
 +-------------------+-------------------------------------------+
 
 To tell the system the number of sampled heights in each direction, use a descriptor to instantiate a PxHeightField object::

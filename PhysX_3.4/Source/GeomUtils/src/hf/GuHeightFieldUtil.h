@@ -683,16 +683,20 @@ namespace Gu
 			// we need to extend the field for the inflated radius, we will now operate even with negative u|v
 
 			// map p0 from (x, z, y) to (u0, v0, h0)
-			PxF32 u0 = PxMin(PxMax(p0.x * mOneOverRowScale, 1e-7f - expandu), nbUcells + expandu); // multiplication rescales the u,v grid steps to 1
-			PxF32 v0 = PxMin(PxMax(p0.z * mOneOverColumnScale, 1e-7f - expandv), nbVcells + expandv);
+			// we need to use the unclamped values, otherwise we change the direction of the traversal
+			const PxF32 uu0 = p0.x * mOneOverRowScale;  
+			PxF32 u0 = PxMin(PxMax(uu0, 1e-7f - expandu), nbUcells + expandu); // multiplication rescales the u,v grid steps to 1
+			const PxF32 uv0 = p0.z * mOneOverColumnScale; 
+			PxF32 v0 = PxMin(PxMax(uv0, 1e-7f - expandv), nbVcells + expandv);
 			const PxReal h0 = p0.y; // we don't scale y
 
 			// map p1 from (x, z, y) to (u1, v1, h1)
-			PxF32 u1 = PxMin(PxMax(p1.x * mOneOverRowScale, 1e-7f - expandu), nbUcells + expandu);
-			PxF32 v1 = PxMin(PxMax(p1.z * mOneOverColumnScale, 1e-7f - expandv), nbVcells + expandv);
+			// we need to use the unclamped values, otherwise we change the direction of the traversal
+			const PxF32 uu1 = p1.x * mOneOverRowScale; 
+			const PxF32 uv1 = p1.z * mOneOverColumnScale;
 			const PxReal h1 = p1.y; // we don't scale y
 
-			PxF32 du = u1 - u0, dv = v1 - v0; // recompute du, dv from adjusted uvs
+			PxF32 du = uu1 - uu0, dv = uv1 - uv0; // recompute du, dv from adjusted uvs
 			const PxReal dh = h1 - h0;
 
 			// grid u&v step is always either 1 or -1, we precompute as both integers and floats to avoid conversions
@@ -731,10 +735,13 @@ namespace Gu
 			const PxReal vhit0 = dv > 0.0f ? ceilUp(v0) : floorDown(v0);
 
 			// tu, tv can be > 1 but since the loop is structured as do {} while(tMin < tEnd) we still visit the first cell
-			PxF32 last_tu = 0.0f, last_tv = 0.0f;
-			PxReal tu = (uhit0 - u0) / du;
-			PxReal tv = (vhit0 - v0) / dv;
-			PX_ASSERT(tu >= 0.0f && tv >= 0.0f);
+			PxF32 last_tu = 0.0f, last_tv = 0.0f;			
+			PxReal tu = (uhit0 - uu0) / du;
+			PxReal tv = (vhit0 - uv0) / dv;
+			if(tu < 0.0f)	// negative value may happen, as we may have started out of the AABB (since we did enlarge it)
+				tu = PxAbs(clampEps / du);
+			if(tv < 0.0f)  // negative value may happen, as we may have started out of the AABB (since we did enlarge it)
+				tv = PxAbs(clampEps / dv);			
 
 			// compute step_tu and step_tv; t steps per grid cell in u and v direction
 			const PxReal step_tu = 1.0f / PxAbs(du), step_tv = 1.0f / PxAbs(dv);

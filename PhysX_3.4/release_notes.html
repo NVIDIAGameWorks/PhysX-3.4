@@ -30,6 +30,79 @@
 
    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+    <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.24990349</h1>
+    <h2 style="TEXT-ALIGN: center">September 2018</h2>
+
+    <h3>General</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>PxMeshQuery::getTriangle adjacency information for heightfield geometry fixed.</li>
+            <li>Removed PxSetPhysXGpuDelayLoadHook from API. Delay loaded dynamically linked library names are now provided through PxSetPhysXDelayLoadHook.</li>
+            <li>Fixed a source of non-determinism with GPU rigid bodies.</li>
+        </ul>
+    </ul>
+
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fixed a divide by zero bug when gjk is trying to calculate the barycentric coordinate for two identical/nearly identical points. </li>
+            <li>Fixed an incorrect mesh index reported in contact buffer when stabilization flag was used. </li>
+        </ul>
+    </ul>
+
+   <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.24698370</h1>
+    <h2 style="TEXT-ALIGN: center">August 2018</h2>
+
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fixed a crash bug when EPA's edge buffer overflow. </li>
+            <li>GPU rigid bodies fixed for Volta GPUs.</li>
+        </ul>
+        <li>Added:</li>
+        <ul>
+            <li>Aggregate broad phase now runs in parallel</li>
+        </ul>
+    </ul>
+
+    <h3>Cooking</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+        </ul>
+        <li>Added:</li>
+        <ul>
+        	<li>PxHeightField::getSample has been added.</li>
+        </ul>
+    </ul>
+
+	<h3>Character controller</h3>
+	<ul>
+		<li>Fixed:</li>
+		<ul>
+			<li>Capsule controller with a very small height could degenerate to spheres (with a height of exactly zero) far away from the origin, which would then triggers errors in Debug/Checked builds. This has been fixed.</li>
+			<li>The triangle array growing strategy has been changed again to prevent performance issues when tessellation is used. Memory usage may increase in these cases.</li>
+			<li>Some internal debug visualization code has been disabled and a crash in it has been fixed.</li>
+		</ul>
+	</ul>
+
+    <h3>Scene query</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+        	<li>Fixed possible buffer overrun when PxPruningStructure was used.</li>
+        	<li>Raycasts against a heightfield may have missed if a large distance was used.</li>
+         	<li>Sq raycasts against heightfield or triangle mesh could return a mildly negative values, this has been fixed.</li>
+       </ul>
+    </ul>
+
+   <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.24214033</h1>
     <h2 style="TEXT-ALIGN: center">May 2018</h2>
 
@@ -54,6 +127,7 @@
             <li>Fixed a bug in the broadphase (SAP) that got recently introduced in SDK 3.4.1.23933511. It should only have generated a few false positives (more overlaps than stricly necessary).</li>
         	<li>Fixed a bug in PxShape::checkMaterialSetup.</li>
             <li>Fixed intermittent crash with GPU rigid bodies when materials were destroyed.</li>
+            <li>Fixed bug where setting maxImpulse to 0 on CCD contact modification meant contact was not reported in the frame's contact reports.</li>
         </ul>
     </ul>
 

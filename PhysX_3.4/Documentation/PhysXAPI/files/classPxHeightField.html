@@ -94,6 +94,10 @@ Collaboration diagram for PxHeightField:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual PX_PHYSX_COMMON_API <a class="el" href="classPxVec3.html">PxVec3</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxHeightField.html#36357857037f9fcb257e4c4ec8b85a04">getTriangleNormal</a> (<a class="el" href="group__common.html#g19403877bf7ce42d7240e4e4c758c016">PxTriangleID</a> triangleIndex) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns a triangle face normal for a given triangle index.  <a href="#36357857037f9fcb257e4c4ec8b85a04"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual PX_PHYSX_COMMON_API <br class="typebreak">
+const <a class="el" href="structPxHeightFieldSample.html">PxHeightFieldSample</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxHeightField.html#15f91d308f23a987dc672614aa64d5fa">getSample</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> row, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> column) const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns heightfield sample of given row and column.  <a href="#15f91d308f23a987dc672614aa64d5fa"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual PX_PHYSX_COMMON_API <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxHeightField.html#e4136344e0c9ed9c773c304bc87690fe">getTimestamp</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the number of times the heightfield data has been modified.  <a href="#e4136344e0c9ed9c773c304bc87690fe"></a><br></td></tr>
@@ -415,6 +419,44 @@ Returns the reference count for shared heightfields.
 <p>
 At creation, the reference count of the heightfield is 1. Every shape referencing this heightfield increments the count by 1. When the reference count reaches 0, and only then, the heightfield gets destroyed automatically.<p>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>the current reference count. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="15f91d308f23a987dc672614aa64d5fa"></a><!-- doxytag: member="PxHeightField::getSample" ref="15f91d308f23a987dc672614aa64d5fa" args="(PxU32 row, PxU32 column) const =0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual PX_PHYSX_COMMON_API const <a class="el" href="structPxHeightFieldSample.html">PxHeightFieldSample</a>&amp; PxHeightField::getSample           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td>
+          <td class="paramname"> <em>row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a>&nbsp;</td>
+          <td class="paramname"> <em>column</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Returns heightfield sample of given row and column. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>row</em>&nbsp;</td><td>Given heightfield row </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>column</em>&nbsp;</td><td>Given heightfield column </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Heightfield sample </dd></dl>
 
 </div>
 </div><p>

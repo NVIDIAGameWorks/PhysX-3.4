@@ -52,64 +52,67 @@
 <a name="l00032"></a>00032 <span class="preprocessor"></span><span class="preprocessor">#define PX_PHYSICS_GEOMUTILS_NX_HEIGHTFIELD</span>
 <a name="l00033"></a>00033 <span class="preprocessor"></span>
 <a name="l00037"></a>00037 <span class="preprocessor">#include "<a class="code" href="PxHeightFieldFlag_8h.html">geometry/PxHeightFieldFlag.h</a>"</span>
-<a name="l00038"></a>00038 <span class="preprocessor">#include "<a class="code" href="PxBase_8h.html">common/PxBase.h</a>"</span>
-<a name="l00039"></a>00039 
-<a name="l00040"></a>00040 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00041"></a>00041 <span class="preprocessor"></span><span class="keyword">namespace </span>physx
-<a name="l00042"></a>00042 {
-<a name="l00043"></a>00043 <span class="preprocessor">#endif</span>
-<a name="l00044"></a>00044 <span class="preprocessor"></span>
-<a name="l00045"></a>00045 <span class="keyword">class </span><a class="code" href="classPxHeightFieldDesc.html" title="Descriptor class for PxHeightField.">PxHeightFieldDesc</a>;
-<a name="l00046"></a>00046 
-<a name="l00084"></a><a class="code" href="classPxHeightField.html">00084</a> <span class="keyword">class </span><a class="code" href="classPxHeightField.html" title="A height field class.">PxHeightField</a> : <span class="keyword">public</span> <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>
-<a name="l00085"></a>00085 {
-<a name="l00086"></a>00086     <span class="keyword">public</span>:
-<a name="l00092"></a>00092     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                        release() = 0;
-<a name="l00093"></a>00093 
-<a name="l00106"></a>00106     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       saveCells(<span class="keywordtype">void</span>* destBuffer, <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> destBufferSize) <span class="keyword">const</span> = 0;
-<a name="l00107"></a>00107 
-<a name="l00128"></a>00128     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>                        modifySamples(<a class="code" href="namespacephysx.html#2d0d277fc9b3eb2bff0fcfa416ae6ae4">PxI32</a> startCol, <a class="code" href="namespacephysx.html#2d0d277fc9b3eb2bff0fcfa416ae6ae4">PxI32</a> startRow, <span class="keyword">const</span> <a class="code" href="classPxHeightFieldDesc.html" title="Descriptor class for PxHeightField.">PxHeightFieldDesc</a>&amp; subfieldDesc, <span class="keywordtype">bool</span> shrinkBounds = <span class="keyword">false</span>) = 0;
-<a name="l00129"></a>00129 
-<a name="l00137"></a>00137     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       getNbRows()                 <span class="keyword">const</span> = 0;
-<a name="l00138"></a>00138 
-<a name="l00146"></a>00146     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       getNbColumns()              <span class="keyword">const</span> = 0;
-<a name="l00147"></a>00147 
-<a name="l00155"></a>00155     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="structPxHeightFieldFormat.html#d28e3afa439f8ff1df6067288c46d9c5">PxHeightFieldFormat::Enum</a>   getFormat()                 <span class="keyword">const</span> = 0;
-<a name="l00156"></a>00156 
-<a name="l00164"></a>00164     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       getSampleStride()           <span class="keyword">const</span> = 0;
-<a name="l00165"></a>00165 
-<a name="l00173"></a>00173     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>                      getThickness()              <span class="keyword">const</span> = 0;
-<a name="l00174"></a>00174 
-<a name="l00182"></a>00182     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>                      getConvexEdgeThreshold()    <span class="keyword">const</span> = 0;
-<a name="l00183"></a>00183 
-<a name="l00191"></a>00191     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="classPxFlags.html">PxHeightFieldFlags</a>          getFlags()                  <span class="keyword">const</span> = 0;
-<a name="l00192"></a>00192 
-<a name="l00198"></a>00198     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>                      getHeight(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> x, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> z) <span class="keyword">const</span> = 0;
-<a name="l00199"></a>00199 
-<a name="l00208"></a>00208     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       getReferenceCount()         <span class="keyword">const</span>   = 0;
-<a name="l00209"></a>00209 
-<a name="l00215"></a>00215     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <span class="keywordtype">void</span>                            acquireReference()                  = 0;
-<a name="l00216"></a>00216 
-<a name="l00225"></a>00225     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <a class="code" href="group__common.html#gc816bc62a68a52f01bf21f963295e822">PxMaterialTableIndex</a>    getTriangleMaterialIndex(<a class="code" href="group__common.html#g19403877bf7ce42d7240e4e4c758c016">PxTriangleID</a> triangleIndex) <span class="keyword">const</span> = 0;
-<a name="l00226"></a>00226 
-<a name="l00235"></a>00235     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>                  getTriangleNormal(<a class="code" href="group__common.html#g19403877bf7ce42d7240e4e4c758c016">PxTriangleID</a> triangleIndex) <span class="keyword">const</span> = 0;
-<a name="l00236"></a>00236 
-<a name="l00245"></a>00245     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       getTimestamp()          <span class="keyword">const</span>   = 0;
+<a name="l00038"></a>00038 <span class="preprocessor">#include "<a class="code" href="PxHeightFieldSample_8h.html">geometry/PxHeightFieldSample.h</a>"</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include "<a class="code" href="PxBase_8h.html">common/PxBase.h</a>"</span>
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00042"></a>00042 <span class="preprocessor"></span><span class="keyword">namespace </span>physx
+<a name="l00043"></a>00043 {
+<a name="l00044"></a>00044 <span class="preprocessor">#endif</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span>
+<a name="l00046"></a>00046 <span class="keyword">class </span><a class="code" href="classPxHeightFieldDesc.html" title="Descriptor class for PxHeightField.">PxHeightFieldDesc</a>;
+<a name="l00047"></a>00047 
+<a name="l00085"></a><a class="code" href="classPxHeightField.html">00085</a> <span class="keyword">class </span><a class="code" href="classPxHeightField.html" title="A height field class.">PxHeightField</a> : <span class="keyword">public</span> <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>
+<a name="l00086"></a>00086 {
+<a name="l00087"></a>00087     <span class="keyword">public</span>:
+<a name="l00093"></a>00093     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <span class="keywordtype">void</span>                        release() = 0;
+<a name="l00094"></a>00094 
+<a name="l00107"></a>00107     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       saveCells(<span class="keywordtype">void</span>* destBuffer, <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> destBufferSize) <span class="keyword">const</span> = 0;
+<a name="l00108"></a>00108 
+<a name="l00129"></a>00129     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <span class="keywordtype">bool</span>                        modifySamples(<a class="code" href="namespacephysx.html#2d0d277fc9b3eb2bff0fcfa416ae6ae4">PxI32</a> startCol, <a class="code" href="namespacephysx.html#2d0d277fc9b3eb2bff0fcfa416ae6ae4">PxI32</a> startRow, <span class="keyword">const</span> <a class="code" href="classPxHeightFieldDesc.html" title="Descriptor class for PxHeightField.">PxHeightFieldDesc</a>&amp; subfieldDesc, <span class="keywordtype">bool</span> shrinkBounds = <span class="keyword">false</span>) = 0;
+<a name="l00130"></a>00130 
+<a name="l00138"></a>00138     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       getNbRows()                 <span class="keyword">const</span> = 0;
+<a name="l00139"></a>00139 
+<a name="l00147"></a>00147     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       getNbColumns()              <span class="keyword">const</span> = 0;
+<a name="l00148"></a>00148 
+<a name="l00156"></a>00156     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="structPxHeightFieldFormat.html#d28e3afa439f8ff1df6067288c46d9c5">PxHeightFieldFormat::Enum</a>   getFormat()                 <span class="keyword">const</span> = 0;
+<a name="l00157"></a>00157 
+<a name="l00165"></a>00165     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       getSampleStride()           <span class="keyword">const</span> = 0;
+<a name="l00166"></a>00166 
+<a name="l00174"></a>00174     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>                      getThickness()              <span class="keyword">const</span> = 0;
+<a name="l00175"></a>00175 
+<a name="l00183"></a>00183     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>                      getConvexEdgeThreshold()    <span class="keyword">const</span> = 0;
+<a name="l00184"></a>00184 
+<a name="l00192"></a>00192     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="classPxFlags.html">PxHeightFieldFlags</a>          getFlags()                  <span class="keyword">const</span> = 0;
+<a name="l00193"></a>00193 
+<a name="l00199"></a>00199     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a>                      getHeight(<a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> x, <a class="code" href="namespacephysx.html#727d2d8426e2a21ebbc522fa65c3f97a">PxReal</a> z) <span class="keyword">const</span> = 0;
+<a name="l00200"></a>00200 
+<a name="l00209"></a>00209     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       getReferenceCount()         <span class="keyword">const</span>   = 0;
+<a name="l00210"></a>00210 
+<a name="l00216"></a>00216     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <span class="keywordtype">void</span>                            acquireReference()                  = 0;
+<a name="l00217"></a>00217 
+<a name="l00226"></a>00226     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <a class="code" href="group__common.html#gc816bc62a68a52f01bf21f963295e822">PxMaterialTableIndex</a>    getTriangleMaterialIndex(<a class="code" href="group__common.html#g19403877bf7ce42d7240e4e4c758c016">PxTriangleID</a> triangleIndex) <span class="keyword">const</span> = 0;
+<a name="l00227"></a>00227 
+<a name="l00236"></a>00236     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <a class="code" href="classPxVec3.html" title="3 Element vector class.">PxVec3</a>                  getTriangleNormal(<a class="code" href="group__common.html#g19403877bf7ce42d7240e4e4c758c016">PxTriangleID</a> triangleIndex) <span class="keyword">const</span> = 0;
+<a name="l00237"></a>00237 
+<a name="l00245"></a>00245     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="structPxHeightFieldSample.html" title="Heightfield sample format.">PxHeightFieldSample</a>&amp;  getSample(<a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> row, <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a> column) <span class="keyword">const</span> = 0;
 <a name="l00246"></a>00246 
-<a name="l00247"></a><a class="code" href="classPxHeightField.html#c266359903e8e4d9f9c6af37804a32fc">00247</a>     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>*             <a class="code" href="classPxHeightField.html#c266359903e8e4d9f9c6af37804a32fc" title="Returns string name of dynamic type.">getConcreteTypeName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="stringliteral">"PxHeightField"</span>; }
-<a name="l00248"></a>00248 
-<a name="l00249"></a>00249 <span class="keyword">protected</span>:
-<a name="l00250"></a><a class="code" href="classPxHeightField.html#3687346446cb1c0f7ec1e36ccebb0e65">00250</a>                         <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                       <a class="code" href="classPxHeightField.html#3687346446cb1c0f7ec1e36ccebb0e65">PxHeightField</a>(<a class="code" href="group__common.html#gc1fb4b256a5d900d394e89db170a2b79">PxType</a> concreteType, <a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(concreteType, baseFlags) {}
-<a name="l00251"></a><a class="code" href="classPxHeightField.html#2803c15d545408ec8f6c8bbfbdac915c">00251</a>                         <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                       <a class="code" href="classPxHeightField.html#2803c15d545408ec8f6c8bbfbdac915c">PxHeightField</a>(<a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(baseFlags) {}
-<a name="l00252"></a><a class="code" href="classPxHeightField.html#e396d735d14cac4cf08958256362bc79">00252</a>     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>                         <a class="code" href="classPxHeightField.html#e396d735d14cac4cf08958256362bc79">~PxHeightField</a>() {}
-<a name="l00253"></a><a class="code" href="classPxHeightField.html#6ae6e27819ae0ea7488763c8cef3a7a2">00253</a>     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    <a class="code" href="classPxHeightField.html#6ae6e27819ae0ea7488763c8cef3a7a2" title="Returns whether a given type name matches with the type of this instance.">isKindOf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> !::strcmp(<span class="stringliteral">"PxHeightField"</span>, name) || <a class="code" href="classPxBase.html#ae9d444c7cfd1715a101350a1b1226ef" title="Returns whether a given type name matches with the type of this instance.">PxBase::isKindOf</a>(name); }
-<a name="l00254"></a>00254 };
-<a name="l00255"></a>00255 
-<a name="l00256"></a>00256 <span class="preprocessor">#if !PX_DOXYGEN</span>
-<a name="l00257"></a>00257 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
-<a name="l00258"></a>00258 <span class="preprocessor">#endif</span>
-<a name="l00259"></a>00259 <span class="preprocessor"></span>
-<a name="l00261"></a>00261 <span class="preprocessor">#endif</span>
+<a name="l00255"></a>00255     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>     <a class="code" href="namespacephysx.html#9b7fbd746d18bf5b6545713a8d818f41">PxU32</a>                       getTimestamp()          <span class="keyword">const</span>   = 0;
+<a name="l00256"></a>00256 
+<a name="l00257"></a><a class="code" href="classPxHeightField.html#c266359903e8e4d9f9c6af37804a32fc">00257</a>     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>*             <a class="code" href="classPxHeightField.html#c266359903e8e4d9f9c6af37804a32fc" title="Returns string name of dynamic type.">getConcreteTypeName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="stringliteral">"PxHeightField"</span>; }
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259 <span class="keyword">protected</span>:
+<a name="l00260"></a><a class="code" href="classPxHeightField.html#3687346446cb1c0f7ec1e36ccebb0e65">00260</a>                         <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                       <a class="code" href="classPxHeightField.html#3687346446cb1c0f7ec1e36ccebb0e65">PxHeightField</a>(<a class="code" href="group__common.html#gc1fb4b256a5d900d394e89db170a2b79">PxType</a> concreteType, <a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(concreteType, baseFlags) {}
+<a name="l00261"></a><a class="code" href="classPxHeightField.html#2803c15d545408ec8f6c8bbfbdac915c">00261</a>                         <a class="code" href="group__foundation.html#gcb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>                       <a class="code" href="classPxHeightField.html#2803c15d545408ec8f6c8bbfbdac915c">PxHeightField</a>(<a class="code" href="classPxFlags.html">PxBaseFlags</a> baseFlags) : <a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>(baseFlags) {}
+<a name="l00262"></a><a class="code" href="classPxHeightField.html#e396d735d14cac4cf08958256362bc79">00262</a>     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span>                         <a class="code" href="classPxHeightField.html#e396d735d14cac4cf08958256362bc79">~PxHeightField</a>() {}
+<a name="l00263"></a><a class="code" href="classPxHeightField.html#6ae6e27819ae0ea7488763c8cef3a7a2">00263</a>     <a class="code" href="group__common.html#g87ae1d60bdf83754e2fe5065aab40ec4">PX_PHYSX_COMMON_API</a> <span class="keyword">virtual</span> <span class="keywordtype">bool</span>                    <a class="code" href="classPxHeightField.html#6ae6e27819ae0ea7488763c8cef3a7a2" title="Returns whether a given type name matches with the type of this instance.">isKindOf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> !::strcmp(<span class="stringliteral">"PxHeightField"</span>, name) || <a class="code" href="classPxBase.html#ae9d444c7cfd1715a101350a1b1226ef" title="Returns whether a given type name matches with the type of this instance.">PxBase::isKindOf</a>(name); }
+<a name="l00264"></a>00264 };
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266 <span class="preprocessor">#if !PX_DOXYGEN</span>
+<a name="l00267"></a>00267 <span class="preprocessor"></span>} <span class="comment">// namespace physx</span>
+<a name="l00268"></a>00268 <span class="preprocessor">#endif</span>
+<a name="l00269"></a>00269 <span class="preprocessor"></span>
+<a name="l00271"></a>00271 <span class="preprocessor">#endif</span>
 </pre></div></div>
 
 <hr style="width: 100%; height: 2px;"><br>

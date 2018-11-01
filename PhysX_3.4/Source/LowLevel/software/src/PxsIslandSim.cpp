@@ -1330,10 +1330,13 @@ bool IslandSim::findRoute(NodeIndex startNode, NodeIndex targetNode, IslandId is
 	}
 }
 
+#define IG_LIMIT_DIRTY_NODES 0
+
 
 void IslandSim::processLostEdges(Ps::Array<NodeIndex>& destroyedNodes, bool allowDeactivation, bool permitKinematicDeactivation,
 	PxU32 dirtyNodeLimit)
 {
+	PX_UNUSED(dirtyNodeLimit);
 	PX_PROFILE_ZONE("Basic.processLostEdges", getContextId());
 	//At this point, all nodes and edges are activated. 
 
@@ -1416,18 +1419,34 @@ void IslandSim::processLostEdges(Ps::Array<NodeIndex>& destroyedNodes, bool allo
 	if (allowDeactivation)
 	{
 		PX_PROFILE_ZONE("Basic.findPathsAndBreakIslands", getContextId());
-		Cm::BitMap::CircularIterator iter(mDirtyMap, mLastMapIndex);
+		
 
 		//KS - process only this many dirty nodes, deferring future dirty nodes to subsequent frames. 
 		//This means that it may take several frames for broken edges to trigger islands to completely break but this is better
 		//than triggering large performance spikes.
-		const PxU32 MaxCount = dirtyNodeLimit;
-
+#if IG_LIMIT_DIRTY_NODES
+		Cm::BitMap::CircularIterator iter(mDirtyMap, mLastMapIndex);
+		const PxU32 MaxCount = dirtyNodeLimit;// +10000000;
+		PxU32 lastMapIndex = mLastMapIndex;
 		PxU32 count = 0;
+#else
+		Cm::BitMap::Iterator iter(mDirtyMap);
+#endif
+
+		
 		PxU32 dirtyIdx;
-		while ((dirtyIdx = iter.getNext()) != Cm::BitMap::CircularIterator::DONE && (count++ < MaxCount))
+		
+#if IG_LIMIT_DIRTY_NODES
+		while ((dirtyIdx = iter.getNext()) != Cm::BitMap::CircularIterator::DONE
+			&& (count++ < MaxCount)
+#else
+		while ((dirtyIdx = iter.getNext()) != Cm::BitMap::Iterator::DONE
+#endif
+			)
 		{
-			mLastMapIndex = dirtyIdx + 1;
+#if IG_LIMIT_DIRTY_NODES
+			lastMapIndex = dirtyIdx + 1;
+#endif
 			//Process dirty nodes. Figure out if we can make our way from the dirty node to the root.
 
 			mPriorityQueue.clear(); //Clear the queue used for traversal
@@ -1652,11 +1671,21 @@ void IslandSim::processLostEdges(Ps::Array<NodeIndex>& destroyedNodes, bool allo
 			}
 
 			dirtyNode.clearDirty();
+#if IG_LIMIT_DIRTY_NODES
 			mDirtyMap.reset(dirtyIdx);
+#endif
 		}
 
+		
+
+#if IG_LIMIT_DIRTY_NODES
+		mLastMapIndex = lastMapIndex;
 		if (count < MaxCount)
 			mLastMapIndex = 0;
+#else
+		mDirtyMap.clear();
+#endif
+		
 		//mDirtyNodes.forceSize_Unsafe(0);
 	}
 

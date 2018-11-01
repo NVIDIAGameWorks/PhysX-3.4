@@ -32,9 +32,11 @@
 #include "BpBroadPhaseMBP.h"
 #include "PxSceneDesc.h"
 #include "BpSimpleAABBManager.h"
+#include "CmBitMap.h"
 
 using namespace physx;
 using namespace Bp;
+using namespace Cm;
 
 BroadPhase* BroadPhase::create(
 	const PxBroadPhaseType::Enum bpType,
@@ -58,119 +60,100 @@ bool BroadPhaseUpdateData::isValid(const BroadPhaseUpdateData& updateData, const
 	return (updateData.isValid() && bp.isValid(updateData));
 }
 
+static bool testHandles(PxU32 size, const BpHandle* handles, const PxU32 capacity, const Bp::FilterGroup::Enum* groups, const PxBounds3* bounds, BitMap& bitmap)
+{
+	if(!handles && size)
+		return false;
+
+/*	ValType minVal=0;
+	ValType maxVal=0xffffffff;*/
+
+	for(PxU32 i=0;i<size;i++)
+	{
+		const BpHandle h = handles[i];
+
+		if(h>=capacity)
+			return false;
+
+		// Array in ascending order of id.
+		if(i>0 && (h < handles[i-1]))
+			return false;
+
+		if(groups && groups[h]==FilterGroup::eINVALID)
+			return false;
+
+		bitmap.set(h);
+
+		if(bounds)
+		{
+			for(PxU32 j=0;j<3;j++)
+			{
+				//Max must be greater than min.
+				if(bounds[h].minimum[j]>bounds[h].maximum[j])
+					return false;
+#if 0
+				//Bounds have an upper limit.
+				if(bounds[created[i]].getMax(j)>=maxVal)
+					return false;
+
+				//Bounds have a lower limit.
+				if(bounds[created[i]].getMin(j)<=minVal)
+					return false;
+
+				//Max must be odd.
+				if(4 != (bounds[created[i]].getMax(j) & 4))
+					return false;
+
+				//Min must be even.
+				if(0 != (bounds[created[i]].getMin(j) & 4))
+					return false;
+#endif
+			}
+		}
+	}
+	return true;
+}
+
+static bool testBitmap(const BitMap& bitmap, PxU32 size, const BpHandle* handles)
+{
+	while(size--)
+	{
+		const BpHandle h = *handles++;
+		if(bitmap.test(h))
+			return false;
+	}
+	return true;
+}
+
 bool BroadPhaseUpdateData::isValid() const 
 {
-	const BpHandle* created=getCreatedHandles();
-	const BpHandle* updated=getUpdatedHandles();
-	const BpHandle* removed=getRemovedHandles();
-	const PxU32 createdSize=getNumCreatedHandles();
-	const PxU32 updatedSize=getNumUpdatedHandles();
-	const PxU32 removedSize=getNumRemovedHandles();
-	const PxBounds3* bounds=getAABBs();
-	const PxU32 boxesCapacity=getCapacity();
+	const PxBounds3* bounds = getAABBs();
+	const PxU32 boxesCapacity = getCapacity();
+	const Bp::FilterGroup::Enum* groups = getGroups();
 
-	if(NULL==created && createdSize>0)
-	{
+	BitMap createdBitmap;	createdBitmap.resizeAndClear(boxesCapacity);
+	BitMap updatedBitmap;	updatedBitmap.resizeAndClear(boxesCapacity);
+	BitMap removedBitmap;	removedBitmap.resizeAndClear(boxesCapacity);
+
+	if(!testHandles(getNumCreatedHandles(), getCreatedHandles(), boxesCapacity, groups, bounds, createdBitmap))
 		return false;
-	}
-	if(NULL==updated && updatedSize>0)
-	{
+	if(!testHandles(getNumUpdatedHandles(), getUpdatedHandles(), boxesCapacity, groups, bounds, updatedBitmap))
 		return false;
-	}
-	if(NULL==removed && removedSize>0)
-	{
+	if(!testHandles(getNumRemovedHandles(), getRemovedHandles(), boxesCapacity, NULL, NULL, removedBitmap))
 		return false;
-	}
 
-	ValType minVal=0;
-	ValType maxVal=0xffffffff;
-	PX_UNUSED(minVal);
-	PX_UNUSED(maxVal);
-
-	for(PxU32 i=0;i<createdSize;i++)
+	if(1)
 	{
-		if(created[i]>=boxesCapacity)
+		// Created/updated
+		if(!testBitmap(createdBitmap, getNumUpdatedHandles(), getUpdatedHandles()))
 			return false;
-
-		//Created array in ascending order of id.
-		if(i>0 && (created[i] < created[i-1]))
-		{
+		// Created/removed
+		if(!testBitmap(createdBitmap, getNumRemovedHandles(), getRemovedHandles()))
 			return false;
-		}
-		for(PxU32 j=0;j<3;j++)
-		{
-			//Max must be greater than min.
-			if(bounds[created[i]].minimum[j]>bounds[created[i]].maximum[j])
-				return false;
-
-#if 0
-			//Bounds have an upper limit.
-			if(bounds[created[i]].getMax(j)>=maxVal)
-				return false;
-
-			//Bounds have a lower limit.
-			if(bounds[created[i]].getMin(j)<=minVal)
-				return false;
-
-			//Max must be odd.
-			if(4 != (bounds[created[i]].getMax(j) & 4))
-				return false;
-
-			//Min must be even.
-			if(0 != (bounds[created[i]].getMin(j) & 4))
-				return false;
-#endif
-		}
+		// Updated/removed
+		if(!testBitmap(updatedBitmap, getNumRemovedHandles(), getRemovedHandles()))
+			return false;
 	}
-
-	for(PxU32 i=0;i<updatedSize;i++)
-	{
-		if(updated[i]>=boxesCapacity)
-			return false;
-
-		//Updated array in ascending order of id
-		if(i>0 && (updated[i] < updated[i-1]))
-		{
-			return false;
-		}
-
-		for(PxU32 j=0;j<3;j++)
-		{
-			//Max must be greater than min.
-			if(bounds[updated[i]].minimum[j]>bounds[updated[i]].maximum[j])
-				return false;
-#if 0
-			//Bounds have an upper limit.
-			if(bounds[updated[i]].getMax(j)>=maxVal)
-				return false;
-
-			//Bounds have a lower limit.
-			if(bounds[updated[i]].getMin(j)<=minVal)
-				return false;
-
-			//Max must be odd.
-			if(4 != (bounds[updated[i]].getMax(j) & 4))
-				return false;
-
-			//Min must be even.
-			if(0 != (bounds[updated[i]].getMin(j) & 4))
-				return false;
-#endif
-		}
-	}
-
-	for(PxU32 i=0;i<removedSize;i++)
-	{
-		if(removed[i]>=boxesCapacity)
-			return false;
-
-		//Removed array in ascending order of id
-		if(i>0 && (removed[i] < removed[i-1]))
-		{
-			return false;
-		}
-	}
-
 	return true;
 }
 #endif

@@ -447,8 +447,8 @@ namespace
 			}
 
 			if(mHitFlags & PxHitFlag::eDISTANCE)
-			{
-				hit.distance = (hit.position - mLocalRayOrig).dot(mLocalRayDir);
+			{				
+				hit.distance = physx::intrinsics::selectMax(0.f, (hit.position - mLocalRayOrig).dot(mLocalRayDir));
 				hit.flags |= PxHitFlag::eDISTANCE;
 			}
 

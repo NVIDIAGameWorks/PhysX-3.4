@@ -461,9 +461,7 @@ void BroadPhaseSap::update(const PxU32 numCpuTasks, PxcScratchAllocator* scratch
 	if(narrowPhaseUnblockTask)
 		narrowPhaseUnblockTask->removeReference();
 
-	const bool success = setUpdateData(updateData);
-
-	if(success)
+	if(setUpdateData(updateData))
 	{
 		mScratchAllocator = scratchAllocator;
 
@@ -480,6 +478,21 @@ void BroadPhaseSap::update(const PxU32 numCpuTasks, PxcScratchAllocator* scratch
 
 		mSapPostUpdateWorkTask.removeReference();
 		mSapUpdateWorkTask.removeReference();
+	}
+}
+
+void BroadPhaseSap::singleThreadedUpdate(PxcScratchAllocator* scratchAllocator, const BroadPhaseUpdateData& updateData)
+{
+#if PX_CHECKED
+	PX_CHECK_AND_RETURN(scratchAllocator, "BroadPhaseSap::singleThreadedUpdate - scratchAllocator must be non-NULL \n");
+#endif
+
+	if(setUpdateData(updateData))
+	{
+		mScratchAllocator = scratchAllocator;
+		resizeBuffers();
+		update();
+		postUpdate();
 	}
 }
 
@@ -622,7 +635,7 @@ bool BroadPhaseSap::setUpdateData(const BroadPhaseUpdateData& updateData)
 	return true;
 }
 
-void BroadPhaseSap::postUpdate(PxBaseTask* /*continuation*/)
+void BroadPhaseSap::postUpdate()
 {
 	PX_PROFILE_ZONE("BroadPhase.SapPostUpdate", mContextID);
 
@@ -678,7 +691,7 @@ void BroadPhaseBatchUpdateWorkTask::runInternal()
 	mSap->batchUpdate(mAxis, mPairs, mPairsSize, mPairsCapacity);
 }
 
-void BroadPhaseSap::update(PxBaseTask* /*continuation*/)
+void BroadPhaseSap::update()
 {
 	PX_PROFILE_ZONE("BroadPhase.SapUpdate", mContextID);
 

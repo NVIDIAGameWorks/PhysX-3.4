@@ -113,33 +113,28 @@ public:
 
 										BroadPhaseSap(const PxU32 maxNbBroadPhaseOverlaps, const PxU32 maxNbStaticShapes, const PxU32 maxNbDynamicShapes, PxU64 contextID);
 	virtual								~BroadPhaseSap();
-	virtual	void						destroy();
 
+	// BroadPhase
 	virtual	PxBroadPhaseType::Enum		getType()					const	{ return PxBroadPhaseType::eSAP;	}
-
+	virtual	void						destroy();
 	virtual	void						update(const PxU32 numCpuTasks, PxcScratchAllocator* scratchAllocator, const BroadPhaseUpdateData& updateData, physx::PxBaseTask* continuation, physx::PxBaseTask* narrowPhaseUnblockTask);
 	virtual void						fetchBroadPhaseResults(physx::PxBaseTask*) {}
-
 	virtual PxU32						getNbCreatedPairs()		const		{ return mCreatedPairsSize;		}
 	virtual BroadPhasePair*				getCreatedPairs()					{ return mCreatedPairsArray;	}
 	virtual PxU32						getNbDeletedPairs()		const		{ return mDeletedPairsSize;		}
 	virtual BroadPhasePair*				getDeletedPairs()					{ return mDeletedPairsArray;	}
-
-	virtual void						resizeBuffers();
 	virtual void						freeBuffers();
-
 	virtual void						shiftOrigin(const PxVec3& shift);
-	//~BroadPhase
-
 #if PX_CHECKED
 	virtual bool						isValid(const BroadPhaseUpdateData& updateData) const;
 #endif
-
 	virtual BroadPhasePair*				getBroadPhasePairs() const  {return mPairs.mActivePairs;}
-
 	virtual void						deletePairs();
+	virtual	void						singleThreadedUpdate(PxcScratchAllocator* scratchAllocator, const BroadPhaseUpdateData& updateData);
+	//~BroadPhase
 
 private:
+			void						resizeBuffers();
 
 			PxcScratchAllocator*		mScratchAllocator;
 
@@ -200,8 +195,8 @@ private:
 			PxU32						mActualDeletedPairSize;
 
 			bool						setUpdateData(const BroadPhaseUpdateData& updateData);
-			void						update(physx::PxBaseTask* continuation);
-			void						postUpdate(physx::PxBaseTask* continuation);
+			void						update();
+			void						postUpdate();
 
 	//Batch create/remove/update.
 			void						batchCreate();

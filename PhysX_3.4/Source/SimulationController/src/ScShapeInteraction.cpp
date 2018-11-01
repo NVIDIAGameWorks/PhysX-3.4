@@ -844,6 +844,23 @@ void Sc::ShapeInteraction::updateState(const PxU8 externalDirtyFlags)
 			mManager->setDominance1(cdom.dominance1);
 		}
 
+		if (dirtyFlags & InteractionDirtyFlag::eBODY_KINEMATIC)
+		{
+			//Kinematic flags changed - clear flag for kinematic on the pair
+			Sc::BodySim* bs1 = shapeSim1.getBodySim();
+			if (bs1 != NULL)
+			{
+				if (bs1->isKinematic())
+				{
+					mManager->getWorkUnit().flags |= PxcNpWorkUnitFlag::eHAS_KINEMATIC_ACTOR;
+				}
+				else
+				{
+					mManager->getWorkUnit().flags &= (~PxcNpWorkUnitFlag::eHAS_KINEMATIC_ACTOR);
+				}
+			}
+		}
+
 		// Update skin width
 		if (dirtyFlags & InteractionDirtyFlag::eREST_OFFSET)
 		{

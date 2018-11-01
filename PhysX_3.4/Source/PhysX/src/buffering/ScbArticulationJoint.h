@@ -257,6 +257,7 @@ PX_INLINE void ArticulationJoint::syncState()
 		flush<Buf::BF_TwistLimitEnabled>(buffer);
 		flush<Buf::BF_TangentialStiffness>(buffer);
 		flush<Buf::BF_TangentialDamping>(buffer);
+		flush<Buf::BF_DriveType>(buffer);
 
 		if(isBuffered(Buf::BF_SwingLimit))
 			mJoint.setSwingLimit(buffer.mSwingLimitY, buffer.mSwingLimitZ);

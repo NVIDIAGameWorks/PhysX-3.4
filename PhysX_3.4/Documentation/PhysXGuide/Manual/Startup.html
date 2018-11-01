@@ -140,13 +140,13 @@
 <div class="section" id="delay-loading-dlls">
 <h2>Delay-Loading DLLs<a class="headerlink" href="#delay-loading-dlls" title="Permalink to this headline">¶</a></h2>
 <p>The PhysXCommon DLL, PxFoundation DLL and PxPvdSDK DLL are marked as delay-loaded inside of the PhysX, PhysXCooking, PhysXCommon and PxPvdSDK projects. So it is possible to have delay-loaded PxFoundation, PxPvdSDK, PhysXCommon, PhysX and PhysXCooking DLLs.</p>
-<div class="section" id="physxcommon-dll-and-psfoundation-dll-load">
-<h3>PhysXCommon DLL and PsFoundation DLL load<a class="headerlink" href="#physxcommon-dll-and-psfoundation-dll-load" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="physxcommon-dll-and-pxfoundation-dll-load">
+<h3>PhysXCommon DLL and PxFoundation DLL load<a class="headerlink" href="#physxcommon-dll-and-pxfoundation-dll-load" title="Permalink to this headline">¶</a></h3>
 <p>The application links against PhysXCommon DLL, and will usually load PxFoundation.dll, PxPvdSDK and PhysXCommon.dll before any other PhysX DLL. The DLL loaded by the application must be the same one that will be used by the PhysX and PhysXCooking DLLs.  In the PhysX and PhysXCooking DLLs, the choice of PhysXCommon, PxFoundation and PxPvdSDK is made as follows:</p>
 <blockquote>
 <div><ul class="simple">
 <li>If delay load hook is specified the PhysXCommon name, PxFoundation or PxPvdSDK name provided by user is used</li>
-<li>If delay load hook is not specified, the corresponding PhysXCommon DLL, PsFoundation DLL or PxPvdSDK DLL is used</li>
+<li>If delay load hook is not specified, the corresponding PhysXCommon DLL, PxFoundation DLL or PxPvdSDK DLL is used</li>
 </ul>
 </div></blockquote>
 </div>
@@ -182,10 +182,9 @@
 <span class="p">}</span> <span class="n">gDelayLoadHook</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Now the hook must be set for PhysX, PhysXCooking, PhysXGpu, PhysXCommon, PxPvdSDK:</p>
+<p>Now the hook must be set for PhysX, PhysXCooking, PhysXCommon, PxPvdSDK:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span class="n">PxSetPhysXDelayLoadHook</span><span class="p">(</span><span class="o">&amp;</span><span class="n">gDelayLoadHook</span><span class="p">);</span>
 <span class="n">PxSetPhysXCookingDelayLoadHook</span><span class="p">(</span><span class="o">&amp;</span><span class="n">gDelayLoadHook</span><span class="p">);</span>
-<span class="n">PxSetPhysXGpuDelayLoadHook</span><span class="p">(</span><span class="o">&amp;</span><span class="n">gDelayLoadHook</span><span class="p">);</span>
 <span class="n">PxSetPhysXCommonDelayLoadHook</span><span class="p">(</span><span class="o">&amp;</span><span class="n">gDelayLoadHook</span><span class="p">);</span>
 <span class="n">PxPvdSetFoundationDelayLoadHook</span><span class="p">(</span><span class="o">&amp;</span><span class="n">gDelayLoadHook</span><span class="p">);</span>
 </pre></div>
@@ -245,7 +244,7 @@
 <li><a class="reference internal" href="#extensions">Extensions</a></li>
 <li><a class="reference internal" href="#optional-sdk-components">Optional SDK Components</a></li>
 <li><a class="reference internal" href="#delay-loading-dlls">Delay-Loading DLLs</a><ul>
-<li><a class="reference internal" href="#physxcommon-dll-and-psfoundation-dll-load">PhysXCommon DLL and PsFoundation DLL load</a></li>
+<li><a class="reference internal" href="#physxcommon-dll-and-pxfoundation-dll-load">PhysXCommon DLL and PxFoundation DLL load</a></li>
 <li><a class="reference internal" href="#pxdelayloadhook">PxDelayLoadHook</a></li>
 <li><a class="reference internal" href="#pxgpuloadhook">PxGpuLoadHook</a></li>
 <li><a class="reference internal" href="#physxcommon-secure-load">PhysXCommon Secure Load</a></li>

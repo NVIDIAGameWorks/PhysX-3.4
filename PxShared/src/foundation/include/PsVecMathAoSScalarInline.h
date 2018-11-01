@@ -1054,7 +1054,7 @@ PX_FORCE_INLINE Vec4V V4PermYZXW(const Vec4V v)
 	return Vec4V(v.y, v.z, v.x, v.w);
 }
 
-PX_FORCE_INLINE Vec4V V4PermZWXY(const Vec4V a)
+PX_FORCE_INLINE Vec4V V4PermZWXY(const Vec4V v)
 {
 	return Vec4V(v.z, v.w, v.x, v.y);
 }

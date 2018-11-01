@@ -600,14 +600,15 @@ inline uint32_t ClothImpl<T>::getNumSpheres() const
 template <typename T>
 inline void ClothImpl<T>::setCapsules(Range<const uint32_t> capsules, uint32_t first, uint32_t last)
 {
+	const IndexPair* srcIndices = reinterpret_cast<const IndexPair*>(capsules.begin());
+	const uint32_t srcIndicesSize = uint32_t(capsules.size() / 2);
+	
 	uint32_t oldSize = mCloth.mCapsuleIndices.size();
-	uint32_t newSize = uint32_t(capsules.size() / 2) + oldSize - last + first;
+	uint32_t newSize = srcIndicesSize + oldSize - last + first;
 
 	PX_ASSERT(newSize <= 32);
 	PX_ASSERT(first <= oldSize);
 	PX_ASSERT(last <= oldSize);
-
-	const IndexPair* srcIndices = reinterpret_cast<const IndexPair*>(capsules.begin());
 
 	if(mCloth.mCapsuleIndices.capacity() < newSize)
 	{
@@ -634,8 +635,8 @@ inline void ClothImpl<T>::setCapsules(Range<const uint32_t> capsules, uint32_t f
 	}
 
 	// fill existing elements from capsules
-	for(uint32_t i = first; i < last; ++i)
-		dstIndices[i] = srcIndices[i - first];
+	for (uint32_t i=0; i < srcIndicesSize; ++i)
+		dstIndices[first + i] = srcIndices[i];
 
 	mCloth.wakeUp();
 }

@@ -39,6 +39,9 @@ using namespace physx;
 using namespace Sq;
 using namespace shdfnd::aos;
 
+#define SUPPORT_TREE_ROTATION 1
+#define DEALLOCATE_RESET 0
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 IncrementalAABBTree::IncrementalAABBTree():
@@ -138,7 +141,8 @@ PX_FORCE_INLINE static bool nodeIntersection(IncrementalAABBTreeNode& node, cons
 }
 
 // traversal strategy
-PX_FORCE_INLINE static PxU32 traversalDirection(IncrementalAABBTreeNode& child0, IncrementalAABBTreeNode& child1, const Vec4V& testCenterV)
+PX_FORCE_INLINE static PxU32 traversalDirection(const IncrementalAABBTreeNode& child0, const IncrementalAABBTreeNode& child1, const Vec4V& testCenterV,
+	bool testRotation, bool& rotateNode, PxU32& largesRotateNode)
 {
 	// traverse in the direction of a node which is closer
 	// we compare the node and object centers
@@ -147,6 +151,28 @@ PX_FORCE_INLINE static PxU32 traversalDirection(IncrementalAABBTreeNode& child0,
 
 	const Vec4V ch0D = V4Sub(testCenterV, centerCh0V);
 	const Vec4V ch1D = V4Sub(testCenterV, centerCh1V);
+
+	if(testRotation)
+	{
+		// if some volume is 3x larger than we do a rotation
+		const float volumeCompare = 3.0f;
+
+		PX_ALIGN(16, PxVec4) sizeCh0;
+		PX_ALIGN(16, PxVec4) sizeCh1;
+		const Vec4V sizeCh0V = V4Sub(child0.mBVMax, child0.mBVMin);
+		const Vec4V sizeCh1V = V4Sub(child1.mBVMax, child1.mBVMin);
+		V4StoreA(sizeCh0V, &sizeCh0.x);
+		V4StoreA(sizeCh1V, &sizeCh1.x);
+		
+		const float volumeCh0 = sizeCh0.x*sizeCh0.y*sizeCh0.z;
+		const float volumeCh1 = sizeCh1.x*sizeCh1.y*sizeCh1.z;
+
+		if((volumeCh0*volumeCompare < volumeCh1) || (volumeCh1*volumeCompare < volumeCh0))
+		{
+			largesRotateNode = (volumeCh0 > volumeCh1) ? 0u : 1u;
+			rotateNode = true;
+		}
+	}
 
 	const BoolV con = FIsGrtr(V4Dot3(ch0D, ch0D), V4Dot3(ch1D, ch1D));
 	return (BAllEqTTTT(con) == 1) ? PxU32(1) : PxU32(0);
@@ -229,7 +255,7 @@ IncrementalAABBTreeNode* IncrementalAABBTree::splitLeafNode(IncrementalAABBTreeN
 
 	IncrementalAABBTreeNode* returnNode = NULL;
 
-	// create new pairs of nodes, parent will remain the node (the one we split_
+	// create new pairs of nodes, parent will remain the node (the one we split)
 	IncrementalAABBTreeNode* child0 = reinterpret_cast<IncrementalAABBTreeNode*>(mNodesPool.allocate());
 	IncrementalAABBTreeNode* child1 = child0 + 1;	
 	AABBTreeIndices* newIndices = mIndicesPool.allocate();
@@ -264,7 +290,7 @@ IncrementalAABBTreeNode* IncrementalAABBTree::splitLeafNode(IncrementalAABBTreeN
 	{
 		const PxBounds3& primitiveBounds = bounds[child0Indices.indices[i]];
 		const float pCenter = primitiveBounds.getCenter(axis);
-		if(center[axis] > pCenter)
+		if(center[axis] >= pCenter)
 		{
 			// move to new node
 			child1Indices.indices[child1Indices.nbIndices++] = child0Indices.indices[i];						
@@ -292,7 +318,7 @@ IncrementalAABBTreeNode* IncrementalAABBTree::splitLeafNode(IncrementalAABBTreeN
 		{
 			const PxBounds3& primitiveBounds = bounds[index];
 			const float pCenter = primitiveBounds.getCenter(axis);
-			if(center[axis] > pCenter)
+			if(center[axis] >= pCenter)
 			{
 				// move to new node
 				child1Indices.indices[child1Indices.nbIndices++] = index;
@@ -346,17 +372,176 @@ IncrementalAABBTreeNode* IncrementalAABBTree::splitLeafNode(IncrementalAABBTreeN
 	return returnNode;
 }
 
+void IncrementalAABBTree::rotateTree(IncrementalAABBTreeNode* node, NodeList& changedLeaf, PxU32 largesRotateNodeIn, const PxBounds3* bounds, bool rotateAgain)
+{
+	PX_ASSERT(!node->isLeaf());	
+
+	IncrementalAABBTreeNode* smallerNode = node->mChilds[(largesRotateNodeIn == 0) ? 1 : 0];
+	IncrementalAABBTreeNode* largerNode = node->mChilds[largesRotateNodeIn];
+	PX_ASSERT(!largerNode->isLeaf());
+
+	// take a leaf from larger node and add it to the smaller node
+	const Vec4V testCenterV = V4Add(smallerNode->mBVMax, smallerNode->mBVMin);
+	IncrementalAABBTreeNode* rotationNode = NULL;	// store a node that seems not balanced
+	PxU32 largesRotateNode = 0;
+	bool rotateNode = false; 	
+	PxU32 traversalIndex = traversalDirection(*largerNode->mChilds[0], *largerNode->mChilds[1], testCenterV, false, rotateNode, largesRotateNode);
+	IncrementalAABBTreeNode* closestNode = largerNode->mChilds[traversalIndex];
+	while(!closestNode->isLeaf())
+	{
+		Ps::prefetchLine(closestNode->mChilds[0]->mChilds[0]);
+		Ps::prefetchLine(closestNode->mChilds[1]->mChilds[0]);
+
+		traversalIndex = traversalDirection(*closestNode->mChilds[0], *closestNode->mChilds[1], testCenterV, false, rotateNode, largesRotateNode);
+		closestNode = closestNode->mChilds[traversalIndex];
+	}
+	
+	// we have the leaf that we want to rotate
+	// create new parent and remove the current leaf
+	changedLeaf.findAndReplaceWithLast(closestNode);
+	IncrementalAABBTreeNode* parent = closestNode->mParent;
+	IncrementalAABBTreeNodePair* removedPair = reinterpret_cast<IncrementalAABBTreeNodePair*>(parent->mChilds[0]);
+	PX_ASSERT(!parent->isLeaf());
+
+	// copy the remaining child into parent
+	IncrementalAABBTreeNode* remainingChild = (parent->mChilds[0] == closestNode) ? parent->mChilds[1] : parent->mChilds[0];
+	parent->mBVMax = remainingChild->mBVMax;
+	parent->mBVMin = remainingChild->mBVMin;
+	if(remainingChild->isLeaf())
+	{
+		parent->mIndices = remainingChild->mIndices;
+		parent->mChilds[1] = NULL;
+		changedLeaf.findAndReplaceWithLast(remainingChild);
+		changedLeaf.pushBack(parent);
+	}
+	else
+	{
+		parent->mChilds[0] = remainingChild->mChilds[0];
+		parent->mChilds[0]->mParent = parent;
+		parent->mChilds[1] = remainingChild->mChilds[1];
+		parent->mChilds[1]->mParent = parent;
+	}
+
+	// update the hieararchy after the node removal
+	if(parent->mParent)
+	{
+		updateHierarchyAfterRemove(parent->mParent, bounds);
+	}
+
+	// find new spot for the node
+	// take a leaf from larger node and add it to the smaller node
+	IncrementalAABBTreeNode* newSpotNode = NULL;
+	if(smallerNode->isLeaf())
+	{
+		newSpotNode = smallerNode;
+	}
+	else
+	{
+		const Vec4V testClosestNodeCenterV = V4Add(closestNode->mBVMax, closestNode->mBVMin);
+		rotationNode = NULL;	// store a node that seems not balanced
+		largesRotateNode = 0;
+		rotateNode = false;
+		bool testRotation = rotateAgain;
+		traversalIndex = traversalDirection(*smallerNode->mChilds[0], *smallerNode->mChilds[1], testClosestNodeCenterV, testRotation, rotateNode, largesRotateNode);
+		if(rotateNode && !smallerNode->mChilds[largesRotateNode]->isLeaf())
+		{
+			rotationNode = smallerNode;
+			testRotation = false;
+		}
+		newSpotNode = smallerNode->mChilds[traversalIndex];
+		while(!newSpotNode->isLeaf())
+		{
+			Ps::prefetchLine(newSpotNode->mChilds[0]->mChilds[0]);
+			Ps::prefetchLine(newSpotNode->mChilds[1]->mChilds[0]);
+
+			traversalIndex = traversalDirection(*newSpotNode->mChilds[0], *newSpotNode->mChilds[1], testClosestNodeCenterV, testRotation, rotateNode, largesRotateNode);
+			if(!rotationNode && rotateNode && !newSpotNode->mChilds[largesRotateNode]->isLeaf())
+			{
+				rotationNode = newSpotNode;
+				testRotation = false;
+			}
+			newSpotNode = newSpotNode->mChilds[traversalIndex];
+		}
+	}
+
+	// we have the closest leaf in the smaller child, lets merge it with the closestNode
+	if(newSpotNode->getNbPrimitives() + closestNode->getNbPrimitives() <= NB_OBJECTS_PER_NODE)
+	{
+		// all primitives fit into new spot, we merge here simply
+		AABBTreeIndices* targetIndices = newSpotNode->mIndices;
+		const AABBTreeIndices* sourceIndices = closestNode->mIndices;
+		for(PxU32 i = 0; i < sourceIndices->nbIndices; i++)
+		{
+			targetIndices->indices[targetIndices->nbIndices++] = sourceIndices->indices[i];			
+		}
+		PX_ASSERT(targetIndices->nbIndices <= NB_OBJECTS_PER_NODE);
+		if(changedLeaf.find(newSpotNode) == changedLeaf.end())
+			changedLeaf.pushBack(newSpotNode);
+		mIndicesPool.deallocate(closestNode->mIndices);
+
+		newSpotNode->mBVMin = V4Min(newSpotNode->mBVMin, closestNode->mBVMin);
+		newSpotNode->mBVMax = V4Max(newSpotNode->mBVMax, closestNode->mBVMax);
+		updateHierarchyAfterInsert(newSpotNode);		
+	}
+	else
+	{
+		// we need to make new parent with newSpotNode and closestNode as childs
+		// create new pairs of nodes, parent will remain the node (the one we split)
+		IncrementalAABBTreeNode* child0 = reinterpret_cast<IncrementalAABBTreeNode*>(mNodesPool.allocate());
+		IncrementalAABBTreeNode* child1 = child0 + 1;	
+
+		// setup parent
+		child0->mParent = newSpotNode;
+		child1->mParent = newSpotNode;
+		child0->mIndices = newSpotNode->mIndices;
+		child0->mChilds[1] = NULL;
+		child0->mBVMin = newSpotNode->mBVMin;
+		child0->mBVMax = newSpotNode->mBVMax;
+		child1->mIndices = closestNode->mIndices;
+		child1->mChilds[1] = NULL;
+		child1->mBVMin = closestNode->mBVMin;
+		child1->mBVMax = closestNode->mBVMax;
+
+		// node parent is the same, setup the new childs
+		newSpotNode->mChilds[0] = child0;
+		newSpotNode->mChilds[1] = child1;
+
+		newSpotNode->mBVMin = V4Min(child0->mBVMin, child1->mBVMin);
+		newSpotNode->mBVMax = V4Max(child0->mBVMax, child1->mBVMax);
+
+		updateHierarchyAfterInsert(newSpotNode);
+
+		changedLeaf.findAndReplaceWithLast(newSpotNode);
+		changedLeaf.pushBack(child0);
+		changedLeaf.pushBack(child1);
+	}
+
+	// deallocate the closestNode, it has been moved
+#if DEALLOCATE_RESET
+	removedPair->mNode0.mChilds[0] = NULL;
+	removedPair->mNode0.mChilds[1] = NULL;
+
+	removedPair->mNode1.mChilds[0] = NULL;
+	removedPair->mNode1.mChilds[1] = NULL;
+#endif
+	mNodesPool.deallocate(removedPair);
+
+	// try to do one more rotation for the newly added node part of tree
+	if(rotationNode)
+	{
+		rotateTree(rotationNode, changedLeaf, largesRotateNode, bounds, false);
+	}
+}
+
 
 // insert new bounds into tree
-IncrementalAABBTreeNode* IncrementalAABBTree::insert(const PoolIndex index, const PxBounds3* bounds, bool& split)
+IncrementalAABBTreeNode* IncrementalAABBTree::insert(const PoolIndex index, const PxBounds3* bounds, NodeList& changedLeaf)
 {	
 	PX_SIMD_GUARD;
 
 	// get the bounds, reset the W value
 	const Vec4V minV = V4ClearW(V4LoadU(&bounds[index].minimum.x));
-	const Vec4V maxV = V4ClearW(V4LoadU(&bounds[index].maximum.x));	
-
-	split = false;
+	const Vec4V maxV = V4ClearW(V4LoadU(&bounds[index].maximum.x));
 
 	// check if tree is empty
 	if(!mRoot)
@@ -387,24 +572,53 @@ IncrementalAABBTreeNode* IncrementalAABBTree::insert(const PoolIndex index, cons
 			else
 			{
 				// need to split the node
+				// check if the leaf is not marked as changed, we need to remove it
+				if(!changedLeaf.empty())
+				{
+					PX_ASSERT(changedLeaf.size() == 1);
+					if(changedLeaf[0] == mRoot)
+						changedLeaf.popBack();
+				}
 				IncrementalAABBTreeNode* retNode = splitLeafNode(mRoot, index, minV, maxV, bounds);
 				mRoot = retNode->mParent;
-				split = true;
+				IncrementalAABBTreeNode* sibling = (mRoot->mChilds[0] == retNode) ? mRoot->mChilds[1] : mRoot->mChilds[0];
+				if(sibling->isLeaf())
+					changedLeaf.pushBack(sibling);
+				changedLeaf.pushBack(retNode);
 				return retNode;
 			}
 		}
 		else
 		{
 			const Vec4V testCenterV = V4Add(maxV, minV);
-			// we dont need to modify root, lets traverse the tree to find the right spot
-			PxU32 traversalIndex = traversalDirection(*mRoot->mChilds[0], *mRoot->mChilds[1], testCenterV);
+			IncrementalAABBTreeNode* returnNode = NULL;
+			IncrementalAABBTreeNode* rotationNode = NULL;	// store a node that seems not balanced
+			PxU32 largesRotateNode = 0;
+			bool rotateNode = false;
+#if SUPPORT_TREE_ROTATION
+			bool testRotation = true;
+#else
+			bool testRotation = false;
+#endif
+ 			// we dont need to modify root, lets traverse the tree to find the right spot
+			PxU32 traversalIndex = traversalDirection(*mRoot->mChilds[0], *mRoot->mChilds[1], testCenterV, testRotation, rotateNode, largesRotateNode);
+			if(rotateNode && !mRoot->mChilds[largesRotateNode]->isLeaf())
+			{
+				rotationNode = mRoot;
+				testRotation = false;
+			}
 			IncrementalAABBTreeNode* baseNode = mRoot->mChilds[traversalIndex];
 			while(!baseNode->isLeaf())
 			{
 				Ps::prefetchLine(baseNode->mChilds[0]->mChilds[0]);
 				Ps::prefetchLine(baseNode->mChilds[1]->mChilds[0]);
 
-				traversalIndex = traversalDirection(*baseNode->mChilds[0], *baseNode->mChilds[1], testCenterV);
+				traversalIndex = traversalDirection(*baseNode->mChilds[0], *baseNode->mChilds[1], testCenterV, testRotation, rotateNode, largesRotateNode);
+				if(!rotationNode && rotateNode && !baseNode->mChilds[largesRotateNode]->isLeaf())
+				{
+					rotationNode = baseNode;
+					testRotation = false;
+				}
 				baseNode = baseNode->mChilds[traversalIndex];
 			}
 			
@@ -413,30 +627,60 @@ IncrementalAABBTreeNode* IncrementalAABBTree::insert(const PoolIndex index, cons
 			{
 				// simply add the primitive into the current leaf
 				addPrimitiveIntoNode(baseNode, index, minV, maxV);
-				return baseNode;
+				returnNode = baseNode;
+				if(!changedLeaf.empty())
+				{
+					PX_ASSERT(changedLeaf.size() == 1);
+					if(changedLeaf[0] != baseNode)
+						changedLeaf.pushBack(baseNode);
+				}
+				else
+					changedLeaf.pushBack(baseNode);
 			}
 			else
 			{
 				// split
-				IncrementalAABBTreeNode* retNode = splitLeafNode(baseNode, index, minV, maxV, bounds);				
-				split = true;
-				return retNode;
+				// check if the leaf is not marked as changed, we need to remove it
+				if(!changedLeaf.empty())
+				{
+					PX_ASSERT(changedLeaf.size() == 1);
+					if(changedLeaf[0] == baseNode)
+						changedLeaf.popBack();
+				}
+				IncrementalAABBTreeNode* retNode = splitLeafNode(baseNode, index, minV, maxV, bounds);
+				const IncrementalAABBTreeNode* splitParent = retNode->mParent;
+				changedLeaf.pushBack(splitParent->mChilds[0]);
+				changedLeaf.pushBack(splitParent->mChilds[1]);
+
+				returnNode = retNode;
 			}
+
+			if(rotationNode)
+			{
+				rotateTree(rotationNode, changedLeaf, largesRotateNode, bounds, true);
+				returnNode = NULL;
+			}
+
+			return returnNode;
 		}
 	}
 }
 
 // update the index, do a full remove/insert update
-IncrementalAABBTreeNode* IncrementalAABBTree::update(IncrementalAABBTreeNode* node, const PoolIndex index, const PxBounds3* bounds, bool& split, IncrementalAABBTreeNode*& removedNode)
+IncrementalAABBTreeNode* IncrementalAABBTree::update(IncrementalAABBTreeNode* node, const PoolIndex index, const PxBounds3* bounds, NodeList& changedLeaf)
 {
 	PX_SIMD_GUARD;
 
-	removedNode = remove(node, index, bounds);
-	return insert(index, bounds, split);	
+	IncrementalAABBTreeNode* removedNode = remove(node, index, bounds);
+	if(removedNode && removedNode->isLeaf())
+	{
+		changedLeaf.pushBack(removedNode);
+	}
+	return insert(index, bounds, changedLeaf);	
 }
 
 // update the index, faster version with a lazy update of objects that moved just a bit
-IncrementalAABBTreeNode* IncrementalAABBTree::updateFast(IncrementalAABBTreeNode* node, const PoolIndex index, const PxBounds3* bounds, bool& split, IncrementalAABBTreeNode*& removedNode)
+IncrementalAABBTreeNode* IncrementalAABBTree::updateFast(IncrementalAABBTreeNode* node, const PoolIndex index, const PxBounds3* bounds, NodeList& changedLeaf)
 {
 	PX_SIMD_GUARD;
 
@@ -451,8 +695,12 @@ IncrementalAABBTreeNode* IncrementalAABBTree::updateFast(IncrementalAABBTreeNode
 	}
 	else
 	{
-		removedNode = remove(node, index, bounds);	
-		return insert(index, bounds, split);	
+		IncrementalAABBTreeNode* removedNode = remove(node, index, bounds);	
+		if(removedNode && removedNode->isLeaf())
+		{
+			changedLeaf.pushBack(removedNode);
+		}
+		return insert(index, bounds, changedLeaf);	
 	}
 }
 
@@ -475,6 +723,14 @@ IncrementalAABBTreeNode* IncrementalAABBTree::remove(IncrementalAABBTreeNode* no
 		// if root node and the last primitive remove root
 		if(node == mRoot)
 		{
+#if DEALLOCATE_RESET
+			IncrementalAABBTreeNodePair* removedPair = reinterpret_cast<IncrementalAABBTreeNodePair*>(node);
+			removedPair->mNode0.mChilds[0] = NULL;
+			removedPair->mNode0.mChilds[1] = NULL;
+
+			removedPair->mNode1.mChilds[0] = NULL;
+			removedPair->mNode1.mChilds[1] = NULL;
+#endif
 			mNodesPool.deallocate(reinterpret_cast<IncrementalAABBTreeNodePair*>(node));
 			mRoot = NULL;
 			return NULL;
@@ -509,6 +765,13 @@ IncrementalAABBTreeNode* IncrementalAABBTree::remove(IncrementalAABBTreeNode* no
 			}
 
 			mIndicesPool.deallocate(node->mIndices);
+#if DEALLOCATE_RESET
+			removedPair->mNode0.mChilds[0] = NULL;
+			removedPair->mNode0.mChilds[1] = NULL;
+
+			removedPair->mNode1.mChilds[0] = NULL;
+			removedPair->mNode1.mChilds[1] = NULL;
+#endif
 			mNodesPool.deallocate(removedPair);	
 			return parent;
 		}
@@ -556,15 +819,13 @@ void IncrementalAABBTree::shiftOrigin(const PxVec3& shift)
 	}
 }
 
-static void checkNode(IncrementalAABBTreeNode* node, IncrementalAABBTreeNode* parent, const PxBounds3* bounds, PoolIndex maxIndex, PxU32& numIndices)
+static void checkNode(IncrementalAABBTreeNode* node, IncrementalAABBTreeNode* parent, const PxBounds3* bounds, PoolIndex maxIndex, PxU32& numIndices, PxU32& numNodes)
 {
 	PX_ASSERT(node->mParent == parent);
 	PX_ASSERT(!parent->isLeaf());
 	PX_ASSERT(parent->mChilds[0] == node || parent->mChilds[1] == node);
 
-	//ASSERT_ISVALIDVEC3V(node->mBVMin);
-	//ASSERT_ISVALIDVEC3V(node->mBVMax);
-
+	numNodes++;
 	if(!node->isLeaf())
 	{
 		PX_ASSERT(nodeInsideBounds(node->mChilds[0]->mBVMin, node->mChilds[0]->mBVMax, node->mBVMin, node->mBVMax));
@@ -575,10 +836,10 @@ static void checkNode(IncrementalAABBTreeNode* node, IncrementalAABBTreeNode* pa
 
 		PX_UNUSED(testMinV);
 		PX_UNUSED(testMaxV);
-		PX_ASSERT(boundsEqual(testMinV, testMaxV, node->mBVMin, node->mBVMax));
+		PX_ASSERT(nodeInsideBounds(node->mBVMin, node->mBVMax, testMinV, testMaxV));
 
-		checkNode(node->mChilds[0], node, bounds, maxIndex, numIndices);
-		checkNode(node->mChilds[1], node, bounds, maxIndex, numIndices);
+		checkNode(node->mChilds[0], node, bounds, maxIndex, numIndices, numNodes);
+		checkNode(node->mChilds[1], node, bounds, maxIndex, numIndices, numNodes);
 	}
 	else
 	{
@@ -607,12 +868,26 @@ static void checkNode(IncrementalAABBTreeNode* node, IncrementalAABBTreeNode* pa
 void IncrementalAABBTree::hierarchyCheck(PoolIndex maxIndex, const PxBounds3* bounds)
 {
 	PxU32 numHandles = 0;
+	PxU32 numPosNodes = 0;
+	PxU32 numNegNodes = 0;
 	if(mRoot && !mRoot->isLeaf())
 	{
-		checkNode(mRoot->mChilds[0], mRoot, bounds, maxIndex, numHandles);
-		checkNode(mRoot->mChilds[1], mRoot, bounds, maxIndex, numHandles);
+		checkNode(mRoot->mChilds[0], mRoot, bounds, maxIndex, numHandles, numPosNodes);
+		checkNode(mRoot->mChilds[1], mRoot, bounds, maxIndex, numHandles, numNegNodes);
 
 		PX_ASSERT(numHandles == maxIndex);
+	}	
+}
+
+void IncrementalAABBTree::hierarchyCheck(const PxBounds3* bounds)
+{
+	PxU32 numHandles = 0;
+	PxU32 numPosNodes = 0;
+	PxU32 numNegNodes = 0;
+	if(mRoot && !mRoot->isLeaf())
+	{
+		checkNode(mRoot->mChilds[0], mRoot, bounds, 0xFFFFFFFF, numHandles, numPosNodes);
+		checkNode(mRoot->mChilds[1], mRoot, bounds, 0xFFFFFFFF, numHandles, numNegNodes);
 	}	
 }
 
@@ -632,6 +907,18 @@ void IncrementalAABBTree::checkTreeLeaf(IncrementalAABBTreeNode* leaf, PoolIndex
 	}
 	PX_UNUSED(found);
 	PX_ASSERT(found);
+}
+
+PxU32 IncrementalAABBTree::getTreeLeafDepth(IncrementalAABBTreeNode* leaf)
+{
+	PxU32 depth = 1;
+	IncrementalAABBTreeNode* parent = leaf->mParent;
+	while(parent)
+	{
+		depth++;
+		parent = parent->mParent;
+	}
+	return depth;
 }
 
 // build the tree from given bounds

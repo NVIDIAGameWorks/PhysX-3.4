@@ -103,9 +103,12 @@ namespace Cct
 				// with fixed-size slabs to get the best of both worlds but it would make iterating over
 				// triangles more complicated and would need more refactoring. So for now we don't bother,
 				// but we'll keep this note here for the next time this problem shows up.
-//				const PxU32 naturalGrowthSize = maxNbEntries ? maxNbEntries*2 : 2;
-//				const PxU32 newSize = PxMax(requiredSize, naturalGrowthSize);
-				const PxU32 newSize = requiredSize;
+				// PT: new August 2018: turns out PX-837 was correct. Not doing this produces very large
+				// performance problems (like: the app freezes!) in SampleCCT. We didn't see it because
+				// it's an internal sample that it rarely used these days...
+				const PxU32 naturalGrowthSize = maxNbEntries ? maxNbEntries*2 : 2;
+				const PxU32 newSize = PxMax(requiredSize, naturalGrowthSize);
+//				const PxU32 newSize = requiredSize;
 
 				Ps::Array<PxTriangle>::reserve(newSize);
 			}
@@ -127,6 +130,11 @@ namespace Cct
 		PX_FORCE_INLINE PxU32 size()	const
 		{
 			return Ps::Array<PxTriangle>::size();
+		}
+
+		PX_FORCE_INLINE const PxTriangle* begin()	const
+		{
+			return Ps::Array<PxTriangle>::begin();
 		}
 
 		PX_FORCE_INLINE void clear()

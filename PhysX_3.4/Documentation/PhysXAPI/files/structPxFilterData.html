@@ -37,12 +37,18 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxFilterData.html#ecbb36ad8822aac96f39a1054d995821">PxFilterData</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Default constructor.  <a href="#ecbb36ad8822aac96f39a1054d995821"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxFilterData.html#b02469517e6bf86a5402b451893d60f3">PxFilterData</a> (const <a class="el" href="structPxFilterData.html">PxFilterData</a> &amp;fd)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Copy constructor.  <a href="#b02469517e6bf86a5402b451893d60f3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxFilterData.html#b4ec43e89c553a53134ca8e481346002">PxFilterData</a> (<a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> w0, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> w1, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> w2, <a class="el" href="group__foundation.html#gcce5749db3dcfb916e98c253374264ed">PxU32</a> w3)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor to set filter data initially.  <a href="#b4ec43e89c553a53134ca8e481346002"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxFilterData.html#d6d40431c37145235eaceea47f57b9b5">setToDefault</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">(re)sets the structure to the default.  <a href="#d6d40431c37145235eaceea47f57b9b5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxFilterData.html#20d8e3db97e925668d7eba863795b679">operator=</a> (const <a class="el" href="structPxFilterData.html">PxFilterData</a> &amp;fd)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Assignment operator.  <a href="#20d8e3db97e925668d7eba863795b679"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PX_INLINE bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxFilterData.html#535a321fcf2f15b37a31aafdb5bfef14">operator==</a> (const <a class="el" href="structPxFilterData.html">PxFilterData</a> &amp;a) const </td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Comparison operator to allow use in Array.  <a href="#535a321fcf2f15b37a31aafdb5bfef14"></a><br></td></tr>
@@ -101,6 +107,28 @@
 
 <p>
 Default constructor. 
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="b02469517e6bf86a5402b451893d60f3"></a><!-- doxytag: member="PxFilterData::PxFilterData" ref="b02469517e6bf86a5402b451893d60f3" args="(const PxFilterData &amp;fd)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PX_INLINE PxFilterData::PxFilterData           </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structPxFilterData.html">PxFilterData</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>fd</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Copy constructor. 
 <p>
 
 </div>
@@ -171,6 +199,30 @@ Comparison operator to allow use in Array.
 
 </div>
 </div><p>
+<a class="anchor" name="20d8e3db97e925668d7eba863795b679"></a><!-- doxytag: member="PxFilterData::operator=" ref="20d8e3db97e925668d7eba863795b679" args="(const PxFilterData &amp;fd)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PX_INLINE void PxFilterData::operator=           </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structPxFilterData.html">PxFilterData</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>fd</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Assignment operator. 
+<p>
+
+<p>References <a class="el" href="PxFiltering_8h-source.html#l00434">word0</a>, <a class="el" href="PxFiltering_8h-source.html#l00435">word1</a>, <a class="el" href="PxFiltering_8h-source.html#l00436">word2</a>, and <a class="el" href="PxFiltering_8h-source.html#l00437">word3</a>.</p>
+
+</div>
+</div><p>
 <a class="anchor" name="535a321fcf2f15b37a31aafdb5bfef14"></a><!-- doxytag: member="PxFilterData::operator==" ref="535a321fcf2f15b37a31aafdb5bfef14" args="(const PxFilterData &amp;a) const " -->
 <div class="memitem">
 <div class="memproto">
@@ -191,7 +243,7 @@ Comparison operator to allow use in Array.
 Comparison operator to allow use in Array. 
 <p>
 
-<p>References <a class="el" href="PxFiltering_8h-source.html#l00418">word0</a>, <a class="el" href="PxFiltering_8h-source.html#l00419">word1</a>, <a class="el" href="PxFiltering_8h-source.html#l00420">word2</a>, and <a class="el" href="PxFiltering_8h-source.html#l00421">word3</a>.</p>
+<p>References <a class="el" href="PxFiltering_8h-source.html#l00434">word0</a>, <a class="el" href="PxFiltering_8h-source.html#l00435">word1</a>, <a class="el" href="PxFiltering_8h-source.html#l00436">word2</a>, and <a class="el" href="PxFiltering_8h-source.html#l00437">word3</a>.</p>
 
 </div>
 </div><p>
@@ -230,7 +282,7 @@ Comparison operator to allow use in Array.
 
 <p>
 
-<p>Referenced by <a class="el" href="PxFiltering_8h-source.html#l00405">operator==()</a>.</p>
+<p>Referenced by <a class="el" href="PxFiltering_8h-source.html#l00410">operator=()</a>, and <a class="el" href="PxFiltering_8h-source.html#l00421">operator==()</a>.</p>
 
 </div>
 </div><p>
@@ -247,7 +299,7 @@ Comparison operator to allow use in Array.
 
 <p>
 
-<p>Referenced by <a class="el" href="PxFiltering_8h-source.html#l00405">operator==()</a>.</p>
+<p>Referenced by <a class="el" href="PxFiltering_8h-source.html#l00410">operator=()</a>, and <a class="el" href="PxFiltering_8h-source.html#l00421">operator==()</a>.</p>
 
 </div>
 </div><p>
@@ -264,7 +316,7 @@ Comparison operator to allow use in Array.
 
 <p>
 
-<p>Referenced by <a class="el" href="PxFiltering_8h-source.html#l00405">operator==()</a>.</p>
+<p>Referenced by <a class="el" href="PxFiltering_8h-source.html#l00410">operator=()</a>, and <a class="el" href="PxFiltering_8h-source.html#l00421">operator==()</a>.</p>
 
 </div>
 </div><p>
@@ -281,7 +333,7 @@ Comparison operator to allow use in Array.
 
 <p>
 
-<p>Referenced by <a class="el" href="PxFiltering_8h-source.html#l00405">operator==()</a>.</p>
+<p>Referenced by <a class="el" href="PxFiltering_8h-source.html#l00410">operator=()</a>, and <a class="el" href="PxFiltering_8h-source.html#l00421">operator==()</a>.</p>
 
 </div>
 </div><p>

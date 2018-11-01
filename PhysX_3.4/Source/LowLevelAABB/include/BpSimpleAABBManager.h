@@ -43,6 +43,7 @@
 #include "BpAABBManagerTasks.h"
 #include "PsHashSet.h"
 #include "PxFiltering.h"
+#include "PsSList.h"
 
 /**
 \brief The maximum number of bounds allowed in an aggregate
@@ -99,6 +100,20 @@ namespace Bp
 			void*		mPairUserData;		//For deleted pairs, this is the user data written by the application to the pair
 		};*/
 		void*	mPairUserData;		//For deleted pairs, this is the user data written by the application to the pair
+	};
+
+	struct BpCacheData : public Ps::SListEntry
+	{
+		Ps::Array<AABBOverlap> mCreatedPairs[2];
+		Ps::Array<AABBOverlap> mDeletedPairs[2];
+
+		void reset()
+		{
+			mCreatedPairs[0].resizeUninitialized(0);
+			mCreatedPairs[1].resizeUninitialized(0);
+			mDeletedPairs[0].resizeUninitialized(0);
+			mDeletedPairs[1].resizeUninitialized(0);
+		}
 	};
 
 	class BoundsArray : public Ps::UserAllocated
@@ -241,6 +256,7 @@ namespace Bp
 	class PersistentSelfCollisionPairs;
 	struct AggPair
 	{
+		PX_FORCE_INLINE AggPair() {}
 		PX_FORCE_INLINE	AggPair(ShapeHandle index0, ShapeHandle index1) : mIndex0(index0), mIndex1(index1)	{}
 		ShapeHandle	mIndex0;
 		ShapeHandle	mIndex1;
@@ -278,6 +294,30 @@ namespace Bp
 		PxU32	mID0;
 		PxU32	mID1;
 	};
+
+	class SimpleAABBManager;
+
+	class PostBroadPhaseStage2Task : public Cm::Task
+	{
+		Cm::FlushPool* mFlushPool;
+		SimpleAABBManager& mManager;
+
+		PX_NOCOPY(PostBroadPhaseStage2Task)
+	public:
+
+		PostBroadPhaseStage2Task(PxU64 contextID, SimpleAABBManager& manager) : Cm::Task(contextID), mFlushPool(NULL), mManager(manager)
+		{
+		}
+
+		virtual const char* getName() const { return "PostBroadPhaseStage2Task"; }
+
+		void setFlushPool(Cm::FlushPool* pool) { mFlushPool = pool; }
+
+		virtual void runInternal();
+
+	};
+
+	class ProcessAggPairsBase;
 
 
 	/**
@@ -390,10 +430,25 @@ namespace Bp
 		PX_FORCE_INLINE void*						getUserData(const BoundsIndex index) const { if (index < mVolumeData.size()) return mVolumeData[index].getUserData(); return NULL; }
 		PX_FORCE_INLINE	PxU64						getContextId()				const	{ return mContextID;				}
 
-		void postBroadPhase(PxBaseTask*, PxBaseTask* narrowPhaseUnlockTask);
+		void postBroadPhase(PxBaseTask*, PxBaseTask* narrowPhaseUnlockTask, Cm::FlushPool& flushPool);
+
+
+
+		BpCacheData* getBpCacheData();
+		void putBpCacheData(BpCacheData*);
+		void resetBpCacheData();
+
+		Ps::Mutex					mMapLock;
 
 	private:
 		void reserveShapeSpace(PxU32 nbShapes);
+
+		void postBpStage2(PxBaseTask*, Cm::FlushPool&);
+
+		void postBpStage3(PxBaseTask*);
+
+		PostBroadPhaseStage2Task														mPostBroadPhase2;
+		Cm::DelegateTask<SimpleAABBManager, &SimpleAABBManager::postBpStage3>			mPostBroadPhase3;
 		
 		//Cm::DelegateTask<SimpleAABBManager, &SimpleAABBManager::postBroadPhase>			mPostBroadPhase;
 
@@ -481,6 +536,8 @@ namespace Bp
 		AggPairMap					mActorAggregatePairs;
 		AggPairMap					mAggregateAggregatePairs;
 
+		Ps::Array<ProcessAggPairsBase*> mAggPairTasks;
+
 #ifdef BP_USE_AGGREGATE_GROUP_TAIL
 		// PT: TODO: even in the 3.4 trunk this stuff is a clumsy mess: groups are "BpHandle" suddenly passed
 		// to BroadPhaseUpdateData as "ShapeHandle".
@@ -491,6 +548,8 @@ namespace Bp
 		Ps::HashSet<Pair>			mCreatedPairs;
 
 		PxU64						mContextID;
+
+		Ps::SList					mBpThreadContextPool;
 
 		PX_FORCE_INLINE Aggregate* getAggregateFromHandle(AggregateHandle handle)
 		{
@@ -526,7 +585,7 @@ namespace Bp
 		void startAggregateBoundsComputationTasks(PxU32 nbToGo, PxU32 numCpuTasks, Cm::FlushPool& flushPool);
 		PersistentActorAggregatePair* createPersistentActorAggregatePair(ShapeHandle volA, ShapeHandle volB);
 		PersistentAggregateAggregatePair* createPersistentAggregateAggregatePair(ShapeHandle volA, ShapeHandle volB);
-		void updatePairs(PersistentPairs& p);
+		void updatePairs(PersistentPairs& p, BpCacheData* data = NULL);
 		void handleOriginShift();
 		public:
 		void processBPCreatedPair(const BroadPhasePair& pair);
@@ -534,6 +593,8 @@ namespace Bp
 //		bool checkID(ShapeHandle id);
 		friend class PersistentActorAggregatePair;
 		friend class PersistentAggregateAggregatePair;
+		friend class ProcessSelfCollisionPairsParallel;
+		friend class PostBroadPhaseStage2Task;
 	};
 
 } //namespace Bp

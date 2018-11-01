@@ -91,8 +91,11 @@ static bool copyBuffers(PxsContactManagerOutput& cmOutput, Gu::Cache& cache, Pxc
 		ret = true;
 		PxU8* oldPatches = cmOutput.contactPatches;
 		PxU8* oldContacts = cmOutput.contactPoints;
+		PxReal* oldForces = cmOutput.contactForces;
 
 		PxU32 forceSize = cmOutput.nbContacts * sizeof(PxReal);
+		if(isMeshType)
+			forceSize += cmOutput.nbContacts * sizeof(PxU32);
 
 		PxU8* PX_RESTRICT contactPatches = NULL;
 		PxU8* PX_RESTRICT contactPoints = NULL;
@@ -127,8 +130,6 @@ static bool copyBuffers(PxsContactManagerOutput& cmOutput, Gu::Cache& cache, Pxc
 
 			if(forceSize)
 			{
-				forceSize = isMeshType ? (forceSize * 2) : forceSize;
-
 				index = PxU32(Ps::atomicAdd(&context.mForceAndIndiceStreamPool->mSharedDataIndex, PxI32(forceSize)));
 			
 				if(context.mForceAndIndiceStreamPool->isOverflown())
@@ -150,6 +151,10 @@ static bool copyBuffers(PxsContactManagerOutput& cmOutput, Gu::Cache& cache, Pxc
 			{
 				PxMemCopy(contactPatches, oldPatches, patchSize);
 				PxMemCopy(contactPoints, oldContacts, contactSize);
+				if (isMeshType)
+				{
+					PxMemCopy(forceBuffer + cmOutput.nbContacts, oldForces + cmOutput.nbContacts, sizeof(PxU32) * cmOutput.nbContacts);
+				}
 			}
 		}
 		else
@@ -164,6 +169,10 @@ static bool copyBuffers(PxsContactManagerOutput& cmOutput, Gu::Cache& cache, Pxc
 			contactPoints = data + cmOutput.nbPatches * sizeof(PxContactPatch);
 
 			PxMemCopy(data, oldPatches, oldSize);
+			if (isMeshType)
+			{
+				PxMemCopy(forceBuffer + cmOutput.nbContacts, oldForces + cmOutput.nbContacts, sizeof(PxU32) * cmOutput.nbContacts);
+			}
 		}
 
 		if(forceSize)

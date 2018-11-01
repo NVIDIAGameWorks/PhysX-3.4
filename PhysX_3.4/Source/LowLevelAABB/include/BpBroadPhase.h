@@ -225,7 +225,7 @@ public:
 	/**
 	\brief Shutdown of the broadphase.
 	*/
-	virtual	void							destroy() = 0;
+	virtual	void					destroy() = 0;
 
 	/**
 	\brief Update the broadphase and compute the lists of created/deleted pairs.
@@ -311,10 +311,12 @@ public:
 	virtual bool					isValid(const BroadPhaseUpdateData& updateData) const = 0;
 #endif
 
-	virtual BroadPhasePair*				getBroadPhasePairs() const = 0;
+	virtual BroadPhasePair*			getBroadPhasePairs() const = 0;
 
-	virtual void						deletePairs() = 0;
+	virtual void					deletePairs() = 0;
 
+	// PT: for unit-testing the non-GPU versions
+	virtual	void					singleThreadedUpdate(PxcScratchAllocator* /*scratchAllocator*/, const BroadPhaseUpdateData& /*updateData*/){}
 };
 
 } //namespace Bp

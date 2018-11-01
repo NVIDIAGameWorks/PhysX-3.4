@@ -40,7 +40,9 @@ void Gu::barycentricCoordinates(const Vec3VArg p, const Vec3VArg a, const Vec3VA
 	const Vec3V d = V3Sub(v1, v0);
 	const FloatV denominator = V3Dot(d, d);
 	const FloatV numerator = V3Dot(V3Neg(v0), d);
-	v = FDiv(numerator, denominator);
+	const FloatV zero = FZero();
+	const FloatV denom = FSel(FIsGrtr(denominator, zero), FRecip(denominator), zero);
+	v = FMul(numerator, denom);
 }
 
 void Gu::barycentricCoordinates(const Ps::aos::Vec3VArg p, const Ps::aos::Vec3VArg a, const Ps::aos::Vec3VArg b, const Ps::aos::Vec3VArg c, Ps::aos::FloatV& v, Ps::aos::FloatV& w)

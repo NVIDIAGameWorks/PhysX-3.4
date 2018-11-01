@@ -449,6 +449,8 @@ void ShapeSim::updateBPGroup()
 	{
 		Sc::Scene& scene = getScene();
 		scene.getAABBManager()->setBPGroup(getElementID(), getBPGroup());
+
+		//reinsertBroadPhase();
 	}
 }
 

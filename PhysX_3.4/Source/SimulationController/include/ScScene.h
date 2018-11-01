@@ -919,6 +919,7 @@ namespace Sc
 					void						preBroadPhase(PxBaseTask* continuation);
 					void						broadPhase(PxBaseTask* continuation);
 					void						postBroadPhase(PxBaseTask* continuation);
+					void						postBroadPhaseContinuation(PxBaseTask* continuation);
 					void						preRigidBodyNarrowPhase(PxBaseTask* continuation);
 					void						postBroadPhaseStage2(PxBaseTask* continuation);
 					void						postBroadPhaseStage3(PxBaseTask* continuation);
@@ -1011,6 +1012,7 @@ namespace Sc
 					Cm::DelegateTask<Sc::Scene, &Sc::Scene::rigidBodyNarrowPhase>			mRigidBodyNarrowPhase;
 					Cm::DelegateTask<Sc::Scene, &Sc::Scene::unblockNarrowPhase>				mRigidBodyNPhaseUnlock;
 					Cm::DelegateTask<Sc::Scene, &Sc::Scene::postBroadPhase>					mPostBroadPhase;
+					Cm::DelegateTask<Sc::Scene, &Sc::Scene::postBroadPhaseContinuation>		mPostBroadPhaseCont;
 					Cm::DelegateTask<Sc::Scene, &Sc::Scene::postBroadPhaseStage2>			mPostBroadPhase2;
 					Cm::DelegateFanoutTask<Sc::Scene, &Sc::Scene::postBroadPhaseStage3>		mPostBroadPhase3;
 					Cm::DelegateTask<Sc::Scene, &Sc::Scene::preallocateContactManagers>		mPreallocateContactManagers;

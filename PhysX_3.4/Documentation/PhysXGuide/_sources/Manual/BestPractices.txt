@@ -323,6 +323,9 @@ Use the scene-query and simulation flags
 ========================================
 If a shape is only used for scene-queries (raycasts, etc), disable its simulation flag. If a shape is only used for simulation (e.g. it will never be raycasted against), disable its scene-query flag. This is good for both memory usage and performance. Please refer to the :ref:`RigidBodyCollision` chapter for details.
 
+Kill kinematic pairs early
+==========================
+If you do not need them, use PxPairFilteringMode::eKILL to disable kinematic pairs earlier in the pipeline.
 
 
 =========================

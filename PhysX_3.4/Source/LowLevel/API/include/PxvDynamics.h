@@ -66,8 +66,8 @@ struct PxsRigidCore
 // accordingly.
 //==================================================================================================
 
-	PxsRigidCore()	:		mFlags(0), mIdtBody2Actor(0)			{}
-	PxsRigidCore(const PxEMPTY) : mFlags(PxEmpty)					{}
+	PxsRigidCore() : mFlags(0), mIdtBody2Actor(0), solverIterationCounts(0)	{}
+	PxsRigidCore(const PxEMPTY) : mFlags(PxEmpty)							{}
 
 	PX_ALIGN_PREFIX(16)
 	PxTransform			body2World PX_ALIGN_SUFFIX(16);

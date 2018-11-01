@@ -353,7 +353,7 @@ struct PxSceneFlag
 
 		/*\brief Enables the GPU dynamics pipeline
 
-		When set to true, a CUDA 2.0 or above-enabled NVIDIA GPU is present and the GPU dispatcher has been configured, this will run the GPU dynamics pipelin instead of the CPU dynamics pipeline.
+		When set to true, a CUDA ARCH 3.0 or above-enabled NVIDIA GPU is present and the GPU dispatcher has been configured, this will run the GPU dynamics pipelin instead of the CPU dynamics pipeline.
 
 		Note that this flag is not mutable and must be set in PxSceneDesc at scene creation.
 		*/

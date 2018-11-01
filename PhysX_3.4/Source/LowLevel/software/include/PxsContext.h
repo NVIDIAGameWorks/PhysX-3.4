@@ -74,11 +74,6 @@ namespace Cm
 	class FlushPool;
 }
 
-namespace Bp
-{
-	class AABBManagerImpl;
-}
-
 namespace IG
 {
 	class SimpleIslandManager;

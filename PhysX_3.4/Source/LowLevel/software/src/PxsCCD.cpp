@@ -555,19 +555,8 @@ bool PxsCCDPair::sweepAdvanceToToi(PxReal dt, bool clipTrajectoryToToi)
 	//If the TOI < 1.f. If not, this hit happens after this frame or at the very end of the frame. Either way, next frame can handle it
 	if (thisPair->mMinToi < 1.0f)
 	{
-		if(thisPair->mCm->getWorkUnit().flags & PxcNpWorkUnitFlag::eDISABLE_RESPONSE)
+		if(thisPair->mCm->getWorkUnit().flags & PxcNpWorkUnitFlag::eDISABLE_RESPONSE || thisPair->mMaxImpulse == 0.f)
 		{
-			//This is a contact which has response disabled. We just step the bodies and return true but don't respond.
-			if(atom0)
-			{
-				atom0->advancePrevPoseToToi(thisPair->mMinToi);
-				atom0->advanceToToi(thisPair->mMinToi, dt, false);
-			}
-			if(atom1)
-			{
-				atom1->advancePrevPoseToToi(thisPair->mMinToi);
-				atom1->advanceToToi(thisPair->mMinToi, dt, false);
-			}
 			//Don't mark pass as done on either body
 			return true;
 		}
@@ -1059,14 +1048,6 @@ public:
 						mCCDContext->runCCDModifiableContact(point, 1, pair.mCCDShape0->mShapeCore, pair.mCCDShape1->mShapeCore,
 							pair.mCCDShape0->mRigidCore, pair.mCCDShape1->mRigidCore, pair.mBa0, pair.mBa1);
 
-						//If the maxImpulse is 0, we return to the beginning of the loop, knowing that the application did not want an interaction
-						//between the pair.
-						if(point->maxImpulse == 0.f)
-						{
-							pair.mMinToi = PX_MAX_REAL;
-							continue;
-						}
-
 						if ((patch->internalFlags & PxContactPatch::eHAS_MAX_IMPULSE))
 							pair.mMaxImpulse = point->maxImpulse;
 
@@ -1128,7 +1109,7 @@ public:
 					}
 
 					//If we disabled response, we don't need to resweep at all
-					if(!mDisableResweep && !(pair.mCm->getWorkUnit().flags & PxcNpWorkUnitFlag::eDISABLE_RESPONSE))
+					if(!mDisableResweep && !(pair.mCm->getWorkUnit().flags & PxcNpWorkUnitFlag::eDISABLE_RESPONSE) && pair.mMaxImpulse != 0.f)
 					{
 						void* a0 = pair.mBa0 == NULL ? NULL : reinterpret_cast<void*>(pair.mBa0);
 						void* a1 = pair.mBa1 == NULL ? NULL : reinterpret_cast<void*>(pair.mBa1);

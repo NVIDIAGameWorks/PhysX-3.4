@@ -102,7 +102,12 @@ public:
 		PX_PHYSX_COMMON_API virtual		PxVec3						getTriangleNormal(PxTriangleID triangleIndex)	const
 												{
 													return getTriangleNormalInternal(triangleIndex);
-												}	
+												}
+		PX_PHYSX_COMMON_API virtual	const PxHeightFieldSample&	getSample(PxU32 row, PxU32 column) const
+												{
+													const PxU32 cell = row * getNbColumnsFast() + column;
+													return getSample(cell);
+												}
 
 		/**
 		\brief Returns the number of times the heightfield data has been modified
@@ -847,7 +852,8 @@ PX_INLINE void Gu::HeightField::getTriangleAdjacencyIndices(PxU32 triangleIndex,
 
 			if((cell / mData.columns != mData.rows - 2))
 			{
-				adjacencyIndex2 = ((cell + mData.columns) * 2) + 1;
+				const PxU32 tMod = isZerothVertexShared(cell + mData.columns) ? 1u : 0u;
+				adjacencyIndex2 = ((cell + mData.columns) * 2) + tMod;
 			}
 		}
 		else
@@ -863,7 +869,8 @@ PX_INLINE void Gu::HeightField::getTriangleAdjacencyIndices(PxU32 triangleIndex,
 
 			if(cell >= mData.columns - 1)
 			{
-				adjacencyIndex2 = (cell - mData.columns) * 2;
+				const PxU32 tMod = isZerothVertexShared(cell - mData.columns) ? 0u : 1u;
+				adjacencyIndex2 = ((cell - mData.columns) * 2) + tMod;
 			}
 		}
 	}
@@ -885,7 +892,8 @@ PX_INLINE void Gu::HeightField::getTriangleAdjacencyIndices(PxU32 triangleIndex,
 
 			if(cell >= mData.columns - 1)
 			{
-				adjacencyIndex0 = ((cell - (mData.columns)) * 2) + 1;
+				const PxU32 tMod = isZerothVertexShared(cell - mData.columns) ? 0u : 1u;
+				adjacencyIndex0 = ((cell - (mData.columns)) * 2) + tMod;
 			}
 
 			if((cell % (mData.columns) != 0))
@@ -901,7 +909,8 @@ PX_INLINE void Gu::HeightField::getTriangleAdjacencyIndices(PxU32 triangleIndex,
 
 			if((cell / mData.columns != mData.rows - 2))
 			{
-				adjacencyIndex0 = (cell + (mData.columns)) * 2;
+				const PxU32 tMod = isZerothVertexShared(cell + mData.columns) ? 1u : 0u;
+				adjacencyIndex0 = (cell + (mData.columns)) * 2 + tMod;
 			}
 
 			if(cell % (mData.columns) < (mData.columns - 2))

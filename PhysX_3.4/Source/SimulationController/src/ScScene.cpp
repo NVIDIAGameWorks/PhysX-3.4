@@ -630,6 +630,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 	mRigidBodyNarrowPhase			(contextID, this, "ScScene.rigidBodyNarrowPhase"),
 	mRigidBodyNPhaseUnlock			(contextID, this, "ScScene.unblockNarrowPhase"),
 	mPostBroadPhase					(contextID, this, "ScScene.postBroadPhase"),
+	mPostBroadPhaseCont				(contextID, this, "ScScene.postBroadPhaseCont"),
 	mPostBroadPhase2				(contextID, this, "ScScene.postBroadPhase2"),
 	mPostBroadPhase3				(contextID, this, "ScScene.postBroadPhase3"),
 	mPreallocateContactManagers		(contextID, this, "ScScene.preallocateContactManagers"),
@@ -703,7 +704,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 			useGpuDynamics = false;
 	}
 
-	if (desc.broadPhaseType & PxBroadPhaseType::eGPU)
+	if (desc.broadPhaseType == PxBroadPhaseType::eGPU)
 	{
 		useGpuBroadphase = true;
 		if (mTaskManager->getGpuDispatcher() == NULL)
@@ -2076,17 +2077,6 @@ void Sc::Scene::advanceStep(PxBaseTask* continuation)
 //	}
 //}
 
-/*-------------------------------*\
-| For generating a task graph of the runtime task 
-| execution have a look at the DOT_LOG define and
-| https://wiki.nvidia.com/engwiki/index.php/PhysX/sdk/InternalDoc_Example_TaskGraph
-|
-| A method for understanding the code used to schedule tasks 
-| is to read from the bottom to the top.
-| Functions like Task& taskA = scheduleTask(taskB, taskC)
-| can be read as "taskB and taskC depend on taskA"
-\*-------------------------------*/
-
 void Sc::Scene::collideStep(PxBaseTask* continuation)
 {
 	PX_PROFILE_ZONE("Sim.collideQueueTasks", getContextId());
@@ -2149,14 +2139,18 @@ void Sc::Scene::postBroadPhase(PxBaseTask* continuation)
 
 	//Notify narrow phase that broad phase has completed
 	mLLContext->getNphaseImplementationContext()->postBroadPhaseUpdateContactManager();
-	mAABBManager->postBroadPhase(continuation, &mRigidBodyNPhaseUnlock);
+	mAABBManager->postBroadPhase(continuation, &mRigidBodyNPhaseUnlock, *getFlushPool());
 
+}
+
+void Sc::Scene::postBroadPhaseContinuation(PxBaseTask* continuation)
+{
 	mAABBManager->getChangedAABBMgActorHandleMap().clear();
-	
+
 	// - Finishes broadphase update
 	// - Adds new interactions (and thereby contact managers if needed)
-	finishBroadPhase(0, continuation); 
-} 
+	finishBroadPhase(0, continuation);
+}
 
 void Sc::Scene::postBroadPhaseStage2(PxBaseTask* continuation)
 {
@@ -2417,7 +2411,8 @@ void Sc::Scene::rigidBodyNarrowPhase(PxBaseTask* continuation)
 
 	mPostBroadPhase3.addDependent(*continuation);
 	mPostBroadPhase2.setContinuation(&mPostBroadPhase3);
-	mPostBroadPhase.setContinuation(&mPostBroadPhase2);
+	mPostBroadPhaseCont.setContinuation(&mPostBroadPhase2);
+	mPostBroadPhase.setContinuation(&mPostBroadPhaseCont);
 	mBroadPhase.setContinuation(&mPostBroadPhase);
 	mRigidBodyNPhaseUnlock.setContinuation(continuation);
 	mRigidBodyNPhaseUnlock.addReference();
@@ -2456,6 +2451,7 @@ void Sc::Scene::rigidBodyNarrowPhase(PxBaseTask* continuation)
 
 	mPostBroadPhase3.removeReference();
 	mPostBroadPhase2.removeReference();
+	mPostBroadPhaseCont.removeReference();
 	mPostBroadPhase.removeReference();
 	mBroadPhase.removeReference();
 }
@@ -3098,7 +3094,8 @@ void Sc::Scene::updateSimulationController(PxBaseTask* continuation)
 
 void Sc::Scene::updateDynamics(PxBaseTask* continuation)
 {
-	mProcessLostContactsTask3.setContinuation(continuation);
+	//Allow processLostContactsTask to run until after 2nd pass of solver completes (update bodies, run sleeping logic etc.)
+	mProcessLostContactsTask3.setContinuation(static_cast<PxLightCpuTask*>(continuation)->getContinuation());
 	mProcessLostContactsTask2.setContinuation(&mProcessLostContactsTask3);
 	mProcessLostContactsTask.setContinuation(&mProcessLostContactsTask2);
 
@@ -3304,7 +3301,7 @@ void Sc::Scene::updateCCDSinglePass(PxBaseTask* continuation)
 	PX_PROFILE_ZONE("Sim.updateCCDSinglePass", getContextId());
 	mReportShapePairTimeStamp++;  // This will makes sure that new report pairs will get created instead of re-using the existing ones.
 
-	mAABBManager->postBroadPhase(continuation, NULL);
+	mAABBManager->postBroadPhase(NULL, NULL, *getFlushPool());
 	const PxU32 currentPass = mCCDContext->getCurrentCCDPass() + 1;  // 0 is reserved for discrete collision phase
 	finishBroadPhase(currentPass, continuation);
 	
@@ -6338,6 +6335,9 @@ public:
 			const Bp::AABBOverlap& pair = mPairs[a];
 			Sc::ElementSim* e0 = reinterpret_cast<Sc::ElementSim*>(pair.mUserData0);
 			Sc::ElementSim* e1 = reinterpret_cast<Sc::ElementSim*>(pair.mUserData1);
+
+			PX_ASSERT(e0 != NULL);
+			PX_ASSERT(e1 != NULL);
 
 			const PxFilterInfo finfo = mNPhaseCore->onOverlapFilter(e0, e1);
 

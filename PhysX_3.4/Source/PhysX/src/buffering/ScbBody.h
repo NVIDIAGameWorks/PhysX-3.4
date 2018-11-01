@@ -955,6 +955,7 @@ PX_INLINE void Body::syncState()
 		flush<Buf::BF_FreezeThreshold>(buffer);
 		flush<Buf::BF_MaxPenetrationBias>(buffer);
 		flush<Buf::BF_MaxContactImpulse>(buffer);
+		flush<Buf::BF_CCDAdvanceCoefficient>(buffer);
 		if(bufferFlags & Buf::BF_RigidBodyFlags)
 			mBodyCore.setFlags(getScbScene()->getScScene().getSimStateDataPool(), buffer.mRigidBodyFlags);
 	}

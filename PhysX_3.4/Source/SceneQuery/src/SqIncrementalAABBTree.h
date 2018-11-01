@@ -133,6 +133,8 @@ namespace physx
 			IncrementalAABBTreeNode	mNode1;
 		};
 
+		typedef Ps::Array<IncrementalAABBTreeNode*>	NodeList;
+
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// incremental AABB tree, all changes are immediatelly reflected to the tree
 		class IncrementalAABBTree : public Ps::UserAllocated
@@ -144,13 +146,13 @@ namespace physx
 			// Build the tree for the first time 
 			bool						build(AABBTreeBuildParams& params, Ps::Array<IncrementalAABBTreeNode*>& mapping);
 
-			// insert a new index into the tre
-			IncrementalAABBTreeNode*	insert(const PoolIndex index,  const PxBounds3* bounds, bool& split);
+			// insert a new index into the tree
+			IncrementalAABBTreeNode*	insert(const PoolIndex index,  const PxBounds3* bounds, NodeList& changedLeaf);
 
 			// update the object in the tree - full update insert/remove
-			IncrementalAABBTreeNode*	update(IncrementalAABBTreeNode* node, const PoolIndex index, const PxBounds3* bounds, bool& split, IncrementalAABBTreeNode*& removedNode);
+			IncrementalAABBTreeNode*	update(IncrementalAABBTreeNode* node, const PoolIndex index, const PxBounds3* bounds, NodeList& changedLeaf);
 			// update the object in the tree, faster method, that may unballance the tree
-			IncrementalAABBTreeNode*	updateFast(IncrementalAABBTreeNode* node, const PoolIndex index, const PxBounds3* bounds, bool& split, IncrementalAABBTreeNode*& removedNode);
+			IncrementalAABBTreeNode*	updateFast(IncrementalAABBTreeNode* node, const PoolIndex index, const PxBounds3* bounds, NodeList& changedLeaf);
 
 			// remove object from the tree
 			IncrementalAABBTreeNode*	remove(IncrementalAABBTreeNode* node, const PoolIndex index, const PxBounds3* bounds);
@@ -169,7 +171,9 @@ namespace physx
 
 			// paranoia checks
 			void						hierarchyCheck(PoolIndex maxIndex, const PxBounds3* bounds);
+			void						hierarchyCheck(const PxBounds3* bounds);
 			void						checkTreeLeaf(IncrementalAABBTreeNode* leaf, PoolIndex h);
+			PxU32						getTreeLeafDepth(IncrementalAABBTreeNode* leaf);
 
 			void						release();
 			
@@ -180,6 +184,8 @@ namespace physx
 
 			// split leaf node, the newly added object does not fit in
 			IncrementalAABBTreeNode*	splitLeafNode(IncrementalAABBTreeNode* node,  const PoolIndex index,  const Vec4V& minV,  const Vec4V& maxV, const PxBounds3* bounds);
+
+			void						rotateTree(IncrementalAABBTreeNode* node, NodeList& changedLeaf, PxU32 largesRotateNode, const PxBounds3* bounds, bool rotateAgain);
 
 			void						releaseNode(IncrementalAABBTreeNode* node);
 		private:

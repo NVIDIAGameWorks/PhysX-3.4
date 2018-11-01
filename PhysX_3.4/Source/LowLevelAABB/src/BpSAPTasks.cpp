@@ -52,12 +52,12 @@ namespace Bp
 
 void SapUpdateWorkTask::runInternal()
 {
-	mSAP->update(getContinuation());
+	mSAP->update();
 }
 
 void SapPostUpdateWorkTask::runInternal()
 {
-	mSAP->postUpdate(getContinuation());
+	mSAP->postUpdate();
 #ifdef DUMP_TOTAL_SAP_TIME
 	PxU64 endTime = shdfnd::Time::getCurrentCounterValue();
 	printf("SAP Time: %" PX_PRIu64 "\n", endTime - gStartTime);
