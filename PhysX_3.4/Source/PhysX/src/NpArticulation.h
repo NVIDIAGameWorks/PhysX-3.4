@@ -66,7 +66,7 @@ public:
 	virtual			void						exportExtraData(PxSerializationContext& stream);
 					void						importExtraData(PxDeserializationContext& context);
 					void						resolveReferences(PxDeserializationContext& context);
-	virtual	        void						requires(PxProcessPxBaseCallback& c);
+	virtual	        void						requiresObjects(PxProcessPxBaseCallback& c);
 	static			NpArticulation*				createObject(PxU8*& address, PxDeserializationContext& context);
 	static			void						getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION

@@ -71,6 +71,12 @@
 #include <xmmintrin.h>
 #endif
 
+#if COMPILE_VECTOR_INTRINSICS
+#include "PsAoS.h"
+#else
+#include "PsVecMathAoSScalar.h"
+#endif
+
 namespace physx
 {
 namespace shdfnd
@@ -89,12 +95,6 @@ namespace aos
 // Mat34V	- 16-byte aligned representation of transformation matrix (rotation in col1,col2,col3 and translation in
 // col4).
 // Mat44V	- 16-byte aligned representation of any 4x4 matrix.
-
-#if COMPILE_VECTOR_INTRINSICS
-#include "PsAoS.h"
-#else
-#include "PsVecMathAoSScalar.h"
-#endif
 
 //////////////////////////////////////////
 // Construct a simd type from a scalar type
@@ -1322,6 +1322,10 @@ PX_FORCE_INLINE Vec3V V3LoadU_SafeReadW(const PxVec3& f)
 	return Vec3V_From_Vec4V(V4LoadU(&f.x));
 }
 
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
+
 // Now for the cross-platform implementations of the 16-byte aligned maths functions (win32/360/ppu/spu etc).
 #if COMPILE_VECTOR_INTRINSICS
 #include "PsInlineAoS.h"
@@ -1329,9 +1333,5 @@ PX_FORCE_INLINE Vec3V V3LoadU_SafeReadW(const PxVec3& f)
 #include "PsVecMathAoSScalarInline.h"
 #endif // #if !COMPILE_VECTOR_INTRINSICS
 #include "PsVecQuat.h"
-
-} // namespace aos
-} // namespace shdfnd
-} // namespace physx
 
 #endif // PSFOUNDATION_PSVECMATH_H

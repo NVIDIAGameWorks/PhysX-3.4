@@ -30,6 +30,13 @@
 #ifndef PSFOUNDATION_PSVECMATHSSE_H
 #define PSFOUNDATION_PSVECMATHSSE_H
 
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 namespace
 {
 	const PX_ALIGN(16, PxF32) minus1w[4] = { 0.0f, 0.0f, 0.0f, -1.0f };
@@ -51,6 +58,11 @@ PX_FORCE_INLINE void QuatGetMat33V(const QuatVArg q, Vec3V& column0, Vec3V& colu
     const __m128 a2 = _mm_shuffle_ps(qw2, nw2, _MM_SHUFFLE(3, 0, 1, 3));		// (2ww-1, 2wy, -2wx, 0)
     column2 = V4MulAdd(v, V4GetZ(q2), _mm_shuffle_ps(a2, a2, _MM_SHUFFLE(3, 0, 2, 1)));
 }
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
+
 
 #endif // PSFOUNDATION_PSVECMATHSSE_H
 

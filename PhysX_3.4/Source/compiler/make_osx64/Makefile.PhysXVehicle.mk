@@ -77,16 +77,16 @@ PhysXVehicle_debug_common_cflags    += $(addprefix -D, $(PhysXVehicle_debug_defi
 PhysXVehicle_debug_common_cflags    += $(addprefix -I, $(PhysXVehicle_debug_hpaths))
 PhysXVehicle_debug_cflags	:= $(PhysXVehicle_debug_common_cflags)
 PhysXVehicle_debug_cflags  += -arch x86_64
-PhysXVehicle_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXVehicle_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXVehicle_debug_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXVehicle_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXVehicle_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXVehicle_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXVehicle_debug_cflags  += -Wno-c++11-extensions
 PhysXVehicle_debug_cflags  += -g3 -gdwarf-2 -O0
 PhysXVehicle_debug_cppflags	:= $(PhysXVehicle_debug_common_cflags)
 PhysXVehicle_debug_cppflags  += -arch x86_64
-PhysXVehicle_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXVehicle_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXVehicle_debug_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXVehicle_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXVehicle_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXVehicle_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXVehicle_debug_cppflags  += -Wno-c++11-extensions
@@ -95,6 +95,7 @@ PhysXVehicle_debug_lflags    := $(PhysXVehicle_custom_lflags)
 PhysXVehicle_debug_lflags    += $(addprefix -L, $(PhysXVehicle_debug_lpaths))
 PhysXVehicle_debug_lflags  += $(addprefix -l, $(PhysXVehicle_debug_libraries))
 PhysXVehicle_debug_lflags  += -arch x86_64
+PhysXVehicle_debug_lflags  += -stdlib=libc++
 PhysXVehicle_debug_objsdir  = $(OBJS_DIR)/PhysXVehicle_debug
 PhysXVehicle_debug_cpp_o    = $(addprefix $(PhysXVehicle_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXVehicle_cppfiles)))))
 PhysXVehicle_debug_cc_o    = $(addprefix $(PhysXVehicle_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXVehicle_ccfiles)))))
@@ -183,16 +184,16 @@ PhysXVehicle_checked_common_cflags    += $(addprefix -D, $(PhysXVehicle_checked_
 PhysXVehicle_checked_common_cflags    += $(addprefix -I, $(PhysXVehicle_checked_hpaths))
 PhysXVehicle_checked_cflags	:= $(PhysXVehicle_checked_common_cflags)
 PhysXVehicle_checked_cflags  += -arch x86_64
-PhysXVehicle_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXVehicle_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXVehicle_checked_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXVehicle_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXVehicle_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXVehicle_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXVehicle_checked_cflags  += -Wno-c++11-extensions
 PhysXVehicle_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PhysXVehicle_checked_cppflags	:= $(PhysXVehicle_checked_common_cflags)
 PhysXVehicle_checked_cppflags  += -arch x86_64
-PhysXVehicle_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXVehicle_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXVehicle_checked_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXVehicle_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXVehicle_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXVehicle_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXVehicle_checked_cppflags  += -Wno-c++11-extensions
@@ -201,6 +202,7 @@ PhysXVehicle_checked_lflags    := $(PhysXVehicle_custom_lflags)
 PhysXVehicle_checked_lflags    += $(addprefix -L, $(PhysXVehicle_checked_lpaths))
 PhysXVehicle_checked_lflags  += $(addprefix -l, $(PhysXVehicle_checked_libraries))
 PhysXVehicle_checked_lflags  += -arch x86_64
+PhysXVehicle_checked_lflags  += -stdlib=libc++
 PhysXVehicle_checked_objsdir  = $(OBJS_DIR)/PhysXVehicle_checked
 PhysXVehicle_checked_cpp_o    = $(addprefix $(PhysXVehicle_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXVehicle_cppfiles)))))
 PhysXVehicle_checked_cc_o    = $(addprefix $(PhysXVehicle_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXVehicle_ccfiles)))))
@@ -289,16 +291,16 @@ PhysXVehicle_profile_common_cflags    += $(addprefix -D, $(PhysXVehicle_profile_
 PhysXVehicle_profile_common_cflags    += $(addprefix -I, $(PhysXVehicle_profile_hpaths))
 PhysXVehicle_profile_cflags	:= $(PhysXVehicle_profile_common_cflags)
 PhysXVehicle_profile_cflags  += -arch x86_64
-PhysXVehicle_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXVehicle_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXVehicle_profile_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXVehicle_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXVehicle_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXVehicle_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXVehicle_profile_cflags  += -Wno-c++11-extensions
 PhysXVehicle_profile_cflags  += -O3 -fno-strict-aliasing
 PhysXVehicle_profile_cppflags	:= $(PhysXVehicle_profile_common_cflags)
 PhysXVehicle_profile_cppflags  += -arch x86_64
-PhysXVehicle_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXVehicle_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXVehicle_profile_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXVehicle_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXVehicle_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXVehicle_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXVehicle_profile_cppflags  += -Wno-c++11-extensions
@@ -307,6 +309,7 @@ PhysXVehicle_profile_lflags    := $(PhysXVehicle_custom_lflags)
 PhysXVehicle_profile_lflags    += $(addprefix -L, $(PhysXVehicle_profile_lpaths))
 PhysXVehicle_profile_lflags  += $(addprefix -l, $(PhysXVehicle_profile_libraries))
 PhysXVehicle_profile_lflags  += -arch x86_64
+PhysXVehicle_profile_lflags  += -stdlib=libc++
 PhysXVehicle_profile_objsdir  = $(OBJS_DIR)/PhysXVehicle_profile
 PhysXVehicle_profile_cpp_o    = $(addprefix $(PhysXVehicle_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXVehicle_cppfiles)))))
 PhysXVehicle_profile_cc_o    = $(addprefix $(PhysXVehicle_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXVehicle_ccfiles)))))
@@ -394,16 +397,16 @@ PhysXVehicle_release_common_cflags    += $(addprefix -D, $(PhysXVehicle_release_
 PhysXVehicle_release_common_cflags    += $(addprefix -I, $(PhysXVehicle_release_hpaths))
 PhysXVehicle_release_cflags	:= $(PhysXVehicle_release_common_cflags)
 PhysXVehicle_release_cflags  += -arch x86_64
-PhysXVehicle_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXVehicle_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXVehicle_release_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXVehicle_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXVehicle_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXVehicle_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXVehicle_release_cflags  += -Wno-c++11-extensions
 PhysXVehicle_release_cflags  += -O3 -fno-strict-aliasing
 PhysXVehicle_release_cppflags	:= $(PhysXVehicle_release_common_cflags)
 PhysXVehicle_release_cppflags  += -arch x86_64
-PhysXVehicle_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXVehicle_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXVehicle_release_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXVehicle_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXVehicle_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXVehicle_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXVehicle_release_cppflags  += -Wno-c++11-extensions
@@ -412,6 +415,7 @@ PhysXVehicle_release_lflags    := $(PhysXVehicle_custom_lflags)
 PhysXVehicle_release_lflags    += $(addprefix -L, $(PhysXVehicle_release_lpaths))
 PhysXVehicle_release_lflags  += $(addprefix -l, $(PhysXVehicle_release_libraries))
 PhysXVehicle_release_lflags  += -arch x86_64
+PhysXVehicle_release_lflags  += -stdlib=libc++
 PhysXVehicle_release_objsdir  = $(OBJS_DIR)/PhysXVehicle_release
 PhysXVehicle_release_cpp_o    = $(addprefix $(PhysXVehicle_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXVehicle_cppfiles)))))
 PhysXVehicle_release_cc_o    = $(addprefix $(PhysXVehicle_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXVehicle_ccfiles)))))

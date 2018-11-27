@@ -181,7 +181,7 @@ bool BV4Tree::init(SourceMesh* meshInterface, const PxBounds3& localBounds)
 }
 
 // PX_SERIALIZATION
-BV4Tree::BV4Tree(const PxEMPTY)
+BV4Tree::BV4Tree(const PxEMPTY) : mLocalBounds(PxEmpty)
 {
 	mUserAllocated = true;
 }

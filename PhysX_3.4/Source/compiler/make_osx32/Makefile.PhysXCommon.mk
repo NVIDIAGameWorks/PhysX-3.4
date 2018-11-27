@@ -201,16 +201,16 @@ PhysXCommon_release_common_cflags    += $(addprefix -D, $(PhysXCommon_release_de
 PhysXCommon_release_common_cflags    += $(addprefix -I, $(PhysXCommon_release_hpaths))
 PhysXCommon_release_cflags	:= $(PhysXCommon_release_common_cflags)
 PhysXCommon_release_cflags  += -arch i386
-PhysXCommon_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCommon_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCommon_release_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCommon_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCommon_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCommon_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCommon_release_cflags  += -Wno-c++11-extensions
 PhysXCommon_release_cflags  += -O3 -fno-strict-aliasing
 PhysXCommon_release_cppflags	:= $(PhysXCommon_release_common_cflags)
 PhysXCommon_release_cppflags  += -arch i386
-PhysXCommon_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCommon_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCommon_release_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCommon_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCommon_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCommon_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCommon_release_cppflags  += -Wno-c++11-extensions
@@ -219,6 +219,7 @@ PhysXCommon_release_lflags    := $(PhysXCommon_custom_lflags)
 PhysXCommon_release_lflags    += $(addprefix -L, $(PhysXCommon_release_lpaths))
 PhysXCommon_release_lflags  += $(addprefix -l, $(PhysXCommon_release_libraries))
 PhysXCommon_release_lflags  += -arch i386
+PhysXCommon_release_lflags  += -stdlib=libc++
 PhysXCommon_release_objsdir  = $(OBJS_DIR)/PhysXCommon_release
 PhysXCommon_release_cpp_o    = $(addprefix $(PhysXCommon_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXCommon_cppfiles)))))
 PhysXCommon_release_cc_o    = $(addprefix $(PhysXCommon_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXCommon_ccfiles)))))
@@ -317,16 +318,16 @@ PhysXCommon_debug_common_cflags    += $(addprefix -D, $(PhysXCommon_debug_define
 PhysXCommon_debug_common_cflags    += $(addprefix -I, $(PhysXCommon_debug_hpaths))
 PhysXCommon_debug_cflags	:= $(PhysXCommon_debug_common_cflags)
 PhysXCommon_debug_cflags  += -arch i386
-PhysXCommon_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCommon_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCommon_debug_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCommon_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCommon_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCommon_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCommon_debug_cflags  += -Wno-c++11-extensions
 PhysXCommon_debug_cflags  += -g3 -gdwarf-2 -O0
 PhysXCommon_debug_cppflags	:= $(PhysXCommon_debug_common_cflags)
 PhysXCommon_debug_cppflags  += -arch i386
-PhysXCommon_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCommon_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCommon_debug_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCommon_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCommon_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCommon_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCommon_debug_cppflags  += -Wno-c++11-extensions
@@ -335,6 +336,7 @@ PhysXCommon_debug_lflags    := $(PhysXCommon_custom_lflags)
 PhysXCommon_debug_lflags    += $(addprefix -L, $(PhysXCommon_debug_lpaths))
 PhysXCommon_debug_lflags  += $(addprefix -l, $(PhysXCommon_debug_libraries))
 PhysXCommon_debug_lflags  += -arch i386
+PhysXCommon_debug_lflags  += -stdlib=libc++
 PhysXCommon_debug_objsdir  = $(OBJS_DIR)/PhysXCommon_debug
 PhysXCommon_debug_cpp_o    = $(addprefix $(PhysXCommon_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXCommon_cppfiles)))))
 PhysXCommon_debug_cc_o    = $(addprefix $(PhysXCommon_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXCommon_ccfiles)))))
@@ -432,16 +434,16 @@ PhysXCommon_checked_common_cflags    += $(addprefix -D, $(PhysXCommon_checked_de
 PhysXCommon_checked_common_cflags    += $(addprefix -I, $(PhysXCommon_checked_hpaths))
 PhysXCommon_checked_cflags	:= $(PhysXCommon_checked_common_cflags)
 PhysXCommon_checked_cflags  += -arch i386
-PhysXCommon_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCommon_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCommon_checked_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCommon_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCommon_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCommon_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCommon_checked_cflags  += -Wno-c++11-extensions
 PhysXCommon_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PhysXCommon_checked_cppflags	:= $(PhysXCommon_checked_common_cflags)
 PhysXCommon_checked_cppflags  += -arch i386
-PhysXCommon_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCommon_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCommon_checked_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCommon_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCommon_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCommon_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCommon_checked_cppflags  += -Wno-c++11-extensions
@@ -450,6 +452,7 @@ PhysXCommon_checked_lflags    := $(PhysXCommon_custom_lflags)
 PhysXCommon_checked_lflags    += $(addprefix -L, $(PhysXCommon_checked_lpaths))
 PhysXCommon_checked_lflags  += $(addprefix -l, $(PhysXCommon_checked_libraries))
 PhysXCommon_checked_lflags  += -arch i386
+PhysXCommon_checked_lflags  += -stdlib=libc++
 PhysXCommon_checked_objsdir  = $(OBJS_DIR)/PhysXCommon_checked
 PhysXCommon_checked_cpp_o    = $(addprefix $(PhysXCommon_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXCommon_cppfiles)))))
 PhysXCommon_checked_cc_o    = $(addprefix $(PhysXCommon_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXCommon_ccfiles)))))
@@ -547,16 +550,16 @@ PhysXCommon_profile_common_cflags    += $(addprefix -D, $(PhysXCommon_profile_de
 PhysXCommon_profile_common_cflags    += $(addprefix -I, $(PhysXCommon_profile_hpaths))
 PhysXCommon_profile_cflags	:= $(PhysXCommon_profile_common_cflags)
 PhysXCommon_profile_cflags  += -arch i386
-PhysXCommon_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCommon_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCommon_profile_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCommon_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCommon_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCommon_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCommon_profile_cflags  += -Wno-c++11-extensions
 PhysXCommon_profile_cflags  += -O3 -fno-strict-aliasing
 PhysXCommon_profile_cppflags	:= $(PhysXCommon_profile_common_cflags)
 PhysXCommon_profile_cppflags  += -arch i386
-PhysXCommon_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCommon_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCommon_profile_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCommon_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCommon_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCommon_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCommon_profile_cppflags  += -Wno-c++11-extensions
@@ -565,6 +568,7 @@ PhysXCommon_profile_lflags    := $(PhysXCommon_custom_lflags)
 PhysXCommon_profile_lflags    += $(addprefix -L, $(PhysXCommon_profile_lpaths))
 PhysXCommon_profile_lflags  += $(addprefix -l, $(PhysXCommon_profile_libraries))
 PhysXCommon_profile_lflags  += -arch i386
+PhysXCommon_profile_lflags  += -stdlib=libc++
 PhysXCommon_profile_objsdir  = $(OBJS_DIR)/PhysXCommon_profile
 PhysXCommon_profile_cpp_o    = $(addprefix $(PhysXCommon_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXCommon_cppfiles)))))
 PhysXCommon_profile_cc_o    = $(addprefix $(PhysXCommon_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXCommon_ccfiles)))))

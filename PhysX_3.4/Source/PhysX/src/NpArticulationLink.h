@@ -82,7 +82,7 @@ public:
 				void				importExtraData(PxDeserializationContext& context);
 				void				registerReferences(PxSerializationContext& stream);
 				void				resolveReferences(PxDeserializationContext& context);
-	virtual		void				requires(PxProcessPxBaseCallback& c);
+	virtual		void				requiresObjects(PxProcessPxBaseCallback& c);
 	virtual		bool			    isSubordinate()  const	 { return true; } 
 	static		NpArticulationLink*	createObject(PxU8*& address, PxDeserializationContext& context);
 	static		void				getBinaryMetaData(PxOutputStream& stream);		

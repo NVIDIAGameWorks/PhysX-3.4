@@ -59,7 +59,7 @@ class NpRigidStatic : public NpRigidStaticT
 public:
 // PX_SERIALIZATION
 											NpRigidStatic(PxBaseFlags baseFlags) : NpRigidStaticT(baseFlags), mRigidStatic(PxEmpty) {}
-	virtual			void					requires(PxProcessPxBaseCallback& c);
+	virtual			void					requiresObjects(PxProcessPxBaseCallback& c);
 	static			NpRigidStatic*			createObject(PxU8*& address, PxDeserializationContext& context);
 	static			void					getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION

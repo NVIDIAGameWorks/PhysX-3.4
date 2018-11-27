@@ -34,6 +34,13 @@
 #error Scalar version should not be included when using vector intrinsics.
 #endif
 
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 struct VecI16V;
 struct VecU16V;
 struct VecI32V;
@@ -235,5 +242,9 @@ struct VecU16V
 
 typedef VecI32V VecShiftV;
 #define VecShiftVArg VecShiftV &
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
 
 #endif // PX_PHYSICS_COMMON_VECMATH_INLINE_SCALAR

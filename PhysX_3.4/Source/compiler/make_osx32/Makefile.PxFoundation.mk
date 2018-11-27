@@ -57,15 +57,15 @@ PxFoundation_debug_common_cflags    += $(addprefix -D, $(PxFoundation_debug_defi
 PxFoundation_debug_common_cflags    += $(addprefix -I, $(PxFoundation_debug_hpaths))
 PxFoundation_debug_cflags	:= $(PxFoundation_debug_common_cflags)
 PxFoundation_debug_cflags  += -arch i386
-PxFoundation_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PxFoundation_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
+PxFoundation_debug_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PxFoundation_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_debug_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_debug_cflags  += -g3 -gdwarf-2 -O0
 PxFoundation_debug_cppflags	:= $(PxFoundation_debug_common_cflags)
 PxFoundation_debug_cppflags  += -arch i386
-PxFoundation_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PxFoundation_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
+PxFoundation_debug_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PxFoundation_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_debug_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_debug_cppflags  += -g3 -gdwarf-2 -O0
@@ -73,6 +73,7 @@ PxFoundation_debug_lflags    := $(PxFoundation_custom_lflags)
 PxFoundation_debug_lflags    += $(addprefix -L, $(PxFoundation_debug_lpaths))
 PxFoundation_debug_lflags  += $(addprefix -l, $(PxFoundation_debug_libraries))
 PxFoundation_debug_lflags  += -arch i386
+PxFoundation_debug_lflags  += -stdlib=libc++
 PxFoundation_debug_objsdir  = $(OBJS_DIR)/PxFoundation_debug
 PxFoundation_debug_cpp_o    = $(addprefix $(PxFoundation_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxFoundation_cppfiles)))))
 PxFoundation_debug_cc_o    = $(addprefix $(PxFoundation_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxFoundation_ccfiles)))))
@@ -141,15 +142,15 @@ PxFoundation_release_common_cflags    += $(addprefix -D, $(PxFoundation_release_
 PxFoundation_release_common_cflags    += $(addprefix -I, $(PxFoundation_release_hpaths))
 PxFoundation_release_cflags	:= $(PxFoundation_release_common_cflags)
 PxFoundation_release_cflags  += -arch i386
-PxFoundation_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PxFoundation_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
+PxFoundation_release_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PxFoundation_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_release_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_release_cflags  += -O3 -fno-strict-aliasing
 PxFoundation_release_cppflags	:= $(PxFoundation_release_common_cflags)
 PxFoundation_release_cppflags  += -arch i386
-PxFoundation_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PxFoundation_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
+PxFoundation_release_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PxFoundation_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_release_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_release_cppflags  += -O3 -fno-strict-aliasing
@@ -157,6 +158,7 @@ PxFoundation_release_lflags    := $(PxFoundation_custom_lflags)
 PxFoundation_release_lflags    += $(addprefix -L, $(PxFoundation_release_lpaths))
 PxFoundation_release_lflags  += $(addprefix -l, $(PxFoundation_release_libraries))
 PxFoundation_release_lflags  += -arch i386
+PxFoundation_release_lflags  += -stdlib=libc++
 PxFoundation_release_objsdir  = $(OBJS_DIR)/PxFoundation_release
 PxFoundation_release_cpp_o    = $(addprefix $(PxFoundation_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxFoundation_cppfiles)))))
 PxFoundation_release_cc_o    = $(addprefix $(PxFoundation_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxFoundation_ccfiles)))))
@@ -226,15 +228,15 @@ PxFoundation_checked_common_cflags    += $(addprefix -D, $(PxFoundation_checked_
 PxFoundation_checked_common_cflags    += $(addprefix -I, $(PxFoundation_checked_hpaths))
 PxFoundation_checked_cflags	:= $(PxFoundation_checked_common_cflags)
 PxFoundation_checked_cflags  += -arch i386
-PxFoundation_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PxFoundation_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
+PxFoundation_checked_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PxFoundation_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_checked_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PxFoundation_checked_cppflags	:= $(PxFoundation_checked_common_cflags)
 PxFoundation_checked_cppflags  += -arch i386
-PxFoundation_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PxFoundation_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
+PxFoundation_checked_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PxFoundation_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_checked_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_checked_cppflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
@@ -242,6 +244,7 @@ PxFoundation_checked_lflags    := $(PxFoundation_custom_lflags)
 PxFoundation_checked_lflags    += $(addprefix -L, $(PxFoundation_checked_lpaths))
 PxFoundation_checked_lflags  += $(addprefix -l, $(PxFoundation_checked_libraries))
 PxFoundation_checked_lflags  += -arch i386
+PxFoundation_checked_lflags  += -stdlib=libc++
 PxFoundation_checked_objsdir  = $(OBJS_DIR)/PxFoundation_checked
 PxFoundation_checked_cpp_o    = $(addprefix $(PxFoundation_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxFoundation_cppfiles)))))
 PxFoundation_checked_cc_o    = $(addprefix $(PxFoundation_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxFoundation_ccfiles)))))
@@ -311,15 +314,15 @@ PxFoundation_profile_common_cflags    += $(addprefix -D, $(PxFoundation_profile_
 PxFoundation_profile_common_cflags    += $(addprefix -I, $(PxFoundation_profile_hpaths))
 PxFoundation_profile_cflags	:= $(PxFoundation_profile_common_cflags)
 PxFoundation_profile_cflags  += -arch i386
-PxFoundation_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PxFoundation_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
+PxFoundation_profile_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PxFoundation_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_profile_cflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_profile_cflags  += -O3 -fno-strict-aliasing
 PxFoundation_profile_cppflags	:= $(PxFoundation_profile_common_cflags)
 PxFoundation_profile_cppflags  += -arch i386
-PxFoundation_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PxFoundation_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast
+PxFoundation_profile_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxFoundation_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-old-style-cast -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PxFoundation_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PxFoundation_profile_cppflags  += -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PxFoundation_profile_cppflags  += -O3 -fno-strict-aliasing
@@ -327,6 +330,7 @@ PxFoundation_profile_lflags    := $(PxFoundation_custom_lflags)
 PxFoundation_profile_lflags    += $(addprefix -L, $(PxFoundation_profile_lpaths))
 PxFoundation_profile_lflags  += $(addprefix -l, $(PxFoundation_profile_libraries))
 PxFoundation_profile_lflags  += -arch i386
+PxFoundation_profile_lflags  += -stdlib=libc++
 PxFoundation_profile_objsdir  = $(OBJS_DIR)/PxFoundation_profile
 PxFoundation_profile_cpp_o    = $(addprefix $(PxFoundation_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxFoundation_cppfiles)))))
 PxFoundation_profile_cc_o    = $(addprefix $(PxFoundation_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxFoundation_ccfiles)))))

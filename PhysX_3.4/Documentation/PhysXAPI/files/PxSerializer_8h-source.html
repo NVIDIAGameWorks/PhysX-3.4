@@ -67,9 +67,9 @@
 <a name="l00065"></a>00065     <span class="comment">/**********************************************************************************************************************/</span>
 <a name="l00066"></a>00066 
 <a name="l00070"></a>00070     
-<a name="l00076"></a>00076     <span class="keyword">virtual</span>  <span class="keyword">const</span>  <span class="keywordtype">char</span>*           getConcreteTypeName() <span class="keyword">const</span>                                                         = 0;   
+<a name="l00076"></a>00076     <span class="keyword">virtual</span>  <span class="keyword">const</span>  <span class="keywordtype">char</span>*           getConcreteTypeName() <span class="keyword">const</span>                                                         = 0;
 <a name="l00077"></a>00077 
-<a name="l00085"></a>00085     <span class="keyword">virtual</span>         <span class="keywordtype">void</span>            requires(<a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>&amp;, <a class="code" href="classPxProcessPxBaseCallback.html" title="Callback class used to process PxBase objects.">PxProcessPxBaseCallback</a>&amp;) <span class="keyword">const</span>                                   = 0;
+<a name="l00085"></a>00085     <span class="keyword">virtual</span>         <span class="keywordtype">void</span>            requiresObjects(<a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>&amp;, <a class="code" href="classPxProcessPxBaseCallback.html" title="Callback class used to process PxBase objects.">PxProcessPxBaseCallback</a>&amp;) <span class="keyword">const</span>                                    = 0;
 <a name="l00086"></a>00086     
 <a name="l00096"></a>00096     <span class="keyword">virtual</span>         <span class="keywordtype">bool</span>            isSubordinate() <span class="keyword">const</span>                                                               = 0;
 <a name="l00097"></a>00097 
@@ -107,11 +107,11 @@
 <a name="l00161"></a>00161 <span class="keyword">    </span>{ 
 <a name="l00162"></a>00162         <span class="keywordflow">return</span> mTypeName; 
 <a name="l00163"></a>00163     }
-<a name="l00164"></a>00164 
-<a name="l00165"></a><a class="code" href="classPxSerializerDefaultAdapter.html#b5e14929bfabcb268f3e6f3e710f5657">00165</a>     <span class="keyword">virtual</span> <span class="keywordtype">void</span> requires(<a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>&amp; obj, <a class="code" href="classPxProcessPxBaseCallback.html" title="Callback class used to process PxBase objects.">PxProcessPxBaseCallback</a>&amp; c)<span class="keyword"> const</span>
+<a name="l00164"></a>00164     
+<a name="l00165"></a><a class="code" href="classPxSerializerDefaultAdapter.html#4103e81d09d3aaab2bb9fd3e236331bc">00165</a>     <span class="keyword">virtual</span> <span class="keywordtype">void</span> requiresObjects(<a class="code" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection.">PxBase</a>&amp; obj, <a class="code" href="classPxProcessPxBaseCallback.html" title="Callback class used to process PxBase objects.">PxProcessPxBaseCallback</a>&amp; c)<span class="keyword"> const</span>
 <a name="l00166"></a>00166 <span class="keyword">    </span>{
 <a name="l00167"></a>00167         T&amp; t = <span class="keyword">static_cast&lt;</span>T&amp;<span class="keyword">&gt;</span>(obj);
-<a name="l00168"></a>00168         t.requires(c);
+<a name="l00168"></a>00168         t.requiresObjects(c);
 <a name="l00169"></a>00169     }
 <a name="l00170"></a>00170 
 <a name="l00171"></a><a class="code" href="classPxSerializerDefaultAdapter.html#4d038c573df687220ead4a77727b010f">00171</a>     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> isSubordinate()<span class="keyword"> const</span>
@@ -153,7 +153,7 @@
 <a name="l00211"></a>00211         };
 <a name="l00212"></a>00212 
 <a name="l00213"></a>00213         RequiresCallback callback(s);
-<a name="l00214"></a>00214         t.requires(callback);   
+<a name="l00214"></a>00214         t.requiresObjects(callback);
 <a name="l00215"></a>00215     }
 <a name="l00216"></a>00216 
 <a name="l00217"></a>00217     <span class="comment">// class methods</span>

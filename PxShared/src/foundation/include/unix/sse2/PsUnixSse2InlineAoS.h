@@ -40,6 +40,13 @@
 
 #include "../../PsVecMathSSE.h"
 
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 #define PX_FPCLASS_SNAN 0x0001 /* signaling NaN */
 #define PX_FPCLASS_QNAN 0x0002 /* quiet NaN */
 #define PX_FPCLASS_NINF 0x0004 /* negative infinity */
@@ -3224,5 +3231,9 @@ PX_FORCE_INLINE VecU32V V4ConvertToU32VSaturate(const Vec4V in, PxU32 power)
 	result.m128_u32[3] = PxU32(PxClamp<PxF32>((a).m128_f32[3], 0.0f, ffffFFFFasFloat));
 	return result;
 }
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
 
 #endif // PSFOUNDATION_PSUNIXSSE2INLINEAOS_H

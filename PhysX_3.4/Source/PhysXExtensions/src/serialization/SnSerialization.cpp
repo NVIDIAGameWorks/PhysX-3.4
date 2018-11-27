@@ -60,30 +60,30 @@ namespace
 	struct CompleteCallback : public PxProcessPxBaseCallback
 	{
 		CompleteCallback(physx::PxCollection& r, physx::PxCollection& c, const physx::PxCollection* e) :
-		requires(r),  complete(c), external(e)	{}
+		required(r),  complete(c), external(e)	{}
 		void process(PxBase& base)
 		{
 			if(complete.contains(base) || (external && external->contains(base)))
 			   return;
-			if(!requires.contains(base))
-				  requires.add(base);			
+			if(!required.contains(base))
+				  required.add(base);
 		}
 
-		PxCollection& requires;		
+		PxCollection& required;
 		PxCollection& complete;
 		const PxCollection* external;
 		PX_NOCOPY(CompleteCallback)
 	};
 
-	void getRequiresCollection(PxCollection& requires, PxCollection& collection, PxCollection& complete, const PxCollection* external, PxSerializationRegistry& sr, bool followJoints)
+	void getRequiresCollection(PxCollection& required, PxCollection& collection, PxCollection& complete, const PxCollection* external, PxSerializationRegistry& sr, bool followJoints)
 	{
-		CompleteCallback callback(requires, complete, external);
+		CompleteCallback callback(required, complete, external);
 		for (PxU32 i = 0; i < collection.getNbObjects(); ++i)
 		{
 			PxBase& s = collection.getObject(i);			
 			const PxSerializer* serializer = sr.getSerializer(s.getConcreteType());
 			PX_ASSERT(serializer);
-			serializer->requires(s, callback);
+			serializer->requiresObjects(s, callback);
 
 			if(followJoints)
 			{
@@ -101,9 +101,9 @@ namespace
 						{							
 							const PxSerializer* sj = sr.getSerializer(joint->getConcreteType());
 							PX_ASSERT(sj);
-							sj->requires(*joint, callback);
-							if(!requires.contains(*joint))
-								requires.add(*joint);							
+							sj->requiresObjects(*joint, callback);
+							if(!required.contains(*joint))
+								required.add(*joint);
 						}
 					}
 				}
@@ -153,7 +153,7 @@ bool PxSerialization::isSerializable(PxCollection& collection, PxSerializationRe
 		PxBase& s = collection.getObject(i);
 		const PxSerializer* serializer = sr.getSerializer(s.getConcreteType());
 		PX_ASSERT(serializer);
-		serializer->requires(s, requiresCallback0);
+		serializer->requiresObjects(s, requiresCallback0);
 
 		Cm::Collection* cmRequiresCollection = static_cast<Cm::Collection*>(requiresCollection);
 
@@ -233,7 +233,7 @@ bool PxSerialization::isSerializable(PxCollection& collection, PxSerializationRe
 			PxBase& s = externalReferences->getObject(i);			
 			const PxSerializer* serializer = sr.getSerializer(s.getConcreteType());
 			PX_ASSERT(serializer);
-			serializer->requires(s, requiresCallback);
+			serializer->requiresObjects(s, requiresCallback);
 		
 			Cm::Collection* cmCollection = static_cast<Cm::Collection*>(oppositeRequiresCollection);
 

@@ -95,16 +95,16 @@ LowLevel_debug_common_cflags    += $(addprefix -D, $(LowLevel_debug_defines))
 LowLevel_debug_common_cflags    += $(addprefix -I, $(LowLevel_debug_hpaths))
 LowLevel_debug_cflags	:= $(LowLevel_debug_common_cflags)
 LowLevel_debug_cflags  += -arch x86_64
-LowLevel_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevel_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevel_debug_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevel_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevel_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevel_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevel_debug_cflags  += -Wno-c++11-extensions
 LowLevel_debug_cflags  += -g3 -gdwarf-2 -O0
 LowLevel_debug_cppflags	:= $(LowLevel_debug_common_cflags)
 LowLevel_debug_cppflags  += -arch x86_64
-LowLevel_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevel_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevel_debug_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevel_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevel_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevel_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevel_debug_cppflags  += -Wno-c++11-extensions
@@ -113,6 +113,7 @@ LowLevel_debug_lflags    := $(LowLevel_custom_lflags)
 LowLevel_debug_lflags    += $(addprefix -L, $(LowLevel_debug_lpaths))
 LowLevel_debug_lflags  += $(addprefix -l, $(LowLevel_debug_libraries))
 LowLevel_debug_lflags  += -arch x86_64
+LowLevel_debug_lflags  += -stdlib=libc++
 LowLevel_debug_objsdir  = $(OBJS_DIR)/LowLevel_debug
 LowLevel_debug_cpp_o    = $(addprefix $(LowLevel_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(LowLevel_cppfiles)))))
 LowLevel_debug_cc_o    = $(addprefix $(LowLevel_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(LowLevel_ccfiles)))))
@@ -216,16 +217,16 @@ LowLevel_checked_common_cflags    += $(addprefix -D, $(LowLevel_checked_defines)
 LowLevel_checked_common_cflags    += $(addprefix -I, $(LowLevel_checked_hpaths))
 LowLevel_checked_cflags	:= $(LowLevel_checked_common_cflags)
 LowLevel_checked_cflags  += -arch x86_64
-LowLevel_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevel_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevel_checked_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevel_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevel_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevel_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevel_checked_cflags  += -Wno-c++11-extensions
 LowLevel_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 LowLevel_checked_cppflags	:= $(LowLevel_checked_common_cflags)
 LowLevel_checked_cppflags  += -arch x86_64
-LowLevel_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevel_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevel_checked_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevel_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevel_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevel_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevel_checked_cppflags  += -Wno-c++11-extensions
@@ -234,6 +235,7 @@ LowLevel_checked_lflags    := $(LowLevel_custom_lflags)
 LowLevel_checked_lflags    += $(addprefix -L, $(LowLevel_checked_lpaths))
 LowLevel_checked_lflags  += $(addprefix -l, $(LowLevel_checked_libraries))
 LowLevel_checked_lflags  += -arch x86_64
+LowLevel_checked_lflags  += -stdlib=libc++
 LowLevel_checked_objsdir  = $(OBJS_DIR)/LowLevel_checked
 LowLevel_checked_cpp_o    = $(addprefix $(LowLevel_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(LowLevel_cppfiles)))))
 LowLevel_checked_cc_o    = $(addprefix $(LowLevel_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(LowLevel_ccfiles)))))
@@ -337,16 +339,16 @@ LowLevel_profile_common_cflags    += $(addprefix -D, $(LowLevel_profile_defines)
 LowLevel_profile_common_cflags    += $(addprefix -I, $(LowLevel_profile_hpaths))
 LowLevel_profile_cflags	:= $(LowLevel_profile_common_cflags)
 LowLevel_profile_cflags  += -arch x86_64
-LowLevel_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevel_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevel_profile_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevel_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevel_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevel_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevel_profile_cflags  += -Wno-c++11-extensions
 LowLevel_profile_cflags  += -O3 -fno-strict-aliasing
 LowLevel_profile_cppflags	:= $(LowLevel_profile_common_cflags)
 LowLevel_profile_cppflags  += -arch x86_64
-LowLevel_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevel_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevel_profile_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevel_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevel_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevel_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevel_profile_cppflags  += -Wno-c++11-extensions
@@ -355,6 +357,7 @@ LowLevel_profile_lflags    := $(LowLevel_custom_lflags)
 LowLevel_profile_lflags    += $(addprefix -L, $(LowLevel_profile_lpaths))
 LowLevel_profile_lflags  += $(addprefix -l, $(LowLevel_profile_libraries))
 LowLevel_profile_lflags  += -arch x86_64
+LowLevel_profile_lflags  += -stdlib=libc++
 LowLevel_profile_objsdir  = $(OBJS_DIR)/LowLevel_profile
 LowLevel_profile_cpp_o    = $(addprefix $(LowLevel_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(LowLevel_cppfiles)))))
 LowLevel_profile_cc_o    = $(addprefix $(LowLevel_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(LowLevel_ccfiles)))))
@@ -457,16 +460,16 @@ LowLevel_release_common_cflags    += $(addprefix -D, $(LowLevel_release_defines)
 LowLevel_release_common_cflags    += $(addprefix -I, $(LowLevel_release_hpaths))
 LowLevel_release_cflags	:= $(LowLevel_release_common_cflags)
 LowLevel_release_cflags  += -arch x86_64
-LowLevel_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevel_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevel_release_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevel_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevel_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevel_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevel_release_cflags  += -Wno-c++11-extensions
 LowLevel_release_cflags  += -O3 -fno-strict-aliasing
 LowLevel_release_cppflags	:= $(LowLevel_release_common_cflags)
 LowLevel_release_cppflags  += -arch x86_64
-LowLevel_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevel_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevel_release_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevel_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevel_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevel_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevel_release_cppflags  += -Wno-c++11-extensions
@@ -475,6 +478,7 @@ LowLevel_release_lflags    := $(LowLevel_custom_lflags)
 LowLevel_release_lflags    += $(addprefix -L, $(LowLevel_release_lpaths))
 LowLevel_release_lflags  += $(addprefix -l, $(LowLevel_release_libraries))
 LowLevel_release_lflags  += -arch x86_64
+LowLevel_release_lflags  += -stdlib=libc++
 LowLevel_release_objsdir  = $(OBJS_DIR)/LowLevel_release
 LowLevel_release_cpp_o    = $(addprefix $(LowLevel_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(LowLevel_cppfiles)))))
 LowLevel_release_cc_o    = $(addprefix $(LowLevel_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(LowLevel_ccfiles)))))

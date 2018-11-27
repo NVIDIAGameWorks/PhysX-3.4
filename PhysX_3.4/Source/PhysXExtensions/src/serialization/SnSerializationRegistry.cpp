@@ -92,7 +92,7 @@ namespace
 				mCurElement = &mElements[i];
 				const PxSerializer* serializer = mSr.getSerializer(mCurElement->object.first->getConcreteType());
 				PX_ASSERT(serializer);
-				serializer->requires(*mCurElement->object.first, *this);
+				serializer->requiresObjects(*mCurElement->object.first, *this);
 			}  	
 
 			for( i = 0; i < nbObject; ++i )

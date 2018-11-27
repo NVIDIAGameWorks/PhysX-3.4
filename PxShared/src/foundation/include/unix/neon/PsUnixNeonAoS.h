@@ -39,6 +39,13 @@
 // only ARM NEON compatible platforms should reach this
 #include <arm_neon.h>
 
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 typedef float32x2_t FloatV;
 typedef float32x4_t Vec3V;
 typedef float32x4_t Vec4V;
@@ -125,5 +132,9 @@ struct Mat44V
 	Vec4V PX_ALIGN(16, col2);
 	Vec4V PX_ALIGN(16, col3);
 } PX_ALIGN_SUFFIX(16);
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
 
 #endif // PSFOUNDATION_PSUNIXNEONAOS_H

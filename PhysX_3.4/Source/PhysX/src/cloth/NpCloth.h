@@ -57,7 +57,7 @@ class NpCloth : public NpClothT
 public:
 // PX_SERIALIZATION
 									NpCloth(PxBaseFlags baseFlags);
-	virtual		void				requires(PxProcessPxBaseCallback& c);
+	virtual		void				requiresObjects(PxProcessPxBaseCallback& c);
 	virtual		void				exportExtraData(PxSerializationContext& stream) { mCloth.exportExtraData(stream); }
 				void				importExtraData(PxDeserializationContext& context) { mCloth.importExtraData(context); }
 				void				resolveReferences(PxDeserializationContext& context);

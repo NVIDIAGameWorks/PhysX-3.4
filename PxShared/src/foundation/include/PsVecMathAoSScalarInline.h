@@ -34,6 +34,13 @@
 #error Scalar version should not be included when using vector intrinsics.
 #endif
 
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 #define BOOL_TO_U32(b) (PxU32)(- PxI32(b))
 #define TRUE_TO_U32 (PxU32)(-1)
 #define FALSE_TO_U32 (PxU32)(0)
@@ -2260,5 +2267,9 @@ PX_FORCE_INLINE VecU32V V4ConvertToU32VSaturate(const Vec4V a, PxU32 power)
         PxU32(PxClamp<PxF32>((a).w, 0.0f, ffffFFFFasFloat)));
 }
 */
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
 
 #endif // PSFOUNDATION_PSVECMATHAOSSCALARINLINE_H

@@ -67,7 +67,7 @@ class NpParticleSystem : public NpParticleSystemT
 public:
 // PX_SERIALIZATION
 									NpParticleSystem(PxBaseFlags baseFlags) : NpParticleSystemT(baseFlags) {}
-	virtual		void				requires(PxProcessPxBaseCallback&) {}	
+	virtual		void				requiresObjects(PxProcessPxBaseCallback&) {}	
 	virtual		void				exportExtraData(PxSerializationContext& stream) { mParticleSystem.exportExtraData(stream); }
 				void				importExtraData(PxDeserializationContext& context) { mParticleSystem.importExtraData(context); }
 	static		NpParticleSystem*	createObject(PxU8*& address, PxDeserializationContext& context);

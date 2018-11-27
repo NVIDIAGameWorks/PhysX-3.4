@@ -150,7 +150,6 @@ struct PxLocationHit : public PxQueryHit
 	// the following fields are set in accordance with the #PxHitFlags
 	PxHitFlags			flags;		//!< Hit flags specifying which members contain valid values.
 	PxVec3				position;	//!< World-space hit position (flag: #PxHitFlag::ePOSITION)
-									//!< Formerly known as .impact, renamed for clarity.
 	PxVec3				normal;		//!< World-space hit normal (flag: #PxHitFlag::eNORMAL)
 
 	/**

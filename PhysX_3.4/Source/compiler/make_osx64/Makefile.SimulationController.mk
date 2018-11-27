@@ -124,16 +124,16 @@ SimulationController_debug_common_cflags    += $(addprefix -D, $(SimulationContr
 SimulationController_debug_common_cflags    += $(addprefix -I, $(SimulationController_debug_hpaths))
 SimulationController_debug_cflags	:= $(SimulationController_debug_common_cflags)
 SimulationController_debug_cflags  += -arch x86_64
-SimulationController_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SimulationController_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SimulationController_debug_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SimulationController_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SimulationController_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SimulationController_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SimulationController_debug_cflags  += -Wno-c++11-extensions
 SimulationController_debug_cflags  += -g3 -gdwarf-2 -O0
 SimulationController_debug_cppflags	:= $(SimulationController_debug_common_cflags)
 SimulationController_debug_cppflags  += -arch x86_64
-SimulationController_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SimulationController_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SimulationController_debug_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SimulationController_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SimulationController_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SimulationController_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SimulationController_debug_cppflags  += -Wno-c++11-extensions
@@ -142,6 +142,7 @@ SimulationController_debug_lflags    := $(SimulationController_custom_lflags)
 SimulationController_debug_lflags    += $(addprefix -L, $(SimulationController_debug_lpaths))
 SimulationController_debug_lflags  += $(addprefix -l, $(SimulationController_debug_libraries))
 SimulationController_debug_lflags  += -arch x86_64
+SimulationController_debug_lflags  += -stdlib=libc++
 SimulationController_debug_objsdir  = $(OBJS_DIR)/SimulationController_debug
 SimulationController_debug_cpp_o    = $(addprefix $(SimulationController_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(SimulationController_cppfiles)))))
 SimulationController_debug_cc_o    = $(addprefix $(SimulationController_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(SimulationController_ccfiles)))))
@@ -252,16 +253,16 @@ SimulationController_checked_common_cflags    += $(addprefix -D, $(SimulationCon
 SimulationController_checked_common_cflags    += $(addprefix -I, $(SimulationController_checked_hpaths))
 SimulationController_checked_cflags	:= $(SimulationController_checked_common_cflags)
 SimulationController_checked_cflags  += -arch x86_64
-SimulationController_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SimulationController_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SimulationController_checked_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SimulationController_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SimulationController_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SimulationController_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SimulationController_checked_cflags  += -Wno-c++11-extensions
 SimulationController_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 SimulationController_checked_cppflags	:= $(SimulationController_checked_common_cflags)
 SimulationController_checked_cppflags  += -arch x86_64
-SimulationController_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SimulationController_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SimulationController_checked_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SimulationController_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SimulationController_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SimulationController_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SimulationController_checked_cppflags  += -Wno-c++11-extensions
@@ -270,6 +271,7 @@ SimulationController_checked_lflags    := $(SimulationController_custom_lflags)
 SimulationController_checked_lflags    += $(addprefix -L, $(SimulationController_checked_lpaths))
 SimulationController_checked_lflags  += $(addprefix -l, $(SimulationController_checked_libraries))
 SimulationController_checked_lflags  += -arch x86_64
+SimulationController_checked_lflags  += -stdlib=libc++
 SimulationController_checked_objsdir  = $(OBJS_DIR)/SimulationController_checked
 SimulationController_checked_cpp_o    = $(addprefix $(SimulationController_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(SimulationController_cppfiles)))))
 SimulationController_checked_cc_o    = $(addprefix $(SimulationController_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(SimulationController_ccfiles)))))
@@ -380,16 +382,16 @@ SimulationController_profile_common_cflags    += $(addprefix -D, $(SimulationCon
 SimulationController_profile_common_cflags    += $(addprefix -I, $(SimulationController_profile_hpaths))
 SimulationController_profile_cflags	:= $(SimulationController_profile_common_cflags)
 SimulationController_profile_cflags  += -arch x86_64
-SimulationController_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SimulationController_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SimulationController_profile_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SimulationController_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SimulationController_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SimulationController_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SimulationController_profile_cflags  += -Wno-c++11-extensions
 SimulationController_profile_cflags  += -O3 -fno-strict-aliasing
 SimulationController_profile_cppflags	:= $(SimulationController_profile_common_cflags)
 SimulationController_profile_cppflags  += -arch x86_64
-SimulationController_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SimulationController_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SimulationController_profile_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SimulationController_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SimulationController_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SimulationController_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SimulationController_profile_cppflags  += -Wno-c++11-extensions
@@ -398,6 +400,7 @@ SimulationController_profile_lflags    := $(SimulationController_custom_lflags)
 SimulationController_profile_lflags    += $(addprefix -L, $(SimulationController_profile_lpaths))
 SimulationController_profile_lflags  += $(addprefix -l, $(SimulationController_profile_libraries))
 SimulationController_profile_lflags  += -arch x86_64
+SimulationController_profile_lflags  += -stdlib=libc++
 SimulationController_profile_objsdir  = $(OBJS_DIR)/SimulationController_profile
 SimulationController_profile_cpp_o    = $(addprefix $(SimulationController_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(SimulationController_cppfiles)))))
 SimulationController_profile_cc_o    = $(addprefix $(SimulationController_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(SimulationController_ccfiles)))))
@@ -507,16 +510,16 @@ SimulationController_release_common_cflags    += $(addprefix -D, $(SimulationCon
 SimulationController_release_common_cflags    += $(addprefix -I, $(SimulationController_release_hpaths))
 SimulationController_release_cflags	:= $(SimulationController_release_common_cflags)
 SimulationController_release_cflags  += -arch x86_64
-SimulationController_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SimulationController_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SimulationController_release_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SimulationController_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SimulationController_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SimulationController_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SimulationController_release_cflags  += -Wno-c++11-extensions
 SimulationController_release_cflags  += -O3 -fno-strict-aliasing
 SimulationController_release_cppflags	:= $(SimulationController_release_common_cflags)
 SimulationController_release_cppflags  += -arch x86_64
-SimulationController_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SimulationController_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SimulationController_release_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SimulationController_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SimulationController_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SimulationController_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SimulationController_release_cppflags  += -Wno-c++11-extensions
@@ -525,6 +528,7 @@ SimulationController_release_lflags    := $(SimulationController_custom_lflags)
 SimulationController_release_lflags    += $(addprefix -L, $(SimulationController_release_lpaths))
 SimulationController_release_lflags  += $(addprefix -l, $(SimulationController_release_libraries))
 SimulationController_release_lflags  += -arch x86_64
+SimulationController_release_lflags  += -stdlib=libc++
 SimulationController_release_objsdir  = $(OBJS_DIR)/SimulationController_release
 SimulationController_release_cpp_o    = $(addprefix $(SimulationController_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(SimulationController_cppfiles)))))
 SimulationController_release_cc_o    = $(addprefix $(SimulationController_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(SimulationController_ccfiles)))))

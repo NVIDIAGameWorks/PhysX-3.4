@@ -42,16 +42,17 @@ PxTask_debug_common_cflags    += $(addprefix -D, $(PxTask_debug_defines))
 PxTask_debug_common_cflags    += $(addprefix -I, $(PxTask_debug_hpaths))
 PxTask_debug_cflags	:= $(PxTask_debug_common_cflags)
 PxTask_debug_cflags  += -arch x86_64
-PxTask_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_debug_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_debug_cflags  += -g3 -gdwarf-2 -O0
 PxTask_debug_cppflags	:= $(PxTask_debug_common_cflags)
 PxTask_debug_cppflags  += -arch x86_64
-PxTask_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_debug_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_debug_cppflags  += -g3 -gdwarf-2 -O0
 PxTask_debug_lflags    := $(PxTask_custom_lflags)
 PxTask_debug_lflags    += $(addprefix -L, $(PxTask_debug_lpaths))
 PxTask_debug_lflags  += $(addprefix -l, $(PxTask_debug_libraries))
 PxTask_debug_lflags  += -arch x86_64
+PxTask_debug_lflags  += -stdlib=libc++
 PxTask_debug_objsdir  = $(OBJS_DIR)/PxTask_debug
 PxTask_debug_cpp_o    = $(addprefix $(PxTask_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxTask_cppfiles)))))
 PxTask_debug_cc_o    = $(addprefix $(PxTask_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxTask_ccfiles)))))
@@ -121,16 +122,17 @@ PxTask_release_common_cflags    += $(addprefix -D, $(PxTask_release_defines))
 PxTask_release_common_cflags    += $(addprefix -I, $(PxTask_release_hpaths))
 PxTask_release_cflags	:= $(PxTask_release_common_cflags)
 PxTask_release_cflags  += -arch x86_64
-PxTask_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_release_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_release_cflags  += -O3 -fno-strict-aliasing
 PxTask_release_cppflags	:= $(PxTask_release_common_cflags)
 PxTask_release_cppflags  += -arch x86_64
-PxTask_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_release_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_release_cppflags  += -O3 -fno-strict-aliasing
 PxTask_release_lflags    := $(PxTask_custom_lflags)
 PxTask_release_lflags    += $(addprefix -L, $(PxTask_release_lpaths))
 PxTask_release_lflags  += $(addprefix -l, $(PxTask_release_libraries))
 PxTask_release_lflags  += -arch x86_64
+PxTask_release_lflags  += -stdlib=libc++
 PxTask_release_objsdir  = $(OBJS_DIR)/PxTask_release
 PxTask_release_cpp_o    = $(addprefix $(PxTask_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxTask_cppfiles)))))
 PxTask_release_cc_o    = $(addprefix $(PxTask_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxTask_ccfiles)))))
@@ -201,16 +203,17 @@ PxTask_checked_common_cflags    += $(addprefix -D, $(PxTask_checked_defines))
 PxTask_checked_common_cflags    += $(addprefix -I, $(PxTask_checked_hpaths))
 PxTask_checked_cflags	:= $(PxTask_checked_common_cflags)
 PxTask_checked_cflags  += -arch x86_64
-PxTask_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_checked_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PxTask_checked_cppflags	:= $(PxTask_checked_common_cflags)
 PxTask_checked_cppflags  += -arch x86_64
-PxTask_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_checked_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_checked_cppflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PxTask_checked_lflags    := $(PxTask_custom_lflags)
 PxTask_checked_lflags    += $(addprefix -L, $(PxTask_checked_lpaths))
 PxTask_checked_lflags  += $(addprefix -l, $(PxTask_checked_libraries))
 PxTask_checked_lflags  += -arch x86_64
+PxTask_checked_lflags  += -stdlib=libc++
 PxTask_checked_objsdir  = $(OBJS_DIR)/PxTask_checked
 PxTask_checked_cpp_o    = $(addprefix $(PxTask_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxTask_cppfiles)))))
 PxTask_checked_cc_o    = $(addprefix $(PxTask_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxTask_ccfiles)))))
@@ -281,16 +284,17 @@ PxTask_profile_common_cflags    += $(addprefix -D, $(PxTask_profile_defines))
 PxTask_profile_common_cflags    += $(addprefix -I, $(PxTask_profile_hpaths))
 PxTask_profile_cflags	:= $(PxTask_profile_common_cflags)
 PxTask_profile_cflags  += -arch x86_64
-PxTask_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_profile_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_profile_cflags  += -O3 -fno-strict-aliasing
 PxTask_profile_cppflags	:= $(PxTask_profile_common_cflags)
 PxTask_profile_cppflags  += -arch x86_64
-PxTask_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PxTask_profile_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
 PxTask_profile_cppflags  += -O3 -fno-strict-aliasing
 PxTask_profile_lflags    := $(PxTask_custom_lflags)
 PxTask_profile_lflags    += $(addprefix -L, $(PxTask_profile_lpaths))
 PxTask_profile_lflags  += $(addprefix -l, $(PxTask_profile_libraries))
 PxTask_profile_lflags  += -arch x86_64
+PxTask_profile_lflags  += -stdlib=libc++
 PxTask_profile_objsdir  = $(OBJS_DIR)/PxTask_profile
 PxTask_profile_cpp_o    = $(addprefix $(PxTask_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PxTask_cppfiles)))))
 PxTask_profile_cc_o    = $(addprefix $(PxTask_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PxTask_ccfiles)))))

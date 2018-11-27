@@ -36,6 +36,13 @@
 #error Vector intrinsics should not be included when using scalar implementation.
 #endif
 
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 typedef __m128 FloatV;
 typedef __m128 Vec3V;
 typedef __m128 Vec4V;
@@ -127,5 +134,9 @@ struct Mat44V
 	Vec4V PX_ALIGN(16, col2);
 	Vec4V PX_ALIGN(16, col3);
 } PX_ALIGN_SUFFIX(16);
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
 
 #endif // PSFOUNDATION_PSWINDOWSAOS_H

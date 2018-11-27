@@ -562,7 +562,7 @@ struct SubSortSAH
 			// we iterate over currently active intervals and compute it's surface area
 			// then we split the interval with maximum surface area
 			// AP scaffold: possible optimization - seems like computeSA can be cached for unchanged intervals
-			InlineArray<Interval, 4> splits;
+			InlineArray<Interval, 1024> splits;
 			splits.pushBack(Interval(0, clusterSize));
 			for(PxU32 iSplit = 0; iSplit < RTREE_N-1; iSplit++)
 			{

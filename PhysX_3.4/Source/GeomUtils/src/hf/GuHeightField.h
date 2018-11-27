@@ -70,8 +70,10 @@ public:
 		PX_PHYSX_COMMON_API	static		HeightField*				createObject(PxU8*& address, PxDeserializationContext& context);
 		PX_PHYSX_COMMON_API static		void						getBinaryMetaData(PxOutputStream& stream);
 										void						resolveReferences(PxDeserializationContext&) {}
-							virtual		void						requires(PxProcessPxBaseCallback&){}
+
+							virtual		void						requiresObjects(PxProcessPxBaseCallback&){}
 //~PX_SERIALIZATION
+
 		PX_PHYSX_COMMON_API 										HeightField(GuMeshFactory* meshFactory);
 		PX_PHYSX_COMMON_API											HeightField(GuMeshFactory& factory, Gu::HeightFieldData& data);
 

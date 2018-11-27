@@ -88,7 +88,7 @@ namespace Ext
     public:
 // PX_SERIALIZATION
 						Joint(PxBaseFlags baseFlags) : Base(baseFlags) {}
-		virtual	void	requires(PxProcessPxBaseCallback& c)
+		virtual	void	requiresObjects(PxProcessPxBaseCallback& c)
 		{			
 			c.process(*mPxConstraint);
 			

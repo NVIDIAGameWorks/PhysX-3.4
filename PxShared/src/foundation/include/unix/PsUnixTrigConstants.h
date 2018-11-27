@@ -30,6 +30,13 @@
 #ifndef PSFOUNDATION_PSUNIXTRIGCONSTANTS_H
 #define PSFOUNDATION_PSUNIXTRIGCONSTANTS_H
 
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 //#define PX_GLOBALCONST extern const __declspec(selectany)
 #define PX_GLOBALCONST extern const __attribute__((weak))
 
@@ -78,5 +85,9 @@ PX_GLOBALCONST PX_VECTORF32 g_PXASinEstConstants = { { 1.00000011921f, PxPiDivTw
 PX_GLOBALCONST PX_VECTORF32 g_PXPiConstants0 = { { PxPi, PxTwoPi, PxInvPi, PxInvTwoPi } };
 PX_GLOBALCONST PX_VECTORF32 g_PXReciprocalTwoPi = { { PxInvTwoPi, PxInvTwoPi, PxInvTwoPi, PxInvTwoPi } };
 PX_GLOBALCONST PX_VECTORF32 g_PXTwoPi = { { PxTwoPi, PxTwoPi, PxTwoPi, PxTwoPi } };
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
 
 #endif

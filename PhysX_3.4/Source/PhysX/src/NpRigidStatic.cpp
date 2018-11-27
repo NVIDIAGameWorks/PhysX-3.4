@@ -47,9 +47,9 @@ NpRigidStatic::~NpRigidStatic()
 }
 
 // PX_SERIALIZATION
-void NpRigidStatic::requires(PxProcessPxBaseCallback& c)
+void NpRigidStatic::requiresObjects(PxProcessPxBaseCallback& c)
 {
-	NpRigidStaticT::requires(c);	
+	NpRigidStaticT::requiresObjects(c);	
 }
 
 NpRigidStatic* NpRigidStatic::createObject(PxU8*& address, PxDeserializationContext& context)

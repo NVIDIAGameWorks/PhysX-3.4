@@ -41,7 +41,7 @@ namespace physx
 {
 
 // PX_SERIALIZATION
-void NpArticulation::requires(PxProcessPxBaseCallback& c)
+void NpArticulation::requiresObjects(PxProcessPxBaseCallback& c)
 {
 	// Collect articulation links
 	const PxU32 nbLinks = mArticulationLinks.size();

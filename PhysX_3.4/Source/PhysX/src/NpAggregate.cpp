@@ -380,7 +380,7 @@ NpAggregate* NpAggregate::createObject(PxU8*& address, PxDeserializationContext&
 	return obj;
 }
 
-void NpAggregate::requires(PxProcessPxBaseCallback& c)
+void NpAggregate::requiresObjects(PxProcessPxBaseCallback& c)
 {
 	for(PxU32 i=0; i < mNbActors; i++)
 	{

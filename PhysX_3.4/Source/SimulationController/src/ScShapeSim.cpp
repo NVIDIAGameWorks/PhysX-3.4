@@ -267,7 +267,17 @@ void Sc::ShapeSim::onFlagChange(PxShapeFlags oldFlags)
 	if(oldBp != newBp)
 	{
 		if(!oldBp && newBp)
-			internalAddToBroadPhase();
+		{
+			// A.B. if a trigger was removed and inserted within the same frame we need to reinsert
+			if(hasTriggerFlags(newFlags) && getScene().getAABBManager()->isMarkedForRemove(getElementID()))
+			{
+				reinsertBroadPhase();
+			}
+			else
+			{
+				internalAddToBroadPhase();
+			}
+		}
 		else
 			internalRemoveFromBroadPhase();
 	}

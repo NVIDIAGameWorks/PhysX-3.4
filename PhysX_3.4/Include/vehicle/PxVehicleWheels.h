@@ -787,7 +787,7 @@ protected:
 
 //serialization
 public:
-	virtual		void			requires(PxProcessPxBaseCallback& c);
+	virtual		void			requiresObjects(PxProcessPxBaseCallback& c);
 	virtual		const char*		getConcreteTypeName() const				{	return "PxVehicleWheels"; }
 	virtual		bool			isKindOf(const char* name)	const		{	return !::strcmp("PxVehicleWheels", name) || PxBase::isKindOf(name); }
 	virtual		void			exportExtraData(PxSerializationContext&);	

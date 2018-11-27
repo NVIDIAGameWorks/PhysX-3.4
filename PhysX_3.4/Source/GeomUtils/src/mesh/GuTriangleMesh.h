@@ -76,7 +76,7 @@ public:
 						virtual	void					release();
 
 								void					resolveReferences(PxDeserializationContext& ) {}
-						virtual	void					requires(PxProcessPxBaseCallback&){}
+						virtual	void					requiresObjects(PxProcessPxBaseCallback&){}
 //~PX_SERIALIZATION
 
 // Cm::RefCountable

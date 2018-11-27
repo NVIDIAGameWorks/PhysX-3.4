@@ -54,7 +54,7 @@ public:
 // PX_SERIALIZATION
 									NpRigidDynamic(PxBaseFlags baseFlags) : NpRigidDynamicT(baseFlags) {}
 
-	virtual		void				requires(PxProcessPxBaseCallback& c);
+	virtual		void				requiresObjects(PxProcessPxBaseCallback& c);
 
 	static		NpRigidDynamic*		createObject(PxU8*& address, PxDeserializationContext& context);
 	static		void				getBinaryMetaData(PxOutputStream& stream);	

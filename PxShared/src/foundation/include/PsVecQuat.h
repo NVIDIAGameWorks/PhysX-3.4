@@ -32,6 +32,13 @@
 
 //#include "PsInlineAoS.h"
 
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 #ifndef PX_PIDIV2
 #define PX_PIDIV2 1.570796327f
 #endif
@@ -451,5 +458,9 @@ PX_FORCE_INLINE QuatV Mat33GetQuatV(const Mat33V& a)
 		return V4Sel(con0, v0, V4Sel(con1, v1, v2));
 	}
 }
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
 
 #endif

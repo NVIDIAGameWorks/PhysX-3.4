@@ -64,7 +64,7 @@ public:
 					void							exportExtraData(PxSerializationContext&)	{}
 					void							importExtraData(PxDeserializationContext&)	{ }
 					void							resolveReferences(PxDeserializationContext& context);
-	virtual			void							requires(PxProcessPxBaseCallback&){}
+	virtual			void							requiresObjects(PxProcessPxBaseCallback&){}
 	virtual		    bool			                isSubordinate()  const	 { return true; }  
 //~PX_SERIALIZATION
 													NpConstraint(PxRigidActor* actor0, PxRigidActor* actor1, PxConstraintConnector& connector, const PxConstraintShaderTable& shaders, PxU32 dataSize);

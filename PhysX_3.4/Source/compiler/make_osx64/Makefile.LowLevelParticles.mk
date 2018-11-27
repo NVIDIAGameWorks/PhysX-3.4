@@ -74,16 +74,16 @@ LowLevelParticles_debug_common_cflags    += $(addprefix -D, $(LowLevelParticles_
 LowLevelParticles_debug_common_cflags    += $(addprefix -I, $(LowLevelParticles_debug_hpaths))
 LowLevelParticles_debug_cflags	:= $(LowLevelParticles_debug_common_cflags)
 LowLevelParticles_debug_cflags  += -arch x86_64
-LowLevelParticles_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevelParticles_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevelParticles_debug_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelParticles_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevelParticles_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelParticles_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevelParticles_debug_cflags  += -Wno-c++11-extensions
 LowLevelParticles_debug_cflags  += -g3 -gdwarf-2 -O0
 LowLevelParticles_debug_cppflags	:= $(LowLevelParticles_debug_common_cflags)
 LowLevelParticles_debug_cppflags  += -arch x86_64
-LowLevelParticles_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevelParticles_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevelParticles_debug_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelParticles_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevelParticles_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelParticles_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevelParticles_debug_cppflags  += -Wno-c++11-extensions
@@ -92,6 +92,7 @@ LowLevelParticles_debug_lflags    := $(LowLevelParticles_custom_lflags)
 LowLevelParticles_debug_lflags    += $(addprefix -L, $(LowLevelParticles_debug_lpaths))
 LowLevelParticles_debug_lflags  += $(addprefix -l, $(LowLevelParticles_debug_libraries))
 LowLevelParticles_debug_lflags  += -arch x86_64
+LowLevelParticles_debug_lflags  += -stdlib=libc++
 LowLevelParticles_debug_objsdir  = $(OBJS_DIR)/LowLevelParticles_debug
 LowLevelParticles_debug_cpp_o    = $(addprefix $(LowLevelParticles_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(LowLevelParticles_cppfiles)))))
 LowLevelParticles_debug_cc_o    = $(addprefix $(LowLevelParticles_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(LowLevelParticles_ccfiles)))))
@@ -179,16 +180,16 @@ LowLevelParticles_checked_common_cflags    += $(addprefix -D, $(LowLevelParticle
 LowLevelParticles_checked_common_cflags    += $(addprefix -I, $(LowLevelParticles_checked_hpaths))
 LowLevelParticles_checked_cflags	:= $(LowLevelParticles_checked_common_cflags)
 LowLevelParticles_checked_cflags  += -arch x86_64
-LowLevelParticles_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevelParticles_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevelParticles_checked_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelParticles_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevelParticles_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelParticles_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevelParticles_checked_cflags  += -Wno-c++11-extensions
 LowLevelParticles_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 LowLevelParticles_checked_cppflags	:= $(LowLevelParticles_checked_common_cflags)
 LowLevelParticles_checked_cppflags  += -arch x86_64
-LowLevelParticles_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevelParticles_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevelParticles_checked_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelParticles_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevelParticles_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelParticles_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevelParticles_checked_cppflags  += -Wno-c++11-extensions
@@ -197,6 +198,7 @@ LowLevelParticles_checked_lflags    := $(LowLevelParticles_custom_lflags)
 LowLevelParticles_checked_lflags    += $(addprefix -L, $(LowLevelParticles_checked_lpaths))
 LowLevelParticles_checked_lflags  += $(addprefix -l, $(LowLevelParticles_checked_libraries))
 LowLevelParticles_checked_lflags  += -arch x86_64
+LowLevelParticles_checked_lflags  += -stdlib=libc++
 LowLevelParticles_checked_objsdir  = $(OBJS_DIR)/LowLevelParticles_checked
 LowLevelParticles_checked_cpp_o    = $(addprefix $(LowLevelParticles_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(LowLevelParticles_cppfiles)))))
 LowLevelParticles_checked_cc_o    = $(addprefix $(LowLevelParticles_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(LowLevelParticles_ccfiles)))))
@@ -284,16 +286,16 @@ LowLevelParticles_profile_common_cflags    += $(addprefix -D, $(LowLevelParticle
 LowLevelParticles_profile_common_cflags    += $(addprefix -I, $(LowLevelParticles_profile_hpaths))
 LowLevelParticles_profile_cflags	:= $(LowLevelParticles_profile_common_cflags)
 LowLevelParticles_profile_cflags  += -arch x86_64
-LowLevelParticles_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevelParticles_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevelParticles_profile_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelParticles_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevelParticles_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelParticles_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevelParticles_profile_cflags  += -Wno-c++11-extensions
 LowLevelParticles_profile_cflags  += -O3 -fno-strict-aliasing
 LowLevelParticles_profile_cppflags	:= $(LowLevelParticles_profile_common_cflags)
 LowLevelParticles_profile_cppflags  += -arch x86_64
-LowLevelParticles_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevelParticles_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevelParticles_profile_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelParticles_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevelParticles_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelParticles_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevelParticles_profile_cppflags  += -Wno-c++11-extensions
@@ -302,6 +304,7 @@ LowLevelParticles_profile_lflags    := $(LowLevelParticles_custom_lflags)
 LowLevelParticles_profile_lflags    += $(addprefix -L, $(LowLevelParticles_profile_lpaths))
 LowLevelParticles_profile_lflags  += $(addprefix -l, $(LowLevelParticles_profile_libraries))
 LowLevelParticles_profile_lflags  += -arch x86_64
+LowLevelParticles_profile_lflags  += -stdlib=libc++
 LowLevelParticles_profile_objsdir  = $(OBJS_DIR)/LowLevelParticles_profile
 LowLevelParticles_profile_cpp_o    = $(addprefix $(LowLevelParticles_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(LowLevelParticles_cppfiles)))))
 LowLevelParticles_profile_cc_o    = $(addprefix $(LowLevelParticles_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(LowLevelParticles_ccfiles)))))
@@ -388,16 +391,16 @@ LowLevelParticles_release_common_cflags    += $(addprefix -D, $(LowLevelParticle
 LowLevelParticles_release_common_cflags    += $(addprefix -I, $(LowLevelParticles_release_hpaths))
 LowLevelParticles_release_cflags	:= $(LowLevelParticles_release_common_cflags)
 LowLevelParticles_release_cflags  += -arch x86_64
-LowLevelParticles_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevelParticles_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevelParticles_release_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelParticles_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevelParticles_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelParticles_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevelParticles_release_cflags  += -Wno-c++11-extensions
 LowLevelParticles_release_cflags  += -O3 -fno-strict-aliasing
 LowLevelParticles_release_cppflags	:= $(LowLevelParticles_release_common_cflags)
 LowLevelParticles_release_cppflags  += -arch x86_64
-LowLevelParticles_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-LowLevelParticles_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+LowLevelParticles_release_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+LowLevelParticles_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 LowLevelParticles_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 LowLevelParticles_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 LowLevelParticles_release_cppflags  += -Wno-c++11-extensions
@@ -406,6 +409,7 @@ LowLevelParticles_release_lflags    := $(LowLevelParticles_custom_lflags)
 LowLevelParticles_release_lflags    += $(addprefix -L, $(LowLevelParticles_release_lpaths))
 LowLevelParticles_release_lflags  += $(addprefix -l, $(LowLevelParticles_release_libraries))
 LowLevelParticles_release_lflags  += -arch x86_64
+LowLevelParticles_release_lflags  += -stdlib=libc++
 LowLevelParticles_release_objsdir  = $(OBJS_DIR)/LowLevelParticles_release
 LowLevelParticles_release_cpp_o    = $(addprefix $(LowLevelParticles_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(LowLevelParticles_cppfiles)))))
 LowLevelParticles_release_cc_o    = $(addprefix $(LowLevelParticles_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(LowLevelParticles_ccfiles)))))

@@ -34,6 +34,13 @@
 #error Vector intrinsics should not be included when using scalar implementation.
 #endif
 
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 // improved estimates
 #define VRECIPEQ recipq_newton<1>
 #define VRECIPE recip_newton<1>
@@ -3582,5 +3589,9 @@ PX_FORCE_INLINE void QuatGetMat33V(const QuatVArg q, Vec3V& column0, Vec3V& colu
 	column1 = V3Merge(FSub(xy, zw), FSub(v, zz), FAdd(yz, xw));
 	column2 = V3Merge(FAdd(xz, yw), FSub(yz, xw), FSub(v, yy));
 }
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
 
 #endif // PSFOUNDATION_PSUNIXNEONINLINEAOS_H

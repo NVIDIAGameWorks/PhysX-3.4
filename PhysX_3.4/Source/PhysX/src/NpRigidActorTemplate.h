@@ -52,7 +52,7 @@ private:
 public:
 // PX_SERIALIZATION
 											NpRigidActorTemplate(PxBaseFlags baseFlags) : ActorTemplateClass(baseFlags), mShapeManager(PxEmpty), mIndex(0xFFFFFFFF)	{}
-	virtual			void					requires(PxProcessPxBaseCallback& c);
+	virtual			void					requiresObjects(PxProcessPxBaseCallback& c);
 	virtual			void					exportExtraData(PxSerializationContext& stream);
 					void					importExtraData(PxDeserializationContext& context);
 					void					resolveReferences(PxDeserializationContext& context);
@@ -127,7 +127,7 @@ protected:
 // PX_SERIALIZATION
 
 template<class APIClass>
-void NpRigidActorTemplate<APIClass>::requires(PxProcessPxBaseCallback& c)
+void NpRigidActorTemplate<APIClass>::requiresObjects(PxProcessPxBaseCallback& c)
 {
 	// export shapes
 	PxU32 nbShapes = mShapeManager.getNbShapes();

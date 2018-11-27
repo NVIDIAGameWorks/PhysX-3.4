@@ -82,16 +82,16 @@ SceneQuery_debug_common_cflags    += $(addprefix -D, $(SceneQuery_debug_defines)
 SceneQuery_debug_common_cflags    += $(addprefix -I, $(SceneQuery_debug_hpaths))
 SceneQuery_debug_cflags	:= $(SceneQuery_debug_common_cflags)
 SceneQuery_debug_cflags  += -arch i386
-SceneQuery_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SceneQuery_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SceneQuery_debug_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SceneQuery_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SceneQuery_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SceneQuery_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SceneQuery_debug_cflags  += -Wno-c++11-extensions
 SceneQuery_debug_cflags  += -g3 -gdwarf-2 -O0
 SceneQuery_debug_cppflags	:= $(SceneQuery_debug_common_cflags)
 SceneQuery_debug_cppflags  += -arch i386
-SceneQuery_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SceneQuery_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SceneQuery_debug_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SceneQuery_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SceneQuery_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SceneQuery_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SceneQuery_debug_cppflags  += -Wno-c++11-extensions
@@ -100,6 +100,7 @@ SceneQuery_debug_lflags    := $(SceneQuery_custom_lflags)
 SceneQuery_debug_lflags    += $(addprefix -L, $(SceneQuery_debug_lpaths))
 SceneQuery_debug_lflags  += $(addprefix -l, $(SceneQuery_debug_libraries))
 SceneQuery_debug_lflags  += -arch i386
+SceneQuery_debug_lflags  += -stdlib=libc++
 SceneQuery_debug_objsdir  = $(OBJS_DIR)/SceneQuery_debug
 SceneQuery_debug_cpp_o    = $(addprefix $(SceneQuery_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(SceneQuery_cppfiles)))))
 SceneQuery_debug_cc_o    = $(addprefix $(SceneQuery_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(SceneQuery_ccfiles)))))
@@ -198,16 +199,16 @@ SceneQuery_checked_common_cflags    += $(addprefix -D, $(SceneQuery_checked_defi
 SceneQuery_checked_common_cflags    += $(addprefix -I, $(SceneQuery_checked_hpaths))
 SceneQuery_checked_cflags	:= $(SceneQuery_checked_common_cflags)
 SceneQuery_checked_cflags  += -arch i386
-SceneQuery_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SceneQuery_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SceneQuery_checked_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SceneQuery_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SceneQuery_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SceneQuery_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SceneQuery_checked_cflags  += -Wno-c++11-extensions
 SceneQuery_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 SceneQuery_checked_cppflags	:= $(SceneQuery_checked_common_cflags)
 SceneQuery_checked_cppflags  += -arch i386
-SceneQuery_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SceneQuery_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SceneQuery_checked_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SceneQuery_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SceneQuery_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SceneQuery_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SceneQuery_checked_cppflags  += -Wno-c++11-extensions
@@ -216,6 +217,7 @@ SceneQuery_checked_lflags    := $(SceneQuery_custom_lflags)
 SceneQuery_checked_lflags    += $(addprefix -L, $(SceneQuery_checked_lpaths))
 SceneQuery_checked_lflags  += $(addprefix -l, $(SceneQuery_checked_libraries))
 SceneQuery_checked_lflags  += -arch i386
+SceneQuery_checked_lflags  += -stdlib=libc++
 SceneQuery_checked_objsdir  = $(OBJS_DIR)/SceneQuery_checked
 SceneQuery_checked_cpp_o    = $(addprefix $(SceneQuery_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(SceneQuery_cppfiles)))))
 SceneQuery_checked_cc_o    = $(addprefix $(SceneQuery_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(SceneQuery_ccfiles)))))
@@ -314,16 +316,16 @@ SceneQuery_profile_common_cflags    += $(addprefix -D, $(SceneQuery_profile_defi
 SceneQuery_profile_common_cflags    += $(addprefix -I, $(SceneQuery_profile_hpaths))
 SceneQuery_profile_cflags	:= $(SceneQuery_profile_common_cflags)
 SceneQuery_profile_cflags  += -arch i386
-SceneQuery_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SceneQuery_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SceneQuery_profile_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SceneQuery_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SceneQuery_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SceneQuery_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SceneQuery_profile_cflags  += -Wno-c++11-extensions
 SceneQuery_profile_cflags  += -O3 -fno-strict-aliasing
 SceneQuery_profile_cppflags	:= $(SceneQuery_profile_common_cflags)
 SceneQuery_profile_cppflags  += -arch i386
-SceneQuery_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SceneQuery_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SceneQuery_profile_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SceneQuery_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SceneQuery_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SceneQuery_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SceneQuery_profile_cppflags  += -Wno-c++11-extensions
@@ -332,6 +334,7 @@ SceneQuery_profile_lflags    := $(SceneQuery_custom_lflags)
 SceneQuery_profile_lflags    += $(addprefix -L, $(SceneQuery_profile_lpaths))
 SceneQuery_profile_lflags  += $(addprefix -l, $(SceneQuery_profile_libraries))
 SceneQuery_profile_lflags  += -arch i386
+SceneQuery_profile_lflags  += -stdlib=libc++
 SceneQuery_profile_objsdir  = $(OBJS_DIR)/SceneQuery_profile
 SceneQuery_profile_cpp_o    = $(addprefix $(SceneQuery_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(SceneQuery_cppfiles)))))
 SceneQuery_profile_cc_o    = $(addprefix $(SceneQuery_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(SceneQuery_ccfiles)))))
@@ -429,16 +432,16 @@ SceneQuery_release_common_cflags    += $(addprefix -D, $(SceneQuery_release_defi
 SceneQuery_release_common_cflags    += $(addprefix -I, $(SceneQuery_release_hpaths))
 SceneQuery_release_cflags	:= $(SceneQuery_release_common_cflags)
 SceneQuery_release_cflags  += -arch i386
-SceneQuery_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SceneQuery_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SceneQuery_release_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SceneQuery_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SceneQuery_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SceneQuery_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SceneQuery_release_cflags  += -Wno-c++11-extensions
 SceneQuery_release_cflags  += -O3 -fno-strict-aliasing
 SceneQuery_release_cppflags	:= $(SceneQuery_release_common_cflags)
 SceneQuery_release_cppflags  += -arch i386
-SceneQuery_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-SceneQuery_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+SceneQuery_release_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+SceneQuery_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 SceneQuery_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 SceneQuery_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 SceneQuery_release_cppflags  += -Wno-c++11-extensions
@@ -447,6 +450,7 @@ SceneQuery_release_lflags    := $(SceneQuery_custom_lflags)
 SceneQuery_release_lflags    += $(addprefix -L, $(SceneQuery_release_lpaths))
 SceneQuery_release_lflags  += $(addprefix -l, $(SceneQuery_release_libraries))
 SceneQuery_release_lflags  += -arch i386
+SceneQuery_release_lflags  += -stdlib=libc++
 SceneQuery_release_objsdir  = $(OBJS_DIR)/SceneQuery_release
 SceneQuery_release_cpp_o    = $(addprefix $(SceneQuery_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(SceneQuery_cppfiles)))))
 SceneQuery_release_cc_o    = $(addprefix $(SceneQuery_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(SceneQuery_ccfiles)))))

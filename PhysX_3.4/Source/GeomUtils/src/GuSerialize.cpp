@@ -120,24 +120,32 @@ bool physx::readFloatBuffer(PxF32* dest, PxU32 nbFloats, bool mismatch, PxInputS
 
 void physx::writeFloatBuffer(const PxF32* src, PxU32 nb, bool mismatch, PxOutputStream& stream)
 {
-	while(nb--)
+	if(mismatch)
 	{
-		PxF32 f = *src++;
-		if(mismatch)
+		while(nb--)
+		{
+			PxF32 f = *src++;
 			flip(f);
-		stream.write(&f, sizeof(PxF32));
+			stream.write(&f, sizeof(PxF32));
+		}
 	}
+	else
+		stream.write(src, sizeof(PxF32) * nb);
 }
 
 void physx::writeWordBuffer(const PxU16* src, PxU32 nb, bool mismatch, PxOutputStream& stream)
 {
-	while(nb--)
+	if(mismatch)
 	{
-		PxU16 w = *src++;
-		if(mismatch)
+		while(nb--)
+		{
+			PxU16 w = *src++;
 			flip(w);
-		stream.write(&w, sizeof(PxU16));
+			stream.write(&w, sizeof(PxU16));
+		}
 	}
+	else
+		stream.write(src, sizeof(PxU16) * nb);
 }
 
 void physx::readWordBuffer(PxU16* dest, PxU32 nb, bool mismatch, PxInputStream& stream)

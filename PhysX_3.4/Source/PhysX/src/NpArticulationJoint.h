@@ -60,7 +60,7 @@ public:
 	static		void				getBinaryMetaData(PxOutputStream& stream);
 				void				exportExtraData(PxSerializationContext&)	{}
 				void				importExtraData(PxDeserializationContext&)	{}
-	virtual		void				requires(PxProcessPxBaseCallback&){}	
+	virtual		void				requiresObjects(PxProcessPxBaseCallback&){}	
 	virtual		bool			    isSubordinate()  const	 { return true; }           
 //~PX_SERIALIZATION
 									NpArticulationJoint(NpArticulationLink& parent, 

@@ -156,6 +156,9 @@ namespace Gu
 
 	struct LocalBounds
 	{
+		// PX_SERIALIZATION
+										LocalBounds(const PxEMPTY)										{}
+		//~PX_SERIALIZATION
 										LocalBounds() : mCenter(PxVec3(0.0f)), mExtentsMagnitude(0.0f)	{}
 
 						PxVec3			mCenter;

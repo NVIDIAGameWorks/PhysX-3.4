@@ -9551,7 +9551,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializer.html#b419390747f92b7f44c2bcb6d020096d"><param name="Name" value="getConcreteTypeName"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializer.html#19e217a30a3a820cdf27cb9c7650d75d"><param name="Name" value="isSubordinate"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializer.html#0352b843a22c461c9f9c3d3c6bea5b44"><param name="Name" value="registerReferences"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializer.html#c33a0599e0e780e0d0e37248bb74bcac"><param name="Name" value="requires"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializer.html#f5db22cae0884acf0c53dc8f6daf719f"><param name="Name" value="requiresObjects"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializer.html#96746551fdacb2df8da8f2887817ff5f"><param name="Name" value="~PxSerializer"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializerDefaultAdapter.html"><param name="Name" value="PxSerializerDefaultAdapter"></OBJECT>
@@ -9565,7 +9565,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializerDefaultAdapter.html#12385fd1d59f49f27aed66c91b5d647c"><param name="Name" value="mTypeName"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializerDefaultAdapter.html#3a59a446ea4fc277d0c224881c2f8658"><param name="Name" value="PxSerializerDefaultAdapter"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializerDefaultAdapter.html#b6b01e18a34aa9ad330ec4602a40dedb"><param name="Name" value="registerReferences"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializerDefaultAdapter.html#b5e14929bfabcb268f3e6f3e710f5657"><param name="Name" value="requires"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializerDefaultAdapter.html#4103e81d09d3aaab2bb9fd3e236331bc"><param name="Name" value="requiresObjects"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__common.html#gb2ccfb663643cd2d66b59908189d88cd"><param name="Name" value="PxSerialObjectId"></OBJECT>
   <UL>
@@ -11173,7 +11173,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsDynData.html#b770b7d25d1a8fee9b2a5ea18d57f345"><param name="Name" value="PxVehicleWheelsDynData"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheelsSimData.html#b770b7d25d1a8fee9b2a5ea18d57f345"><param name="Name" value="PxVehicleWheelsSimData"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#47f6215d5555890bef75e38668596522"><param name="Name" value="release"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#6bbc358caef4f3b77112c54201655a86"><param name="Name" value="requires"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#e58ab064534a9b0256665c60ed8e63d2"><param name="Name" value="requiresObjects"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#d6041f92998a2be40cbb353b5d49fb92"><param name="Name" value="resolveReferences"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#38cf9474ad2c23ba3c21766fac251339"><param name="Name" value="setToRestState"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#ed5b450123f32286b847b52dbb961a5c"><param name="Name" value="setup"></OBJECT>
@@ -11554,11 +11554,11 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxTask.html#2506a8dacc91048a7baafba5187d787a"><param name="Name" value="requestSyncPoint"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactPair.html#8bee18db2d05286fc1e1b14bac54184f"><param name="Name" value="requiredBufferSize"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSimulationStatistics.html#a1e487295538b16ec29c359082d12976"><param name="Name" value="requiredContactConstraintMemory"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializer.html#c33a0599e0e780e0d0e37248bb74bcac"><param name="Name" value="requires"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializer.html#f5db22cae0884acf0c53dc8f6daf719f"><param name="Name" value="requiresObjects"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializer.html#c33a0599e0e780e0d0e37248bb74bcac"><param name="Name" value="PxSerializer"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializerDefaultAdapter.html#b5e14929bfabcb268f3e6f3e710f5657"><param name="Name" value="PxSerializerDefaultAdapter"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#6bbc358caef4f3b77112c54201655a86"><param name="Name" value="PxVehicleWheels"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializer.html#f5db22cae0884acf0c53dc8f6daf719f"><param name="Name" value="PxSerializer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializerDefaultAdapter.html#4103e81d09d3aaab2bb9fd3e236331bc"><param name="Name" value="PxSerializerDefaultAdapter"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#e58ab064534a9b0256665c60ed8e63d2"><param name="Name" value="PxVehicleWheels"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classphysx_1_1PxTaskManager.html#79606deb50e9eb500c5febb44ba1e764"><param name="Name" value="resetDependencies"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxScene.html#f648aa06d19cfec20eeee278719f345c"><param name="Name" value="resetFiltering"></OBJECT>

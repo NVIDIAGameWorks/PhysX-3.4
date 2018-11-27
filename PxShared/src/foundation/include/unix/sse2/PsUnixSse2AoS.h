@@ -35,6 +35,14 @@
 #if !COMPILE_VECTOR_INTRINSICS
 #error Vector intrinsics should not be included when using scalar implementation.
 #endif
+
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 #if PX_EMSCRIPTEN
 typedef int8_t   __int8_t;
 typedef int16_t  __int16_t;
@@ -175,5 +183,9 @@ struct Mat44V
 	Vec4V PX_ALIGN(16, col2);
 	Vec4V PX_ALIGN(16, col3);
 } PX_ALIGN_SUFFIX(16);
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
 
 #endif // PSFOUNDATION_PSUNIXSSE2AOS_H

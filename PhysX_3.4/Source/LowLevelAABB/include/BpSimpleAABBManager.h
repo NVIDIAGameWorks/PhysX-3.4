@@ -345,6 +345,7 @@ namespace Bp
 		bool			addBounds(BoundsIndex index, PxReal contactDistance, Bp::FilterGroup::Enum group, void* userdata, AggregateHandle aggregateHandle, PxU8 volumeType);
 		void			reserveSpaceForBounds(BoundsIndex index);
 		void			removeBounds(BoundsIndex index);
+		PX_FORCE_INLINE Ps::IntBool isMarkedForRemove(BoundsIndex index) const { return mRemovedHandleMap.boundedTest(index); }
 
 		void			setContactOffset(BoundsIndex handle, PxReal offset)
 		{
@@ -430,7 +431,7 @@ namespace Bp
 		PX_FORCE_INLINE void*						getUserData(const BoundsIndex index) const { if (index < mVolumeData.size()) return mVolumeData[index].getUserData(); return NULL; }
 		PX_FORCE_INLINE	PxU64						getContextId()				const	{ return mContextID;				}
 
-		void postBroadPhase(PxBaseTask*, PxBaseTask* narrowPhaseUnlockTask, Cm::FlushPool& flushPool);
+		void postBroadPhase(PxBaseTask*, PxBaseTask* narrowPhaseUnlockTask, Cm::FlushPool& flushPool);		
 
 
 
@@ -471,7 +472,7 @@ namespace Bp
 		PX_FORCE_INLINE void addBPEntry(BoundsIndex index)
 		{
 			if(mRemovedHandleMap.test(index))
-				mRemovedHandleMap.reset(index);
+				mRemovedHandleMap.reset(index);				
 			else
 				mAddedHandleMap.set(index);
 		}

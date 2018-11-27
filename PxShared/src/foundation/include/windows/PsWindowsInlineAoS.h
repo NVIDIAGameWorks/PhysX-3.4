@@ -36,6 +36,13 @@
 
 #include "../PsVecMathSSE.h"
 
+namespace physx
+{
+namespace shdfnd
+{
+namespace aos
+{
+
 //////////////////////////////////////////////////////////////////////
 //Test that Vec3V and FloatV are legal
 //////////////////////////////////////////////////////////////////////
@@ -3117,5 +3124,9 @@ PX_FORCE_INLINE Vec4V V4ConvertFromI32V(const VecI32V in)
 {
 	return _mm_cvtepi32_ps(internalWindowsSimd::m128_F2I(in));
 }
+
+} // namespace aos
+} // namespace shdfnd
+} // namespace physx
 
 #endif // PSFOUNDATION_PSWINDOWSINLINEAOS_H

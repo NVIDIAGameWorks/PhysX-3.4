@@ -104,7 +104,7 @@ void NpShape::importExtraData(PxDeserializationContext& context)
 	context.readName(mName);
 }
 
-void NpShape::requires(PxProcessPxBaseCallback& c)
+void NpShape::requiresObjects(PxProcessPxBaseCallback& c)
 {
 	//meshes
 	PxBase* mesh = NULL;

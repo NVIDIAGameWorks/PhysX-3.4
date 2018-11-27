@@ -82,7 +82,7 @@ public:
 												NpShape(PxBaseFlags baseFlags);
 	virtual			void						exportExtraData(PxSerializationContext& stream);
 					void						importExtraData(PxDeserializationContext& context);
-	virtual			void						requires(PxProcessPxBaseCallback& c);
+	virtual			void						requiresObjects(PxProcessPxBaseCallback& c);
 					void						resolveReferences(PxDeserializationContext& context);
 	static			NpShape*					createObject(PxU8*& address, PxDeserializationContext& context);
 	static			void						getBinaryMetaData(PxOutputStream& stream);

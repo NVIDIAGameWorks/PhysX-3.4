@@ -92,16 +92,16 @@ PhysXCooking_release_common_cflags    += $(addprefix -D, $(PhysXCooking_release_
 PhysXCooking_release_common_cflags    += $(addprefix -I, $(PhysXCooking_release_hpaths))
 PhysXCooking_release_cflags	:= $(PhysXCooking_release_common_cflags)
 PhysXCooking_release_cflags  += -arch i386
-PhysXCooking_release_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCooking_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCooking_release_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCooking_release_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCooking_release_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCooking_release_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCooking_release_cflags  += -Wno-c++11-extensions
 PhysXCooking_release_cflags  += -O3 -fno-strict-aliasing
 PhysXCooking_release_cppflags	:= $(PhysXCooking_release_common_cflags)
 PhysXCooking_release_cppflags  += -arch i386
-PhysXCooking_release_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCooking_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCooking_release_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCooking_release_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCooking_release_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCooking_release_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCooking_release_cppflags  += -Wno-c++11-extensions
@@ -110,6 +110,7 @@ PhysXCooking_release_lflags    := $(PhysXCooking_custom_lflags)
 PhysXCooking_release_lflags    += $(addprefix -L, $(PhysXCooking_release_lpaths))
 PhysXCooking_release_lflags  += $(addprefix -l, $(PhysXCooking_release_libraries))
 PhysXCooking_release_lflags  += -arch i386
+PhysXCooking_release_lflags  += -stdlib=libc++
 PhysXCooking_release_objsdir  = $(OBJS_DIR)/PhysXCooking_release
 PhysXCooking_release_cpp_o    = $(addprefix $(PhysXCooking_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXCooking_cppfiles)))))
 PhysXCooking_release_cc_o    = $(addprefix $(PhysXCooking_release_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXCooking_ccfiles)))))
@@ -215,16 +216,16 @@ PhysXCooking_debug_common_cflags    += $(addprefix -D, $(PhysXCooking_debug_defi
 PhysXCooking_debug_common_cflags    += $(addprefix -I, $(PhysXCooking_debug_hpaths))
 PhysXCooking_debug_cflags	:= $(PhysXCooking_debug_common_cflags)
 PhysXCooking_debug_cflags  += -arch i386
-PhysXCooking_debug_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCooking_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCooking_debug_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCooking_debug_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCooking_debug_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCooking_debug_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCooking_debug_cflags  += -Wno-c++11-extensions
 PhysXCooking_debug_cflags  += -g3 -gdwarf-2 -O0
 PhysXCooking_debug_cppflags	:= $(PhysXCooking_debug_common_cflags)
 PhysXCooking_debug_cppflags  += -arch i386
-PhysXCooking_debug_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCooking_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCooking_debug_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCooking_debug_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCooking_debug_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCooking_debug_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCooking_debug_cppflags  += -Wno-c++11-extensions
@@ -233,6 +234,7 @@ PhysXCooking_debug_lflags    := $(PhysXCooking_custom_lflags)
 PhysXCooking_debug_lflags    += $(addprefix -L, $(PhysXCooking_debug_lpaths))
 PhysXCooking_debug_lflags  += $(addprefix -l, $(PhysXCooking_debug_libraries))
 PhysXCooking_debug_lflags  += -arch i386
+PhysXCooking_debug_lflags  += -stdlib=libc++
 PhysXCooking_debug_objsdir  = $(OBJS_DIR)/PhysXCooking_debug
 PhysXCooking_debug_cpp_o    = $(addprefix $(PhysXCooking_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXCooking_cppfiles)))))
 PhysXCooking_debug_cc_o    = $(addprefix $(PhysXCooking_debug_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXCooking_ccfiles)))))
@@ -337,16 +339,16 @@ PhysXCooking_checked_common_cflags    += $(addprefix -D, $(PhysXCooking_checked_
 PhysXCooking_checked_common_cflags    += $(addprefix -I, $(PhysXCooking_checked_hpaths))
 PhysXCooking_checked_cflags	:= $(PhysXCooking_checked_common_cflags)
 PhysXCooking_checked_cflags  += -arch i386
-PhysXCooking_checked_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCooking_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCooking_checked_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCooking_checked_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCooking_checked_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCooking_checked_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCooking_checked_cflags  += -Wno-c++11-extensions
 PhysXCooking_checked_cflags  += -g3 -gdwarf-2 -O3 -fno-strict-aliasing
 PhysXCooking_checked_cppflags	:= $(PhysXCooking_checked_common_cflags)
 PhysXCooking_checked_cppflags  += -arch i386
-PhysXCooking_checked_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCooking_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCooking_checked_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCooking_checked_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCooking_checked_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCooking_checked_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCooking_checked_cppflags  += -Wno-c++11-extensions
@@ -355,6 +357,7 @@ PhysXCooking_checked_lflags    := $(PhysXCooking_custom_lflags)
 PhysXCooking_checked_lflags    += $(addprefix -L, $(PhysXCooking_checked_lpaths))
 PhysXCooking_checked_lflags  += $(addprefix -l, $(PhysXCooking_checked_libraries))
 PhysXCooking_checked_lflags  += -arch i386
+PhysXCooking_checked_lflags  += -stdlib=libc++
 PhysXCooking_checked_objsdir  = $(OBJS_DIR)/PhysXCooking_checked
 PhysXCooking_checked_cpp_o    = $(addprefix $(PhysXCooking_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXCooking_cppfiles)))))
 PhysXCooking_checked_cc_o    = $(addprefix $(PhysXCooking_checked_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXCooking_ccfiles)))))
@@ -459,16 +462,16 @@ PhysXCooking_profile_common_cflags    += $(addprefix -D, $(PhysXCooking_profile_
 PhysXCooking_profile_common_cflags    += $(addprefix -I, $(PhysXCooking_profile_hpaths))
 PhysXCooking_profile_cflags	:= $(PhysXCooking_profile_common_cflags)
 PhysXCooking_profile_cflags  += -arch i386
-PhysXCooking_profile_cflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCooking_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCooking_profile_cflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCooking_profile_cflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCooking_profile_cflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCooking_profile_cflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCooking_profile_cflags  += -Wno-c++11-extensions
 PhysXCooking_profile_cflags  += -O3 -fno-strict-aliasing
 PhysXCooking_profile_cppflags	:= $(PhysXCooking_profile_common_cflags)
 PhysXCooking_profile_cppflags  += -arch i386
-PhysXCooking_profile_cppflags  += -pipe -mmacosx-version-min=10.7 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
-PhysXCooking_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables
+PhysXCooking_profile_cppflags  += -pipe -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.9 -msse2 -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -Werror
+PhysXCooking_profile_cppflags  += -Wall -Wextra -fstrict-aliasing -Wstrict-aliasing=2 -pedantic -Weverything -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-zero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-deprecated -Wno-c++98-compat-pedantic
 PhysXCooking_profile_cppflags  += -Wno-cast-align -Wno-conversion -Wno-missing-variable-declarations -Wno-shift-sign-overflow
 PhysXCooking_profile_cppflags  += -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-invalid-offsetof
 PhysXCooking_profile_cppflags  += -Wno-c++11-extensions
@@ -477,6 +480,7 @@ PhysXCooking_profile_lflags    := $(PhysXCooking_custom_lflags)
 PhysXCooking_profile_lflags    += $(addprefix -L, $(PhysXCooking_profile_lpaths))
 PhysXCooking_profile_lflags  += $(addprefix -l, $(PhysXCooking_profile_libraries))
 PhysXCooking_profile_lflags  += -arch i386
+PhysXCooking_profile_lflags  += -stdlib=libc++
 PhysXCooking_profile_objsdir  = $(OBJS_DIR)/PhysXCooking_profile
 PhysXCooking_profile_cpp_o    = $(addprefix $(PhysXCooking_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cpp, %.cpp.o, $(PhysXCooking_cppfiles)))))
 PhysXCooking_profile_cc_o    = $(addprefix $(PhysXCooking_profile_objsdir)/, $(subst ./, , $(subst ../, , $(patsubst %.cc, %.cc.o, $(PhysXCooking_ccfiles)))))
