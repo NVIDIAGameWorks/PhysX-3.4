@@ -1,27 +1,27 @@
-// This code contains NVIDIA Confidential Information and is disclosed to you
-// under a form of NVIDIA software license agreement provided separately to you.
 //
-// Notice
-// NVIDIA Corporation and its licensors retain all intellectual property and
-// proprietary rights in and to this software and related documentation and
-// any modifications thereto. Any use, reproduction, disclosure, or
-// distribution of this software and related documentation without an express
-// license agreement from NVIDIA Corporation is strictly prohibited.
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+//  * Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
+//  * Redistributions in binary form must reproduce the above copyright
+//    notice, this list of conditions and the following disclaimer in the
+//    documentation and/or other materials provided with the distribution.
+//  * Neither the name of NVIDIA CORPORATION nor the names of its
+//    contributors may be used to endorse or promote products derived
+//    from this software without specific prior written permission.
 //
-// ALL NVIDIA DESIGN SPECIFICATIONS, CODE ARE PROVIDED "AS IS.". NVIDIA MAKES
-// NO WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
-// THE MATERIALS, AND EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES OF NONINFRINGEMENT,
-// MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// Information and code furnished is believed to be accurate and reliable.
-// However, NVIDIA Corporation assumes no responsibility for the consequences of use of such
-// information or for any infringement of patents or other rights of third parties that may
-// result from its use. No license is granted by implication or otherwise under any patent
-// or patent rights of NVIDIA Corporation. Details are subject to change without notice.
-// This code supersedes and replaces all information previously supplied.
-// NVIDIA Corporation products are not authorized for use as critical
-// components in life support devices or systems without express written approval of
-// NVIDIA Corporation.
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+// OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 // Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
@@ -45,14 +45,17 @@ static PX_FORCE_INLINE bool sweepConvexVsTriangle(
 	PxSweepHit& hit, bool isDoubleSided, const PxReal inflation, bool& initialOverlap, PxU32 faceIndex)
 {
 	using namespace Ps::aos;
-	// Create triangle normal
-	const PxVec3 denormalizedNormal = (v1 - v0).cross(v2 - v1);
+	if(!isDoubleSided)
+	{
+		// Create triangle normal
+		const PxVec3 denormalizedNormal = (v1 - v0).cross(v2 - v1);
 
-	// Backface culling
-	// PT: WARNING, the test is reversed compared to usual because we pass -unitDir to this function
-	const bool culled = !isDoubleSided && (denormalizedNormal.dot(meshSpaceUnitDir) <= 0.0f);
-	if(culled)
-		return false;
+		// Backface culling
+		// PT: WARNING, the test is reversed compared to usual because we pass -unitDir to this function
+		const bool culled = denormalizedNormal.dot(meshSpaceUnitDir) <= 0.0f;
+		if(culled)
+			return false;
+	}
 
 	const Vec3V zeroV = V3Zero();
 	const FloatV zero = FZero();
@@ -77,21 +80,20 @@ static PX_FORCE_INLINE bool sweepConvexVsTriangle(
 	if(!gjkHit)
 		return false;
 
-	const FloatV minDist = FLoad(shrunkDistance);
-	const Vec3V destWorldPointA = convexTransfV.transform(closestA);
-	const Vec3V destNormal = V3Normalize(convexTransfV.rotate(normal));
-
 	if(FAllGrtrOrEq(zero, toi))
 	{
 		initialOverlap	= true;	// PT: TODO: redundant with hit distance, consider removing
 		return setInitialOverlapResults(hit, unitDir, faceIndex);
 	}
 
+	const FloatV minDist = FLoad(shrunkDistance);
 	const FloatV dist = FMul(toi, fullDistance); // scale the toi to original full sweep distance
 	if(FAllGrtr(minDist, dist)) // is current dist < minDist?
 	{
 		hit.faceIndex	= faceIndex;
 		hit.flags		= PxHitFlag::eDISTANCE | PxHitFlag::ePOSITION | PxHitFlag::eNORMAL | PxHitFlag::eFACE_INDEX;
+		const Vec3V destWorldPointA = convexTransfV.transform(closestA);
+		const Vec3V destNormal = V3Normalize(convexTransfV.rotate(normal));
 		V3StoreU(destWorldPointA, hit.position);
 		V3StoreU(destNormal, hit.normal);
 		FStore(dist, &hit.distance);

@@ -44,7 +44,7 @@ For example, in SnippetSpatialIndex::
                                              1e6, PxHitFlag::eDEFAULT,
                                              1, &hitData);
 
-        // if the raycast hit and it's closer than what we had before, shrink the maximum length
+        // if the raycast hits and is closer than what we had before, shrink the maximum length
         // of the raycast
 
         if(hit && hitData.distance < closest)

@@ -30,7 +30,7 @@ Serialization and deserialization of a custom class can be achieved with the fol
 
 1. Define a *PxConcreteType* and type info for the custom class. Make sure its type value is unique.
 
-2. The custom class needs to inherit from *PxBase* and implement it's interface.
+2. The custom class needs to inherit from *PxBase* and implement its interface.
 
 3. Instance PxSerializerDefaultAdapter<T> and implement specialized methods where necessary.
 

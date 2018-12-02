@@ -742,4 +742,4 @@ The binary serialization interface has been refactored and unified with the RepX
 PhysX TaskManager
 ========================================================
 
-* The pxtask namespace has been removed and all it's types are now included in the physx namespace with a Px prefix, for example pxtask::LightCpuTask has become physx::PxLightCpuTask
+* The pxtask namespace has been removed and all its types are now included in the physx namespace with a Px prefix, for example pxtask::LightCpuTask has become physx::PxLightCpuTask

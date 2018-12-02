@@ -1,6 +1,5 @@
-
 /**********************************************************************\
-* AUTHOR : HILLAIRE Sébastien
+* AUTHOR : HILLAIRE Sï¿½bastien
 *
 * MAIL   : hillaire_sebastien@yahoo.fr
 * SITE   : sebastien.hillaire.free.fr

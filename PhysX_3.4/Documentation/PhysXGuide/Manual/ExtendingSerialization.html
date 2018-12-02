@@ -68,7 +68,7 @@
 <p>Serialization and deserialization of a custom class can be achieved with the following steps:</p>
 <ol class="arabic simple">
 <li>Define a <em>PxConcreteType</em> and type info for the custom class. Make sure its type value is unique.</li>
-<li>The custom class needs to inherit from <em>PxBase</em> and implement it's interface.</li>
+<li>The custom class needs to inherit from <em>PxBase</em> and implement its interface.</li>
 <li>Instance PxSerializerDefaultAdapter&lt;T&gt; and implement specialized methods where necessary.</li>
 <li>If retargeting to other platforms is needed, implement <em>getBinaryMetaData()</em>.</li>
 <li>Register the adapter and metadata, see <em>PX_NEW_SERIALIZER_ADAPTER</em> , <em>PxSerializationRegistry::registerSerializer</em> and <em>PxSerializationRegistry::registerBinaryMetaDataCallback</em>. Note that serializers also need to be unregistered before <em>PxSerializationRegistry::release</em> is called. The application is responsible for custom type serializer allocation and deallocation.</li>

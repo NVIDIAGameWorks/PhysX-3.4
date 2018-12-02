@@ -1,7 +1,4 @@
 //--------------------------------------------------------------------------------------
-// FroggyAA
-// Author: Tristan Lorach
-// Email: tlorach@nvidia.com
 //
 // Implementation of different downsampling methods for supersampled AA
 //

@@ -329,8 +329,6 @@
 		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
-		<ClCompile Include="..\..\sampleViewer3\IJGWin32\ansi2knr.cpp">
-		</ClCompile>
 		<ClCompile Include="..\..\sampleViewer3\IJGWin32\cdjpeg.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\sampleViewer3\IJGWin32\cjpeg.cpp">

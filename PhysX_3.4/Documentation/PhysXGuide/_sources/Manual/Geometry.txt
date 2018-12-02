@@ -701,7 +701,7 @@ Then tessellate the field from the samples as required.
 Heightfield Modification
 +++++++++++++++++++++++++++++++
 
-Heightfield samples can be modified at runtime in rectangular blocks. In the following code snippet we create a HF and modify it's samples::
+Heightfield samples can be modified at runtime in rectangular blocks. In the following code snippet we create a HF and modify its samples::
 
     // create a 5x5 HF with height 100 and materials 2,3
     PxHeightFieldSample samples1[25];
