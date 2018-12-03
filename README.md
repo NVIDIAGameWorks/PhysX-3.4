@@ -21,12 +21,12 @@ Online Documentation:
 http://gameworksdocs.nvidia.com/simulation.html
 
 The documentation can also be found in the repository under
-* \PhysX_3.4\Documentation
-* \APEX_1.4\docs
+* `\PhysX_3.4\Documentation`
+* `\APEX_1.4\docs`
 
 Please also see the following readme files:
-* \PhysX_3.4\readme_*.html,
-* \APEX_1.4\readme.txt.
+* `\PhysX_3.4\readme_*.html`,
+* `\APEX_1.4\readme.txt`.
 
 ## Instructions
 
@@ -34,22 +34,22 @@ To begin, clone this repository onto your local drive.
 
 To build PhysX and APEX SDKs:
 
-(1) Build PhysX SDK by opening one of the solutions found under PhysX_3.4\Source\compiler.
+1. Build PhysX SDK by opening one of the solutions found under `PhysX_3.4\Source\compiler`.
 Supported platforms: Windows, Linux, OSX, Android, iOS.
 
-(2) The APEX SDK distribution contains pre-built binaries supporting GPU acceleration.
-Re-building the APEX SDK removes support for GPU acceleration. The solutions can be found under APEX_1.4\compiler.
+2. The APEX SDK distribution contains pre-built binaries supporting GPU acceleration.
+Re-building the APEX SDK removes support for GPU acceleration. The solutions can be found under `APEX_1.4\compiler`.
 Supported platforms: Windows, Linux, Android.
-______________________________________________________________
-To build PhysX Snippets: open one of the solutions found under \PhysX_3.4\Snippets\compiler.
 
-To build PhysX Samples (windows only): open one of the solutions found under \PhysX_3.4\Samples\compiler.
+To build PhysX Snippets: open one of the solutions found under `\PhysX_3.4\Snippets\compiler`.
 
-To build APEX Snippets: open one of the solutions found under \APEX_1.4\snippets\compiler.
+To build PhysX Samples (windows only): open one of the solutions found under `\PhysX_3.4\Samples\compiler`.
 
-To build APEX Samples: open one of the solutions found under \APEX_1.4\samples_v2\compiler.
+To build APEX Snippets: open one of the solutions found under `\APEX_1.4\snippets\compiler`.
 
-To build and run the Kapla Demo (KaplaDemo\samples\compiler) please make sure to build the PhysX SDK with the same Visual Studio version and with the same build configuration **before** compiling the Kapla Demo. This will make sure the appropriate DLLs are copied to the KaplaDemo bin directory.
+To build APEX Samples: open one of the solutions found under `\APEX_1.4\samples_v2\compiler`.
+
+To build and run the Kapla Demo (`KaplaDemo\samples\compiler`) please make sure to build the PhysX SDK with the same Visual Studio version and with the same build configuration **before** compiling the Kapla Demo. This will make sure the appropriate DLLs are copied to the KaplaDemo bin directory.
 
 ## Acknowledgements
 
