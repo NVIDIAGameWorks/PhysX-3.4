@@ -478,7 +478,7 @@ The cloth snippet doesn't render the result of the simulation, and therefore doe
 References
 ===================================================
 
-[1] Mueller, Matthias and Heidelberger, Bruno and Hennix, Marcus and Ratcliff, John. Position based dynamics. Academic Press, Inc.. p. 109--118 2007 http://dx.doi.org/10.1016/j.jvcir.2007.01.005
+[1] Mueller, Matthias and Heidelberger, Bruno and Hennix, Marcus and Ratcliff, John. Position based dynamics. Academic Press, Inc.. p. 109--118 2007 https://doi.org/10.1016/j.jvcir.2007.01.005
 
 [2] Kim, Tae-Yong and Chentanez, Nuttapong and Mueller-Fischer, Matthias. Long range attachments - a method to simulate inextensible clothing in computer games. Eurographics Association. p. 305--310 2012 http://dl.acm.org/citation.cfm?id=2422356.2422399
 
