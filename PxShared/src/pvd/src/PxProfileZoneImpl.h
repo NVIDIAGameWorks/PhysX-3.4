@@ -124,6 +124,7 @@ namespace physx { namespace profile {
 
 		virtual void flushEventIdNameMap()
 		{
+			TLockType theLocker(mMutex);
 			// copy the RW map into R map
 			if (mNameToEvtIndexMapRW.size())
 			{
