@@ -55,7 +55,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/PhysXVehicle/debug\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>PhysX3VehicleDEBUG</TargetName>
@@ -96,7 +96,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/PhysXVehicle/checked\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>PhysX3VehicleCHECKED</TargetName>
@@ -136,7 +136,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/PhysXVehicle/profile\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>PhysX3VehiclePROFILE</TargetName>
@@ -177,7 +177,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/PhysXVehicle/release\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>PhysX3Vehicle</TargetName>

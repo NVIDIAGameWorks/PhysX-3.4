@@ -55,7 +55,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/PhysXExtensions/debug\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>PhysX3ExtensionsDEBUG</TargetName>
@@ -96,7 +96,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/PhysXExtensions/checked\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>PhysX3ExtensionsCHECKED</TargetName>
@@ -136,7 +136,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/PhysXExtensions/profile\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>PhysX3ExtensionsPROFILE</TargetName>
@@ -177,7 +177,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/PhysXExtensions/release\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>PhysX3Extensions</TargetName>
@@ -546,7 +546,7 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="./../../../../PxShared/src/compiler/vc15win64/PsFastXml.vcxproj">
+    <ProjectReference Include="./../../../../PxShared/src/compiler/vc17win64/PsFastXml.vcxproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

@@ -55,7 +55,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
-    <OutDir>./../../../bin/vc15win64\</OutDir>
+    <OutDir>./../../../bin/vc17win64\</OutDir>
     <IntDir>./x64/PxFoundation/debug\</IntDir>
     <TargetExt>.dll</TargetExt>
     <TargetName>PxFoundationDEBUG_x64</TargetName>
@@ -89,7 +89,7 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <ImportLibrary>./../../../lib/vc15win64/$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>./../../../lib/vc17win64/$(TargetName).lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
@@ -99,7 +99,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
-    <OutDir>./../../../bin/vc15win64\</OutDir>
+    <OutDir>./../../../bin/vc17win64\</OutDir>
     <IntDir>./x64/PxFoundation/release\</IntDir>
     <TargetExt>.dll</TargetExt>
     <TargetName>PxFoundation_x64</TargetName>
@@ -133,7 +133,7 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <ImportLibrary>./../../../lib/vc15win64/$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>./../../../lib/vc17win64/$(TargetName).lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
@@ -143,7 +143,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
-    <OutDir>./../../../bin/vc15win64\</OutDir>
+    <OutDir>./../../../bin/vc17win64\</OutDir>
     <IntDir>./x64/PxFoundation/checked\</IntDir>
     <TargetExt>.dll</TargetExt>
     <TargetName>PxFoundationCHECKED_x64</TargetName>
@@ -176,7 +176,7 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <ImportLibrary>./../../../lib/vc15win64/$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>./../../../lib/vc17win64/$(TargetName).lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
@@ -186,7 +186,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
-    <OutDir>./../../../bin/vc15win64\</OutDir>
+    <OutDir>./../../../bin/vc17win64\</OutDir>
     <IntDir>./x64/PxFoundation/profile\</IntDir>
     <TargetExt>.dll</TargetExt>
     <TargetName>PxFoundationPROFILE_x64</TargetName>
@@ -220,7 +220,7 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <ImportLibrary>./../../../lib/vc15win64/$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>./../../../lib/vc17win64/$(TargetName).lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>

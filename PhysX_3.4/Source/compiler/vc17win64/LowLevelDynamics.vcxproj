@@ -55,7 +55,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/LowLevelDynamics/debug\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>$(ProjectName)DEBUG</TargetName>
@@ -96,7 +96,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/LowLevelDynamics/checked\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>$(ProjectName)CHECKED</TargetName>
@@ -136,7 +136,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/LowLevelDynamics/profile\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>$(ProjectName)PROFILE</TargetName>
@@ -177,7 +177,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
-    <OutDir>./../../../Lib/vc15win64\</OutDir>
+    <OutDir>./../../../Lib/vc17win64\</OutDir>
     <IntDir>./x64/LowLevelDynamics/release\</IntDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>$(ProjectName)</TargetName>
