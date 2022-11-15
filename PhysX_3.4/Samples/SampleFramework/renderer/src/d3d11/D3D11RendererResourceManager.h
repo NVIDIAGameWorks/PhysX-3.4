@@ -35,6 +35,7 @@
 
 #include "D3D11RendererTraits.h"
 #include "D3D11RendererMemoryMacros.h"
+#include <typeinfo>
 
 namespace SampleRenderer
 {
