@@ -1,3 +1,4 @@
+#version 120
 uniform float uvScale = 1.0f;
 void main()
 {

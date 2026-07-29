@@ -1,3 +1,4 @@
+#version 120
 
 uniform float uvScale = 1.0f;
 uniform sampler2D transTex;
@@ -8,7 +9,7 @@ uniform float bumpTextureUVScale;
 void main()
 {
 	
-	int ti = (int)(gl_MultiTexCoord0.w);
+	int ti = int(gl_MultiTexCoord0.w);
 	//int ti = tq;
 	int tpr = transTexSize / 4;
 	int row = ti / tpr;
@@ -57,7 +58,7 @@ void main()
 	gl_TexCoord[2] = mvpt * vec4(gl_Normal.xyz,0.0); 
 
 	gl_TexCoord[3] = mvpt * t0;
-	gl_TexCoord[4].xyz = mvpt * t1;
+	gl_TexCoord[4].xyz = vec3(mvpt * t1);
 
 	gl_TexCoord[5].xy = vec2(dot(coord3d,  t0.xyz), dot(coord3d,  t1.xyz))*bumpTextureUVScale*2;
 	
