@@ -1,3 +1,4 @@
+#version 130
 uniform sampler3D ttt3D;
 
 	uniform float extraNoiseScale = 1.0f;
@@ -146,12 +147,12 @@ uniform sampler3D ttt3D;
 
 
 		// Mix the light and dark wood according to the grain pattern 
-		woodcolor = lerp(lightwood, darkwood, r);
+		woodcolor = mix(lightwood, darkwood, r);
 
 		// Add plank-to-plank variation in overall color 
 		woodcolor *= (1 - plankvary / 2 + plankvary * noise(whichplank + 0.5));
 
-		Ct = lerp(groovecolor, woodcolor, groovy);
+		Ct = mix(groovecolor, woodcolor, groovy);
 		return Ct;
 
 	}
@@ -190,9 +191,9 @@ uniform sampler3D ttt3D;
 		//noise = spike(0.35f, 0.05f, noise);
 		//noise = noise;
 
-		vec3 base = lerp(vec3(164, 148, 108)*1.63 / 255, vec3(178, 156, 126)*1.73 / 255, spike_1(0.5f, 0.3f, turbulence_1(p*noiseScale*0.7f + vec3(noise*0.5, noise, noise)*0.011f, 2, 2.0f, 0.5f)));
-		//vec3 b2 = lerp(base, vec3(0.0f, 0.0f, 0.0f), noise); 
-		vec3 b2 = lerp(base, vec3(173, 160, 121)*1.73 / 255, noise);
+		vec3 base = mix(vec3(164, 148, 108)*1.63 / 255, vec3(178, 156, 126)*1.73 / 255, spike_1(0.5f, 0.3f, turbulence_1(p*noiseScale*0.7f + vec3(noise*0.5, noise, noise)*0.011f, 2, 2.0f, 0.5f)));
+		//vec3 b2 = mix(base, vec3(0.0f, 0.0f, 0.0f), noise);
+		vec3 b2 = mix(base, vec3(173, 160, 121)*1.73 / 255, noise);
 
 
 

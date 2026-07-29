@@ -1,3 +1,4 @@
+#version 130
 
 // scene reflection 
 uniform float reflectionCoeff = 0.0f;
@@ -164,24 +165,24 @@ float shadowCoeff3()
 	return s;
 }
 
-float filterwidth(float2 v)
+float filterwidth(vec2 v)
 {
-	float2 fw = max(abs(ddx(v)), abs(ddy(v)));
+	vec2 fw = max(abs(dFdx(v)), abs(dFdy(v)));
 	return max(fw.x, fw.y);
 }
 
-float2 bump(float2 x)
+vec2 bump(vec2 x)
 {
 	return (floor((x) / 2) + 2.f * max(((x) / 2) - floor((x) / 2) - .5f, 0.f));
 }
 
-float checker(float2 uv)
+float checker(vec2 uv)
 {
 	float width = filterwidth(uv);
-	float2 p0 = uv - 0.5 * width;
-	float2 p1 = uv + 0.5 * width;
+	vec2 p0 = uv - 0.5 * width;
+	vec2 p1 = uv + 0.5 * width;
 
-	float2 i = (bump(p1) - bump(p0)) / width;
+	vec2 i = (bump(p1) - bump(p0)) / width;
 	return i.x * i.y + (1 - i.x) * (1 - i.y);
 }
 uniform float fresnelBias = 0.0;
@@ -211,10 +212,10 @@ void main()
 	// 3D texture	
 	vec4 colorx;
 	if (useTexture > 0)
-		colorx = texture2D(texture, gl_TexCoord[0]);
+		colorx = texture2D(texture, gl_TexCoord[0].xy);
 	else {
 		colorx = gl_Color;
-		colorx *= 1.0 - 0.25*checker(float2(gl_TexCoord[3].x, gl_TexCoord[3].z));
+		colorx *= 1.0 - 0.25*checker(vec2(gl_TexCoord[3].x, gl_TexCoord[3].z));
 	}	
 	colorx = clamp(colorx,0,1);
 	diffuseMat = colorx.xyz*0.4;

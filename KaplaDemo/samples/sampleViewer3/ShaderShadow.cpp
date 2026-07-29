@@ -58,6 +58,7 @@ void main()
 
 // --------------------------------------------------------------------------------------------
 const char *shadowDiffuseVertexProgramTexInstance = STRINGIFY(
+#version 120\n
 
 uniform float uvScale = 1.0f;
 uniform sampler2D transTex;
@@ -68,7 +69,7 @@ uniform float bumpTextureUVScale;
 void main()
 {
 	
-	int ti = (int)(gl_MultiTexCoord0.w);
+	int ti = int(gl_MultiTexCoord0.w);
 	//int ti = tq;
 	int tpr = transTexSize / 4;
 	int row = ti / tpr;
@@ -117,7 +118,7 @@ void main()
 	gl_TexCoord[2] = mvpt * vec4(gl_Normal.xyz,0.0); 
 
 	gl_TexCoord[3] = mvpt * t0;
-	gl_TexCoord[4].xyz = mvpt * t1;
+	gl_TexCoord[4].xyz = vec3(mvpt * t1);
 
 	gl_TexCoord[5].xy = vec2(dot(coord3d,  t0.xyz), dot(coord3d,  t1.xyz))*bumpTextureUVScale*2;
 	
@@ -220,6 +221,7 @@ void main()
 
 // --------------------------------------------------------------------------------------------
 const char *shadowDiffuseVertexProgram = STRINGIFY(
+#version 120\n
 uniform float uvScale = 1.0f;
 void main()
 {
@@ -536,6 +538,7 @@ void main()
 // --------------------------------------------------------------------------------------------
 
 const char *shadowDiffuseFragmentProgram = STRINGIFY(
+#version 130\n
 
 	// scene reflection 
 	uniform float reflectionCoeff = 0.0f;
@@ -702,24 +705,24 @@ float shadowCoeff3()
 	return s;
 }
 
-float filterwidth(float2 v)
+float filterwidth(vec2 v)
 {
-	float2 fw = max(abs(ddx(v)), abs(ddy(v)));
+	vec2 fw = max(abs(dFdx(v)), abs(dFdy(v)));
 	return max(fw.x, fw.y);
 }
 
-float2 bump(float2 x)
+vec2 bump(vec2 x)
 {
 	return (floor((x) / 2) + 2.f * max(((x) / 2) - floor((x) / 2) - .5f, 0.f));
 }
 
-float checker(float2 uv)
+float checker(vec2 uv)
 {
 	float width = filterwidth(uv);
-	float2 p0 = uv - 0.5 * width;
-	float2 p1 = uv + 0.5 * width;
+	vec2 p0 = uv - 0.5 * width;
+	vec2 p1 = uv + 0.5 * width;
 
-	float2 i = (bump(p1) - bump(p0)) / width;
+	vec2 i = (bump(p1) - bump(p0)) / width;
 	return i.x * i.y + (1 - i.x) * (1 - i.y);
 }
 uniform float fresnelBias = 0.0;
@@ -749,16 +752,16 @@ void main()
 	// 3D texture	
 	vec4 colorx;
 	if (useTexture > 0)
-		colorx = texture2D(texture, gl_TexCoord[0]);
+		colorx = texture2D(texture, gl_TexCoord[0].xy);
 	else {
 		colorx = gl_Color;
 		if ((wnormal.y >0.9))
 		{
-			colorx *= 1.0 - 0.25*checker(float2(gl_TexCoord[3].x, gl_TexCoord[3].z));
+			colorx *= 1.0 - 0.25*checker(vec2(gl_TexCoord[3].x, gl_TexCoord[3].z));
 		}
 		else if (abs(wnormal.z) > 0.9)
 		{
-			colorx *= 1.0 - 0.25*checker(float2(gl_TexCoord[3].y, gl_TexCoord[3].x));
+			colorx *= 1.0 - 0.25*checker(vec2(gl_TexCoord[3].y, gl_TexCoord[3].x));
 		}
 	}
 	diffuseMat = colorx.xyz*0.4;
@@ -1526,6 +1529,7 @@ const char *woodTexture = STRINGIFY(
 );
 
 const char *combineTexture = STRINGIFY(
+#version 130\n
 	uniform sampler3D ttt3D;
 
 	uniform float extraNoiseScale = 1.0f;
@@ -1674,12 +1678,12 @@ const char *combineTexture = STRINGIFY(
 
 
 		// Mix the light and dark wood according to the grain pattern 
-		woodcolor = lerp(lightwood, darkwood, r);
+		woodcolor = mix(lightwood, darkwood, r);
 
 		// Add plank-to-plank variation in overall color 
 		woodcolor *= (1 - plankvary / 2 + plankvary * noise(whichplank + 0.5));
 
-		Ct = lerp(groovecolor, woodcolor, groovy);
+		Ct = mix(groovecolor, woodcolor, groovy);
 		return Ct;
 
 	}
@@ -1718,9 +1722,9 @@ const char *combineTexture = STRINGIFY(
 		//noise = spike(0.35f, 0.05f, noise);
 		//noise = noise;
 
-		vec3 base = lerp(vec3(164, 148, 108)*1.63 / 255, vec3(178, 156, 126)*1.73 / 255, spike_1(0.5f, 0.3f, turbulence_1(p*noiseScale*0.7f + vec3(noise*0.5, noise, noise)*0.011f, 2, 2.0f, 0.5f)));
-		//vec3 b2 = lerp(base, vec3(0.0f, 0.0f, 0.0f), noise); 
-		vec3 b2 = lerp(base, vec3(173, 160, 121)*1.73 / 255, noise);
+		vec3 base = mix(vec3(164, 148, 108)*1.63 / 255, vec3(178, 156, 126)*1.73 / 255, spike_1(0.5f, 0.3f, turbulence_1(p*noiseScale*0.7f + vec3(noise*0.5, noise, noise)*0.011f, 2, 2.0f, 0.5f)));
+		//vec3 b2 = mix(base, vec3(0.0f, 0.0f, 0.0f), noise);
+		vec3 b2 = mix(base, vec3(173, 160, 121)*1.73 / 255, noise);
 
 
 
